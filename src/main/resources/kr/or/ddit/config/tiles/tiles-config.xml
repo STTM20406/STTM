@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+	
+	<!-- admin -->
+	<definition name="adminLayout" template ="/WEB-INF/views/common/adminLayout.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/common/adminHeader.jsp"/>
+		<put-attribute name="tail" value="/WEB-INF/views/common/adminTail.jsp"/>
+	</definition>
+	
+	<!-- user -->
+	<definition name="baseLayout" template ="/WEB-INF/views/common/baseLayout.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/common/baseHeader.jsp"/>
+		<put-attribute name="tail" value="/WEB-INF/views/common/baseTail.jsp"/>
+	</definition>
+
+	<!-- admin -->
+   <definition name="*.adm.tiles" extends="adminLayout">
+      <put-attribute name="body"   value="/WEB-INF/views/adm/{1}.jsp" />
+   </definition>
+   <definition name="/*/*.adm.tiles" extends="adminLayout">
+      <put-attribute name="body"   value="/WEB-INF/views/adm/{1}/{2}.jsp" />
+   </definition>
+   <definition name="/*/*/*.adm.tiles" extends="adminLayout">
+      <put-attribute name="body"   value="/WEB-INF/views/adm/{1}/{2}/{3}.jsp" />
+   </definition>
+   <definition name="/*/*/*/*.adm.tiles" extends="adminLayout">
+      <put-attribute name="body"   value="/WEB-INF/views/adm/{1}/{2}/{3}/{4}.jsp" />
+   </definition>
+   
+   <!-- user -->
+   <definition name="*.user.tiles" extends="baseLayout">
+      <put-attribute name="body"   value="/WEB-INF/views/user/{1}.jsp" />
+   </definition>
+   <definition name="/*/*.user.tiles" extends="baseLayout">
+      <put-attribute name="body"   value="/WEB-INF/views/user/{1}/{2}.jsp" />
+   </definition>
+   <definition name="/*/*/*.user.tiles" extends="baseLayout">
+      <put-attribute name="body"   value="/WEB-INF/views/user/{1}/{2}/{3}.jsp" />
+   </definition>
+   <definition name="/*/*/*/*.user.tiles" extends="baseLayout">
+      <put-attribute name="body"   value="/WEB-INF/views/user/{1}/{2}/{3}/{4}.jsp" />
+   </definition>
+   
+
+</tiles-definitions> 

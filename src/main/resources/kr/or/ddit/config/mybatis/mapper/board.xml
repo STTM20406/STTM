@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+
+<!-- **********************board********************* -->
+	
+	<!-- 게시판 생성 -->
+	<insert id="insertBoard" parameterType="boardVo">
+		insert into board values (BOARD_SEQ.nextval,#{name},sysdate,#{use_fl})
+	</insert>
+	
+	<!-- 게시판 전체 리스트 -->
+	<select id="boardList" resultType="boardVo">
+		select * from board
+	</select>
+	
+	<!-- 게시판 이용가능 리스트 -->
+	<select id="boardListYes" resultType="boardVo">
+		select * 
+		from board
+		where use_fl = 'Y'
+	</select>
+	
+	<!-- 게시판 수정 -->
+	<update id="updateBoard" parameterType="boardVo">
+		update board
+		set use_fl = #{use_fl},name = #{name}
+		where board_id = #{board_id}
+	</update>
+	
+	
+	
+<!-- **********************board_answer********************* -->
+
+
+<!-- **********************board_file********************* -->
+
+
+<!-- **********************board_write********************* -->
+	<!-- 게시글 작성 -->
+	<insert id="insertPost" parameterType="board_writeVo">
+		insert into board_write values(board_write_seq.nextval,#{board_id},#{user_email},#{subject},#{content},sysdate,0,0,'N')
+	</insert>
+	
+	<!-- 게시글 조회 -->
+	<select id="postInfo" parameterType="int" resultType="board_writeVo">
+		select *
+		from board_write
+		where write_id = #{write_id}
+	</select>
+	
+	<!-- 게시판별 게시글 페이징리스트 -->
+	<select id="boardPostList" parameterType="pageVo" resultType="board_writeVo">
+	 <![CDATA[
+		select *
+	    from
+		(select a.*, rownum rn
+	    from
+	    (select a.*
+	    from board_write a 
+	    where board_id = 1
+	    order by write_id) a)
+	    where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
+    ]]>
+	</select>
+	
+	<!-- 게시글 수정 -->
+	<update id="updatePost" parameterType="board_writeVo">
+		update board_write set 
+		    subject=#{subject},
+		    content=#{content}
+		where write_id= #{write_id}
+	</update>
+	
+	<!-- 게시글 삭제 -->
+	<update id="deletePost" parameterType="board_writeVo">
+		update board_write set 
+		    del_yn='Y'
+		where write_id= #{write_id}
+	</update>
+	
+	<!-- 게시글 개수 -->
+	<select id="postCnt" resultType="int">
+		select count(*) from board_write
+	</select>
+
+<!-- **********************likes*************************** -->
+
+</mapper>

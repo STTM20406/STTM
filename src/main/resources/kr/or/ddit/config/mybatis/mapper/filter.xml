@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="filter">
+	<select id="filterList" parameterType="filterVo" resultType="workVo">
+		SELECT  DISTINCT(A.WRK_ID)
+		     ,  A.USER_EMAIL
+		     ,  A.WRK_LST_ID
+		     ,  A.WRK_PR_ID
+		     ,  A.WRK_NM
+		     ,  A.WRK_DT
+		     ,  A.WRK_GRADE
+		     ,  A.WRK_COLOR_CD
+		     ,  A.WRK_START_DT
+		     ,  A.WRK_END_DT
+		     ,  A.WRK_CMP_DT
+		     ,  A.WRK_CMP_FL
+		     ,  A.WRK_DEL_FL
+		     ,	B.WRK_LST_NM
+		     ,	E.PRJ_ID
+		     ,	E.PRJ_NM
+		FROM    WORK A, WORK_LIST B, WORK_MEM_FLW C, (SELECT * FROM PROJECT_MEM WHERE USER_EMAIL = #{user_email})D, PROJECT E
+		WHERE	A.WRK_LST_ID = B.WRK_LST_ID
+		AND		B.PRJ_ID = D.PRJ_ID
+		AND		D.PRJ_ID = E.PRJ_ID 
+		<if test="wrk_dt != 0">AND </if>
+		<choose>
+			<when test="wrk_dt eq 30">30 &gt;= SYSDATE - A.WRK_DT </when>
+			<when test="wrk_dt eq 60">60 &gt;= SYSDATE - A.WRK_DT </when>
+			<when test="wrk_dt eq 90">90 &gt;= SYSDATE - A.WRK_DT </when>
+		</choose>
+		AND 
+		<choose>
+			<when test="wrk_is_mine eq 'all'">
+				C.USER_EMAIL LIKE '%'
+			</when>
+			<otherwise>
+				C.USER_EMAIL = #{user_email} AND C.JN_FL = 'M'  
+			</otherwise>
+		</choose>
+		AND
+		(1=1 
+		<if test="wrk_i_assigned != null"> OR (C.JN_FL = 'M' AND C.USER_EMAIL = #{user_email}) </if>
+		<if test="wrk_i_made != null"> OR (A.USER_EMAIL = #{user_email}) </if>
+		<if test="wrk_i_following != null"> OR (C.JN_FL = 'F' AND C.USER_EMAIL = #{user_email}) </if>
+		)
+		<if test="prj_id_list != null">
+			AND B.PRJ_ID IN
+			<foreach collection="prj_id_list" item="prj" open="(" close=")" separator=",">
+				#{prj}
+			</foreach>
+		</if>
+			AND (1=1
+			<if test="overdue != null">
+				OR 0 &gt; (A.WRK_END_DT - SYSDATE)
+			</if>
+			<if test="till_this_week != null">
+				OR #{td_week} = TO_CHAR(A.WRK_END_DT, 'WW')
+			</if>
+			<if test="till_this_month != null">
+				OR #{td_month} = TO_CHAR(A.WRK_END_DT, 'MM')
+			</if>
+			<if test="no_deadline != null">
+				OR A.WRK_END_DT IS NULL
+			</if>
+			)
+		<if test="is_cmp != null">
+			AND A.WRK_CMP_FL = 'Y'
+		</if>
+		<if test="is_del != null">
+			AND A.WRK_DEL_FL = 'Y'
+		</if>
+		<if test="wrk_maker != null">
+			AND	A.USER_EMAIL IN 
+			<foreach collection="wrk_maker" item="maker" open="(" close=")" separator=",">
+				#{maker}
+			</foreach>
+		</if>
+		<if test="wrk_follower != null">
+			AND C.JN_FL = 'F' AND C.USER_EMAIL IN
+			<foreach collection="wrk_follower" item="follower" open="(" close=")" separator=",">
+				#{follower}
+			</foreach>
+		</if>
+	</select>
+	
+	<select id="prjIdList" parameterType="filterVo" resultType="projectVo">
+		SELECT	DISTINCT(A.PRJ_ID)
+			 ,	A.PRJ_NM
+		FROM	PROJECT A, PROJECT_MEM B
+		WHERE	A.PRJ_ID = B.PRJ_ID
+		AND		B.USER_EMAIL = #{user_email}
+		ORDER BY A.PRJ_ID
+	</select>
+	
+	<select id="makerIdList" parameterType="filterVo" resultType="userVo">
+		SELECT	DISTINCT(B.USER_EMAIL)
+			 ,	A.USER_NM
+		FROM	USERS A, WORK B, WORK_LIST C, (SELECT * FROM PROJECT_MEM WHERE USER_EMAIL = #{user_email})D
+		WHERE	A.USER_EMAIL = B.USER_EMAIL
+		AND		B.WRK_LST_ID = C.WRK_LST_ID
+		AND		C.PRJ_ID = D.PRJ_ID
+		
+		
+	</select>
+	
+	<select id="followerIdList" parameterType="filterVo" resultType="userVo">
+		SELECT	DISTINCT(B.USER_EMAIL)
+			 ,	A.USER_NM
+		FROM	USERS A, WORK_MEM_FLW B, (SELECT * FROM PROJECT_MEM WHERE USER_EMAIL = #{user_email}) C
+		WHERE	A.USER_EMAIL = B.USER_EMAIL
+		AND		C.PRJ_ID = B.PRJ_ID
+		AND		B.JN_FL = 'F'
+	</select>
+	
+	<select id="workDetail" parameterType="int" resultType="workVo">
+		SELECT  DISTINCT A.WRK_ID
+		     ,  A.USER_EMAIL
+		     ,  C.WRK_LST_NM
+		     ,  C.PRJ_ID
+		     ,  B.USER_NM
+		     ,  D.PRJ_NM
+		     ,  A.WRK_LST_ID
+		     ,  A.WRK_RV_ID
+		     ,  A.WRK_PR_ID
+		     ,  A.WRK_NM
+		     ,  A.WRK_DT
+		     ,  A.WRK_GRADE
+		     ,  A.WRK_COLOR_CD
+		     ,  A.WRK_START_DT
+		     ,  A.WRK_END_DT
+		     ,  A.WRK_CMP_DT
+		     ,  A.WRK_CMP_FL
+		     ,  A.WRK_DEL_FL
+		FROM    WORK A, USERS B, WORK_LIST C, PROJECT D
+		WHERE   A.WRK_ID = #{wrk_id}
+		AND     A.USER_EMAIL = B.USER_EMAIL
+		AND     A.WRK_LST_ID = C.WRK_LST_ID
+		AND     C.PRJ_ID = D.PRJ_ID
+	</select>
+</mapper>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	
+	<!-- @Controller, @Service, @Repository, @Component -->
+	<context:component-scan base-package="kr.or.ddit" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+		<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+	</context:component-scan>
+	
+	<!-- @Controller 사용시 필요한 mvc 기본설정 처리(handlerMapping, handlerAdapter 등록)
+		 라우팅 처리(@RequestMapping), formatting conversion, validation -->
+	<mvc:annotation-driven/>
+	
+	<!-- spring이 처리하지 못하는 요청에 대해서는 was의 default servlet으로 위임 -->	
+	<mvc:default-servlet-handler/>
+	
+	<!-- 복수개의 viewResolver를 상ㅇ할 경우 우선순위를 가장 늦게 배정 
+		 viewName이 유효한지(존재하는지)와 관계 없이 무조건 처리
+	
+		내부 resource(jsp) 처리를 위한 viewResolver -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/"/> <!-- 접두 -->
+		<property name="suffix" value=".jsp"/> <!-- 접미 -->
+		<property name="order" value="3"/>
+	</bean>
+	
+	<!-- controller 리턴하는 view이름과 동일한 spfing bean이 존재하면 해당 view에 위임 -->
+	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<property name="order" value="2"/>
+	
+	</bean>
+	
+	<!-- tiles view resolver -->
+	<bean class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+		<property name="definitions">
+			<list>
+				<value>classpath:kr/or/ddit/config/tiles/tiles-config.xml</value>
+			</list>
+		</property>
+	</bean>
+	<bean class="org.springframework.web.servlet.view.tiles3.TilesViewResolver">
+		<property name="order" value="1"></property>
+		<property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView"></property>
+	</bean>
+	
+	<!-- ex :  controller.method가 "user/user" viewName을 리턴
+		1. 우선순위 우선순위에 따라 beanNameViewResolver가 "user/user"와 동일한 tilesdefinition이 있는지 확인 : 없음 확인 -> 다음viewResolver
+		2. 2순위 우선순위에 따라 beanNameViewResolver가 
+		3. 후순 우선 순위에 따라서 internalResourceViewResolver가 prefix + "user/user" + suffix로 forward
+		
+		 ex :  controller.method가 "jsonView" viewName을 리턴
+		 1.  우선순위에 따라 beanNameViewResolver가 "jsonView"과 동일한 spring bean 있는지 확인 : 있음
+		 2. 해당 springBean(jsonView)에게 응답을 생성하도록 요청
+		 
+		 ex :  controller.method가 "profileView" viewName을 리턴
+		 1.  우선순위에 따라 beanNameViewResolver가 "profileView"과 동일한 spring bean 있는지 확인 : 있음
+		 2. 해당 springBean(profileView)에게 응답을 생성하도록 요청
+		 
+		 ex : controller.method가 "main" viewName을 리턴
+		 1. 우선 순위에 따라 tilesViewResolver가 tiles 설정파일에서 "main"이라는 이름으로defination이 있는지 확인 : 있음
+		 2. tiles 설정에 의해 layout.jsp를 template으로 body 
+		 
+			 -->
+	
+	<!-- controller에서 model객체에 넣은 속성을 이용하여 json으로 만들어주는 view -->
+	<bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
+	
+	
+	<!-- multipart resolver -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSizePerFile" value="3145728"/>
+		<property name="maxUploadSize" value="15728640"/>
+	</bean>
+	
+</beans>

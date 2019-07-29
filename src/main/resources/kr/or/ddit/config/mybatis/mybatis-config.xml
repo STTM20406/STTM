@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+	
+      <typeAlias type="kr.or.ddit.ad_board.model.Ad_BoardVo" alias="ad_boardVo"/>
+      
+      <typeAlias type="kr.or.ddit.bd_inquiry.model.Bd_InquiryVo" alias="bd_inquiryVo"/>
+      <typeAlias type="kr.or.ddit.board.model.BoardVo" alias="boardVo"/>
+      <typeAlias type="kr.or.ddit.board_answer.model.Board_AnswerVo" alias="board_answerVo"/>
+      <typeAlias type="kr.or.ddit.board_file.model.Board_FileVo" alias="board_fileVo"/>
+      <typeAlias type="kr.or.ddit.board_write.model.Board_WriteVo" alias="board_writeVo"/>
+      
+      <typeAlias type="kr.or.ddit.calendar.model.CalendarVo" alias="calendarVo"/>
+      <typeAlias type="kr.or.ddit.chat_content.model.Chat_ContentVo" alias="chat_contentVo"/>
+      <typeAlias type="kr.or.ddit.chat_content.model.ChatParticipateUserVo" alias="chat_participateVo"/>
+      <typeAlias type="kr.or.ddit.chat_file.model.Chat_FileVo" alias="chat_fileVo"/>
+      <typeAlias type="kr.or.ddit.chat_mem.model.Chat_MemVo" alias="chat_memVo"/>
+      <typeAlias type="kr.or.ddit.chat_room.model.Chat_RoomVo" alias="chat_roomVo"/>
+
+      <typeAlias type="kr.or.ddit.file_attch.model.File_AttchVo" alias="file_attchVo"/>
+      <typeAlias type="kr.or.ddit.file_dw_his.model.File_Dw_HisVo" alias="file_dw_hisVo"/>
+      <typeAlias type="kr.or.ddit.filter.model.FilterVo" alias="filterVo"/>
+      <typeAlias type="kr.or.ddit.friend_req.model.Friend_ReqVo" alias="friend_reqVo"/>
+      <typeAlias type="kr.or.ddit.friends.model.FriendsVo" alias="friendsVo"/>
+      <typeAlias type="kr.or.ddit.friends.model.ChatFriendsVo" alias="chatFriendsVo"/>
+      <typeAlias type="kr.or.ddit.ganttChart.model.GanttChartVo" alias="ganttChartVo"/>
+      
+      <typeAlias type="kr.or.ddit.likes.model.LikesVo" alias="likesVo"/>
+      <typeAlias type="kr.or.ddit.link_attch.model.Link_attchVo" alias="link_attchVo"/>
+      <typeAlias type="kr.or.ddit.mail_confirm.model.Mail_ConfirmVo" alias="mail_confirmVo"/>
+      <typeAlias type="kr.or.ddit.meeting.model.MeetingVo" alias="meetingVo"/>
+      <typeAlias type="kr.or.ddit.memo.model.MemoVo" alias="memoVo"/>
+      <typeAlias type="kr.or.ddit.minutes.model.MinutesVo" alias="minutesVo"/>
+      <typeAlias type="kr.or.ddit.note_content.model.Note_ContentVo" alias="note_contentVo"/>
+      <typeAlias type="kr.or.ddit.note_info.model.Note_InfoVo" alias="note_infoVo"/>
+      <typeAlias type="kr.or.ddit.notification_set.model.Notification_SetVo" alias="notification_setVo"/>
+      <typeAlias type="kr.or.ddit.notificatoin.model.NotificationVo" alias="notificatoinVo"/>
+      
+      
+      <typeAlias type="kr.or.ddit.paging.model.PageVo" alias="pageVo"/>
+      <typeAlias type="kr.or.ddit.project.model.ProjectVo" alias="projectVo"/>
+      <typeAlias type="kr.or.ddit.project_mem.model.Project_MemVo" alias="project_memVo"/>
+      <typeAlias type="kr.or.ddit.project_trnf_hs.model.Project_Trnf_HsVo" alias="project_trnf_hsVo"/>
+      <typeAlias type="kr.or.ddit.receiver.model.ReceiverVo" alias="receiverVo"/>
+      
+      <typeAlias type="kr.or.ddit.users.model.UserVo" alias="userVo"/>
+      <typeAlias type="kr.or.ddit.vote.model.VoteVo" alias="voteVo"/>
+      <typeAlias type="kr.or.ddit.vote_item.model.Vote_ItemVo" alias="vote_itemVo"/>
+      <typeAlias type="kr.or.ddit.vote_part.model.Vote_PartVo" alias="vote_partVo"/>
+      
+      <typeAlias type="kr.or.ddit.work.model.WorkVo" alias="workVo"/>
+      <typeAlias type="kr.or.ddit.work_al_mem.model.Work_Al_MemVo" alias="work_al_memVo"/>
+      <typeAlias type="kr.or.ddit.work_comment.model.Work_CommentVo" alias="work_commentVo"/>
+      <typeAlias type="kr.or.ddit.work_list.model.Work_ListVo" alias="work_listVo"/>
+      <typeAlias type="kr.or.ddit.work_mem_flw.model.Work_Mem_FlwVo" alias="work_mem_flwVo"/>
+      <typeAlias type="kr.or.ddit.work_push.model.Work_PushVo" alias="work_pushVo"/>
+      
+		
+	</typeAliases>
+  
+  <mappers>
+  
+    <mapper resource="kr/or/ddit/config/mybatis/mapper/ad_board.xml"/>
+    <mapper resource="kr/or/ddit/config/mybatis/mapper/bd_inquiry.xml"/>
+    <mapper resource="kr/or/ddit/config/mybatis/mapper/board.xml"/>
+    <mapper resource="kr/or/ddit/config/mybatis/mapper/calendar.xml"/>
+    <mapper resource="kr/or/ddit/config/mybatis/mapper/chat.xml"/>
+    <mapper resource="kr/or/ddit/config/mybatis/mapper/file_dw_his.xml"/>
+    <mapper resource="kr/or/ddit/config/mybatis/mapper/filter.xml"/>
+    <mapper resource="kr/or/ddit/config/mybatis/mapper/friend.xml"/>
+    <mapper resource="kr/or/ddit/config/mybatis/mapper/ganttChart.xml"/>
+    <mapper resource="kr/or/ddit/config/mybatis/mapper/memo.xml"/>
+    <mapper resource="kr/or/ddit/config/mybatis/mapper/note.xml"/>
+    <mapper resource="kr/or/ddit/config/mybatis/mapper/notification.xml"/>
+    <mapper resource="kr/or/ddit/config/mybatis/mapper/project.xml"/>
+    <mapper resource="kr/or/ddit/config/mybatis/mapper/users.xml"/>
+    <mapper resource="kr/or/ddit/config/mybatis/mapper/vote.xml"/>
+    <mapper resource="kr/or/ddit/config/mybatis/mapper/work.xml"/>
+    
+  </mappers>
+</configuration>

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bd_inquiry">
+
+<!-- 공통 -->
+	<!-- 게시글 갯수 -->
+	<select id="inquiryCnt" resultType="int">
+		SELECT COUNT(*) FROM BD_INQUIRY
+	</select>
+	
+	<!-- 게시글 조회 -->
+	<select id="inquiryInfo" parameterType="int" resultType="bd_inquiryVo">
+		select *
+		from bd_inquiry
+		where inq_id = #{inq_id}
+	</select>
+	
+	
+<!-- 관리자 -->
+
+	<!-- 관리자 일반문의, 광고문의 페이징리스트 -->
+	<select id="admList" resultType="bd_inquiryVo" parameterType="pageVo">
+	<![CDATA[
+	select *
+    from
+	(select a.*, rownum rn
+    from
+    (select a.*
+    from bd_inquiry a 
+    order by INQ_ID) a)
+		where rn >=(${page}-1)*${pageSize} + 1 and rn <=${page}*${pageSize}
+	]]>
+	</select>
+	
+	<!-- 관리자 1:1문의 답변 -->
+	<update id="updateInquiry" parameterType="bd_inquiryVo">
+	update bd_inquiry set 
+			ANS_CON=#{ans_con},
+			ANS_ST='Y' 
+		where inq_id=#{inq_id}
+	</update>
+	
+	<!-- 게시글 제목검색 -->
+	<select id="admSearchSub" parameterType="map" resultType="bd_inquiryVo">
+	<![CDATA[
+	select *
+    from
+	(select a.*, rownum rn
+    from
+    (select a.*
+    from bd_inquiry a 
+    where inq_cate = #{inq_cate} 
+	and subject like '%'||#{subject}||'%'
+    order by INQ_ID) a)
+    where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
+	]]>
+	</select>
+		
+	<!-- 게시글 제목 검색갯수 -->
+	<select id="admSearchSubCnt" parameterType="map" resultType="int">
+	select count(*)
+	from bd_inquiry
+	where inq_cate = #{inq_cate}
+	and subject like '%'||#{subject}||'%' 
+	</select>
+		
+	<!-- 게시글 내용검색 -->
+	<select id="admSearchCon" parameterType="map" resultType="bd_inquiryVo">
+	<![CDATA[
+	select *
+    from
+	(select a.*, rownum rn
+    from
+    (select a.*
+    from bd_inquiry a 
+    where inq_cate = #{inq_cate} 
+	and inq_con like '%'||#{subject}||'%'
+    order by INQ_ID) a)
+    where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
+    ]]>
+	</select>
+
+	<!-- 게시글내용 검색갯수 -->
+	<select id="admSearchConCnt" parameterType="map" resultType="int">
+	select count(*)
+	from bd_inquiry
+	where inq_cate = #{inq_cate}
+	and inq_con like '%'||#{subject}||'%' 
+	</select>
+	
+	
+	
+<!-- 사용자 -->
+
+	<!--  사용자 일반문의, 광고문의 페이징리스트 -->
+	<select id="userList" resultType="bd_inquiryVo" parameterType="pageVo">
+	<![CDATA[
+	select *
+    from
+	(select a.*, rownum rn
+    from
+    (select a.*
+    from bd_inquiry a 
+   where USER_EMAIL='${user_email}'
+    order by INQ_ID) a)
+		where rn >=(${page}-1)*${pageSize} + 1 and rn <=${page}*${pageSize}
+	]]>
+	</select>
+	
+	<!-- 사용자 일반문의, 광고문의 게시글 작성 -->
+	<insert id="userInsertInquiry" parameterType="bd_inquiryVo">
+	insert into bd_inquiry values(INQ_SEQ.nextval,#{user_email},#{subject},#{inq_cate},#{inq_con},'',sysdate,sysdate,'N','N')
+	</insert>
+	
+	<!-- 사용자 일반문의, 광고문의 게시글 삭제 -->
+	<update id="userDeleteInquiry" parameterType="bd_inquiryVo">
+	update bd_inquiry set 
+			DEL_FL='Y' 
+		where inq_id=#{inq_id}
+	</update>
+	
+	<!-- 사용자 일반문의, 광고문의 게시글 수정 -->
+	<update id="userUpdateInquiry" parameterType="bd_inquiryVo">
+	update bd_inquiry set 
+			subject=#{subject},
+			inq_con=#{inq_con} 
+		where inq_id=#{inq_id}
+	</update>
+
+	<!-- 게시글 제목검색 -->
+	<select id="userSearchSubList" parameterType="map" resultType="bd_inquiryVo">
+	<![CDATA[
+	select *
+    from
+	(select a.*, rownum rn
+    from
+    (select a.*
+    from bd_inquiry a 
+    where user_email = #{user_email}
+	and inq_cate = #{inq_cate}
+	and subject like '%'||#{subject}||'%'
+    order by INQ_ID) a)
+    where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
+	]]>
+	</select>
+		
+	<!-- 게시글 제목 검색갯수 -->
+	<select id="userSearchSubCnt" parameterType="map" resultType="int">
+	select count(*)
+	from bd_inquiry
+	where user_email = #{user_email}
+	and inq_cate = #{inq_cate}
+	and subject like '%'||#{subject}||'%' 
+	</select>
+		
+	<!-- 게시글 내용검색 -->
+	<select id="userSearchConList" parameterType="map" resultType="bd_inquiryVo">
+	<![CDATA[
+	select *
+    from
+	(select a.*, rownum rn
+    from
+    (select a.*
+    from bd_inquiry a 
+    where user_email = #{user_email}
+	and inq_cate = #{inq_cate}
+	and inq_con like '%'||#{subject}||'%'
+    order by INQ_ID) a)
+    where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
+    ]]>
+	</select>
+
+	<!-- 게시글내용 검색갯수 -->
+	<select id="userSearchConCnt" parameterType="map" resultType="int">
+	select count(*)
+	from bd_inquiry
+	where user_email = #{user_email}
+	and inq_cate = #{inq_cate}
+	and inq_con like '%'||#{subject}||'%' 
+	</select>
+	
+
+</mapper>

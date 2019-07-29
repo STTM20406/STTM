@@ -1,0 +1,61 @@
+@charset "UTF-8";
+
+
+#wrap {overflow:hidden; position:relative;}
+.wrap_bg_01 {background:url(../img/ani_02.gif) no-repeat bottom #233b4e; background-size:750px}
+.wrap_bg_02 {background:url(../img/ani_01.gif) no-repeat bottom #18191c; background-size:750px}
+.wrap_bg_03 {background:url(../img/ani_03.gif) no-repeat top #e2e5e4; background-size:500px}
+
+.loginLogo {position:absolute; left:50px; top:40px;}
+.loginLogo h2 {}
+.loginLogo h2 a {display:block; width:90px; height:20px; background:url("../img/logo.png") no-repeat; background-size:100%; text-indent:-9999px}
+
+
+/* right signup button */
+.registerBtn {position:absolute; right:60px; top:40px;}
+.registerBtn ul {}
+.registerBtn ul li {}
+.registerBtn ul li span {color:#b0bbc3; font-size:13px;display:inline-block; margin-right:15px;}
+.registerBtn ul li a {display:inline-block; color:#b0bbc3; height:33px; border:1px solid #d0d9e0; border-radius:3px; line-height:30px; width:70px; text-align:center; transition:all .4s}
+.registerBtn ul li a:hover {background:#e9eff3; color:#192b3a;}
+
+
+/* login form */
+.loginWrap {width:320px; height:auto; position:absolute; left:50%; top:39%; transform:translate(-50%, -50%); background:transparent; z-index:999; padding:30px;}
+.registerFormWrap {width:400px; height:auto; position:absolute; left:50%; top:39%; transform:translate(-50%, -50%); background:transparent; z-index:999; padding:30px;}
+
+.inputField {position:relative;}
+.inputField h2 {font-size:23px; font-weight:700; margin-bottom:30px; color:#fff}
+.inputField h2 span {display:inline-block; font-size:15px; font-weight:300; color:#fff; margin-left:8px}
+
+.inputField li {position:relative; margin-bottom:25px}
+.inputField li label {background:transparent; color:#fff}
+.inputField li.forgot {text-align:center}
+.inputField li.forgot a {text-align:center; color:#8293a0; border-bottom:1px dashed #8293a0; padding-bottom:5px;}
+
+.inputField input {border:0; border-bottom:1px solid #fff; width:100%; height:40px; box-sizing:border-box; font-size:13px; font-weight:300; background:transparent; color:#8293a0;}
+.inputField input::-webkit-input-placeholder {color: #8293a0;}
+.inputField input[type="password"] {font-family:"맑은 고딕";}
+.inputField button {background:#192b3a; width:100%; height:40px; border-radius:3px; border:none; color:#fff; font-size:14px;}
+
+
+/* send email text */
+.sendText {width:auto; height:auto; position:absolute; left:50%; top:39%; transform:translate(-50%, -50%); background:transparent; z-index:999; padding:30px; color:#fff; text-align:center}
+.sendText h2 {font-weight:100; font-size:28px}
+.sendText h2 span {display:block; font-size:17px; color:#abaeb7; margin:20px 0 20px; border:1px solid #e0e3ec; border-radius:3px; padding:8px 0px; transition:all .4s}
+.sendText h2 span:hover {background:#e0e3ec; color:#18191c;}
+.sendText p {font-weight:100; font-size:16px}
+.sendText p span {display:block; }
+.sendText a {display:inline-block; margin-top:30px; color:#abaeb7; border-bottom:1px dashed #abaeb7; padding-bottom:5px; font-size:13px;}
+
+
+/* check list */
+.checkList {position:relative;}
+.checkList label span {color:#6fad22; font-weight:500}
+.checkList input[type="checkbox"] {position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0}
+.checkList input[type="checkbox"] + label {display:inline-block; position:relative; cursor:pointer; -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none;}
+.checkList input[type="checkbox"] + label:before {content:""; display:inline-block; width:17px; height:17px; line-height:17px; margin:-2px 8px 0 0; text-align:center;  vertical-align:middle; background:transparent; border:1px solid #fff; border-radius :3px; box-shadow:0px 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);}
+.checkList.etrans input[type="checkbox"] + label {padding-left:30px;}
+.checkList.etrans input[type="checkbox"] + label:before {position:absolute; left:0; top:0; margin-top:0; opacity:0.6; box-shadow:none; border-color:#fff; -webkit-transition:all .12s, border-color .08s; transition:all .12s, border-color .08s;}
+.checkList.etrans input[type="checkbox"]:checked + label:before {position:absolute; content:""; width:7px; top:-5px; left:5px; border-radius:0; opacity:1;  background:transparent; border-color:transparent #fff #fff transparent; border-top-color:transparent; border-left-color:transparent; -ms-transform:rotate(45deg); -webkit-transform:rotate(45deg); transform:rotate(45deg);}
+

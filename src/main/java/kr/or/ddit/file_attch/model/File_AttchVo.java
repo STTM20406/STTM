@@ -1,0 +1,156 @@
+package kr.or.ddit.file_attch.model;
+
+import java.util.Date;
+
+/**
+ * 
+ * File_AttchVo.java
+ *
+ * @author 박서경
+ * @version 1.0
+ * @see
+ * FILE_ATTCH - 첨부파일
+ *
+ * <pre>
+ * << 개정이력(Modification Information) >>
+ *
+ *  수정자  수정내용
+ * ------ ------------------------
+ *  박서경  최초 생성 2019-07-19
+ *
+ * </pre>
+ */
+public class File_AttchVo {
+	
+	private int file_id;				//파일 ID					
+    private int prj_id;                 //프로젝트 ID
+    private String user_email;          //이메일
+    private int wrk_id;                 //업무 ID
+    private String original_file_nm;    //실제 파일명
+    private String db_file_nm;          //DB 파일명
+    private int file_size;           //파일 크기
+    private String file_exts;           //파일 확장자
+    private Date file_dt;             	//등록일
+    private String del_fl;              //삭제여부
+    private String wrk_nm; 				//업무명
+    
+    //기본 생성자
+    public File_AttchVo() {
+    	
+	}
+    
+    //생성자
+    
+    
+
+	//getter, setter
+	public int getFile_id() {
+		return file_id;
+	}
+
+	public File_AttchVo(int prj_id, String user_email, int wrk_id, String original_file_nm, String db_file_nm,
+			int file_size, String file_exts) {
+		super();
+		this.prj_id = prj_id;
+		this.user_email = user_email;
+		this.wrk_id = wrk_id;
+		this.original_file_nm = original_file_nm;
+		this.db_file_nm = db_file_nm;
+		this.file_size = file_size;
+		this.file_exts = file_exts;
+	}
+
+	public void setFile_id(int file_id) {
+		this.file_id = file_id;
+	}
+
+	public int getPrj_id() {
+		return prj_id;
+	}
+
+	public void setPrj_id(int prj_id) {
+		this.prj_id = prj_id;
+	}
+
+	public String getUser_email() {
+		return user_email;
+	}
+
+	public void setUser_email(String user_email) {
+		this.user_email = user_email;
+	}
+
+	public int getWrk_id() {
+		return wrk_id;
+	}
+
+	public void setWrk_id(int wrk_id) {
+		this.wrk_id = wrk_id;
+	}
+
+	public String getOriginal_file_nm() {
+		return original_file_nm;
+	}
+
+	public void setOriginal_file_nm(String original_file_nm) {
+		this.original_file_nm = original_file_nm;
+	}
+
+	public String getDb_file_nm() {
+		return db_file_nm;
+	}
+
+	public void setDb_file_nm(String db_file_nm) {
+		this.db_file_nm = db_file_nm;
+	}
+
+	public int getFile_size() {
+		return file_size;
+	}
+
+	public void setFile_size(int file_size) {
+		this.file_size = file_size;
+	}
+
+	public String getFile_exts() {
+		return file_exts;
+	}
+
+	public void setFile_exts(String file_exts) {
+		this.file_exts = file_exts;
+	}
+
+	public Date getFile_dt() {
+		return file_dt;
+	}
+
+	public void setFile_dt(Date file_dt) {
+		this.file_dt = file_dt;
+	}
+
+	public String getDel_fl() {
+		return del_fl;
+	}
+
+	public void setDel_fl(String del_fl) {
+		this.del_fl = del_fl;
+	}
+
+	public String getWrk_nm() {
+		return wrk_nm;
+	}
+
+	public void setWrk_nm(String wrk_nm) {
+		this.wrk_nm = wrk_nm;
+	}
+
+	//toString
+	@Override
+	public String toString() {
+		return "File_AttchVo [file_id=" + file_id + ", prj_id=" + prj_id + ", user_email=" + user_email + ", wrk_id="
+				+ wrk_id + ", original_file_nm=" + original_file_nm + ", db_file_nm=" + db_file_nm + ", file_size="
+				+ file_size + ", file_exts=" + file_exts + ", file_dt=" + file_dt + ", del_fl=" + del_fl + ", workName="
+				+ wrk_nm + "]";
+	}
+
+} 

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="chat">
+
+<!-- ************************* chat_roomVo **********************************-->
+	<!-- 채팅방 생성 (insertChatMem을 같이 실행해서 채팅방 생성한 회원을 채팅 멤버에 추가)-->
+	<insert id="createRoom" parameterType="string">
+		insert into chat_room(ct_id,ct_nm,ct_dt) values(ct_seq.nextval, #{ct_nm}, sysdate)
+	</insert>
+	
+
+	<!-- 자신이 참여되어 있는 채팅방 리스트 -->
+	<select id="getRoomList" parameterType="string" resultType="chat_roomVo">
+		select r.ct_id, r.ct_nm, r.ct_dt
+		from chat_room r,chat_mem m
+		where r.ct_id = m.ct_id
+		and m.user_email = #{user_email}
+	</select>
+	
+	<!-- 현재 어느방에 들어가 있는지 확인 -->
+	<select id="nowWhereRoom" parameterType="int" resultType="chat_roomVo">
+		select ct_id, ct_nm, ct_dt from chat_room where ct_id = #{ct_id}
+	</select>
+	
+	<!-- 방 삭제 -->
+	<delete id="deleteChatRoom" parameterType="int">
+		delete from chat_room where ct_id = #{ct_id}
+	</delete>
+	
+<!-- ************************* chat_memVo **********************************-->
+
+	<!-- 채팅방에 참여한 친구 리스트 -->
+	<select id="roomFriendList" parameterType="int" resultType="string">
+		select user_nm 
+		from chat_mem m, users u
+		where m.user_email = u.user_email
+		and  m.ct_id = #{ct_id}
+	</select>
+	
+	<select id="roomFriendListEmail" parameterType="int" resultType="string">
+		select user_email
+		from chat_mem
+		where ct_id = #{ct_id}
+	</select>
+
+	<!-- 채팅방 멤버 추가 -->
+	<insert id="insertChatMem" parameterType="chat_memVo">
+		insert into chat_mem(ct_id,user_email) values(#{ct_id}, #{user_email}) 
+	</insert>
+	
+	<!-- 채팅방 멤버 탈퇴 (이거 지우기 전에 대화내용 모두 지운 후에 탈퇴 가능) -->
+	<delete id="deleteChatMem" parameterType="chat_memVo">
+		delete from chat_mem 
+		where user_email = #{user_email} and ct_id = #{ct_id}
+	</delete>
+
+	<!-- 채팅방 멤버 수 -->
+	<select id="countChatMem" parameterType="int" resultType="int">
+		select count(*) from chat_mem where ct_id = #{ct_id}
+	</select>
+
+
+
+<!-- ************************* chat_contentVo **********************************-->
+
+	<!-- 채팅방 대화 내용 리스트 (채팅방별 대화 리스트)-->
+	<select id="chatroomContentList" parameterType="int" resultType="chat_participateVo">
+		select c.ch_msg, u.user_nm, u.user_email
+		from chat_content c,users u 
+		where c.ct_id = #{ct_id} 
+		and   c.user_email = u.user_email
+		order by ct_con_id
+	</select>
+	
+	<!-- 채팅방 대화 추가 -->
+	<insert id="insertChatContent" parameterType="chat_contentVo">
+		insert into chat_content(ct_con_id,ct_id,user_email,ch_msg,ch_msg_dt) 
+		values(ct_con_seq.nextval, #{ct_id}, #{user_email}, #{ch_msg}, sysdate)
+	</insert>
+
+	<!-- 각 대화방에서의 각 사용자 대화 내역 삭제 -->
+	<delete id="deleteChatContent" parameterType="chat_contentVo">
+		delete from chat_content 
+		where user_email = #{user_email} and ct_id = #{ct_id}
+	</delete>
+
+</mapper>

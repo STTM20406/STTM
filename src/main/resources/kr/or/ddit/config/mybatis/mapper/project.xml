@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="project">
+
+	<!-- **********************project*********************** -->
+
+	<!-- 내가 속한 프로젝트 리스트 조회 -->
+	<select id="projectList" parameterType="string" resultType="projectVo">
+		SELECT * FROM
+		(SELECT * FROM PROJECT)A INNER JOIN
+		(SELECT * FROM PROJECT_MEM)B ON
+		A.PRJ_ID = B.PRJ_ID AND B.USER_EMAIL = #{user_email}
+	</select>
+
+	<!--프로젝트 아이디에 맞는 프로젝트 정보 조회 -->
+	<select id="getProject" parameterType="int" resultType="projectVo">
+		SELECT * FROM PROJECT WHERE PRJ_ID = #{prj_id}
+	</select>
+
+	<!-- 프로젝트 상태에 따라 프로젝트 리스트 조회 -->
+	<select id="projectStatusList" parameterType="map" resultType="projectVo">
+		SELECT A.PRJ_ID, A.PRJ_NM, A.PRJ_EXP, A.PRJ_AUTH, A.PRJ_START_DT, A.PRJ_END_DT, A.PRJ_CMP_DT, A.PRJ_ST, A.DEL_FL, B.USER_EMAIL
+		FROM (SELECT A.* FROM (SELECT * FROM PROJECT WHERE PRJ_ST = #{prj_st}) A) A, PROJECT_MEM B
+		WHERE A.PRJ_ID = B.PRJ_ID AND B.USER_EMAIL = #{user_email}
+	</select>
+	
+	
+	<!-- 프로젝트 검색 (내가 포함된 프로젝트 중에서) -->
+	<select id="projectSearch" parameterType="map" resultType="projectVo">
+		SELECT A.PRJ_ID, A.PRJ_NM, A.PRJ_EXP, A.PRJ_AUTH, A.PRJ_START_DT, A.PRJ_END_DT, A.PRJ_CMP_DT, A.PRJ_ST, A.DEL_FL, B.USER_EMAIL
+		FROM (SELECT A.* FROM (SELECT * FROM PROJECT WHERE PRJ_NM LIKE '%'||#{prj_nm}||'%') A) A, PROJECT_MEM B
+		WHERE A.PRJ_ID = B.PRJ_ID AND B.USER_EMAIL = #{user_email}
+	</select>
+
+
+	<!-- 프로젝트 생성 (프로젝트가 생성되는 동시에 프로젝트 멤버에 프로젝트를 생성한 사람 이메일 insert) -->
+	<insert id="insertProject" parameterType="projectVo">
+		<selectKey resultType="Integer" keyProperty="prj_id" order="BEFORE">
+			SELECT PRJ_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO
+		PROJECT (PRJ_ID, PRJ_NM, PRJ_EXP, PRJ_AUTH, PRJ_ST, DEL_FL)
+		VALUES (#{prj_id}, #{prj_nm}, #{prj_exp}, #{prj_auth}, #{prj_st}, 'N')
+	</insert>
+
+	<!-- 프로젝트 업데이트 -->
+	<update id="updateProject" parameterType="projectVo">
+		UPDATE PROJECT SET
+		PRJ_ST = #{prj_st}
+		WHERE PRJ_ID = #{prj_id}
+	</update>
+
+
+	<!-- 프로젝트 삭제(프로젝트 삭제여부 업데이트) -->
+	<update id="deleteProject" parameterType="projectVo">
+		UPDATE PROJECT SET DEL_FL = 'Y' WHERE PRJ_ID = #{prj_id}
+	</update>
+
+
+	<!-- *********************project_mem******************** -->
+
+	<!-- 프로젝트 생성시 멤버 리스트 조회 -->
+	<select id="projectMemAddList" resultType="projectVo" parameterType="string">
+		SELECT DISTINCT B.USER_EMAIL, C.USER_NM FROM
+		(SELECT * FROM PROJECT_MEM WHERE USER_EMAIL = #{user_email}) A, PROJECT_MEM B, USERS C
+		WHERE B.PRJ_ID IN (A.PRJ_ID)
+		AND C.USER_EMAIL = B.USER_EMAIL
+	</select>
+
+	<!-- 프로젝트 멤버 리스트 조회 -->
+	<select id="projectMemList">
+		SELECT * FROM PROJECT_MEM WHERE PRJ_ID = #{prj_id}
+	</select>
+
+	<!-- 프로젝트 생성시 멤버 테이블에 동시에 인서트 -->
+	<insert id="insertProjectMem" parameterType="project_memVo">
+		INSERT INTO
+		PROJECT_MEM (PRJ_ID, USER_EMAIL, PRJ_MEM_LV, PRJ_OWN_FL)
+		VALUES (#{prj_id}, #{user_email}, #{prj_mem_lv}, #{prj_own_fl})
+	</insert>
+
+	<!-- *******************project_trnf_hs****************** -->
+
+
+	<!-- *********************file_attch********************* -->
+
+	<insert id="insertFile" parameterType="file_attchVo">
+		insert into FILE_ATTCH
+		values(
+		FILE_SEQ.nextVal,
+		#{prj_id},
+		#{user_email},
+		#{wrk_id},
+		#{original_file_nm},
+		#{db_file_nm},
+		#{file_size},
+		#{file_exts},
+		sysdate,
+		'N')
+	</insert>
+
+	<select id="getFile" parameterType="int"
+		resultType="file_attchVo">
+		select * from FILE_ATTCH
+		where FILE_ID = #{file_id}
+	</select>
+
+	<!-- 해당 프로젝트 파일 리스트 받아오는 쿼리문 -->
+	<select id="fileList" parameterType="int"
+		resultType="file_attchVo">
+		select
+		a.file_id
+		, a.prj_id
+		, a.user_email
+		, a.wrk_id
+		, a.original_file_nm
+		, a.db_file_nm
+		, a.file_size
+		, a.file_exts
+		, a.file_dt
+		, a.del_fl
+		, b.wrk_nm
+		from
+		file_attch a, work b
+		where
+		a.prj_id = #{prj_id}
+		and
+		a.del_fl = 'N'
+		and a.wrk_id = b.wrk_id
+	</select>
+
+	<!-- 파일 리스트fileList Pagination -->
+	<select id="fPagination" parameterType="map"
+		resultType="file_attchVo">
+   <![CDATA[
+   	  select a.file_id, a.prj_id, a.user_email, a.wrk_id, a.original_file_nm, a.db_file_nm, a.file_size, a.file_exts, a.file_dt, a.del_fl, b.wrk_nm 
+      from
+      (select a.*, rownum rn 
+      from
+      (select * 
+      from file_attch
+      WHERE prj_id = #{prj_id}
+      and del_fl='N'
+      order by file_id desc) a)a, work b
+      where rn >=(#{page}-1)*#{pageSize}+1 and rn <= #{page}*#{pageSize}
+      and b.wrk_id = a.wrk_id
+   ]]>
+	</select>
+
+	<!-- 해당 프로젝트의 전체 파일수 조회 -->
+	<select id="fileCnt" resultType="int">
+		select count(*)
+		from
+		file_attch
+		where
+		PRJ_ID=#{PRJ_ID}
+		and
+		del_fl='N'
+	</select>
+	
+	<!-- 등록할때 fileList Pagination wrk_id필요 -->
+	<select id="insertFPagination" parameterType="map"
+		resultType="file_attchVo">
+   <![CDATA[
+   	  select a.file_id, a.prj_id, a.user_email, a.wrk_id, a.original_file_nm, a.db_file_nm, a.file_size, a.file_exts, a.file_dt, a.del_fl, b.wrk_nm 
+		from
+		(select a.*, rownum rn 
+		from
+		(select * 
+		from file_attch
+		WHERE wrk_id = #{wrk_id}
+		and del_fl='N'
+		order by file_id desc) a)a, work b
+		where rn >=(#{page}-1)*#{pageSize}+1 and rn <= #{page}*#{pageSize}
+		and b.wrk_id = a.wrk_id
+   ]]>
+	</select>
+	
+	<!-- InsertFPagination파일수 조회 -->
+	<select id="fCnt" resultType="int">
+		select count(*)
+		from
+		file_attch
+		where
+		wrk_id = #{wrk_id}
+		and
+		del_fl='N'
+	</select>
+
+	<!-- 삭제 여부의 상태값을 바꾸는 쿼리문 -->
+	<update id="updateFile" parameterType="int">
+		update file_attch
+		set
+		del_fl ='Y'
+		where
+		file_id =#{file_id}
+	</update>
+
+	<!-- *********************link_attch********************* -->
+	<insert id="insertLink" parameterType="link_attchVo">
+		insert into LINK_ATTCH
+		values(
+		LINK_SEQ.nextVal,
+		#{prj_id},
+		#{user_email},
+		#{wrk_id},
+		#{attch_url},
+		sysdate,
+		'N'
+		)
+	</insert>
+
+	<select id="getLink" parameterType="int"
+		resultType="link_attchVo">
+		select * from Link_ATTCH
+		where LINK_ID = #{link_id}
+	</select>
+
+	<!-- 해당 프로젝트의 linkList 받아오는 쿼리문 -->
+	<select id="linkList" parameterType="int"
+		resultType="link_attchVo">
+
+		select a.LINK_ID, a.PRJ_ID, a.USER_EMAIL, a.WRK_ID, a.ATTCH_URL,
+		a.FILE_LINK_DT, a.DEL_FL, b.wrk_nm
+		from
+		link_attch a, work b
+		where
+		a.prj_id = #{prj_id}
+		and
+		a.del_fl ='N'
+		and a.wrk_id = b.wrk_id
+	</select>
+
+	<!-- 삭제 여부의 상태값을 바꾸는 쿼리문 -->
+	<update id="updateLink" parameterType="int">
+		update link_attch
+		set
+		del_fl='Y'
+		where
+		link_id = #{link_id}
+	</update>
+
+	<!-- linkList Pagination -->
+	<select id="lPagination" parameterType="map"
+		resultType="link_attchVo">
+   <![CDATA[
+       select a.link_id, a.prj_id, a.user_email, a.wrk_id, a.attch_url, a.file_link_dt, a.del_fl, b.wrk_nm 
+      from
+      (select a.*, rownum rn 
+      from
+      (select * 
+      from link_attch
+      WHERE prj_id = #{prj_id}
+      and del_fl = 'N'
+      order by link_id desc) a)a, work b
+      where rn >=(#{page}-1)*#{pageSize}+1 and rn <= #{page}*#{pageSize}
+      and b.wrk_id = a.wrk_id
+   ]]>
+	</select>
+
+	<!-- 해당 프로젝트의 전체 파일수 조회 -->
+	<select id="linkCnt" resultType="int">
+		select count(*)
+		from
+		link_attch
+		where
+		PRJ_ID=#{PRJ_ID}
+		and
+		del_fl='N'
+	</select>
+	
+	<!-- InsertLPagination링크수 조회 -->
+	<select id="insertLPagination" parameterType="map"	resultType="link_attchVo">
+   <![CDATA[
+      select a.link_id, a.prj_id, a.user_email, a.wrk_id, a.attch_url, a.file_link_dt, a.del_fl, b.wrk_nm 
+      from
+      (select a.*, rownum rn 
+      from
+      (select * 
+      from link_attch
+      WHERE wrk_id = #{wrk_id}
+      and del_fl = 'N'
+      order by link_id desc) a)a, work b
+      where rn >=(#{page}-1)*#{pageSize}+1 and rn <= #{page}*#{pageSize}
+      and b.wrk_id = a.wrk_id
+   ]]>
+	</select>
+	
+	<!-- insert 파일수 조회 -->
+	<select id="lCnt" resultType="int">
+		select count(*)
+		from
+		link_attch
+		where
+		wrk_id=#{wrk_id}
+		and
+		del_fl='N'
+	</select>
+	
+	<!-- *********************minutes************************ -->
+
+
+
+
+	<!-- *********************meeting************************ -->
+</mapper>

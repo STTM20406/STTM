@@ -1,0 +1,48 @@
+package kr.or.ddit.chat_room.service;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import kr.or.ddit.chat_room.dao.IChat_RoomDao;
+import kr.or.ddit.chat_room.model.Chat_RoomVo;
+
+
+@Service
+public class Chat_RoomService implements IChat_RoomService{
+	
+	@Resource(name="chat_RoomDao")
+	private IChat_RoomDao roomDao ;
+
+
+	@Override
+	public int createRoom(String roomNM) {
+		int cnt = roomDao.createRoom(roomNM);
+		return cnt;
+	}
+
+	@Override
+	public List<Chat_RoomVo> getRoomList(String user_email) {
+		List<Chat_RoomVo> list = roomDao.getRoomList(user_email);
+		return list;
+	}
+
+	@Override
+	public Chat_RoomVo nowWhereRoom(int ct_id) {
+		Chat_RoomVo vo = roomDao.nowWhereRoom(ct_id);
+		return vo;
+	}
+
+	@Override
+	public int deleteChatRoom(int ct_id) {
+		int cnt = roomDao.deleteChatRoom(ct_id);
+		return cnt;
+	}
+
+
+
+	
+	
+}

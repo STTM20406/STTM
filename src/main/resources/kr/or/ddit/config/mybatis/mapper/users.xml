@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="user">
+
+<!-- ******************* users ******************* -->
+
+<!-- 특정한 일반 사용자 조회 -->
+<select id="getUser" parameterType="string" resultType="userVo">
+	select *
+	from users
+	where user_email = #{user_email}
+</select>
+
+<!-- 일반 사용자 등록 -->
+<insert id="insertUser" parameterType="userVo">
+	insert into users(user_email,user_pass,user_nm,user_hp,user_right,user_st)
+	values (#{user_email},#{user_pass},#{user_nm},#{user_hp},'U','N')
+</insert>
+
+<!-- 일반 사용자 삭제 -->
+<delete id="deleteUser" parameterType="string">
+	delete users where user_email = #{user_email}
+</delete>
+
+<!-- 일반 사용자 비밀번호 수정 -->
+<update id="updateUserPass" parameterType="userVo">
+	update users 
+	set user_pass = #{user_pass}
+	where user_email = #{user_email}	 
+</update>
+
+<!-- 일반 사용자 알림 설정 -->
+
+<!-- 휴면 계정 설정 -->
+<update id="updateUserStatus" parameterType="userVo">
+	update users
+	set user_st = #{user_st}
+	where user_email = #{user_email}
+</update>
+
+
+<!-- ******************* mail_confirm ******************* -->
+
+
+
+
+</mapper>

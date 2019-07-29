@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="friend">
+
+<!-- *************friend_req**************** -->
+
+
+<!-- *************friends**************** -->
+	<!-- 전체 친구 리스트 조회(채팅에서 사용)-->
+	<select id="allFriendList" parameterType="string" resultType="chatFriendsVo">
+		select frd_email, u.user_nm 
+		from friends f , users u
+		where f.frd_email = u.user_email
+		and f.user_email= #{user_email}
+	</select>
+
+	<!-- 채팅방별 친구 리스트 조회 -->
+	<select id="roomFriendList">
+		
+	</select>
+	
+
+</mapper>
