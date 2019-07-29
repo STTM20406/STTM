@@ -65,36 +65,41 @@ public class Chat_RoomController {
 		logger.debug("********friendChatList UserVo : {}",user);
 		String user_email = user.getUser_email();
 		
-		//친구 리스트
-		List<ChatFriendsVo> friendsList = friendsService.friendList(user_email);
-		
 		
 		//내가 갖고 있는 방목록 가져오기
 		List<Chat_RoomVo> roomlist = roomService.getRoomList(user_email);
 		logger.debug("*********roomlist: {}" , roomlist);
 		
-		// 채팅방별 친구들 리스트들을 리스트에 넣음
-		// memlist : 방마다 갖고 있는 멤버 리스트를 가져옴(계속 새값으로 변경)
-		// memlistlist[0] = {김두한, 박경림}, memlistlist[1] = {아이유, 유인나}
-		List<String> memlist = null;
-		List<List<String>> memlistlist = new ArrayList<List<String>>();
-		int ct_id = 0;
+		//방 친구 리스트 -- roomFriendList[0] : {김갑수,갑돌이}
+		List<List<String>> roomFriendList = new ArrayList<List<String>>();
 		
+		//방별로 초대할 친구Vo
+		ChatParticipateUserVo inviteVo = new ChatParticipateUserVo();
+		//초대할 친구 리스트
+		List<List<String>> inviteFriendList = new ArrayList<List<String>>();
 		
-		//방 별로의 채팅멤버명
-		for(int i=0; i< roomlist.size();i++) {
+		for(int i=0;i<roomlist.size();i++) {
 			
-			ct_id = roomlist.get(i).getCt_id(); //방 아이디 가져옴
-			memlist = memService.roomFriendList(ct_id); //채팅방에 있는 친구들 정보 들어옴
-			memlistlist.add(memlist);  
+			//방 친구 리스트
+			roomFriendList.add(memService.roomFriendList(roomlist.get(i).getCt_id()));
 			
-			logger.debug("memlistlist : {}", memlistlist);
+			//방별로 초대할 친구리스트
+			inviteVo = new ChatParticipateUserVo(user_email, roomlist.get(i).getCt_id());
 			
+			//초대할 친구 리스트
+			inviteFriendList.add(memService.inviteFriend(inviteVo));
 		}
 		
+		logger.debug("roomFriendList :  {}", roomFriendList.get(0));
+		logger.debug("inviteFriendList :  {}", inviteFriendList.get(0));
+		    
+		    
+		
+		
+		
 		model.addAttribute("roomlist", roomlist);
-		model.addAttribute("memlistlist", memlistlist);
-		model.addAttribute("friendsList",friendsList);
+		model.addAttribute("roomFriendList",roomFriendList);
+		model.addAttribute("inviteFriendList",inviteFriendList);
 		
 		return "/chat/friendChatList.user.tiles";
 	}

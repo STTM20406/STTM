@@ -61,7 +61,15 @@
 		select count(*) from chat_mem where ct_id = #{ct_id}
 	</select>
 
-
+	<!-- 채팅방 초대할 친구 리스트 (이미 채팅방에 있는 친구는 제외하고 보여주는 리스트) -->
+	<select id="inviteFriend" parameterType="chat_participateVo" resultType="string">
+		select user_nm from users
+		where user_email = (
+		        select a.frd_email
+		        from friends a 
+		        where a.user_email = #{user_email}
+		        and a.frd_email not in (select user_email from chat_mem where ct_id = #{ct_id}))
+	</select>
 
 <!-- ************************* chat_contentVo **********************************-->
 

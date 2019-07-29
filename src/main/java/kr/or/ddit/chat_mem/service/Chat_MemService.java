@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import kr.or.ddit.chat_content.model.ChatParticipateUserVo;
 import kr.or.ddit.chat_mem.dao.IChat_MemDao;
 import kr.or.ddit.chat_mem.model.Chat_MemVo;
 
@@ -79,6 +80,12 @@ public class Chat_MemService implements IChat_MemService{
 	public int countChatMem(int ct_id) {
 		int cnt = memDao.countChatMem(ct_id);
 		return cnt;
+	}
+
+	@Override
+	public List<String> inviteFriend(ChatParticipateUserVo vo) {
+		List<String> list = memDao.inviteFriend(vo);
+		return list;
 	}
 
 }

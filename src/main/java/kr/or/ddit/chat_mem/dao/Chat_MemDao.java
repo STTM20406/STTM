@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import kr.or.ddit.chat_content.model.ChatParticipateUserVo;
 import kr.or.ddit.chat_mem.model.Chat_MemVo;
 
 @Repository
@@ -67,6 +68,11 @@ public class Chat_MemDao implements IChat_MemDao{
 	@Override
 	public int countChatMem(int ct_id) {
 		return sqlSession.selectOne("chat.countChatMem",ct_id);
+	}
+
+	@Override
+	public List<String> inviteFriend(ChatParticipateUserVo vo) {
+		return sqlSession.selectList("chat.inviteFriend",vo);
 	}
 
 }

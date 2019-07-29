@@ -5,7 +5,23 @@ public class ChatParticipateUserVo {
 	private String user_nm; //사용자 이름
 	private String ch_msg; // 메세지 내용
 	private String user_email;//사용자 아이디
+	private int ct_id; // 채팅방 아이디
 	
+	
+	public ChatParticipateUserVo() {
+	}
+	
+	public ChatParticipateUserVo(String user_email, int ct_id) {
+		super();
+		this.user_email = user_email;
+		this.ct_id = ct_id;
+	}
+	public int getCt_id() {
+		return ct_id;
+	}
+	public void setCt_id(int ct_id) {
+		this.ct_id = ct_id;
+	}
 	public String getUser_nm() {
 		return user_nm;
 	}

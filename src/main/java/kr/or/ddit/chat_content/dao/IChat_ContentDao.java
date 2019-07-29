@@ -39,4 +39,6 @@ public interface IChat_ContentDao {
 	 * Method 설명 	: 각 대화방에서의 각 사용자 대화 내역 삭제
 	 */
 	public int deleteChatContent(Chat_ContentVo vo);
+	
+
 }

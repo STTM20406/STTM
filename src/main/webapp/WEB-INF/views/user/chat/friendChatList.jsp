@@ -180,11 +180,13 @@ a.cbtn:hover {
 				<td style="display: none" id="roomId">${room.ct_id }</td>
 				<td>${room.ct_id }</td>
 				<td id="roomNm">${ room.ct_nm }</td>
-				<td><select>
-						<c:forEach items="${friendsList}" var="friend" varStatus="status">
-							<option>${friend.user_nm }</option>
-						</c:forEach>
-				</select></td>
+				<td>
+					<select>
+							<c:forEach items="${roomFriendList}" var="friend" varStatus="status">
+								<option>${friend }</option>
+							</c:forEach>
+					</select>
+				</td>
 				<td><input type="button" value="친구 추가" id="addFriend"></td>
 				<td><a
 					href="/outChatRoom?ct_id=${room.ct_id}&user_email=${USER_INFO.user_email}"
