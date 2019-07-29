@@ -183,8 +183,10 @@ a.cbtn:hover {
 				<td>
 					<select>
 							<c:forEach items="${roomFriendList}" var="friend" varStatus="status">
+								
 								<option>${friend }</option>
 							</c:forEach>
+								
 					</select>
 				</td>
 				<td><input type="button" value="친구 추가" id="addFriend"></td>
