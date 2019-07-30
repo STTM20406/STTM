@@ -26,13 +26,13 @@ public class Board_WriteController {
 	private IBoard_WriteService writeService;
 	
 	@RequestMapping(path = "/community",method=RequestMethod.GET)
-	public String boardPostList(Model model,String page, String pageSize) {
+	public String boardPostList(Model model,String page, String pageSize,int board_id) {
 		
 		int pageStr = page == null ? 1 : Integer.parseInt(page);
 		int pageSizeStr =  pageSize == null ? 10 : Integer.parseInt(pageSize);
 		
 		PageVo pageVo = new PageVo(pageStr,pageSizeStr);
-//		pageVo.setBoard_id(1);
+		pageVo.setBoard_id(board_id);
 		
 		Map<String, Object> resultMap =  writeService.boardPostList(pageVo);
 		
@@ -40,19 +40,33 @@ public class Board_WriteController {
 		logger.debug("!@# boardList : {}",boardList);
 		int paginationSize = (Integer) resultMap.get("paginationSize");
 		
+		model.addAttribute("board_id",board_id);
 		model.addAttribute("boardList", boardList);
 		
 		return "/board/community/communityList.user.tiles";
 	}
 	
 	@RequestMapping(path = "/postAdd",method=RequestMethod.GET)
-	public String boardWrite(Model model,int board_id) {
+	public String boardWrite(Model model,int boardnum) {
 		
+		model.addAttribute("boardnum", boardnum);
 		return "/board/community/communityWrite.user.tiles";
 	}
 	
 	@RequestMapping(path = "/postAdd",method=RequestMethod.POST)
-	public String boardWrite(Model model,String subject,String smarteditor) {
+	public String boardWrite(Model model,String subject,String smarteditor,String user_email,int boardnum) {
+		
+		String viewName ="";
+		
+		Board_WriteVo writeVo = new Board_WriteVo(boardnum, user_email, subject, smarteditor);
+		logger.debug("!@# writeVo : {}",writeVo);
+		int writeCnt = writeService.insertPost(writeVo);
+		
+		if(writeCnt == 1) {
+			viewName="redirect:/postAdd";
+		}else {
+			viewName="redirect:/postAdd";
+		}
 		
 		return "redirect:/postAdd";
 	}

@@ -60,7 +60,7 @@
 	    from
 	    (select a.*
 	    from board_write a 
-	    where board_id = 1
+	    where board_id = #{board_id}
 	    order by write_id) a)
 	    where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
     ]]>
