@@ -130,6 +130,7 @@ public class UserController {
 //		notificationSetVo.setNot_cd(not_cd);
 //		notificationSetVo.setNot_chk_fl(not_chk_fl);t
 	
+		
 		int inseertUserNotice = userService.insertUserNotice(notificationSetVo);
 		
 		return "/account/accountSet.user.tiles";
