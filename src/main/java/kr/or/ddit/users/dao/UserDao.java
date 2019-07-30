@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import kr.or.ddit.notification_set.model.Notification_SetVo;
 import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.users.model.UserVo;
 
@@ -28,6 +29,20 @@ public class UserDao implements IUserDao{
 	@Override
 	public int insertUser(UserVo userVo) {
 		return sqlSession.insert("user.insertUser",userVo);
+	}
+	
+	/**
+	 * 
+	* Method : insertUserNotice
+	* 작성자 : 김경호
+	* 변경이력 : 2019-07-30
+	* @param notificationSetVo
+	* @return
+	* Method 설명 : 사용자 알림 설정 
+	 */
+	@Override
+	public int insertUserNotice(Notification_SetVo notificationSetVo) {
+		return sqlSession.insert("user.insertUserNotice", notificationSetVo);
 	}
 	
 	/**
@@ -166,6 +181,8 @@ public class UserDao implements IUserDao{
 	public int updateUserEncryptPass(UserVo userVo) {
 		return sqlSession.update("user.updateUserEncryptPass",userVo);
 	}
+
+
 
 
 }

@@ -32,18 +32,18 @@
 </update>
 
 <!-- 일반 사용자 알림 설정 -->
+<insert id="insertUserNotice" parameterType="notification_setVo">
+	insert into notification_set 
+	values (not_set_seq.nextval, #{user_email}, #{not_cd}, 'N')
+</insert>	
 
 <!-- 휴면 계정 설정 -->
 <update id="updateUserStatus" parameterType="userVo">
 	update users
-	set user_st = #{user_st}
+	set user_st = 'Y'
 	where user_email = #{user_email}
 </update>
 
-
 <!-- ******************* mail_confirm ******************* -->
-
-
-
 
 </mapper>

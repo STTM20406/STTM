@@ -99,7 +99,7 @@
 				}
 			});
 		}
-		
+
 		
 		//프로젝트 생성 다음 버튼 클릭시
 		$("#prj_btn_next").on('click', function(){
@@ -114,47 +114,86 @@
 			
 		});
 		
-		//layer popup
-		function layer_open(el){
-
-			var temp = $('#' + el);
-			var bg = temp.prev().hasClass('bg');	//dimmed 레이어를 감지하기 위한 boolean 변수
-
-			if(bg){
-				$('.layer').fadeIn();	//'bg' 클래스가 존재하면 레이어가 나타나고 배경은 dimmed 된다. 
-			}else{
-				temp.fadeIn();
-			}
-
-			// 화면의 중앙에 레이어를 띄운다.
-			if (temp.outerHeight() < $(document).height() ) temp.css('margin-top', '-'+temp.outerHeight()/2+'px');
-			else temp.css('top', '0px');
-			if (temp.outerWidth() < $(document).width() ) temp.css('margin-left', '-'+temp.outerWidth()/2+'px');
-			else temp.css('left', '0px');
-
-			temp.find('a.cbtn').click(function(e){
-				if(bg){
-					$('.layer').fadeOut(); //'bg' 클래스가 존재하면 레이어를 사라지게 한다. 
-				}else{
-					temp.fadeOut();
+		
+		//프로젝트명으로 프로젝트 검색
+		$("#prj_sch").on("keyup", function(){
+			
+			//검색어 변수에 저장
+			var prj_nm = $(this).val();
+			
+			//검색을 위한 ajax 호출
+			prjSearchAjax(prj_nm);
+		});
+		
+		function prjSearchAjax(prj_nm){
+			$.ajax({
+				url:"/project/prjSearchAjax",
+				method:"post",
+				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+				data: "prj_nm=" + prj_nm,
+				success:function(data){
+					
+					console.log(data);
+					var html = "";
+					
+					data.data.projectList.forEach(function(project){
+						//html 생성
+		 				html += "<div class='project_item'><ul class='project_item_hd'>";
+		 				html += "<li>" + project.prj_nm + "</li>";
+		 				html += "<li><a href=''>설정</a></li></ul>"
+		 				html += "<ul class='project_item_con'><li>"
+		 				html += "<p class='currnt_prj_st'>" + project.prj_st + "</p>"
+		 				html += "<div class='prj_item_st'>"
+		 				html += "<input type='button' value='계획' id='prj_st_"+ project.prj_id + "'>"
+		 				html += "<input type='button' value='진행중' id='prj_st_"+ project.prj_id + "'>"
+		 				html += "<input type='button' value='완료' id='prj_st_"+ project.prj_id + "'>"
+		 				html += "<input type='button' value='보류' id='prj_st_"+ project.prj_id + "'>"
+		 				html += "<input type='button' value='취소' id='prj_st_"+ project.prj_id + "'>"
+		 				html += "<input type='button' value='상태없음' id='prj_st_"+ project.prj_id + "'>"
+						html += "</div></li></ul></div>"	
+					});	
+					
+					$(".my_project_list").html(html);
 				}
-				e.preventDefault();
+				
 			});
-
-			$('.layer .bg').click(function(e){	//배경을 클릭하면 레이어를 사라지게 하는 이벤트 핸들러
-				$('.layer').fadeOut();
-				e.preventDefault();
-			});
-
 		}
 		
-		
-		$(".prj_sch").on("keyup", function(){
-			alert("test");
-		});
 	});
 	
-	
+	//layer popup
+	function layer_open(el){
+
+		var temp = $('#' + el);
+		var bg = temp.prev().hasClass('bg');	//dimmed 레이어를 감지하기 위한 boolean 변수
+
+		if(bg){
+			$('.layer').fadeIn();	//'bg' 클래스가 존재하면 레이어가 나타나고 배경은 dimmed 된다. 
+		}else{
+			temp.fadeIn();
+		}
+
+		// 화면의 중앙에 레이어를 띄운다.
+		if (temp.outerHeight() < $(document).height() ) temp.css('margin-top', '-'+temp.outerHeight()/2+'px');
+		else temp.css('top', '0px');
+		if (temp.outerWidth() < $(document).width() ) temp.css('margin-left', '-'+temp.outerWidth()/2+'px');
+		else temp.css('left', '0px');
+
+		temp.find('a.cbtn').click(function(e){
+			if(bg){
+				$('.layer').fadeOut(); //'bg' 클래스가 존재하면 레이어를 사라지게 한다. 
+			}else{
+				temp.fadeOut();
+			}
+			e.preventDefault();
+		});
+
+		$('.layer .bg').click(function(e){	//배경을 클릭하면 레이어를 사라지게 하는 이벤트 핸들러
+			$('.layer').fadeOut();
+			e.preventDefault();
+		});
+
+	}
 </script>
 
 <div class="sub_menu">
@@ -316,3 +355,8 @@
 		</div>
 	</div>
 </div>
+
+
+
+
+

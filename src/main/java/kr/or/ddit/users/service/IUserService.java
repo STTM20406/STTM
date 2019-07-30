@@ -3,6 +3,7 @@ package kr.or.ddit.users.service;
 import java.util.List;
 import java.util.Map;
 
+import kr.or.ddit.notification_set.model.Notification_SetVo;
 import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.users.model.UserVo;
 
@@ -18,6 +19,17 @@ public interface IUserService {
 	* Method 설명 : 사용자 등록
 	 */
 	int insertUser(UserVo userVo);
+	
+	/**
+	 * 
+	* Method : insertUserNotice
+	* 작성자 : 김경호
+	* 변경이력 : 2019-07-30
+	* @param notificationSetVo
+	* @return
+	* Method 설명 : 사용자 알림 설정 
+	 */
+	int insertUserNotice(Notification_SetVo notificationSetVo);
 	
 	/**
 	 * 

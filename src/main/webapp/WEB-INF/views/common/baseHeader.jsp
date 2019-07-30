@@ -22,11 +22,6 @@
 		$(".user_set_list").on("mouseleave", function(){
 			$(".user_set_list").fadeOut();
 		});
-		$(".board_id").on("click",function(){
-			var c = $(this).children().attr("id");
-			$(".board_id").val(c);	
-
-		})
 		
 	});
 </script>
@@ -63,7 +58,7 @@
 					<li><a href="/friendChatList">CHATTING</a></li>
 					<li><a href="/userInquiry">INQUERY</a></li>
 					<c:forEach items="${userBoardListY }" var = "board">
-						<li class="board_id"><a href="/community?board_id=${board.board_id }" id="${board.board_id }" >${board.name }</a></li>
+						<li><a href="#">${board.name }</a></li>
 					</c:forEach>
 				</ul>
 			</nav>
@@ -99,7 +94,7 @@
         				<div class="user_set_list">
         					<dl>
         						<dt></dt>
-        						<dd><a href="/accountSet">계정설정</a></dd>
+        						<dd><a href="/setUserPass">계정설정</a></dd>
         						<dd><a href="/logout">로그아웃</a></dd>
         					</dl>
         				</div>

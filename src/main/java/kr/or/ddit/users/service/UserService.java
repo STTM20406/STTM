@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import kr.or.ddit.encrypt.encrypt.kisa.sha256.KISA_SHA256;
+import kr.or.ddit.notification_set.model.Notification_SetVo;
 import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.users.dao.IUserDao;
 import kr.or.ddit.users.model.UserVo;
@@ -32,6 +33,22 @@ public class UserService implements IUserService{
 	public int insertUser(UserVo userVo) {
 		int insertCnt = 0;
 		insertCnt += userDao.insertUser(userVo);
+		return insertCnt;
+	}
+	
+	/**
+	 * 
+	* Method : insertUserNotice
+	* 작성자 : 김경호
+	* 변경이력 : 2019-07-30
+	* @param notificationSetVo
+	* @return
+	* Method 설명 : 사용자 알림 설정 
+	 */
+	@Override
+	public int insertUserNotice(Notification_SetVo notificationSetVo) {
+		int insertCnt = 0;
+		insertCnt += userDao.insertUserNotice(notificationSetVo);
 		return insertCnt;
 	}
 	
@@ -165,6 +182,5 @@ public class UserService implements IUserService{
 		}
 		return updateCntSum;
 	}
-
 
 }

@@ -91,6 +91,26 @@ public class ProjectController {
 		return "jsonView";
 	}
 	
+
+	@RequestMapping("/prjSearchAjax")
+	public String prjSearchAjax(String prj_nm, Model model, HttpSession session) {
+		//세션에 저장된 user 정보를 가져옴
+		UserVo user = (UserVo) session.getAttribute("USER_INFO");    
+		String user_email = user.getUser_email();
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("user_email", user_email);
+		map.put("prj_nm", prj_nm);
+		
+		Map<String, Object> projectList = projectService.projectSearch(map);
+		model.addAttribute("data", projectList);
+		
+		return "jsonView";
+	}
+	
+	
+	
+	
 	
 	//프로젝트를 생성하는 동시에 프로젝트 멤버에 생성자 insert
 	@RequestMapping(path = "/form", method = RequestMethod.POST)
