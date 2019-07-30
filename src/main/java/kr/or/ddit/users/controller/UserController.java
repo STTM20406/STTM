@@ -129,7 +129,6 @@ public class UserController {
 //		notificationSetVo.setUser_email(user_email);
 //		notificationSetVo.setNot_cd(not_cd);
 //		notificationSetVo.setNot_chk_fl(not_chk_fl);t
-	
 		
 		int inseertUserNotice = userService.insertUserNotice(notificationSetVo);
 		
