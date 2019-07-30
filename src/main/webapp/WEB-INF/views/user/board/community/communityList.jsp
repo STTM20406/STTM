@@ -17,7 +17,7 @@
 
 <h2>커뮤니티게시판</h2>
 <form id="frm" action="/postAdd" method="get">
-
+	<input type="text" name="boardnum" id="boardnum" value="${board_id }">
 	<table class="tb_style_01">
 		<tbody>
 			<tr>
