@@ -7,22 +7,21 @@
 	// 슬라이드 토글 기능
 	$(document).ready(function(){
 		
-// 		$("#passForm").slideUp(0);
-// 		$("#resetPass").click(function(){
-// 			$("#passForm").slideToggle("slow");
-// 		});
+		$("#passForm").slideUp(0);
+		$("#resetPass").click(function(){
+			$("#passForm").slideToggle("slow");
+		});
 		
-// 		$("#notificationForm").slideUp(0);
-// 		$("#setNotification").click(function(){
-// 			$("#notificationForm").slideToggle("slow");
-// 		});
+		$("#notificationForm").slideUp(0);
+		$("#setNotification").click(function(){
+			$("#notificationForm").slideToggle("slow");
+		});
 		
-// 		$("#userStatusForm").slideUp(0);
-// 		$("#setUserStatus").click(function(){
-// 			$("#userStatusForm").slideToggle("slow");
-// 		});
-		
-	});
+		$("#userStatusForm").slideUp(0);
+		$("#setUserStatus").click(function(){
+			$("#userStatusForm").slideToggle("slow");
+		});
+
 
 	function funLoad(){
        var Cheight = $(window).height();
@@ -62,6 +61,13 @@
 		
 		alert("비밀번호가 업데이트 되었습니다!");
    }
+   
+   function inactiveAccount() {
+	   $("#btnInactive").on("click",function(){
+			$("#userStatusForm").submit();
+			alert("회원님의 계정이 휴면 상태로 전환 되었습니다.");			
+		});
+	}
     
     function check(re,what,message){
     	if(re.test(what.value)){
@@ -80,16 +86,16 @@
 		
 <!-- 비밀번호 설정 -->
 <div id="resetPass" class="loginWrap" style="background-color:cornsilk"><label>비밀번호</label>
-	<form action="/accountSet" method="post" id="passForm">
+	<form action="/setUserPass" method="post" id="passForm">
 		<div class="inputField">
 			<ul>
 				
-				<li>
-					<label for="user_pass">임시로 보여줄 이전 비밀 번호</label>
-					<label>3DE67E346CE183D3C30B7D4FA96419CD</label>
-					<input type="text" id="user_email" value="${user_email}" readonly>
-					<input type="text" id="user_pass5" value="${user_pass}" readonly>
-				</li><br>
+<!-- 				<li> -->
+<!-- 					<label for="user_pass">임시로 보여줄 이전 비밀 번호 나중에 지울겁니다.</label> -->
+<!-- 					<label>3DE67E346CE183D3C30B7D4FA96419CD</label> -->
+<%-- 					<input type="text" id="user_email" value="${user_email}" readonly> --%>
+<%-- 					<input type="text" id="user_pass5" value="${user_pass}" readonly> --%>
+<!-- 				</li><br> -->
 
 				<li>
 					<label for="user_pass1">새 비밀번호</label>
@@ -122,37 +128,24 @@
 				<!-- 프로젝트에 대한 알림 -->
 				<li>
 					<br><br>
-					<label>프로젝트에 대한 알림</label><br>
-					<input type="checkbox" id="" name="" value=""> 프로젝트명<br>
-					<input type="checkbox" id="" name="" value=""> 프로젝트 설명<br>
-					<input type="checkbox" id="" name="" value=""> 프로젝트 상태<br>
-					<input type="checkbox" id="" name="" value=""> 프로젝트 시작일<br>
-					<input type="checkbox" id="" name="" value=""> 프로젝트 마감일<br>
-					<input type="checkbox" id="" name="" value=""> 프로젝트 실제 완료일<br>
-					<input type="checkbox" id="" name="" value=""> 프로젝트 관리자<br>
-					<input type="checkbox" id="" name="" value=""> 프로젝트 팀원
-				</li><br>
-				
-				
-				<li>
-					<label>채팅에 대한 알림</label><br>
-					<input type="checkbox" value=""> 채팅 메세지 알림<br>
-					<input type="checkbox" value=""> 채팅 초대 알림<br>
-					<input type="checkbox" value=""> 화상 채팅 알림<br>
+					<input type="checkbox" id="" name="" value=""> 프로젝트에 대한 알림<br>
 				</li><br>
 				
 				<li>
-					<label>1:1문의 답변 알림</label><br>
-					<input type="checkbox" value=""> 업무 등록<br>
+					<input type="checkbox" id="" name="" value=""> 채팅 메세지 알림<br>
+
 				</li><br>
 				
 				<li>
-					<label>업무에 대한 알림</label><br>
-					<input type="checkbox" value=""> 업무 등록<br>
+					<input type="checkbox" id="" name="" value=""> 1:1문의 답변 알림<br>
 				</li><br>
 				
 				<li>
-					<button type="submit" id="btnLogin">알림 설정 업데이트</button>
+					<input type="checkbox" id="" name="" value=""> 업무에 대한 알림<br>
+				</li><br>
+				
+				<li>
+					<input type="button" id="btnSetNotice">알림 설정 업데이트</button>
 				</li>
 				
 			</ul>
@@ -164,13 +157,14 @@
 
 <!-- 휴면 계정 설정 -->  
 <div id="setUserStatus" class="loginWrap" style="background-color:paleturquoise"><label>휴면계정</label>
-		<form action="" method="post" id="userStatusForm">
+		<form action="/setUserStatus" method="post" id="userStatusForm">
 			<div class="inputField">
 				<ul>
 					<br><br>
 					<li>
-						<input type="text" id="" name=""><br>
-						<button type="submit" id="btnInactive">휴면 계정 전환</button>
+						<input type="text" id="user_st" name="user_st" value="${user_st}"><br>
+						
+						<input type="button" id="btnInactive" onclick="inactiveAccount()" value="휴면 계정 전환">
 					</li>
 					
 				</ul>
