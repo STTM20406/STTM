@@ -53,6 +53,7 @@ public class FilterVo {
 	private List<String> wrk_follower;	//	업무 팔로워 기준
 	
 	private String user_email;			//	내 이메일 
+	private String is_cal;				//	캘린더용 자료 확인값(시작일 / 마감일이 있는 자료만 검색)
 	
 	public int getWrk_dt() {
 		return wrk_dt;
@@ -156,6 +157,12 @@ public class FilterVo {
 	public void setTd_week(String td_week) {
 		this.td_week = td_week;
 	}
+	public String getIs_cal() {
+		return is_cal;
+	}
+	public void setIs_cal(String is_cal) {
+		this.is_cal = is_cal;
+	}
 	@Override
 	public String toString() {
 		return "FilterVo [wrk_dt=" + wrk_dt + ", wrk_is_mine=" + wrk_is_mine + ", wrk_i_assigned=" + wrk_i_assigned
@@ -163,7 +170,7 @@ public class FilterVo {
 				+ ", overdue=" + overdue + ", till_this_week=" + till_this_week + ", till_this_month=" + till_this_month
 				+ ", no_deadline=" + no_deadline + ", td_month=" + td_month + ", td_week=" + td_week + ", is_cmp="
 				+ is_cmp + ", is_del=" + is_del + ", wrk_maker=" + wrk_maker + ", wrk_follower=" + wrk_follower
-				+ ", user_email=" + user_email + "]";
+				+ ", user_email=" + user_email + ", is_cal=" + is_cal + "]";
 	}
 	
 }

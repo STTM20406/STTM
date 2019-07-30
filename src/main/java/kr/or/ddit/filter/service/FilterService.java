@@ -9,6 +9,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import kr.or.ddit.filter.dao.IFilterDao;
@@ -19,6 +21,7 @@ import kr.or.ddit.work.model.WorkVo;
 
 @Service
 public class FilterService implements IFilterService{
+	private static final Logger logger = LoggerFactory.getLogger(FilterService.class);
 	@Resource(name="filterDao")
 	private IFilterDao filterDao;
 
@@ -35,7 +38,7 @@ public class FilterService implements IFilterService{
 	}
 
 	@Override
-	public Map<String, String> filterListJSON(FilterVo filterVo) {
+	public Map<String, String> workListJSON(FilterVo filterVo) {
 		resultMap = new HashMap<String, String>();
 		List<WorkVo> workList = filterList(filterVo);
 		String result = resultListTemplate(workList);
@@ -62,6 +65,77 @@ public class FilterService implements IFilterService{
 		resultMap.put("result", result);
 		return resultMap;
 	}
+	
+	@Override
+	public Map<String, String> ganttListJSON(FilterVo filterVo) {
+		resultMap = new HashMap<String, String>();
+		
+		List<WorkVo> workList = filterList(filterVo);
+		String prj_str = prjListTemplate(filterVo);
+		String followerList_str = followerListTemplate(filterVo);
+		String makerList_str = makerListTemplate(filterVo);
+		String filterFrm = listFilterTemplate();
+		String result_Gantt = ganttListTemplate(workList);
+		
+		if(workList.size()==0) 
+			resultMap.put("isBlank", "true");
+		else
+			resultMap.put("isBlank", "false");
+			
+		resultMap.put("filterFrm", filterFrm);                          
+		resultMap.put("prjList", prj_str);
+		resultMap.put("makerList", makerList_str);
+		resultMap.put("followerList", followerList_str);
+		resultMap.put("result", result_Gantt);
+		
+		return resultMap;
+	}
+	
+	/**
+	 * Method : ganttListTemplate
+	 * 작성자 : 유승진
+	 * 변경이력 : 2019-07-30 최초 생성
+	 * @param workList
+	 * @return
+	 * Method 설명 : 필터링된 업무리스트를 간트차트 용 데이터로 변환해주는 메서드
+	 */
+	private String ganttListTemplate(List<WorkVo> workList) {
+		StringBuffer sb_gantt = new StringBuffer();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Map<String, String> prjMap = new HashMap<String, String>();
+		Map<String, String> wrkLstMap = new HashMap<String, String>();
+		
+		for(WorkVo work : workList) {
+			prjMap.put("prj#"+work.getPrj_id(), work.getPrj_nm());
+			wrkLstMap.put("list#"+work.getWrk_lst_id(), work.getWrk_lst_nm() + "/prj#" + work.getPrj_id());
+		}
+		
+		logger.debug("prjMap : {}", prjMap);
+		logger.debug("wrkLstMap : {}", wrkLstMap);
+		sb_gantt.append("{ \"data\":[");
+		for(String key : prjMap.keySet()) {
+			sb_gantt.append("{\"id\": \""+ key +"\", \"text\": \""+ prjMap.get(key) +"\", \"unscheduled\": true, \"open\": true},");
+		}
+		for(String key : wrkLstMap.keySet()) {
+			String[] keyarr = wrkLstMap.get(key).split("/");
+			sb_gantt.append("{\"id\": \""+ key +"\", \"text\": \""+ keyarr[0] +"\", \"parent\": \""+ keyarr[1] +"\",\"unscheduled\": true, \"open\": true},");
+		}
+		for(WorkVo work : workList) {
+			sb_gantt.append("{\"id\": \"work"+ work.getWrk_id() +"\", \"text\": \""+ work.getWrk_nm() +"\", \"parent\": \"list#"+ work.getWrk_lst_id() +"\"");
+			if(work.getWrk_start_dt()!=null) 
+				sb_gantt.append(", \"start_date\": \""+ sdf.format(work.getWrk_start_dt()) +"\"");
+			if(work.getWrk_end_dt()!=null) 
+				sb_gantt.append(", \"end_date\": \""+ sdf.format(work.getWrk_end_dt().getTime() + (1000 * 60 * 60 * 24)) +"\"");
+			
+			if(work.getWrk_start_dt()==null || work.getWrk_end_dt()==null)
+				sb_gantt.append(", \"unscheduled\": true");
+			sb_gantt.append("},");
+		}
+		sb_gantt.deleteCharAt(sb_gantt.length()-1);
+		
+		sb_gantt.append("]}");
+		return sb_gantt.toString();
+	}
 
 	/**
 	 * Method : resultListTemplate
@@ -69,7 +143,7 @@ public class FilterService implements IFilterService{
 	 * 변경이력 : 2019-07-26 최초 생성
 	 * @param filterVo
 	 * @return
-	 * Method 설명 : 필터링을 거쳐 반환된 업무들을 Html 태그 형식으로 변환하는 메서드
+	 * Method 설명 : 개인 업무리스트 화면에서 필터링을 거쳐 반환된 업무들을 Html 태그 형식으로 변환하는 메서드
 	 */
 	private String resultListTemplate(List<WorkVo>workList) {
 		SimpleDateFormat sdf = new SimpleDateFormat("M월 dd일");
@@ -296,7 +370,90 @@ public class FilterService implements IFilterService{
 		sb_form.append("<br>");
 		sb_form.append("<button type='button' onclick='reset()'> 필터 초기화 </button>");
 		sb_form.append("<br>");
+		sb_form.append("<input type='hidden' name='user_email' value='${USER_INFO.user_email}'>");
+		sb_form.append("</form>");
+		return sb_form.toString();
+	}
+	/**
+	 * Method : listFilterTemplate
+	 * 작성자 : 유승진
+	 * 변경이력 : 2019-07-26 최초 생성
+	 * @return
+	 * Method 설명 : 전체 개요 페이지의 필터를 Html 형식으로 작성해주는 메서드
+	 */
+	private String listFilterTemplateCalendar() {
+		StringBuffer sb_form = new StringBuffer();
+		sb_form.append("<form id='filterFrm'>");
+		sb_form.append("<label>업무 구분</label>");
+		sb_form.append("<br>");
+		
+		sb_form.append("<select name='wrk_is_mine' class='filter'>");
+		sb_form.append("<option value='all' selected>전체 업무</option>");
+		sb_form.append("<option value='mine'>내 업무만</option>");
+		sb_form.append("</select>");
+		
+		sb_form.append("<br><br>");
+		
+		sb_form.append("<label>작성일 기준</label>");
+		sb_form.append("<br>");
+		
+		sb_form.append("<select name='wrk_dt' class='filter'>");
+		sb_form.append("<option value='0' selected>전체</option>");
+		sb_form.append("<option value='30'>30일 이내</option>");
+		sb_form.append("<option value='60'>60일 이내</option>");
+		sb_form.append("<option value='90'>90일 이내</option>");
+		sb_form.append("</select>");
+		
+		sb_form.append("<br><br>");
+		
+		sb_form.append("<label>업무 주체</label>");
+		sb_form.append("<br>");
+		
+		sb_form.append("<input type='checkbox' class='filter' name='wrk_i_assigned' value='y'> 내게 할당된 업무 <br>");
+		sb_form.append("<input type='checkbox' class='filter' name='wrk_i_made' value='y'> 내가 작성한 업무 <br>");
+		sb_form.append("<input type='checkbox' class='filter' name='wrk_i_following' value='y'> 내가 팔로우한 업무 <br>");
+		sb_form.append("<br><br>");
+		
+		sb_form.append("<label>프로젝트 구분</label>");
+		sb_form.append("<br>");
+		sb_form.append("<div id='prjList'></div>");
+		
+		sb_form.append("<br><br>");
+		
+		sb_form.append("<label>마감일 기준</label>");
+		sb_form.append("<br>");
+		
+		sb_form.append("<input type='checkbox' class='filter' name='overdue' value='y'> 마감일 지남 <br>");
+		sb_form.append("<input type='checkbox' class='filter' name='till_this_week' value='y'> 이번 주까지 <br>");
+		sb_form.append("<input type='checkbox' class='filter' name='till_this_month' value='y'> 이번 달까지 <br>");
+		sb_form.append("<input type='checkbox' class='filter' name='no_deadline' value='y'> 마감일 없음 <br>");
+		
+		sb_form.append("<br><br>");
+		
+		sb_form.append("<label>업무 상태 구분</label>");
+		sb_form.append("<br>");
+		
+		sb_form.append("<input type='checkbox' class='filter' name='is_cmp' value='y'> 완료된 업무 <br>");
+		sb_form.append("<input type='checkbox' class='filter' name='is_del' value='y'> 삭제된 업무 <br>");
+		
+		sb_form.append("<br><br>");
+		
+		sb_form.append("<label>업무 작성자 구분</label>");
+		sb_form.append("<br>");
+		sb_form.append("<div id='makerList'></div>");
+		
+		sb_form.append("<br><br>");
+		
+		sb_form.append("<label>업무 팔로우 멤버</label>");
+		sb_form.append("<br>");
+		sb_form.append("<div id='followerList'></div>");
+		
+		
+		sb_form.append("<br>");
+		sb_form.append("<button type='button' onclick='reset()'> 필터 초기화 </button>");
+		sb_form.append("<br>");
 		sb_form.append("<input type='hidden' name='user_email' value='son@naver.com'>");
+		sb_form.append("<input type='hidden' name='is_cal' value='true'>");
 		sb_form.append("</form>");
 		return sb_form.toString();
 	}
@@ -471,6 +628,8 @@ public class FilterService implements IFilterService{
 		chartDataMap.put("isBlank", isBlank);
 		return chartDataMap;
 	}
+
+	
 
 	
 }

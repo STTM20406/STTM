@@ -36,35 +36,42 @@
 				C.USER_EMAIL LIKE '%'
 			</when>
 			<otherwise>
-				C.USER_EMAIL = #{user_email} AND C.JN_FL = 'M'  
+				A.WRK_ID IN (SELECT WRK_ID FROM WORK_MEM_FLW C WHERE C.USER_EMAIL = #{user_email} AND C.JN_FL = 'M')  
 			</otherwise>
 		</choose>
-		AND
-		(1=1 
-		<if test="wrk_i_assigned != null"> OR (C.JN_FL = 'M' AND C.USER_EMAIL = #{user_email}) </if>
-		<if test="wrk_i_made != null"> OR (A.USER_EMAIL = #{user_email}) </if>
-		<if test="wrk_i_following != null"> OR (C.JN_FL = 'F' AND C.USER_EMAIL = #{user_email}) </if>
+		<if test="wrk_i_assigned != null || wrk_i_made != null || wrk_i_following != null">
+		AND(
+		<trim prefix="" prefixOverrides="OR">
+			<if test="wrk_i_assigned != null"> OR A.WRK_ID IN (SELECT WRK_ID FROM WORK_MEM_FLW C WHERE C.JN_FL = 'M' AND C.USER_EMAIL = #{user_email}) </if>
+			<if test="wrk_i_made != null"> OR A.WRK_ID IN (SELECT WRK_ID FROM WORK WHERE USER_EMAIL = #{user_email}) </if>
+			<if test="wrk_i_following != null"> OR A.WRK_ID IN (SELECT WRK_ID FROM WORK_MEM_FLW C WHERE C.JN_FL = 'F' AND C.USER_EMAIL = #{user_email}) </if>
+		</trim>
 		)
+		</if>
 		<if test="prj_id_list != null">
 			AND B.PRJ_ID IN
 			<foreach collection="prj_id_list" item="prj" open="(" close=")" separator=",">
 				#{prj}
 			</foreach>
 		</if>
-			AND (1=1
-			<if test="overdue != null">
-				OR 0 &gt; (A.WRK_END_DT - SYSDATE)
-			</if>
-			<if test="till_this_week != null">
-				OR #{td_week} = TO_CHAR(A.WRK_END_DT, 'WW')
-			</if>
-			<if test="till_this_month != null">
-				OR #{td_month} = TO_CHAR(A.WRK_END_DT, 'MM')
-			</if>
-			<if test="no_deadline != null">
-				OR A.WRK_END_DT IS NULL
-			</if>
+		<if test="overdue != null || till_this_week != null || till_this_month != null || no_deadline != null">
+			AND (
+			<trim prefix="" prefixOverrides="OR">
+				<if test="overdue != null">
+					OR 0 &gt; (A.WRK_END_DT - SYSDATE)
+				</if>
+				<if test="till_this_week != null">
+					OR #{td_week} = TO_CHAR(A.WRK_END_DT, 'WW')
+				</if>
+				<if test="till_this_month != null">
+					OR #{td_month} = TO_CHAR(A.WRK_END_DT, 'MM')
+				</if>
+				<if test="no_deadline != null">
+					OR A.WRK_END_DT IS NULL
+				</if>
+			</trim>
 			)
+		</if>
 		<if test="is_cmp != null">
 			AND A.WRK_CMP_FL = 'Y'
 		</if>
@@ -78,11 +85,17 @@
 			</foreach>
 		</if>
 		<if test="wrk_follower != null">
-			AND C.JN_FL = 'F' AND C.USER_EMAIL IN
-			<foreach collection="wrk_follower" item="follower" open="(" close=")" separator=",">
-				#{follower}
-			</foreach>
+				AND (A.WRK_ID = (SELECT WRK_ID FROM WORK_MEM_FLW WHERE C.JN_FL = 'F' AND USER_EMAIL IN 
+				<foreach collection="wrk_follower" item="follower" open="(" close=")" separator=",">
+					#{follower}
+				</foreach>
+			))
 		</if>
+		<if test="is_cal != null">
+			AND A.WRK_START_DT IS NOT NULL
+			AND A.WRK_END_DT IS NOT NULL
+		</if>
+		ORDER BY A.WRK_ID
 	</select>
 	
 	<select id="prjIdList" parameterType="filterVo" resultType="projectVo">
@@ -139,4 +152,5 @@
 		AND     A.WRK_LST_ID = C.WRK_LST_ID
 		AND     C.PRJ_ID = D.PRJ_ID
 	</select>
+	
 </mapper>
