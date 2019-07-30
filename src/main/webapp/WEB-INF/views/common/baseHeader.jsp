@@ -79,7 +79,6 @@
 	                <form name="" action="" onsubmit="">
 		                <select>
 		                	<option>검색옵션</option>
-		                	<option>업무명</option>
 		                </select>
 		                <input type="text" name="" id="" maxlength="20" placeholder="검색어를 입력해주세요">
 		                <button type="submit" id="sch_submit" value="검색">검색</button>
@@ -100,6 +99,7 @@
         					<dl>
         						<dt></dt>
         						<dd><a href="/setUserPass">계정설정</a></dd>
+        						<dd><a href="/setUserProfile">프로필설정</a></dd>
         						<dd><a href="/logout">로그아웃</a></dd>
         					</dl>
         				</div>

@@ -185,6 +185,24 @@ public class UserController {
 		return viewName;
 	}
 	
+	/**
+	 * 
+	* Method : setUserProfile
+	* 작성자 : 김경호
+	* 변경이력 : 2019-07-30
+	* @return
+	* Method 설명 : 일반 사용자 계정 설정
+	 */
+	@RequestMapping(path = "/setUserProfile", method = RequestMethod.GET)
+	public String setUserProfile(HttpSession session, Model model) {
+		
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		
+		
+		
+		
+		return "";
+	}
 	
 	
 }
