@@ -45,9 +45,6 @@ public class Board_WriteVo {
 		this.subject = subject;
 		this.content = content;
 	}
-
-
-
 	public Board_WriteVo(int write_id, int board_id, String user_email, String subject, String content, Date writedate,
 			int view_cnt, int like_cnt, String del_yn) {
 		super();
