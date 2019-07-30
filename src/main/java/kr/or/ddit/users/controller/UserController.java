@@ -132,6 +132,7 @@ public class UserController {
 		
 		int inseertUserNotice = userService.insertUserNotice(notificationSetVo);
 		
+		
 		return "/account/accountSet.user.tiles";
 	}
 	
