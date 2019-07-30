@@ -133,6 +133,7 @@ function workDetail(wrk_id){
 		gantt.config.drag_progress = false;
 		gantt.config.show_unscheduled = true;
 		gantt.config.row_height = 25;
+		gantt.config.details_on_dblclick = false;
 		gantt.config.scales = [
 			{unit: "month", step: 1, format: "%Y년 %n월"},
 			{unit: 'week', step: 1, format: "%W번째 주"},
@@ -142,6 +143,18 @@ function workDetail(wrk_id){
 		        }
 		    }}
 		];
+		gantt.attachEvent("onAfterTaskDrag", function(id, mode, e){
+			var target = gantt.getTask(id);
+			console.log(target);
+// 			$.ajax({
+// 				url: '/updateGantt',
+// 				data: 
+// 			});
+		});
+		gantt.attachEvent("onTaskRowClick", function(id, row) {
+			console.log(id);
+			console.log(row);
+		});
 		gantt.config.scale_height = 50;
 		gantt.config.layout = {css: "gantt_container",
 		    rows:[{
