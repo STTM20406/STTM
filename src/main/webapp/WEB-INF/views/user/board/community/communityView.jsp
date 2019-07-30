@@ -26,7 +26,7 @@ $(document).ready(function(){
 	// 댓글등록하기 버튼
 	$("#replyBtn").on("click",function(){
 		$("#frm").attr("action","/postView");
-		$("#frm").attr("method","/post");
+		$("#frm").attr("method","post");
 		$("#frm").submit();
 	})
 	

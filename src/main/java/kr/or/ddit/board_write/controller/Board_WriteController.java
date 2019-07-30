@@ -165,7 +165,7 @@ public class Board_WriteController {
 		}else {
 			viewName ="redirect:/postView?write_id="+ write_id;
 		}
-		
+		 
 		return viewName;
 	}
 	
