@@ -104,7 +104,7 @@ public class UserController {
 	* @param session
 	* @param model
 	* @return
-	* Method 설명 :
+	* Method 설명 : 사용자 알림 설정
 	 */
 	@RequestMapping(path = "/setUserNotice", method = RequestMethod.GET)
 	public String setNoticeView(HttpSession session, Model model, String not_set_id) {
@@ -112,19 +112,24 @@ public class UserController {
 		return "/account/accountSet.user.tiles";
 	}
 	
-	@RequestMapping(path = "", method = RequestMethod.POST)
-	public String setNoticeProcess() {
+	@RequestMapping(path = "/setUserNotice", method = RequestMethod.POST)
+	public String setNoticeProcess(HttpSession session, Model model) {
 		
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
 		String user_email = userVo.getUser_email();
 		
 		Notification_SetVo notificationSetVo = new Notification_SetVo(); 
-		notificationSetVo.setNot_set_id(not_set_id);
-		notificationSetVo.setUser_email(user_email);
-		notificationSetVo.setNot_cd(not_cd);
-		notificationSetVo.setNot_chk_fl(not_chk_fl);t
+
+		String not_cd = notificationSetVo.getNot_cd();
+		
+		model.addAttribute("not_cd", not_cd);
+		
+//		notificationSetVo.setNot_set_id(not_set_id);
+//		notificationSetVo.setUser_email(user_email);
+//		notificationSetVo.setNot_cd(not_cd);
+//		notificationSetVo.setNot_chk_fl(not_chk_fl);t
 	
-		int inseertUserNotice = userService.
+		int inseertUserNotice = userService.insertUserNotice(notificationSetVo);
 		
 		return "/account/accountSet.user.tiles";
 	}

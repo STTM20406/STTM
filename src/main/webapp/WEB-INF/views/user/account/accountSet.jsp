@@ -7,21 +7,22 @@
 	// 슬라이드 토글 기능
 	$(document).ready(function(){
 		
-		$("#passForm").slideUp(0);
-		$("#resetPass").click(function(){
-			$("#passForm").slideToggle("slow");
-		});
+// 		$("#passForm").slideUp(0);
+// 		$("#resetPass").click(function(){
+// 			$("#passForm").slideToggle("slow");
+// 		});
 		
-		$("#notificationForm").slideUp(0);
-		$("#setNotification").click(function(){
-			$("#notificationForm").slideToggle("slow");
-		});
+// 		$("#notificationForm").slideUp(0);
+// 		$("#setNotification").click(function(){
+// 			$("#notificationForm").slideToggle("slow");
+// 		});
 		
-		$("#userStatusForm").slideUp(0);
-		$("#setUserStatus").click(function(){
-			$("#userStatusForm").slideToggle("slow");
-		});
+// 		$("#userStatusForm").slideUp(0);
+// 		$("#setUserStatus").click(function(){
+// 			$("#userStatusForm").slideToggle("slow");
+// 		});
 
+	});
 
 	function funLoad(){
        var Cheight = $(window).height();
@@ -30,8 +31,8 @@
    window.onload = funLoad;
    window.onresize = funLoad;
 
-   // 회원가입 정규식
-   function regPass(){
+   // 비밀번호 재설정
+   function setPass(){
    	
 	   	// 아이디,패스워드 정규식
 	   	var re = /^[a-zA-Z0-9]{4,12}$/ 
@@ -62,6 +63,7 @@
 		alert("비밀번호가 업데이트 되었습니다!");
    }
    
+   // 휴면계정 전환
    function inactiveAccount() {
 	   $("#btnInactive").on("click",function(){
 			$("#userStatusForm").submit();
@@ -69,6 +71,15 @@
 		});
 	}
     
+   // 알림 설정 업데이트
+	function setNotice() {
+		$("#btnSetNotice").on("click",function(){
+				$("#noticeForm").submit();
+				alert("회원님의 알림 설정이 업데이트 되었습니다.");			
+		});
+	}
+	
+   
     function check(re,what,message){
     	if(re.test(what.value)){
     		return true;
@@ -83,88 +94,33 @@
 
 <section class = "contents">	
 <div id="setAccount" ><label>설정</label>
-		
-<!-- 비밀번호 설정 -->
-<div id="resetPass" class="loginWrap" style="background-color:cornsilk"><label>비밀번호</label>
-	<form action="/setUserPass" method="post" id="passForm">
-		<div class="inputField">
-			<ul>
-				
-<!-- 				<li> -->
-<!-- 					<label for="user_pass">임시로 보여줄 이전 비밀 번호 나중에 지울겁니다.</label> -->
-<!-- 					<label>3DE67E346CE183D3C30B7D4FA96419CD</label> -->
-<%-- 					<input type="text" id="user_email" value="${user_email}" readonly> --%>
-<%-- 					<input type="text" id="user_pass5" value="${user_pass}" readonly> --%>
-<!-- 				</li><br> -->
-
-				<li>
-					<label for="user_pass1">새 비밀번호</label>
-					<input type="text" id="user_pass1" name="user_pass1" 
-						placeholder="패스워드는 4~12자의 영문 대소문자와 숫자로만 입력" value="${user_pass}">
-				</li><br>
-				
-				<li>
-					<label for="user_pass2">새 비밀번호 확인</label>
-					<input type="text" id="user_pass" name="user_pass" 
-						placeholder="패스워드는 4~12자의 영문 대소문자와 숫자로만 입력" value="${user_pass}">
-				</li>
-				
-				<li>
-					<input type="button" id="btnSetAccount" onclick="regPass()" value="비밀번호 업데이트">
-				</li>
-				
-			</ul>
-		</div>
-	</form>
-</div>
-
-<br><br>
-
-<!-- 알림 설정 -->   
-<div id="setNotification" class="loginWrap" style="background-color:lightsalmon"><label>알림 설정</label><br>
-	<form action="" method="post" id="notificationForm">
-		<div class="inputField">
-			<ul>
-				<!-- 프로젝트에 대한 알림 -->
-				<li>
-					<br><br>
-					<input type="checkbox" id="" name="" value=""> 프로젝트에 대한 알림<br>
-				</li><br>
-				
-				<li>
-					<input type="checkbox" id="" name="" value=""> 채팅 메세지 알림<br>
-
-				</li><br>
-				
-				<li>
-					<input type="checkbox" id="" name="" value=""> 1:1문의 답변 알림<br>
-				</li><br>
-				
-				<li>
-					<input type="checkbox" id="" name="" value=""> 업무에 대한 알림<br>
-				</li><br>
-				
-				<li>
-					<input type="button" id="btnSetNotice">알림 설정 업데이트</button>
-				</li>
-				
-			</ul>
-		</div>
-	</form>
-</div>
-	
-<br><br>
-
-<!-- 휴면 계정 설정 -->  
-<div id="setUserStatus" class="loginWrap" style="background-color:paleturquoise"><label>휴면계정</label>
-		<form action="/setUserStatus" method="post" id="userStatusForm">
+	<!-- 비밀번호 설정 -->
+	<div id="resetPass" class="loginWrap" style="background-color:cornsilk"><label>비밀번호</label>
+		<form action="/setUserPass" method="post" id="passForm">
 			<div class="inputField">
 				<ul>
-					<br><br>
+					
+	<!-- 				<li> -->
+	<!-- 					<label for="user_pass">임시로 보여줄 이전 비밀 번호 나중에 지울겁니다.</label> -->
+	<!-- 					<label>3DE67E346CE183D3C30B7D4FA96419CD</label> -->
+	<%-- 					<input type="text" id="user_email" value="${user_email}" readonly> --%>
+	<%-- 					<input type="text" id="user_pass5" value="${user_pass}" readonly> --%>
+	<!-- 				</li><br> -->
+	
 					<li>
-						<input type="text" id="user_st" name="user_st" value="${user_st}"><br>
-						
-						<input type="button" id="btnInactive" onclick="inactiveAccount()" value="휴면 계정 전환">
+						<label for="user_pass1">새 비밀번호</label>
+						<input type="text" id="user_pass1" name="user_pass1" 
+							placeholder="패스워드는 4~12자의 영문 대소문자와 숫자로만 입력" value="${user_pass}">
+					</li><br>
+					
+					<li>
+						<label for="user_pass2">새 비밀번호 확인</label>
+						<input type="text" id="user_pass" name="user_pass" 
+							placeholder="패스워드는 4~12자의 영문 대소문자와 숫자로만 입력" value="${user_pass}">
+					</li>
+					
+					<li>
+						<input type="button" id="btnSetAccount" onclick="setPass()" value="비밀번호 업데이트">
 					</li>
 					
 				</ul>
@@ -172,6 +128,54 @@
 		</form>
 	</div>
 
-</div>
+	<br><br>
+
+	<!-- 알림 설정 -->   
+	<div id="setNotification" class="loginWrap" style="background-color:lightsalmon"><label>알림 설정</label><br>
+		<form action="" method="post" id="noticeForm">
+			<div class="inputField">
+				<ul>
+					<!-- 프로젝트에 대한 알림 -->
+					<li>
+						<br><br>
+						<input type="checkbox" id="notice" name="project" value="${not_cd}"> 프로젝트에 대한 알림<br>
+					</li><br>
+					<li>
+						<input type="checkbox" id="notice" name="chat" value="${not_cd}"> 채팅 메세지 알림<br>
+					</li><br>
+					<li>
+						<input type="checkbox" id="notice" name="inquiry" value="${not_cd}"> 1:1문의 답변 알림<br>
+					</li><br>
+					<li>
+						<input type="checkbox" id="notice" name="work" value="${not_cd}"> 업무에 대한 알림<br>
+					</li><br>
+					<li>
+						<input type="button" id="btnSetNotice" onclick="setNotice()" value="알림 설정 업데이트">
+					</li>
+				</ul>
+			</div>
+		</form>
+	</div>
+	
+	<br><br>
+
+	<!-- 휴면 계정 설정 -->  
+	<div id="setUserStatus" class="loginWrap" style="background-color:paleturquoise"><label>휴면계정</label>
+			<form action="/setUserStatus" method="post" id="userStatusForm">
+				<div class="inputField">
+					<ul>
+						<br><br>
+						<li>
+							<input type="text" id="user_st" name="user_st" value="${user_st}"><br>
+							<input type="button" id="btnInactive" onclick="inactiveAccount()" value="휴면 계정 전환">
+							<br>룰루랄라 - by mino
+						</li>
+						
+					</ul>
+				</div>
+			</form>
+		</div>
+	
+	</div>
 	
 </section>
