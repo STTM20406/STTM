@@ -19,13 +19,14 @@ import java.util.Date;
  * </pre>
  */
 public class WorkVo {
-
+ 
 	private int wrk_id;				// 업무 ID
 	private int wrk_lst_id;         // 업무리스트 ID
 	private int wrk_rv_id;          // 업무 예약 알림 ID
 	private int wrk_pr_id;          // 부모 업무 ID
+	private String user_email;		// 업무 작성자 이메일
 	private String wrk_nm;          // 업무 이름
-	private Date wrk_dt;         	 // 업무 생성일시
+	private Date wrk_dt;         	// 업무 생성일시
 	private String wrk_grade;       // 업무 등급
 	private String wrk_color_cd;    // 업무 컬러 코드
 	private Date wrk_start_dt;    	// 업무 시작일
@@ -43,12 +44,25 @@ public class WorkVo {
 	public WorkVo() {
 
 	}
+
+	//업무 등록! 생성자
+	public WorkVo(int wrk_lst_id, String user_email, String wrk_nm, String wrk_color_cd, Date wrk_start_dt,Date wrk_end_dt ) {
+		this.wrk_lst_id = wrk_lst_id;
+		this.user_email = user_email;
+		this.wrk_nm = wrk_nm;
+		this.wrk_color_cd = wrk_color_cd;
+		this.wrk_start_dt = wrk_start_dt;
+		this.wrk_end_dt = wrk_end_dt;
+	}
+
 	@Override
 	public String toString() {
 		return "WorkVo [wrk_id=" + wrk_id + ", wrk_lst_id=" + wrk_lst_id + ", wrk_rv_id=" + wrk_rv_id + ", wrk_pr_id="
-				+ wrk_pr_id + ", wrk_nm=" + wrk_nm + ", wrk_dt=" + wrk_dt + ", wrk_gread=" + wrk_grade
-				+ ", wrk_color_cd=" + wrk_color_cd + ", wrk_start_dt=" + wrk_start_dt + ", wrk_end_dt=" + wrk_end_dt
-				+ ", wrk_cmp_dt=" + wrk_cmp_dt + ", wrk_cmp_fl=" + wrk_cmp_fl + ", wrk_del_fl=" + wrk_del_fl + "]";
+				+ wrk_pr_id + ", user_email=" + user_email + ", wrk_nm=" + wrk_nm + ", wrk_dt=" + wrk_dt
+				+ ", wrk_grade=" + wrk_grade + ", wrk_color_cd=" + wrk_color_cd + ", wrk_start_dt=" + wrk_start_dt
+				+ ", wrk_end_dt=" + wrk_end_dt + ", wrk_cmp_dt=" + wrk_cmp_dt + ", wrk_cmp_fl=" + wrk_cmp_fl
+				+ ", wrk_del_fl=" + wrk_del_fl + ", prj_id=" + prj_id + ", prj_nm=" + prj_nm + ", wrk_lst_nm="
+				+ wrk_lst_nm + ", user_nm=" + user_nm + "]";
 	}
 	public int getWrk_id() {
 		return wrk_id;
@@ -152,5 +166,12 @@ public class WorkVo {
 	public void setUser_nm(String user_nm) {
 		this.user_nm = user_nm;
 	}
+	public String getUser_email() {
+		return user_email;
+	}
+	public void setUser_email(String user_email) {
+		this.user_email = user_email;
+	}
+	
 	
 }
