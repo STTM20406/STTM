@@ -99,7 +99,7 @@
         				<div class="user_set_list">
         					<dl>
         						<dt></dt>
-        						<dd><a href="/accountSet">계정설정</a></dd>
+        						<dd><a href="/setUserPass">계정설정</a></dd>
         						<dd><a href="/logout">로그아웃</a></dd>
         					</dl>
         				</div>
