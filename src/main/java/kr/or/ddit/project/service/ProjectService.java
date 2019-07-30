@@ -125,7 +125,7 @@ public class ProjectService implements IProjectService{
 	public Map<String, Object> projectSearch(Map<String, Object> map) {
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("projectList", projectDao.projectStatusList(map));
+		resultMap.put("projectList", projectDao.projectSearch(map));
 		
 		return resultMap;
 	}

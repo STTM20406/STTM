@@ -30,7 +30,7 @@
 	<!-- 프로젝트 검색 (내가 포함된 프로젝트 중에서) -->
 	<select id="projectSearch" parameterType="map" resultType="projectVo">
 		SELECT A.PRJ_ID, A.PRJ_NM, A.PRJ_EXP, A.PRJ_AUTH, A.PRJ_START_DT, A.PRJ_END_DT, A.PRJ_CMP_DT, A.PRJ_ST, A.DEL_FL, B.USER_EMAIL
-		FROM (SELECT A.* FROM (SELECT * FROM PROJECT WHERE PRJ_NM LIKE '%'||#{prj_nm}||'%') A) A, PROJECT_MEM B
+		FROM (SELECT A.* FROM (SELECT * FROM PROJECT WHERE LOWER(PRJ_NM) LIKE '%'||#{prj_nm}||'%') A) A, PROJECT_MEM B
 		WHERE A.PRJ_ID = B.PRJ_ID AND B.USER_EMAIL = #{user_email}
 	</select>
 
