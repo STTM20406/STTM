@@ -15,7 +15,6 @@ import kr.or.ddit.project.model.ProjectVo;
 @Repository
 public class ProjectDao implements IProjectDao{
 	
-	private static final Logger logger = LoggerFactory.getLogger(ProjectDao.class);
 	
 	@Resource(name = "sqlSession")
 	private SqlSessionTemplate sqlSession;
@@ -121,8 +120,5 @@ public class ProjectDao implements IProjectDao{
 		return sqlSession.selectList("project.projectSearch", map);
 	}
 	
-
-	
-
 
 }

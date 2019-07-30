@@ -72,9 +72,6 @@ public class ProjectController {
 		//세션에 저장된 user 정보를 가져옴
 		UserVo user = (UserVo) session.getAttribute("USER_INFO");    
 		String user_email = user.getUser_email();
-
-		
-		logger.debug("prj_st ::::::::::: log {}", prj_st);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("user_email", user_email);
@@ -92,6 +89,7 @@ public class ProjectController {
 	}
 	
 
+	//프로젝트명으로 프로젝트 검색
 	@RequestMapping("/prjSearchAjax")
 	public String prjSearchAjax(String prj_nm, Model model, HttpSession session) {
 		//세션에 저장된 user 정보를 가져옴
@@ -109,7 +107,15 @@ public class ProjectController {
 	}
 	
 	
-	
+	//프로젝트 설정
+	@RequestMapping("/propertySetAjax")
+	public String propertySetAjax(String prj_id, Model model, HttpSession session) {
+		
+		int prjId = Integer.parseInt(prj_id);
+		model.addAttribute("data", projectService.getProject(prjId));
+		
+		return "jsonView";
+	}
 	
 	
 	//프로젝트를 생성하는 동시에 프로젝트 멤버에 생성자 insert
