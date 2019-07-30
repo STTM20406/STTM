@@ -214,4 +214,22 @@ public class Board_WriteController {
 		return viewName;
 	}
 	
+	
+	@RequestMapping(path="/replyDelete",method=RequestMethod.POST)
+	public String replyDelete(int board_id, int write_id, int replynum1) {
+		
+		String viewName="";
+		logger.debug("!@# replynum1 : {}",replynum1);
+		int replyCnt = answerService.deleteReply(replynum1);
+		
+		if(replyCnt == 1) {
+			viewName ="redirect:/postView?board_id="+board_id+"&write_id="+write_id;
+		}else{
+			viewName ="redirect:/postView?board_id="+board_id+"&write_id="+write_id;
+		}
+		
+		
+		return viewName;
+	}
+	
 }

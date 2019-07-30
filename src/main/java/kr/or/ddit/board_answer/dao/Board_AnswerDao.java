@@ -38,8 +38,8 @@ public class Board_AnswerDao implements IBoard_AnswerDao{
 	 * Method 설명 	: 댓글 삭제
 	 */
 	@Override
-	public int deleteReply(Board_AnswerVo replyVo) {
-		return sqlSession.delete("board.deleteReply",replyVo);
+	public int deleteReply(int comm_id) {
+		return sqlSession.delete("board.deleteReply",comm_id);
 	}
 
 	/**

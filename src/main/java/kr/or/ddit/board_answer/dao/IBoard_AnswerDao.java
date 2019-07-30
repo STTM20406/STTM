@@ -24,7 +24,7 @@ public interface IBoard_AnswerDao {
 	 * @return
 	 * Method 설명 	: 댓글 삭제
 	 */
-	int deleteReply(Board_AnswerVo replyVo);
+	int deleteReply(int comm_id);
 	
 	/**
 	 * Method 		: updateReply

@@ -37,8 +37,8 @@ public class Board_AnswerService implements IBoard_AnswerService{
 	 * Method 설명 	: 댓글 삭제
 	 */
 	@Override
-	public int deleteReply(Board_AnswerVo replyVo) {
-		return board_AnswerDao.deleteReply(replyVo);
+	public int deleteReply(int comm_id) {
+		return board_AnswerDao.deleteReply(comm_id);
 	}
 
 	/**

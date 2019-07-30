@@ -30,8 +30,22 @@ $(document).ready(function(){
 		$("#frm").submit();
 	})
 	
-})
+	// 댓글삭제하기 버튼
+	$(".replyTr #replyBUT").on("click",function(){
+			console.log("replyTr click");
+			console.log($(this));
+			var replyNum = $(this).children().attr("name");
+			console.log(replyNum);
+			$("#replynum1").val(replyNum);
+			
+			$("#frm").attr("action","/replyDelete");
+			$("#frm").attr("method","POST");
+			$("#frm").submit();
+			
+		})
 
+	
+})
 </script>
 
 
@@ -52,6 +66,7 @@ $(document).ready(function(){
 		<input type="hidden" id="write_id" name="write_id" value="${writeInfo.write_id }"/>
 		<input type="hidden" id="board_id" name="board_id" value="${writeInfo.board_id }"/>
 		<input type="hidden" id="user_email" name="user_email" value="${USER_INFO.user_email }"/>
+		<input type="hidden" id="replynum1" name="replynum1" value=""/>
 		
 			<label>댓글 목록</label><br>
 			<table class="tb_style_01">
@@ -65,12 +80,12 @@ $(document).ready(function(){
 					<c:forEach items="${replyList }" var="reply">
 						<c:choose>
 							<c:when test="${reply.del_fl == 'N' && reply.user_email == USER_INFO.user_email}">
-								<tr>
-									<td>${reply.comm_id }</td>
+								<tr class="replyTr">
+									<td class="replynum">${reply.comm_id }</td>
 									<td>${reply.content }</td>
 									<td>${reply.user_email }</td>
 									<td><fmt:formatDate value="${reply.writedate }" pattern="yyyy-MM-dd"/></td>
-									<td><button type="button">댓글삭제</button></td>
+									<td id="replyBUT"><button type="button" id="deleteReplyBtn" name="${reply.comm_id }">댓글삭제</button></td>
 								</tr>
 							</c:when>
 							<c:otherwise>
