@@ -35,7 +35,7 @@ public interface IBoard_WriteDao {
 	 * @return
 	 * Method 설명 	: 게시글 삭제
 	 */
-	int deletePost(Board_WriteVo writeVo);
+	int deletePost(int write_id);
 	
 	/**
 	 * Method 		: postInfo

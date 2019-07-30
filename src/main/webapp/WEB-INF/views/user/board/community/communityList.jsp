@@ -47,15 +47,19 @@
 				<th>작성일</th>
 			</tr>
 			<c:forEach items="${boardList }" var="board">
-				<tr class="boardTr">
-					<td class="boardNum">${board.write_id }</td>
-					<td>${board.subject }</td>
-					<td>댓글수 들어갈거야</td>
-					<td>${board.like_cnt }</td>
-					<td>${board.view_cnt }</td>
-					<td>${board.user_email }</td>
-					<td><fmt:formatDate value="${board.writedate }" pattern="yyyy-MM-dd"/></td>
-				</tr>
+				<c:choose>
+					<c:when test="${board.del_yn == 'N' }">
+						<tr class="boardTr">
+							<td class="boardNum">${board.write_id }</td>
+							<td>${board.subject }</td>
+							<td>댓글수 들어갈거야</td>
+							<td>${board.like_cnt }</td>
+							<td>${board.view_cnt }</td>
+							<td>${board.user_email }</td>
+							<td><fmt:formatDate value="${board.writedate }" pattern="yyyy-MM-dd"/></td>
+						</tr>
+					</c:when>
+				</c:choose>
 			</c:forEach>
 		</tbody>
 	</table>

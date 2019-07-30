@@ -8,7 +8,7 @@ $(document).ready(function(){
 	// 삭제버튼
 	$("#deleteBtn").on("click",function(){
 		if(confirm("정말 삭제할거에요?")== true){
-			$("#frm").attr("action","/userInquiryDelete");
+			$("#frm").attr("action","/postDelete");
 			$("#frm").attr("method","get");
 			$("#frm").submit();
 		}else{
@@ -18,10 +18,18 @@ $(document).ready(function(){
 	
 	// 수정하기 버튼
 	$("#modifyBtn").on("click",function(){
-		$("#frm").attr("action","/userInquiryModify");
+		$("#frm").attr("action","/postModify");
 		$("#frm").attr("method","get");
 		$("#frm").submit();
 	})
+	
+	// 댓글등록하기 버튼
+	$("#replyBtn").on("click",function(){
+		$("#frm").attr("action","/postView");
+		$("#frm").attr("method","/post");
+		$("#frm").submit();
+	})
+	
 })
 
 </script>
@@ -41,7 +49,10 @@ $(document).ready(function(){
 		</div>
 	<div>
 	<form id="frm" action="/post" method="get">
-	<input type="hidden" id="inq_id" name="inq_id" value="${writeInfo.write_id }"/>
+		<input type="hidden" id="write_id" name="write_id" value="${writeInfo.write_id }"/>
+		<input type="hidden" id="board_id" name="board_id" value="${writeInfo.board_id }"/>
+		<input type="hidden" id="user_email" name="user_email" value="${USER_INFO.user_email }"/>
+		
 			<label>댓글 목록</label><br>
 			<table class="tb_style_01">
 				<tbody>
@@ -59,7 +70,6 @@ $(document).ready(function(){
 									<td>${reply.content }</td>
 									<td>${reply.user_email }</td>
 									<td><fmt:formatDate value="${reply.writedate }" pattern="yyyy-MM-dd"/></td>
-									<td><button type="button">댓글수정</button></td>
 									<td><button type="button">댓글삭제</button></td>
 								</tr>
 							</c:when>

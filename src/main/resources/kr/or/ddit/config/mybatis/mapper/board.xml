@@ -103,7 +103,7 @@
 	</update>
 	
 	<!-- 게시글 삭제 -->
-	<update id="deletePost" parameterType="board_writeVo">
+	<update id="deletePost" parameterType="int">
 		update board_write set 
 		    del_yn='Y'
 		where write_id= #{write_id}

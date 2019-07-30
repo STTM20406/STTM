@@ -46,6 +46,14 @@ public class Board_WriteVo {
 
 
 
+	public Board_WriteVo(int board_id, int write_id, String subject, String content) {
+		super();
+		this.board_id = board_id;
+		this.write_id = write_id;
+		this.subject = subject;
+		this.content = content;
+	}
+
 	public Board_WriteVo(int board_id, String user_email, String subject, String content) {
 		super();
 		this.board_id = board_id;

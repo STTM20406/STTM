@@ -50,8 +50,8 @@ public class Board_WriteDao implements IBoard_WriteDao{
 	 * Method 설명 	: 게시글 삭제
 	 */
 	@Override
-	public int deletePost(Board_WriteVo writeVo) {
-		return sqlSession.update("board.deletePost",writeVo);
+	public int deletePost(int write_id) {
+		return sqlSession.update("board.deletePost",write_id);
 	}
 	
 	/**
