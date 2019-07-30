@@ -33,36 +33,8 @@
 	
 	
 <!-- **********************board_answer********************* -->
-	<!-- 게시글 댓글 작성 -->
-	<insert id="insertReply" parameterType="board_answerVo">
-		insert into board_answer values(board_answer_seq.nextval,#{write_id},#{user_email},#{content},sysdate,'N')
-	</insert>
-	
-	<!-- 게시글댓글리스트 조회 -->
-	<select id="replyList" parameterType="int" resultType="board_answerVo">
-		select * 
-		from board_answer 
-		where write_id = #{write_id}
-	</select>
-	
-	<!-- 게시글댓글 수정 -->
-	<update id="updateReply" parameterType="board_answerVo">
-		update board_answer set content = #{content} where comm_id = #{comm_id}
-	</update>
-	
-	<!-- 게시글댓글 삭제 -->
-	<delete id="deleteReply" parameterType="int">
-		delete 
-		from board_answer
-		where comm_id= #{comm_id}
-	</delete>
-	
-	<!-- 게시글별 댓글 개수 -->
-	<select id="replyCnt" resultType="int" parameterType="int">
-		select count(*)
-		from board_answer
-		where write_id = #{write_id}
-	</select>
+
+
 <!-- **********************board_file********************* -->
 
 
@@ -113,13 +85,7 @@
 	<select id="postCnt" resultType="int">
 		select count(*) from board_write
 	</select>
-	
-	<!-- 게시글 조회수 증가 -->
-	<update id="postViewCnt" parameterType="int">
-		update board_write
-		set view_cnt = view_cnt + 1
-		where write_id= #{write_id}
-	</update>
+
 <!-- **********************likes*************************** -->
 
 </mapper>

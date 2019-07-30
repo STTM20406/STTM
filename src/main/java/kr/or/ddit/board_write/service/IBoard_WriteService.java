@@ -65,14 +65,4 @@ public interface IBoard_WriteService {
 	 * Method 설명 	: 게시글 전체 개수 조회
 	 */
 	int postCnt();
-	
-	/**
-	 * Method 		: postViewCnt
-	 * 작성자 			: 양한솔 
-	 * 변경이력 		: 2019-07-30 최초 생성
-	 * @param write_id
-	 * @return
-	 * Method 설명 	: 게시글 조회수
-	 */
-	int postViewCnt(int write_id);
 }
