@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class GanttChartController {
 	private static final Logger logger = LoggerFactory.getLogger(GanttChartController.class);
 	
-	@RequestMapping("/gantt/project/view")
+	@RequestMapping("/project/gantt")
 	public String projectGanttChartView() {
 		return "/main/gantChart/gantChart.user.tiles";
 	}
