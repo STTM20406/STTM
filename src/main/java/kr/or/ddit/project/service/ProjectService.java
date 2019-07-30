@@ -6,8 +6,6 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import kr.or.ddit.project.dao.IProjectDao;
@@ -16,7 +14,6 @@ import kr.or.ddit.project.model.ProjectVo;
 @Service
 public class ProjectService implements IProjectService{
 	
-	private static final Logger logger = LoggerFactory.getLogger(ProjectService.class);
 	
 	@Resource(name = "projectDao")
 	private IProjectDao projectDao;

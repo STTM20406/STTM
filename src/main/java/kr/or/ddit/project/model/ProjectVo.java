@@ -16,22 +16,24 @@ import java.util.Date;
  * 수정자 수정내용
  * ------ ------------------------
  * 양한솔   최초 생성 : 2019-07-19
+ * 박서경   수정 이력 : 2019-07-30
  *
  * </pre>
  */
 public class ProjectVo {
 
-	private int prj_id;			// 프로젝트 ID
-	private String prj_nm;		// 프로젝트 이름
-	private String prj_exp;     // 프로젝트 설명
-	private String prj_auth;    // 프로젝트 권한
-	private Date prj_start_dt;  // 프로젝트 시작일시
-	private Date prj_end_dt;    // 프로젝트 마감일시
-	private Date prj_cmp_dt;    // 프로젝트 실제 완료일시
-	private String prj_st;      // 프로젝트 상태
-	private String del_fl;      // 프로젝트 삭제 여부
+	private int prj_id;				// 프로젝트 ID
+	private String prj_nm;			// 프로젝트 이름
+	private String prj_exp;     	// 프로젝트 설명
+	private String prj_auth;    	// 프로젝트 권한
+	private Date prj_start_dt;  	// 프로젝트 시작일시
+	private Date prj_end_dt;    	// 프로젝트 마감일시
+	private Date prj_cmp_dt;    	// 프로젝트 실제 완료일시
+	private String prj_st;      	// 프로젝트 상태
+	private Date prj_update;      	// 프로젝트 업데이트 일시
+	private String del_fl;      	// 프로젝트 삭제 여부
 	
-	private String user_email; 	// 프로젝트 멤버 이메일
+	private String user_email; 		// 프로젝트 멤버 이메일
 	
 	
 	public ProjectVo() {
@@ -116,7 +118,15 @@ public class ProjectVo {
 	public void setPrj_st(String prj_st) {
 		this.prj_st = prj_st;
 	}
+	
 
+	public Date getPrj_update() {
+		return prj_update;
+	}
+
+	public void setPrj_update(Date prj_update) {
+		this.prj_update = prj_update;
+	}
 
 	public String getDel_fl() {
 		return del_fl;
@@ -141,8 +151,9 @@ public class ProjectVo {
 	public String toString() {
 		return "ProjectVo [prj_id=" + prj_id + ", prj_nm=" + prj_nm + ", prj_exp=" + prj_exp + ", prj_auth=" + prj_auth
 				+ ", prj_start_dt=" + prj_start_dt + ", prj_end_dt=" + prj_end_dt + ", prj_cmp_dt=" + prj_cmp_dt
-				+ ", prj_st=" + prj_st + ", del_fl=" + del_fl + ", user_email=" + user_email + "]";
+				+ ", prj_st=" + prj_st + ", prj_update=" + prj_update + ", del_fl=" + del_fl + ", user_email="
+				+ user_email + "]";
 	}
-	
+
 	
 }

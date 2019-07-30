@@ -2,8 +2,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 
-<script>
+<!-- date picker resource-->
+<link href="/css/datepicker.min.css" rel="stylesheet" type="text/css">
+<script src="/js/datepicker.min.js"></script>
+<script src="/js/datepicker.en.js"></script> <!-- Include English language -->
 
+<script>
+	
 	var currnt_prj_st = "";
 	
 	$(document).ready(function(){
@@ -159,7 +164,71 @@
 			});
 		}
 		
+		//프로젝트 설정 버튼을 클릭했을 때
+		$(".btnSetting").on("click", function(){
+			$("#propertySet").animate({right:'0'}, 500);
+			var prj_id = $(this).attr("id");
+		 	
+			propertySetAjax(prj_id);
+		});
+		
+		//프로젝트 닫기 버튼을 클릭했을 때
+		$(".btnSetClose").on("click", function(){
+			$("#propertySet").animate({right:'-700px'}, 500);
+		});
+		
+		
+		function propertySetAjax(prj_id){
+			$.ajax({
+				url:"/project/propertySetAjax",
+				method:"post",
+				contentType:"application/x-www-form-urlencoded; charset=UTF-8",
+				data:"prj_id=" + prj_id,
+				success:function(data){
+					
+					$("#ppt_nm").val(data.data.prj_nm);
+					$("#ppt_exp").val(data.data.prj_exp);
+					
+					var currentDate = new Date();
+			        var divClock = document.getElementById("divClock");
+			         
+			        var msg = "현재 시간:"+currentDate.getHours()+"시"
+			        msg += currentDate.getMinutes()+"분";
+			        msg += currentDate.getSeconds()+"초";
+			         
+			       	console.log(msg);
+			        //setTimeout(showClock,1000);
+			        
+					//$("#ppt_exp").val(data.data.prj_exp);
+// 					console.log(data.data.prj_id);
+// 					console.log(data.data.prj_nm);
+// 					console.log(data.data.prj_exp);
+// 					console.log(data.data.prj_auth);
+// 					console.log(data.data.prj_start_dt);
+// 					console.log(data.data.prj_end_dt);
+// 					console.log(data.data.prj_cmp_dt);
+// 					console.log(data.data.prj_st);
+// 					console.log(data.data.del_fl);
+// 					console.log(data.data.prj_update);
+				}
+			});
+		}
+		
+// 		function printTime(){
+
+// 			var clock = document.getElementById("clock");
+//             var now = new Date();
+
+//             clock.innerHTML = now.getFullYear() + "년"+(now.getMonth()+1)+"월"+now.getDate()+"일"+now.getHours()+"시" +now.getMinutes()+"분"+now.getSeconds()+"초";
+//             // setTimeout함수를 통해 원하는 함수를 1초간격으로 출력해줌
+//             setTimeout("printTime()", 1000);
+
+//         }
+
+
 	});
+	
+	
 	
 	//layer popup
 	function layer_open(el){
@@ -231,25 +300,7 @@
 		<div class="project_wrap">
 			<h2>즐겨찾는 프로젝트</h2>
 			<div class="project_list">
-				<div class="project_item">
-					<ul class="project_item_hd">
-						<li>프로젝트 이름</li>
-						<li><a href="">설정</a></li>
-					</ul>
-					<ul class="project_item_con">
-						<li>
-							<a href="">완료됨</a>
-							<div class="prj_item_st">
-								<a href="">계획</a>
-								<a href="">진행중</a>
-								<a href="">완료</a>
-								<a href="">보류</a>
-								<a href="">취소</a>
-								<a href="">상태없음</a>
-							</div>
-						</li>
-					</ul>
-				</div>
+				
 			</div>
 		</div>
 		
@@ -260,7 +311,7 @@
 				<div class="project_item">
 					<ul class="project_item_hd">
 						<li>${projectList.prj_nm}</li>
-						<li><a href="">설정</a></li>
+						<li><a href="javascript:;" class="btnSetting" id="${projectList.prj_id}">설정</a></li>
 					</ul>
 					<ul class="project_item_con">
 						<li>
@@ -358,5 +409,75 @@
 
 
 
-
+<!-- property setting layer -->
+<div id="propertySet">
+	<div class="propertySetWrap">
+		<div class="setHd">
+			<div class="setHdTitle">
+				<span class="prj_asc">전체</span>
+				<h2><input type="text" id="ppt_nm" name="ppt_nm" value=""></h2>
+			</div>
+			<p class="prj_update">3분전에 업데이트 되었습니다.</p>
+			<p><input type="text" id="ppt_exp" name="ppt_exp" placeholder="프로젝트 설명을 입력해 주세요."></p>
+		</div>
+		<div class="setCon">
+			<dl class="setItem">
+				<dt>프로젝트 권한설정</dt>
+				<dd>
+					<div class="setAsc">
+						<select id="ppt_asc" name="">
+							<option>전체 액세스</option>
+							<option>권한 액세스</option>
+							<option>통제 액세스</option>
+						</select>
+					</div>
+				</dd>
+			</dl>
+			<dl class="setItem">
+				<dt>프로젝트 상태</dt>
+				<dd>
+					<div class="setStatus">
+						<select id="ppt_st" name="">
+							<option>계획</option>
+							<option>진행중</option>
+							<option>완료</option>
+							<option>보류</option>
+							<option>취소</option>
+							<option>상태없음</option>
+						</select>
+					</div>
+				</dd>
+			</dl>
+			<dl class="setItem">
+				<dt>프로젝트 시작일</dt>
+				<dd><input type="text" data-language="en" data-timepicker="true" class="datepicker-here" id="ppt_start_date"></dd>
+			</dl>
+			<dl class="setItem">
+				<dt>프로젝트 마감일</dt>
+				<dd><input type="text" data-language="en" data-timepicker="true" class="datepicker-here" id="ppt_end_date"></dd>
+			</dl>
+			<dl class="setItem">
+				<dt>프로젝트 완료일</dt>
+				<dd><input type="text" data-language="en" data-timepicker="true" class="datepicker-here" id="ppt_cmp_date"></dd>
+			</dl>
+			<dl class="setItem">
+				<dt>프로젝트 관리자</dt>
+				<dd><input type="button" id="" name="" onclick=""></dd>
+			</dl>
+			<dl class="setItem">
+				<dt>프로젝트 멤버</dt>
+				<dd><input type="button" id="" name="" onclick=""></dd>
+			</dl>
+			<dl class="setItem">
+				<dt>프로젝트 나가기</dt>
+				<dd><input type="button" id="" name="" onclick="" value="프로젝트 나가기"></dd>
+			</dl>
+			<dl class="setItem">
+				<dt>프로젝트 삭제</dt>
+				<dd><input type="button" id="" name="" onclick="" value="프로젝트 삭제"></dd>
+			</dl>
+		</div>
+	</div>
+	<div class="btnSetClose">닫기</div>
+</div>
 

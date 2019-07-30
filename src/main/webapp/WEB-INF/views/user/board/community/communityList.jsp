@@ -1,11 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<style>
+.boardTr:hover{
+	cursor : pointer;
+}
+</style>
 
 <script>
 	$(document).ready(function(){
 		$('#addBtn').click(function(){
 			$("#frm").submit();	
+		})
+		
+		$(".boardTr").on("click",function(){
+			console.log("boardTr click");
+			var boardNum = $(this).find(".boardNum").text();
+			$("#write_id").val(boardNum);
+			$("#frm").attr("action","/postView");
+			$("#frm").attr("method","get");
+			$("#frm").submit();
 		})
 		
 	})
@@ -18,6 +34,7 @@
 <h2>커뮤니티게시판</h2>
 <form id="frm" action="/postAdd" method="get">
 	<input type="text" name="boardnum" id="boardnum" value="${board_id }">
+	<input type="hidden" id="write_id" name="write_id" value=""/>
 	<table class="tb_style_01">
 		<tbody>
 			<tr>
@@ -31,13 +48,13 @@
 			</tr>
 			<c:forEach items="${boardList }" var="board">
 				<tr class="boardTr">
-					<td class="boardNum">${board.board_id }</td>
+					<td class="boardNum">${board.write_id }</td>
 					<td>${board.subject }</td>
-					<td>${board.subject }</td>
+					<td>댓글수 들어갈거야</td>
 					<td>${board.like_cnt }</td>
 					<td>${board.view_cnt }</td>
 					<td>${board.user_email }</td>
-					<td>${board.writedate }</td>
+					<td><fmt:formatDate value="${board.writedate }" pattern="yyyy-MM-dd"/></td>
 				</tr>
 			</c:forEach>
 		</tbody>

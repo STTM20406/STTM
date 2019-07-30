@@ -1,2 +1,89 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<script>
+$(document).ready(function(){
+	// 삭제버튼
+	$("#deleteBtn").on("click",function(){
+		if(confirm("정말 삭제할거에요?")== true){
+			$("#frm").attr("action","/userInquiryDelete");
+			$("#frm").attr("method","get");
+			$("#frm").submit();
+		}else{
+			return false;
+		}
+	})
+	
+	// 수정하기 버튼
+	$("#modifyBtn").on("click",function(){
+		$("#frm").attr("action","/userInquiryModify");
+		$("#frm").attr("method","get");
+		$("#frm").submit();
+	})
+})
+
+</script>
+
+
+<section class="contents">
+		<div>
+			<label>제목</label>
+			<label>${writeInfo.subject }</label>
+			<label>댓글수 : ${replyCnt }</label>
+			<label>좋아요 수 : ${replyCnt }</label>
+			<button type="button">좋아요</button>
+		</div>
+		<div>
+			<label>내용</label>
+			<label>${writeInfo.content }</label>
+		</div>
+	<div>
+	<form id="frm" action="/post" method="get">
+	<input type="hidden" id="inq_id" name="inq_id" value="${writeInfo.write_id }"/>
+			<label>댓글 목록</label><br>
+			<table class="tb_style_01">
+				<tbody>
+					<tr>
+						<th>번호</th>
+						<th>내용</th>
+						<th>작성자</th>
+						<th>작성일</th>
+					</tr>
+					<c:forEach items="${replyList }" var="reply">
+						<c:choose>
+							<c:when test="${reply.del_fl == 'N' && reply.user_email == USER_INFO.user_email}">
+								<tr>
+									<td>${reply.comm_id }</td>
+									<td>${reply.content }</td>
+									<td>${reply.user_email }</td>
+									<td><fmt:formatDate value="${reply.writedate }" pattern="yyyy-MM-dd"/></td>
+									<td><button type="button">댓글수정</button></td>
+									<td><button type="button">댓글삭제</button></td>
+								</tr>
+							</c:when>
+							<c:otherwise>
+								<tr>
+									<td>${reply.comm_id }</td>
+									<td>${reply.content }</td>
+									<td>${reply.user_email }</td>
+									<td><fmt:formatDate value="${reply.writedate }" pattern="yyyy-MM-dd"/></td>
+								</tr>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+				</tbody>
+			</table>
+				<label>댓글 작성</label><br>
+				<textarea rows="1" cols="60" name="r_content"></textarea>
+				<button type="button" name="replyBtn" id="replyBtn"> 댓글등록 </button>
+			
+		</div>
+		
+		<button type="button" class="btn_style_04" name="modifyBtn" id="modifyBtn"> 수정 </button>
+		<button type="button" class="btn_style_02" name="deleteBtn" id="deleteBtn"> 삭제 </button>
+
+	</form>
+</section>
+
