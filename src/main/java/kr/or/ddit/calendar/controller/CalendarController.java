@@ -37,6 +37,7 @@ public class CalendarController {
 	String calendarPost(Model model, String wrk_nm, String start_dt, String end_dt, 
 		int wrk_lst_id, String wrk_color_cd) throws ParseException {
 		
+		logger.debug("♬♩♪  여기는 post");
 		logger.debug("♬♩♪ wrk_ nm: {}", wrk_nm);
 		logger.debug("♬♩♪  wrk_start_dt: {}", start_dt);
 		logger.debug("♬♩♪  wrk_end_dt: {}", end_dt);

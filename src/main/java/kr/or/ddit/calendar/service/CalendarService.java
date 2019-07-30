@@ -11,11 +11,11 @@ import kr.or.ddit.work.model.WorkVo;
 import kr.or.ddit.work_list.model.Work_ListVo;
 
 @Service
-public class CalendarService implements ICalendarService{
+public class CalendarService implements ICalendarService {
 
 	@Resource(name = "calendarDao")
 	private ICalendarDao calendarDao;
-	
+
 	@Override
 	public List<Work_ListVo> workList() {
 		return calendarDao.workList();
@@ -31,5 +31,4 @@ public class CalendarService implements ICalendarService{
 		return calendarDao.wInsert(workVo);
 	}
 
-	
 }
