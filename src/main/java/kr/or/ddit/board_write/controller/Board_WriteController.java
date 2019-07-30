@@ -112,6 +112,16 @@ public class Board_WriteController {
 		return viewName;
 	}
 	
+	/**
+	 * Method 		: boardPost
+	 * 작성자 			: 양한솔 
+	 * 변경이력 		: 2019-07-30 최초 생성
+	 * @param model
+	 * @param write_id
+	 * @param session
+	 * @return
+	 * Method 설명 	: 게시글 상세 정보
+	 */
 	@RequestMapping(path = "/postView", method=RequestMethod.GET)
 	public String boardPost(Model model,int write_id,HttpSession session) {
 		
@@ -140,5 +150,68 @@ public class Board_WriteController {
 		return "/board/community/communityView.user.tiles";
 	}
 	
+	@RequestMapping(path="/postView",method=RequestMethod.POST)
+	public String boardPost(String r_content,int write_id, int board_id, String user_email) {
+		
+		String viewName ="";
+		
+		Board_AnswerVo replyVo = new Board_AnswerVo(write_id, user_email, r_content);
+		
+		int replyCnt = answerService.insertReply(replyVo);
+		logger.debug("!@# replyVo : {}",replyVo);
+		
+		if(replyCnt == 1) {
+			viewName ="redirect:/postView?write_id="+ write_id;
+		}else {
+			viewName ="redirect:/postView?write_id="+ write_id;
+		}
+		
+		return viewName;
+	}
+	
+	
+	@RequestMapping(path="/postModify",method=RequestMethod.GET)
+	public String postModify(Model model, int board_id, int write_id) {
+		
+		// 게시글 정보
+		Board_WriteVo writeVo = writeService.postInfo(write_id);
+		
+		model.addAttribute("writeInfo", writeVo);
+		model.addAttribute("board_id", board_id);
+		
+		return "/board/community/communityUpdate.user.tiles";
+	}
+	
+	@RequestMapping(path="/postModify",method=RequestMethod.POST)
+	public String postModify(Model model, int board_id, int write_id, String smarteditor, String subject) {
+	
+		String viewName="";
+		Board_WriteVo writeVo = new Board_WriteVo(board_id, write_id, subject, smarteditor);
+		
+		int updateCnt = writeService.updatePost(writeVo);
+		
+		if(updateCnt == 1 ) {
+			viewName = "redirect:/postView?write_id="+write_id;
+		}else {
+			viewName="redirect:/community";
+		}
+		
+		
+		return viewName;
+	}
+	
+	@RequestMapping("/postDelete")
+	public String postDelete(Model model,int board_id, int write_id) {
+		
+		String viewName = "";
+		
+		int deleteCnt = writeService.deletePost(write_id);
+		
+		if(deleteCnt == 1) {
+			viewName = "redirect:/community?board_id="+board_id;
+		}
+		
+		return viewName;
+	}
 	
 }

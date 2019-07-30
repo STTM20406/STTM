@@ -316,6 +316,20 @@ public class Bd_InquiryController {
 		return viewName;
 	}
 	
+	/**
+	 * Method 		: userInquirySearch
+	 * 작성자 			: 양한솔 
+	 * 변경이력 		: 2019-07-30 최초 생성
+	 * @param model
+	 * @param searchText
+	 * @param scText
+	 * @param inq_cate
+	 * @param page
+	 * @param pageSize
+	 * @param session
+	 * @return
+	 * Method 설명 	: 사용자 1:1문의 게시글 검색
+	 */
 	@RequestMapping(path = "/userInquirySearch",method= RequestMethod.GET)
 	public String userInquirySearch(Model model,String searchText, String scText,String inq_cate,
 			@RequestParam(name = "page", defaultValue = "1")int page,@RequestParam(name = "pageSize", defaultValue = "10")int pageSize,

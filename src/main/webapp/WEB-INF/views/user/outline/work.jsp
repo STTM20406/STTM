@@ -49,9 +49,9 @@
 	    		</div>
 		    	<br>
 		    	<button type="button" onclick="reset()">필터 초기화</button>
-		    	<input type="hidden" name="user_email" value="yang@naver.com">
+		    	<input type="hidden" name="user_email" value="${USER_INFO.user_email }">
 	    </form>
-    </div>
+</div>
         <div id="resultContainer" style="width:450px;padding:25px;height:95%; float:left;"></div>
         <div id="chartContainer" style="width:550px;padding:25px;height:95%;float:left;">
         	<div id="pieChartContainer"></div>

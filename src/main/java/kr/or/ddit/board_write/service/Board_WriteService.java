@@ -51,8 +51,8 @@ public class Board_WriteService implements IBoard_WriteService{
 	 * Method 설명 	: 게시글 삭제
 	 */
 	@Override
-	public int deletePost(Board_WriteVo writeVo) {
-		return board_wirteDao.deletePost(writeVo);
+	public int deletePost(int write_id) {
+		return board_wirteDao.deletePost(write_id);
 	}
 	
 	/**

@@ -33,6 +33,17 @@ public class Board_AnswerVo {
 
 	}
 
+	
+	
+	public Board_AnswerVo(int write_id, String user_email, String content) {
+		super();
+		this.write_id = write_id;
+		this.user_email = user_email;
+		this.content = content;
+	}
+
+
+
 	public Board_AnswerVo(int comm_id, int write_id, String user_email, String content, Date writedate, String del_fl) {
 		super();
 		this.comm_id = comm_id;

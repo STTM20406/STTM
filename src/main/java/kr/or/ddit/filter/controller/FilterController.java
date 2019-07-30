@@ -29,7 +29,7 @@ public class FilterController {
 	@RequestMapping("/ajax")
 	public String filterAjax(Model model, FilterVo filterVo) {
 		logger.debug("filterVo : {}", filterVo);
-		Map<String, String> resultMap = filterService.filterListJSON(filterVo); 
+		Map<String, String> resultMap = filterService.workListJSON(filterVo); 
 		model.addAttribute("resultMap", resultMap);
 		return "jsonView";
 	}
@@ -41,14 +41,10 @@ public class FilterController {
 		return "jsonView";
 	}
 	
-	@RequestMapping("/entireChartData")
-	public String entireChartData(Model model, String user_email) {
-		logger.debug("entireChartData()");
-		return "jsonView";
-	}
-	@RequestMapping("/projectChartData")
-	public String projectChartData(Model model, String user_email) {
-		logger.debug("projectChartData()");
+	@RequestMapping("/prjgantt")
+	public String overviewGanttChartData(Model model, FilterVo filterVo) {
+		model.addAttribute("resultMap",filterService.ganttListJSON(filterVo));
+		model.addAttribute("result", "ok");
 		return "jsonView";
 	}
 }
