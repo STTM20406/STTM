@@ -111,6 +111,17 @@ public interface IUserService {
 	
 	/**
 	 * 
+	* Method : updateUserProfile
+	* 작성자 : 김경호
+	* 변경이력 : 2019-07-31
+	* @param userVo
+	* @return
+	* Method 설명 : 사용자 프로필 업데이트
+	 */
+	int updateUserProfile(UserVo userVo);
+	
+	/**
+	 * 
 	* Method : deleteUser
 	* 작성자 : 김경호
 	* 변경이력 : 2019-07-19
@@ -130,5 +141,4 @@ public interface IUserService {
 	 */
 	int encryptPassAllUser();
 
-	
 }

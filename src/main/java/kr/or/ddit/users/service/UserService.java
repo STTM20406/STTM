@@ -160,6 +160,20 @@ public class UserService implements IUserService{
 	
 	/**
 	 * 
+	* Method : updateUserProfile
+	* 작성자 : 김경호
+	* 변경이력 : 2019-07-31
+	* @param userVo
+	* @return
+	* Method 설명 : 사용자 프로필 업데이트
+	 */
+	@Override
+	public int updateUserProfile(UserVo userVo) {
+		return userDao.updateUserProfile(userVo);
+	}
+	
+	/**
+	 * 
 	* Method : deleteUser
 	* 작성자 : 김경호
 	* 변경이력 : 2019-07-19
@@ -198,5 +212,5 @@ public class UserService implements IUserService{
 		}
 		return updateCntSum;
 	}
-
+		
 }

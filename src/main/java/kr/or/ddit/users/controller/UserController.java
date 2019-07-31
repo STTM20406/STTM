@@ -22,6 +22,7 @@ import kr.or.ddit.project_mem.model.Project_MemVo;
 import kr.or.ddit.project_mem.service.IProject_MemService;
 import kr.or.ddit.users.model.UserVo;
 import kr.or.ddit.users.service.IUserService;
+import oracle.net.aso.s;
 
 @Controller
 public class UserController {
@@ -68,6 +69,11 @@ public class UserController {
 		String user_email = userVo.getUser_email();
 		
 //		String user_st = userVo.getUser_st();
+		
+//		String user_nm = userVo.getUser_nm();
+//		String user_hp = userVo.getUser_hp();
+//		model.addAttribute("user_nm", user_nm);
+//		model.addAttribute("user_hp", user_hp);
 		
 //		model.addAttribute("user_pass", userVo.getUser_pass());
 		model.addAttribute("user_email", user_email);
@@ -199,14 +205,39 @@ public class UserController {
 	public String setUserProfile(HttpSession session, Model model) {
 		
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_nm = userVo.getUser_nm();
+		String user_hp = userVo.getUser_hp();
 		
-		return "";
+		model.addAttribute("user_nm", user_nm);
+		model.addAttribute("user_hp", user_hp);
+		
+		return "/account/accountSet.user.tiles";
 	}
-	
-	@RequestMapping(path = "", method = RequestMethod.POST)
-	public String setUserProfileProcess() {
+							
+	@RequestMapping(path = "/setUserProfile", method = RequestMethod.POST)
+	public String setUserProfileProcess(HttpSession session) {
+		
+		String viewName = "";
+		
+		UserVo getUserSession = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = getUserSession.getUser_email();
+		
+		String user_nm = getUserSession.getUser_nm();
+		String user_hp = getUserSession.getUser_hp();
+		
+		logger.debug("user_nm : {} 아까는 가져왔으나", user_nm);
+		logger.debug("user_hp : {} 지금은 가져오지 않는다", user_hp);
+		
+		UserVo userVo = new UserVo();
+		userVo.setUser_nm(user_nm);
+		userVo.setUser_hp(user_hp);
 
-		return null;
+		int updateUserProfile = userService.updateUserProfile(userVo);
+		
+		if(updateUserProfile != 0) {
+			return "/account/accountSet.user.tiles";
+		}
+		return viewName;
 	}
 	
 }

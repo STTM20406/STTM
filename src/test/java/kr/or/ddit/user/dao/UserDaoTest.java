@@ -100,4 +100,31 @@ public class UserDaoTest {
 
 	}
 	
+	/**
+	 * 
+	* Method : updateUserProfile
+	* 작성자 : 김경호
+	* 변경이력 : 2019-07-31
+	* Method 설명 : 사용자 프로필 업데이트
+	 */
+	@Test
+	public void updateUserProfile() {
+		
+		/***Given***/
+		UserVo originVo = new UserVo("kkh624@nate.com","password","name","hp","job","token","right","st","path","filename");
+		
+		userDao.insertUser(originVo);
+		
+		UserVo userVo = new UserVo("kkh624@nate.com","pw","name","hp","job","token","right","st","path","filename");
+		
+		/***When***/
+		int updateProfile = userDao.updateUserProfile(userVo);
+		
+		/***Then***/
+		assertEquals(1, updateProfile);
+		userDao.deleteUser(originVo.getUser_email());
+		
+		
+	}
+	
 }

@@ -156,6 +156,14 @@
     	// return false;
     }
     
+    // ------- 일반 사용자 프로필 업데이트 -------
+    function setProfile(){
+    	$("#btnSetProfile").on("click",function(){
+			$("#prrofileForm").submit();
+			alert("회원님의 프로필이 업데이트 되었습니다.");			
+		});
+    }
+    
     // ------- 모달 설정 스크립트 -------
     function layer_open(el){
 
@@ -190,6 +198,14 @@
 
 	}				
     
+// 	function account() {
+// 		location.href = "/setUserPass";
+// 	}
+
+// 	function profile() {
+// 		location.href = "/setUserProfile";
+// 	}
+    
 </script>
 
 <section class = "contents">	
@@ -198,8 +214,8 @@
 
 	<div class="sub_menu">
 			<ul class="tabs">
-				<li data-tab="tab-1">설정3</li>
-				<li data-tab="tab-2">프로필3</li>
+				<li data-tab="tab-1"><a href="/setUserPass">설정3</a></li>
+				<li data-tab="tab-2"><a href="/setUserProfile">프로필3</a></li>
 			</ul>
 	</div>
 	
@@ -322,7 +338,6 @@
 				</div> 
 			
 			</div>
-			
 		
 			<div id="tab-2" class="tab-content">
 				<div id="setProfile" >
