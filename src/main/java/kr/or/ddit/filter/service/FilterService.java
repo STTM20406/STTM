@@ -109,7 +109,7 @@ public class FilterService implements IFilterService{
 	 */
 	private Map<String, Object> ganttMapTemplate(List<WorkVo> workList) {
 		Map<String, Object> ganttMap = new HashMap<>();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
 		Map<String, String> prjMap = new HashMap<String, String>();
 		Map<String, String> wrkLstMap = new HashMap<String, String>();
@@ -148,7 +148,7 @@ public class FilterService implements IFilterService{
 			String parent = "list#" + work.getWrk_lst_id();
 			Boolean unscheduled = work.getWrk_start_dt() == null || work.getWrk_end_dt() == null ? true : null;
 			String start_date = work.getWrk_start_dt() == null ? null : sdf.format(work.getWrk_start_dt());
-			String end_date = work.getWrk_end_dt() == null ? null : sdf.format(work.getWrk_end_dt());
+			String end_date = work.getWrk_end_dt() == null ? null : sdf.format(work.getWrk_end_dt().getTime() + (1000*60*60*24));
 			GanttChartVo ganttVo = new GanttChartVo();
 			ganttVo.setId(id);
 			ganttVo.setText(text);
@@ -655,7 +655,8 @@ public class FilterService implements IFilterService{
 		return chartDataMap;
 	}
 
-	
-
-	
+	@Override
+	public WorkVo getWork(int wrk_id) {
+		return filterDao.workDetail(wrk_id);
+	}
 }

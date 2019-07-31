@@ -146,8 +146,9 @@ function workDetail(wrk_id){
 		gantt.attachEvent("onAfterTaskDrag", function(id, mode, e){
 			var target = gantt.getTask(id);
 			console.log(target);
+			console.log(target.id);
 			$.ajax({
-				url: '/project/gantt/updateGantt',
+				url: '/gantt/update',
 				data: {
 						'wrk_id': target.id,
 						'wrk_start_dt': target.start_date,
@@ -155,14 +156,16 @@ function workDetail(wrk_id){
 					},
 				type: "POST",
 				success: function() {
-					console.log("done");
+					console.log("Update Done");
 				}
 			});
 		});
+		
 		gantt.attachEvent("onTaskRowClick", function(id, row) {
 			console.log(id);
 			console.log(row);
 		});
+		
 		gantt.config.scale_height = 50;
 		gantt.config.layout = {css: "gantt_container",
 		    rows:[{
