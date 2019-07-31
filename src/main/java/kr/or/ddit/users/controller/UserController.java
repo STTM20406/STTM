@@ -81,37 +81,52 @@ public class UserController {
 	}
 	
 	@RequestMapping(path = "/setUserPass", method = RequestMethod.POST)
-	public String setPassProcess(String user_pass, HttpSession session) throws InvalidKeyException, UnsupportedEncodingException {
+	public String setPassProcess(String user_pass, String user_nm, String user_hp, HttpSession session) throws InvalidKeyException, UnsupportedEncodingException {
 		String viewName = "";
 		
 		UserVo getUserSession = (UserVo) session.getAttribute("USER_INFO"); 
 		String user_email = getUserSession.getUser_email();
-		String user_nm = getUserSession.getUser_nm();
-		String user_hp = getUserSession.getUser_hp();
+//		String user_nm = getUserSession.getUser_nm();
+//		String user_hp = getUserSession.getUser_hp();
 		
-		UserVo userVo = new UserVo();
-		userVo.setUser_email(user_email);
+		logger.debug("user_nm : {}",user_nm);
+		logger.debug("user_hp : {}",user_hp);
 		
-		userVo.setUser_pass(ARIAUtil.ariaEncrypt(user_pass));
-		userVo.setUser_nm(user_nm);
-		userVo.setUser_hp(user_hp);
 		
-		// 비밀번호 재설정
-		int updateUserPass = userService.updateUserPass(userVo);
+		if(user_nm == null) {
 		
-		if(updateUserPass != 0) {
-			 viewName = "/account/accountSet.user.tiles";
+			UserVo userVo = new UserVo();
+			userVo.setUser_pass(ARIAUtil.ariaEncrypt(user_pass));
+			
+			int updateUserPass = userService.updateUserPass(userVo);
+		}else{
+			
+			UserVo userVo = new UserVo();
+			userVo.setUser_email(user_email);
+			
+			userVo.setUser_nm(user_nm);
+			userVo.setUser_hp(user_hp);
+			
+			int updateUserProfile = userService.updateUserProfile(userVo);
 		}
+		return "/account/accountSet.user.tiles";
 		
-		int updateUserProfile = userService.updateUserProfile(userVo);
-		
-		logger.debug("updateUserProfile : {} 가져오거라", updateUserProfile);
-		
-		if(updateUserProfile != 0) {
-			return "/account/accountSet.user.tiles";
-		}
-		
-		return viewName;
+//		// 비밀번호 재설정
+//		int updateUserPass = userService.updateUserPass(userVo);
+//		
+//		if(updateUserPass != 0) {
+//			 viewName = "/account/accountSet.user.tiles";
+//		}
+//		
+//		int updateUserProfile = userService.updateUserProfile(userVo);
+//		
+//		logger.debug("updateUserProfile : {} 가져오거라", updateUserProfile);
+//		
+//		if(updateUserProfile != 0) {
+//			return "/account/accountSet.user.tiles";
+//		}
+//		
+//		return viewName;
 	}
 	
 	/**
