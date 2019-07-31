@@ -56,4 +56,14 @@ public interface IFilterService {
 	 * Method 설명 : 개인 간트 차트 화면과 데이터를 JSON형태로 반환하는 메서드
 	 */
 	Map<String, Object> ganttListJSON(FilterVo filterVo);
+	
+	/**
+	 * Method : getWork
+	 * 작성자 : 유승진
+	 * 변경이력 : 2019-07-31 최초 생성
+	 * @param wrk_id
+	 * @return
+	 * Method 설명 : 특정 업무정보를 담은 WorkVo를 반환하는 메서드
+	 */
+	WorkVo getWork(int wrk_id);
 }

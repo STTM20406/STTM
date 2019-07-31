@@ -127,4 +127,10 @@ public class ProjectService implements IProjectService{
 		return resultMap;
 	}
 
+	@Override
+	public int updateAllProject(ProjectVo proejctVo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

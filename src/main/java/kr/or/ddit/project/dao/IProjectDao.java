@@ -87,4 +87,16 @@ public interface IProjectDao {
 	 */
 	List<ProjectVo> projectSearch(Map<String, Object> map);
 	
+	
+	/**
+	 * 
+	 * Method 		: updateAllProject
+	 * 작성자 		: 박서경 
+	 * 변경이력 		: 2019-07-31 최초 생성
+	 * @param proejctVo
+	 * @return
+	 * Method 설명 	:
+	 */
+	int updateAllProject(ProjectVo proejctVo);
+	
 }

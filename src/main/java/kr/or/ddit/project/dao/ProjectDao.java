@@ -119,6 +119,12 @@ public class ProjectDao implements IProjectDao{
 	public List<ProjectVo> projectSearch(Map<String, Object> map) {
 		return sqlSession.selectList("project.projectSearch", map);
 	}
+
+	@Override
+	public int updateAllProject(ProjectVo proejctVo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 
 }
