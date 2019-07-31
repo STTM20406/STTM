@@ -11,11 +11,11 @@ import kr.or.ddit.work.model.WorkVo;
 import kr.or.ddit.work_list.model.Work_ListVo;
 
 @Repository
-public class CalendarDao implements ICalendarDao{
+public class CalendarDao implements ICalendarDao {
 
-	@Resource(name="sqlSession")
+	@Resource(name = "sqlSession")
 	private SqlSessionTemplate sqlSession;
-	
+
 	@Override
 	public List<Work_ListVo> workList() {
 		return sqlSession.selectList("calendar.workList");
@@ -23,11 +23,11 @@ public class CalendarDao implements ICalendarDao{
 
 	@Override
 	public WorkVo wDetail(int wrk_id) {
-		return sqlSession.selectOne("calendar.wDetail",wrk_id);
+		return sqlSession.selectOne("calendar.wDetail", wrk_id);
 	}
 
 	@Override
 	public int wInsert(WorkVo workVo) {
-		return sqlSession.insert("calendar.wInsert",workVo);
+		return sqlSession.insert("calendar.wInsert", workVo);
 	}
 }

@@ -87,6 +87,7 @@ var editEvent = function (event, element, view) {
                 alert('수정되었습니다.')
             }
         });
+
     });
 
     // 삭제버튼

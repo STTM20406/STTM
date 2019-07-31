@@ -12,7 +12,7 @@ public interface ICalendarService {
 
 	// 해당 엄무의 정보를 가져오는 메서드
 	WorkVo wDetail(int wrk_id);
-	
-	//업무 생성하는 메서드
-		int wInsert(WorkVo workVo);
+
+	// 업무 생성하는 메서드
+	int wInsert(WorkVo workVo);
 }

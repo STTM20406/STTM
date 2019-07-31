@@ -8,14 +8,10 @@ var editEnd = $('#edit-end');
 var editType = $('#edit-type');
 var editColor = $('#edit-color');
 var editDesc = $('#edit-desc');
-var userName = $("#userName").val();
 
 var addBtnContainer = $('.modalBtnContainer-addEvent');
 var modifyBtnContainer = $('.modalBtnContainer-modifyEvent');
 
-
-nameArray = userName.split(".jsp");
-name = nameArray[0];
 
 /* ****************
  *  새로운 일정 생성
@@ -33,9 +29,6 @@ var newEvent = function (start, end, eventType) {
     modifyBtnContainer.hide();
     eventModal.modal('show');
 
-    /******** 임시 RAMDON ID - 실제 DB 연동시 삭제 **********/
-    var eventId = 1 + Math.floor(Math.random() * 1000);
-    /******** 임시 RAMDON ID - 실제 DB 연동시 삭제 **********/
 
     //새로운 일정 저장버튼 클릭
     $('#save-event').unbind();
@@ -48,7 +41,7 @@ var newEvent = function (start, end, eventType) {
             end: editEnd.val(),
             description: editDesc.val(),
             type: editType.val(),
-            username: name,
+            username: '사나',
             backgroundColor: editColor.val(),
             textColor: '#ffffff',
             allDay: false
@@ -84,12 +77,14 @@ var newEvent = function (start, end, eventType) {
         //새로운 일정 저장
         $.ajax({
             type: "get",
-            url: "/test",
+            url: "",
             data: {
-                eventData
+                //.....
             },
             success: function (response) {
-
+                //DB연동시 중복이벤트 방지를 위한
+                //$('#calendar').fullCalendar('removeEvents');
+                //$('#calendar').fullCalendar('refetchEvents');
             }
         });
     });
