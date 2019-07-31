@@ -24,7 +24,10 @@ public class GanttChartVo {
 	private Boolean unscheduled;	//간트차트 데이터 시작 / 마감일 존재여부
 	private String parent;			//간트차트 데이터 부모 개체 id 업무 - 업무리스트 - 프로젝트
 	private Boolean open;			//간트차트 데이터 개체 로드시 하위개체 표시 여부
-	
+	private Integer duration;		//간트차트 데이터 일정 길이
+	private String mode;			//간트차트 업데이트시 이벤트 종류 (JSON에서는 사용 안 함)
+	private Integer progress;		//간트차트 진행도 표시 (WRK_CMP_FL에 따라 0 또는 100)
+	private String color;			//간트차트 색깔 코드
 	public String getId() {
 		return id;
 	}
@@ -49,12 +52,29 @@ public class GanttChartVo {
 	public void setParent(String parent) {
 		this.parent = parent;
 	}
-	
 	public Boolean getOpen() {
 		return open;
 	}
 	public void setOpen(Boolean open) {
 		this.open = open;
+	}
+	public Integer getDuration() {
+		return duration;
+	}
+	public void setDuration(Integer duration) {
+		this.duration = duration;
+	}
+	public String getMode() {
+		return mode;
+	}
+	public void setMode(String mode) {
+		this.mode = mode;
+	}
+	public Integer getProgress() {
+		return progress;
+	}
+	public void setProgress(Integer progress) {
+		this.progress = progress;
 	}
 	public String getStart_date() {
 		return start_date;
@@ -68,13 +88,22 @@ public class GanttChartVo {
 	public void setEnd_date(String end_date) {
 		this.end_date = end_date;
 	}
-	
+	public String getColor() {
+		return color;
+	}
+	public void setColor(String color) {
+		this.color = color;
+	}
 	@Override
 	public String toString() {
-		return "GanttChartVo [" + (id != null ? "id=" + id + ", " : "") + (text != null ? "text=" + text + ", " : "")
+		return "{" + (id != null ? "id=" + id + ", " : "") + (text != null ? "text=" + text + ", " : "")
 				+ (start_date != null ? "start_date=" + start_date + ", " : "")
 				+ (end_date != null ? "end_date=" + end_date + ", " : "")
 				+ (unscheduled != null ? "unscheduled=" + unscheduled + ", " : "")
-				+ (parent != null ? "parent=" + parent + ", " : "") + (open != null ? "open=" + open : "") + "]";
+				+ (parent != null ? "parent=" + parent + ", " : "") + (open != null ? "open=" + open + ", " : "")
+				+ (duration != null ? "duration=" + duration + ", " : "") + (mode != null ? "mode=" + mode + ", " : "")
+				+ (progress != null ? "progress=" + progress + ", " : "") + (color != null ? "color=" + color : "")
+				+ "}";
 	}
+	
 }

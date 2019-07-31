@@ -20,6 +20,22 @@ import kr.or.ddit.project.model.ProjectVo;
 import kr.or.ddit.users.model.UserVo;
 import kr.or.ddit.work.model.WorkVo;
 
+/**
+ * FilterService.java
+ *
+ * @author 유승진
+ * @version 1.0
+ * @see
+ *
+ * <pre>
+ * << 개정이력(Modification Information) >>
+ *
+ * 수정자 수정내용
+ * ------ ------------------------
+ * 유승진 2019-07-31 최초 생성
+ *
+ * </pre>
+ */
 @Service
 public class FilterService implements IFilterService{
 	private static final Logger logger = LoggerFactory.getLogger(FilterService.class);
@@ -108,8 +124,9 @@ public class FilterService implements IFilterService{
 	 * Method 설명 : 필터링된 업무리스트를 간트차트 용 데이터로 변환해주는 메서드
 	 */
 	private Map<String, Object> ganttMapTemplate(List<WorkVo> workList) {
-		Map<String, Object> ganttMap = new HashMap<>();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		Map<String, Object> ganttMap = new HashMap<>();
 		
 		Map<String, String> prjMap = new HashMap<String, String>();
 		Map<String, String> wrkLstMap = new HashMap<String, String>();
@@ -147,9 +164,26 @@ public class FilterService implements IFilterService{
 			String text = work.getWrk_nm();
 			String parent = "list#" + work.getWrk_lst_id();
 			Boolean unscheduled = work.getWrk_start_dt() == null || work.getWrk_end_dt() == null ? true : null;
-			String start_date = work.getWrk_start_dt() == null ? null : sdf.format(work.getWrk_start_dt());
+			String start_date = work.getWrk_start_dt() == null ? null : sdf.format(work.getWrk_start_dt());			
 			String end_date = work.getWrk_end_dt() == null ? null : sdf.format(work.getWrk_end_dt().getTime() + (1000*60*60*24));
+			
 			GanttChartVo ganttVo = new GanttChartVo();
+			
+				
+			if(work.getWrk_start_dt()!=null && work.getWrk_end_dt()!=null) {
+				if(work.getWrk_end_dt().before(new Date()) && "N".equals(work.getWrk_cmp_fl())) {
+					ganttVo.setColor("#ef1010");
+				}
+				
+				if(work.getWrk_cmp_dt()!=null) {
+					if(work.getWrk_cmp_dt().after(work.getWrk_end_dt())) {
+						ganttVo.setColor("#c7c20e");
+					} else if ("Y".equals(work.getWrk_cmp_fl())){
+						ganttVo.setColor("#00cc00");
+					}
+				}
+			}
+			
 			ganttVo.setId(id);
 			ganttVo.setText(text);
 			ganttVo.setParent(parent);
