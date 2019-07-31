@@ -1,6 +1,9 @@
 package kr.or.ddit.project.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 
 /**
@@ -16,7 +19,7 @@ import java.util.Date;
  * 수정자 수정내용
  * ------ ------------------------
  * 양한솔   최초 생성 : 2019-07-19
- * 박서경   수정 이력 : 2019-07-30
+ * 박서경   수정 이력 : 2019-07-31
  *
  * </pre>
  */
@@ -34,6 +37,39 @@ public class ProjectVo {
 	private String del_fl;      	// 프로젝트 삭제 여부
 	
 	private String user_email; 		// 프로젝트 멤버 이메일
+	
+	
+	public String getPrjStartDtStr() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		if(prj_start_dt == null) {
+			return "";
+		}
+		return sdf.format(prj_start_dt);
+	}
+	
+	public String getPrjEndDtStr() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		if(prj_end_dt == null) {
+			return "";
+		}
+		return sdf.format(prj_end_dt);
+	}
+	
+	public String getPrjCmpDtStr() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		if(prj_cmp_dt == null) {
+			return "";
+		}
+		return sdf.format(prj_cmp_dt);
+	}
+	
+//	public String getPrjUpdateStr() {
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+//		if(prj_update == null) {
+//			return "";
+//		}
+//		return sdf.format(prj_update);
+//	}
 	
 	
 	public ProjectVo() {

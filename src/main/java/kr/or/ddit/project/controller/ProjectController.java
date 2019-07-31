@@ -113,7 +113,6 @@ public class ProjectController {
 		
 		int prjId = Integer.parseInt(prj_id);
 		model.addAttribute("data", projectService.getProject(prjId));
-		
 		return "jsonView";
 	}
 	
