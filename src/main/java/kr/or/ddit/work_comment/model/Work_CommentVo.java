@@ -1,5 +1,7 @@
 package kr.or.ddit.work_comment.model;
 
+import java.util.Date;
+
 /**
  * Work_CommentVo.java
  *
@@ -23,7 +25,7 @@ public class Work_CommentVo {
 	private String user_email;		// 이메일
 	private int wrk_id;				// 업무 ID
 	private String comm_content;	// 코멘트 내용
-	private String comm_date;		// 코멘트 작성일
+	private Date comm_date;		// 코멘트 작성일
 	private String del_fl;			// 삭제 여부
 	
 	
@@ -67,10 +69,10 @@ public class Work_CommentVo {
 	public void setComm_content(String comm_content) {
 		this.comm_content = comm_content;
 	}
-	public String getComm_date() {
+	public Date getComm_date() {
 		return comm_date;
 	}
-	public void setComm_date(String comm_date) {
+	public void setComm_date(Date comm_date) {
 		this.comm_date = comm_date;
 	}
 	public String getDel_fl() {

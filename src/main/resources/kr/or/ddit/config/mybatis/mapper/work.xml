@@ -22,11 +22,34 @@
 
 
 <!-- ******************work_comment**************** -->
-
-
-
-
-
+	<!-- 업무코멘트 등록 -->
+	<insert id="commInsert" parameterType="work_commentVo">
+		insert into work_comment values(wrk_comm_seq.nextval,#{prj_id},#{user_email},#{wrk_id},#{comm_content},sysdate,'N')
+	</insert>
+	
+	<!-- 업무코멘트 삭제 -->
+	<update id="commDelete" parameterType="work_commentVo">
+		update work_comment 
+		set del_fl='Y' 
+		where comm_id=#{comm_id} 
+		and prj_id =#{prj_id} 
+	</update>
+	
+	<!-- 업무코멘트 수정 -->
+	<update id="commUpdate" parameterType="work_commentVo">
+		update work_comment 
+		set comm_content=#{comm_content}
+		where comm_id=#{comm_id} 
+		and prj_id =#{prj_id} 
+	</update>
+	
+	<!-- 업무코멘트 조회 -->
+	<select id="commList" parameterType="work_commentVo" resultType="work_commentVo">
+		select * 
+		from work_comment 
+		where wrk_id = #{wrk_id}
+		and prj_id = #{prj_id}
+	</select>
 
 <!-- ******************work_list**************** -->
 

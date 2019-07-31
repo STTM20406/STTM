@@ -120,6 +120,46 @@
 		set view_cnt = view_cnt + 1
 		where write_id= #{write_id}
 	</update>
+	
+	
+	
+	<!-- 게시글 join -->
+	<select id="postReplyList" parameterType="map" resultType="postReplyVo">
+	select a.write_id,a.user_email,a.subject,a.writedate,b.comm_id,b.content from (select * from board_write)a inner join    
+              (select * from board_answer)b on 
+				a.write_id = b.write_id and a.user_email = #{user_email}
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
 <!-- **********************likes*************************** -->
-
+	<!-- 게시글 좋아요 중복 체크 -->
+	<select id="like_check" parameterType="map" resultType="int">
+		select count(*) 
+		from likes
+		where BOARD_ID=#{board_id} 
+		and LIKE_ID=#{like_id}
+		and USER_EMAIL = #{user_email}
+	</select>
+	
+	<!-- 게시글 좋아요 증가 -->	
+	<update id="likeAdd" parameterType="board_writeVo">
+		update board_write
+		set like_cnt = like_cnt + 1
+		where board_id =#{board_id} 
+		and write_id= #{write_id}
+	</update>
+	
+	<!-- 게시글 좋아요 감소 -->
+	<update id="likeDown" parameterType="board_writeVo">
+		update board_write
+		set like_cnt = like_cnt - 1
+		where board_id =#{board_id} 
+		and write_id= #{write_id}
+	</update>
 </mapper>

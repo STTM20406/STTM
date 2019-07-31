@@ -114,4 +114,12 @@ public class Board_WriteService implements IBoard_WriteService{
 		return board_wirteDao.postViewCnt(write_id);
 	}
 
+	@Override
+	public Map<String, Object> postReplyList(String user_email) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("postReply", board_wirteDao.postReplyList(user_email));
+		
+		return resultMap;
+	}
+
 }

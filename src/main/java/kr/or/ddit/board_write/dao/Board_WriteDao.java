@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import kr.or.ddit.board_write.model.Board_WriteVo;
+import kr.or.ddit.board_write.model.PostReplyVo;
 import kr.or.ddit.paging.model.PageVo;
 
 @Repository
@@ -103,6 +104,11 @@ public class Board_WriteDao implements IBoard_WriteDao{
 	@Override
 	public int postViewCnt(int write_id) {
 		return sqlSession.update("board.postViewCnt",write_id);
+	}
+
+	@Override
+	public List<PostReplyVo> postReplyList(String user_email) {
+		return sqlSession.selectList("board.postReplyList",user_email);
 	}
 
 }

@@ -55,7 +55,9 @@ $(document).ready(function(){
 			<label>${writeInfo.subject }</label>
 			<label>댓글수 : ${replyCnt }</label>
 			<label>좋아요 수 : ${replyCnt }</label>
+			
 			<button type="button">좋아요</button>
+		
 		</div>
 		<div>
 			<label>내용</label>

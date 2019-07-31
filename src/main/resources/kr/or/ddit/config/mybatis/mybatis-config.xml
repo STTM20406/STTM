@@ -4,7 +4,9 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
-	
+	<!-- join -->
+      <typeAlias type="kr.or.ddit.board_write.model.PostReplyVo" alias="postReplyVo"/>
+	<!--  -->
       <typeAlias type="kr.or.ddit.ad_board.model.Ad_BoardVo" alias="ad_boardVo"/>
       
       <typeAlias type="kr.or.ddit.bd_inquiry.model.Bd_InquiryVo" alias="bd_inquiryVo"/>
