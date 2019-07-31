@@ -25,7 +25,7 @@ public interface IFilterService {
 	 * @return
 	 * Method 설명 : 개인 업무 리스트 화면을 JSON 형태로 반환하는 메서드
 	 */
-	Map<String, String> workListJSON(FilterVo filterVo);
+	Map<String, Object> workListJSON(FilterVo filterVo);
 	
 	/**
 	 * Method : workDetail
@@ -45,7 +45,7 @@ public interface IFilterService {
 	 * @return
 	 * Method 설명 : 제공된 업무 리스트의 통계를 계산하는 메서드
 	 */
-	Map<String, String> workListCalc(List<WorkVo> workList);
+	Map<String, Object> workListCalc(List<WorkVo> workList);
 	
 	/**
 	 * Method : ganttList
@@ -55,5 +55,5 @@ public interface IFilterService {
 	 * @return
 	 * Method 설명 : 개인 간트 차트 화면과 데이터를 JSON형태로 반환하는 메서드
 	 */
-	Map<String, String> ganttListJSON(FilterVo filterVo);
+	Map<String, Object> ganttListJSON(FilterVo filterVo);
 }

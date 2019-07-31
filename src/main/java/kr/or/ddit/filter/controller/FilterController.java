@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.or.ddit.filter.model.FilterVo;
 import kr.or.ddit.filter.service.IFilterService;
@@ -29,7 +30,7 @@ public class FilterController {
 	@RequestMapping("/ajax")
 	public String filterAjax(Model model, FilterVo filterVo) {
 		logger.debug("filterVo : {}", filterVo);
-		Map<String, String> resultMap = filterService.workListJSON(filterVo); 
+		Map<String, Object> resultMap = filterService.workListJSON(filterVo); 
 		model.addAttribute("resultMap", resultMap);
 		return "jsonView";
 	}
@@ -42,9 +43,8 @@ public class FilterController {
 	}
 	
 	@RequestMapping("/prjgantt")
-	public String overviewGanttChartData(Model model, FilterVo filterVo) {
-		model.addAttribute("resultMap",filterService.ganttListJSON(filterVo));
-		model.addAttribute("result", "ok");
-		return "jsonView";
+	@ResponseBody
+	public Map<String, Object> overviewGanttChartData(Model model, FilterVo filterVo) {
+		return filterService.ganttListJSON(filterVo);
 	}
 }

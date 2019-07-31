@@ -41,11 +41,11 @@
 		</choose>
 		<if test="wrk_i_assigned != null || wrk_i_made != null || wrk_i_following != null">
 		AND(
-		<trim prefix="" prefixOverrides="OR">
-			<if test="wrk_i_assigned != null"> OR A.WRK_ID IN (SELECT WRK_ID FROM WORK_MEM_FLW C WHERE C.JN_FL = 'M' AND C.USER_EMAIL = #{user_email}) </if>
-			<if test="wrk_i_made != null"> OR A.WRK_ID IN (SELECT WRK_ID FROM WORK WHERE USER_EMAIL = #{user_email}) </if>
-			<if test="wrk_i_following != null"> OR A.WRK_ID IN (SELECT WRK_ID FROM WORK_MEM_FLW C WHERE C.JN_FL = 'F' AND C.USER_EMAIL = #{user_email}) </if>
-		</trim>
+			<trim prefix="" prefixOverrides="OR">
+				<if test="wrk_i_assigned != null"> OR A.WRK_ID IN (SELECT WRK_ID FROM WORK_MEM_FLW C WHERE C.JN_FL = 'M' AND C.USER_EMAIL = #{user_email}) </if>
+				<if test="wrk_i_made != null"> OR A.WRK_ID IN (SELECT WRK_ID FROM WORK WHERE USER_EMAIL = #{user_email}) </if>
+				<if test="wrk_i_following != null"> OR A.WRK_ID IN (SELECT WRK_ID FROM WORK_MEM_FLW C WHERE C.JN_FL = 'F' AND C.USER_EMAIL = #{user_email}) </if>
+			</trim>
 		)
 		</if>
 		<if test="prj_id_list != null">
