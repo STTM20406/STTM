@@ -127,10 +127,18 @@ public class ProjectService implements IProjectService{
 		return resultMap;
 	}
 
+	/**
+	 * 
+	 * Method 		: updateAllProject
+	 * 작성자 		: 박서경 
+	 * 변경이력 		: 2019-07-31 최초 생성
+	 * @param proejctVo
+	 * @return
+	 * Method 설명 	: 프로젝트 설정 전체 업데이트
+	 */
 	@Override
 	public int updateAllProject(ProjectVo proejctVo) {
-		// TODO Auto-generated method stub
-		return 0;
+		return projectDao.updateAllProject(proejctVo);
 	}
 
 }
