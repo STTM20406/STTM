@@ -203,12 +203,14 @@
 		
 	});
 	
+	//업데이트 시간 구하기
 	function updateDiff(updateTime){
         var html = "";
         
         var secGap = new Date().getTime() - updateTime;
         var sec = Math.floor(secGap/1000); //초
         
+        //시분초일로 표현
         if(sec < 60) {
 			sec = sec + '초';
        	}else if(sec < 3600){
@@ -216,11 +218,9 @@
        	}else if(sec < 86400){
        	 	sec = Math.floor(sec/3600) + '시간 ' + Math.floor(sec%3600/60) + '분 ' + sec%60 + '초';
        	}else{
-       		sec = Math.floor(sec/3600/24) + '일 ' + Math.floor(sec/3600/60) + '시간 ' + Math.floor(sec%3600/60) + '분 ' + sec%60 + '초';
+       		sec = Math.floor(sec/3600/24) + '일 ' + Math.floor(sec/3600%24) + '시간 ' + Math.floor(sec%3600/60) + '분 ' + sec%60 + '초';
        	}
         
-        console.log(sec);
-
 		html += sec + "전에 업데이트 되었습니다.";
 		
         // setTimeout함수를 통해 원하는 함수를 1초간격으로 출력해줌

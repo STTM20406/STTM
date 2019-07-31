@@ -88,4 +88,16 @@ public interface IProjectService {
 	 * Method 설명 	: 프로젝트 검색(프로젝트명으로 검색)
 	 */
 	Map<String, Object> projectSearch(Map<String, Object> map);
+	
+	
+	/**
+	 * 
+	 * Method 		: updateAllProject
+	 * 작성자 		: 박서경 
+	 * 변경이력 		: 2019-07-31 최초 생성
+	 * @param proejctVo
+	 * @return
+	 * Method 설명 	:
+	 */
+	int updateAllProject(ProjectVo proejctVo);
 }
