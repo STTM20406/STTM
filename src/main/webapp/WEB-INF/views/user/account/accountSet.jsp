@@ -2,6 +2,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
 <style>
 .inquiryTr:hover{
 		cursor: pointer;
@@ -106,6 +112,14 @@ ul.tabs li.current {
 		alert("비밀번호가 업데이트 되었습니다!");
    }
    
+   // 알림 설정 업데이트
+	function setNotice() {
+		$("#btnSetNotice").on("click",function(){
+				$("#noticeForm").submit();
+				alert("회원님의 알림 설정이 업데이트 되었습니다.");			
+		});
+	}
+
    // 휴면계정 전환
    function inactiveAccount() {
 	   $("#btnInactive").on("click",function(){
@@ -114,15 +128,6 @@ ul.tabs li.current {
 		});
 	}
     
-   // 알림 설정 업데이트
-	function setNotice() {
-		$("#btnSetNotice").on("click",function(){
-				$("#noticeForm").submit();
-				alert("회원님의 알림 설정이 업데이트 되었습니다.");			
-		});
-	}
-	
-   
     function check(re,what,message){
     	if(re.test(what.value)){
     		return true;
@@ -191,7 +196,7 @@ ul.tabs li.current {
 				
 					<!-- 알림 설정 -->   
 					<div id="setNotification" class="loginWrap" style="background-color:lightsalmon"><label>알림 설정</label><br>
-						<form action="" method="post" id="noticeForm">
+						<form action="/setUserNotice" method="post" id="noticeForm">
 							<div class="inputField">
 								<ul>
 									<!-- 프로젝트에 대한 알림 -->
@@ -222,15 +227,51 @@ ul.tabs li.current {
 					<div id="setUserStatus" class="loginWrap" style="background-color:paleturquoise"><label>휴면계정</label>
 						<form action="/setUserStatus" method="post" id="userStatusForm">
 							<div class="inputField">
-								<ul>
-									<br><br>
-									<li>
-										<input type="text" id="user_st" name="user_st" value="${user_st}"><br>
-										<input type="button" id="btnInactive" onclick="inactiveAccount()" value="휴면 계정 전환">
-										<br>룰루랄라 - by mino
-									</li>
+								
+								<div class="container">
+								
+									<p>한 번 삭제된 계정은 다시 복구할 수 없습니다. 계정이 삭제되면, 현재 계정에서 생성된 모든 데이터에 더이상 엑세스할 수 없습니다. <br>
+									삭제 후, STTM을 다시 이용하고자 한다면, 새로 가입해주셔야합니다.<br><br></p>
 									
-								</ul>
+									<!-- Trigger the modal with a button -->
+									<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">휴면 계정 전환</button>
+																		
+										<!-- Modal -->
+										<div class="modal fade" id="myModal" role="dialog">
+									  		<div class="modal-dialog">	
+												
+												<!-- Modal content-->
+												<div class="modal-content">
+													<div class="modal-header">
+														<button type="button" class="close" data-dismiss="modal">&times;</button>
+														<h4 class="modal-title">모달 제목</h4>
+													</div>
+													
+													<div class="modal-body">
+														<p>
+															모달 콘텐츠 부분
+														</p>
+													
+													</div>
+													
+													<div class="modal-footer">
+														<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+													</div>
+												</div>
+												
+												<ul>
+													<li>
+														임시 input 개발 완료 후 지울 예정
+														<input type="" id="user_st" name="user_st" value="${user_st}"><br><br>
+														<input type="button" id="myBtn" onclick="inactiveAccount()" value="휴면 계정 전환">
+														<br>룰루랄라 - by mino
+													</li>
+												</ul>
+												
+											</div>	
+										</div>
+								</div>
+								
 							</div>
 						</form>
 					</div>
@@ -243,7 +284,7 @@ ul.tabs li.current {
 		
 		<form id="frm02">
 			<div id="tab-2" class="tab-content">
-				<div id="setAccount" >
+				<div id="setProfile" >
 					<!-- 프로필 설정 -->
 					<div id="setProfile" class="loginWrap" style="background-color:cornsilk"><label>비밀번호</label>
 						<form action="/setUserProfile" method="post" id="prrofileForm">
