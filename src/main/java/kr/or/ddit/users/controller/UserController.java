@@ -54,33 +54,28 @@ public class UserController {
 	@RequestMapping(path = "/setUserPass", method = RequestMethod.GET)
 	public String setPassView(HttpSession session, Model model) throws InvalidKeyException, UnsupportedEncodingException {
 		
-		// 
+		// 세션에 저장된 user 정보를 가져옴
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
 		
 		logger.debug("userVo : {} 123", userVo );
 		
 		// 암호화된  비밀번호 가져오기
 		String encodePass = userVo.getUser_pass();
-		
+
 		// 암호화된 비밀번호 복호화
 		String decodePass = ARIAUtil.ariaDecrypt(encodePass);
 		
 		// ah!
 		String user_email = userVo.getUser_email();
+		String user_nm = userVo.getUser_nm();
+		String user_hp = userVo.getUser_hp();
 		
-//		String user_st = userVo.getUser_st();
-		
-//		String user_nm = userVo.getUser_nm();
-//		String user_hp = userVo.getUser_hp();
-//		model.addAttribute("user_nm", user_nm);
-//		model.addAttribute("user_hp", user_hp);
-		
-//		model.addAttribute("user_pass", userVo.getUser_pass());
 		model.addAttribute("user_email", user_email);
 		model.addAttribute("user_pass", decodePass);
-//		model.addAttribute("user_st", user_st);
-
 		
+		model.addAttribute("user_nm", user_nm);
+		model.addAttribute("user_hp", user_hp);
+
 		logger.debug("user_pass : {}", userVo.getUser_pass());
 		return "/account/accountSet.user.tiles";
 	}
@@ -89,12 +84,17 @@ public class UserController {
 	public String setPassProcess(String user_pass, HttpSession session) throws InvalidKeyException, UnsupportedEncodingException {
 		String viewName = "";
 		
-		UserVo userVo2 = (UserVo) session.getAttribute("USER_INFO"); 
-		String user_email = userVo2.getUser_email();
+		UserVo getUserSession = (UserVo) session.getAttribute("USER_INFO"); 
+		String user_email = getUserSession.getUser_email();
+		String user_nm = getUserSession.getUser_nm();
+		String user_hp = getUserSession.getUser_hp();
 		
 		UserVo userVo = new UserVo();
 		userVo.setUser_email(user_email);
+		
 		userVo.setUser_pass(ARIAUtil.ariaEncrypt(user_pass));
+		userVo.setUser_nm(user_nm);
+		userVo.setUser_hp(user_hp);
 		
 		// 비밀번호 재설정
 		int updateUserPass = userService.updateUserPass(userVo);
@@ -102,6 +102,15 @@ public class UserController {
 		if(updateUserPass != 0) {
 			 viewName = "/account/accountSet.user.tiles";
 		}
+		
+		int updateUserProfile = userService.updateUserProfile(userVo);
+		
+		logger.debug("updateUserProfile : {} 가져오거라", updateUserProfile);
+		
+		if(updateUserProfile != 0) {
+			return "/account/accountSet.user.tiles";
+		}
+		
 		return viewName;
 	}
 	
@@ -204,12 +213,12 @@ public class UserController {
 	@RequestMapping(path = "/setUserProfile", method = RequestMethod.GET)
 	public String setUserProfile(HttpSession session, Model model) {
 		
-		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
-		String user_nm = userVo.getUser_nm();
-		String user_hp = userVo.getUser_hp();
-		
-		model.addAttribute("user_nm", user_nm);
-		model.addAttribute("user_hp", user_hp);
+//		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+//		String user_nm = userVo.getUser_nm();
+//		String user_hp = userVo.getUser_hp();
+//		
+//		model.addAttribute("user_nm", user_nm);
+//		model.addAttribute("user_hp", user_hp);
 		
 		return "/account/accountSet.user.tiles";
 	}
@@ -217,27 +226,27 @@ public class UserController {
 	@RequestMapping(path = "/setUserProfile", method = RequestMethod.POST)
 	public String setUserProfileProcess(HttpSession session) {
 		
-		String viewName = "";
-		
-		UserVo getUserSession = (UserVo) session.getAttribute("USER_INFO");
-		String user_email = getUserSession.getUser_email();
-		
-		String user_nm = getUserSession.getUser_nm();
-		String user_hp = getUserSession.getUser_hp();
-		
-		logger.debug("user_nm : {} 아까는 가져왔으나", user_nm);
-		logger.debug("user_hp : {} 지금은 가져오지 않는다", user_hp);
-		
-		UserVo userVo = new UserVo();
-		userVo.setUser_nm(user_nm);
-		userVo.setUser_hp(user_hp);
-
-		int updateUserProfile = userService.updateUserProfile(userVo);
-		
-		if(updateUserProfile != 0) {
+//		String viewName = "";
+//		
+//		UserVo getUserSession = (UserVo) session.getAttribute("USER_INFO");
+//		String user_email = getUserSession.getUser_email();
+//		
+//		String user_nm = getUserSession.getUser_nm();
+//		String user_hp = getUserSession.getUser_hp();
+//		
+//		logger.debug("user_nm : {} 아까는 가져왔으나", user_nm);
+//		logger.debug("user_hp : {} 지금은 가져오지 않는다", user_hp);
+//		
+//		UserVo userVo = new UserVo();
+//		userVo.setUser_nm(user_nm);
+//		userVo.setUser_hp(user_hp);
+//
+//		int updateUserProfile = userService.updateUserProfile(userVo);
+//		
+//		if(updateUserProfile != 0) {
 			return "/account/accountSet.user.tiles";
-		}
-		return viewName;
+//		}
+//		return viewName;
 	}
 	
 }

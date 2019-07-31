@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <style>
+
 	/* 탭 설정 스타일 */
 	.inquiryTr:hover{
 			cursor: pointer;
@@ -159,7 +160,7 @@
     // ------- 일반 사용자 프로필 업데이트 -------
     function setProfile(){
     	$("#btnSetProfile").on("click",function(){
-			$("#prrofileForm").submit();
+			$("#profileForm").submit();
 			alert("회원님의 프로필이 업데이트 되었습니다.");			
 		});
     }
@@ -214,13 +215,12 @@
 
 	<div class="sub_menu">
 			<ul class="tabs">
-				<li data-tab="tab-1"><a href="/setUserPass">설정3</a></li>
-				<li data-tab="tab-2"><a href="/setUserProfile">프로필3</a></li>
+				<li data-tab="tab-1">설정3</li>
+				<li data-tab="tab-2">프로필3</li>
 			</ul>
 	</div>
 	
 	<div class="tab_con">
-		
 			
 			<div id="tab-1" class="tab-content current">
 			
@@ -231,12 +231,6 @@
 						<form action="/setUserPass" method="post" id="passForm">
 							<div class="inputField">
 								<ul>
-					<!-- 				<li> -->
-					<!-- 					<label for="user_pass">임시로 보여줄 이전 비밀 번호 나중에 지울겁니다.</label> -->
-					<!-- 					<label>3DE67E346CE183D3C30B7D4FA96419CD</label> -->
-					<%-- 					<input type="text" id="user_email" value="${user_email}" readonly> --%>
-					<%-- 					<input type="text" id="user_pass5" value="${user_pass}" readonly> --%>
-					<!-- 				</li><br> -->
 					
 									<li>
 										<label for="user_pass1">새 비밀번호</label>
@@ -262,7 +256,6 @@
 					<br><br>
 				
 					<!-- 알림 설정 -->   
-<!-- 				<div id="setNotification" class="loginWrap" style="background-color:lightsalmon" onclick="location.href='http://localhost/setUserNotice'"><label>알림설정</label><br> -->
 					<div id="setNotification" class="loginWrap" style="background-color:lightsalmon"><label>알림설정</label><br>
 						<form action="/setUserNotice" method="post" id="noticeForm">
 							<div class="inputField">
@@ -343,10 +336,14 @@
 				<div id="setProfile" >
 					<!-- 프로필 설정 -->
 					<div id="setProfile" class="loginWrap" style="background-color:cornsilk"><label>비밀번호</label>
-						<form action="/setUserProfile" method="post" id="prrofileForm">
+						<form action="/setUserPass" method="post" id="profileForm">
 							<div class="inputField">
 								<ul>
 								
+									<li>
+										<input type="hidden" id="user_pass" name="user_pass" value="${user_pass}">
+									</li>
+
 									<li>
 										<label for="user_nm">이름</label>
 										<input type="text" id="user_nm" name="user_nm" 
