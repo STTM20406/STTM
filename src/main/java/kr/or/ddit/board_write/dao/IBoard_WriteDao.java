@@ -3,6 +3,7 @@ package kr.or.ddit.board_write.dao;
 import java.util.List;
 
 import kr.or.ddit.board_write.model.Board_WriteVo;
+import kr.or.ddit.board_write.model.PostReplyVo;
 import kr.or.ddit.paging.model.PageVo;
 
 public interface IBoard_WriteDao {
@@ -75,4 +76,6 @@ public interface IBoard_WriteDao {
 	 * Method 설명 	: 게시글 조회수
 	 */
 	int postViewCnt(int write_id);
+	
+	List<PostReplyVo> postReplyList(String user_email);
 }

@@ -75,4 +75,6 @@ public interface IBoard_WriteService {
 	 * Method 설명 	: 게시글 조회수
 	 */
 	int postViewCnt(int write_id);
+	
+	Map<String, Object> postReplyList(String user_email);
 }

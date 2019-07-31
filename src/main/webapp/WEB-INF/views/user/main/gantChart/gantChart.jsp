@@ -126,7 +126,11 @@ function workDetail(wrk_id){
 		$("#filterFrm input[type=checkbox]").prop("checked", false);	
 		search();
 	})
-	
+	function format(time) {
+		var date = new Date(time);
+		var str = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate(); 
+		return str;
+	}
 	function loadGantt() {
 		gantt.config.columns=[{name:"text",label:"이름",tree:true, width:'250'}];
 		gantt.config.drag_links = false;
@@ -146,13 +150,18 @@ function workDetail(wrk_id){
 		gantt.attachEvent("onAfterTaskDrag", function(id, mode, e){
 			var target = gantt.getTask(id);
 			console.log(target);
+			console.log(target.duration);
+			console.log(mode);
 			console.log(target.id);
+			console.log(target.start_date.getTime());
 			$.ajax({
 				url: '/gantt/update',
 				data: {
-						'wrk_id': target.id,
-						'wrk_start_dt': target.start_date,
-						'wrk_end_dt': target.end_date
+						'id': target.id,
+						'start_date': format(target.start_date.getTime()),
+						'end_date': format(target.end_date.getTime()),
+						'duration': target.duration,
+						'mode': mode
 					},
 				type: "POST",
 				success: function() {

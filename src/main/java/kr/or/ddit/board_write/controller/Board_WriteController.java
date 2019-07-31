@@ -18,6 +18,7 @@ import kr.or.ddit.bd_inquiry.model.Bd_InquiryVo;
 import kr.or.ddit.board_answer.model.Board_AnswerVo;
 import kr.or.ddit.board_answer.service.IBoard_AnswerService;
 import kr.or.ddit.board_write.model.Board_WriteVo;
+import kr.or.ddit.board_write.model.PostReplyVo;
 import kr.or.ddit.board_write.service.IBoard_WriteService;
 import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.users.model.UserVo;
@@ -45,10 +46,11 @@ public class Board_WriteController {
 	 * Method 설명 	: 게시판 게시글 페이징리스트
 	 */
 	@RequestMapping(path = "/community",method=RequestMethod.GET)
-	public String boardPostList(Model model,String page, String pageSize,int board_id) {
+	public String boardPostList(Model model,String page, String pageSize,int board_id,HttpSession session) {
 		
 		int pageStr = page == null ? 1 : Integer.parseInt(page);
 		int pageSizeStr =  pageSize == null ? 10 : Integer.parseInt(pageSize);
+		
 		
 		PageVo pageVo = new PageVo(pageStr,pageSizeStr);
 		pageVo.setBoard_id(board_id);
@@ -57,8 +59,17 @@ public class Board_WriteController {
 		
 		List<Board_WriteVo> boardList = (List<Board_WriteVo>) resultMap.get("boardPostList");
 		logger.debug("!@# boardList : {}",boardList);
+		
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		
+		Map<String, Object> resultMap2 =  writeService.postReplyList(userVo.getUser_email());
+		
+		List<PostReplyVo> postReply = (List<PostReplyVo>) resultMap2.get("postReply");
+		logger.debug("!@# postReply : {}",postReply);
+		
 		int paginationSize = (Integer) resultMap.get("paginationSize");
 		
+		model.addAttribute("postReply",postReply);
 		model.addAttribute("board_id",board_id);
 		model.addAttribute("boardList", boardList);
 		
@@ -178,7 +189,7 @@ public class Board_WriteController {
 		
 		model.addAttribute("writeInfo", writeVo);
 		model.addAttribute("board_id", board_id);
-		
+		 
 		return "/board/community/communityUpdate.user.tiles";
 	}
 	
