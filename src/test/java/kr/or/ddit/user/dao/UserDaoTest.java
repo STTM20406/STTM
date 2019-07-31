@@ -2,6 +2,8 @@ package kr.or.ddit.user.dao;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.junit.Test;
@@ -83,21 +85,19 @@ public class UserDaoTest {
 	 */
 	@Test
 	public void updateUserPassTest() {
-		/***Given***/
-		
-		String user_email = "galbi@naver.com";
+	}
+	
+	/**
+	 * 
+	* Method : getMyProjectMemList
+	* 작성자 : 김경호
+	* 변경이력 : 2019-07-31
+	* Method 설명 : 휴면 계정으로 전환하기 위하여 나의 프로젝트 멤버 
+	* 			     리스트에서 프로젝트 소유권이 'N'인 멤버를 조회한다
+	 */
+	@Test
+	public void getMyProjectMemList() {
 
-		UserVo userVo = userDao.getUser(user_email);
-		
-		String setUserPass = "test1234";
-		
-		
-		/***When***/
-		
-//		int updateUserPass = userDao.updateUserPass(userVo);
-		
-		/***Then***/
-//		assertEquals(1, updateUserPass);
 	}
 	
 }

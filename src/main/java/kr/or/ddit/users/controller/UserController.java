@@ -2,6 +2,7 @@ package kr.or.ddit.users.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -15,6 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import kr.or.ddit.encrypt.encrypt.kisa.aria.ARIAUtil;
 import kr.or.ddit.notification_set.model.Notification_SetVo;
+import kr.or.ddit.notification_set.service.INotification_SetService;
+import kr.or.ddit.project.service.IProjectService;
+import kr.or.ddit.project_mem.model.Project_MemVo;
+import kr.or.ddit.project_mem.service.IProject_MemService;
 import kr.or.ddit.users.model.UserVo;
 import kr.or.ddit.users.service.IUserService;
 
@@ -25,6 +30,15 @@ public class UserController {
 	
 	@Resource(name = "userService")
 	private IUserService userService;
+	
+	@Resource(name = "notification_SetService")
+	private INotification_SetService notification_SetService;
+	
+	@Resource(name = "projectService")
+	private IProjectService ProjectService;
+	
+	@Resource(name = "project_MemService")
+	private IProject_MemService project_MemService;
 	
 	/**
 	 * 
@@ -67,7 +81,6 @@ public class UserController {
 	
 	@RequestMapping(path = "/setUserPass", method = RequestMethod.POST)
 	public String setPassProcess(String user_pass, HttpSession session) throws InvalidKeyException, UnsupportedEncodingException {
-		
 		String viewName = "";
 		
 		UserVo userVo2 = (UserVo) session.getAttribute("USER_INFO"); 
@@ -75,7 +88,6 @@ public class UserController {
 		
 		UserVo userVo = new UserVo();
 		userVo.setUser_email(user_email);
-//		userVo.setUser_pass(user_pass);
 		userVo.setUser_pass(ARIAUtil.ariaEncrypt(user_pass));
 		
 		// 비밀번호 재설정
@@ -84,16 +96,6 @@ public class UserController {
 		if(updateUserPass != 0) {
 			 viewName = "/account/accountSet.user.tiles";
 		}
-		
-		// 휴면 계정 전환
-//		int updateUserStatus = userService.updateUserStatus(userVo);
-//		logger.debug("userVo : {} 이거 찍히냐", userVo);
-//		
-//		if(updateUserStatus != 0) {
-//			viewName = "/account/accountSet.user.tiles"; 
-//		}
-		
-		
 		return viewName;
 	}
 	
@@ -131,8 +133,6 @@ public class UserController {
 //		notificationSetVo.setNot_chk_fl(not_chk_fl);t
 		
 		int inseertUserNotice = userService.insertUserNotice(notificationSetVo);
-		
-		
 		return "/account/accountSet.user.tiles";
 	}
 	
@@ -147,19 +147,21 @@ public class UserController {
 	* Method 설명 : 휴명 계정 설정 화면 요청 밒 프로세스
 	 */
 	@RequestMapping(path = "/setUserStatus", method = RequestMethod.GET)
-	public String setInactiveAccountView(HttpSession session, Model model) {
+	public String setInactiveAccountView(HttpSession session, Model model, int prj_id) {
 		
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
-		logger.debug("userVo : {} 가져오나?", userVo);
-
+		logger.debug("userVo : {} 가져오나!", userVo);
+		
 		String user_email = userVo.getUser_email();
 		String user_st = userVo.getUser_st();
-		
 		logger.debug("user_email : {} 가져오나?", user_email);
 		logger.debug("user_st : {} 가져오니?", user_st);
 		
 		model.addAttribute("user_email", user_email);
 		model.addAttribute("user_st", user_st);
+		
+		List<Project_MemVo> getMyPrjMemList = userService.getMyProjectMemList(prj_id);
+		logger.debug("getMyPrjMemList : {} 가져오너라",getMyPrjMemList);
 		
 		return "/account/accountSet.user.tiles";
 	}
@@ -198,11 +200,13 @@ public class UserController {
 		
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
 		
-		
-		
-		
 		return "";
 	}
 	
+	@RequestMapping(path = "", method = RequestMethod.POST)
+	public String setUserProfileProcess() {
+
+		return null;
+	}
 	
 }

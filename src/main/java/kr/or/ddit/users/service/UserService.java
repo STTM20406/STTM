@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import kr.or.ddit.encrypt.encrypt.kisa.sha256.KISA_SHA256;
 import kr.or.ddit.notification_set.model.Notification_SetVo;
 import kr.or.ddit.paging.model.PageVo;
+import kr.or.ddit.project_mem.model.Project_MemVo;
 import kr.or.ddit.users.dao.IUserDao;
 import kr.or.ddit.users.model.UserVo;
 
@@ -77,6 +78,21 @@ public class UserService implements IUserService{
 	@Override
 	public UserVo getUser(String user_email) {
 		return userDao.getUser(user_email);
+	}
+	
+	/**
+	 * 
+	* Method : getMyProjectMemList
+	* 작성자 : 김경호
+	* 변경이력 : 2019-07-31
+	* @param prj_id
+	* @return
+	* Method 설명 : 휴면 계정으로 전환하기 위하여 나의 프로젝트 멤버 
+	* 			     리스트에서 프로젝트 소유권이 'N'인 멤버를 조회한다
+	 */
+	@Override
+	public List<Project_MemVo> getMyProjectMemList(int prj_id) {
+		return userDao.getMyProjectMemList(prj_id);
 	}
 	
 	/**
