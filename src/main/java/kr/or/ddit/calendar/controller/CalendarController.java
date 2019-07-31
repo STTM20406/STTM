@@ -60,4 +60,25 @@ public class CalendarController {
 		model.addAttribute("workList", calendarService.workList());
 		return "/outline/calendar.user.tiles";
 	}
+	
+//	// 특정 업무의 정보를 받아오는 controller (ajax)
+//	@RequestMapping(path="/calendarAjax", method=RequestMethod.GET)
+//	@ResponseBody
+//	String calendarAjax(Model model) {
+//		int wrk_id =1;
+//		logger.debug("♬♩♪  workVo: {}", calendarService.wDetail(wrk_id));
+//		model.addAttribute("data", calendarService.wDetail(wrk_id));
+//		return "jsonView";
+//	}
+	
+	//해당 프로젝트에 시작일과 종료 일이 설정되어있는 업무들을 받아와서 calendar에 뿌려주는!! (ajax)
+	@RequestMapping(path="/wListAjax", method=RequestMethod.GET)
+	String wListAjax(Model model, String prj_id) {
+		logger.debug("♬♩♪  wListAjax 여기는 옵니까???");
+		String data = calendarService.wList(Integer.parseInt(prj_id));
+		logger.debug("♬♩♪  data: {}", data);
+		model.addAttribute("response", data);
+		return "jsonView";
+	}
+	
 }

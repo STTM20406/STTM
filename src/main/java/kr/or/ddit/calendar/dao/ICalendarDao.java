@@ -2,6 +2,7 @@ package kr.or.ddit.calendar.dao;
 
 import java.util.List;
 
+import kr.or.ddit.calendar.model.CalendarVo;
 import kr.or.ddit.work.model.WorkVo;
 import kr.or.ddit.work_list.model.Work_ListVo;
 
@@ -16,4 +17,6 @@ public interface ICalendarDao {
 	// 업무 생성하는 메서드
 	int wInsert(WorkVo workVo);
 
+	//시작일과 종료 일이 설정되어있는 업무들을 받아와서 calendar에 뿌려주는!!
+	List<WorkVo> wList(int prj_id);
 }

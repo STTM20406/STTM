@@ -36,14 +36,14 @@ var newEvent = function (start, end, eventType) {
 
         var eventData = {
             _id: eventId,
-            title: editTitle.val(),
-            start: editStart.val(),
+            title: editTitle.val(), //업무명?
+            start: editStart.val(), //
             end: editEnd.val(),
             description: editDesc.val(),
-            type: editType.val(),
-            username: '사나',
-            backgroundColor: editColor.val(),
-            textColor: '#ffffff',
+            type: editType.val(), //업무 리스트
+            username: '사나', //유저이름
+            backgroundColor: editColor.val(),//배경색
+            textColor: '#ffffff', 
             allDay: false
         };
 
