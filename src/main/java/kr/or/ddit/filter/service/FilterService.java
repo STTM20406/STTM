@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import kr.or.ddit.filter.dao.IFilterDao;
 import kr.or.ddit.filter.model.FilterVo;
+import kr.or.ddit.ganttChart.model.GanttChartVo;
 import kr.or.ddit.project.model.ProjectVo;
 import kr.or.ddit.users.model.UserVo;
 import kr.or.ddit.work.model.WorkVo;
@@ -25,7 +26,7 @@ public class FilterService implements IFilterService{
 	@Resource(name="filterDao")
 	private IFilterDao filterDao;
 
-	private Map<String, String> resultMap; 
+	private Map<String, Object> resultMap; 
 	
 	@Override
 	public List<WorkVo> filterList(FilterVo filterVo) {
@@ -38,19 +39,19 @@ public class FilterService implements IFilterService{
 	}
 
 	@Override
-	public Map<String, String> workListJSON(FilterVo filterVo) {
-		resultMap = new HashMap<String, String>();
+	public Map<String, Object> workListJSON(FilterVo filterVo) {
+		resultMap = new HashMap<String, Object>();
 		List<WorkVo> workList = filterList(filterVo);
 		String result = resultListTemplate(workList);
 		String prj_str = prjListTemplate(filterVo);
 		String followerList_str = followerListTemplate(filterVo);
 		String makerList_str = makerListTemplate(filterVo);
 		String filterFrm = listFilterTemplate();
-		Map<String, String> chartDataMap = workListCalc(workList);
-		String pieData = chartDataMap.get("pieChartData");
-		String priorData = chartDataMap.get("priorData");
-		String percentData = chartDataMap.get("percentData"); 
-		String isBlank = chartDataMap.get("isBlank");
+		Map<String, Object> chartDataMap = workListCalc(workList);
+		String pieData = (String) chartDataMap.get("pieChartData");
+		String priorData = (String) chartDataMap.get("priorData");
+		String percentData = (String) chartDataMap.get("percentData"); 
+		String isBlank = (String) chartDataMap.get("isBlank");
 		
 		resultMap.put("isBlank", isBlank);
 		resultMap.put("pieChartData", pieData);
@@ -65,17 +66,24 @@ public class FilterService implements IFilterService{
 		resultMap.put("result", result);
 		return resultMap;
 	}
-	
+	/**
+	 * Method : ganttListTemplate
+	 * 작성자 : 유승진
+	 * 변경이력 : 2019-07-30 최초 생성
+	 * @param workList
+	 * @return
+	 * Method 설명 : 필터링된 업무리스트를 간트차트 용 데이터로 변환해주는 메서드
+	 */
 	@Override
-	public Map<String, String> ganttListJSON(FilterVo filterVo) {
-		resultMap = new HashMap<String, String>();
+	public Map<String, Object> ganttListJSON(FilterVo filterVo) {
+		resultMap = new HashMap<String, Object>();
 		
 		List<WorkVo> workList = filterList(filterVo);
 		String prj_str = prjListTemplate(filterVo);
 		String followerList_str = followerListTemplate(filterVo);
 		String makerList_str = makerListTemplate(filterVo);
 		String filterFrm = listFilterTemplate();
-		String result_Gantt = ganttListTemplate(workList);
+		Map<String, Object> result_Gantt= ganttMapTemplate(workList);
 		
 		if(workList.size()==0) 
 			resultMap.put("isBlank", "true");
@@ -92,16 +100,17 @@ public class FilterService implements IFilterService{
 	}
 	
 	/**
-	 * Method : ganttListTemplate
+	 * Method : ganttMapTemplate
 	 * 작성자 : 유승진
 	 * 변경이력 : 2019-07-30 최초 생성
 	 * @param workList
 	 * @return
 	 * Method 설명 : 필터링된 업무리스트를 간트차트 용 데이터로 변환해주는 메서드
 	 */
-	private String ganttListTemplate(List<WorkVo> workList) {
-		StringBuffer sb_gantt = new StringBuffer();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	private Map<String, Object> ganttMapTemplate(List<WorkVo> workList) {
+		Map<String, Object> ganttMap = new HashMap<>();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		
 		Map<String, String> prjMap = new HashMap<String, String>();
 		Map<String, String> wrkLstMap = new HashMap<String, String>();
 		
@@ -112,31 +121,48 @@ public class FilterService implements IFilterService{
 		
 		logger.debug("prjMap : {}", prjMap);
 		logger.debug("wrkLstMap : {}", wrkLstMap);
-		sb_gantt.append("{ \"data\":[");
+		List<GanttChartVo> ganttChartList = new ArrayList<>();
 		for(String key : prjMap.keySet()) {
-			sb_gantt.append("{\"id\": \""+ key +"\", \"text\": \""+ prjMap.get(key) +"\", \"unscheduled\": true, \"open\": true},");
+			GanttChartVo ganttVo = new GanttChartVo();
+			ganttVo.setId(key);
+			ganttVo.setText(prjMap.get(key));
+			ganttVo.setUnscheduled(true);
+			ganttVo.setOpen(true);
+			ganttChartList.add(ganttVo);
 		}
-		for(String key : wrkLstMap.keySet()) {
-			String[] keyarr = wrkLstMap.get(key).split("/");
-			sb_gantt.append("{\"id\": \""+ key +"\", \"text\": \""+ keyarr[0] +"\", \"parent\": \""+ keyarr[1] +"\",\"unscheduled\": true, \"open\": true},");
-		}
-		for(WorkVo work : workList) {
-			sb_gantt.append("{\"id\": \"work"+ work.getWrk_id() +"\", \"text\": \""+ work.getWrk_nm() +"\", \"parent\": \"list#"+ work.getWrk_lst_id() +"\"");
-			if(work.getWrk_start_dt()!=null) 
-				sb_gantt.append(", \"start_date\": \""+ sdf.format(work.getWrk_start_dt()) +"\"");
-			if(work.getWrk_end_dt()!=null) 
-				sb_gantt.append(", \"end_date\": \""+ sdf.format(work.getWrk_end_dt().getTime() + (1000 * 60 * 60 * 24)) +"\"");
-			
-			if(work.getWrk_start_dt()==null || work.getWrk_end_dt()==null)
-				sb_gantt.append(", \"unscheduled\": true");
-			sb_gantt.append("},");
-		}
-		sb_gantt.deleteCharAt(sb_gantt.length()-1);
 		
-		sb_gantt.append("]}");
-		return sb_gantt.toString();
+		for(String key : wrkLstMap.keySet()) {
+			GanttChartVo ganttVo = new GanttChartVo();
+			ganttVo.setId(key);
+			String[] keyArr = wrkLstMap.get(key).split("/");
+			ganttVo.setText(keyArr[0]);
+			ganttVo.setParent(keyArr[1]);
+			ganttVo.setUnscheduled(true);
+			ganttVo.setOpen(true);
+			ganttChartList.add(ganttVo);
+		}
+		
+		for(WorkVo work : workList) {
+			String id = "wrk#" + work.getWrk_id();
+			String text = work.getWrk_nm();
+			String parent = "list#" + work.getWrk_lst_id();
+			Boolean unscheduled = work.getWrk_start_dt() == null || work.getWrk_end_dt() == null ? true : null;
+			String start_date = work.getWrk_start_dt() == null ? null : sdf.format(work.getWrk_start_dt());
+			String end_date = work.getWrk_end_dt() == null ? null : sdf.format(work.getWrk_end_dt());
+			GanttChartVo ganttVo = new GanttChartVo();
+			ganttVo.setId(id);
+			ganttVo.setText(text);
+			ganttVo.setParent(parent);
+			ganttVo.setUnscheduled(unscheduled);
+			ganttVo.setStart_date(start_date);
+			ganttVo.setEnd_date(end_date);
+			ganttChartList.add(ganttVo);
+		}
+		
+		ganttMap.put("data", ganttChartList);
+		return ganttMap;
 	}
-
+	
 	/**
 	 * Method : resultListTemplate
 	 * 작성자 : 유승진
@@ -467,8 +493,8 @@ public class FilterService implements IFilterService{
 	 * Method 설명 : 제공된 업무 리스트의 통계를 계산하는 메서드
 	 */
 	@Override
-	public Map<String, String> workListCalc(List<WorkVo> workList) {
-		Map<String, String> chartDataMap = new HashMap<String, String>();
+	public Map<String, Object> workListCalc(List<WorkVo> workList) {
+		Map<String, Object> chartDataMap = new HashMap<String, Object>();
 		
 		List<WorkVo> doneList = new ArrayList<WorkVo>();
 		List<WorkVo> undoneList = new ArrayList<WorkVo>();

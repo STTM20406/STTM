@@ -62,15 +62,15 @@ function search() {
 		data: serial,
 		success: function(data) {
 			console.log(data);
-			var filterFrm = data.resultMap.filterFrm;
-			var result = data.resultMap.result;
-			var prjList = data.resultMap.prjList;
-			var makerList = data.resultMap.makerList;
-			var followerList = data.resultMap.followerList;
-			
+			var filterFrm = data.filterFrm;
+			var result = data.result;
+			var prjList = data.prjList;
+			var makerList = data.makerList;
+			var followerList = data.followerList;
+			console.log(data);
 			gantt.clearAll();
-			var task = JSON.parse(result);
-			gantt.parse(task);
+// 			var task = JSON.parse(result);
+			gantt.parse(result);
 			console.log(filterFrm);
 		}
 	})
@@ -86,15 +86,15 @@ function searchInit() {
 		data: serial,
 		success: function(data) {
 			console.log(data);
-			var filterFrm = data.resultMap.filterFrm;
-			var result = data.resultMap.result;
-			var prjList = data.resultMap.prjList;
-			var makerList = data.resultMap.makerList;
-			var followerList = data.resultMap.followerList;
+			var filterFrm = data.filterFrm;
+			var result = data.result;
+			var prjList = data.prjList;
+			var makerList = data.makerList;
+			var followerList = data.followerList;
+			console.log(data);
+// 			var task = JSON.parse(result);
 			
-			var task = JSON.parse(result);
-			
-			gantt.parse(task);
+			gantt.parse(result);
 			
 			$("#prjList").html(prjList);
 			$("#makerList").html(makerList);
@@ -146,10 +146,18 @@ function workDetail(wrk_id){
 		gantt.attachEvent("onAfterTaskDrag", function(id, mode, e){
 			var target = gantt.getTask(id);
 			console.log(target);
-// 			$.ajax({
-// 				url: '/updateGantt',
-// 				data: 
-// 			});
+			$.ajax({
+				url: '/project/gantt/updateGantt',
+				data: {
+						'wrk_id': target.id,
+						'wrk_start_dt': target.start_date,
+						'wrk_end_dt': target.end_date
+					},
+				type: "POST",
+				success: function() {
+					console.log("done");
+				}
+			});
 		});
 		gantt.attachEvent("onTaskRowClick", function(id, row) {
 			console.log(id);
