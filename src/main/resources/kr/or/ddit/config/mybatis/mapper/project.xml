@@ -8,9 +8,8 @@
 
 	<!-- 내가 속한 프로젝트 리스트 조회 -->
 	<select id="projectList" parameterType="string" resultType="projectVo">
-		SELECT * FROM
-		(SELECT * FROM PROJECT)A INNER JOIN
-		(SELECT * FROM PROJECT_MEM)B ON
+		SELECT * FROM (SELECT * FROM PROJECT)A INNER JOIN
+					  (SELECT * FROM PROJECT_MEM)B ON
 		A.PRJ_ID = B.PRJ_ID AND B.USER_EMAIL = #{user_email}
 	</select>
 
@@ -21,17 +20,35 @@
 
 	<!-- 프로젝트 상태에 따라 프로젝트 리스트 조회 -->
 	<select id="projectStatusList" parameterType="map" resultType="projectVo">
-		SELECT A.PRJ_ID, A.PRJ_NM, A.PRJ_EXP, A.PRJ_AUTH, A.PRJ_START_DT, A.PRJ_END_DT, A.PRJ_CMP_DT, A.PRJ_ST, A.DEL_FL, B.USER_EMAIL
-		FROM (SELECT A.* FROM (SELECT * FROM PROJECT WHERE PRJ_ST = #{prj_st}) A) A, PROJECT_MEM B
-		WHERE A.PRJ_ID = B.PRJ_ID AND B.USER_EMAIL = #{user_email}
+		SELECT A.PRJ_ID
+			 , A.PRJ_NM
+			 , A.PRJ_EXP
+			 , A.PRJ_AUTH
+			 , A.PRJ_START_DT 
+			 , A.PRJ_END_DT
+			 , A.PRJ_CMP_DT
+			 , A.PRJ_ST
+			 , A.DEL_FL
+			 , B.USER_EMAIL
+		FROM ( SELECT A.* FROM (SELECT * FROM PROJECT WHERE PRJ_ST = #{prj_st}) A) A, PROJECT_MEM B
+		WHERE  A.PRJ_ID = B.PRJ_ID AND B.USER_EMAIL = #{user_email}
 	</select>
 	
 	
 	<!-- 프로젝트 검색 (내가 포함된 프로젝트 중에서) -->
 	<select id="projectSearch" parameterType="map" resultType="projectVo">
-		SELECT A.PRJ_ID, A.PRJ_NM, A.PRJ_EXP, A.PRJ_AUTH, A.PRJ_START_DT, A.PRJ_END_DT, A.PRJ_CMP_DT, A.PRJ_ST, A.DEL_FL, B.USER_EMAIL
-		FROM (SELECT A.* FROM (SELECT * FROM PROJECT WHERE LOWER(PRJ_NM) LIKE '%'||#{prj_nm}||'%') A) A, PROJECT_MEM B
-		WHERE A.PRJ_ID = B.PRJ_ID AND B.USER_EMAIL = #{user_email}
+		SELECT A.PRJ_ID
+			 , A.PRJ_NM
+			 , A.PRJ_EXP
+			 , A.PRJ_AUTH
+			 , A.PRJ_START_DT
+			 , A.PRJ_END_DT
+			 , A.PRJ_CMP_DT
+			 , A.PRJ_ST
+			 , A.DEL_FL
+			 , B.USER_EMAIL
+		FROM ( SELECT A.* FROM (SELECT * FROM PROJECT WHERE LOWER(PRJ_NM) LIKE '%'||#{prj_nm}||'%') A) A, PROJECT_MEM B
+		WHERE  A.PRJ_ID = B.PRJ_ID AND B.USER_EMAIL = #{user_email}
 	</select>
 
 
@@ -40,16 +57,29 @@
 		<selectKey resultType="Integer" keyProperty="prj_id" order="BEFORE">
 			SELECT PRJ_SEQ.NEXTVAL FROM DUAL
 		</selectKey>
-		INSERT INTO
-		PROJECT (PRJ_ID, PRJ_NM, PRJ_EXP, PRJ_AUTH, PRJ_ST, DEL_FL)
+		INSERT INTO PROJECT (PRJ_ID, PRJ_NM, PRJ_EXP, PRJ_AUTH, PRJ_ST, DEL_FL)
 		VALUES (#{prj_id}, #{prj_nm}, #{prj_exp}, #{prj_auth}, #{prj_st}, 'N')
 	</insert>
 
 	<!-- 프로젝트 업데이트 -->
 	<update id="updateProject" parameterType="projectVo">
-		UPDATE PROJECT SET
-		PRJ_ST = #{prj_st}
-		WHERE PRJ_ID = #{prj_id}
+		UPDATE  PROJECT 
+		SET 	PRJ_ST = #{prj_st}
+		WHERE   PRJ_ID = #{prj_id}
+	</update>
+	
+	<!-- 프로젝트 전체 업데이트 -->
+	<update id="updateAllProject" parameterType="projectVo">
+		UPDATE PROJECT A SET A.PRJ_NM = #{prj_nm}
+                     , A.PRJ_EXP = #{prj_exp}
+                     , A.PRJ_AUTH = #{prj_st}
+                     , A.PRJ_START_DT = #{prj_start_dt}
+                     , A.PRJ_END_DT = #{prj_end_dt}
+                     , A.PRJ_CMP_DT = #{prj_cmp_dt}
+                     , A.PRJ_ST = #{prj_st}
+                     , A.PRJ_UPDATE = #{prj_update}
+                     , A.DEL_FL = #{del_fl}
+		WHERE A.PRJ_ID = #{prj_id};
 	</update>
 
 

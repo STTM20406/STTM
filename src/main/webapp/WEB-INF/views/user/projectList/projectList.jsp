@@ -10,6 +10,7 @@
 <script>
 	
 	var currnt_prj_st = "";
+	var updateTime = "";
 	
 	$(document).ready(function(){
 		//프로젝트 상태 클릭 이벤트
@@ -188,45 +189,45 @@
 					
 					$("#ppt_nm").val(data.data.prj_nm);
 					$("#ppt_exp").val(data.data.prj_exp);
+					$("#ppt_asc").val(data.data.prj_auth);
+					$("#ppt_st").val(data.data.prj_st);
+					$("#ppt_start_date").val(data.data.prjStartDtStr);
+					$("#ppt_end_date").val(data.data.prjEndDtStr);
+					$("#ppt_cmp_date").val(data.data.prjCmpDtStr);
 					
-					var currentDate = new Date();
-			        var divClock = document.getElementById("divClock");
-			         
-			        var msg = "현재 시간:"+currentDate.getHours()+"시"
-			        msg += currentDate.getMinutes()+"분";
-			        msg += currentDate.getSeconds()+"초";
-			         
-			       	console.log(msg);
-			        //setTimeout(showClock,1000);
-			        
-					//$("#ppt_exp").val(data.data.prj_exp);
-// 					console.log(data.data.prj_id);
-// 					console.log(data.data.prj_nm);
-// 					console.log(data.data.prj_exp);
-// 					console.log(data.data.prj_auth);
-// 					console.log(data.data.prj_start_dt);
-// 					console.log(data.data.prj_end_dt);
-// 					console.log(data.data.prj_cmp_dt);
-// 					console.log(data.data.prj_st);
-// 					console.log(data.data.del_fl);
-// 					console.log(data.data.prj_update);
+					updateTime = data.data.prj_update;
+					updateDiff(updateTime);
 				}
 			});
 		}
 		
-// 		function printTime(){
-
-// 			var clock = document.getElementById("clock");
-//             var now = new Date();
-
-//             clock.innerHTML = now.getFullYear() + "년"+(now.getMonth()+1)+"월"+now.getDate()+"일"+now.getHours()+"시" +now.getMinutes()+"분"+now.getSeconds()+"초";
-//             // setTimeout함수를 통해 원하는 함수를 1초간격으로 출력해줌
-//             setTimeout("printTime()", 1000);
-
-//         }
-
-
 	});
+	
+	function updateDiff(updateTime){
+        var html = "";
+        
+        var secGap = new Date().getTime() - updateTime;
+        var sec = Math.floor(secGap/1000); //초
+        
+        if(sec < 60) {
+			sec = sec + '초';
+       	}else if(sec < 3600){
+			sec = Math.floor(sec%3600/60) + '분 ' + sec%60 + '초';
+       	}else if(sec < 86400){
+       	 	sec = Math.floor(sec/3600) + '시간 ' + Math.floor(sec%3600/60) + '분 ' + sec%60 + '초';
+       	}else{
+       		sec = Math.floor(sec/3600/24) + '일 ' + Math.floor(sec/3600/60) + '시간 ' + Math.floor(sec%3600/60) + '분 ' + sec%60 + '초';
+       	}
+        
+        console.log(sec);
+
+		html += sec + "전에 업데이트 되었습니다.";
+		
+        // setTimeout함수를 통해 원하는 함수를 1초간격으로 출력해줌
+        setTimeout("updateDiff(updateTime)", 1000);
+        
+        $(".prj_update").text(html);
+    }
 	
 	
 	
@@ -425,10 +426,10 @@
 				<dt>프로젝트 권한설정</dt>
 				<dd>
 					<div class="setAsc">
-						<select id="ppt_asc" name="">
-							<option>전체 액세스</option>
-							<option>권한 액세스</option>
-							<option>통제 액세스</option>
+						<select id="ppt_asc" name="ppt_asc">
+							<option value="ASC01">전체 액세스</option>
+							<option value="ASC02">권한 액세스</option>
+							<option value="ASC03">통제 액세스</option>
 						</select>
 					</div>
 				</dd>
@@ -437,28 +438,30 @@
 				<dt>프로젝트 상태</dt>
 				<dd>
 					<div class="setStatus">
-						<select id="ppt_st" name="">
-							<option>계획</option>
-							<option>진행중</option>
-							<option>완료</option>
-							<option>보류</option>
-							<option>취소</option>
-							<option>상태없음</option>
+						<select id="ppt_st" name="ppt_st">
+							<option value="계획">계획</option>
+							<option value="진행중">진행중</option>
+							<option value="완료">완료</option>
+							<option value="보류">보류</option>
+							<option value="취소">취소</option>
+							<option value="상태없음">상태없음</option>
 						</select>
 					</div>
 				</dd>
 			</dl>
 			<dl class="setItem">
 				<dt>프로젝트 시작일</dt>
-				<dd><input type="text" data-language="en" data-timepicker="true" class="datepicker-here" id="ppt_start_date"></dd>
+				<dd>
+					<input type="text" data-language="en" class="datepicker-here" id="ppt_start_date">
+				</dd>
 			</dl>
 			<dl class="setItem">
 				<dt>프로젝트 마감일</dt>
-				<dd><input type="text" data-language="en" data-timepicker="true" class="datepicker-here" id="ppt_end_date"></dd>
+				<dd><input type="text" data-language="en" class="datepicker-here" id="ppt_end_date"></dd>
 			</dl>
 			<dl class="setItem">
 				<dt>프로젝트 완료일</dt>
-				<dd><input type="text" data-language="en" data-timepicker="true" class="datepicker-here" id="ppt_cmp_date"></dd>
+				<dd><input type="text" data-language="en" class="datepicker-here" id="ppt_cmp_date"></dd>
 			</dl>
 			<dl class="setItem">
 				<dt>프로젝트 관리자</dt>
