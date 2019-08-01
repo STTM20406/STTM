@@ -190,11 +190,12 @@ public class UserController {
 		logger.debug("user_email : {} 가져오나?", user_email);
 		logger.debug("user_st : {} 가져오니?", user_st);
 		
+		List<Project_MemVo> getMyPrjMemList = project_MemService.getMyProjectMemList(prj_id);
+		logger.debug("getMyPrjMemList : {} 가져오너라",getMyPrjMemList);
+
 		model.addAttribute("user_email", user_email);
 		model.addAttribute("user_st", user_st);
-		
-		List<Project_MemVo> getMyPrjMemList = userService.getMyProjectMemList(prj_id);
-		logger.debug("getMyPrjMemList : {} 가져오너라",getMyPrjMemList);
+		model.addAttribute("getMyPrjMemList", getMyPrjMemList);
 		
 		return "/account/accountSet.user.tiles";
 	}
@@ -267,7 +268,7 @@ public class UserController {
 //		return viewName;
 	}
 	
-	// 관리자 부분 //
+	// ------------------------------ 관리자 부분 ------------------------------ //
 	
 	/**
 	 * 

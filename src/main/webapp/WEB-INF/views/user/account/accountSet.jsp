@@ -139,9 +139,9 @@
 		});
 	}
 
-   // ------- 휴면계정 전환 -------
-   function inactiveAccount() {
-	   $("#btnInactive").on("click",function(){
+   // ------- 휴면계정 전환 버튼() -------
+   function prjMemList() {
+	   $("#btnPjrMemList").on("click",function(){
 			$("#userStatusForm").submit();
 			alert("회원님의 계정이 휴면 상태로 전환 되었습니다.");			
 		});
@@ -160,7 +160,7 @@
     // ------- 일반 사용자 프로필 업데이트 -------
     function setProfile(){
     	$("#btnSetProfile").on("click",function(){
-			$("#profileForm").submit();
+// 			$("#profileForm").submit();
 			alert("회원님의 프로필이 업데이트 되었습니다.");			
 		});
     }
@@ -222,154 +222,161 @@
 	
 	<div class="tab_con">
 			
-			<div id="tab-1" class="tab-content current">
+		<div id="tab-1" class="tab-content current">
+		
+			<div id="setAccount" >
 			
-				<div id="setAccount" >
+				<!-- 비밀번호 설정 -->
+				<div id="resetPass" class="loginWrap" style="background-color:cornsilk" onclick="setUserPass"><label>비밀번호</label>
+					<form action="/setUserPass" method="post" id="passForm">
+						<div class="inputField">
+							<ul>
+								<li>
+									<label for="user_pass1">새 비밀번호</label>
+									<input type="text" id="user_pass1" name="user_pass1" 
+										placeholder="패스워드는 4~12자의 영문 대소문자와 숫자로만 입력" value="${user_pass}">
+								</li>
+								<li>
+									<label for="user_pass2">새 비밀번호 확인</label>
+									<input type="text" id="user_pass" name="user_pass" 
+										placeholder="패스워드는 4~12자의 영문 대소문자와 숫자로만 입력" value="${user_pass}">
+								</li>
+								<li>
+									<input type="button" id="btnSetAccount" onclick="setPass()" value="비밀번호 업데이트">
+								</li>
+							</ul>
+						</div>
+					</form>
+				</div>
+			
+				<br><br>
+			
+				<!-- 알림 설정 -->   
+				<div id="setNotification" class="loginWrap" style="background-color:lightsalmon"><label>알림설정</label><br>
+					<form action="/setUserNotice" method="post" id="noticeForm">
+						<div class="inputField">
+							<ul>
+								<!-- 프로젝트에 대한 알림 -->
+								<li>
+									<br><br>
+									<input type="checkbox" id="notice" name="project" value="${not_cd}"> 프로젝트에 대한 알림<br>
+								</li>
+								<li>
+									<input type="checkbox" id="notice" name="chat" value="${not_cd}"> 채팅 메세지 알림<br>
+								</li>
+								<li>
+									<input type="checkbox" id="notice" name="inquiry" value="${not_cd}"> 1:1문의 답변 알림<br>
+								</li>
+								<li>
+									<input type="checkbox" id="notice" name="work" value="${not_cd}"> 업무에 대한 알림<br>
+								</li>
+								<li>
+									<input type="button" id="btnSetNotice" onclick="setNotice()" value="알림 설정 업데이트">
+								</li>
+							</ul>
+						</div>
+					</form>
+				</div>
 				
-					<!-- 비밀번호 설정 -->
-					<div id="resetPass" class="loginWrap" style="background-color:cornsilk" onclick="setUserPass"><label>비밀번호</label>
-						<form action="/setUserPass" method="post" id="passForm">
-							<div class="inputField">
-								<ul>
-					
-									<li>
-										<label for="user_pass1">새 비밀번호</label>
-										<input type="text" id="user_pass1" name="user_pass1" 
-											placeholder="패스워드는 4~12자의 영문 대소문자와 숫자로만 입력" value="${user_pass}">
-									</li>
-									
-									<li>
-										<label for="user_pass2">새 비밀번호 확인</label>
-										<input type="text" id="user_pass" name="user_pass" 
-											placeholder="패스워드는 4~12자의 영문 대소문자와 숫자로만 입력" value="${user_pass}">
-									</li>
-									
-									<li>
-										<input type="button" id="btnSetAccount" onclick="setPass()" value="비밀번호 업데이트">
-									</li>
-									
-								</ul>
-							</div>
-						</form>
-					</div>
-				
-					<br><br>
-				
-					<!-- 알림 설정 -->   
-					<div id="setNotification" class="loginWrap" style="background-color:lightsalmon"><label>알림설정</label><br>
-						<form action="/setUserNotice" method="post" id="noticeForm">
-							<div class="inputField">
-								<ul>
-									<!-- 프로젝트에 대한 알림 -->
-									<li>
-										<br><br>
-										<input type="checkbox" id="notice" name="project" value="${not_cd}"> 프로젝트에 대한 알림<br>
-									</li>
-									<li>
-										<input type="checkbox" id="notice" name="chat" value="${not_cd}"> 채팅 메세지 알림<br>
-									</li>
-									<li>
-										<input type="checkbox" id="notice" name="inquiry" value="${not_cd}"> 1:1문의 답변 알림<br>
-									</li>
-									<li>
-										<input type="checkbox" id="notice" name="work" value="${not_cd}"> 업무에 대한 알림<br>
-									</li>
-									<li>
-										<input type="button" id="btnSetNotice" onclick="setNotice()" value="알림 설정 업데이트">
-									</li>
-								</ul>
-							</div>
-						</form>
-					</div>
-					
-					<br><br>
-				
-					<!-- 휴면 계정 설정 -->  
-					<div id="setUserStatus" class="loginWrap" style="background-color:paleturquoise" onclick="setUserStatus"><label>휴면계정 전환</label>
-						<form action="/setUserStatus" method="post" id="userStatusForm">
-							<div class="inputField">
-								<a href="#" class="btn-example" onclick="layer_open('layer2');return false;">
-									<button>휴명계전 전환</button>		
-								</a>
-								
-								<div class="layer">
-									<div class="bg"></div>
-									<div id="layer2" class="pop-layer">
-										<div class="pop-container">
-											<div class="pop-conts">
-												<!--content //-->
+				<br><br>
+			
+				<!-- 휴면 계정 설정 -->  
+				<div id="setUserStatus" class="loginWrap" style="background-color:paleturquoise" onclick="setUserStatus"><label>휴면계정 전환</label>
+					<form action="/setUserStatus" method="post" id="userStatusForm">
+						<div class="inputField">
+							<a href="#" class="btn-example" onclick="layer_open('layer2');return false;">
+								<input type="button" id="btnPjrMemList" onclick="prjMemList()" value="휴면 계정 전환">
+							</a>
+							
+							<div class="layer">
+								<div class="bg"></div>
+								<div id="layer2" class="pop-layer">
+									<div class="pop-container">
+										<div class="pop-conts">
+											<!--content //-->
+											
+											<label>프로젝트 소유권 이전하기111</label>
+											
+											<table class="tb_style_01">
 												
-												<label>프로젝트 소유권 이전하기</label>
+												<tr>
+													
+													<th>프로젝트 멤버 리스트</th>
+													
+													<select>
+														<option>
+															<!-- item : 반복 데이터가 있는 아이템 collection, var : 현재 아이템의 변수 이름, varStatus : 반복 상태 값을 지닌 변수 -->
+															<!-- begin : 시작번호 기본값 0, end : 종료번호, step : 증가분  -->
+															<c:forEach items="${getMyPrjMemList}" var="myPrMemList">
+																<tr class="prjMemListTr" data-prj_id="${myPrMemList.prj_id}">
+																	<td>${myPrMemList}</td>
+																</tr>
+															</c:forEach>
+														</option>	
+													</select>
+													
+													<br><br>
+													<input type="button" value="소유권 이전 버튼">
+									
+													<div class="btn-r">
+														<a href="#" class="cbtn">Close</a>
+													</div>
+													<!--// content-->
 												
-												<select>
-													<!-- item : 반복 데이터가 있는 아이템 collection, var : 현재 아이템의 변수 이름, varStatus : 반복 상태 값을 지닌 변수 -->
-													<!-- begin : 시작번호 기본값 0, end : 종료번호, step : 증가분  -->
-													<c:forEach items="${project_mem}" var="projectMem">
-														<c:if test="${projectMem.prj_own_fl eq 'N'}">
-															<li>
-																<option value="projectMemList">${projectMem.user_email}</option>
-															</li>
-														</c:if>
-													</c:forEach>
-												</select>
+												</tr>
 												
-												<br><br>
-												<input type="button" value="소유권 이전 버튼">
-								
-												<div class="btn-r">
-													<a href="#" class="cbtn">Close</a>
-												</div>
-												<!--// content-->
-											</div>
+											</table>
+										
 										</div>
 									</div>
-								</div>	
-								
-							</div>
-						</form>
-					</div>
-				</div> 
-			
-			</div>
+								</div>
+							</div>	
+							
+						</div>
+					</form>
+				</div>
+			</div> 
 		
-			<div id="tab-2" class="tab-content">
-				<div id="setProfile" >
-					<!-- 프로필 설정 -->
-					<div id="setProfile" class="loginWrap" style="background-color:cornsilk"><label>비밀번호</label>
-						<form action="/setUserPass" method="post" id="profileForm">
-							<div class="inputField">
-								<ul>
+		</div>
+		
+		<div id="tab-2" class="tab-content">
+			<div id="setProfile" >
+				<!-- 프로필 설정 -->
+				<div id="setProfile" class="loginWrap" style="background-color:cornsilk"><label>비밀번호</label>
+					<form action="/setUserPass" method="post" id="profileForm">
+						<div class="inputField">
+							<ul>
+							
+								<li>
+									<input type="hidden" id="user_email" name="user_email" value="${user_email}">
+								</li>
+
+								<li>
+									<input type="hidden" id="user_pass" name="user_pass" value="${user_pass}">
+								</li>
+
+								<li>
+									<label for="user_nm">이름</label>
+									<input type="text" id="user_nm" name="user_nm" 
+										placeholder="" value="${user_nm}">
+								</li>
 								
-									<li>
-										<input type="hidden" id="user_email" name="user_email" value="${user_email}">
-									</li>
-
-									<li>
-										<input type="hidden" id="user_pass" name="user_pass" value="${user_pass}">
-									</li>
-
-									<li>
-										<label for="user_nm">이름</label>
-										<input type="text" id="user_nm" name="user_nm" 
-											placeholder="" value="${user_nm}">
-									</li>
-									
-									<li>
-										<label for="user_hp">전화번호</label>
-										<input type="text" id="user_hp" name="user_hp" 
-											placeholder="010-0000-0000" value="${user_hp}">
-									</li>
-									
-									<li>
-										<input type="button" id="btnSetProfile" onclick="setProfile()" value="프로필 업데이트">
-									</li>
-									
-								</ul>
-							</div>
-						</form>
-					</div>
+								<li>
+									<label for="user_hp">전화번호</label>
+									<input type="text" id="user_hp" name="user_hp" 
+										placeholder="010-0000-0000" value="${user_hp}">
+								</li>
+								
+								<li>
+									<input type="button" id="btnSetProfile" onclick="setProfile()" value="프로필 업데이트">
+								</li>
+								
+							</ul>
+						</div>
+					</form>
 				</div>
 			</div>
+		</div>
 		
 	</div>
 	

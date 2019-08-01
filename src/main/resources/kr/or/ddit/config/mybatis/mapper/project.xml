@@ -118,7 +118,7 @@
 	<select id="getMyProjectMemList" parameterType="int" resultType="project_memVo">
 		select * 
 		from project_mem
-		where prj_id = #{prj_id};
+		where prj_id = #{prj_id}
 	</select>
 	
 	<!-- *******************project_trnf_hs****************** -->

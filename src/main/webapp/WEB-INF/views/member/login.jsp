@@ -81,13 +81,13 @@
 						</li>
 						<li>
 							<label for="userId">USER EMAIL</label>
-<!-- 						<input type="text" id="userId" name="user_email" placeholder="Please enter your Email." value="galbi@naver.com"> -->
-							<input type="text" id="userId" name="user_email" placeholder="Please enter your Email." value="admin">
+						<input type="text" id="userId" name="user_email" placeholder="Please enter your Email." value="galbi@naver.com">
+<!-- 					<input type="text" id="userId" name="user_email" placeholder="Please enter your Email." value="admin"> -->
 						</li>
 						<li>
 							<label for="userId">PASSWORD</label>
-<!-- 						<input type="password" id="pass" name="user_pass" placeholder="Please enter your Password." value="galbi1234"> -->
-							<input type="password" id="pass" name="user_pass" placeholder="Please enter your Password." value="0000">
+						<input type="password" id="pass" name="user_pass" placeholder="Please enter your Password." value="galbi1234">
+<!-- 					<input type="password" id="pass" name="user_pass" placeholder="Please enter your Password." value="0000"> -->
 						</li>
 						<li>
 							<button type="submit" id="btnLogin">Login</button>

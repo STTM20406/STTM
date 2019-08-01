@@ -16,6 +16,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import kr.or.ddit.config.spring.ApplicationDatasource;
 import kr.or.ddit.config.spring.ApplicationTransaction;
 import kr.or.ddit.config.spring.RootContext;
+import kr.or.ddit.project_mem.model.Project_MemVo;
+import kr.or.ddit.project_mem.service.IProject_MemService;
 import kr.or.ddit.user.service.UserServiceTest;
 import kr.or.ddit.users.dao.IUserDao;
 import kr.or.ddit.users.model.UserVo;
@@ -31,9 +33,6 @@ public class UserDaoTest {
 	
 	@Resource(name = "userDao")
 	private IUserDao userDao;
-	
-	@Resource(name = "userService")
-	private IUserService userService;
 	
 	/**
 	 * 
@@ -69,12 +68,13 @@ public class UserDaoTest {
 		
 		/***When***/
 		UserVo userVo = userDao.getUser(user_email);
-		logger.debug("userVo : {}", userVo);
+		logger.debug("userVo 갈비Vo : {}", userVo);
 		
 		/***Then***/
 		assertEquals("김갈비", userVo.getUser_nm());
 		assertEquals("engineer", userVo.getUser_job());
 	}
+	
 	
 	/**
 	 * 
@@ -85,19 +85,6 @@ public class UserDaoTest {
 	 */
 	@Test
 	public void updateUserPassTest() {
-	}
-	
-	/**
-	 * 
-	* Method : getMyProjectMemList
-	* 작성자 : 김경호
-	* 변경이력 : 2019-07-31
-	* Method 설명 : 휴면 계정으로 전환하기 위하여 나의 프로젝트 멤버 
-	* 			     리스트에서 프로젝트 소유권이 'N'인 멤버를 조회한다
-	 */
-	@Test
-	public void getMyProjectMemList() {
-
 	}
 	
 	/**

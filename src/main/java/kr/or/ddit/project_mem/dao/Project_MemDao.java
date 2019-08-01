@@ -15,7 +15,6 @@ public class Project_MemDao implements IProject_MemDao{
 	@Resource(name = "sqlSession")
 	private SqlSessionTemplate sqlSession;
 	
-	
 	/**
 	 * 
 	 * Method 		: projectMemList
@@ -43,7 +42,6 @@ public class Project_MemDao implements IProject_MemDao{
 		return sqlSession.insert("project.insertProjectMem", projectMemVo);
 	}
 
-	
 	/**
 	 * 
 	 * Method 		: updatePjojectMem
@@ -56,6 +54,20 @@ public class Project_MemDao implements IProject_MemDao{
 	@Override
 	public int updatePjojectMem(Project_MemVo projectMemVo) {
 		return 0;
+	}
+
+	/**
+	 * 
+	* Method : getMyProjectMemList
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-01
+	* @param prj_id
+	* @return
+	* Method 설명 : 휴면 계정으로 전환하기 위하여 나의 프로젝트 멤버를 조회한다
+	 */
+	@Override
+	public List<Project_MemVo> getMyProjectMemList(int prj_id) {
+		return sqlSession.selectList("project.getMyProjectMemList",prj_id);
 	}
 
 }

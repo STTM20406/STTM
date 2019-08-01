@@ -36,4 +36,15 @@ public interface IProject_MemService {
 	 * Method 설명 	: 프로젝트 멤버 업데이트(멤버레벨, 프로젝트 소유 유무, 프로젝트 멤버 닉네임)
 	 */
 	int updatePjojectMem(Project_MemVo projectMemVo);
+	
+	/**
+	 * 
+	* Method : getMyProjectMemList
+	* 작성자 : 김경호
+	* 변경이력 : 2019-07-31
+	* @param prj_id
+	* @return
+	* Method 설명 : 휴면 계정으로 전환하기 위하여 나의 프로젝트 멤버를 조회한다
+	 */
+	List<Project_MemVo> getMyProjectMemList(int prj_id); 
 }

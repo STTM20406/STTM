@@ -38,4 +38,18 @@ public class Project_MemService implements IProject_MemService{
 		return 0;
 	}
 	
+	/**
+	 * 
+	* Method : getMyProjectMemList
+	* 작성자 : 김경호
+	* 변경이력 : 2019-07-31
+	* @param prj_id
+	* @return
+	* Method 설명 : 휴면 계정으로 전환하기 위하여 나의 프로젝트 멤버를 조회한다
+	 */
+	@Override
+	public List<Project_MemVo> getMyProjectMemList(int prj_id) {
+		return projectMemDao.getMyProjectMemList(prj_id);
+	}
+	
 }
