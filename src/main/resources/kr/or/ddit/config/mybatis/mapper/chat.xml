@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="chat">
 
-<!-- ************************* chat_roomVo **********************************-->
+<!-- ************************* chat_roomVo ***********************************-->
 	<!-- 채팅방 생성 (insertChatMem을 같이 실행해서 채팅방 생성한 회원을 채팅 멤버에 추가)-->
 	<insert id="createRoom" parameterType="string">
 		insert into chat_room(ct_id,ct_nm,ct_dt) values(ct_seq.nextval, #{ct_nm}, sysdate)
@@ -29,11 +29,16 @@
 		delete from chat_room where ct_id = #{ct_id}
 	</delete>
 	
+	<!-- 채팅방 아이디 조회 -->
+	<select id="selectRoomId" resultType="int">
+		select ct_id from chat_room
+	</select>
+	
 <!-- ************************* chat_memVo **********************************-->
 
 	<!-- 채팅방에 참여한 친구 리스트 -->
 	<select id="roomFriendList" parameterType="int" resultType="string">
-		select user_nm , m.ct_id
+		select user_nm
 		from chat_mem m, users u
 		where m.user_email = u.user_email
 		and  m.ct_id = #{ct_id}

@@ -81,5 +81,18 @@ public class Board_AnswerDao implements IBoard_AnswerDao{
 		return sqlSession.selectList("board.replyList",write_id);
 	}
 
+	/**
+	 * Method 		: myReplyList
+	 * 작성자 			: 양한솔 
+	 * 변경이력 		: 2019-08-01 최초 생성
+	 * @param user_email
+	 * @return
+	 * Method 설명 	: 내가 작성한 댓글 리스트
+	 */
+	@Override
+	public List<Board_AnswerVo> myReplyList(String user_email) {
+		return sqlSession.selectList("board.myReplyList",user_email);
+	}
+
 
 }

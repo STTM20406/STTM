@@ -72,7 +72,8 @@
 	<update id="updateAllProject" parameterType="projectVo">
 		UPDATE PROJECT A SET A.PRJ_NM = #{prj_nm}
                      , A.PRJ_EXP = #{prj_exp}
-                     , A.PRJ_AUTH = #{prj_st}
+                     , A.PRJ_AUTH = #{prj_auth}
+                     , A.PRJ_ST = #{prj_st}
                      , A.PRJ_START_DT = #{prj_start_dt}
                      , A.PRJ_END_DT = #{prj_end_dt}
                      , A.PRJ_CMP_DT = #{prj_cmp_dt}

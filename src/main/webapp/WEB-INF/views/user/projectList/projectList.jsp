@@ -201,6 +201,50 @@
 			});
 		}
 		
+		
+		
+		
+		/* 여기서부터 프로젝트 셋팅 업데이트를 위한 이벤트 핸들러 입니다. */
+		$("#propertySet").on("propertychange change click keyup paste input", function(){
+			var name = $("#ppt_nm").val();
+			var exp = $("#ppt_exp").val();
+			var acs = $("#ppt_asc").val();
+			var status = $("#ppt_st").val();
+			var start_date = $("#ppt_start_date").val();
+			var end_date = $("#ppt_end_date").val();
+			var cmp_date = $("#ppt_cmp_date").val();
+// 			console.log(name);
+// 			console.log(exp);
+// 			console.log(acs);
+// 			console.log(status);
+// 			console.log(start_date);
+// 			console.log(end_date);
+// 			console.log(cmp_date);
+
+			propertySetItemAjax(name, exp, acs, status, start_date, end_date, cmp_date);
+		});
+		
+		function propertySetItemAjax(name, exp, acs, status, start_date, end_date, cmp_date){
+			$.ajax({
+				url:"/project/propertySetItemAjax",
+				method:"post",
+				contentType:"application/x-www-form-urlencoded; charset=UTF-8",
+				data:	"prj_nm=",
+						"prj_exp=",
+						"prj_st=",
+						"prj_start_dt=",
+						"prj_end_dt=",
+						"prj_cmp_dt=",
+						"prj_st=",
+						"prj_nm=",
+						"prj_nm=",
+						"prj_nm="
+				},
+				success:function(data){
+					
+				}
+			});
+		}
 	});
 	
 	//업데이트 시간 구하기
@@ -231,7 +275,7 @@
 	
 	
 	
-	//layer popup
+	//layer popup - 프로젝트 생성
 	function layer_open(el){
 
 		var temp = $('#' + el);
@@ -421,6 +465,7 @@
 			<p class="prj_update">3분전에 업데이트 되었습니다.</p>
 			<p><input type="text" id="ppt_exp" name="ppt_exp" placeholder="프로젝트 설명을 입력해 주세요."></p>
 		</div>
+		
 		<div class="setCon">
 			<dl class="setItem">
 				<dt>프로젝트 권한설정</dt>

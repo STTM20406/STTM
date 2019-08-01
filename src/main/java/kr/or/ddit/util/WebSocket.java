@@ -54,7 +54,6 @@ public class WebSocket extends TextWebSocketHandler {
 																								// room정보
 
 	private List<WebSocketSession> sessions = new ArrayList<>();
-//	private Map<String, WebSocketSession> userSessions = new HashMap<>();
 
 	// 연결되었을 때
 	@Override
@@ -154,102 +153,6 @@ public class WebSocket extends TextWebSocketHandler {
 
 	}
 
-	// json형태로 메시지 변환(일반 메시지 보낼 때)
-	public String JsonData(String name, Object msg) {
-		JsonObject jsonObject = Json.createObjectBuilder()
-				.add("message", "<dl class='chat_other'>" + "<dt>" + name + "</dt> <dd>" + msg + "</dd></dl>").build();
 
-		StringWriter write = new StringWriter();
-
-		try (JsonWriter jsonWriter = Json.createWriter(write)) {
-			jsonWriter.write(jsonObject);
-		}
-		;
-
-		return write.toString();
-	}
-
-	// json형태로 메시지 변환 (접속했음을 알릴 때)
-	public String JsonDataOpen(String id) {
-		JsonObject jsonObject = Json.createObjectBuilder().add("message", "<a href='#none' onclick=\"insertWisper('"
-				+ id + "')\">" + "<b>[" + id + "]</b> 님이 <b style='color:blue'>접속</b>하셨습니다.</a>").build();
-
-		StringWriter write = new StringWriter();
-
-		try (JsonWriter jsonWriter = Json.createWriter(write)) {
-			jsonWriter.write(jsonObject);
-		}
-		;
-
-		return write.toString();
-	}
-
-	// json형태로 유저 정보 날리기
-	public String JsonUser(String id) {
-
-		JsonObject jsonObject = Json.createObjectBuilder().add("list", id).build();
-		StringWriter write = new StringWriter();
-
-		try (JsonWriter jsonWriter = Json.createWriter(write)) {
-			jsonWriter.write(jsonObject);
-		}
-		;
-
-		return write.toString();
-	}
-
-	// json형태로 방 정보 날리기
-	public String JsonRoom(String roomNames) {
-		JsonObject jsonObject = Json.createObjectBuilder().add("room", roomNames).build();
-		StringWriter write = new StringWriter();
-
-		try (JsonWriter jsonWriter = Json.createWriter(write)) {
-			jsonWriter.write(jsonObject);
-		}
-		;
-
-		return write.toString();
-	}
-
-	// 유저리스트
-	private List<String> informUser(Map<WebSocketSession, String> maplist, String room) {
-
-		// 맵을 이용해서 세션을 통해 아이디값을 value로 가져와서 list에 담기
-
-		// 1.담을 리스트 껍데기 선언
-		List<String> list = new ArrayList<String>();
-
-		// 2.존재하는 웹소켓 아이디, 로그인 아이디만큼 while문을 돌려준다
-		Iterator<WebSocketSession> sessionIds = maplist.keySet().iterator();
-		while (sessionIds.hasNext()) {
-			WebSocketSession sessionId = sessionIds.next();
-			String value = maplist.get(sessionId); // 실제 아이디값
-
-			// 3.해당 번지의 key값에 해당하는 방의 이름정보를 가져옴
-			String userRoom = roomList.get(sessionId);
-
-			// 4.지금 돌고있는 while문에서 추출한 방이름과 들어온 방의 이름이 같을 경우 리스트에 저장하도록 함
-			if (userRoom.equals(room)) {
-				System.out.println("아이디:" + value + ", 방이름: " + userRoom);
-				list.add(value);
-			}
-		}
-		return list;
-	}
-
-	// DB로부터 존재하는 방정보 String 형태로 가져오기
-	public String getRoomName(String user_email) {
-		List<Chat_RoomVo> roomList = roomService.getRoomList(user_email);
-		String room = sessionList.size() + "";
-
-		for (int i = 0; i < roomList.size(); i++) {
-			room += ",";
-			room += roomList.get(i).getCt_nm() + "/";
-			room += roomList.get(i).getCt_id() + "/";
-			room += roomList.get(i).getCt_dt() + "/";
-
-		}
-		return room;
-	}
 
 }

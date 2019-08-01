@@ -63,6 +63,15 @@
 		from board_answer
 		where write_id = #{write_id}
 	</select>
+	
+	<!-- 내가 작성한 댓글 리스트 -->
+	<select id="myReplyList" parameterType="String" resultType="board_answerVo">
+		select *
+		from board_answer
+		where user_email=#{user_email}
+	</select>
+	
+	
 <!-- **********************board_file********************* -->
 
 
@@ -120,6 +129,8 @@
 		set view_cnt = view_cnt + 1
 		where write_id= #{write_id}
 	</update>
+	
+	
 	
 	
 	

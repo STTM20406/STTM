@@ -23,7 +23,7 @@ public class Chat_RoomDao implements IChat_RoomDao{
 
 	@Override
 	public List<Chat_RoomVo> getRoomList(String user_email) {
-		return sqlSession.selectList("chat.getRoomList",user_email);
+		return sqlSession.selectList("chat.getRoomList", user_email);
 	}
 
 	@Override
@@ -34,6 +34,11 @@ public class Chat_RoomDao implements IChat_RoomDao{
 	@Override
 	public int deleteChatRoom(int ct_id) {
 		return sqlSession.selectOne("chat.deleteChatRoom",ct_id);
+	}
+
+	@Override
+	public List<Integer> selectRoomId() {
+		return sqlSession.selectList("chat.selectRoomId");
 	}
 
 

@@ -137,19 +137,30 @@ ul.tabs li.current {
 											<td>${board.user_email }</td>
 											<td><fmt:formatDate value="${board.writedate }" pattern="yyyy-MM-dd" /></td>
 										</tr>
-											<c:forEach items="${postReply }" var="pr">
-												<c:choose>
-													<c:when test="${board.write_id == pr.write_id}">
-														<tr>
-														<td>${pr.comm_id }</td>
-														<td>${pr.content }</td>
-														<tr>
-													</c:when>
-												</c:choose>
-											</c:forEach>
 									</c:when>
 								</c:choose>
 							</c:forEach>
+										<tr>
+										<td>
+											<table class="tb_style_01">
+												<tbody>
+													<c:forEach items="${myReplyList }" var="mr">
+														<c:choose>
+															<c:when test="${mr.del_fl == 'N' && mr.user_email == USER_INFO.user_email}">
+																<tr>
+																	<th>${mr.write_id }번 게시글의 댓글입니다. <th>
+																</tr>
+																<tr>
+																	<td>${mr.comm_id }</td>
+																	<td>${mr.content }</td>
+																<tr>
+															</c:when>
+														</c:choose>
+													</c:forEach>
+												</tbody>
+											</table>
+										</td>
+										</tr>
 							</tbody>
 					</table>
 					</form>
