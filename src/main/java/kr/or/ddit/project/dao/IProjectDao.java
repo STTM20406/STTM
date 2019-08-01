@@ -37,9 +37,9 @@ public interface IProjectDao {
 	 * 변경이력 		: 2019-07-21 최초 생성
 	 * @param projectVo
 	 * @return
-	 * Method 설명 	: 프로젝트 수정
+	 * Method 설명 	: 프로젝트 상태 수정
 	 */
-	int updqteProject(ProjectVo projectVo);
+	int updateProject(ProjectVo projectVo);
 	
 	
 	/**
@@ -97,6 +97,6 @@ public interface IProjectDao {
 	 * @return
 	 * Method 설명 	: 프로젝트 설정 전체 업데이트
 	 */
-	int updateAllProject(ProjectVo proejctVo);
+	int updateAllProject(ProjectVo projectVo);
 	
 }

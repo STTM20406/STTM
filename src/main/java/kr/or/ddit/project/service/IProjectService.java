@@ -39,7 +39,7 @@ public interface IProjectService {
 	 * @return
 	 * Method 설명 	: 프로젝트 수정
 	 */
-	int updqteProject(ProjectVo projectVo);
+	int updateProject(ProjectVo projectVo);
 	
 	
 	/**
@@ -99,5 +99,5 @@ public interface IProjectService {
 	 * @return
 	 * Method 설명 	: 프로젝트 설정 전체 업데이트
 	 */
-	int updateAllProject(ProjectVo proejctVo);
+	int updateAllProject(ProjectVo projectVo);
 }
