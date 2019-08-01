@@ -62,6 +62,27 @@ public class Work_CommentController {
 		return viewName;
 	}
 	
+	@RequestMapping(path="/commUpdate",method=RequestMethod.POST)
+	public String commentUpdate(Model model, String commContent, int commComm_id, int commPrj_id) {
+		Work_CommentVo commentVo = new Work_CommentVo();
+		commentVo.setComm_id(commComm_id);
+		commentVo.setPrj_id(commComm_id);
+		commentVo.setComm_content(commContent);
+		
+		int updateComm = commentService.commUpdate(commentVo);
+		
+		model.addAttribute("data",updateComm);
+		
+		return "jsonView";
+	}
+	
+	
+	@RequestMapping(path="/commDelete",method=RequestMethod.POST)
+	public String commentDelete() {
+		
+		return "jsonView";
+	}
+	
 }
 
 

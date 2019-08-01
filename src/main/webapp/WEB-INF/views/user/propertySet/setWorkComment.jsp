@@ -48,20 +48,37 @@ ul.tabs li.current {
 			$("#" + tab_id).addClass('current');
 		});
 
-		$(".inquiryTr").on("click", function() {
-			console.log("inquiryTr click");
-			var inq_id = $(this).find(".inquirynum").text();
-			$("#inq_id").val(inq_id);
-
-			$("#frm").submit();
+		$(".commTr td .commUpdateBtn").on("click", function() {
+			//console.log($(this));
+ 			var inq_id = $(this).parent().prev().prev().prev().text();
+ 			console.log(inq_id);
+ 			var a = inq_id.append("<input type=text id='changeInput' value="+inq_id+"/>");
+ 			console.log(a);
+ 			test(inq_id);
 		})
+		
+		function test(inq_id){
+			$.ajax({
+				url:"/commUpdate",
+				method:"post",
+				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+// 				data : a,
+// 				success:function(a){
+// 					console.log(a);
+// 				}
+			})
+		}
+		
+		
 		
 		// 댓글등록하기 버튼
 		$("#replyBtn").on("click",function(){
 			$("#frm02").attr("action","/comment");
 			$("#frm02").attr("method","post");
 			$("#frm02").submit();
-	})
+		})
+		
+		
 		
 	});
 </script>
@@ -90,28 +107,36 @@ ul.tabs li.current {
 						<table class="tb_style_01">
 							<colgroup>
 								<col width="10%">
-								<col width="40%">
-								<col width="30%">
+								<col width="20%">
 								<col width="10%">
-								<col width="10%">
+								<col width="5%">
+								<col width="2%">
+								<col width="2%">
 							</colgroup>
 							<tbody>
 								<tr>
 									<th>번호</th>
 									<th>내용</th>
 									<th>작성자 아이디</th>
-									<th>작성일</th>
+									<th colspan='3'>작성일</th>
 								</tr>
 
 								<c:forEach items="${commentList }" var="comm">
 									<c:choose>
 										<c:when test="${comm.del_fl == 'N'}">
 
-											<tr class="inquiryTr">
-												<td class="inquirynum">${comm.comm_id }</td>
-												<td>${comm.comm_content }</td>
+											<tr class="commTr">
+												<td class="commnum">${comm.comm_id }</td>
+												<td class="commCon">
+													${comm.comm_content }
+													<input type="hidden" name="commContent" value="${comm.comm_content }"/>
+													<input type="hidden" name="commComm_id" value="${comm.comm_id }"/>
+													<input type="hidden" name="commPrj_id" value="${comm.prj_id }"/>
+												</td>
 												<td>${comm.user_email }</td>
 												<td><fmt:formatDate value="${comm.comm_date }" pattern="yyyy-MM-dd" /></td>
+												<td><button type="button" id="commUpdateBtn" class="commUpdateBtn">수정</button></td>
+												<td><button type="button" id="commDeleteBtn">삭제</button></td>
 											</tr>
 										</c:when>
 									</c:choose>
