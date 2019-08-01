@@ -65,6 +65,7 @@ public class GanttChartService implements IGanttChartService{
 	private int updateGantt(GanttChartVo ganttVo) {
 		int wrk_id = Integer.parseInt(ganttVo.getId().split("#")[1]);
 		WorkVo workVo = filterService.getWork(wrk_id);
+		logger.debug("update대상 workVo : {}", workVo);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		GregorianCalendar cal = new GregorianCalendar();
 		
@@ -104,9 +105,10 @@ public class GanttChartService implements IGanttChartService{
 		workVo.setWrk_end_dt(cal.getTime());
 		
 		logger.debug("변경 후 시작 일시 : {}, 마감 일시 : {}",workVo.getWrk_start_dt(), workVo.getWrk_end_dt());
-//		int updateCnt = workDao.updateWork(workVo);
-//		return updateCnt;  --> 현재 오류 발생. 주석처리 해둘 것
-		return 0;
+		int updateCnt = workDao.updateWork(workVo);
+		return updateCnt;  
+//		--> 현재 오류 발생. 주석처리 해둘 것
+//		return 0;
 	}
 
 }

@@ -16,7 +16,7 @@
 				,WRK_COLOR_CD = #{wrk_color_cd}
 				,WRK_START_DT = #{wrk_start_dt}
 				,WRK_END_DT = #{wrk_end_dt}
-				,WRK_CMP_DT = #{wrk_cmp_dt}
+				,WRK_CMP_DT = #{wrk_cmp_dt, jdbcType=DATE}
 				,WRK_CMP_FL = #{wrk_cmp_fl}
 				,WRK_DEL_FL = #{wrk_del_fl}
 		WHERE	WRK_ID = #{wrk_id}

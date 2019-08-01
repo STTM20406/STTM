@@ -50,6 +50,6 @@ public class GanttChartController {
 		logger.debug("ganttVo : {}",ganttVo);
 		
 		int updateCnt = ganttService.update(ganttVo);
-		
+		logger.debug("updateCnt : {}",updateCnt);
 	}
 }
