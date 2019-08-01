@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -279,7 +280,7 @@ public class UserController {
 	* Method 설명 : 관리자가 전체 회원의 리스트를 조회
 	 */
 	@RequestMapping("/userPagingList")
-	public String UserPagingList(PageVo pageVo, Model model) {
+	public String userPagingList(PageVo pageVo, Model model) {
 		
 		logger.debug("pageVo",pageVo);
 		
@@ -298,4 +299,30 @@ public class UserController {
 		return "/member/memberList.adm.tiles";
 	}
 	
+	/**
+	 * 
+	* Method : insertUser
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-01
+	* @param user_email
+	* @param model
+	* @return
+	* Method 설명 : 관리자가 회원을 등록
+	 */
+	@RequestMapping(path = "admInsertUser", method = RequestMethod.GET)
+	public String insertUser(String user_email, Model model) {
+		model.addAttribute("user_email", user_email);
+		logger.debug("user_email",user_email);
+		return "/member/memberWrite.adm.tiles";
+	}
+	
+	@RequestMapping(path = "admInsertUser", method = RequestMethod.POST)
+	public String insertUserProcess(UserVo userVo,BindingResult result,
+										String user_email, Model model) {
+		
+		int admInsertUser = userService.insertUser(userVo);
+		
+//		return "redirect:/login";
+		return "/member/memberWrite.adm.tiles";
+	}
 }

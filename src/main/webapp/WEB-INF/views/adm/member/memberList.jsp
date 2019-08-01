@@ -78,7 +78,7 @@ $(document).ready(function(){
 			</table>
 		</div>
 		
-		<a href="/memberWrite" class="btn btn-default pull-right">사용자 등록</a>
+		<a href="/admInsertUser" class="btn btn-default pull-right">사용자 등록</a>
 	
 		<div class="pagination">
 				<c:choose>
