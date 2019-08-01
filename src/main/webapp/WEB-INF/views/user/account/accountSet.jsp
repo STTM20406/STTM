@@ -341,6 +341,10 @@
 								<ul>
 								
 									<li>
+										<input type="hidden" id="user_email" name="user_email" value="${user_email}">
+									</li>
+
+									<li>
 										<input type="hidden" id="user_pass" name="user_pass" value="${user_pass}">
 									</li>
 
