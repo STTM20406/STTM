@@ -62,7 +62,7 @@
 					</c:forEach>
 				</div>
 				<div class="chat_room_bt">
-					<input type="text" id="msg" name="msg" placeholder="write something..." value="1212">
+					<input type="text" id="msg" name="msg" placeholder="write something..." value="">
 					<input type="button" id="buttonMessage" value="보내기">
 				</div>
 			</div>
@@ -116,6 +116,8 @@
 		
 		socket.onopen = function(){
 			console.log('Info : connection opened');
+			//setTimeout(function(){connect(); }, 1000); //retry connection;
+			
 			$("#participate").append("<li>" + userNm + "</li>");
 			
 		};

@@ -75,15 +75,17 @@ a.cbtn:hover {
 	background-color: #1f326a;
 	color: #fff;
 }
+
 </style>
 
 <script>
 	$(document).ready(function() {
 					
 
-		$("#roomNm").on("click", function() {
-			a = $("#roomId").text();
-			$(this).data("ct_id");
+		$(".tb_style_01").on("click", "td.roomNm", function() {
+			//a = .text();
+			 var a = $(this).attr("id");
+			 //$(this).data("ct_id");
 
 			console.log(a);
 			$("#ct_id").val(a);
@@ -177,17 +179,15 @@ a.cbtn:hover {
 		<!-- 향상된 for -->
 		<c:forEach items="${roomlist}" var="room" varStatus="status">
 			<tr>
-				<td style="display: none" id="roomId">${room.ct_id }</td>
-				<td>${room.ct_id }</td>
-				<td id="roomNm">${ room.ct_nm }</td>
+				<td>${room.ct_id}</td>
+				<td id="${room.ct_id }" class="roomNm">${ room.ct_nm }</td>
 				<td>
-					<select>
-							<c:forEach items="${roomFriendList}" var="friend" varStatus="status">
-								
-								<option>${friend }</option>
-							</c:forEach>
-								
-					</select>
+					<c:forEach items="${realRoomMap}" var="friend" varStatus="status">
+						<c:if test="${friend.key == room.ct_id }">
+							<input type="text" style="width : 300px;" value="${friend.value }">
+						</c:if>
+					</c:forEach>
+					
 				</td>
 				<td><input type="button" value="친구 추가" id="addFriend"></td>
 				<td><a
@@ -202,11 +202,11 @@ a.cbtn:hover {
 
 	<div class="modal fade" style="width: 300px; height: 500px;" id="showAddFriend">
 
-		<c:forEach items="${friendsList}" var="friend" varStatus="status">
+<%-- 		<c:forEach items="${friendsList}" var="friend" varStatus="status"> --%>
 
-			<input type="checkbox" name="friendList" value="${ friend.user_nm}">${friend.user_nm }
+<%-- 			<input type="checkbox" name="friendList" value="${ friend.user_nm}">${friend.user_nm } --%>
    		 	
-   		 </c:forEach>
+<%--    		 </c:forEach> --%>
 		<input type="button" value="친구 추가" id="addFriendBtn">
    		 
 

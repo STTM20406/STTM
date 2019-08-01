@@ -36,6 +36,11 @@ public class Chat_RoomDao implements IChat_RoomDao{
 		return sqlSession.selectOne("chat.deleteChatRoom",ct_id);
 	}
 
+	@Override
+	public List<Integer> selectRoomId() {
+		return sqlSession.selectList("chat.selectRoomId");
+	}
+
 
 
 	

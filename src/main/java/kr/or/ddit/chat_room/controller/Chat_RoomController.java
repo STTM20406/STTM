@@ -2,6 +2,7 @@ package kr.or.ddit.chat_room.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -70,36 +71,13 @@ public class Chat_RoomController {
 		List<Chat_RoomVo> roomlist = roomService.getRoomList(user_email);
 		logger.debug("*********roomlist: {}" , roomlist);
 		
-		//방 친구 리스트 -- roomFriendList[0] : {김갑수,갑돌이}
-		List<List<String>> roomFriendList = new ArrayList<List<String>>();
+		//방마다의 친구 리스트를 가져옴
+		Map<Integer, Object> realRoomMap = memService.allRoomFriendList();
+		logger.debug("realRoomMap : {}", realRoomMap);
 		
-		//방별로 초대할 친구Vo
-		ChatParticipateUserVo inviteVo = new ChatParticipateUserVo();
-		//초대할 친구 리스트
-		List<List<String>> inviteFriendList = new ArrayList<List<String>>();
-		
-		for(int i=0;i<roomlist.size();i++) {
-			
-			//방 친구 리스트
-			roomFriendList.add(memService.roomFriendList(roomlist.get(i).getCt_id()));
-			
-			//방별로 초대할 친구리스트
-			inviteVo = new ChatParticipateUserVo(user_email, roomlist.get(i).getCt_id());
-			
-			//초대할 친구 리스트
-			inviteFriendList.add(memService.inviteFriend(inviteVo));
-		}
-		
-		logger.debug("roomFriendList :  {}", roomFriendList.get(0));
-		logger.debug("inviteFriendList :  {}", inviteFriendList.get(0));
-		    
-		    
-		
-		
-		
+		model.addAttribute("realRoomMap",realRoomMap);
 		model.addAttribute("roomlist", roomlist);
-		model.addAttribute("roomFriendList",roomFriendList);
-		model.addAttribute("inviteFriendList",inviteFriendList);
+		//model.addAttribute("inviteFriendList",inviteFriendList);
 		
 		return "/chat/friendChatList.user.tiles";
 	}

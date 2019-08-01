@@ -1,20 +1,30 @@
 package kr.or.ddit.chat_mem.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import kr.or.ddit.chat_content.model.ChatParticipateUserVo;
 import kr.or.ddit.chat_mem.dao.IChat_MemDao;
 import kr.or.ddit.chat_mem.model.Chat_MemVo;
+import kr.or.ddit.chat_room.dao.IChat_RoomDao;
 
 @Service
 public class Chat_MemService implements IChat_MemService{
 
 	@Resource(name="chat_MemDao")
 	private IChat_MemDao memDao;
+	
+	@Resource(name="chat_RoomDao")
+	private IChat_RoomDao roomDao;
+	
+	private static final Logger logger = LoggerFactory.getLogger(Chat_MemService.class);
 	
 	/**
 	 * 
@@ -27,8 +37,32 @@ public class Chat_MemService implements IChat_MemService{
 	 */
 	@Override
 	public List<String> roomFriendList(int ct_id) {
+		
 		List<String> list = memDao.roomFriendList(ct_id);
 		return list;
+	}
+	
+	/**
+	 * 
+	 * Method 		: roomFriendList
+	 * 작성자 			: 유다연
+	 * 변경이력 		: 2019-07-19 최초 생성
+	 * @param ct_id
+	 * @return
+	 * Method 설명 	: 채팅방에 참여한 친구 리스트 전체 
+	 */
+	@Override
+	public Map<Integer, Object> allRoomFriendList() {
+		
+		List<Integer> roomIdList = roomDao.selectRoomId();
+		
+		Map<Integer, Object> roomMap = new HashMap<Integer, Object>();
+		
+		// key : ct_id , value = 방 멤버
+		for(int i=0;i<roomIdList.size();i++) {
+			roomMap.put(roomIdList.get(i), memDao.roomFriendList(roomIdList.get(i)));
+		}
+		return roomMap;
 	}
 
 	/**

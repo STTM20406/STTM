@@ -29,11 +29,16 @@
 		delete from chat_room where ct_id = #{ct_id}
 	</delete>
 	
+	<!-- 채팅방 아이디 조회 -->
+	<select id="selectRoomId" resultType="int">
+		select ct_id from chat_room
+	</select>
+	
 <!-- ************************* chat_memVo **********************************-->
 
 	<!-- 채팅방에 참여한 친구 리스트 -->
 	<select id="roomFriendList" parameterType="int" resultType="string">
-		select user_nm , m.ct_id
+		select user_nm
 		from chat_mem m, users u
 		where m.user_email = u.user_email
 		and  m.ct_id = #{ct_id}

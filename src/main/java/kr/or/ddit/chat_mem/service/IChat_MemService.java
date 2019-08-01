@@ -1,6 +1,7 @@
 package kr.or.ddit.chat_mem.service;
 
 import java.util.List;
+import java.util.Map;
 
 import kr.or.ddit.chat_content.model.ChatParticipateUserVo;
 import kr.or.ddit.chat_mem.model.Chat_MemVo;
@@ -17,6 +18,17 @@ public interface IChat_MemService {
 	 * Method 설명 	: 채팅방에 참여한 친구 리스트
 	 */
 	public List<String> roomFriendList(int ct_id);
+	
+	
+	/**
+	 * 
+	 * Method 		: allRoomFriendList
+	 * 작성자 			: 유다연 
+	 * 변경이력 		: 2019-08-01 최초 생성
+	 * @return
+	 * Method 설명 	: 채팅방에 참여한 친구 리스트 전체
+	 */
+	public Map<Integer, Object> allRoomFriendList();
 	
 	/**
 	 * 
