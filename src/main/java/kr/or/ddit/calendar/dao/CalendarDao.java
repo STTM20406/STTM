@@ -30,4 +30,9 @@ public class CalendarDao implements ICalendarDao {
 	public int wInsert(WorkVo workVo) {
 		return sqlSession.insert("calendar.wInsert", workVo);
 	}
+
+	@Override
+	public List<WorkVo> wList(int prj_id) {
+		return sqlSession.selectList("calendar.wList",prj_id);
+	}
 }

@@ -60,7 +60,34 @@
 			)
 	</insert>
 	
-	
+<!-- 	시작일과 종료 일이 설정되어있는 업무들을 받아와서 calendar에 뿌려주는!! -->
+	<select id="wList" parameterType="int" resultType="workVo">
+		SELECT  DISTINCT A.WRK_ID
+		     ,  A.USER_EMAIL
+		     ,  C.WRK_LST_NM
+		     ,  C.PRJ_ID
+		     ,  B.USER_NM
+		     ,  D.PRJ_NM
+		     ,  A.WRK_LST_ID
+		     ,  A.WRK_RV_ID
+		     ,  A.WRK_PR_ID
+		     ,  A.WRK_NM
+		     ,  A.WRK_DT
+		     ,  A.WRK_GRADE
+		     ,  A.WRK_COLOR_CD
+		     ,  A.WRK_START_DT
+		     ,  A.WRK_END_DT
+		     ,  A.WRK_CMP_DT
+		     ,  A.WRK_CMP_FL
+		     ,  A.WRK_DEL_FL
+		FROM    WORK A, USERS B, WORK_LIST C, PROJECT D
+		WHERE   D.prj_id = #{prj_id}
+		AND     A.USER_EMAIL = B.USER_EMAIL
+		AND     A.WRK_LST_ID = C.WRK_LST_ID
+		AND     C.PRJ_ID = D.PRJ_ID
+        AND     A.WRK_START_DT is not null
+        AND     A.WRK_END_DT is not null
+	</select>
 	
 	
 

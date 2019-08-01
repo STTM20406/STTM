@@ -159,12 +159,24 @@ var calendar = $('#calendar').fullCalendar({
    * ************** */
   events: function (start, end, timezone, callback) {
     $.ajax({
-      type: "get",
-      url: "data.json",
-      data: {
-        // 실제 사용시, 날짜를 전달해 일정기간 데이터만 받아오기를 권장
-      },
+      method:"get",
+      url: "/wListAjax",
+      data: "prj_id=" + 1 ,
+      contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
       success: function (response) {
+    	  var aa = JSON.stringify(response);
+
+    	  var ab = aa.replace(/\\/g,'');
+    	  var ac = ab.replace(/\"{/g,'{');
+    	  var as = ac.replace(/\}"/g,'}'); 
+    	  var qw = as.substring(13);
+    	  var result = qw.substr(0,qw.length-2);
+
+//    	  console.log(result);
+    	  data = JSON.parse(result);
+    	  console.log(data);
+
+    	  response = data;
         var fixedDate = response.map(function (array) {
           if (array.allDay && array.start !== array.end) {
             // 이틀 이상 AllDay 일정인 경우 달력에 표기시 하루를 더해야 정상출력
@@ -319,7 +331,6 @@ var calendar = $('#calendar').fullCalendar({
   },
   eventLimitClick: 'week', //popover
   navLinks: true,
-  defaultDate: moment('2019-05'), //실제 사용시 삭제
   timeFormat: 'HH:mm',
   defaultTimedEventDuration: '01:00:00',
   editable: true,

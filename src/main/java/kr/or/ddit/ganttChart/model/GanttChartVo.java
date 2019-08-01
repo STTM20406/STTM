@@ -25,7 +25,6 @@ public class GanttChartVo {
 	private String parent;			//간트차트 데이터 부모 개체 id 업무 - 업무리스트 - 프로젝트
 	private Boolean open;			//간트차트 데이터 개체 로드시 하위개체 표시 여부
 	private Integer duration;		//간트차트 데이터 일정 길이
-	private String mode;			//간트차트 업데이트시 이벤트 종류 (JSON에서는 사용 안 함)
 	private Integer progress;		//간트차트 진행도 표시 (WRK_CMP_FL에 따라 0 또는 100)
 	private String color;			//간트차트 색깔 코드
 	public String getId() {
@@ -64,12 +63,6 @@ public class GanttChartVo {
 	public void setDuration(Integer duration) {
 		this.duration = duration;
 	}
-	public String getMode() {
-		return mode;
-	}
-	public void setMode(String mode) {
-		this.mode = mode;
-	}
 	public Integer getProgress() {
 		return progress;
 	}
@@ -101,7 +94,7 @@ public class GanttChartVo {
 				+ (end_date != null ? "end_date=" + end_date + ", " : "")
 				+ (unscheduled != null ? "unscheduled=" + unscheduled + ", " : "")
 				+ (parent != null ? "parent=" + parent + ", " : "") + (open != null ? "open=" + open + ", " : "")
-				+ (duration != null ? "duration=" + duration + ", " : "") + (mode != null ? "mode=" + mode + ", " : "")
+				+ (duration != null ? "duration=" + duration + ", " : "")
 				+ (progress != null ? "progress=" + progress + ", " : "") + (color != null ? "color=" + color : "")
 				+ "}";
 	}
