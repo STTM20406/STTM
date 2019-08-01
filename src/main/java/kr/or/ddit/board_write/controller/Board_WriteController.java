@@ -62,14 +62,11 @@ public class Board_WriteController {
 		
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
 		
-		Map<String, Object> resultMap2 =  writeService.postReplyList(userVo.getUser_email());
-		
-		List<PostReplyVo> postReply = (List<PostReplyVo>) resultMap2.get("postReply");
-		logger.debug("!@# postReply : {}",postReply);
+		List<Board_AnswerVo> myReplyList = answerService.myReplyList(userVo.getUser_email());
 		
 		int paginationSize = (Integer) resultMap.get("paginationSize");
 		
-		model.addAttribute("postReply",postReply);
+		model.addAttribute("myReplyList",myReplyList);
 		model.addAttribute("board_id",board_id);
 		model.addAttribute("boardList", boardList);
 		

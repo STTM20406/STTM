@@ -59,6 +59,36 @@
 	where prj_id = #{prj_id};
 </select>
 
+<!-- ******************* 관리자 - 회원 관리 ******************* -->
+
+<!-- 전체 사용자 리스트 조회 -->
+<select id="userList" resultType="userVo">
+	select *
+	from users
+	order by
+	user_email
+</select>
+
+<!-- 사용자 페이지 리스트 조회 -->
+<!-- pageVo int page, int pageSize -->
+<select id="userPagingList" parameterType="pageVo" resultType="userVo">
+	<![CDATA[
+	select *
+	from
+		(select a.*, rownum rn
+			 from
+				(select a.*
+				 from users a
+				order by user_email) a )
+	where rn >= (#{page}-1)*#{pageSize} + 1 and rn <= #{page}*#{pageSize}
+	]]>
+</select>
+
+<!-- 사용자 전체수 조회 -->
+<select id="userCnt" resultType="int">
+	select count(*)
+	from users
+</select>
 
 <!-- ******************* mail_confirm ******************* -->
 
