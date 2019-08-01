@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="chat">
 
-<!-- ************************* chat_roomVo **********************************-->
+<!-- ************************* chat_roomVo ***********************************-->
 	<!-- 채팅방 생성 (insertChatMem을 같이 실행해서 채팅방 생성한 회원을 채팅 멤버에 추가)-->
 	<insert id="createRoom" parameterType="string">
 		insert into chat_room(ct_id,ct_nm,ct_dt) values(ct_seq.nextval, #{ct_nm}, sysdate)

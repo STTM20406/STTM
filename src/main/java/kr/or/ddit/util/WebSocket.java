@@ -54,7 +54,6 @@ public class WebSocket extends TextWebSocketHandler {
 																								// room정보
 
 	private List<WebSocketSession> sessions = new ArrayList<>();
-//	private Map<String, WebSocketSession> userSessions = new HashMap<>();
 
 	// 연결되었을 때
 	@Override

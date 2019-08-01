@@ -49,7 +49,7 @@ public class Chat_MemService implements IChat_MemService{
 	 * 변경이력 		: 2019-07-19 최초 생성
 	 * @param ct_id
 	 * @return
-	 * Method 설명 	: 채팅방에 참여한 친구 리스트 전체 
+	 * Method 설명 	: 채팅방에 참여한 친구 리스트 전체 .
 	 */
 	@Override
 	public Map<Integer, Object> allRoomFriendList() {

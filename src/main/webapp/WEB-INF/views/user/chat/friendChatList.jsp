@@ -184,7 +184,7 @@ a.cbtn:hover {
 				<td>
 					<c:forEach items="${realRoomMap}" var="friend" varStatus="status">
 						<c:if test="${friend.key == room.ct_id }">
-							<input type="text" style="width : 300px;" value="${friend.value }">
+							<input type="text" style="width : 300px;" value="${friend.value}">
 						</c:if>
 					</c:forEach>
 					

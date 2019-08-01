@@ -62,7 +62,7 @@
 					</c:forEach>
 				</div>
 				<div class="chat_room_bt">
-					<input type="text" id="msg" name="msg" placeholder="write something..." value="">
+					<input type="text" id="msg" name="msg" placeholder="write something.." value="">
 					<input type="button" id="buttonMessage" value="보내기">
 				</div>
 			</div>

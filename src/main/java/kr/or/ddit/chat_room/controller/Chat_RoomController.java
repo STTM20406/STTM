@@ -47,7 +47,7 @@ public class Chat_RoomController {
 	
 	//프로젝트 채팅방
 	@RequestMapping(path="/projectChat")
-	public String projectChat(HttpServletRequest req, Model model/*, int projectId*/) {
+	public String projectChat(HttpServletRequest req, Model model/* int projectId*/) {
 //		UserVo user = (UserVo) req.getSession().getAttribute("USER_INFO");
 //		String user_email = user.getUser_email();
 		

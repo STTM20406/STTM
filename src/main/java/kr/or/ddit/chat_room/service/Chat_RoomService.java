@@ -14,7 +14,7 @@ import kr.or.ddit.chat_room.model.Chat_RoomVo;
 public class Chat_RoomService implements IChat_RoomService{
 	
 	@Resource(name="chat_RoomDao")
-	private IChat_RoomDao roomDao ;
+	private IChat_RoomDao roomDao;
 
 
 	@Override

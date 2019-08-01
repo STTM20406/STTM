@@ -15,7 +15,7 @@ public interface IChat_MemService {
 	 * 변경이력 		: 2019-07-19 최초 생성
 	 * @param ct_id
 	 * @return
-	 * Method 설명 	: 채팅방에 참여한 친구 리스트
+	 * Method 설명 	: 채팅방에 참여한 친구 리스트.
 	 */
 	public List<String> roomFriendList(int ct_id);
 	
