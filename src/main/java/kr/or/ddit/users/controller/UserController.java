@@ -25,7 +25,6 @@ import kr.or.ddit.project_mem.model.Project_MemVo;
 import kr.or.ddit.project_mem.service.IProject_MemService;
 import kr.or.ddit.users.model.UserVo;
 import kr.or.ddit.users.service.IUserService;
-import oracle.net.aso.s;
 
 @Controller
 public class UserController {
@@ -180,7 +179,7 @@ public class UserController {
 	* Method 설명 : 휴명 계정 설정 화면 요청 밒 프로세스
 	 */
 	@RequestMapping(path = "/setUserStatus", method = RequestMethod.GET)
-	public String setInactiveAccountView(HttpSession session, Model model, int prj_id) {
+	public String setInactiveAccountView(HttpSession session, Model model) {
 		
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
 		logger.debug("userVo : {} 가져오나!", userVo);
@@ -190,8 +189,13 @@ public class UserController {
 		logger.debug("user_email : {} 가져오나?", user_email);
 		logger.debug("user_st : {} 가져오니?", user_st);
 		
+		Project_MemVo prjMemVo = new Project_MemVo();
+		int prj_id = prjMemVo.getPrj_id();
+		model.addAttribute("prj_id", prj_id);
+		logger.debug("prj_id : {} 이제 찍히나요?",prj_id);
+		
 		List<Project_MemVo> getMyPrjMemList = project_MemService.getMyProjectMemList(prj_id);
-		logger.debug("getMyPrjMemList : {} 가져오너라",getMyPrjMemList);
+		logger.debug("getMyPrjMemList : {} 이거 가져오나요?",getMyPrjMemList);
 
 		model.addAttribute("user_email", user_email);
 		model.addAttribute("user_st", user_st);

@@ -78,7 +78,6 @@
 			$("#userStatusForm").slideDown("slow");
 		});
 		
-		
 		// ------- 탭 설정 -------
 		$('ul.tabs li').click(function() {
 			var tab_id = $(this).attr('data-tab');
@@ -140,8 +139,8 @@
 	}
 
    // ------- 휴면계정 전환 버튼() -------
-   function prjMemList() {
-	   $("#btnPjrMemList").on("click",function(){
+   function inactiveUser() {
+	   $("#btnInactive").on("click",function(){
 			$("#userStatusForm").submit();
 			alert("회원님의 계정이 휴면 상태로 전환 되었습니다.");			
 		});
@@ -285,7 +284,7 @@
 					<form action="/setUserStatus" method="post" id="userStatusForm">
 						<div class="inputField">
 							<a href="#" class="btn-example" onclick="layer_open('layer2');return false;">
-								<input type="button" id="btnPjrMemList" onclick="prjMemList()" value="휴면 계정 전환">
+								<button type="button" id="btnPjrMemList">휴면 계정 전환</button>
 							</a>
 							
 							<div class="layer">
@@ -293,40 +292,40 @@
 								<div id="layer2" class="pop-layer">
 									<div class="pop-container">
 										<div class="pop-conts">
-											<!--content //-->
 											
-											<label>프로젝트 소유권 이전하기111</label>
+											<!--content //--><!--content //--><!--content //--><!--content //--><!--content //--><!--content //--><!--content //--><!--content //-->
 											
 											<table class="tb_style_01">
-												
-												<tr>
+													<tbody>
+														<tr>
+														
+															<th>프로젝트 멤버 리스트</th>
+															
+															<select>
+																<option>
+
+																	<c:forEach items="${getMyPrjMemList}" var="myPrMemList">
+																		<tr class="prjMemListTr" data-prj_id="${myPrMemList.prj_id}">
+																			<td class="prj_id">${myPrMemList.prj_id}</td>
+																		</tr>
+																	</c:forEach>
+																
+																</option>
+																
+															</select>
+															
+															
+														</tr>
+													</tbody>
+												</table>
 													
-													<th>프로젝트 멤버 리스트</th>
-													
-													<select>
-														<option>
-															<!-- item : 반복 데이터가 있는 아이템 collection, var : 현재 아이템의 변수 이름, varStatus : 반복 상태 값을 지닌 변수 -->
-															<!-- begin : 시작번호 기본값 0, end : 종료번호, step : 증가분  -->
-															<c:forEach items="${getMyPrjMemList}" var="myPrMemList">
-																<tr class="prjMemListTr" data-prj_id="${myPrMemList.prj_id}">
-																	<td>${myPrMemList}</td>
-																</tr>
-															</c:forEach>
-														</option>	
-													</select>
-													
-													<br><br>
-													<input type="button" value="소유권 이전 버튼">
-									
-													<div class="btn-r">
-														<a href="#" class="cbtn">Close</a>
-													</div>
-													<!--// content-->
+												<input type="button" id="btnInactive" onclick="inactiveUser()" value="소유권 이전 버튼" >
+												<div class="btn-r">
+													<a href="#" class="cbtn">Close</a>
+												</div>
+												<!--// content-->
 												
-												</tr>
-												
-											</table>
-										
+											<!--content //--><!--content //--><!--content //--><!--content //--><!--content //--><!--content //--><!--content //--><!--content //-->
 										</div>
 									</div>
 								</div>
