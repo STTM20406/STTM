@@ -33,7 +33,7 @@
 						</ul>
 					</div>
 					<br><br><br><br><br><br><br><br>
-					<br><br><br><br><br><br><br><br>
+					<br><br><br><br><br><br><br><br><br>
 					<input type="button" value="채팅방 리스트로 가기">
 				</div>
 			</div>
