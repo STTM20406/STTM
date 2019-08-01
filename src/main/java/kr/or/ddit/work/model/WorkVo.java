@@ -41,6 +41,9 @@ public class WorkVo {
 	private String wrk_lst_nm;		// 업무가 할당된 업무리스트 이름
 	private String user_nm;			// 업무 작성자의 이름
 	
+	//권한 설정에 따라 가져
+	private String auth; //권한레벨????
+	
 	public WorkVo() {
 
 	}
@@ -62,7 +65,7 @@ public class WorkVo {
 				+ ", wrk_grade=" + wrk_grade + ", wrk_color_cd=" + wrk_color_cd + ", wrk_start_dt=" + wrk_start_dt
 				+ ", wrk_end_dt=" + wrk_end_dt + ", wrk_cmp_dt=" + wrk_cmp_dt + ", wrk_cmp_fl=" + wrk_cmp_fl
 				+ ", wrk_del_fl=" + wrk_del_fl + ", prj_id=" + prj_id + ", prj_nm=" + prj_nm + ", wrk_lst_nm="
-				+ wrk_lst_nm + ", user_nm=" + user_nm + "]";
+				+ wrk_lst_nm + ", user_nm=" + user_nm + ", auth=" + auth + "]";
 	}
 	public int getWrk_id() {
 		return wrk_id;
@@ -172,6 +175,11 @@ public class WorkVo {
 	public void setUser_email(String user_email) {
 		this.user_email = user_email;
 	}
-	
+	public String getAuth() {
+		return auth;
+	}
+	public void setAuth(String auth) {
+		this.auth = auth;
+	}
 	
 }
