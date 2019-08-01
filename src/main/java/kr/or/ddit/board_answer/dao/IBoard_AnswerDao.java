@@ -56,7 +56,15 @@ public interface IBoard_AnswerDao {
 	 */
 	List<Board_AnswerVo> replyList(int write_id);
 	
-	
+	/**
+	 * Method 		: myReplyList
+	 * 작성자 			: 양한솔 
+	 * 변경이력 		: 2019-08-01 최초 생성
+	 * @param user_email
+	 * @return
+	 * Method 설명 	: 내가 작성한 댓글 리스트
+	 */
+	List<Board_AnswerVo> myReplyList(String user_email);
 	
 	
 	

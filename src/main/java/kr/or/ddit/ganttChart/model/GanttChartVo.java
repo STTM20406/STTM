@@ -27,6 +27,8 @@ public class GanttChartVo {
 	private Integer duration;		//간트차트 데이터 일정 길이
 	private Integer progress;		//간트차트 진행도 표시 (WRK_CMP_FL에 따라 0 또는 100)
 	private String color;			//간트차트 색깔 코드
+	private Boolean readonly;		//간트차트 업데이트 가능 여부
+	
 	public String getId() {
 		return id;
 	}
@@ -87,6 +89,13 @@ public class GanttChartVo {
 	public void setColor(String color) {
 		this.color = color;
 	}
+	public Boolean getReadonly() {
+		return readonly;
+	}
+	public void setReadonly(Boolean readonly) {
+		this.readonly = readonly;
+	}
+	
 	@Override
 	public String toString() {
 		return "{" + (id != null ? "id=" + id + ", " : "") + (text != null ? "text=" + text + ", " : "")
@@ -95,7 +104,8 @@ public class GanttChartVo {
 				+ (unscheduled != null ? "unscheduled=" + unscheduled + ", " : "")
 				+ (parent != null ? "parent=" + parent + ", " : "") + (open != null ? "open=" + open + ", " : "")
 				+ (duration != null ? "duration=" + duration + ", " : "")
-				+ (progress != null ? "progress=" + progress + ", " : "") + (color != null ? "color=" + color : "")
+				+ (progress != null ? "progress=" + progress + ", " : "")
+				+ (color != null ? "color=" + color + ", " : "") + (readonly != null ? "readonly=" + readonly : "")
 				+ "}";
 	}
 	

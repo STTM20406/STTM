@@ -69,7 +69,7 @@ public interface IChat_MemDao {
 	 * 변경이력 		: 2019-07-29 최초 생성
 	 * @param vo
 	 * @return
-	 * Method 설명 	: 채팅방 초대할 친구 리스트 (이미 채팅방에 있는 친구는 제외하고 보여주는 리스트)
+	 * Method 설명 	: 채팅방 초대할 친구 리스트 (이미 채팅방에 있는 친구는 제외하고 보여주는 리스트).
 	 */
 	public List<String> inviteFriend(ChatParticipateUserVo vo);
 	

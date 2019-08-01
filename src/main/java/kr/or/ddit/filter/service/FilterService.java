@@ -167,6 +167,10 @@ public class FilterService implements IFilterService{
 			String start_date = work.getWrk_start_dt() == null ? null : sdf.format(work.getWrk_start_dt());			
 			String end_date = work.getWrk_end_dt() == null ? null : sdf.format(work.getWrk_end_dt().getTime() + (1000*60*60*24));
 			
+			if("AUTH04".equals(work.getAuth())) {
+				continue;
+			}
+			
 			GanttChartVo ganttVo = new GanttChartVo();
 			
 				
@@ -183,6 +187,10 @@ public class FilterService implements IFilterService{
 					}
 				}
 			}
+			
+			if("AUTH02".equals(work.getAuth()) || "AUTH03".equals(work.getAuth()))
+				ganttVo.setReadonly(true);
+			
 			
 			ganttVo.setId(id);
 			ganttVo.setText(text);
@@ -210,6 +218,9 @@ public class FilterService implements IFilterService{
 		StringBuffer sb_result = new StringBuffer();
 		Date nowDate = new Date();
 		for(WorkVo work : workList) {
+			if("AUTH04".equals(work.getAuth()))
+				continue;
+			
 			sb_result.append("<div class='result' style='border:1px solid black; width:300px; padding:5px; margin: 3px;' data-wrk_id='"+ work.getWrk_id() +"'>");
 			sb_result.append("<span>"+ work.getPrj_nm() + " > " + work.getWrk_lst_nm() +"</span>");
 			sb_result.append("<br>");
@@ -555,6 +566,9 @@ public class FilterService implements IFilterService{
 		int donePt = 0;
 
 		for(WorkVo work : workList) {
+			if("AUTH04".equals(work.getAuth()))
+				continue;
+				
 			int priorPt = 0;
 			switch(work.getWrk_grade()) {
 				case "A":
@@ -650,6 +664,9 @@ public class FilterService implements IFilterService{
 		Date nowDate = new Date();
 		
 		for(WorkVo work : workList) {
+			if("AUTH04".equals(work.getAuth()))
+				continue;
+				
 			if("Y".equals(work.getWrk_cmp_fl())) { // 완료된 업무
 				cmpList.add(work);
 			} else if(work.getWrk_end_dt()==null){ // 마감일 없는 업무

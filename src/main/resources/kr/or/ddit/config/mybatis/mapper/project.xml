@@ -60,13 +60,15 @@
 		INSERT INTO PROJECT (PRJ_ID, PRJ_NM, PRJ_EXP, PRJ_AUTH, PRJ_ST, DEL_FL)
 		VALUES (#{prj_id}, #{prj_nm}, #{prj_exp}, #{prj_auth}, #{prj_st}, 'N')
 	</insert>
+	
 
-	<!-- 프로젝트 업데이트 -->
+	<!-- 프로젝트 상태 업데이트 -->
 	<update id="updateProject" parameterType="projectVo">
 		UPDATE  PROJECT 
 		SET 	PRJ_ST = #{prj_st}
 		WHERE   PRJ_ID = #{prj_id}
 	</update>
+	
 	
 	<!-- 프로젝트 전체 업데이트 -->
 	<update id="updateAllProject" parameterType="projectVo">
@@ -78,9 +80,9 @@
                      , A.PRJ_END_DT = #{prj_end_dt}
                      , A.PRJ_CMP_DT = #{prj_cmp_dt}
                      , A.PRJ_ST = #{prj_st}
-                     , A.PRJ_UPDATE = #{prj_update}
-                     , A.DEL_FL = #{del_fl}
-		WHERE A.PRJ_ID = #{prj_id};
+                     , A.PRJ_UPDATE = SYSDATE
+                     , A.DEL_FL = 'N'
+		WHERE A.PRJ_ID = #{prj_id}
 	</update>
 
 

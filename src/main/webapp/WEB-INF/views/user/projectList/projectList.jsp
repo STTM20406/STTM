@@ -187,6 +187,7 @@
 				data:"prj_id=" + prj_id,
 				success:function(data){
 					
+					$("#ppt_id").val(data.data.prj_id);
 					$("#ppt_nm").val(data.data.prj_nm);
 					$("#ppt_exp").val(data.data.prj_exp);
 					$("#ppt_asc").val(data.data.prj_auth);
@@ -206,6 +207,8 @@
 		
 		/* 여기서부터 프로젝트 셋팅 업데이트를 위한 이벤트 핸들러 입니다. */
 		$("#propertySet").on("propertychange change click keyup paste input", function(){
+			
+			var id = $("#ppt_id").val();
 			var name = $("#ppt_nm").val();
 			var exp = $("#ppt_exp").val();
 			var acs = $("#ppt_asc").val();
@@ -213,6 +216,7 @@
 			var start_date = $("#ppt_start_date").val();
 			var end_date = $("#ppt_end_date").val();
 			var cmp_date = $("#ppt_cmp_date").val();
+			
 // 			console.log(name);
 // 			console.log(exp);
 // 			console.log(acs);
@@ -221,27 +225,25 @@
 // 			console.log(end_date);
 // 			console.log(cmp_date);
 
-			propertySetItemAjax(name, exp, acs, status, start_date, end_date, cmp_date);
+			propertySetItemAjax(id, name, exp, acs, status, start_date, end_date, cmp_date);
 		});
 		
-		function propertySetItemAjax(name, exp, acs, status, start_date, end_date, cmp_date){
+		
+		function propertySetItemAjax(id, name, exp, acs, status, start_date, end_date, cmp_date){
 			$.ajax({
 				url:"/project/propertySetItemAjax",
 				method:"post",
 				contentType:"application/x-www-form-urlencoded; charset=UTF-8",
-				data:	"prj_nm=",
-						"prj_exp=",
-						"prj_st=",
-						"prj_start_dt=",
-						"prj_end_dt=",
-						"prj_cmp_dt=",
-						"prj_st=",
-						"prj_nm=",
-						"prj_nm=",
-						"prj_nm="
-				},
-				success:function(data){
-					
+				data:	"prj_id=" + id +
+						"&prj_nm=" + name +
+						"&prj_exp=" + exp +
+						"&prj_asc=" + acs +
+						"&prj_st=" + status +
+						"&prj_start_dt=" + start_date +
+						"&prj_end_dt=" + end_date +
+						"&prj_cmp_dt=" + cmp_date,
+				success:function(updateList){
+					console.log(updateList)
 				}
 			});
 		}
@@ -459,6 +461,7 @@
 	<div class="propertySetWrap">
 		<div class="setHd">
 			<div class="setHdTitle">
+				<input type="hidden" id="ppt_id" name="ppt_id" value="">
 				<span class="prj_asc">전체</span>
 				<h2><input type="text" id="ppt_nm" name="ppt_nm" value=""></h2>
 			</div>

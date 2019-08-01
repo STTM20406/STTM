@@ -1,5 +1,7 @@
 package kr.or.ddit.project.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,7 +59,7 @@ public class ProjectController {
 		ProjectVo projectVo = projectService.getProject(prjId);
 		projectVo.setPrj_st(prj_st);
 		
-		projectService.updqteProject(projectVo);
+		projectService.updateProject(projectVo);
 		
 		model.addAttribute("data", projectService.getProject(prjId));
 		
@@ -113,6 +115,28 @@ public class ProjectController {
 		
 		int prjId = Integer.parseInt(prj_id);
 		model.addAttribute("data", projectService.getProject(prjId));
+		return "jsonView";
+	}
+	
+	//프로젝트 설정 업데이트
+	@RequestMapping("/propertySetItemAjax")
+	public String propertySetItemAjax(String prj_id, String prj_nm, String prj_exp, String prj_auth, String prj_st, 
+			String prj_start_dt, String prj_end_dt, String prj_cmp_dt, Model model, HttpSession session) throws ParseException {
+
+		
+		int prjId = Integer.parseInt(prj_id);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		sdf.parse(prj_start_dt);
+		
+		//ProjectVo projectVo = new ProjectVo(prj_id, prj_nm, prj_exp, prj_auth, prj_start_dt, prj_end_dt, prj_cmp_dt, prj_start_dt)
+		ProjectVo projectVo = new ProjectVo(prjId, prj_nm, prj_exp, prj_auth, sdf.parse(prj_start_dt), sdf.parse(prj_end_dt), sdf.parse(prj_cmp_dt), prj_st);
+		int updateCnt = projectService.updateAllProject(projectVo);
+		
+		if(updateCnt != 0) {
+			model.addAttribute("updateList", projectService.getProject(prjId));
+		}
+		
 		return "jsonView";
 	}
 	

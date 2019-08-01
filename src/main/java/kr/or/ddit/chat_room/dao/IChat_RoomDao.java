@@ -10,7 +10,7 @@ public interface IChat_RoomDao {
 	 * 
 	 * Method 		: createRoom
 	 * 작성자 			: 유다연
-	 * 변경이력 		: 2019-07-20 최초 생성
+	 * 변경이력 		: 2019-07-20 최초 생성.
 	 * @param roomNM
 	 * @return
 	 * Method 설명 	: 채팅방 생성 (insertChatMem을 같이 실행해서 채팅방 생성한 회원을 채팅 멤버에 추가)
@@ -50,5 +50,16 @@ public interface IChat_RoomDao {
 	 * Method 설명 	: 방 삭제
 	 */
 	public int deleteChatRoom(int ct_id);
+	
+	
+	/**
+	 * 
+	 * Method 		: selectRoomId
+	 * 작성자 			: 유다연 
+	 * 변경이력 		: 2019-08-01 최초 생성
+	 * @return
+	 * Method 설명 	: 채팅방 아이디 조회
+	 */
+	public List<Integer> selectRoomId();
 	
 }

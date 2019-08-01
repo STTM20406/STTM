@@ -55,8 +55,8 @@ public class ProjectService implements IProjectService{
 	 * Method 설명 	: 프로젝트 수정
 	 */
 	@Override
-	public int updqteProject(ProjectVo projectVo) {
-		return projectDao.updqteProject(projectVo);
+	public int updateProject(ProjectVo projectVo) {
+		return projectDao.updateProject(projectVo);
 	}
 
 	/**
@@ -137,8 +137,8 @@ public class ProjectService implements IProjectService{
 	 * Method 설명 	: 프로젝트 설정 전체 업데이트
 	 */
 	@Override
-	public int updateAllProject(ProjectVo proejctVo) {
-		return projectDao.updateAllProject(proejctVo);
+	public int updateAllProject(ProjectVo projectVo) {
+		return projectDao.updateAllProject(projectVo);
 	}
 
 }

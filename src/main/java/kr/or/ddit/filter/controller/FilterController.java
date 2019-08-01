@@ -44,7 +44,7 @@ public class FilterController {
 	
 	@RequestMapping("/prjgantt")
 	@ResponseBody
-	public Map<String, Object> overviewGanttChartData(Model model, FilterVo filterVo) {
+	public Map<String, Object> overviewGanttChartData(FilterVo filterVo) {
 		return filterService.ganttListJSON(filterVo);
 	}
 }

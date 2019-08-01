@@ -27,7 +27,6 @@ public class Chat_MemDao implements IChat_MemDao{
 	 */
 	@Override
 	public List<String> roomFriendList(int ct_id) {
-		
 		return sqlSession.selectList("chat.roomFriendList",ct_id);
 	}
 

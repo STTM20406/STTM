@@ -75,6 +75,32 @@ public class ProjectVo {
 	public ProjectVo() {
 		
 	}
+	
+
+	/**
+	 * 영하가 달으래서 달아요. 프로젝트 설정 업데이트 할려고 만든 생성자님
+	 * @param prj_id
+	 * @param prj_nm
+	 * @param prj_exp
+	 * @param prj_auth
+	 * @param prj_start_dt
+	 * @param prj_end_dt
+	 * @param prj_cmp_dt
+	 * @param prj_st
+	 */
+	public ProjectVo(int prj_id, String prj_nm, String prj_exp, String prj_auth, Date prj_start_dt, Date prj_end_dt,
+		Date prj_cmp_dt, String prj_st) {
+		super();
+		this.prj_id = prj_id;
+		this.prj_nm = prj_nm;
+		this.prj_exp = prj_exp;
+		this.prj_auth = prj_auth;
+		this.prj_start_dt = prj_start_dt;
+		this.prj_end_dt = prj_end_dt;
+		this.prj_cmp_dt = prj_cmp_dt;
+		this.prj_st = prj_st;
+	}
+	
 
 	public int getPrj_id() {
 		return prj_id;
