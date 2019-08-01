@@ -107,7 +107,7 @@ public class UserService implements IUserService{
 	@Override
 	public Map<String, Object> userPagingList(PageVo pageVo) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("usreList", userDao.userPagingList(pageVo));
+		resultMap.put("userList", userDao.userPagingList(pageVo));
 		
 		int usersCnt = userDao.userCnt();
 		

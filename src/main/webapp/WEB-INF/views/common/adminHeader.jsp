@@ -55,7 +55,7 @@
 					<li><a href="#">NOTIFY</a></li>
 					<li><a href="#">WORK LIST</a></li>
 					<li><a href="/project/list">PROJECT LIST</a></li>
-					<li><a href="/memManagement;">MEMBER</a></li>
+					<li><a href="/userPagingList">MEMBER</a></li>
 					<li><a href="/friendChatList">CHATTING</a></li>
 					<li><a href="/admInquiry">INQUERY</a></li>
 					<c:forEach items="${admBoardListY }" var = "board">

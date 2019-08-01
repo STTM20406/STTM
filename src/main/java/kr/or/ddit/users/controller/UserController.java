@@ -3,6 +3,7 @@ package kr.or.ddit.users.controller;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import kr.or.ddit.encrypt.encrypt.kisa.aria.ARIAUtil;
 import kr.or.ddit.notification_set.model.Notification_SetVo;
 import kr.or.ddit.notification_set.service.INotification_SetService;
+import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.project.service.IProjectService;
 import kr.or.ddit.project_mem.model.Project_MemVo;
 import kr.or.ddit.project_mem.service.IProject_MemService;
@@ -262,6 +264,38 @@ public class UserController {
 			return "/account/accountSet.user.tiles";
 //		}
 //		return viewName;
+	}
+	
+	// 관리자 부분 //
+	
+	/**
+	 * 
+	* Method : UserPagingList
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-01
+	* @param pageVo
+	* @param model
+	* @return
+	* Method 설명 : 관리자가 전체 회원의 리스트를 조회
+	 */
+	@RequestMapping("/userPagingList")
+	public String UserPagingList(PageVo pageVo, Model model) {
+		
+		logger.debug("pageVo",pageVo);
+		
+		Map<String, Object> resultMap = userService.userPagingList(pageVo);
+		
+		List<UserVo> userList = (List<UserVo>) resultMap.get("userList");
+		int paginationSize = (Integer) resultMap.get("paginationSize");
+		
+		model.addAttribute("userList", userList);
+		
+		logger.debug("userList : {}",userList);
+		
+		model.addAttribute("paginationSize", paginationSize);
+		model.addAttribute("pageVo", pageVo);
+		
+		return "/member/memberList.adm.tiles";
 	}
 	
 }
