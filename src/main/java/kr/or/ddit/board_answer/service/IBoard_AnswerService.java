@@ -55,4 +55,15 @@ public interface IBoard_AnswerService {
 	 * Method 설명 	: 게시글별 댓글리스트조회
 	 */
 	List<Board_AnswerVo> replyList(int write_id);
+	
+	/**
+	 * Method 		: myReplyList
+	 * 작성자 			: 양한솔 
+	 * 변경이력 		: 2019-08-01 최초 생성
+	 * @param user_email
+	 * @return
+	 * Method 설명 	: 내가 작성한 댓글 리스트
+	 */
+	List<Board_AnswerVo> myReplyList(String user_email);
+		
 }
