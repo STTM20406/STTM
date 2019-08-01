@@ -111,7 +111,14 @@
 		PROJECT_MEM (PRJ_ID, USER_EMAIL, PRJ_MEM_LV, PRJ_OWN_FL)
 		VALUES (#{prj_id}, #{user_email}, #{prj_mem_lv}, #{prj_own_fl})
 	</insert>
-
+	
+	<!-- 휴면 계정으로 전환하기 위하여 나와 프로젝트 아이디가 같은 멤버 조회 -->
+	<select id="getMyProjectMemList" parameterType="int" resultType="project_memVo">
+		select * 
+		from project_mem
+		where prj_id = #{prj_id};
+	</select>
+	
 	<!-- *******************project_trnf_hs****************** -->
 
 
