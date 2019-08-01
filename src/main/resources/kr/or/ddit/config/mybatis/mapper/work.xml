@@ -9,7 +9,6 @@
 	<update id="updateWork" parameterType="workVo">
 		UPDATE	WORK
 		SET		WRK_LST_ID = #{wrk_lst_id}
-				,WRK_RV_ID = #{wrk_rv_id}
 				,WRK_PR_ID = #{wrk_pr_id}
 				,USER_EMAIL = #{user_email}
 				,WRK_NM = #{wrk_nm}
