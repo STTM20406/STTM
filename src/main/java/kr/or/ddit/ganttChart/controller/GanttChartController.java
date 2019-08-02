@@ -39,9 +39,14 @@ public class GanttChartController {
 	@Resource(name="filterService")
 	IFilterService filterService;
 	
+	@RequestMapping("/overview")
+	public String overviewGanttChartView() {
+		return "/main/gantChart/gantChart.user.tiles";
+	}
+	
 	@RequestMapping("/project")
 	public String projectGanttChartView() {
-		return "/main/gantChart/gantChart.user.tiles";
+		return "/outline/gantChart.user.tiles";
 	}
 	
 	@RequestMapping("/update")

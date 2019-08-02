@@ -58,6 +58,9 @@
 			</trim>
 		)
 		</if>
+		<if test="prj_id != null">
+			AND B.PRJ_ID = #{prj_id}
+		</if>
 		<if test="prj_id_list != null">
 			AND B.PRJ_ID IN
 			<foreach collection="prj_id_list" item="prj" open="(" close=")" separator=",">

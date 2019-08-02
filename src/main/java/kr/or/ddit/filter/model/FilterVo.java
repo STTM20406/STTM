@@ -38,6 +38,7 @@ public class FilterVo {
 	private	String wrk_i_made;			//	내가 작성한 업무
 	private	String wrk_i_following;		//	내가 팔로우한 업무
 	private List<Integer> prj_id_list;	//	프로젝트 아이디 목록
+	private Integer prj_id;				//	특정 프로젝트의 업무 검색 시 제공하는 프로젝트 아이디
 										//	-- 마감일 기준 --
 	private String overdue;				//	마감일 지남
 	private String till_this_week;		//	이번 주까지
@@ -163,14 +164,32 @@ public class FilterVo {
 	public void setIs_cal(String is_cal) {
 		this.is_cal = is_cal;
 	}
+	public Integer getPrj_id() {
+		return prj_id;
+	}
+	public void setPrj_id(Integer prj_id) {
+		this.prj_id = prj_id;
+	}
 	@Override
 	public String toString() {
-		return "FilterVo [wrk_dt=" + wrk_dt + ", wrk_is_mine=" + wrk_is_mine + ", wrk_i_assigned=" + wrk_i_assigned
-				+ ", wrk_i_made=" + wrk_i_made + ", wrk_i_following=" + wrk_i_following + ", prj_id_list=" + prj_id_list
-				+ ", overdue=" + overdue + ", till_this_week=" + till_this_week + ", till_this_month=" + till_this_month
-				+ ", no_deadline=" + no_deadline + ", td_month=" + td_month + ", td_week=" + td_week + ", is_cmp="
-				+ is_cmp + ", is_del=" + is_del + ", wrk_maker=" + wrk_maker + ", wrk_follower=" + wrk_follower
-				+ ", user_email=" + user_email + ", is_cal=" + is_cal + "]";
+		return "FilterVo [wrk_dt=" + wrk_dt + ", " + (wrk_is_mine != null ? "wrk_is_mine=" + wrk_is_mine + ", " : "")
+				+ (wrk_i_assigned != null ? "wrk_i_assigned=" + wrk_i_assigned + ", " : "")
+				+ (wrk_i_made != null ? "wrk_i_made=" + wrk_i_made + ", " : "")
+				+ (wrk_i_following != null ? "wrk_i_following=" + wrk_i_following + ", " : "")
+				+ (prj_id_list != null ? "prj_id_list=" + prj_id_list + ", " : "")
+				+ (prj_id != null ? "prj_id=" + prj_id + ", " : "")
+				+ (overdue != null ? "overdue=" + overdue + ", " : "")
+				+ (till_this_week != null ? "till_this_week=" + till_this_week + ", " : "")
+				+ (till_this_month != null ? "till_this_month=" + till_this_month + ", " : "")
+				+ (no_deadline != null ? "no_deadline=" + no_deadline + ", " : "")
+				+ (td_month != null ? "td_month=" + td_month + ", " : "")
+				+ (td_week != null ? "td_week=" + td_week + ", " : "")
+				+ (is_cmp != null ? "is_cmp=" + is_cmp + ", " : "") + (is_del != null ? "is_del=" + is_del + ", " : "")
+				+ (wrk_maker != null ? "wrk_maker=" + wrk_maker + ", " : "")
+				+ (wrk_follower != null ? "wrk_follower=" + wrk_follower + ", " : "")
+				+ (user_email != null ? "user_email=" + user_email + ", " : "")
+				+ (is_cal != null ? "is_cal=" + is_cal : "") + "]";
 	}
+	
 	
 }
