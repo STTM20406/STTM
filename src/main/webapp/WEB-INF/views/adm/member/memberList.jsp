@@ -35,13 +35,12 @@ $(document).ready(function(){
 			<input type="hidden" id="getMemInfo" name="getMemInfo" >
 		</form>
 		
-		
 		<div>
 			<div class="searchBox">
 				<div class="tb_sch_wr">
 					<fieldset id="hd_sch">
 					 	<form id="frmSearch" action="/admInquirySearch" method="get">
-	<input type="hidden" id="inq_cate" name="inq_cate" value="INQ01"/>
+		<input type="hidden" id="inq_cate" name="inq_cate" value="INQ01"/>
 							<input type="hidden" id="scText" name="scText" value="title"/>
 			                <legend>사이트 내 전체검색</legend>
 				                <select id="search">
@@ -79,6 +78,7 @@ $(document).ready(function(){
 								<td>${userVo.user_hp}</td>
 								<td>${userVo.user_st}</td>
 							</tr>
+							
 						</c:forEach>
 						
 					</tr>
@@ -115,10 +115,9 @@ $(document).ready(function(){
 					<c:when test="${pageVo.page == paginationSize}">
 						<a href class="btn_last"></a>
 					</c:when>
+					
 					<c:otherwise>
-					<a href="${cp}/admInquiry?inq_cate=${pageVo.inq_cate }&page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
-						
-	
+						<a href="${cp}/admInquiry?inq_cate=${pageVo.inq_cate }&page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
 					</c:otherwise>
 				</c:choose>
 		

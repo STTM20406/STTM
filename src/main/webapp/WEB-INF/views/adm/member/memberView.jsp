@@ -9,25 +9,12 @@
 
 <script>
 $(document).ready(function(){
-	//사용자 tr 태그 이벤트 등록
-	$(".userTr").on("click", function(){
-		console.log("userTr click");
-		//userId를 획득하는 방법
-		//$(this).find(".userId").text();
-		//$(this).data("userid");
-		
-		//사용자 아이디를 #userId 값으로 설정해주고
-		var user_email = $(this).find(".user_email").text();
-		$("#getMemInfo").val(user_email);
-		
-		//#frm 을 이용하여 submit();
-		$("#showMemForm").submit();
-	});
-});	
+
+});
 
 function admUpdateUserView() {
 	$("#btnMemUpdateView").on("click",function(){
-		$("#memViewForm").submit();
+		$("#admUpdate").submit();
 		alert("회원 정보 수정 화면 입니다");			
 	});
 }
@@ -37,7 +24,11 @@ function admUpdateUserView() {
 
 	<div id="tab-1" class="tab-content current">
 		
-		<form action="/admUpdateUser" method="post" id="memViewForm">	
+		
+		<form id="admUpdate" action="/admUpdateUser" method="post" >	
+			
+			<input type="hidden" id="admUpdate" name="admUpdate" value="${userVo.user_email}">
+
 			<table class="tb_style_01">
 				<tr>
 					<th>회원정보</th>

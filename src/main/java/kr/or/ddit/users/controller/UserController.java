@@ -325,7 +325,6 @@ public class UserController {
 	public String admInsertUserProcess(UserVo userVo,String user_email, 
 			String user_pass, Model model) throws InvalidKeyException, UnsupportedEncodingException {
 		
-		
 		userVo.setUser_pass(ARIAUtil.ariaEncrypt(userVo.getUser_pass()));
 
 		logger.debug("userVo : {}", userVo);
@@ -368,28 +367,32 @@ public class UserController {
 	* @return
 	* Method 설명 : 관리자가 회원의 정보를 수정
 	 */
-	@RequestMapping(path = "/admUpdateUser", method = RequestMethod.POST)
-	public String admUpdateUser(HttpSession session, Model model) {
+	@RequestMapping(path = "/admUpdateUser", method = RequestMethod.GET)
+	public String admUpdateUser(HttpSession session, Model model, String admUpdate) {
 		
+		logger.debug("admUpdate : {}",admUpdate);
 		logger.debug("----------------------------------------------");
 		
-		UserVo userVo = new UserVo();
+		UserVo userVo = userService.getUser(admUpdate);
+		logger.debug("userVo : {}",userVo);
 		
-		String user_email = userVo.getUser_email(); 
-
-		UserVo getUserVo = userService.getUser(user_email); 
-
-		logger.debug("getUserVo:{} 가져올거다",getUserVo);
-		
-		logger.debug("user_email : {} 밥먹자", user_email);
-		
-		logger.debug("userVo : {} 이거 찍고", userVo);
-				
 		model.addAttribute("userVo",userVo);
-		model.addAttribute("user_email : {}",user_email);
-		
 		return "/member/memberUpdate.adm.tiles";
 	}
 	
-
+	@RequestMapping(path = "/admUpdateUser", method = RequestMethod.POST)
+	public String admUpdateUserProcess(String user_email, String user_nm, 
+										String user_hp, String user_st) {
+		
+		UserVo userVo = new UserVo();
+		
+		userVo.setUser_email(user_email);
+		userVo.setUser_nm(user_nm);
+		userVo.setUser_hp(user_hp);
+		userVo.setUser_st(user_st);
+		
+		int admUpdateUser = userService.updateUserAdm(userVo);
+		
+		return "/member/memberUpdate.adm.tiles";
+	}
 }
