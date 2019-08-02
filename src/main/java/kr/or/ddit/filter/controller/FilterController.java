@@ -42,9 +42,15 @@ public class FilterController {
 		return "jsonView";
 	}
 	
-	@RequestMapping("/prjgantt")
+	@RequestMapping("/overgantt")
 	@ResponseBody
 	public Map<String, Object> overviewGanttChartData(FilterVo filterVo) {
+		return filterService.ganttListJSON(filterVo);
+	}
+	
+	@RequestMapping("/prjgantt")
+	@ResponseBody
+	public Map<String, Object> projectGanttChartData(FilterVo filterVo) {
 		return filterService.ganttListJSON(filterVo);
 	}
 }
