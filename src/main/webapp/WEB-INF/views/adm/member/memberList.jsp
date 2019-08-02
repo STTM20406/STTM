@@ -18,10 +18,10 @@ $(document).ready(function(){
 		
 		//사용자 아이디를 #userId 값으로 설정해주고
 		var user_email = $(this).find(".user_email").text();
-		$("#user_email").val(userId);
+		$("#getMemInfo").val(user_email);
 		
 		//#frm 을 이용하여 submit();
-		$("#frm").submit();
+		$("#showMemForm").submit();
 	});
 });	
 </script>
@@ -29,6 +29,13 @@ $(document).ready(function(){
 <section class="contents">
 
 	<div id="tab-1" class="tab-content current">
+		
+		<!--  -->
+		<form id="showMemForm" action="/admUserView" method="get">
+			<input type="hidden" id="getMemInfo" name="getMemInfo" >
+		</form>
+		
+		
 		<div>
 			<div class="searchBox">
 				<div class="tb_sch_wr">
@@ -65,8 +72,9 @@ $(document).ready(function(){
 	
 	
 						<c:forEach items="${userList}" var="userVo">
+						
 							<tr class="userTr" data-user_email="${userVo.user_email }">
-								<td class="userId">${userVo.user_email}</td>
+								<td class="user_email">${userVo.user_email}</td>
 								<td>${userVo.user_nm}</td>
 								<td>${userVo.user_hp}</td>
 								<td>${userVo.user_st}</td>
