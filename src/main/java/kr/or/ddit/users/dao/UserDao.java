@@ -1,6 +1,7 @@
 package kr.or.ddit.users.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -98,6 +99,90 @@ public class UserDao implements IUserDao{
 	@Override
 	public int userCnt() {
 		return sqlSession.selectOne("user.userCnt");
+	}
+	
+	/**
+	 * 
+	* Method : userSearchByEmail
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-05
+	* @param search
+	* @return
+	* Method 설명 : 관리자가 회원 리스트를 회원의 이메일로 검색 후 페이징 리스트 조회
+	 */
+	@Override
+	public List<UserVo> userSearchByEmail(Map<String, Object> search) {
+		return sqlSession.selectList("user.userSearchByEmail", search);
+	}
+
+	/**
+	 * 
+	* Method : userSearchByEmailCnt
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-05
+	* @param search
+	* @return
+	* Method 설명 : 관리자가 회원 리스트를 회원의 이메일로 검색한 갯수
+	 */
+	@Override
+	public int userSearchByEmailCnt(Map<String, Object> search) {
+		return sqlSession.selectOne("user.userSearchByEmailCnt",search);
+	}
+	
+	/**
+	 * 
+	* Method : userSearchByName
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-05
+	* @param search
+	* @return
+	* Method 설명 : 관리자가 회원 리스트를 회원의 이름으로 검색 후 페이징 리스트 조회
+	 */
+	@Override
+	public List<UserVo> userSearchByName(Map<String, Object> search) {
+		return sqlSession.selectList("user.userSearchByName",search);
+	}
+	
+	/**
+	 * 
+	* Method : userSearchByNameCnt
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-05
+	* @param search
+	* @return
+	* Method 설명 : 관리자가 회원 리스트를 회원의 이름으로 검색한 갯수
+	 */
+	@Override
+	public int userSearchByNameCnt(Map<String, Object> search) {
+		return sqlSession.selectOne("user.userSearchByNameCnt",search);
+	}
+	
+	/**
+	 * 
+	* Method : userSearchByHp
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-05
+	* @param search
+	* @return
+	* Method 설명 : 관리자가 회원 리스트를 회원의 전화번호로 검색 후 페이징 리스트 조회
+	 */
+	@Override
+	public List<UserVo> userSearchByHp(Map<String, Object> search) {
+		return sqlSession.selectList("user.userSearchByHp", search);
+	}
+	
+	/**
+	 * 
+	* Method : userSearchByHpCnt
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-05
+	* @param search
+	* @return
+	* Method 설명 : 관리자가 회원 리스트를 회원의 전화번호로 검색한 갯수
+	 */
+	@Override
+	public int userSearchByHpCnt(Map<String, Object> search) {
+		return sqlSession.selectOne("user.userSearchByHpCnt", search);
 	}
 	
 	/**

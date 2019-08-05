@@ -232,6 +232,32 @@ public class ProjectController {
 		return "jsonView";
 	}
 	
+	//프로젝트 관리자 삭제
+	@RequestMapping("/projectAdmDelAjax")
+	public String projectAdmDelAjax(String user_email, String prj_id, Model model) {
+		
+		int prjId = Integer.parseInt(prj_id);
+		
+		Project_MemVo projectMemVo = new Project_MemVo();
+		projectMemVo.setUser_email(user_email);
+		projectMemVo.setPrj_id(prjId);
+		projectMemVo.setPrj_mem_lv("LV1");
+		
+		int updateCnt = projectMemService.updateProjectMem(projectMemVo);
+		List<Project_MemVo> admList = new ArrayList<Project_MemVo>();
+		
+		if(updateCnt != 0) {
+			List<Project_MemVo> project_adm_list = projectMemService.projectMemList(projectMemVo);
+			for(int i=0; i<project_adm_list.size(); i++) {
+				if(project_adm_list.get(i).getPrj_mem_lv().equals("LV0")) {
+					admList.add(project_adm_list.get(i));
+				}
+			}
+			model.addAttribute("data", admList);
+		}
+		return "jsonView";
+	}
+	
 	
 	//프로젝트를 생성하는 동시에 프로젝트 멤버에 생성자 insert
 	@RequestMapping(path = "/form", method = RequestMethod.POST)

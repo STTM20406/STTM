@@ -1,10 +1,12 @@
 package kr.or.ddit.work_comment.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.WordUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -27,7 +29,7 @@ public class Work_CommentController {
 	@RequestMapping(path="/comment",method=RequestMethod.GET)
 	public String workComment(Model model) {
 		Work_CommentVo commentListVo = new Work_CommentVo();
-		commentListVo.setWrk_id(1);
+		commentListVo.setWrk_id(110);
 		commentListVo.setPrj_id(1);
 		logger.debug("!@# commentListVo : {}",commentListVo);
 		
@@ -49,7 +51,10 @@ public class Work_CommentController {
 		commentVo.setUser_email(userVo.getUser_email());
 		commentVo.setComm_content(comm_content);
 		commentVo.setPrj_id(1);
-		commentVo.setWrk_id(1);
+		commentVo.setWrk_id(110);
+		logger.debug("!@#userId : {}",userVo.getUser_email());
+		logger.debug("!@#comm_content : {}",comm_content);
+		logger.debug("!@#commentVo : {}",commentVo);
 		
 		int commCnt = commentService.commentInsert(commentVo);
 		
@@ -77,8 +82,34 @@ public class Work_CommentController {
 	}
 	
 	
-	@RequestMapping(path="/commDelete",method=RequestMethod.POST)
-	public String commentDelete() {
+	@RequestMapping(path="/commDelete",method=RequestMethod.GET)
+	public String commentDelete(String prj_id,String comm_id,Model model) {
+		int prj_idStr = Integer.parseInt(prj_id);
+		int comm_idStr = Integer.parseInt(comm_id);
+		logger.debug("!@# prj_idStr : {}",prj_idStr);
+		logger.debug("!@# comm_idStr : {}",comm_idStr);
+		
+		Work_CommentVo commentVo = new Work_CommentVo();
+		commentVo.setPrj_id(prj_idStr);
+		commentVo.setComm_id(comm_idStr);
+		
+		Work_CommentVo commentListVo = new Work_CommentVo();
+		commentListVo.setWrk_id(110);
+		commentListVo.setPrj_id(1);
+		
+		int deleteCnt = commentService.commDelete(commentVo);
+		
+		List<Work_CommentVo> commList = new ArrayList<Work_CommentVo>();
+		if(deleteCnt == 1) {
+			List<Work_CommentVo> commListAjax = commentService.commentList(commentListVo);
+			for(int i = 0;i<commListAjax.size();i++) {
+				if(commListAjax.get(i).getDel_fl().equals("N")) {
+					commList.add(commListAjax.get(i));
+				}
+			}
+			logger.debug("!@# commList : {}",commList);
+			model.addAttribute("data", commList);
+		}
 		
 		return "jsonView";
 	}

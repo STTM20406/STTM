@@ -101,9 +101,9 @@ var calendar = $('#calendar').fullCalendar({
       content: $('<div />', {
           class: 'popoverInfoCalendar'
         }).append('<p><strong>등록자:</strong> ' + event.username + '</p>')
-        .append('<p><strong>구분:</strong> ' + event.type + '</p>')
+//        .append('<p><strong>구분:</strong> ' + event.type + '</p>')
         .append('<p><strong>시간:</strong> ' + getDisplayEventDate(event) + '</p>')
-        .append('<div class="popoverDescCalendar"><strong>설명:</strong> ' + event.description + '</div>'),
+        .append('<div class="popoverDescCalendar"> ' + event.description + '</div>'),
       delay: {
         show: "800",
         hide: "50"
@@ -161,7 +161,7 @@ var calendar = $('#calendar').fullCalendar({
     $.ajax({
       method:"get",
       url: "/wListAjax",
-      data: "prj_id=" + 1 ,
+      data: "prj_id=" + 1 ,  //나중에 수정해야함! 나중에 controller에서 session에 담긴 email꺼내면댐!
       contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
       success: function (response) {
     	  var aa = JSON.stringify(response);
@@ -234,18 +234,22 @@ var calendar = $('#calendar').fullCalendar({
         return false;
       }
     }
-
+    //event 요기에 calendarService wList메서드의 ajax처리 후 데이터가 다 있따!!!! 
+    console.log(event.start + ":::::::::::::::");
+    
     // 드랍시 수정된 날짜반영
     var newDates = calDateWhenDragnDrop(event);
 
+    
+    
     //드롭한 일정 업데이트
     $.ajax({
-      type: "get",
-      url: "",
-      data: {
-        //...
-      },
+	  method:"post",
+      url: "/dragAndDrop", 
+      contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
+      data: "wrk_id=" + event._id+ "&wrk_start_dt=" + event.start+"&wrk_end_dt=" + event.end,
       success: function (response) {
+    	  
         alert('수정: ' + newDates.startDate + ' ~ ' + newDates.endDate);
       }
     });

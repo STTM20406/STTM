@@ -69,7 +69,51 @@ ul.tabs li.current {
 			})
 		}
 		
+		// 코멘트 삭제하기
+		$(".tb_style_01 .commTr").on("click", ".commDeleteBtn", function(){
+			console.log("commDeleteBtn click");
+			console.log(this);
+			var commPrj_id = $(this).siblings("input").val();
+			console.log(commPrj_id);
+			var commDelete = $(this).attr("name");
+			console.log(commDelete);
+			var comm_id = commDelete;
+			
+			commDeleteAjax(comm_id, commPrj_id);
+		})
 		
+		function commDeleteAjax(comm_id, commPrj_id){
+			$.ajax({
+				url:"/commDelete",
+				method:"get",
+				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+				data:"prj_id=" + commPrj_id +"&comm_id="+comm_id,
+				success:function(data){
+					console.log(data);
+					var html ="";
+					data.data.forEach(function(Array,index){
+						html += "<tr class='commTr'>";
+						html += "<td class='commnum'>"+Array.comm_id+"</td>";
+						html += "<td class='commCon'>";
+						html +=	Array.comm_content;
+						html +=	"<input type='hidden' name='commContent' value='"+ Array.comm_content +"'/>";
+						html +=	"<input type='hidden' name='commComm_id' value='"+ Array.comm_id +"'/>";
+						html +=	"<input type='hidden' name='commPrj_id' value='"+ Array.prj_id +"'/>";
+						html += "</td>";
+						html += "<td>"+Array.user_email+"</td>";
+						html += "<td><button type='button' id='commUpdateBtn' class='commUpdateBtn'>수정</button></td>";
+						html += "<td class='commDeleteTd'>";
+						html +=	"<input type='hidden' id='tdCommPrj_id'value='"+Array.prj_id+"'/>";
+						html +=	"<button type='button' id='commDeleteBtn' class='commDeleteBtn' name='"+Array.comm_id+"'>삭제</button>";
+						html += "</td>";
+						html += "</tr>";
+					});
+				$(".tb_style_01 tbody").html(html);
+				}
+				
+				
+			})	
+		}
 		
 		// 댓글등록하기 버튼
 		$("#replyBtn").on("click",function(){
@@ -136,7 +180,10 @@ ul.tabs li.current {
 												<td>${comm.user_email }</td>
 												<td><fmt:formatDate value="${comm.comm_date }" pattern="yyyy-MM-dd" /></td>
 												<td><button type="button" id="commUpdateBtn" class="commUpdateBtn">수정</button></td>
-												<td><button type="button" id="commDeleteBtn">삭제</button></td>
+												<td class="commDeleteTd">
+													<input type="hidden" id="tdCommPrj_id"value="${comm.prj_id }"/>
+													<button type="button" id="commDeleteBtn" class="commDeleteBtn" name="${comm.comm_id }">삭제</button>
+												</td>
 											</tr>
 										</c:when>
 									</c:choose>

@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import kr.or.ddit.encrypt.encrypt.kisa.sha256.KISA_SHA256;
 import kr.or.ddit.notification_set.model.Notification_SetVo;
 import kr.or.ddit.paging.model.PageVo;
-import kr.or.ddit.project_mem.model.Project_MemVo;
 import kr.or.ddit.users.dao.IUserDao;
 import kr.or.ddit.users.model.UserVo;
 
@@ -100,6 +99,85 @@ public class UserService implements IUserService{
 		resultMap.put("paginationSize", paginationSize);
 		return resultMap;
 	}
+
+	// ***********************************************************************************
+	
+	/**
+	 * 
+	* Method : userSearchByEmail
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-05
+	* @param search
+	* @return
+	* Method 설명 : 관리자가 회원 리스트를 회원의 이메일로 검색 후 페이징 리스트 조회
+	 */
+	@Override
+	public Map<String, Object> userSearchByEmail(Map<String, Object> search) {
+		Map<String , Object> resultMap = new HashMap<String, Object>();
+		List<UserVo> admSearchEmailList = userDao.userSearchByEmail(search);
+		
+		int pageSize = (int) search.get("pageSize");
+		int searchCnt = userDao.userSearchByEmailCnt(search);
+		
+		int paginationSize = (int) Math.ceil((double)searchCnt/pageSize);
+		
+		resultMap.put("admSearchEmailList", admSearchEmailList);
+		resultMap.put("paginationSize", paginationSize);
+		
+		return resultMap;
+	}
+	
+	/**
+	 * 
+	* Method : userSearchByName
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-05
+	* @param search
+	* @return
+	* Method 설명 : 관리자가 회원 리스트를 회원의 이름으로 검색 후 페이징 리스트 조회
+	 */
+	@Override
+	public Map<String, Object> userSearchByName(Map<String, Object> search) {
+		Map<String , Object> resultMap = new HashMap<String, Object>();
+		List<UserVo> admSearchNameList = userDao.userSearchByName(search);
+		
+		int pageSize = (int) search.get("pageSize");
+		int searchCnt = userDao.userSearchByNameCnt(search);
+		
+		int paginationSize = (int) Math.ceil((double)searchCnt/pageSize);
+		
+		resultMap.put("admSearchNameList", admSearchNameList);
+		resultMap.put("paginationSize", paginationSize);
+		
+		return resultMap;
+	}
+	
+	/**
+	 * 
+	* Method : userSearchByHp
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-05
+	* @param search
+	* @return
+	* Method 설명 : 관리자가 회원 리스트를 회원의 전화번호로 검색 후 페이징 리스트 조회
+	 */
+	@Override
+	public Map<String, Object> userSearchByHp(Map<String, Object> search) {
+		Map<String , Object> resultMap = new HashMap<String, Object>();
+		List<UserVo> admSearchHpList = userDao.userSearchByHp(search);
+		
+		int pageSize = (int) search.get("pageSize");
+		int searchCnt = userDao.userSearchByHpCnt(search);
+		
+		int paginationSize = (int) Math.ceil((double)searchCnt/pageSize);
+		
+		resultMap.put("admSearchHpList", admSearchHpList);
+		resultMap.put("paginationSize", paginationSize);
+		
+		return resultMap;
+	}
+	
+	// ***********************************************************************************
 	
 	/**
 	 * 
@@ -198,7 +276,6 @@ public class UserService implements IUserService{
 		if(1==1) {
 			return 0;
 		}
-		
 		List<UserVo> userList = userDao.userListForPassEncrypt();
 		
 		int updateCntSum = 0;

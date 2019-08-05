@@ -76,15 +76,15 @@ var newEvent = function (start, end, eventType) {
 
         //새로운 일정 저장
         $.ajax({
-            type: "get",
-            url: "",
-            data: {
-                //.....
-            },
-            success: function (response) {
+        	method:"post",
+//            url: "/addEvent",
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",  
+            data: JSON.serialize(eventData), //컨트롤러에서 필요한것만 뽑아쓰면된다 Vo를 하나 만들어서 Vo로 받자!
+            	success: function (response) {
+            	alert("등록완료!")
                 //DB연동시 중복이벤트 방지를 위한
-                //$('#calendar').fullCalendar('removeEvents');
-                //$('#calendar').fullCalendar('refetchEvents');
+                $('#calendar').fullCalendar('removeEvents');
+                $('#calendar').fullCalendar('refetchEvents');
             }
         });
     });
