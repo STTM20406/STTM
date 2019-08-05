@@ -119,6 +119,17 @@ public interface IUserDao {
 	
 	/**
 	 * 
+	* Method : updateUserAdm
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-02
+	* @param userVo
+	* @return
+	* Method 설명 : 관리자가 사용자 정보 업데이트
+	 */
+	int updateUserAdm(UserVo userVo);
+	
+	/**
+	 * 
 	* Method : deleteUser
 	* 작성자 : 김경호
 	* 변경이력 : 2019-07-19

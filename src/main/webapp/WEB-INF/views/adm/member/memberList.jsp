@@ -18,10 +18,10 @@ $(document).ready(function(){
 		
 		//사용자 아이디를 #userId 값으로 설정해주고
 		var user_email = $(this).find(".user_email").text();
-		$("#user_email").val(userId);
+		$("#getMemInfo").val(user_email);
 		
 		//#frm 을 이용하여 submit();
-		$("#frm").submit();
+		$("#showMemForm").submit();
 	});
 });	
 </script>
@@ -29,12 +29,18 @@ $(document).ready(function(){
 <section class="contents">
 
 	<div id="tab-1" class="tab-content current">
+		
+		<!--  -->
+		<form id="showMemForm" action="/admUserView" method="get">
+			<input type="hidden" id="getMemInfo" name="getMemInfo" >
+		</form>
+		
 		<div>
 			<div class="searchBox">
 				<div class="tb_sch_wr">
 					<fieldset id="hd_sch">
 					 	<form id="frmSearch" action="/admInquirySearch" method="get">
-	<input type="hidden" id="inq_cate" name="inq_cate" value="INQ01"/>
+		<input type="hidden" id="inq_cate" name="inq_cate" value="INQ01"/>
 							<input type="hidden" id="scText" name="scText" value="title"/>
 			                <legend>사이트 내 전체검색</legend>
 				                <select id="search">
@@ -65,12 +71,14 @@ $(document).ready(function(){
 	
 	
 						<c:forEach items="${userList}" var="userVo">
+						
 							<tr class="userTr" data-user_email="${userVo.user_email }">
-								<td class="userId">${userVo.user_email}</td>
+								<td class="user_email">${userVo.user_email}</td>
 								<td>${userVo.user_nm}</td>
 								<td>${userVo.user_hp}</td>
 								<td>${userVo.user_st}</td>
 							</tr>
+							
 						</c:forEach>
 						
 					</tr>
@@ -107,10 +115,9 @@ $(document).ready(function(){
 					<c:when test="${pageVo.page == paginationSize}">
 						<a href class="btn_last"></a>
 					</c:when>
+					
 					<c:otherwise>
-					<a href="${cp}/admInquiry?inq_cate=${pageVo.inq_cate }&page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
-						
-	
+						<a href="${cp}/admInquiry?inq_cate=${pageVo.inq_cate }&page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
 					</c:otherwise>
 				</c:choose>
 		

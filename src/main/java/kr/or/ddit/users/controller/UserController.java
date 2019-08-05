@@ -11,8 +11,8 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -284,8 +284,8 @@ public class UserController {
 	* @return
 	* Method 설명 : 관리자가 전체 회원의 리스트를 조회
 	 */
-	@RequestMapping("/userPagingList")
-	public String userPagingList(PageVo pageVo, Model model) {
+	@RequestMapping("/admUserList")
+	public String admUserList(PageVo pageVo, Model model) {
 		
 		logger.debug("pageVo",pageVo);
 		
@@ -315,19 +315,84 @@ public class UserController {
 	* Method 설명 : 관리자가 회원을 등록
 	 */
 	@RequestMapping(path = "admInsertUser", method = RequestMethod.GET)
-	public String insertUser(String user_email, Model model) {
+	public String admInsertUser(String user_email, Model model) {
 		model.addAttribute("user_email", user_email);
 		logger.debug("user_email",user_email);
-		return "/member/memberWrite.adm.tiles";
+		return "/member/memberForm.adm.tiles";
 	}
 	
 	@RequestMapping(path = "admInsertUser", method = RequestMethod.POST)
-	public String insertUserProcess(UserVo userVo,BindingResult result,
-										String user_email, Model model) {
+	public String admInsertUserProcess(UserVo userVo,String user_email, 
+			String user_pass, Model model) throws InvalidKeyException, UnsupportedEncodingException {
+		
+		userVo.setUser_pass(ARIAUtil.ariaEncrypt(userVo.getUser_pass()));
+
+		logger.debug("userVo : {}", userVo);
+		logger.debug("user_email : {}", user_email);
+		logger.debug("user_pass : {}", user_pass);
 		
 		int admInsertUser = userService.insertUser(userVo);
+
+		// return "redirect:/login";
+		return "/member/memberForm.adm.tiles";
+	}
+	
+	/**
+	 * 
+	* Method : admUserView
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-02
+	* @param session
+	* @param model
+	* @return
+	* Method 설명 : 관리자가 회원의 리스트에서 회원 정보를 상세하게 조회
+	 */
+	@RequestMapping(path = "admUserView", method = RequestMethod.GET)
+	public String admUserView(HttpSession session, Model model, String getMemInfo) {
+		logger.debug("getMemInfo : {}", getMemInfo);
+
+		UserVo userVo = userService.getUser(getMemInfo);
+		model.addAttribute("userVo",userVo);
 		
-//		return "redirect:/login";
-		return "/member/memberWrite.adm.tiles";
+		logger.debug("userVo : {}", userVo);
+		
+		return "/member/memberView.adm.tiles";
+	}
+	
+	/**
+	 * 
+	* Method : admUpdateUser
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-02
+	* @return
+	* Method 설명 : 관리자가 회원의 정보를 수정
+	 */
+	@RequestMapping(path = "/admUpdateUser", method = RequestMethod.GET)
+	public String admUpdateUser(HttpSession session, Model model, String admUpdate) {
+		
+		logger.debug("admUpdate : {}",admUpdate);
+		logger.debug("----------------------------------------------");
+		
+		UserVo userVo = userService.getUser(admUpdate);
+		logger.debug("userVo : {}",userVo);
+		
+		model.addAttribute("userVo",userVo);
+		return "/member/memberUpdate.adm.tiles";
+	}
+	
+	@RequestMapping(path = "/admUpdateUser", method = RequestMethod.POST)
+	public String admUpdateUserProcess(String user_email, String user_nm, 
+										String user_hp, String user_st) {
+		
+		UserVo userVo = new UserVo();
+		
+		userVo.setUser_email(user_email);
+		userVo.setUser_nm(user_nm);
+		userVo.setUser_hp(user_hp);
+		userVo.setUser_st(user_st);
+		
+		int admUpdateUser = userService.updateUserAdm(userVo);
+		
+		return "/member/memberUpdate.adm.tiles";
 	}
 }

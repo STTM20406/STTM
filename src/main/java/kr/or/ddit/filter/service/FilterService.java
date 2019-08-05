@@ -214,7 +214,7 @@ public class FilterService implements IFilterService{
 	 * Method 설명 : 개인 업무리스트 화면에서 필터링을 거쳐 반환된 업무들을 Html 태그 형식으로 변환하는 메서드
 	 */
 	private String resultListTemplate(List<WorkVo>workList) {
-		SimpleDateFormat sdf = new SimpleDateFormat("M월 dd일");
+		SimpleDateFormat sdf = new SimpleDateFormat("M월 d일");
 		StringBuffer sb_result = new StringBuffer();
 		Date nowDate = new Date();
 		for(WorkVo work : workList) {
@@ -247,6 +247,10 @@ public class FilterService implements IFilterService{
 						sb_result.append("<span class='cmp' style='color:#32a89b;'>&nbsp;&nbsp;"+ sdf.format(work.getWrk_cmp_dt()) +" 완료</span>");
 					else if(work.getWrk_cmp_dt().after(work.getWrk_end_dt()))
 						sb_result.append("<span class='latecmp' style='color:#b71bbf;'>&nbsp;&nbsp;"+ sdf.format(work.getWrk_cmp_dt()) +" 완료</span>");
+				}
+			
+				if(work.getWrk_start_dt() != null && work.getWrk_end_dt()!=null && nowDate.before(work.getWrk_end_dt()) && nowDate.after(work.getWrk_start_dt())) {
+					sb_result.append("<span class='cmp' style='color:#32a89b;'>&nbsp;&nbsp;"+ sdf.format(work.getWrk_start_dt()) +"부터 " + sdf.format(work.getWrk_end_dt()) +" 까지</span>");
 				}
 			
 			sb_result.append("</div>");
@@ -671,7 +675,7 @@ public class FilterService implements IFilterService{
 				cmpList.add(work);
 			} else if(work.getWrk_end_dt()==null){ // 마감일 없는 업무
 				no_deadlineList.add(work);
-			} else if(nowDate.before(work.getWrk_start_dt())) { // 계획된 업무 : 업무 시작일이 현재보다 뒤일 때
+			} else if(work.getWrk_start_dt()!=null && work.getWrk_end_dt()!=null && nowDate.before(work.getWrk_end_dt())) { // 계획된 업무 : 업무 시작일과 종료일이 존재하고, 마감일이 아직 지나지 않았을 때
 				plannedList.add(work);
 			} else if(nowDate.after(work.getWrk_end_dt())){ // 마감일 지난 업무 : 업무 마감일이 현재보다 앞일 때
 				overdueList.add(work);
@@ -693,8 +697,8 @@ public class FilterService implements IFilterService{
 				+ "]}";
 		String container3 = "{\"series\": ["
 				+ "{\"name\": \"완료된 업무\",\"data\": "+ cmpList.size() +"},"
-				+ "{\"name\": \"마감일 지난 업무\",\"data\": "+ overdueList.size() +"},"
 				+ "{\"name\": \"계획된 업무\",\"data\": "+ plannedList.size() +" },"
+				+ "{\"name\": \"마감일 지난 업무\",\"data\": "+ overdueList.size() +"},"
 				+ "{\"name\": \"마감일 없는 업무\",\"data\": "+ no_deadlineList.size() +" }"
 				+ "]}";
 		String isBlank = workList.size() == 0 ? "true" : "false";

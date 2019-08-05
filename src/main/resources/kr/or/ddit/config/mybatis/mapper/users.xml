@@ -51,6 +51,14 @@
 	where user_email = #{user_email}
 </update>
 
+<!-- 관리자가 사용자 정보 수정 -->
+<update id="updateUserAdm" parameterType="userVo">
+	update users
+	set user_email = #{user_email}, user_nm = #{user_nm}
+	   ,user_hp = #{user_hp}, user_st = #{user_st}
+	where user_email = #{user_email}
+</update>
+
 <!-- ******************* 관리자 - 회원 관리 ******************* -->
 
 <!-- 전체 사용자 리스트 조회 -->
