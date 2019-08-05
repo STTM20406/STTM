@@ -124,7 +124,7 @@
 		VALUES (#{prj_id}, #{user_email}, #{prj_mem_lv}, #{prj_own_fl})
 	</insert>
 	
-	<update id="updatePrjectMem" parameterType="project_memVo">
+	<update id="updateProjectMem" parameterType="project_memVo">
 		UPDATE PROJECT_MEM A SET PRJ_MEM_LV = #{prj_mem_lv} WHERE PRJ_ID = #{prj_id} AND USER_EMAIL = #{user_email}
 	</update>
 
