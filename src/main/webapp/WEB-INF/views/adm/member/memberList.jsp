@@ -9,6 +9,18 @@
 
 <script>
 $(document).ready(function(){
+	
+	$("#search").on("change",function(){
+		console.log($("#search").val());
+		var searchValue = $("#search").val();
+		$("#selectBoxText").val(searchValue);
+	})
+	
+	$("#sch_submit").on("click",function(){
+		$("#frmSearch").submit();
+	})
+	
+	// ------------------------------------------------------
 	//사용자 tr 태그 이벤트 등록
 	$(".userTr").on("click", function(){
 		console.log("userTr click");
@@ -23,6 +35,7 @@ $(document).ready(function(){
 		//#frm 을 이용하여 submit();
 		$("#showMemForm").submit();
 	});
+	// ------------------------------------------------------
 });	
 </script>
 
@@ -39,16 +52,17 @@ $(document).ready(function(){
 			<div class="searchBox">
 				<div class="tb_sch_wr">
 					<fieldset id="hd_sch">
-					 	<form id="frmSearch" action="/admInquirySearch" method="get">
+					 	<form id="frmSearch" action="/admUserInfoSearch" method="get">
 		<input type="hidden" id="inq_cate" name="inq_cate" value="INQ01"/>
-							<input type="hidden" id="scText" name="scText" value="title"/>
+							<input type="hidden" id="selectBoxText" name="selectBoxText" value="userEmail"/>
 			                <legend>사이트 내 전체검색</legend>
+<!-- 				                <select id="search" name="selectBoxText"> -->
 				                <select id="search">
-				                	<option value="user_email">이메일</option>
-				                	<option value="user_nm">이름</option>
-				                	<option value="user_hp">전화번호</option>
+				                	<option value="userEmail">이메일</option>
+				                	<option value="userNm">이름</option>
+				                	<option value="userHp">전화번호</option>
 				                </select>
-			                <input type="text" name="searchText" id="searchText" maxlength="20" placeholder="검색어를 입력해주세요">
+			                <input type="text" name="keyword" id="keyword" maxlength="20" placeholder="검색어를 입력해주세요">
 			                <button type="submit" id="sch_submit" value="검색">검색</button>
 		                </form>
 	            	</fieldset>
@@ -69,7 +83,6 @@ $(document).ready(function(){
 						<th>사용자 이름</th>
 						<th>사용자 휴대폰 번호</th>
 						<th>회원 상태</th>
-	
 	
 						<c:forEach items="${userList}" var="userVo">
 						
@@ -95,7 +108,7 @@ $(document).ready(function(){
 						<a href class="btn_first"></a>
 					</c:when>
 					<c:otherwise>
-						<a href="${cp}/admInquiry?inq_cate=${pageVo.inq_cate }&page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a>
+						<a href="${cp}/admUserList?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a>
 					
 					</c:otherwise>
 				</c:choose>
@@ -106,7 +119,7 @@ $(document).ready(function(){
 							<span>${i}</span>
 						</c:when>
 						<c:otherwise>
-						<a href="${cp}/admInquiry?inq_cate=${pageVo.inq_cate }&page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
+						<a href="${cp}/admUserList?page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
 						</c:otherwise>
 					</c:choose>
 	
@@ -118,7 +131,7 @@ $(document).ready(function(){
 					</c:when>
 					
 					<c:otherwise>
-						<a href="${cp}/admInquiry?inq_cate=${pageVo.inq_cate }&page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
+						<a href="${cp}/admUserList?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
 					</c:otherwise>
 				</c:choose>
 		
