@@ -67,12 +67,19 @@ public class Work_CommentController {
 		return viewName;
 	}
 	
-	@RequestMapping(path="/commUpdate",method=RequestMethod.POST)
-	public String commentUpdate(Model model, String commContent, int commComm_id, int commPrj_id) {
+	@RequestMapping("/commUpdate")
+	public String commentUpdate(Model model, String inq_trim, String prj_id, String comm_id) {
+		logger.debug("!@# inq_trim : {}",inq_trim);
+		logger.debug("!@# comm_id : {}",comm_id);
+		logger.debug("!@# prj_id : {}",prj_id);
+		
+		int prj_idStr = Integer.parseInt(prj_id);
+		int comm_idStr = Integer.parseInt(comm_id);
+		
 		Work_CommentVo commentVo = new Work_CommentVo();
-		commentVo.setComm_id(commComm_id);
-		commentVo.setPrj_id(commComm_id);
-		commentVo.setComm_content(commContent);
+		commentVo.setComm_id(comm_idStr);
+		commentVo.setPrj_id(prj_idStr);
+		commentVo.setComm_content(inq_trim);
 		
 		int updateComm = commentService.commUpdate(commentVo);
 		

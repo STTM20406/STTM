@@ -37,7 +37,7 @@ ul.tabs li.current {
 </style>
 <script>
 	$(document).ready(function() {
-
+			var changText="";
 		$('ul.tabs li').click(function() {
 			var tab_id = $(this).attr('data-tab');
 
@@ -48,24 +48,41 @@ ul.tabs li.current {
 			$("#" + tab_id).addClass('current');
 		});
 
-		$(".commTr td .commUpdateBtn").on("click", function() {
+		$(".commTr .commUpdateBtn").on("click", function() {
 			//console.log($(this));
+			var commprid = $(this).siblings("input").val();
+			console.log(commprid);
+			
+			var prj_id = $(this).siblings("#prj_id02").val();
+			console.log(prj_id);
+			var comm_id = $(this).siblings("#comm_id02").val();
+			console.log(comm_id);
+// 			var testT = $(this).parents(".commDeleteTd").children().eq(1).attr('name');
+			
+			
  			var inq_id = $(this).parent().prev().prev().prev().text();
+ 			var inq_trim = $.trim(inq_id);
  			console.log(inq_id);
- 			var a = inq_id.append("<input type=text id='changeInput' value="+inq_id+"/>");
- 			console.log(a);
- 			test(inq_id);
+ 			console.log(inq_trim);
+ 			$(this).parent().prev().prev().prev().replaceWith("<td><input type='text' value='"+inq_trim+"'/></td>");
+ 			updateTest(inq_trim,prj_id,comm_id);
+ 			$(this).parent().prev().prev().prev().replaceWith("<td><p id='abc'></p></td>");
+ 			
 		})
 		
-		function test(inq_id){
+		function updateTest(inq_trim,prj_id,comm_id){
 			$.ajax({
 				url:"/commUpdate",
-				method:"post",
+				method:"get",
 				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-// 				data : a,
-// 				success:function(a){
-// 					console.log(a);
-// 				}
+				data : "inq_trim="+inq_trim+"&prj_id="+prj_id+"&comm_id="+comm_id,
+				success:function(data){
+					console.log(data);
+				
+// 					changText = data.data.name;
+// 					$("#abc").val(changText);
+					
+				}
 			})
 		}
 		
@@ -171,17 +188,21 @@ ul.tabs li.current {
 
 											<tr class="commTr">
 												<td class="commnum">${comm.comm_id }</td>
-												<td class="commCon">
-													${comm.comm_content }
 													<input type="hidden" name="commContent" value="${comm.comm_content }"/>
 													<input type="hidden" name="commComm_id" value="${comm.comm_id }"/>
 													<input type="hidden" name="commPrj_id" value="${comm.prj_id }"/>
+												<td class="commCon">
+													<p>${comm.comm_content }</p>
 												</td>
 												<td>${comm.user_email }</td>
 												<td><fmt:formatDate value="${comm.comm_date }" pattern="yyyy-MM-dd" /></td>
-												<td><button type="button" id="commUpdateBtn" class="commUpdateBtn">수정</button></td>
+												<td>
+													<input type="hidden" id="prj_id02" value="${comm.prj_id }"/>
+													<input type="hidden" id="comm_id02" value="${comm.comm_id }"/>
+													<button type="button" id="commUpdateBtn" class="commUpdateBtn">수정</button>
+												</td>
 												<td class="commDeleteTd">
-													<input type="hidden" id="tdCommPrj_id"value="${comm.prj_id }"/>
+													<input type="hidden" value="${comm.prj_id }"/>
 													<button type="button" id="commDeleteBtn" class="commDeleteBtn" name="${comm.comm_id }">삭제</button>
 												</td>
 											</tr>
