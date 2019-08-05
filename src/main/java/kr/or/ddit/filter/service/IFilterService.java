@@ -66,4 +66,14 @@ public interface IFilterService {
 	 * Method 설명 : 특정 업무정보를 담은 WorkVo를 반환하는 메서드
 	 */
 	WorkVo getWork(int wrk_id);
+	
+	/**
+	 * Method : projectOverviewJSON
+	 * 작성자 : 유승진
+	 * 변경이력 : 2019-08-05 최초 생성
+	 * @param filterVo
+	 * @return
+	 * Method 설명 : 특정 프로젝트의 업무 개요정보를 반환하는 메서드
+	 */
+	Map<String, Object> projectOverviewJSON(FilterVo filterVo);
 }

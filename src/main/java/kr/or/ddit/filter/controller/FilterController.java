@@ -26,6 +26,16 @@ public class FilterController {
 		return "/outline/work.user.tiles";
 	}
 	
+	@RequestMapping("/project/overview")
+	public String projectOverview() {
+		return "/main/analysis/analysis.user.tiles";
+	}
+	@RequestMapping("/project/overview/ajax")
+	public String projectOverviewAjax(Model model, FilterVo filterVo) {
+		model.addAttribute("result", filterService.projectOverviewJSON(filterVo));
+		return "jsonView";
+	}
+	
 	@RequestMapping("/filter/ajax")
 	public String filterAjax(Model model, FilterVo filterVo) {
 		logger.debug("filterVo : {}", filterVo);
