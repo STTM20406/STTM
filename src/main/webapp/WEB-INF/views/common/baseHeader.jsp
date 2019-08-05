@@ -59,7 +59,7 @@
 					<li><a href="#">NOTIFY</a></li>
 					<li><a href="#">WORK LIST</a></li>
 					<li><a href="/project/list">PROJECT LIST</a></li>
-					<li><a href="#">MEMBER</a></li>
+					<li><a href="/projectMemberList">MEMBER</a></li>
 					<li><a href="/friendChatList">CHATTING</a></li>
 					<li><a href="/userInquiry">INQUERY</a></li>
 					<c:forEach items="${userBoardListY }" var = "board">
