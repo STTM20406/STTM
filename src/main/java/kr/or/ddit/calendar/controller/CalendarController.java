@@ -189,7 +189,7 @@ public class CalendarController {
 	String delW(String wrk_id) {
 		logger.debug("♬♩♪  여기는 !!! 해당 업무를 삭제하는 controller입니다.!!");
 		int w_id = Integer.parseInt(wrk_id);
-		
+		logger.debug("♬♩♪  w_id: {}", w_id);
 		int del = calendarService.delW(w_id);
 		
 		if(del==1) {
@@ -222,6 +222,6 @@ public class CalendarController {
 		if(update ==1) {
 			logger.debug("♬♩♪  업데이트 완료!!");
 		}
-		return "redirect:/calendarGet";
+		return "jsonView";
 	}
 }

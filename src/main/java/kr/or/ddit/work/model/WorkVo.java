@@ -2,6 +2,8 @@ package kr.or.ddit.work.model;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 /**
  * WorkVo.java
  *
@@ -29,7 +31,9 @@ public class WorkVo {
 	private Date wrk_dt;         	// 업무 생성일시
 	private String wrk_grade;       // 업무 등급
 	private String wrk_color_cd;    // 업무 컬러 코드
+	@DateTimeFormat(pattern = "yyyy-MM-dd kk:mm")
 	private Date wrk_start_dt;    	// 업무 시작일
+	@DateTimeFormat(pattern = "yyyy-MM-dd kk:mm")
 	private Date wrk_end_dt;      	// 업무 종료일
 	private Date wrk_cmp_dt;      	// 업무 완료 체크일
 	private String wrk_cmp_fl;      // 업무 완료 여부
