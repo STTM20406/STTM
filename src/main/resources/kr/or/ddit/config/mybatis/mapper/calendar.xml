@@ -89,6 +89,34 @@
         AND     A.WRK_END_DT is not null
 	</select>
 	
+	<!-- 모든 프로젝트에 업무를 받아오는!  -->
+	<select id="projectWList"  resultType="workVo">
+		SELECT  DISTINCT A.WRK_ID
+		     ,  A.USER_EMAIL
+		     ,  C.WRK_LST_NM
+		     ,  C.PRJ_ID
+		     ,  B.USER_NM
+		     ,  D.PRJ_NM
+		     ,  A.WRK_LST_ID
+		     ,  A.WRK_RV_ID
+		     ,  A.WRK_PR_ID
+		     ,  A.WRK_NM
+		     ,  A.WRK_DT
+		     ,  A.WRK_GRADE
+		     ,  A.WRK_COLOR_CD
+		     ,  A.WRK_START_DT
+		     ,  A.WRK_END_DT
+		     ,  A.WRK_CMP_DT
+		     ,  A.WRK_CMP_FL
+		     ,  A.WRK_DEL_FL
+		FROM    WORK A, USERS B, WORK_LIST C, PROJECT D
+		WHERE   A.USER_EMAIL = B.USER_EMAIL
+		AND     A.WRK_LST_ID = C.WRK_LST_ID
+		AND     C.PRJ_ID = D.PRJ_ID
+        AND     A.WRK_START_DT is not null
+        AND     A.WRK_END_DT is not null
+	</select>
+	
 	<select id="projectMBList" parameterType="int" resultType="project_memVo">
 		select distinct 
 			b.USER_EMAIL,

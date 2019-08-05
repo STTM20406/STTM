@@ -10,7 +10,6 @@
 <link rel="stylesheet" href='/css/roboto.css'>
 <link rel="stylesheet" href='/css/select2.min.css'>
 
-<link rel="stylesheet" href="/css/dhtmlxgantt.css" type="text/css">
 
 <script>
 	$(document).ready(function() {
@@ -20,6 +19,8 @@
 	});
 </script>
 
+<<<<<<< HEAD
+=======
 <div id="frmContainer">
 	<form id="filterFrm">
 		<label>업무 구분</label><br>
@@ -68,6 +69,7 @@
 		<input type="hidden" name="user_email" value="${USER_INFO.user_email }">
 	</form>	
 </div>
+>>>>>>> 8ded73160a5522a197eb5ce944dba4c4d454b643
 
 	<!-- 일자 클릭시 메뉴오픈 -->
 	<div id="contextMenu" class="dropdown clearfix">

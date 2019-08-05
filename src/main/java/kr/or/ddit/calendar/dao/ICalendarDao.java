@@ -21,6 +21,9 @@ public interface ICalendarDao {
 	//시작일과 종료 일이 설정되어있는 업무들을 받아와서 calendar에 뿌려주는!!
 	List<WorkVo> wList(int prj_id);
 	
+	// 모든 프로젝트의 업무에 대한 정보를 가져오는
+	List<WorkVo> projectWList();
+	
 	//해당 프로젝트에 멤버들의 정보를 가져오는!
 	List<Project_MemVo> projectMBList(int prj_id);
 	

@@ -58,6 +58,10 @@ public class CalendarDao implements ICalendarDao {
 		return sqlSession.update("calendar.upW",workVo);
 	}
 	
+	@Override
+	public List<WorkVo> projectWList() {
+		return sqlSession.selectList("calendar.projectWList");
+	}
 	
 	
 	

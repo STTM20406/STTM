@@ -88,6 +88,10 @@ public class CalendarService implements ICalendarService {
 		return calendarDao.upW(workVo);
 	}
 	
+	@Override
+	public List<WorkVo> projectWList() {
+		return calendarDao.projectWList();
+	}
 	
 	
 	
@@ -98,6 +102,7 @@ public class CalendarService implements ICalendarService {
 	public List<ProjectVo> projectList() {
 		return calendarDao.projectList();
 	}
+
 
 	
 }
