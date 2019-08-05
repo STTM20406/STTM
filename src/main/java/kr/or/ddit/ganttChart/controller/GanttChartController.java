@@ -41,12 +41,12 @@ public class GanttChartController {
 	
 	@RequestMapping("/overview")
 	public String overviewGanttChartView() {
-		return "/main/gantChart/gantChart.user.tiles";
+		return "/outline/gantChart.user.tiles";
 	}
 	
 	@RequestMapping("/project")
 	public String projectGanttChartView() {
-		return "/outline/gantChart.user.tiles";
+		return "/main/gantChart/gantChart.user.tiles";
 	}
 	
 	@RequestMapping("/update")

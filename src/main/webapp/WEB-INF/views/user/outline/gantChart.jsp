@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
 <!-- 사용자 별 전체 프로젝트 업무 간트차트 -->
 <script src="/js/dhtmlxgantt.js"></script>
 <link rel="stylesheet" href="/css/dhtmlxgantt.css" type="text/css">
@@ -27,7 +25,10 @@
 		    	<input type="checkbox" class="filter" name="wrk_i_made" value="y">	내가 작성한 업무 <br>
 		    	<input type="checkbox" class="filter" name="wrk_i_following" value="y"> 내가 팔로우한 업무 <br>
 	    	<br><br><hr>
-	    	<input type="hidden" name="prj_id" value="2"> <!-- 나중에 세션에 저장된 프로젝트 아이디 값이 들어올 예정 -->
+	    	<label>프로젝트 구분</label><br>
+	    		<div id="prjList">
+	    		</div>
+	    	<br><br><hr>
 	    	<label>마감일 기준</label><br>
 		    	<input type="checkbox" class="filter" name="overdue" value="y"> 마감일 지남 <br>
 		    	<input type="checkbox" class="filter" name="till_this_week" value="y"> 이번 주까지 <br>

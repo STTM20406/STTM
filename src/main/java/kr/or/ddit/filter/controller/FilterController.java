@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import kr.or.ddit.filter.model.FilterVo;
 import kr.or.ddit.filter.service.IFilterService;
 
-@RequestMapping("/filter")
 @Controller
 public class FilterController {
 	private static final Logger logger = LoggerFactory.getLogger(FilterController.class);
@@ -22,12 +21,12 @@ public class FilterController {
 	@Resource(name="filterService")
 	IFilterService filterService;
 	
-	@RequestMapping("/view")
+	@RequestMapping("/overview/analysis")
 	public String filterView() {
 		return "/outline/work.user.tiles";
 	}
 	
-	@RequestMapping("/ajax")
+	@RequestMapping("/filter/ajax")
 	public String filterAjax(Model model, FilterVo filterVo) {
 		logger.debug("filterVo : {}", filterVo);
 		Map<String, Object> resultMap = filterService.workListJSON(filterVo); 
@@ -35,20 +34,20 @@ public class FilterController {
 		return "jsonView";
 	}
 	
-	@RequestMapping("/detail")
+	@RequestMapping("/filter/detail")
 	public String workDetailAjax(Model model, int wrk_id) {
 		logger.debug("wrk_id : {}", wrk_id);
 		model.addAttribute("workDetail", filterService.workDetail(wrk_id));
 		return "jsonView";
 	}
 	
-	@RequestMapping("/overgantt")
+	@RequestMapping("/filter/overgantt")
 	@ResponseBody
 	public Map<String, Object> overviewGanttChartData(FilterVo filterVo) {
 		return filterService.ganttListJSON(filterVo);
 	}
 	
-	@RequestMapping("/prjgantt")
+	@RequestMapping("/filter/prjgantt")
 	@ResponseBody
 	public Map<String, Object> projectGanttChartData(FilterVo filterVo) {
 		return filterService.ganttListJSON(filterVo);

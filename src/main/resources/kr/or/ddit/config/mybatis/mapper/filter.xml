@@ -123,18 +123,24 @@
 	<select id="makerIdList" parameterType="filterVo" resultType="userVo">
 		SELECT	DISTINCT(B.USER_EMAIL)
 			 ,	A.USER_NM
-		FROM	USERS A, WORK B, WORK_LIST C, (SELECT * FROM PROJECT_MEM WHERE USER_EMAIL = #{user_email})D
+		FROM	USERS A, WORK B, WORK_LIST C, (SELECT * FROM PROJECT_MEM WHERE USER_EMAIL = #{user_email}
+		<if test="prj_id != null">
+		AND PRJ_ID = #{prj_id}
+		</if>
+		)D
 		WHERE	A.USER_EMAIL = B.USER_EMAIL
 		AND		B.WRK_LST_ID = C.WRK_LST_ID
 		AND		C.PRJ_ID = D.PRJ_ID
-		
-		
 	</select>
 	
 	<select id="followerIdList" parameterType="filterVo" resultType="userVo">
 		SELECT	DISTINCT(B.USER_EMAIL)
 			 ,	A.USER_NM
-		FROM	USERS A, WORK_MEM_FLW B, (SELECT * FROM PROJECT_MEM WHERE USER_EMAIL = #{user_email}) C
+		FROM	USERS A, WORK_MEM_FLW B, (SELECT * FROM PROJECT_MEM WHERE USER_EMAIL = #{user_email}
+		<if test="prj_id != null">
+		AND PRJ_ID = #{prj_id}
+		</if>
+		) C
 		WHERE	A.USER_EMAIL = B.USER_EMAIL
 		AND		C.PRJ_ID = B.PRJ_ID
 		AND		B.JN_FL = 'F'
