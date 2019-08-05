@@ -25,9 +25,10 @@ function admUpdateUserView() {
 	<div id="tab-1" class="tab-content current">
 		
 		
-		<form id="admUpdate" action="/admUpdateUser" method="post" >	
+		<form id="admUpdate" action="/admUpdateUser" method="get" >	
 			
-			<input type="hidden" id="admUpdate" name="admUpdate" value="${userVo.user_email}">
+<!-- 			<input type="hidden" id="admUpdate" name="admUpdate"> -->
+		<input type="hidden" id="admUpdate" name="admUpdate" value="${userVo.user_email}">
 
 			<table class="tb_style_01">
 				<tr>
@@ -36,19 +37,19 @@ function admUpdateUserView() {
 				</tr>
 				<tr>
 					<td>이메일</td>
-					<td>${userVo.user_email}</td>
+					<td id="user_email">${userVo.user_email}</td>
 				</tr>
 				<tr>
 					<td>이름</td>
-					<td>${userVo.user_nm}</td>
+					<td id="user_nm">${userVo.user_nm}</td>
 				</tr>
 				<tr>
 					<td>전화번호</td>
-					<td>${userVo.user_hp}</td>
+					<td id="user_hp">${userVo.user_hp}</td>
 				</tr>
 				<tr>
 					<td>상태</td>
-					<td>${userVo.user_st}</td>
+					<td id="user_st">${userVo.user_st}</td>
 				</tr>
 			</table>
 		</form>	

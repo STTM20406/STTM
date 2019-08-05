@@ -95,7 +95,6 @@ public class UserController_Test_kkh {
 		logger.debug("user_nm : {}",user_nm);
 		logger.debug("user_hp : {}",user_hp);
 		
-		
 		if(user_nm == null) {
 		
 			UserVo userVo = new UserVo();
@@ -269,60 +268,126 @@ public class UserController_Test_kkh {
 	
 	// ------------------------------ 관리자 부분 ------------------------------ //
 	
-	/**
-	 * 
-	* Method : UserPagingList
-	* 작성자 : 김경호
-	* 변경이력 : 2019-08-01
-	* @param pageVo
-	* @param model
-	* @return
-	* Method 설명 : 관리자가 전체 회원의 리스트를 조회
-	 */
-//	@RequestMapping("/userPagingList")
-	public String userPagingList(PageVo pageVo, Model model) {
+		/**
+		 * 
+		* Method : UserPagingList
+		* 작성자 : 김경호
+		* 변경이력 : 2019-08-01
+		* @param pageVo
+		* @param model
+		* @return
+		* Method 설명 : 관리자가 전체 회원의 리스트를 조회
+		 */
+//		@RequestMapping("/admUserList")
+		public String admUserList(PageVo pageVo, Model model) {
+			
+			logger.debug("pageVo",pageVo);
+			
+			Map<String, Object> resultMap = userService.userPagingList(pageVo);
+			
+			List<UserVo> userList = (List<UserVo>) resultMap.get("userList");
+			int paginationSize = (Integer) resultMap.get("paginationSize");
+			
+			model.addAttribute("userList", userList);
+			
+			logger.debug("userList : {}",userList);
+			
+			model.addAttribute("paginationSize", paginationSize);
+			model.addAttribute("pageVo", pageVo);
+			
+			return "/member/memberList.adm.tiles";
+		}
 		
-		logger.debug("pageVo",pageVo);
+		/**
+		 * 
+		* Method : insertUser
+		* 작성자 : 김경호
+		* 변경이력 : 2019-08-01
+		* @param user_email
+		* @param model
+		* @return
+		* Method 설명 : 관리자가 회원을 등록
+		 */
+//		@RequestMapping(path = "admInsertUser", method = RequestMethod.GET)
+		public String admInsertUser(String user_email, Model model) {
+			model.addAttribute("user_email", user_email);
+			logger.debug("user_email",user_email);
+			return "/member/memberForm.adm.tiles";
+		}
 		
-		Map<String, Object> resultMap = userService.userPagingList(pageVo);
+//		@RequestMapping(path = "admInsertUser", method = RequestMethod.POST)
+		public String admInsertUserProcess(UserVo userVo,String user_email, 
+				String user_pass, Model model) throws InvalidKeyException, UnsupportedEncodingException {
+			
+			userVo.setUser_pass(ARIAUtil.ariaEncrypt(userVo.getUser_pass()));
+
+			logger.debug("userVo : {}", userVo);
+			logger.debug("user_email : {}", user_email);
+			logger.debug("user_pass : {}", user_pass);
+			
+			int admInsertUser = userService.insertUser(userVo);
+
+			// return "redirect:/login";
+			return "/member/memberForm.adm.tiles";
+		}
 		
-		List<UserVo> userList = (List<UserVo>) resultMap.get("userList");
-		int paginationSize = (Integer) resultMap.get("paginationSize");
+		/**
+		 * 
+		* Method : admUserView
+		* 작성자 : 김경호
+		* 변경이력 : 2019-08-02
+		* @param session
+		* @param model
+		* @return
+		* Method 설명 : 관리자가 회원의 리스트에서 회원 정보를 상세하게 조회
+		 */
+//		@RequestMapping(path = "admUserView", method = RequestMethod.GET)
+		public String admUserView(HttpSession session, Model model, String getMemInfo) {
+			logger.debug("getMemInfo : {}", getMemInfo);
+
+			UserVo userVo = userService.getUser(getMemInfo);
+			model.addAttribute("userVo",userVo);
+			
+			logger.debug("userVo : {}", userVo);
+			
+			return "/member/memberView.adm.tiles";
+		}
 		
-		model.addAttribute("userList", userList);
+		/**
+		 * 
+		* Method : admUpdateUser
+		* 작성자 : 김경호
+		* 변경이력 : 2019-08-02
+		* @return
+		* Method 설명 : 관리자가 회원의 정보를 수정
+		 */
+//		@RequestMapping(path = "/admUpdateUser", method = RequestMethod.GET)
+		public String admUpdateUser(HttpSession session, Model model, String admUpdate) {
+			
+			logger.debug("admUpdate : {}",admUpdate);
+			logger.debug("----------------------------------------------");
+			
+			UserVo userVo = userService.getUser(admUpdate);
+			logger.debug("userVo : {}",userVo);
+			
+			model.addAttribute("userVo",userVo);
+			return "/member/memberUpdate.adm.tiles";
+		}
 		
-		logger.debug("userList : {}",userList);
+//		@RequestMapping(path = "/admUpdateUser", method = RequestMethod.POST)
+		public String admUpdateUserProcess(String user_email, String user_nm, 
+											String user_hp, String user_st, HttpSession session) {
+//		public String admUpdateUserProcess(String ) {
 		
-		model.addAttribute("paginationSize", paginationSize);
-		model.addAttribute("pageVo", pageVo);
 		
-		return "/member/memberList.adm.tiles";
-	}
-	
-	/**
-	 * 
-	* Method : insertUser
-	* 작성자 : 김경호
-	* 변경이력 : 2019-08-01
-	* @param user_email
-	* @param model
-	* @return
-	* Method 설명 : 관리자가 회원을 등록
-	 */
-//	@RequestMapping(path = "admInsertUser", method = RequestMethod.GET)
-	public String insertUser(String user_email, Model model) {
-		model.addAttribute("user_email", user_email);
-		logger.debug("user_email",user_email);
-		return "/member/memberWrite.adm.tiles";
-	}
-	
-//	@RequestMapping(path = "admInsertUser", method = RequestMethod.POST)
-	public String insertUserProcess(UserVo userVo,BindingResult result,
-										String user_email, Model model) {
-		
-		int admInsertUser = userService.insertUser(userVo);
-		
-//		return "redirect:/login";
-		return "/member/memberWrite.adm.tiles";
-	}
+			logger.debug("user_email 아침 테스트 : {}",user_email);
+			logger.debug("user_nm 아침 테스트 : {}",user_nm);
+			logger.debug("user_hp 아침 테스트 : {}",user_hp);
+			logger.debug("user_st 아침 테스트 : {}",user_st);
+			
+			
+//			int admUpdateUser = userService.updateUserAdm(userVo);
+			
+			return "/member/memberUpdate.adm.tiles";
+		}
 }

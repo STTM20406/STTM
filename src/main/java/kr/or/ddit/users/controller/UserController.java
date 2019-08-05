@@ -370,26 +370,30 @@ public class UserController {
 	@RequestMapping(path = "/admUpdateUser", method = RequestMethod.GET)
 	public String admUpdateUser(HttpSession session, Model model, String admUpdate) {
 		
-		logger.debug("admUpdate : {}",admUpdate);
+		logger.debug("admUpdate 지난주 테스트 : {}",admUpdate);
 		logger.debug("----------------------------------------------");
 		
 		UserVo userVo = userService.getUser(admUpdate);
-		logger.debug("userVo : {}",userVo);
+		logger.debug("userVo 지난주 테스트 : {}",userVo);
 		
 		model.addAttribute("userVo",userVo);
 		return "/member/memberUpdate.adm.tiles";
 	}
 	
 	@RequestMapping(path = "/admUpdateUser", method = RequestMethod.POST)
-	public String admUpdateUserProcess(String user_email, String user_nm, 
-										String user_hp, String user_st) {
+	public String admUpdateUserProcess(String admUpdate,String user_email, String user_nm, 
+										String user_hp, String user_st, HttpSession session) {
 		
 		UserVo userVo = new UserVo();
-		
 		userVo.setUser_email(user_email);
 		userVo.setUser_nm(user_nm);
 		userVo.setUser_hp(user_hp);
 		userVo.setUser_st(user_st);
+		
+		logger.debug("user_email 아침 테스트 : {}",user_email);
+		logger.debug("user_nm 아침 테스트 : {}",user_nm);
+		logger.debug("user_hp 아침 테스트 : {}",user_hp);
+		logger.debug("user_st 아침 테스트 : {}",user_st);
 		
 		int admUpdateUser = userService.updateUserAdm(userVo);
 		

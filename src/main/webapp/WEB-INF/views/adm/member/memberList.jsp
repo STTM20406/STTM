@@ -44,8 +44,9 @@ $(document).ready(function(){
 							<input type="hidden" id="scText" name="scText" value="title"/>
 			                <legend>사이트 내 전체검색</legend>
 				                <select id="search">
-				                	<option value="title">제목</option>
-				                	<option value="content">내용</option>
+				                	<option value="user_email">이메일</option>
+				                	<option value="user_nm">이름</option>
+				                	<option value="user_hp">전화번호</option>
 				                </select>
 			                <input type="text" name="searchText" id="searchText" maxlength="20" placeholder="검색어를 입력해주세요">
 			                <button type="submit" id="sch_submit" value="검색">검색</button>
