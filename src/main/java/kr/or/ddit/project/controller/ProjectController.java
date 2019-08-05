@@ -117,8 +117,6 @@ public class ProjectController {
 		
 		int prjId = Integer.parseInt(prj_id);
 		
-		logger.debug("prj_id ::::::::: log {}", prj_id);
-		
 		//세션에 저장된 user 정보를 가져옴
 		UserVo user = (UserVo) session.getAttribute("USER_INFO");    
 		String user_email = user.getUser_email();
@@ -136,15 +134,12 @@ public class ProjectController {
 				admList.add(project_adm_list.get(i));
 			}
 		}
-		//model.addAttribute("data", admList);
 		
 		HashMap<String, Object> hashmap = new HashMap<String, Object>();
 		hashmap.put("projectInfo", projectService.getProject(prjId));
-		hashmap.put("projectMemList", admList);
+		hashmap.put("projectAdmList", admList);
+		hashmap.put("projectMemList", project_adm_list);
 
-//		model.addAttribute("data", projectService.getProject(prjId));
-//		model.addAttribute("data", projectMemService.projectMemList(projectMemVo));
-		
 		return hashmap;
 	}
 	
@@ -182,7 +177,7 @@ public class ProjectController {
 		return "jsonView";
 	}
 	
-	//프로젝트 멤버 리스트 불러오기
+	//프로젝트 멤버 리스트 불러오기(관리자 추가)
 	@RequestMapping("/projectAdmListAjax")
 	public String projectAdmListAjax(String prj_id, Model model, HttpSession session) {
 		
@@ -244,6 +239,69 @@ public class ProjectController {
 		projectMemVo.setPrj_mem_lv("LV1");
 		
 		int updateCnt = projectMemService.updateProjectMem(projectMemVo);
+		List<Project_MemVo> admList = new ArrayList<Project_MemVo>();
+		
+		if(updateCnt != 0) {
+			List<Project_MemVo> project_adm_list = projectMemService.projectMemList(projectMemVo);
+			for(int i=0; i<project_adm_list.size(); i++) {
+				if(project_adm_list.get(i).getPrj_mem_lv().equals("LV0")) {
+					admList.add(project_adm_list.get(i));
+				}
+			}
+			model.addAttribute("data", admList);
+		}
+		return "jsonView";
+	}
+	
+	//프로젝트 멤버 리스트 불러오기
+	@RequestMapping("/projectMemListAjax")
+	public String projectMemListAjax(String prj_id, Model model, HttpSession session) {
+		
+		int prjId = Integer.parseInt(prj_id);
+		
+		//세션에 저장된 user 정보를 가져옴
+		UserVo user = (UserVo) session.getAttribute("USER_INFO");    
+		String user_email = user.getUser_email();
+		
+		Project_MemVo projectMemVo = new Project_MemVo();
+		projectMemVo.setPrj_id(prjId);
+		projectMemVo.setUser_email(user_email);
+		
+		//내가 속한 프로젝트의 멤버들을 중복 없이 가져와 리스트에 담기
+		List<Project_MemVo> project_mem_list = projectMemService.projectAllMemList(user_email);
+		List<Project_MemVo> project_adm_list = projectMemService.projectMemList(projectMemVo);
+		
+		
+		for(int i=0; i<project_adm_list.size(); i++) {
+			for(int j=0; j<project_mem_list.size(); j++) {
+				if(project_mem_list.get(j).getUser_email().equals(project_adm_list.get(i).getUser_email())) {
+					project_mem_list.remove(project_mem_list.get(j));
+				}
+			}
+		}
+		
+		model.addAttribute("data", project_mem_list);
+		
+		return "jsonView";
+	}
+	
+	
+	@RequestMapping("/projectMemAddAjax")
+	public String projectMemAddAjax(String user_email, String prj_id, Model model) {
+		
+		int prjId = Integer.parseInt(prj_id);
+		
+		Project_MemVo projectMemVo = new Project_MemVo();
+		projectMemVo.setUser_email(user_email);
+		projectMemVo.setPrj_id(prjId);
+		projectMemVo.setPrj_mem_lv("LV0");
+		
+		int updateCnt = projectMemService.updateProjectMem(projectMemVo);
+		
+		Project_MemVo projectMemListVo = new Project_MemVo();
+		projectMemListVo.setPrj_id(prjId);
+		projectMemListVo.setUser_email(user_email);
+		
 		List<Project_MemVo> admList = new ArrayList<Project_MemVo>();
 		
 		if(updateCnt != 0) {

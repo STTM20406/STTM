@@ -49,7 +49,7 @@ public class FilterService implements IFilterService{
 		SimpleDateFormat sdf = new SimpleDateFormat("MM");
 		Date today = new Date();
 		filterVo.setTd_month(sdf.format(today));
-		sdf.applyPattern("WW");
+		sdf.applyPattern("ww");
 		filterVo.setTd_week(sdf.format(today));
 		return filterDao.filterList(filterVo);
 	}
@@ -64,18 +64,13 @@ public class FilterService implements IFilterService{
 		String makerList_str = makerListTemplate(filterVo);
 		String filterFrm = listFilterTemplate();
 		Map<String, Object> chartDataMap = workListCalc(workList);
-		String pieData = (String) chartDataMap.get("pieChartData");
-		String priorData = (String) chartDataMap.get("priorData");
-		String percentData = (String) chartDataMap.get("percentData"); 
-		String isBlank = (String) chartDataMap.get("isBlank");
+//		String isBlank = (String) chartDataMap.get("isBlank");
 		
-		resultMap.put("isBlank", isBlank);
-		resultMap.put("pieChartData", pieData);
-		resultMap.put("priorChartData", priorData);
-		resultMap.put("percentChartData", percentData);
+//		resultMap.put("isBlank", isBlank);
 		
 		resultMap.put("filterFrm", filterFrm);                          
 		 
+		resultMap.put("chartData", chartDataMap);
 		resultMap.put("prjList", prj_str);
 		resultMap.put("makerList", makerList_str);
 		resultMap.put("followerList", followerList_str);
@@ -664,7 +659,11 @@ public class FilterService implements IFilterService{
 		List<WorkVo> overdueList = new ArrayList<WorkVo>();
 		List<WorkVo> plannedList = new ArrayList<WorkVo>();
 		List<WorkVo> no_deadlineList = new ArrayList<WorkVo>();
-		
+		int entPt = 0;
+		int cmpPt = 0;
+		int planPt = 0;
+		int overduePt = 0;
+		int nodeadlinePt = 0;
 		Date nowDate = new Date();
 		
 		for(WorkVo work : workList) {
@@ -672,46 +671,341 @@ public class FilterService implements IFilterService{
 				continue;
 				
 			if("Y".equals(work.getWrk_cmp_fl())) { // 완료된 업무
+				switch(work.getWrk_grade()) {
+					case "A":
+						entPt += 5;
+						cmpPt += 5;
+					case "B":
+						entPt += 4;
+						cmpPt += 4;
+					case "C":
+						entPt += 3;
+						cmpPt += 3;
+					case "D":
+						entPt += 2;
+						cmpPt += 2;
+					case "E":
+						entPt += 1;
+						cmpPt += 1;
+				}
 				cmpList.add(work);
 			} else if(work.getWrk_end_dt()==null){ // 마감일 없는 업무
+				switch(work.getWrk_grade()) {
+				case "A":
+					entPt += 5;
+					nodeadlinePt += 5;
+				case "B":
+					entPt += 4;
+					nodeadlinePt += 4;
+				case "C":
+					entPt += 3;
+					nodeadlinePt += 3;
+				case "D":
+					entPt += 2;
+					nodeadlinePt += 2;
+				case "E":
+					entPt += 1;
+					nodeadlinePt += 1;
+				}
 				no_deadlineList.add(work);
 			} else if(work.getWrk_start_dt()!=null && work.getWrk_end_dt()!=null && nowDate.before(work.getWrk_end_dt())) { // 계획된 업무 : 업무 시작일과 종료일이 존재하고, 마감일이 아직 지나지 않았을 때
+				switch(work.getWrk_grade()) {
+				case "A":
+					entPt += 5;
+					planPt += 5;
+				case "B":
+					entPt += 4;
+					planPt += 4;
+				case "C":
+					entPt += 3;
+					planPt += 3;
+				case "D":
+					entPt += 2;
+					planPt += 2;
+				case "E":
+					entPt += 1;
+					planPt += 1;
+				}
 				plannedList.add(work);
 			} else if(nowDate.after(work.getWrk_end_dt())){ // 마감일 지난 업무 : 업무 마감일이 현재보다 앞일 때
+				switch(work.getWrk_grade()) {
+				case "A":
+					entPt += 5;
+					overduePt += 5;
+				case "B":
+					entPt += 4;
+					overduePt += 4;
+				case "C":
+					entPt += 3;
+					overduePt += 3;
+				case "D":
+					entPt += 2;
+					overduePt += 2;
+				case "E":
+					entPt += 1;
+					overduePt += 1;
+				}
 				overdueList.add(work);
 			}
 		}
 		
-		String container = "{\"categories\": [\"완료 업무\", \"미완료 업무\"],"
-				+ "\"series\": ["
-				+ "{\"name\": \"중요도 A\", \"data\":["+ doneList_A.size()+ ", "+ undoneList_A.size() +"]},"
-				+ "{\"name\": \"중요도 B\", \"data\":["+ doneList_B.size()+ ", "+ undoneList_B.size() +"]},"
-				+ "{\"name\": \"중요도 C\", \"data\":["+ doneList_C.size()+ ", "+ undoneList_C.size() +"]},"
-				+ "{\"name\": \"중요도 D\", \"data\":["+ doneList_D.size()+ ", "+ undoneList_D.size() +"]},"
-				+ "{\"name\": \"중요도 E\", \"data\":["+ doneList_E.size()+ ", "+ undoneList_E.size() +"]}"
-				+ "]}";
-		String container2 = "{\"categories\": [\"  진척도  \"],"
-				+ "\"series\": ["
-				+ "{\"name\": \"완료\", \"data\": ["+ percentage +"]},"
-				+ "{\"name\": \"미완료\", \"data\": ["+ (workList.size() == 0 ? 0 : (100-percentage)) +"]}"
-				+ "]}";
-		String container3 = "{\"series\": ["
-				+ "{\"name\": \"완료된 업무\",\"data\": "+ cmpList.size() +"},"
-				+ "{\"name\": \"계획된 업무\",\"data\": "+ plannedList.size() +" },"
-				+ "{\"name\": \"마감일 지난 업무\",\"data\": "+ overdueList.size() +"},"
-				+ "{\"name\": \"마감일 없는 업무\",\"data\": "+ no_deadlineList.size() +" }"
-				+ "]}";
+		Map<String, Object> barChartMap = new HashMap<>();
+		Map<String, Object> barChartMap_1 = new HashMap<>();
+		List<String> categories = new ArrayList<>();
+		barChartMap.put("priorChart", barChartMap_1);
+		barChartMap_1.put("categories", categories);
+		categories.add("완료 업무");
+		categories.add("미완료 업무");
+		
+		List<Object> seriesList_1 = new ArrayList<>();
+		barChartMap_1.put("series", seriesList_1);
+		Map<String, Object> seriesMap_1 = new HashMap<>();
+		List<Integer> seriesData_1 = new ArrayList<>();
+		seriesMap_1.put("name", "중요도 A");
+		seriesData_1.add(doneList_A.size());
+		seriesData_1.add(undoneList_A.size());
+		seriesMap_1.put("data", seriesData_1);
+//		if(!(doneList_A.isEmpty() && undoneList_A.isEmpty())) 
+		seriesList_1.add(seriesMap_1);
+		
+		Map<String, Object> seriesMap_2 = new HashMap<>();
+		List<Integer> seriesData_2 = new ArrayList<>();
+		seriesMap_2.put("name", "중요도 B");
+		seriesData_2.add(doneList_B.size());
+		seriesData_2.add(undoneList_B.size());
+		seriesMap_2.put("data", seriesData_2);
+//		if(!(doneList_B.isEmpty() && undoneList_B.isEmpty())) 
+		seriesList_1.add(seriesMap_2);
+		
+		Map<String, Object> seriesMap_3 = new HashMap<>();
+		List<Integer> seriesData_3 = new ArrayList<>();
+		seriesMap_3.put("name", "중요도 C");
+		seriesData_3.add(doneList_C.size());
+		seriesData_3.add(undoneList_C.size());
+		seriesMap_3.put("data", seriesData_3);
+//		if(!(doneList_C.isEmpty() && undoneList_C.isEmpty())) 
+		seriesList_1.add(seriesMap_3);
+		
+		Map<String, Object> seriesMap_4 = new HashMap<>();
+		List<Integer> seriesData_4 = new ArrayList<>();
+		seriesMap_4.put("name", "중요도 D");
+		seriesData_4.add(doneList_D.size());
+		seriesData_4.add(undoneList_D.size());
+		seriesMap_4.put("data", seriesData_4);
+		
+//		if(!(doneList_D.isEmpty() && undoneList_D.isEmpty())) 
+		seriesList_1.add(seriesMap_4);
+		
+		Map<String, Object> seriesMap_5 = new HashMap<>();
+		List<Integer> seriesData_5 = new ArrayList<>();
+		seriesMap_5.put("name", "중요도 E");
+		seriesData_5.add(doneList_E.size());
+		seriesData_5.add(undoneList_E.size());
+		seriesMap_5.put("data", seriesData_5);
+//		if(!(doneList_E.isEmpty() && undoneList_E.isEmpty())) 
+		seriesList_1.add(seriesMap_5);
+		
+		Map<String, Object> barChartMap_2 = new HashMap<>();
+		List<String> categories_2 = new ArrayList<>();
+		categories_2.add("진척도");
+		barChartMap_2.put("categories", categories_2);
+		List<Object> seriesList_2 = new ArrayList<>();
+		
+		Map<String, Object> series2Data_1 = new HashMap<>();
+		List<Double> series2List1 = new ArrayList<Double>();
+		series2List1.add(percentage);
+		series2Data_1.put("name", "완료");
+		series2Data_1.put("data", series2List1);
+		seriesList_2.add(series2Data_1);
+		Map<String, Object> series2Data_2 = new HashMap<>();
+		List<Double> series2List2 = new ArrayList<Double>();
+		series2List2.add(workList.size() == 0 ? 0: (100-percentage));
+		series2Data_2.put("name", "미완료");
+		series2Data_2.put("data", series2List2);
+		seriesList_2.add(series2Data_2);
+		
+		barChartMap_2.put("series", seriesList_2);
+		barChartMap.put("percentChart", barChartMap_2);
+		
+		Map<String, Object> pieChartMap = new HashMap<>();
+		List<Object> series3List = new ArrayList<>();
+		pieChartMap.put("series", series3List);
+		Map<String, Object> cmpMap = new HashMap<>();
+		cmpMap.put("name", "완료된 업무");
+		cmpMap.put("data", cmpList.size());
+		series3List.add(cmpMap);
+		Map<String, Object> plannedMap = new HashMap<>();
+		plannedMap.put("name", "계획된 업무");
+		plannedMap.put("data", plannedList.size());
+		series3List.add(plannedMap);
+		Map<String, Object> overdueMap = new HashMap<>();
+		overdueMap.put("name", "마감일 지난 업무");
+		overdueMap.put("data", overdueList.size());
+		series3List.add(overdueMap);
+		Map<String, Object> nodeadlineMap = new HashMap<>();
+		nodeadlineMap.put("name", "마감일 없는 업무");
+		nodeadlineMap.put("data", no_deadlineList.size());
+		series3List.add(nodeadlineMap);
+		
+		if((cmpList.size() == 0) && (plannedList.size() == 0) && (overdueList.size() == 0) && (no_deadlineList.size() == 0)) {
+			pieChartMap.put("isBlank", "true");
+		} else {
+			pieChartMap.put("isBlank", "false");
+		}
+			
 		String isBlank = workList.size() == 0 ? "true" : "false";
 		
-		chartDataMap.put("priorData", container);
-		chartDataMap.put("percentData", container2);
-		chartDataMap.put("pieChartData", container3);
 		chartDataMap.put("isBlank", isBlank);
+		chartDataMap.put("barChart", barChartMap);
+		chartDataMap.put("pieChart", pieChartMap);
 		return chartDataMap;
 	}
 
 	@Override
 	public WorkVo getWork(int wrk_id) {
 		return filterDao.workDetail(wrk_id);
+	}
+
+	@Override
+	public Map<String, Object> projectOverviewJSON(FilterVo filterVo) {
+		Map<String, Object> resultMap = new HashMap<>();
+		List<WorkVo> workList = filterList(filterVo);
+		logger.debug("workList : {}", workList);
+		Map<String, Object> wrkLstMap = workListbChart(workList);
+		filterVo.setWrk_i_assigned("y");
+		List<WorkVo> assignedList = filterList(filterVo);
+		Map<String, Object> assignedPieData = (Map<String, Object>) workListCalc(assignedList).get("pieChart");
+		filterVo.setWrk_i_assigned(null);
+		filterVo.setWrk_i_made("y");
+		List<WorkVo> madeList = filterList(filterVo);
+		Map<String, Object> madePieData = (Map<String, Object>) workListCalc(madeList).get("pieChart");
+		filterVo.setWrk_i_made(null);
+		filterVo.setWrk_i_following("y");
+		List<WorkVo> followingList = filterList(filterVo);
+		Map<String, Object> followingPieData = (Map<String, Object>) workListCalc(followingList).get("pieChart");
+		resultMap.put("assign", assignedPieData);
+		resultMap.put("made", madePieData);
+		resultMap.put("following", followingPieData);
+		resultMap.put("list", wrkLstMap);
+		return resultMap;
+	}
+
+	private Map<String, Object> workListbChart(List<WorkVo> workList) {
+		Date nowDate = new Date();
+		Map<String, Object> resultMap = new HashMap<>();
+		Map<Integer, Object> wrkListMap = new HashMap<>();
+		List<String> categories = new ArrayList<>();
+		Map<String, Object> workVoMap = new HashMap<>();
+		
+		Map<String, Object> cmpMap = new HashMap<>();
+		Map<String, Object> planMap = new HashMap<>();
+		Map<String, Object> overdueMap = new HashMap<>();
+		Map<String, Object> nodeadlineMap = new HashMap<>();
+		cmpMap.put("name", "완료된 업무");
+		planMap.put("name", "계획된 업무");
+		overdueMap.put("name", "마감일 지난 업무");
+		nodeadlineMap.put("name", "마감일 없는 업무");
+		
+		
+		for(WorkVo work : workList) {
+			if("AUTH04".equals(work.getAuth()))
+				continue;
+			
+			wrkListMap.put(work.getWrk_lst_id(),work.getWrk_lst_nm());
+		}
+		List<Integer> blankList = new ArrayList<>();
+		for(int i = 0; i<wrkListMap.size(); i++) {
+			blankList.add(0);
+		}
+		List<Integer> cmpList = new ArrayList<Integer>(blankList);
+		List<Integer> planList = new ArrayList<>(blankList);
+		List<Integer> overdueList = new ArrayList<>(blankList);
+		List<Integer> nodeadlineList = new ArrayList<>(blankList);
+		
+		logger.debug("wrkListMap.size() : {}",wrkListMap.size()); 
+		for(Integer wrk_lst_id : wrkListMap.keySet()) {
+			int entPt = 0;
+			int cmpPt = 0;
+			int planPt = 0;
+			int overduePt = 0;
+			int nodeadlinePt = 0;
+			categories.add((String)wrkListMap.get(wrk_lst_id));
+			int index = categories.indexOf(wrkListMap.get(wrk_lst_id));
+			
+			Map<String, Object> workMap = new HashMap<>();
+			List<WorkVo> workCmpList = new ArrayList<>();
+			List<WorkVo> workPlanList = new ArrayList<>();
+			List<WorkVo> workOverdueList = new ArrayList<>();
+			List<WorkVo> workNodeadlineList = new ArrayList<>();
+			
+			workVoMap.put((String)wrkListMap.get(wrk_lst_id), workMap);
+			
+			for(WorkVo work : workList) {
+				if("AUTH04".equals(work.getAuth()))
+					continue;
+				
+				if(work.getWrk_lst_id() == wrk_lst_id) {
+					int pt = 0;
+					switch(work.getWrk_grade()) {
+						case "A":
+							pt = 5;
+							entPt += 5;
+							break;
+						case "B":
+							pt = 4;
+							entPt += 4;
+							break;
+						case "C":
+							pt = 3;
+							entPt += 3;
+							break;
+						case "D":
+							pt = 2;
+							entPt += 2;
+							break;
+						case "E":
+							pt = 1;
+							entPt += 1;
+							break;
+					}
+							
+					if("Y".equals(work.getWrk_cmp_fl())) { // 완료된 업무
+						cmpPt += pt;
+						workCmpList.add(work);
+					} else if(work.getWrk_end_dt()==null){ // 마감일 없는 업무
+						nodeadlinePt += pt;
+						workNodeadlineList.add(work);
+					} else if(work.getWrk_start_dt()!=null && work.getWrk_end_dt()!=null && nowDate.before(work.getWrk_end_dt())) { // 계획된 업무 : 업무 시작일과 종료일이 존재하고, 마감일이 아직 지나지 않았을 때
+						planPt += pt;
+						workPlanList.add(work);
+					} else if(nowDate.after(work.getWrk_end_dt())){ // 마감일 지난 업무 : 업무 마감일이 현재보다 앞일 때
+						overduePt += pt;
+						workOverdueList.add(work);
+					}
+					cmpList.set(index, cmpPt);
+					nodeadlineList.set(index, nodeadlinePt);
+					planList.set(index, planPt);
+					overdueList.set(index, overduePt);
+				}
+			}
+			workMap.put("cmpList", workCmpList);
+			workMap.put("planList", workPlanList);
+			workMap.put("overdueList", workOverdueList);
+			workMap.put("nodeadlineList", workNodeadlineList);
+		}
+		cmpMap.put("data", cmpList);
+		planMap.put("data", planList);
+		overdueMap.put("data", overdueList);
+		nodeadlineMap.put("data", nodeadlineList);
+		List<Object> seriesList = new ArrayList<>();
+		seriesList.add(cmpMap);
+		seriesList.add(planMap);
+		seriesList.add(overdueMap);
+		seriesList.add(nodeadlineMap);
+		resultMap.put("series", seriesList);
+		logger.debug("wrkListMap : {}", wrkListMap);
+		resultMap.put("categories", categories);
+		resultMap.put("work", workVoMap);
+		return resultMap;
 	}
 }

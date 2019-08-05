@@ -104,7 +104,7 @@
 
 	<!-- *********************project_mem******************** -->
 
-	<!-- 프로젝트 멤버 리스트 조회 -->
+	<!-- 관리자로 추가 할 프로젝트 멤버 리스트 조회 -->
 	<select id="projectMemList" resultType="project_memVo" parameterType="project_memVo">
 		SELECT DISTINCT B.PRJ_ID
 					  , B.USER_EMAIL
@@ -116,17 +116,37 @@
 		WHERE B.PRJ_ID IN (A.PRJ_ID)
 		AND C.USER_EMAIL = B.USER_EMAIL AND B.PRJ_ID = #{prj_id}
 	</select>
-
-	<!-- 프로젝트 생성시 멤버 테이블에 동시에 인서트 -->
+	
+	
+	<!-- 프로젝트 멤버로 추가 할 프로젝트 멤버 리스트 조회 -->
+	<select id="projectAllMemList" resultType="project_memVo" parameterType="string">
+		SELECT DISTINCT B.USER_EMAIL
+              , C.USER_NM FROM
+              ( SELECT * FROM PROJECT_MEM WHERE USER_EMAIL = #{user_email}) A, PROJECT_MEM B, USERS C
+		WHERE B.PRJ_ID IN (A.PRJ_ID)
+		AND C.USER_EMAIL = B.USER_EMAIL
+	</select>
+	
+	
+	<!-- 프로젝트 생성시 멤버 테이블에 동시에 인서트 / 프로젝트 멤버 추가할 때 -->
 	<insert id="insertProjectMem" parameterType="project_memVo">
 		INSERT INTO
 		PROJECT_MEM (PRJ_ID, USER_EMAIL, PRJ_MEM_LV, PRJ_OWN_FL)
 		VALUES (#{prj_id}, #{user_email}, #{prj_mem_lv}, #{prj_own_fl})
 	</insert>
 	
+	
+	<!-- 프로젝트 멤버 관리자로 추가시 lv0으로 값 업데이트 / 프로젝트 관리자 삭제시 lv1로 값 업데이트 -->
 	<update id="updateProjectMem" parameterType="project_memVo">
 		UPDATE PROJECT_MEM A SET PRJ_MEM_LV = #{prj_mem_lv} WHERE PRJ_ID = #{prj_id} AND USER_EMAIL = #{user_email}
 	</update>
+	
+	
+	<!-- 프로젝트 멤버 삭제할 때 -->
+	<delete id="deleteProjectMem" parameterType="project_memVo">
+		DELETE FROM PROJECT_MEM WHERE PRJ_ID = #{prj_id} AND USER_EMAIL = #{user_email}
+	</delete>
+	
 
 	<!-- 휴면 계정으로 전환하기 위하여 나와 프로젝트 아이디가 같은 멤버 조회 -->
 	<select id="getMyProjectMemList" parameterType="int" resultType="project_memVo">

@@ -187,9 +187,6 @@
 				data:"prj_id=" + prj_id,
 				success:function(data){
 					
-					console.log(data.projectInfo);
-					console.log(data.projectMemList);
-					
 					$("#ppt_id").val(data.projectInfo.prj_id);
 					$("#ppt_nm").val(data.projectInfo.prj_nm);
 					$("#ppt_exp").val(data.projectInfo.prj_exp);
@@ -200,13 +197,19 @@
 					$("#ppt_cmp_date").val(data.projectInfo.prjCmpDtStr);
 					
 					var html = "";
-					data.projectMemList.forEach(function(item, index){
+					var html2 = "";
+					data.projectAdmList.forEach(function(item, index){
 						//html 생성
 						html += "<li id='"+ item.user_email +"_"+item.prj_id+"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
 						
 					});	
 					
+					data.projectMemList.forEach(function(item, index){
+						html2 += "<li id='"+ item.user_email+"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
+					});	
+					
 					$(".prj_add_box").html(html);
+					$(".prj_mem_add_box").html(html2);
 					
 					updateTime = data.projectInfo.prj_update;
 					updateDiff(updateTime);
@@ -304,7 +307,7 @@
 			projectAdmListAjax(id);
 		});
 		
-		//프로젝트 멤버 가져오는 ajax
+		//프로젝트 관리자 가져오는 ajax
 		function projectAdmListAjax(id){
 			$.ajax({
 				url:"/project/projectAdmListAjax",
@@ -350,6 +353,15 @@
 		
 		//프로젝트 관리자 삭제 클릭 했을 때
 		$(".prj_add_box").on("click", "li input", function(){
+			
+			var admNum = $(".prj_add_box li").length;
+			
+			if(admNum == 1){
+				$(".ctxt").text("프로젝트 관리자를 삭제할 수 없습니다. 프로젝트에는 최소 1인 이상의 프로젝트 관리자가 필요합니다.");
+	        	layer_popup("#layer2");
+	            return false;
+			}
+			
 			var textSplit = $(this).parent().attr("id").split("_");
 			var id = textSplit[1];
 			var email = textSplit[0];
@@ -372,6 +384,72 @@
 				}
 			});
 		}
+		
+		
+		//프로젝트 멤버 추가하기 버튼 클릭시 내가 속한 모든 프로젝트의 멤버들을 가져옴
+		$(".prj_add_mem").fadeOut(0); //멤버리스트 layer 숨기기
+		$("#ppt_mem_set").on("click", function(){
+			
+			$(".prj_add_mem").fadeIn(300);
+			
+			var id = $("#ppt_id").val();
+			
+			projectMemListAjax(id);
+		});
+		
+		//프로젝트 멤버 가져오는 ajax
+		function projectMemListAjax(id){
+			$.ajax({
+				url:"/project/projectMemListAjax",
+				method:"post",
+				data:"prj_id=" + id,
+				contentType:"application/x-www-form-urlencoded; charset=UTF-8",
+				success:function(data){
+					console.log(data);
+					var html = "";
+					data.data.forEach(function(item, index){
+						//html 생성
+						html += "<li id='"+ item.user_email +"'><span>"+ item.user_nm +"</span>"+ item.user_email + "</li>";
+					});	
+					$(".prj_mem_item_list").html(html);
+				}
+			});
+		}
+		
+		
+		
+		//프로젝트 멤버리스트를 클릭 했을 때
+		$(".prj_mem_item_list").on("click", "li", function(){
+			var mem_add_email = $(this).attr("id");
+			var id = $("#ppt_id").val();
+			
+			console.log(id);
+			console.log(mem_add_email);
+			//projectMemAddAjax(id, mem_add_email);
+		});
+		
+		//프로젝트 관리자로 선택한 멤버 추가
+		function projectMemAddAjax(id, mem_add_email){
+			$.ajax({
+				url:"/project/projectMemAddAjax",
+				method:"post",
+				data:"prj_id="+ id + "&user_email=" + mem_add_email,
+				success:function(data){
+					var html = "";
+					data.data.forEach(function(item, index){
+						html += "<li id='"+ item.user_email +"_"+item.prj_id+"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
+					});	
+					
+					$(".prj_mem_add_box").html(html);
+				}
+			});
+		}
+		
+		
+		
+		
+		
+		
 		
 		
 	});
@@ -642,8 +720,8 @@
 				<dd>
 					<button type="button" id="ppt_adm_set" name="ppt_adm_set">관리자 추가 버튼</button>
 					
-					<ul class="prj_add_box">
-					</ul>
+					<!-- 프로젝트 관리자 리스트 box -->
+					<ul class="prj_add_box"></ul>
 					
 					<div class="prj_add_adm">
 						<label for="prj_mem">프로젝트 관리자 추가</label>
@@ -654,15 +732,36 @@
 						                <input type="text" name="prj_mem" id="prj_mem" maxlength="20" placeholder="검색어를 입력해주세요">
 					           	</fieldset>
 							</div>
-							<ul class="prj_mem_item">
-							</ul>
+							
+							<!-- 추가된 프로젝트 관리자 리스트 box -->
+							<ul class="prj_mem_item"></ul>
 						</div>
 					</div>
 				</dd>
 			</dl>
 			<dl class="setItem">
 				<dt>프로젝트 멤버</dt>
-				<dd><button type="button" id="" name="" onclick="">프로젝트 멤버 추가 버튼</button></dd>
+				<dd>
+					<button type="button" id="ppt_mem_set" name="ppt_mem_set">프로젝트 멤버 추가 버튼</button>
+					
+					<!-- 프로젝트 멤버 리스트 box -->
+					<ul class="prj_mem_add_box"></ul>
+					
+					<div class="prj_add_mem">
+						<label for="prj_mem">프로젝트 멤버 추가</label>
+						<div class="prj_mem_list">
+							<div class="prj_mem_sch">
+								<fieldset id="hd_sch">
+					                <legend>사이트 내 프로젝트 검색</legend>
+						                <input type="text" name="prj_mem" id="prj_mem" maxlength="20" placeholder="검색어를 입력해주세요">
+					           	</fieldset>
+							</div>
+							
+							<!-- 추가된 프로젝트 멤버 리스트 box -->
+							<ul class="prj_mem_item_list"></ul>
+						</div>
+					</div>
+				</dd>
 			</dl>
 			<dl class="setItem">
 				<dt>프로젝트 나가기</dt>
