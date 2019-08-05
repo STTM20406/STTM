@@ -20,56 +20,55 @@
 	});
 </script>
 
-<div id="frmContainer" style="height:100%;width:20%;float:left;">
-	    <form id="filterFrm">
-	    	<label>업무 구분</label><br>
-	    	<select name="wrk_is_mine" class="filter">
-	    		<option value="all" selected>전체 업무</option>
-	    		<option value="mine">내 업무만</option>
-	    	</select>
-	    	<br><br><hr>
-	    	<label>작성일 기준</label><br>
-	    	<select name="wrk_dt" class="filter">
-	    		<option value="0" selected>전체</option>
-	    		<option value="30">30일 이내</option>
-	    		<option value="60">60일 이내</option>
-	    		<option value="90">90일 이내</option>
-	    	</select>
-	    	<br><br><hr>
-	    	<label>업무 주체</label>
-	    	<br>
-		    	<input type="checkbox" class="filter" name="wrk_i_assigned" value="y"> 내게 할당된 업무 <br>
-		    	<input type="checkbox" class="filter" name="wrk_i_made" value="y">	내가 작성한 업무 <br>
-		    	<input type="checkbox" class="filter" name="wrk_i_following" value="y"> 내가 팔로우한 업무 <br>
-	    	<br><br><hr>
-	    	<label>프로젝트 구분</label><br>
-	    		<div id="prjList">
-	    		</div>
-	    	<br><br><hr>
-	    	<label>마감일 기준</label><br>
-		    	<input type="checkbox" class="filter" name="overdue" value="y"> 마감일 지남 <br>
-		    	<input type="checkbox" class="filter" name="till_this_week" value="y"> 이번 주까지 <br>
-		    	<input type="checkbox" class="filter" name="till_this_month" value="y"> 이번 달까지 <br>
-		    	<input type="checkbox" class="filter" name="no_deadline" value="y"> 마감일 없음 <br>
-	    	<br><br><hr>
-	    	<label>업무 상태 구분</label><br>
-		    	<input type="checkbox" class="filter" name="is_cmp" value="y"> 완료된 업무 <br>
-		    	<input type="checkbox" class="filter" name="is_del" value="y"> 삭제된 업무 <br>
-	    	<br><br><hr>
-	    	<label>업무 작성자 구분</label><br>
-	    		<div id="makerList">
-	    		</div>
-	    	<br><br><hr>
-	    	<label>팔로우한 멤버 구분</label><br>
-	    		<div id="followerList">
-	    		</div>
-		    	<br>
-		    	<button type="button" onclick="reset()">필터 초기화</button>
-		    	<input type="hidden" name="user_email" value="${USER_INFO.user_email }">
-	    </form>
+<div id="frmContainer">
+	<form id="filterFrm">
+		<label>업무 구분</label><br>
+		<select name="wrk_is_mine" class="filter">
+			<option value="all" selected>전체 업무</option>
+			<option value="mine">내 업무만</option>
+		</select>
+		<br><br><hr>
+		<label>작성일 기준</label><br>
+		<select name="wrk_dt" class="filter">
+			<option value="0" selected>전체</option>
+			<option value="30">30일 이내</option>
+			<option value="60">60일 이내</option>
+			<option value="90">90일 이내</option>
+		</select>
+		<br><br><hr>
+		<label>업무 주체</label>
+		<br>
+	 	<input type="checkbox" class="filter" name="wrk_i_assigned" value="y"> 내게 할당된 업무 <br>
+	 	<input type="checkbox" class="filter" name="wrk_i_made" value="y">	내가 작성한 업무 <br>
+	 	<input type="checkbox" class="filter" name="wrk_i_following" value="y"> 내가 팔로우한 업무 <br>
+		<br><br><hr>
+		<label>프로젝트 구분</label><br>
+			<div id="prjList">
+			</div>
+		<br><br><hr>
+		<label>마감일 기준</label><br>
+	 	<input type="checkbox" class="filter" name="overdue" value="y"> 마감일 지남 <br>
+	 	<input type="checkbox" class="filter" name="till_this_week" value="y"> 이번 주까지 <br>
+	 	<input type="checkbox" class="filter" name="till_this_month" value="y"> 이번 달까지 <br>
+	 	<input type="checkbox" class="filter" name="no_deadline" value="y"> 마감일 없음 <br>
+		<br><br><hr>
+		<label>업무 상태 구분</label><br>
+	 	<input type="checkbox" class="filter" name="is_cmp" value="y"> 완료된 업무 <br>
+	 	<input type="checkbox" class="filter" name="is_del" value="y"> 삭제된 업무 <br>
+		<br><br><hr>
+		<label>업무 작성자 구분</label><br>
+			<div id="makerList">
+			</div>
+		<br><br><hr>
+		<label>팔로우한 멤버 구분</label><br>
+			<div id="followerList">
+			</div>
+	 	<br>
+	 	<button type="button" onclick="reset()">필터 초기화</button>
+		<input type="hidden" name="user_email" value="${USER_INFO.user_email }">
+	</form>	
 </div>
 
-<div class="container">
 	<!-- 일자 클릭시 메뉴오픈 -->
 	<div id="contextMenu" class="dropdown clearfix">
 		<ul class="dropdown-menu dropNewEvent" role="menu"
@@ -78,8 +77,8 @@
 			<li><a tabindex="-1" href="#">일정 등록</a></li>
 		</ul>
 	</div>
-
-	<div id="wrapper">
+	
+	<div class="cal_wrapper">
 		<div id="loading"></div>
 		<div id="calendar"></div>
 	</div>
@@ -198,7 +197,6 @@
 		</div>
 	</div>
 	<!-- /.filter panel -->
-</div>
 <!-- /.container -->
 
 <script src="/js/jquery.min.js"></script>
