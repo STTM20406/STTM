@@ -202,7 +202,8 @@
 					var html = "";
 					data.projectMemList.forEach(function(item, index){
 						//html 생성
-						html += "<li>"+item.user_nm+"</li>"	
+						html += "<li id='"+ item.user_email +"_"+item.prj_id+"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
+						
 					});	
 					
 					$(".prj_add_box").html(html);
@@ -315,7 +316,7 @@
 					var html = "";
 					data.data.forEach(function(item, index){
 						//html 생성
-						html += "<li id='"+ item.user_email +"'><span>"+ item.user_nm +"</span>"+ item.user_email +"</li>";
+						html += "<li id='"+ item.user_email +"'><span>"+ item.user_nm +"</span>"+ item.user_email + "</li>";
 					});	
 					
 					$(".prj_mem_item").html(html);
@@ -339,12 +340,36 @@
 				success:function(data){
 					var html = "";
 					data.data.forEach(function(item, index){
-						html += "<li id='"+ item.user_email +"'><span>"+ item.user_nm +"</span>"+ item.user_email +"</li>";
+						html += "<li id='"+ item.user_email +"_"+item.prj_id+"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
 					});	
 					
 					$(".prj_add_box").html(html);
 				}
-				
+			});
+		}
+		
+		//프로젝트 관리자 삭제 클릭 했을 때
+		$(".prj_add_box").on("click", "li input", function(){
+			var textSplit = $(this).parent().attr("id").split("_");
+			var id = textSplit[1];
+			var email = textSplit[0];
+			
+			projectAdmDelAjax(id, email);
+		});
+		
+		function projectAdmDelAjax(id, email){
+			$.ajax({
+				url:"/project/projectAdmDelAjax",
+				method:"post",
+				data:"prj_id="+ id + "&user_email=" + email,
+				success:function(data){
+					var html = "";
+					data.data.forEach(function(item, index){
+						html += "<li id='"+ item.user_email +"_"+item.prj_id+"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
+					});	
+					
+					$(".prj_add_box").html(html);
+				}
 			});
 		}
 		
@@ -617,8 +642,8 @@
 				<dd>
 					<button type="button" id="ppt_adm_set" name="ppt_adm_set">관리자 추가 버튼</button>
 					
-					<div class="prj_add_box">
-					</div>
+					<ul class="prj_add_box">
+					</ul>
 					
 					<div class="prj_add_adm">
 						<label for="prj_mem">프로젝트 관리자 추가</label>

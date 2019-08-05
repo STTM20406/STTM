@@ -2,6 +2,7 @@ package kr.or.ddit.chat_room.service;
 
 import java.util.List;
 
+import kr.or.ddit.chat_mem.model.Chat_MemVo;
 import kr.or.ddit.chat_room.model.Chat_RoomVo;
 
 public interface IChat_RoomService {
@@ -50,4 +51,26 @@ public interface IChat_RoomService {
 	 * Method 설명 	: 방 삭제
 	 */
 	public int deleteChatRoom(int ct_id);
+	
+	/**
+	 * 
+	 * Method 		: maxRoomId
+	 * 작성자 			: 유다연 
+	 * 변경이력 		: 2019-08-02 최초 생성
+	 * @return
+	 * Method 설명 	: 채팅방 max id
+	 */
+	public int maxRoomId();
+	
+	/**
+	 * 
+	 * Method 		: updateChatTitle
+	 * 작성자 			: 유다연
+	 * 변경이력 		: 2019-08-05 최초 생성
+	 * @param vo
+	 * @return
+	 * Method 설명 	: 채팅방 이름 수정
+	 */
+	public int updateChatTitle(Chat_RoomVo vo);
+	
 }

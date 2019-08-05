@@ -55,7 +55,7 @@ public class Project_MemDao implements IProject_MemDao{
 	 */
 	@Override
 	public int updateProjectMem(Project_MemVo projectMemVo) {
-		return sqlSession.update("project.updatePrjectMem", projectMemVo);
+		return sqlSession.update("project.updateProjectMem", projectMemVo);
 	}
 
 	/**

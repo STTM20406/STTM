@@ -34,6 +34,17 @@
 		select ct_id from chat_room
 	</select>
 	
+	<select id="maxRoomId" resultType="int">
+		select max(ct_id) from chat_room
+	</select>
+	
+	<!-- 채팅방 이름 수정 -->
+	<update id="updateChatTitle" parameterType="chat_roomVo">
+		UPDATE  chat_room
+		SET 	ct_nm = #{ct_nm}
+		WHERE   ct_id = #{ct_id}
+	</update>
+	
 <!-- ************************* chat_memVo **********************************-->
 
 	<!-- 채팅방에 참여한 친구 리스트 -->
@@ -67,9 +78,9 @@
 	</select>
 
 	<!-- 채팅방 초대할 친구 리스트 (이미 채팅방에 있는 친구는 제외하고 보여주는 리스트) -->
-	<select id="inviteFriend" parameterType="chat_participateVo" resultType="string">
-		select user_nm from users
-		where user_email = (
+	<select id="inviteFriend" parameterType="chat_participateVo" resultType="chat_participateVo">
+		select user_nm, user_email from users
+		where user_email in (
 		        select a.frd_email
 		        from friends a 
 		        where a.user_email = #{user_email}
