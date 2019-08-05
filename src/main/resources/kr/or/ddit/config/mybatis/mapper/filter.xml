@@ -40,15 +40,9 @@
 			<when test="wrk_dt eq 60">60 &gt;= SYSDATE - A.WRK_DT </when>
 			<when test="wrk_dt eq 90">90 &gt;= SYSDATE - A.WRK_DT </when>
 		</choose>
-		AND 
-		<choose>
-			<when test="wrk_is_mine eq 'all'">
-				C.USER_EMAIL LIKE '%'
-			</when>
-			<otherwise>
-				A.WRK_ID IN (SELECT WRK_ID FROM WORK_MEM_FLW C WHERE C.USER_EMAIL = #{user_email} AND C.JN_FL = 'M')  
-			</otherwise>
-		</choose>
+			<if test="wrk_is_mine eq 'mine'">
+				AND A.WRK_ID IN (SELECT WRK_ID FROM WORK_MEM_FLW C WHERE C.USER_EMAIL = #{user_email} AND C.JN_FL = 'M')  
+			</if>
 		<if test="wrk_i_assigned != null || wrk_i_made != null || wrk_i_following != null">
 		AND(
 			<trim prefix="" prefixOverrides="OR">
