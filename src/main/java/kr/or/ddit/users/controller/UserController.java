@@ -2,6 +2,7 @@ package kr.or.ddit.users.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -273,6 +274,14 @@ public class UserController {
 //		return viewName;
 	}
 	
+	
+	@RequestMapping(path = "/", method = RequestMethod.GET)
+	public String projectMemberListView() {
+
+		return "";
+	}
+	
+	
 	// ------------------------------ 관리자 부분 ------------------------------ //
 	
 	/**
@@ -401,16 +410,84 @@ public class UserController {
 		return "/member/memberUpdate.adm.tiles";
 	}
 	
-	@RequestMapping(path = "",method = RequestMethod.GET)
-//	public String admInquirySearch(Model model,String searchText,String scText,String inq_cate,
-//	@RequestParam(name = "page", defaultValue = "1")int page,
-//	@RequestParam(name = "pageSize", defaultValue = "10")int pageSize) {
-	
-	public String admSearchUserInfo(Model model, String searchText, String scText) {
+	/**
+	 * 
+	* Method : admSearchUserInfo
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-05
+	* @param model
+	* @param searchText
+	* @param selectBoxText
+	* @param session
+	* @param page
+	* @param pageSize
+	* @return
+	* Method 설명 : 관리자가 이메일,이름,전화번호로 회원을 검색하여 페이징 리스트로 보여줌
+	 */
+	@RequestMapping(path = "/admUserInfoSearch",method = RequestMethod.GET)
+	public String admSearchUserInfo
+					(Model model, String keyword, String selectBoxText,HttpSession session
+					,@RequestParam(name = "page", defaultValue = "1")int page
+					,@RequestParam(name = "pageSize", defaultValue = "10")int pageSize) {
 		
-//		Map<String, Object> resultMap = userService.
+		PageVo pageVo = new PageVo(page, pageSize);
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+//		String user_email = userVo.getUser_email();
+//		String user_email = keyword;
 		
-		return null;
+		Map<String, Object> search = new HashMap<String, Object>();
+		
+		search.put("user_email", keyword);
+		
+		search.put("page", page);
+		search.put("pageSize", pageSize);
+		
+//		search.put("user_email", userVo.getUser_email());
+//		search.put("user_email", user_email);
+		
+		logger.debug("searchText : {}",keyword);
+		logger.debug("page : {}",page);
+		logger.debug("pageSize : {}",pageSize);
+//		logger.debug("user_email : {}",user_email);
+		
+		logger.debug("selectBoxText : {}",selectBoxText);
+		
+		if(selectBoxText.equals("userEmail")) {
+			Map<String, Object> resultMap = userService.userSearchByEmail(search);
+			
+			logger.debug("resultMap 오후 로거 테스트 : {}",resultMap);
+			
+			List<UserVo> userEmailSearchList = (List<UserVo>) resultMap.get("admSearchEmailList");
+			
+			logger.debug("userEmailSearchList 오후 로거 테스트 : {}",userEmailSearchList);
+			
+			int paginationSize = (Integer) resultMap.get("paginationSize");
+			
+			logger.debug("paginationSize 오후 로거 테스트 : {}",paginationSize);
+			
+			model.addAttribute("userList" , userEmailSearchList);
+			model.addAttribute("paginationSize", paginationSize);
+			model.addAttribute("pageVo", pageVo);
+			
+		}
+//		else if(selectBoxText.equals("userNm")) {
+//			Map<String, Object> resultMap = userService.userSearchByEmail(search);
+//			List<UserVo> userNmSearchList = (List<UserVo>) resultMap.get("admSearchNameList");
+//			int paginationSize = (Integer) resultMap.get("paginationSize");
+//			
+//			model.addAttribute("userNmSearchList", userNmSearchList);
+//			model.addAttribute("paginationSize", paginationSize);
+//			model.addAttribute("pageVo", pageVo);
+//		}else if(selectBoxText.equals("userHp")) {
+//			Map<String, Object> resultMap = userService.userSearchByEmail(search);
+//			List<UserVo> userHpSearchList = (List<UserVo>) resultMap.get("admSearchHpList");
+//			int paginationSize = (Integer) resultMap.get("paginationSize");
+//			
+//			model.addAttribute("userHpSearchList", userHpSearchList);
+//			model.addAttribute("paginationSize", paginationSize);
+//			model.addAttribute("pageVo", pageVo);
+//		}
+		return "/member/memberList.adm.tiles";
 	}
 	
 }

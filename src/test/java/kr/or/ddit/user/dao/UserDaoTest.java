@@ -1,8 +1,11 @@
 package kr.or.ddit.user.dao;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -16,6 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import kr.or.ddit.config.spring.ApplicationDatasource;
 import kr.or.ddit.config.spring.ApplicationTransaction;
 import kr.or.ddit.config.spring.RootContext;
+import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.project_mem.model.Project_MemVo;
 import kr.or.ddit.project_mem.service.IProject_MemService;
 import kr.or.ddit.user.service.UserServiceTest;

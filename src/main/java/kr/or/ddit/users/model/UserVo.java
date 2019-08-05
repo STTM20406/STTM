@@ -30,9 +30,9 @@ public class UserVo {
 	private String user_filename;	// 원본사진파일명
 	
 	public UserVo() {
-	
+
 	}
-	
+
 	public UserVo(String user_email, String user_pass, String user_nm, String user_hp, String user_job,
 			String user_token, String user_right, String user_st, String user_path, String user_filename) {
 		super();
@@ -58,62 +58,81 @@ public class UserVo {
 	public String getUser_email() {
 		return user_email;
 	}
+
 	public void setUser_email(String user_email) {
 		this.user_email = user_email;
 	}
+
 	public String getUser_pass() {
 		return user_pass;
 	}
+
 	public void setUser_pass(String user_pass) {
 		this.user_pass = user_pass;
 	}
+
 	public String getUser_nm() {
 		return user_nm;
 	}
+
 	public void setUser_nm(String user_nm) {
 		this.user_nm = user_nm;
 	}
+
 	public String getUser_hp() {
 		return user_hp;
 	}
+
 	public void setUser_hp(String user_hp) {
 		this.user_hp = user_hp;
 	}
+
 	public String getUser_job() {
 		return user_job;
 	}
+
 	public void setUser_job(String user_job) {
 		this.user_job = user_job;
 	}
+
 	public String getUser_token() {
 		return user_token;
 	}
+
 	public void setUser_token(String user_token) {
 		this.user_token = user_token;
 	}
+
 	public String getUser_right() {
 		return user_right;
 	}
+
 	public void setUser_right(String user_right) {
 		this.user_right = user_right;
 	}
+
 	public String getUser_st() {
 		return user_st;
 	}
+
 	public void setUser_st(String user_st) {
 		this.user_st = user_st;
 	}
+
 	public String getUser_path() {
 		return user_path;
 	}
+
 	public void setUser_path(String user_path) {
 		this.user_path = user_path;
 	}
+
 	public String getUser_filename() {
 		return user_filename;
 	}
+
 	public void setUser_filename(String user_filename) {
 		this.user_filename = user_filename;
 	}
-	
+
 }
