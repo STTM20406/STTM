@@ -2,6 +2,8 @@ package kr.or.ddit.work.model;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 /**
  * WorkVo.java
  *
@@ -29,7 +31,9 @@ public class WorkVo {
 	private Date wrk_dt;         	// 업무 생성일시
 	private String wrk_grade;       // 업무 등급
 	private String wrk_color_cd;    // 업무 컬러 코드
+	@DateTimeFormat(pattern = "yyyy-MM-dd kk:mm")
 	private Date wrk_start_dt;    	// 업무 시작일
+	@DateTimeFormat(pattern = "yyyy-MM-dd kk:mm")
 	private Date wrk_end_dt;      	// 업무 종료일
 	private Date wrk_cmp_dt;      	// 업무 완료 체크일
 	private String wrk_cmp_fl;      // 업무 완료 여부
@@ -48,7 +52,15 @@ public class WorkVo {
 
 	}
 
-	//업무 등록! 생성자
+	/**
+	 * @param wrk_lst_id
+	 * @param user_email
+	 * @param wrk_nm
+	 * @param wrk_color_cd
+	 * @param wrk_start_dt
+	 * @param wrk_end_dt
+	 * @author 손영하 insert
+	 */
 	public WorkVo(int wrk_lst_id, String user_email, String wrk_nm, String wrk_color_cd, Date wrk_start_dt,Date wrk_end_dt ) {
 		this.wrk_lst_id = wrk_lst_id;
 		this.user_email = user_email;
@@ -56,6 +68,36 @@ public class WorkVo {
 		this.wrk_color_cd = wrk_color_cd;
 		this.wrk_start_dt = wrk_start_dt;
 		this.wrk_end_dt = wrk_end_dt;
+	}
+	
+	/**
+	 * @author 손영하  drag and drop update
+	 * @param wrk_id
+	 * @param wrk_start_dt
+	 * @param wrk_end_dt
+	 */
+	public WorkVo(int wrk_id, Date wrk_start_dt,Date wrk_end_dt ) {
+		this.wrk_id = wrk_id;
+		this.wrk_start_dt = wrk_start_dt;
+		this.wrk_end_dt = wrk_end_dt;
+	}
+	
+	/**
+	 * @param wrk_id
+	 * @param wrk_lst_id
+	 * @param wrk_nm
+	 * @param wrk_color_cd
+	 * @param wrk_start_dt
+	 * @param wrk_end_dt
+	 * 설명 : 해당 프로젝트 업데이트
+	 */
+	public WorkVo( int wrk_lst_id, String wrk_nm, String wrk_color_cd, Date wrk_start_dt, Date wrk_end_dt,int wrk_id) {
+		this.wrk_lst_id = wrk_lst_id;
+		this.wrk_nm = wrk_nm;
+		this.wrk_color_cd = wrk_color_cd;
+		this.wrk_start_dt = wrk_start_dt;
+		this.wrk_end_dt = wrk_end_dt;
+		this.wrk_id = wrk_id;
 	}
 
 	@Override
