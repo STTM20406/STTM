@@ -15,9 +15,19 @@ public class Project_MemService implements IProject_MemService{
 	@Resource(name = "project_MemDao")
 	private IProject_MemDao projectMemDao;
 	
+	
+	/**
+	 * 
+	 * Method 		: projectMemList
+	 * 작성자 		: 박서경 
+	 * 변경이력 		: 2019-08-03 최초 생성
+	 * @param user_email
+	 * @return
+	 * Method 설명 	: 프로젝트 멤버 리스트 조회
+	 */
 	@Override
-	public List<Project_MemVo> projectMemList() {
-		return null;
+	public List<Project_MemVo> projectMemList(Project_MemVo projectMemVo) {
+		return projectMemDao.projectMemList(projectMemVo);
 	}
 
 	/**
@@ -33,9 +43,19 @@ public class Project_MemService implements IProject_MemService{
 		return projectMemDao.insertProjectMem(projectMemVo);
 	}
 
+	/**
+	 * 
+	 * Method 		: updatePjojectMem
+	 * 작성자 		: 박서경 
+	 * 변경이력 		: 2019-08-03 최초 생성
+	 * @param projectMemVo
+	 * @return
+	 * Method 설명 	:
+	 */
 	@Override
-	public int updatePjojectMem(Project_MemVo projectMemVo) {
-		return 0;
+	public int updateProjectMem(Project_MemVo projectMemVo) {
+		return projectMemDao.updateProjectMem(projectMemVo);
 	}
+
 	
 }

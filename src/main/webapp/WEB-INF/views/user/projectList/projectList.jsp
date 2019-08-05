@@ -187,16 +187,27 @@
 				data:"prj_id=" + prj_id,
 				success:function(data){
 					
-					$("#ppt_id").val(data.data.prj_id);
-					$("#ppt_nm").val(data.data.prj_nm);
-					$("#ppt_exp").val(data.data.prj_exp);
-					$("#ppt_asc").val(data.data.prj_auth);
-					$("#ppt_st").val(data.data.prj_st);
-					$("#ppt_start_date").val(data.data.prjStartDtStr);
-					$("#ppt_end_date").val(data.data.prjEndDtStr);
-					$("#ppt_cmp_date").val(data.data.prjCmpDtStr);
+					console.log(data.projectInfo);
+					console.log(data.projectMemList);
 					
-					updateTime = data.data.prj_update;
+					$("#ppt_id").val(data.projectInfo.prj_id);
+					$("#ppt_nm").val(data.projectInfo.prj_nm);
+					$("#ppt_exp").val(data.projectInfo.prj_exp);
+					$("#ppt_asc").val(data.projectInfo.prj_auth);
+					$("#ppt_st").val(data.projectInfo.prj_st);
+					$("#ppt_start_date").val(data.projectInfo.prjStartDtStr);
+					$("#ppt_end_date").val(data.projectInfo.prjEndDtStr);
+					$("#ppt_cmp_date").val(data.projectInfo.prjCmpDtStr);
+					
+					var html = "";
+					data.projectMemList.forEach(function(item, index){
+						//html 생성
+						html += "<li>"+item.user_nm+"</li>"	
+					});	
+					
+					$(".prj_add_box").html(html);
+					
+					updateTime = data.projectInfo.prj_update;
 					updateDiff(updateTime);
 				}
 			});
@@ -204,49 +215,140 @@
 		
 		
 		
-		
 		/* 여기서부터 프로젝트 셋팅 업데이트를 위한 이벤트 핸들러 입니다. */
-		$("#propertySet").on("propertychange change click keyup paste input", function(){
+		$("#propertySet input, select").on("propertychange change keyup paste input blur", function(){
 			
+			//프로젝트 셋팅 값 가져오기
 			var id = $("#ppt_id").val();
 			var name = $("#ppt_nm").val();
 			var exp = $("#ppt_exp").val();
-			var acs = $("#ppt_asc").val();
+			var auth = $("#ppt_asc").val();
 			var status = $("#ppt_st").val();
 			var start_date = $("#ppt_start_date").val();
 			var end_date = $("#ppt_end_date").val();
 			var cmp_date = $("#ppt_cmp_date").val();
 			
-// 			console.log(name);
-// 			console.log(exp);
-// 			console.log(acs);
-// 			console.log(status);
-// 			console.log(start_date);
-// 			console.log(end_date);
-// 			console.log(cmp_date);
-
-			propertySetItemAjax(id, name, exp, acs, status, start_date, end_date, cmp_date);
+			//프로젝트 이름이 없으면 return false
+			if(!name){
+				return false;
+			}
+			
+			//프로젝트 종료일을 시작일 보다 작을 수 없음.
+	        var startDateArr = start_date.split('-');
+	        var endDateArr = end_date.split('-');
+	        
+	        var startDateCompare = new Date(startDateArr[0], parseInt(startDateArr[1])-1, startDateArr[2]);
+	        var endDateCompare = new Date(endDateArr[0], parseInt(endDateArr[1])-1, endDateArr[2]);
+	         
+	        if(startDateCompare.getTime() > endDateCompare.getTime()) {
+	        	$(".ctxt").text("프로젝트 마감일은 시작일 이전이여야 합니다. 다시 선택해 주세요.");
+	        	layer_popup("#layer2");
+	            return false;
+	        }
+			
+			var projectSet = {
+							id :id
+						  , name : name
+						  , exp : exp
+						  , auth : auth
+						  , status : status
+						  , start_date : start_date
+						  , end_date : end_date
+						  , cmp_date : cmp_date
+			}
+			
+			
+			propertySetItemAjax(projectSet);
 		});
 		
 		
-		function propertySetItemAjax(id, name, exp, acs, status, start_date, end_date, cmp_date){
+		function propertySetItemAjax(projectSet){
 			$.ajax({
 				url:"/project/propertySetItemAjax",
 				method:"post",
 				contentType:"application/x-www-form-urlencoded; charset=UTF-8",
-				data:	"prj_id=" + id +
-						"&prj_nm=" + name +
-						"&prj_exp=" + exp +
-						"&prj_asc=" + acs +
-						"&prj_st=" + status +
-						"&prj_start_dt=" + start_date +
-						"&prj_end_dt=" + end_date +
-						"&prj_cmp_dt=" + cmp_date,
-				success:function(updateList){
-					console.log(updateList)
+				data:	"prj_id=" + projectSet.id +
+						"&prj_nm=" + projectSet.name +
+						"&prj_exp=" + projectSet.exp +
+						"&prj_auth=" + projectSet.auth +
+						"&prj_st=" + projectSet.status +
+						"&prj_start_dt=" + projectSet.start_date +
+						"&prj_end_dt=" + projectSet.end_date +
+						"&prj_cmp_dt=" + projectSet.cmp_date,
+				success:function(data){
+					$(".project_item").each(function() {
+						var prjItemsId = $(this).attr("id");
+						if(prjItemsId == projectSet.id){
+							$(this).find(".prj_title").text(data.data.prj_nm);
+							$(this).find(".currnt_prj_st").text(data.data.prj_st);
+						}
+					});
 				}
 			});
 		}
+
+		//프로젝트 생성 버튼 클릭시
+		$('.btn-example').on("click", function(){
+	        var $href = $(this).attr('href');
+	        layer_popup($href);
+	    });
+		
+		//프로젝트 관리자 추가하기 버튼 클릭시 해당 프로젝트 멤버 가져오기
+		$(".prj_add_adm").fadeOut(0); //멤버리스트 layer 숨기기
+		$("#ppt_adm_set").on("click", function(){
+			$(".prj_add_adm").fadeIn(300);
+			
+			var id = $("#ppt_id").val();
+			
+			projectAdmListAjax(id);
+		});
+		
+		//프로젝트 멤버 가져오는 ajax
+		function projectAdmListAjax(id){
+			$.ajax({
+				url:"/project/projectAdmListAjax",
+				method:"post",
+				contentType:"application/x-www-form-urlencoded; charset=UTF-8",
+				data:	"prj_id=" + id,
+				success:function(data){
+
+					var html = "";
+					data.data.forEach(function(item, index){
+						//html 생성
+						html += "<li id='"+ item.user_email +"'><span>"+ item.user_nm +"</span>"+ item.user_email +"</li>";
+					});	
+					
+					$(".prj_mem_item").html(html);
+				}
+			});
+		}
+		
+		//프로젝트 멤버리스트를 클릭 했을 때
+		$(".prj_mem_item").on("click", "li", function(){
+			var adm_add_email = $(this).attr("id");
+			var id = $("#ppt_id").val();
+			projectAdmAddAjax(id, adm_add_email);
+		});
+		
+		//프로젝트 관리자로 선택한 멤버 추가
+		function projectAdmAddAjax(id, adm_add_email){
+			$.ajax({
+				url:"/project/projectAdmAddAjax",
+				method:"post",
+				data:"prj_id="+ id + "&user_email=" + adm_add_email,
+				success:function(data){
+					var html = "";
+					data.data.forEach(function(item, index){
+						html += "<li id='"+ item.user_email +"'><span>"+ item.user_nm +"</span>"+ item.user_email +"</li>";
+					});	
+					
+					$(".prj_add_box").html(html);
+				}
+				
+			});
+		}
+		
+		
 	});
 	
 	//업데이트 시간 구하기
@@ -274,42 +376,43 @@
         
         $(".prj_update").text(html);
     }
-	
-	
+
 	
 	//layer popup - 프로젝트 생성
-	function layer_open(el){
+	function layer_popup(el){
+		console.log(el);
 
-		var temp = $('#' + el);
-		var bg = temp.prev().hasClass('bg');	//dimmed 레이어를 감지하기 위한 boolean 변수
+        var $el = $(el);		//레이어의 id를 $el 변수에 저장
+        var isDim = $el.prev().hasClass('dimBg');	//dimmed 레이어를 감지하기 위한 boolean 변수
 
-		if(bg){
-			$('.layer').fadeIn();	//'bg' 클래스가 존재하면 레이어가 나타나고 배경은 dimmed 된다. 
-		}else{
-			temp.fadeIn();
-		}
+        isDim ? $('.dim-layer').fadeIn() : $el.fadeIn();
 
-		// 화면의 중앙에 레이어를 띄운다.
-		if (temp.outerHeight() < $(document).height() ) temp.css('margin-top', '-'+temp.outerHeight()/2+'px');
-		else temp.css('top', '0px');
-		if (temp.outerWidth() < $(document).width() ) temp.css('margin-left', '-'+temp.outerWidth()/2+'px');
-		else temp.css('left', '0px');
+        var $elWidth = ~~($el.outerWidth()),
+            $elHeight = ~~($el.outerHeight()),
+            docWidth = $(document).width(),
+            docHeight = $(document).height();
 
-		temp.find('a.cbtn').click(function(e){
-			if(bg){
-				$('.layer').fadeOut(); //'bg' 클래스가 존재하면 레이어를 사라지게 한다. 
-			}else{
-				temp.fadeOut();
-			}
-			e.preventDefault();
-		});
+        // 화면의 중앙에 레이어를 띄운다.
+        if ($elHeight < docHeight || $elWidth < docWidth) {
+            $el.css({
+                marginTop: -$elHeight /2,
+                marginLeft: -$elWidth/2
+            })
+        } else {
+            $el.css({top: 0, left: 0});
+        }
 
-		$('.layer .bg').click(function(e){	//배경을 클릭하면 레이어를 사라지게 하는 이벤트 핸들러
-			$('.layer').fadeOut();
-			e.preventDefault();
-		});
+        $el.find('a.btn-layerClose').click(function(){
+            isDim ? $('.dim-layer').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
+            return false;
+        });
 
-	}
+        $('.layer .dimBg').click(function(){
+            $('.dim-layer').fadeOut();
+            return false;
+        });
+
+    }
 </script>
 
 <div class="sub_menu">
@@ -337,7 +440,7 @@
 	</div>
 	<div class="sub_btn">
 		<ul>
-			<li><input type="button" class="inp_style_01" onclick="layer_open('layer2');return false;" value="프로젝트 생성"></li>
+			<li><a href="#layer1" class="btn-example btn_style_01">프로젝트 생성</a></li>
 		</ul>
 	</div>
 </div>
@@ -355,9 +458,9 @@
 			<h2>프로젝트 리스트</h2>
 			<div class="project_list my_project_list">
 				<c:forEach items="${projectList}" var="projectList">
-				<div class="project_item">
+				<div class="project_item" id="${projectList.prj_id}">
 					<ul class="project_item_hd">
-						<li>${projectList.prj_nm}</li>
+						<li class="prj_title">${projectList.prj_nm}</li>
 						<li><a href="javascript:;" class="btnSetting" id="${projectList.prj_id}">설정</a></li>
 					</ul>
 					<ul class="project_item_con">
@@ -381,15 +484,14 @@
 	</div>
 </section>
 
-
-<!-- popup -->
-<div class="layer">
-	<div class="bg"></div>
-	<div id="layer2" class="pop-layer">
-		<div class="pop-container">
-			<div class="pop-project">
-				<!--content //-->
-				<form action="/project/form" method="post" id="prj_insert">
+<!--  프로젝트 생성 레이어 팝업창 -->
+<div class="dim-layer">
+    <div class="dimBg"></div>
+    <div id="layer1" class="pop-layer">
+        <div class="pop-container">
+            <div class="pop-project">
+                <!--content //-->
+                <form action="/project/form" method="post" id="prj_insert">
 					<div class="new_proejct">
 						<h2>새로운 프로젝트 생성하기</h2>
 						<ul>
@@ -445,15 +547,14 @@
 						</div>
 					</div>
 				</form>
-				<div class="btn-r">
-					<a href="#" class="cbtn"></a>
-				</div>
-				<!--// content-->
-			</div>
-		</div>
-	</div>
+                <div class="btn-r">
+                    <a href="#" class="btn-layerClose">Close</a>
+                </div>
+                <!--// content-->
+            </div>
+        </div>
+    </div>
 </div>
-
 
 
 <!-- property setting layer -->
@@ -513,22 +614,59 @@
 			</dl>
 			<dl class="setItem">
 				<dt>프로젝트 관리자</dt>
-				<dd><input type="button" id="" name="" onclick=""></dd>
+				<dd>
+					<button type="button" id="ppt_adm_set" name="ppt_adm_set">관리자 추가 버튼</button>
+					
+					<div class="prj_add_box">
+					</div>
+					
+					<div class="prj_add_adm">
+						<label for="prj_mem">프로젝트 관리자 추가</label>
+						<div class="prj_mem_list">
+							<div class="prj_mem_sch">
+								<fieldset id="hd_sch">
+					                <legend>사이트 내 프로젝트 검색</legend>
+						                <input type="text" name="prj_mem" id="prj_mem" maxlength="20" placeholder="검색어를 입력해주세요">
+					           	</fieldset>
+							</div>
+							<ul class="prj_mem_item">
+							</ul>
+						</div>
+					</div>
+				</dd>
 			</dl>
 			<dl class="setItem">
 				<dt>프로젝트 멤버</dt>
-				<dd><input type="button" id="" name="" onclick=""></dd>
+				<dd><button type="button" id="" name="" onclick="">프로젝트 멤버 추가 버튼</button></dd>
 			</dl>
 			<dl class="setItem">
 				<dt>프로젝트 나가기</dt>
-				<dd><input type="button" id="" name="" onclick="" value="프로젝트 나가기"></dd>
+				<dd><button type="button" id="" name="" onclick="">프로젝트 나가기</button></dd>
 			</dl>
 			<dl class="setItem">
 				<dt>프로젝트 삭제</dt>
-				<dd><input type="button" id="" name="" onclick="" value="프로젝트 삭제"></dd>
+				<dd><button type="button" id="" name="" onclick="">프로젝트 삭제</button></dd>
 			</dl>
 		</div>
 	</div>
 	<div class="btnSetClose">닫기</div>
 </div>
+
+
+<!-- 오류 알림창 -->
+<!-- <div class="dim-layer"> -->
+<!-- 	<div class="dimBg"></div> -->
+	<div id="layer2" class="pop-layer">
+	    <div class="pop-container">
+	        <div class="pop-conts">
+	            <!--content //-->
+	            <p class="ctxt mb20"> </p>
+	            <div class="btn-r">
+	                <a href="#" class="btn-layerClose">Close</a>
+	            </div>
+	            <!--// content-->
+	        </div>
+	    </div>
+	</div>
+<!-- </div> -->
 

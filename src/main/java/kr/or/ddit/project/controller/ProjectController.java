@@ -2,6 +2,7 @@ package kr.or.ddit.project.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.or.ddit.project.model.ProjectVo;
 import kr.or.ddit.project.service.IProjectService;
@@ -111,11 +113,39 @@ public class ProjectController {
 	
 	//프로젝트 설정
 	@RequestMapping("/propertySetAjax")
-	public String propertySetAjax(String prj_id, Model model, HttpSession session) {
+	public @ResponseBody HashMap<String, Object> propertySetAjax(String prj_id, Model model, HttpSession session) {
 		
 		int prjId = Integer.parseInt(prj_id);
-		model.addAttribute("data", projectService.getProject(prjId));
-		return "jsonView";
+		
+		logger.debug("prj_id ::::::::: log {}", prj_id);
+		
+		//세션에 저장된 user 정보를 가져옴
+		UserVo user = (UserVo) session.getAttribute("USER_INFO");    
+		String user_email = user.getUser_email();
+		
+		Project_MemVo projectMemVo = new Project_MemVo();
+		projectMemVo.setPrj_id(prjId);
+		projectMemVo.setUser_email(user_email);
+		
+		//프로젝트 멤버의 레벨이 0인 멤버만 리스트에 담기
+		List<Project_MemVo> admList = new ArrayList<Project_MemVo>();
+		List<Project_MemVo> project_adm_list = projectMemService.projectMemList(projectMemVo);
+		
+		for(int i=0; i<project_adm_list.size(); i++) {
+			if(project_adm_list.get(i).getPrj_mem_lv().equals("LV0")) {
+				admList.add(project_adm_list.get(i));
+			}
+		}
+		//model.addAttribute("data", admList);
+		
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		hashmap.put("projectInfo", projectService.getProject(prjId));
+		hashmap.put("projectMemList", admList);
+
+//		model.addAttribute("data", projectService.getProject(prjId));
+//		model.addAttribute("data", projectMemService.projectMemList(projectMemVo));
+		
+		return hashmap;
 	}
 	
 	//프로젝트 설정 업데이트
@@ -123,20 +153,82 @@ public class ProjectController {
 	public String propertySetItemAjax(String prj_id, String prj_nm, String prj_exp, String prj_auth, String prj_st, 
 			String prj_start_dt, String prj_end_dt, String prj_cmp_dt, Model model, HttpSession session) throws ParseException {
 
-		
 		int prjId = Integer.parseInt(prj_id);
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		sdf.parse(prj_start_dt);
 		
-		//ProjectVo projectVo = new ProjectVo(prj_id, prj_nm, prj_exp, prj_auth, prj_start_dt, prj_end_dt, prj_cmp_dt, prj_start_dt)
-		ProjectVo projectVo = new ProjectVo(prjId, prj_nm, prj_exp, prj_auth, sdf.parse(prj_start_dt), sdf.parse(prj_end_dt), sdf.parse(prj_cmp_dt), prj_st);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		ProjectVo projectVo = new ProjectVo(prjId, prj_nm, prj_exp, prj_auth, prj_st);
+		
+		if(prj_nm.contentEquals("")) {
+			projectVo.setPrj_nm(projectVo.getPrj_nm());
+		}
+		
+		if(!prj_start_dt.contentEquals("") )
+			projectVo.setPrj_start_dt(sdf.parse(prj_start_dt));
+		
+		if(!prj_end_dt.contentEquals("") )
+			projectVo.setPrj_end_dt(sdf.parse(prj_end_dt));
+		
+		if(!prj_cmp_dt.contentEquals("") )
+			projectVo.setPrj_cmp_dt(sdf.parse(prj_cmp_dt));
+
 		int updateCnt = projectService.updateAllProject(projectVo);
 		
 		if(updateCnt != 0) {
-			model.addAttribute("updateList", projectService.getProject(prjId));
+			model.addAttribute("data", projectService.getProject(projectVo.getPrj_id()));
 		}
 		
+		return "jsonView";
+	}
+	
+	//프로젝트 멤버 리스트 불러오기
+	@RequestMapping("/projectAdmListAjax")
+	public String projectAdmListAjax(String prj_id, Model model, HttpSession session) {
+		
+		int prjId = Integer.parseInt(prj_id);
+		
+		//세션에 저장된 user 정보를 가져옴
+		UserVo user = (UserVo) session.getAttribute("USER_INFO");    
+		String user_email = user.getUser_email();
+		
+		Project_MemVo projectMemVo = new Project_MemVo();
+		projectMemVo.setPrj_id(prjId);
+		projectMemVo.setUser_email(user_email);
+		
+		model.addAttribute("data", projectMemService.projectMemList(projectMemVo));
+		
+		return "jsonView";
+	}
+	
+	//프로젝트 멤버 관리자로 update
+	@RequestMapping("/projectAdmAddAjax")
+	public String projectAdmAddAjax(String user_email, String prj_id, Model model) {
+		
+		int prjId = Integer.parseInt(prj_id);
+		
+		Project_MemVo projectMemVo = new Project_MemVo();
+		projectMemVo.setUser_email(user_email);
+		projectMemVo.setPrj_id(prjId);
+		projectMemVo.setPrj_mem_lv("LV0");
+		
+		int updateCnt = projectMemService.updateProjectMem(projectMemVo);
+		
+		Project_MemVo projectMemListVo = new Project_MemVo();
+		projectMemListVo.setPrj_id(prjId);
+		projectMemListVo.setUser_email(user_email);
+		
+		List<Project_MemVo> admList = new ArrayList<Project_MemVo>();
+		
+		if(updateCnt != 0) {
+			List<Project_MemVo> project_adm_list = projectMemService.projectMemList(projectMemVo);
+			for(int i=0; i<project_adm_list.size(); i++) {
+				if(project_adm_list.get(i).getPrj_mem_lv().equals("LV0")) {
+					admList.add(project_adm_list.get(i));
+				}
+			}
+			model.addAttribute("data", admList);
+		}
 		return "jsonView";
 	}
 	
@@ -171,4 +263,5 @@ public class ProjectController {
 		
 		return viewName;
 	}
+	
 }

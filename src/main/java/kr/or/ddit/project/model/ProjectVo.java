@@ -101,6 +101,24 @@ public class ProjectVo {
 		this.prj_st = prj_st;
 	}
 	
+	/**
+	 * 프로젝트 설정 업데이트 생성자
+	 * @param prj_id
+	 * @param prj_nm
+	 * @param prj_exp
+	 * @param prj_auth
+	 * @param prj_st
+	 */
+	public ProjectVo(int prj_id, String prj_nm, String prj_exp, String prj_auth,  String prj_st) {
+			super();
+			this.prj_id = prj_id;
+			this.prj_nm = prj_nm;
+			this.prj_exp = prj_exp;
+			this.prj_auth = prj_auth;
+			this.prj_st = prj_st;
+		}
+	
+	
 
 	public int getPrj_id() {
 		return prj_id;

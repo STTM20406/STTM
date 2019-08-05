@@ -5,6 +5,7 @@ import java.util.List;
 import kr.or.ddit.project_mem.model.Project_MemVo;
 
 public interface IProject_MemService {
+	
 	/**
 	 * 
 	 * Method 		: projectMemList
@@ -13,7 +14,7 @@ public interface IProject_MemService {
 	 * @return
 	 * Method 설명 	: 프로젝트 멤버 리스트 조회
 	 */
-	List<Project_MemVo> projectMemList();
+	List<Project_MemVo> projectMemList(Project_MemVo projectMemVo);
 	
 	/**
 	 * 
@@ -35,5 +36,5 @@ public interface IProject_MemService {
 	 * @return
 	 * Method 설명 	: 프로젝트 멤버 업데이트(멤버레벨, 프로젝트 소유 유무, 프로젝트 멤버 닉네임)
 	 */
-	int updatePjojectMem(Project_MemVo projectMemVo);
+	int updateProjectMem(Project_MemVo projectMemVo);
 }
