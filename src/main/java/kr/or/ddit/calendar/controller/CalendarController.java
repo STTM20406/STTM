@@ -1,5 +1,6 @@
 package kr.or.ddit.calendar.controller;
 
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,7 +17,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import kr.or.ddit.calendar.service.ICalendarService;
 import kr.or.ddit.work.model.WorkVo;
 
-
+/**
+ * CalendarController.java
+ *
+ * @author 손영하
+ * @version 1.0
+ * @see
+ *
+ * <pre>
+ * << 개정이력(Modification Information) >>
+ *
+ * 수정자 수정내용
+ * ------ ------------------------
+ * 박서경   최초 생성 2019-08-02
+ *
+ * </pre>
+ */
 @Controller
 public class CalendarController {
 
@@ -24,15 +40,51 @@ public class CalendarController {
 	@Resource(name="calendarService")
 	private ICalendarService calendarService;
 	
+	/**
+	 * Method 		: calendarGet
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-01 최초 생성
+	 * @param model
+	 * @return
+	 * Method 설명 	: 캘린더 소환!
+	 */
 	@RequestMapping(path="/calendarGet" , method=RequestMethod.GET)
 	String calendarGet(Model model) {
 		logger.debug("♬♩♪   여기 calendarGet");
+		int prj_id = 1;
+		model.addAttribute("mList", calendarService.projectMBList(prj_id));
+		logger.debug("♬♩♪  mList: {}", calendarService.projectMBList(prj_id));
 		
+		//프로젝트 리스트
+		model.addAttribute("pList", calendarService.projectList());
 		model.addAttribute("workList", calendarService.workList());
 		logger.debug("♬♩♪  calendarService.workList(): {}", calendarService.workList());
 		return "/outline/calendar.user.tiles";
 	}
 	
+//	@RequestMapping(path="/calendarPrac" , method=RequestMethod.GET)
+//	String calendarPrac(Model model) {
+//		logger.debug("♬♩♪   여기 calendarGet");
+//		
+//		model.addAttribute("workList", calendarService.workList());
+//		logger.debug("♬♩♪  calendarService.workList(): {}", calendarService.workList());
+//		return "/outline/calendarPractice.user.tiles";
+//	}
+	
+	/**
+	 * Method 		: calendarPost
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-01 최초 생성
+	 * @param model
+	 * @param wrk_nm
+	 * @param start_dt
+	 * @param end_dt
+	 * @param wrk_lst_id
+	 * @param wrk_color_cd
+	 * @return
+	 * @throws ParseException
+	 * Method 설명 	: 일정 등록 
+	 */
 	@RequestMapping(path="/calendarPost" , method=RequestMethod.POST)
 	String calendarPost(Model model, String wrk_nm, String start_dt, String end_dt, 
 		int wrk_lst_id, String wrk_color_cd) throws ParseException {
@@ -45,9 +97,12 @@ public class CalendarController {
 		logger.debug("♬♩♪  wrk_color_cd: {}", wrk_color_cd);
 		
 		//String 으로 받아와서 Date형식으로 바꿔줌!
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
 		Date wrk_start_dt= sdf.parse(start_dt);
 		Date wrk_end_dt= sdf.parse(end_dt);
+		
+		logger.debug("♬♩♪  wrk_start_dt: {}", wrk_start_dt);
+		logger.debug("♬♩♪  wrk_end_dt: {}", wrk_end_dt);
 		
 		String user_email = "chew@naver.com";
 		
@@ -56,9 +111,13 @@ public class CalendarController {
 		if(insertWork==1) {
 			logger.debug("♬♩♪  업무 등록 완료!!");
 		}
+//		int prj_id = 1;
+		
+//		model.addAttribute("mList", calendarService.projectMBList(prj_id));
 		model.addAttribute("IW", insertWork);
-		model.addAttribute("workList", calendarService.workList());
-		return "/outline/calendar.user.tiles";
+//		model.addAttribute("pList", calendarService.projectList());
+//		model.addAttribute("workList", calendarService.workList());
+		return "redirect:/calendarGet";
 	}
 	
 //	// 특정 업무의 정보를 받아오는 controller (ajax)
@@ -78,7 +137,91 @@ public class CalendarController {
 		String data = calendarService.wList(Integer.parseInt(prj_id));
 		logger.debug("♬♩♪  data: {}", data);
 		model.addAttribute("response", data);
+		
 		return "jsonView";
 	}
 	
+	//Drag and Drop 
+	@RequestMapping(path="/dragAndDrop",method=RequestMethod.POST)
+	String dragAndDrop(Model model, int wrk_id, long wrk_start_dt, long wrk_end_dt) throws ParseException {
+		logger.debug("♬♩♪  dragAndDrop: {}", wrk_id);
+		
+		logger.debug("♬♩♪  start: {}", wrk_start_dt);
+		logger.debug("♬♩♪  end: {}", wrk_end_dt);
+		
+		String pattern = "yyyy-MM-dd HH:mm";
+		SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+		String date1 = sdf.format(new Timestamp(wrk_start_dt));
+		String date2 = sdf.format(new Timestamp(wrk_end_dt));
+		
+		Date start_dt = sdf.parse(date1);
+		Date end_dt = sdf.parse(date2);
+		logger.debug("♬♩♪  date1: {}", date1);
+		logger.debug("♬♩♪  date2: {}", date2);
+		
+		WorkVo workVo = new WorkVo(wrk_id, start_dt, end_dt);
+		int update = calendarService.dragAndDrop(workVo);
+		
+		if(update==1) {
+			logger.debug("♬♩♪  update 완료!");
+		}
+		return "jsonView";
+	}
+	
+	/**
+	 * Method 		: addEvent
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-02 최초 생성
+	 * @param model
+	 * @param calendarVo
+	 * @return
+	 * Method 설명 	: ajax로 등록 처리 하려했지만 잘안되서 후퇴..............!!
+	 */
+//	@RequestMapping(path="/addEvent" , method=RequestMethod.POST)
+//	String addEvent(Model model, CalendarVo calendarVo) {
+//		logger.debug("♬♩♪  여기는 오지도 않는구만!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//		logger.debug("♬♩♪  calendarVo: {}", calendarVo);
+//		
+//		return null;
+//	}
+	
+	@RequestMapping(path="/delW" , method=RequestMethod.POST)
+	String delW(String wrk_id) {
+		logger.debug("♬♩♪  여기는 !!! 해당 업무를 삭제하는 controller입니다.!!");
+		int w_id = Integer.parseInt(wrk_id);
+		
+		int del = calendarService.delW(w_id);
+		
+		if(del==1) {
+			logger.debug("♬♩♪  삭제완료!");
+		}
+		return "redirect:/calendarGet";
+	}
+	
+	@RequestMapping(path="/upW" , method=RequestMethod.POST)
+	String upW(Model model, String wrk_id, String wrk_nm, String wrk_start_dt,
+			String wrk_end_dt, String wrk_lst_id, String wrk_color_cd) throws ParseException  {
+		
+		logger.debug("♬♩♪  해당 프로젝트 업데이트 하는 곳입니다.");
+		logger.debug("♬♩♪  wrk_id: {}", wrk_id);
+		logger.debug("♬♩♪  wrk_nm: {}", wrk_nm);
+		logger.debug("♬♩♪  wrk_start_dt: {}", wrk_start_dt);
+		logger.debug("♬♩♪  wrk_end_dt: {}", wrk_end_dt);
+		logger.debug("♬♩♪  wrk_lst_id: {}", wrk_lst_id);
+		logger.debug("♬♩♪  wrk_color_cd: {}", wrk_color_cd);
+	
+		String pattern = "yyyy-MM-dd HH:mm";
+		SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+		
+		Date start_dt = sdf.parse(wrk_start_dt);
+		Date end_dt = sdf.parse(wrk_end_dt);
+		WorkVo workVo = new WorkVo(Integer.parseInt(wrk_lst_id), wrk_nm, wrk_color_cd, start_dt, end_dt,Integer.parseInt(wrk_id));
+		
+		int update = calendarService.upW(workVo);
+		
+		if(update ==1) {
+			logger.debug("♬♩♪  업데이트 완료!!");
+		}
+		return "redirect:/calendarGet";
+	}
 }

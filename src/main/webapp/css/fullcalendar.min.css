@@ -1097,16 +1097,12 @@ a.fc-more:hover {
     background-color: #eee
 }
 
-.fc-month-button{
-	display : none;
-}
-.fc-agendaWeek-button{
-	display : none;
-}
-.fc-agendaDay-button{
-	display : none;
-}
-
+/* .fc-agendaWeek-button{ */
+/* 	display : none; */
+/* } */
+/* .fc-agendaDay-button{ */
+/* 	display : none; */
+/* } */
 .fc-prevYear-button{
 	display : none;
 }
@@ -1114,6 +1110,9 @@ a.fc-more:hover {
 	display : none;
 }
 .fc-viewWeekends-button{
+	display : none;
+}
+.panel-default{
 	display : none;
 }
 

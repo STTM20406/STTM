@@ -67,24 +67,28 @@ var editEvent = function (event, element, view) {
         eventModal.modal('hide');
 
         event.allDay = statusAllDay;
-        event.title = editTitle.val();
-        event.start = startDate;
-        event.end = displayDate;
-        event.type = editType.val();
-        event.backgroundColor = editColor.val();
+        event.title = editTitle.val(); //wrk_nm
+        event.start = startDate; //wrk_start_dt
+        event.end = displayDate; //wrk_end_dt
+        event.type = editType.val(); //wrk_lst_id
+        event.backgroundColor = editColor.val(); //wrk_color_cd
         event.description = editDesc.val();
 
         $("#calendar").fullCalendar('updateEvent', event);
 
         //일정 업데이트
         $.ajax({
-            type: "get",
-            url: "",
-            data: {
-                //...
-            },
+            method :"post",
+            url: "/upW",
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
+            data: "wrk_id=" +event._id +   
+            	  "&wrk_nm=" + event.title +
+            	  "&wrk_start_dt=" + event.start + 
+            	  "&wrk_end_dt=" + event.end +
+            	  "&wrk_lst_id=" + event.type + 
+            	  "&wrk_color_cd=" + event.backgroundColor,
             success: function (response) {
-                alert('수정되었습니다.')
+                alert('해당 업무가 수정되었습니다.')
             }
         });
 
@@ -96,15 +100,15 @@ var editEvent = function (event, element, view) {
         $("#calendar").fullCalendar('removeEvents', [event._id]);
         eventModal.modal('hide');
 
+        console.log(event._id);
         //삭제시
         $.ajax({
-            type: "get",
-            url: "",
-            data: {
-                //...
-            },
+        	method:"post",
+            url: "/delW",
+            data: "wrk_id=" +event._id,  
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
             success: function (response) {
-                alert('삭제되었습니다.');
+                alert('해당 업무가 삭제되었습니다.');
             }
         });
     });

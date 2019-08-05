@@ -89,10 +89,64 @@
         AND     A.WRK_END_DT is not null
 	</select>
 	
-	
+	<select id="projectMBList" parameterType="int" resultType="project_memVo">
+		select distinct 
+			b.USER_EMAIL,
+			c.user_nm, 
+			b.PRJ_MEM_LV 레벨, 
+			b.PRJ_MEM_NIK 닉네임, 
+			b.PRJ_OWN_FL 
+		from 
+			project a,  PROJECT_MEM b , users c 
+		where 
+			a.prj_id = #{prj_id} 
+		and 
+			a.prj_id = b.prj_id
+		and 
+			b.user_email = c.user_email
+	</select>
 
+	<update id="dragAndDrop" parameterType="workVo">
+	    update work
+	   	set 
+        	wrk_start_dt = #{wrk_start_dt},
+        	wrk_end_dt = #{wrk_end_dt}
+        where 
+        	wrk_id = #{wrk_id}
+	</update>
+
+	
+	<delete id="delW" parameterType="int">
+		delete from work 
+        where wrk_id = #{wrk_id}
+	</delete>
+	
+	
+	<!-- 요놈 다시 해야합니다~ -->
+	<select id="projectList" resultType="projectVo">
+		select * from project
+	</select>
+	
+	<update id="upW" parameterType="workVo">
+		update 
+		    work
+		set 
+		    wrk_lst_id = #{wrk_lst_id},
+		    wrk_nm = #{wrk_nm},
+		    wrk_color_cd = #{wrk_color_cd},
+		    wrk_start_dt = #{wrk_start_dt},
+		    wrk_end_dt = #{wrk_end_dt}
+		where
+		    wrk_id = #{wrk_id}
+	</update>
+	
 </mapper>
 
+
+
+
+	
+	
 
 
 
