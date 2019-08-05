@@ -406,9 +406,9 @@ public class UserController {
 //	@RequestParam(name = "page", defaultValue = "1")int page,
 //	@RequestParam(name = "pageSize", defaultValue = "10")int pageSize) {
 	
-	public String admSearchUserInfo(Model model String searchText, String scText) {
+	public String admSearchUserInfo(Model model, String searchText, String scText) {
 		
-		PageVo pageVo = new PageVo();
+//		Map<String, Object> resultMap = userService.
 		
 		return null;
 	}
