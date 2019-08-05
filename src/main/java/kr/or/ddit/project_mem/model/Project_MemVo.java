@@ -25,18 +25,13 @@ public class Project_MemVo {
 	private String prj_mem_nik;	// 프로젝트 멤버 닉네임
 	private String prj_own_fl;	// 프로젝트 소유 유무
 	
-<<<<<<< HEAD
 	private String user_nm;		//프로젝트 멤버 이메일에 해당하는 이름
 	
 	
-=======
->>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 	public Project_MemVo() {
 		
 	}
 	
-<<<<<<< HEAD
-=======
 	public Project_MemVo(int prj_id, String user_email, String prj_mem_lv, String prj_mem_nik, String prj_own_fl) {
 		super();
 		this.prj_id = prj_id;
@@ -46,12 +41,6 @@ public class Project_MemVo {
 		this.prj_own_fl = prj_own_fl;
 	}
 
-	@Override
-	public String toString() {
-		return "Project_MemVo [prj_id=" + prj_id + ", user_email=" + user_email + ", prj_mem_lv=" + prj_mem_lv
-				+ ", prj_mem_nik=" + prj_mem_nik + ", prj_own_fl=" + prj_own_fl + "]";
-	}
->>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 	
 	public int getPrj_id() {
 		return prj_id;
