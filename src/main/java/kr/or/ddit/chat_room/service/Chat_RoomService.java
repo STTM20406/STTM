@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import kr.or.ddit.chat_mem.model.Chat_MemVo;
 import kr.or.ddit.chat_room.dao.IChat_RoomDao;
 import kr.or.ddit.chat_room.model.Chat_RoomVo;
 
@@ -38,6 +39,18 @@ public class Chat_RoomService implements IChat_RoomService{
 	@Override
 	public int deleteChatRoom(int ct_id) {
 		int cnt = roomDao.deleteChatRoom(ct_id);
+		return cnt;
+	}
+
+	@Override
+	public int maxRoomId() {
+		int cnt = roomDao.maxRoomId();
+		return cnt;
+	}
+
+	@Override
+	public int updateChatTitle(Chat_RoomVo vo) {
+		int cnt = roomDao.updateChatTitle(vo);
 		return cnt;
 	}
 

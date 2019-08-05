@@ -26,6 +26,8 @@ import kr.or.ddit.chat_room.service.IChat_RoomService;
 import kr.or.ddit.friends.model.ChatFriendsVo;
 import kr.or.ddit.friends.model.FriendsVo;
 import kr.or.ddit.friends.service.IFriendsService;
+import kr.or.ddit.project_mem.model.Project_MemVo;
+import kr.or.ddit.project_mem.service.IProject_MemService;
 import kr.or.ddit.users.model.UserVo;
 
 @Controller
@@ -45,12 +47,28 @@ public class Chat_RoomController {
 	@Resource(name="friendsService")
 	private IFriendsService friendsService;
 	
-	//프로젝트 채팅방.
+	@Resource(name="project_MemService")
+	private IProject_MemService projectService;
+	
+	//프로젝트 채팅방
 	@RequestMapping(path="/projectChat")
-	public String projectChat(HttpServletRequest req, Model model/* int projectId*/) {
+	public String projectChat(HttpServletRequest req, Model model, int prj_id) {
 //		UserVo user = (UserVo) req.getSession().getAttribute("USER_INFO");
 //		String user_email = user.getUser_email();
+		//프로젝트 멤버리스트
+		List<Project_MemVo> projectMemList =projectService.getMyProjectMemList(prj_id);
 		
+		//채팅방 대화 내용 리스트
+		List<ChatParticipateUserVo> chatroomContentList = contentService.chatroomContentList(0);
+		
+		//프로젝트 이름
+		String roomNm = null; //= projectService.projectName(prj_id);
+		
+		
+		model.addAttribute("ct_id",0);
+		model.addAttribute("roomNm",roomNm);
+		model.addAttribute("chatroomContentList",chatroomContentList);
+		model.addAttribute("friendList", projectMemList);
 		
 		return "/chat/projectChat.user.tiles";
 	}
@@ -75,6 +93,11 @@ public class Chat_RoomController {
 		Map<Integer, Object> realRoomMap = memService.allRoomFriendList();
 		logger.debug("realRoomMap : {}", realRoomMap);
 		
+		//전체 친구 리스트를 가져옴
+		List<ChatFriendsVo> allFriendList = friendsService.friendList(user_email);
+		
+		
+		model.addAttribute("allFriendList",allFriendList);
 		model.addAttribute("realRoomMap",realRoomMap);
 		model.addAttribute("roomlist", roomlist);
 		//model.addAttribute("inviteFriendList",inviteFriendList);
@@ -82,10 +105,15 @@ public class Chat_RoomController {
 		return "/chat/friendChatList.user.tiles";
 	}
 	
+	
+	
+	
 	@RequestMapping(path="/friendChat", method = RequestMethod.GET)
-	public String friendChat(Model model, HttpSession session, String ct_id) {
+	public String friendChat(Model model, HttpServletRequest req, String ct_id) {
 		
-		UserVo user = (UserVo) session.getAttribute("USER_INFO");    
+		UserVo user = (UserVo) req.getSession().getAttribute("USER_INFO");
+		String user_email = user.getUser_email();
+		
 		logger.debug("********friendChat UserVo : {}",user);
 		int Ict_id = Integer.parseInt(ct_id);
 		
@@ -101,40 +129,89 @@ public class Chat_RoomController {
 		List<String> friendList = memService.roomFriendList(Ict_id);
 		logger.debug("************friendList : {}",friendList);
 		
+		//초대할 친구 리스트
+		ChatParticipateUserVo inviteVo = new ChatParticipateUserVo(user_email, Ict_id);
+		List<ChatParticipateUserVo> inviteList = memService.inviteFriend(inviteVo);
+		logger.debug("inviteList : {}",inviteList);
+		
 		model.addAttribute("ct_id",ct_id);
 		model.addAttribute("roomNm",roomNm);
 		model.addAttribute("chatroomContentList",chatroomContentList);
 		model.addAttribute("friendList", friendList);
+		model.addAttribute("inviteList",inviteList);
 		
 		return "/chat/friendChat.user.tiles";
 	}
 	
 	
 	
-	//채팅방 생성
-	@RequestMapping(path="/createChatRoom")
-	public String createChatRoom(Model model, HttpServletRequest req) {
+	//채팅방 생성Post
+	@RequestMapping(path="/createChatRoom" , method = RequestMethod.POST)
+	public String createChatRoomPost(Model model, HttpServletRequest req , String[] array, String room_nm) {
 		
 		UserVo user = (UserVo) req.getSession().getAttribute("USER_INFO");
 		String user_email = user.getUser_email();
 		
-		int newRoom = roomService.createRoom(user_email);
+		//새 채팅방 생성
+		int newRoom = roomService.createRoom(room_nm);
 		
-		if(newRoom == 1) {
-			logger.debug("방이 새로 만들어짐");
+		int roomId = roomService.maxRoomId();
+		
+		//방에다가 멤버 추가해야지
+		//방에다가 로그인한 사용자 추가
+		Chat_MemVo memVo = new Chat_MemVo(roomId, user_email);
+		memService.insertChatMem(memVo);
+		
+		//체크박스로 받은 사용자아이디 배열값을 가져와서 배열 돌려서 방 멤버에 추가 
+		for(int i=0;i<array.length;i++) {
+			memVo = new Chat_MemVo(roomId, array[i]);
+			memService.insertChatMem(memVo);
 		}
 		
-		return "/chat/friendChat.user.tiles";
+		return "redirect:/friendChatList";
+	}
+	
+	
+	//친구 추가
+	@RequestMapping(path="/addFriend")
+	public String addFriend(Model model, String[] array,String ct_id, HttpServletRequest req) {
+		
+		UserVo user = (UserVo) req.getSession().getAttribute("USER_INFO");
+		String user_email = user.getUser_email();
+		
+		int ctid = Integer.parseInt(ct_id);
+		
+		Chat_MemVo insertVo = new Chat_MemVo();
+		for(int i=0;i<array.length;i++) {
+			insertVo = new Chat_MemVo(ctid, array[i]);
+			int insertMem = memService.insertChatMem(insertVo);
+			
+		}
+		return "redirect:/friendChat?ct_id=" + ctid;
+	}
+	
+	
+	//채팅방 이름 변경
+	@RequestMapping(path="/updateChatRoomTitle" , method = RequestMethod.POST)
+	public String updateChatRoomTitle(Model model, String room_nmup, String upct_id, HttpSession session) {
+		Chat_RoomVo vo = new Chat_RoomVo();
+		
+		vo.setCt_id(Integer.parseInt(upct_id));
+		vo.setCt_nm(room_nmup);
+		int updateCnt = roomService.updateChatTitle(vo);
+		
+		return "redirect:/friendChatList";
 	}
 	
 	//채팅방 나가기
 	@RequestMapping(path="/outChatRoom")
-	public String outChatRoom(Model model, String user_email, String ct_id, HttpSession session) {
+	public String outChatRoom(Model model, String ct_id, HttpSession session) {
 		
 		int ct_id1 = Integer.parseInt(ct_id);
 		
 		
 		UserVo user = (UserVo) session.getAttribute("USER_INFO");    
+		String user_email = user.getUser_email();
 		logger.debug("********friendChatList UserVo : {}",user);
 		
 		
@@ -152,34 +229,14 @@ public class Chat_RoomController {
 			roomService.deleteChatRoom(ct_id1);
 		}
 		
-		
-		logger.debug("deleteContent: " + deleteContent + "outRoom : " + outRoom);
-		
-		//내가 갖고 있는 방목록 가져오기
-		List<Chat_RoomVo> roomlist = roomService.getRoomList(user_email);
-		logger.debug("*********roomlist: {}" , roomlist);
-		
-		// 채팅방별 친구들 리스트들을 리스트에 넣음
-		// memlist : 방마다 갖고 있는 멤버 리스트를 가져옴(계속 새값으로 변경)
-		// memlistlist[0] = {김두한, 박경림}, memlistlist[1] = {아이유, 유인나}
-		List<String> memlist = null;
-		List<List<String>> memlistlist = new ArrayList<List<String>>();
-		
-		//방 별로의 채팅멤버명
-		for(int i=0; i< roomlist.size();i++) {
-			
-			ct_id1 = roomlist.get(i).getCt_id(); //방 아이디 가져옴
-			memlist = memService.roomFriendList(ct_id1); //채팅방에 있는 친구들 정보 들어옴
-			memlistlist.add(memlist);  
-			
-			logger.debug("memlistlist : {}", memlistlist);
-			
-		}
-		
-		model.addAttribute("roomlist", roomlist);
-		model.addAttribute("memlistlist", memlistlist);
-		
-		
-		return "/chat/friendChatList.user.tiles";
+		return "redirect:/friendChatList";
 	}
+	
+	@RequestMapping(path="/faceChatMain")
+	public String faceChatMain(Model model, HttpSession session) {
+	
+		
+		return "/chat/faceChat.user.tiles";
+	}
+	
 }

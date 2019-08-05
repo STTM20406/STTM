@@ -70,7 +70,7 @@ public class Chat_MemDao implements IChat_MemDao{
 	}
 
 	@Override
-	public List<String> inviteFriend(ChatParticipateUserVo vo) {
+	public List<ChatParticipateUserVo> inviteFriend(ChatParticipateUserVo vo) {
 		return sqlSession.selectList("chat.inviteFriend",vo);
 	}
 

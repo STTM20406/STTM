@@ -76,7 +76,7 @@ public class Chat_MemService implements IChat_MemService{
 	 */
 	@Override
 	public int insertChatMem(Chat_MemVo vo) {
-		int cnt = memDao.deleteChatMem(vo);
+		int cnt = memDao.insertChatMem(vo);
 		return cnt;
 	}
 
@@ -117,8 +117,8 @@ public class Chat_MemService implements IChat_MemService{
 	}
 
 	@Override
-	public List<String> inviteFriend(ChatParticipateUserVo vo) {
-		List<String> list = memDao.inviteFriend(vo);
+	public List<ChatParticipateUserVo> inviteFriend(ChatParticipateUserVo vo) {
+		List<ChatParticipateUserVo> list = memDao.inviteFriend(vo);
 		return list;
 	}
 

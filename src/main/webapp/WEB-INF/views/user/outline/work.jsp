@@ -51,20 +51,18 @@
 		    	<button type="button" onclick="reset()">필터 초기화</button>
 		    	<input type="hidden" name="user_email" value="${USER_INFO.user_email }">
 	    </form>
-</div>
+</div>	<div id="allContainer">
         <div id="resultContainer" style="width:330px;padding:15px;height:95%; float:left;">
-	        <div class="blankContainer" style="font-size:large;width:330px;height:600px;text-align:center;padding:145px;">
-	        <p>데이터 없음</p>
-	        </div>
         </div>
         <div id="chartContainer" style="width:550px;padding:15px;height:95%;float:left;">
         	<div id="pieChartContainer"></div>
         	<div id="priorChartContainer"></div>
         	<div id="percentChartContainer"></div>
-        	<div class="blankContainer" style="font-size:large;width:550px;height:600px;text-align:center;padding:225px;">
-        		<p>데이터 없음</p>
-        	</div>
         </div>
+       	<div class="blankContainer" style="font-size:large;width:100%;height:600px;text-align:center;padding:250px;">
+       		<p>데이터 없음</p>
+       	</div>
+		</div>
         <div id="work_detail" style="width:600px;padding:25px;height:100%;float:left;"></div>
 <script>
 	var percentChart = null;
@@ -89,25 +87,25 @@
 				var pieChartData = data.resultMap.pieChartData;
 				var percentChartData = data.resultMap.percentChartData;
 				var priorChartData = data.resultMap.priorChartData;
-				
-				var isBlank = data.resultMap.isBlank;
+				var blank = $(".blankContainer");
+				blank.hide();
+				var isBlank = data.resultMap.chartData.isBlank;
 				if(isBlank=="true") {
 					hideChart();
 				} else {
 					showChart();
 				}
+				var pieChartData = data.resultMap.chartData.pieChart;
+				var priorData = data.resultMap.chartData.barChart.priorChart;
+				var percentData = data.resultMap.chartData.barChart.percentChart;
 				var pieChartContainer = document.getElementById('pieChartContainer');
 				var priorChartContainer = document.getElementById('priorChartContainer');
 				var percentChartContainer = document.getElementById('percentChartContainer');
-					pieChart.setData(JSON.parse(pieChartData));
-					percentChart.setData(JSON.parse(percentChartData));
-					priorChart.setData(JSON.parse(priorChartData));
-// 				loadPieChart(pieChartContainer, pieChartData);
-// 				loadBarChart(priorChartContainer, percentChartContainer, priorChartData, percentChartData);
-				console.log(filterFrm);
+					pieChart.setData(pieChartData);
+					percentChart.setData(percentData);
+					priorChart.setData(priorData);
+// 				console.log(filterFrm);
 				$("#resultContainer").html(result);
-				
-				
 			}
 		})
 	}
@@ -126,13 +124,13 @@
 				var prjList = data.resultMap.prjList;
 				var makerList = data.resultMap.makerList;
 				var followerList = data.resultMap.followerList;
-				var pieChartData = data.resultMap.pieChartData;
-				var percentChartData = data.resultMap.percentChartData;
-				var priorChartData = data.resultMap.priorChartData;
-				
-				$(".blankContainer").hide();
+				var pieChartData = data.resultMap.chartData.pieChart;
+				var priorData = data.resultMap.chartData.barChart.priorChart;
+				var percentData = data.resultMap.chartData.barChart.percentChart;
+				var blank = $(".blankContainer");
+				blank.hide();
 
-				var isBlank = data.resultMap.isBlank;
+				var isBlank = data.resultMap.chartData.isBlank;
 				if(isBlank=="true") {
 					hideChart();
 				} else {
@@ -144,8 +142,9 @@
 				$("#prjList").html(prjList);
 				$("#makerList").html(makerList);
 				$("#followerList").html(followerList);
-				loadBarChart(priorChartContainer, percentChartContainer, priorChartData, percentChartData);
-				loadPieChart(pieChartContainer, pieChartData);
+				priorChart = loadPriorChart(priorChartContainer, priorData, 500, 140);
+				percentChart = loadPercentChart(percentChartContainer, percentData, 500, 140);
+				pieChart = loadPieChart(pieChartContainer, pieChartData, 500, 300);
 			}
 		})
 	}

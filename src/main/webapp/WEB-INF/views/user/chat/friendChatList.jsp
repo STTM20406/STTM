@@ -4,88 +4,15 @@
 
 
 <style type="text/css">
-.layer {
-	display: none;
-	position: fixed;
-	_position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	z-index: 100;
-}
-
-.layer .bg {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background: #000;
-	opacity: .5;
-	filter: alpha(opacity = 50);
-}
-
-.layer .pop-layer {
-	display: block;
-}
-
-.pop-layer {
-	display: none;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	width: 410px;
-	height: auto;
-	background-color: #fff;
-	border: 5px solid #3571B5;
-	z-index: 10;
-}
-
-.pop-layer .pop-container {
-	padding: 20px 25px;
-}
-
-.pop-layer p.ctxt {
-	color: #666;
-	line-height: 25px;
-}
-
-.pop-layer .btn-r {
-	width: 100%;
-	margin: 10px 0 20px;
-	padding-top: 10px;
-	border-top: 1px solid #DDD;
-	text-align: right;
-}
-
-a.cbtn {
-	display: inline-block;
-	height: 25px;
-	padding: 0 14px 0;
-	border: 1px solid #304a8a;
-	background-color: #3f5a9d;
-	font-size: 13px;
-	color: #fff;
-	line-height: 25px;
-}
-
-a.cbtn:hover {
-	border: 1px solid #091940;
-	background-color: #1f326a;
-	color: #fff;
-}
-
 </style>
 
 <script>
 	$(document).ready(function() {
-					
 
 		$(".tb_style_01").on("click", "td.roomNm", function() {
 			//a = .text();
-			 var a = $(this).attr("id");
-			 //$(this).data("ct_id");
+			var a = $(this).attr("id");
+			//$(this).data("ct_id");
 
 			console.log(a);
 			$("#ct_id").val(a);
@@ -93,34 +20,183 @@ a.cbtn:hover {
 			$("#frm").submit();
 		});
 
+		$("#createBtn").on("click", function() {
 
-		$("#showAddFriend").fadeOut(0);
-		$("#addFriend").on("click", function() {
-			$("#showAddFriend").fadeIn(300);
+			if ($("#room_nm").val().length == 0)
+				alert("채팅방 이름을 입력하세요");
+
+			//친구추가 할 때 사용하는 체크박스
+			var sendArray = new Array();
+			var chkbox = $(".checkSelect");
+			var sendCnt = 0;
+
+			for (i = 0; i < chkbox.length; i++) {
+				if (chkbox[i].checked == true) {
+					sendArray[sendCnt] = chkbox[i].value;
+					sendCnt++;
+				}
+
+			}
+
+			$("#array").val(sendArray);
+
+		});
+		
+		//채팅방 이름 수정
+		$("#updateRoomBtn").on("click", function() {
+			$("#frmUpdateRoom").submit();
 		});
 
-		//친구추가 할 때 사용하는 체크박스
-		var sendArray = new Array();
-		var chkbox = $(".checkSelect");
-		var sendCnt=0;
-		
-		for(i=0;i<chkbox.length;i++){
-			if(chkbox[i].checked == true){
-				sendArray[sendCnt] = chkbox[i].value;
-				sendCnt++;
-			}
+		//프로젝트 생성 버튼 클릭시
+		$('.btn-example').on("click", function(){
 			
-		}
+	        var $href = $(this).attr('href');
+	        layer_popup($href);
+	    });
 		
-		
-		
-		
+		$('.btn-example1').on("click", function(){
+			var a = $(this).attr('id');
+			var aarray = a.split('_');
+			
+			var id = aarray[0];
+			var name = aarray[1];
+			console.log(aarray[0] + " " + aarray[1]);
+			
+			$("#upct_id").val(id);
+			$("#room_nmup").val(name);
+			
+			$("#outRoomBtn").attr('href', '/outChatRoom?ct_id=' + id); 
+			console.log($("#outRoomBtn").attr('href'));
+	        var $href = $(this).attr('href');
+	        layer_popup($href);
+	    });
 	});
 
+	
+	//layer popup - 프로젝트 생성
+	function layer_popup(el){
+		console.log(el);
 
+        var $el = $(el);		//레이어의 id를 $el 변수에 저장
+        var isDim = $el.prev().hasClass('dimBg');	//dimmed 레이어를 감지하기 위한 boolean 변수
+
+        isDim ? $('.dim-layer').fadeIn() : $el.fadeIn();
+
+        var $elWidth = ~~($el.outerWidth()),
+            $elHeight = ~~($el.outerHeight()),
+            docWidth = $(document).width(),
+            docHeight = $(document).height();
+
+        // 화면의 중앙에 레이어를 띄운다.
+        if ($elHeight < docHeight || $elWidth < docWidth) {
+            $el.css({
+                marginTop: -$elHeight /2,
+                marginLeft: -$elWidth/2
+            })
+        } else {
+            $el.css({top: 0, left: 0});
+        }
+
+        $el.find('a.btn-layerClose').click(function(){
+            isDim ? $('.dim-layer').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
+            return false;
+        });
+
+        $('.layer .dimBg').click(function(){
+            $('.dim-layer').fadeOut();
+            return false;
+        });
+
+    }
 </script>
 
+
+
+	<!-- 팝업 새 채팅방 생성 -->
+	<div class="dim-layer">
+		<div class="dimBg"></div>
+		<div id="layer1" class="pop-layer">
+			<div class="pop-container">
+				<div class="pop-project">
+					<!--content //-->
+					<form action="/createChatRoom" method="post" id="frmCreateRoom">
+						<input type="hidden" id="array" name="array">
+						<div class="new_proejct">
+							<!-- 방 만들기 테이블 -->
+							<ul>
+								<li><label for="prj_nm">새 채팅방 생성</label></li>
+								<li><label for="prj_nm">채팅방 이름</label> <input type="text"
+									id="room_nm" name="room_nm"></li>
+								<li><label for="prj_mem">채팅방 친구 선택</label>
+									<div class="prj_mem_list">
+										<ul>
+											<c:forEach items="${allFriendList}" var="friendlist"
+												varStatus="status">
+												<li><input type="checkbox" name="friend"
+													class="checkSelect" value="${friendlist.frd_email}">${friendlist.user_nm }
+												</li>
+											</c:forEach>
+										</ul>
+
+									</div></li>
+							</ul>
+							<div class="prj_btn">
+								<a href="javascript:;" id="prj_btn_prev">뒤로</a> <input
+									type="submit" id="createBtn" value="채팅방 만들기">
+							</div>
+						</div>
+
+					</form>
+
+					<div class="btn-r">
+						<a href="#" class="btn-layerClose">Close</a>
+					</div>
+					<!--// content-->
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- 팝업 채팅방 수정/나가기 -->
+<!-- 		<div class="dim-layer"> -->
+<!-- 		<div class="dimBg"></div> -->
+		<div id="layer2" class="pop-layer">
+			<div class="pop-container">
+				<div class="pop-project">
+					<!--content //-->
+					<form action="/updateChatRoomTitle" method="post" id="frmUpdateRoom">
+						<div class="new_proejct">
+							<input type="hidden" name="upct_id" id="upct_id">
+							<!-- 방 만들기 테이블 -->
+							<ul>
+								<li><label for="prj_nm">채팅방 이름 수정</label> 
+								<input type="text" id="room_nmup" name="room_nmup"></li>
+							</ul>
+							<div class="prj_btn">
+								<input type="submit" id="updateRoomBtn" value="채팅방 이름 수정">
+							</div>
+							<a href="#"  id="outRoomBtn" style="color: red;">채팅방나가기</a>
+							
+						</div>
+
+					</form>
+					
+					
+					<div class="btn-r">
+						<a href="#" class="btn-layerClose">Close</a>
+					</div>
+					<!--// content-->
+				</div>
+			</div>
+		</div>
+<!-- 	</div> -->
+
 <section class="contents">
+
+	<form id="frm" action="/friendChat" method="get">
+		<input type="hidden" id="ct_id" name="ct_id">
+	</form>
 
 	<div class="sub_menu">
 		<ul class="sub_menu_item">
@@ -130,40 +206,10 @@ a.cbtn:hover {
 		</ul>
 		<div class="sub_btn">
 			<ul>
-				<li><input type="button" id="createRoom" value="+ 새 채팅방 생성"></li>
+				<li><a href="#layer1" class="btn-example btn_style_01">새 채팅방 생성</a></li>
 			</ul>
 		</div>
 	</div>
-
-	<!-- 방 만들기 버튼 클릭 시, 보여짐 -->
-	<div style="width: 300px; height: 500px; display: none;"
-		class="ui message" id="showCreateRoom">
-		<!-- 방 만들기 테이블 -->
-		<table style="width: 100/5; height: 100%;">
-			<col width="80px">
-			<!-- 방제목 -->
-			<tr style="padding: 1px; margin: 1px;">
-				<th>방제목</th>
-				<td><input type="text" name="name" placeholder="방이름" size="8"
-					class="ui message"
-					style="font-weight: bold; width: 100%; height: 15px"></td>
-			</tr>
-
-
-			<!-- 버튼 처리 -->
-			<tr>
-				<td colspan="2"><input type="button" id="submitBtn"
-					value="방만들기" class="ui primary button"> <input
-					type="button" id="backBtn" value="돌아가기" class="ui button">
-				</td>
-			</tr>
-		</table>
-
-	</div>
-
-	<form id="frm" action="/friendChat" method="get">
-		<input type="hidden" id="ct_id" name="ct_id">
-	</form>
 
 
 	<!-- table style start -->
@@ -173,26 +219,21 @@ a.cbtn:hover {
 			<th>NO</th>
 			<th>채팅방 이름</th>
 			<th>채팅방 멤버</th>
-			<th>친구 추가</th>
+			<th>채팅방 수정</th>
 		</tr>
 
 		<!-- 향상된 for -->
 		<c:forEach items="${roomlist}" var="room" varStatus="status">
 			<tr>
-				<td>${room.ct_id}</td>
+				<td>${room.rn}</td>
 				<td id="${room.ct_id }" class="roomNm">${ room.ct_nm }</td>
-				<td>
-					<c:forEach items="${realRoomMap}" var="friend" varStatus="status">
+				<td><c:forEach items="${realRoomMap}" var="friend"
+						varStatus="status">
 						<c:if test="${friend.key == room.ct_id }">
-							<input type="text" style="width : 300px;" value="${friend.value}">
+							<input type="text" style="width: 300px;" value="${friend.value}">
 						</c:if>
-					</c:forEach>
-					
-				</td>
-				<td><input type="button" value="친구 추가" id="addFriend"></td>
-				<td><a
-					href="/outChatRoom?ct_id=${room.ct_id}&user_email=${USER_INFO.user_email}"
-					style="color: red;">채팅방나가기</a></td>
+					</c:forEach></td>
+				<td><a href="#layer2" class="btn-example1 btn_style_01" id="${room.ct_id}_${room.ct_nm}">채팅방 수정</a></td>
 			</tr>
 		</c:forEach>
 
@@ -200,17 +241,6 @@ a.cbtn:hover {
 
 	</table>
 
-	<div class="modal fade" style="width: 300px; height: 500px;" id="showAddFriend">
-
-<%-- 		<c:forEach items="${friendsList}" var="friend" varStatus="status"> --%>
-
-<%-- 			<input type="checkbox" name="friendList" value="${ friend.user_nm}">${friend.user_nm } --%>
-   		 	
-<%--    		 </c:forEach> --%>
-		<input type="button" value="친구 추가" id="addFriendBtn">
-   		 
-
-	</div>
 
 
 	<!-- table style end -->
@@ -222,8 +252,8 @@ a.cbtn:hover {
 
 
 	<div class="pagination">
-		<a href="" class="btn_first"></a> <span>1</span> <a href="">2</a> <a
-			href="">3</a> <a href="" class="btn_last"></a>
+		<a href="" class="btn_first"></a> <span>1</span> <a href=""
+			class="btn_last"></a>
 	</div>
 
 </section>
@@ -233,3 +263,5 @@ a.cbtn:hover {
 
 
 </html>
+
+

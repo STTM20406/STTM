@@ -83,5 +83,5 @@ public interface IChat_MemService {
 	 * @return
 	 * Method 설명 	: 채팅방 초대할 친구 리스트 (이미 채팅방에 있는 친구는 제외하고 보여주는 리스트)
 	 */
-	public List<String> inviteFriend(ChatParticipateUserVo vo);
+	public List<ChatParticipateUserVo> inviteFriend(ChatParticipateUserVo vo);
 }
