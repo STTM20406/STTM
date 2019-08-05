@@ -274,13 +274,31 @@ public class UserController {
 //		return viewName;
 	}
 	
-	
-	@RequestMapping(path = "/", method = RequestMethod.GET)
-	public String projectMemberListView() {
-
-		return "";
+	/**
+	 * 
+	* Method : projectMemberListView
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-05
+	* @param pageVo
+	* @param model
+	* @return
+	* Method 설명 : 회원이 해당 프로젝트의 멤버 목록을 조회
+	 */
+	@RequestMapping(path = "/projectMemberList")
+	public String projectMemberListView(PageVo pageVo, Model model) {
+		
+		Map<String, Object> resultMap = userService.userPagingList(pageVo);
+		
+		List<UserVo> userList = (List<UserVo>) resultMap.get("userList");
+		int paginationSize = (Integer) resultMap.get("paginationSize");
+		
+		model.addAttribute("userList", userList);
+		
+		model.addAttribute("paginationSize", paginationSize);
+		model.addAttribute("pageVo", pageVo);
+		
+		return "/member/projectMember.user.tiles";
 	}
-	
 	
 	// ------------------------------ 관리자 부분 ------------------------------ //
 	
