@@ -64,6 +64,43 @@ public interface IUserService {
 	 */
 	Map<String, Object> userPagingList(PageVo pageVo);
 	
+	// ***********************************************************************************
+	
+	/**
+	 * 
+	* Method : userSearchByEmail
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-05
+	* @param search
+	* @return
+	* Method 설명 : 관리자가 회원 리스트를 회원의 이메일로 검색 후 페이징 리스트 조회
+	 */
+	Map<String, Object> userSearchByEmail(Map<String, Object> search);
+	
+	/**
+	 * 
+	* Method : userSearchByName
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-05
+	* @param search
+	* @return
+	* Method 설명 : 관리자가 회원 리스트를 회원의 이름으로 검색 후 페이징 리스트 조회
+	 */
+	Map<String, Object> userSearchByName(Map<String, Object> search);
+	
+	/**
+	 * 
+	* Method : userSearchByHp
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-05
+	* @param search
+	* @return
+	* Method 설명 : 관리자가 회원 리스트를 회원의 전화번호로 검색 후 페이징 리스트 조회
+	 */
+	Map<String, Object> userSearchByHp(Map<String, Object> search);
+	
+	// ***********************************************************************************
+	
 	/**
 	 * 
 	* Method : updateUser

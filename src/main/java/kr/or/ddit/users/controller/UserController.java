@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.or.ddit.encrypt.encrypt.kisa.aria.ARIAUtil;
 import kr.or.ddit.notification_set.model.Notification_SetVo;
@@ -399,4 +400,17 @@ public class UserController {
 		
 		return "/member/memberUpdate.adm.tiles";
 	}
+	
+	@RequestMapping(path = "",method = RequestMethod.GET)
+//	public String admInquirySearch(Model model,String searchText,String scText,String inq_cate,
+//	@RequestParam(name = "page", defaultValue = "1")int page,
+//	@RequestParam(name = "pageSize", defaultValue = "10")int pageSize) {
+	
+	public String admSearchUserInfo(Model model String searchText, String scText) {
+		
+		PageVo pageVo = new PageVo();
+		
+		return null;
+	}
+	
 }

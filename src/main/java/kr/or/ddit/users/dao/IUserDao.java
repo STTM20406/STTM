@@ -1,10 +1,10 @@
 package kr.or.ddit.users.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import kr.or.ddit.notification_set.model.Notification_SetVo;
 import kr.or.ddit.paging.model.PageVo;
-import kr.or.ddit.project_mem.model.Project_MemVo;
 import kr.or.ddit.users.model.UserVo;
 
 public interface IUserDao {
@@ -72,6 +72,72 @@ public interface IUserDao {
 	* Method 설명 : 사용자 전체수 조회
 	 */
 	int userCnt();
+	
+	/**
+	 * 
+	* Method : userSearchByEmail
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-05
+	* @param search
+	* @return
+	* Method 설명 : 관리자가 회원 리스트를 회원의 이메일로 검색 후 페이징 리스트 조회
+	 */
+	List<UserVo> userSearchByEmail(Map<String, Object> search);
+	
+	/**
+	 * 
+	* Method : userSearchByEmailCnt
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-05
+	* @param search
+	* @return
+	* Method 설명 : 관리자가 회원 리스트를 회원의 이메일로 검색한 갯수
+	 */
+	int userSearchByEmailCnt(Map<String, Object> search);
+	
+	/**
+	 * 
+	* Method : userSearchByName
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-05
+	* @param search
+	* @return
+	* Method 설명 : 관리자가 회원 리스트를 회원의 이름으로 검색 후 페이징 리스트 조회
+	 */
+	List<UserVo> userSearchByName(Map<String, Object> search);
+	
+	/**
+	 * 
+	* Method : userSearchByNameCnt
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-05
+	* @param search
+	* @return
+	* Method 설명 : 관리자가 회원 리스트를 회원의 이름으로 검색한 갯수
+	 */
+	int userSearchByNameCnt(Map<String, Object> search);
+	
+	/**
+	 * 
+	* Method : userSearchByHp
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-05
+	* @param search
+	* @return
+	* Method 설명 : 관리자가 회원 리스트를 회원의 전화번호로 검색 후 페이징 리스트 조회
+	 */
+	List<UserVo> userSearchByHp(Map<String, Object> search);
+	
+	/**
+	 * 
+	* Method : userSearchByHpCnt
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-05
+	* @param search
+	* @return
+	* Method 설명 : 관리자가 회원 리스트를 회원의 전화번호로 검색한 갯수
+	 */
+	int userSearchByHpCnt(Map<String, Object> search);
 	
 	/**
 	 * 
