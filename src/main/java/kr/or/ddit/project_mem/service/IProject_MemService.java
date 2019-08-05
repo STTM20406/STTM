@@ -49,4 +49,15 @@ public interface IProject_MemService {
 	* Method 설명 : 휴면 계정으로 전환하기 위하여 나의 프로젝트 멤버를 조회한다
 	 */
 	List<Project_MemVo> getMyProjectMemList(int prj_id);
+	
+	/**
+	 * 
+	 * Method 		: projectAllMemList
+	 * 작성자 		: 박서경 
+	 * 변경이력 		: 2019-08-05 최초 생성
+	 * @param user_email
+	 * @return
+	 * Method 설명 	: 프로젝트 멤버 추가를 위한 프로젝트 멤버 리스트 조회
+	 */
+	List<Project_MemVo> projectAllMemList(String user_email);
 }

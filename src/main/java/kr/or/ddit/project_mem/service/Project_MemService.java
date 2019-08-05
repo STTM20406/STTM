@@ -71,5 +71,20 @@ public class Project_MemService implements IProject_MemService{
 	public List<Project_MemVo> getMyProjectMemList(int prj_id) {
 		return projectMemDao.getMyProjectMemList(prj_id);
 	}
+
+	
+	/**
+	 * 
+	 * Method 		: projectAllMemList
+	 * 작성자 		: 박서경 
+	 * 변경이력 		: 2019-08-05 최초 생성
+	 * @param user_email
+	 * @return
+	 * Method 설명 	: 프로젝트 멤버 추가를 위한 프로젝트 멤버 리스트 조회
+	 */
+	@Override
+	public List<Project_MemVo> projectAllMemList(String user_email) {
+		return projectMemDao.projectAllMemList(user_email);
+	}
 	
 }
