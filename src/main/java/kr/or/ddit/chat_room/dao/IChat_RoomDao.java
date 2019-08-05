@@ -2,6 +2,7 @@ package kr.or.ddit.chat_room.dao;
 
 import java.util.List;
 
+import kr.or.ddit.chat_mem.model.Chat_MemVo;
 import kr.or.ddit.chat_room.model.Chat_RoomVo;
 
 public interface IChat_RoomDao {
@@ -61,5 +62,26 @@ public interface IChat_RoomDao {
 	 * Method 설명 	: 채팅방 아이디 조회
 	 */
 	public List<Integer> selectRoomId();
+	
+	/**
+	 * 
+	 * Method 		: maxRoomId
+	 * 작성자 			: 유다연 
+	 * 변경이력 		: 2019-08-02 최초 생성
+	 * @return
+	 * Method 설명 	: 채팅방 max id
+	 */
+	public int maxRoomId();
+	
+	/**
+	 * 
+	 * Method 		: updateChatTitle
+	 * 작성자 			: 유다연
+	 * 변경이력 		: 2019-08-05 최초 생성
+	 * @param vo
+	 * @return
+	 * Method 설명 	: 채팅방 이름 수정
+	 */
+	public int updateChatTitle(Chat_RoomVo vo);
 	
 }

@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import kr.or.ddit.chat_mem.model.Chat_MemVo;
 import kr.or.ddit.chat_room.model.Chat_RoomVo;
 
 @Repository
@@ -39,6 +40,16 @@ public class Chat_RoomDao implements IChat_RoomDao{
 	@Override
 	public List<Integer> selectRoomId() {
 		return sqlSession.selectList("chat.selectRoomId");
+	}
+
+	@Override
+	public int maxRoomId() {
+		return sqlSession.selectOne("chat.maxRoomId");
+	}
+
+	@Override
+	public int updateChatTitle(Chat_RoomVo vo) {
+		return  sqlSession.update("chat.updateChatTitle",vo);
 	}
 
 
