@@ -72,13 +72,23 @@
 	
 	<!-- 프로젝트 전체 업데이트 -->
 	<update id="updateAllProject" parameterType="projectVo">
-		UPDATE PROJECT A SET A.PRJ_NM = #{prj_nm}
-                     , A.PRJ_EXP = #{prj_exp}
+		UPDATE PROJECT A SET
+					 <if test="prj_nm != null">
+					 A.PRJ_NM = #{prj_nm}
+					 </if>
+                     <if test="prj_exp != null">
+					 , A.PRJ_EXP = #{prj_exp}
+					 </if>
                      , A.PRJ_AUTH = #{prj_auth}
-                     , A.PRJ_ST = #{prj_st}
-                     , A.PRJ_START_DT = #{prj_start_dt}
-                     , A.PRJ_END_DT = #{prj_end_dt}
-                     , A.PRJ_CMP_DT = #{prj_cmp_dt}
+                     <if test="prj_start_dt != null">
+					 , A.PRJ_START_DT = #{prj_start_dt}
+					 </if>
+					 <if test="prj_end_dt != null">
+					 , A.PRJ_END_DT = #{prj_end_dt}
+					 </if>
+					 <if test="prj_cmp_dt != null">
+					 , A.PRJ_CMP_DT = #{prj_cmp_dt}
+					 </if>
                      , A.PRJ_ST = #{prj_st}
                      , A.PRJ_UPDATE = SYSDATE
                      , A.DEL_FL = 'N'
@@ -94,17 +104,17 @@
 
 	<!-- *********************project_mem******************** -->
 
-	<!-- 프로젝트 생성시 멤버 리스트 조회 -->
-	<select id="projectMemAddList" resultType="projectVo" parameterType="string">
-		SELECT DISTINCT B.USER_EMAIL, C.USER_NM FROM
-		(SELECT * FROM PROJECT_MEM WHERE USER_EMAIL = #{user_email}) A, PROJECT_MEM B, USERS C
-		WHERE B.PRJ_ID IN (A.PRJ_ID)
-		AND C.USER_EMAIL = B.USER_EMAIL
-	</select>
-
 	<!-- 프로젝트 멤버 리스트 조회 -->
-	<select id="projectMemList">
-		SELECT * FROM PROJECT_MEM WHERE PRJ_ID = #{prj_id}
+	<select id="projectMemList" resultType="project_memVo" parameterType="project_memVo">
+		SELECT DISTINCT B.PRJ_ID
+					  , B.USER_EMAIL
+					  , B.PRJ_MEM_LV
+					  , B.PRJ_MEM_NIK
+					  , B.PRJ_OWN_FL
+					  , C.USER_NM FROM
+					  ( SELECT * FROM PROJECT_MEM WHERE USER_EMAIL = #{user_email}) A, PROJECT_MEM B, USERS C
+		WHERE B.PRJ_ID IN (A.PRJ_ID)
+		AND C.USER_EMAIL = B.USER_EMAIL AND B.PRJ_ID = #{prj_id}
 	</select>
 
 	<!-- 프로젝트 생성시 멤버 테이블에 동시에 인서트 -->
@@ -114,6 +124,10 @@
 		VALUES (#{prj_id}, #{user_email}, #{prj_mem_lv}, #{prj_own_fl})
 	</insert>
 	
+	<update id="updatePrjectMem" parameterType="project_memVo">
+		UPDATE PROJECT_MEM A SET PRJ_MEM_LV = #{prj_mem_lv} WHERE PRJ_ID = #{prj_id} AND USER_EMAIL = #{user_email}
+	</update>
+
 	<!-- 휴면 계정으로 전환하기 위하여 나와 프로젝트 아이디가 같은 멤버 조회 -->
 	<select id="getMyProjectMemList" parameterType="int" resultType="project_memVo">
 		select * 

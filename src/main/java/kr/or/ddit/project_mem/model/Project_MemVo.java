@@ -13,16 +13,20 @@ package kr.or.ddit.project_mem.model;
  * 수정자 수정내용
  * ------ ------------------------
  * 양한솔   최초 생성 : 2019-07-19
+ * 양한솔   수정 일시 : 2019-08-03
  *
  * </pre>
  */
 public class Project_MemVo {
 
 	private int prj_id;			// 프로젝트 ID
-	private String user_email;	// 이메일
+	private String user_email;	// 프로젝트 멤버 이메일
 	private String prj_mem_lv;	// 프로젝트 멤버 레벨
 	private String prj_mem_nik;	// 프로젝트 멤버 닉네임
 	private String prj_own_fl;	// 프로젝트 소유 유무
+	
+	private String user_nm;		//프로젝트 멤버 이메일에 해당하는 이름
+	
 	
 	public Project_MemVo() {
 		
@@ -37,11 +41,6 @@ public class Project_MemVo {
 		this.prj_own_fl = prj_own_fl;
 	}
 
-	@Override
-	public String toString() {
-		return "Project_MemVo [prj_id=" + prj_id + ", user_email=" + user_email + ", prj_mem_lv=" + prj_mem_lv
-				+ ", prj_mem_nik=" + prj_mem_nik + ", prj_own_fl=" + prj_own_fl + "]";
-	}
 	
 	public int getPrj_id() {
 		return prj_id;
@@ -72,6 +71,19 @@ public class Project_MemVo {
 	}
 	public void setPrj_own_fl(String prj_own_fl) {
 		this.prj_own_fl = prj_own_fl;
+	}
+	public String getUser_nm() {
+		return user_nm;
+	}
+
+	public void setUser_nm(String user_nm) {
+		this.user_nm = user_nm;
+	}
+
+	@Override
+	public String toString() {
+		return "Project_MemVo [prj_id=" + prj_id + ", user_email=" + user_email + ", prj_mem_lv=" + prj_mem_lv
+				+ ", prj_mem_nik=" + prj_mem_nik + ", prj_own_fl=" + prj_own_fl + ", user_nm=" + user_nm + "]";
 	}
 	
 }

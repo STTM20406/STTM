@@ -15,6 +15,7 @@ public class Project_MemDao implements IProject_MemDao{
 	@Resource(name = "sqlSession")
 	private SqlSessionTemplate sqlSession;
 	
+	
 	/**
 	 * 
 	 * Method 		: projectMemList
@@ -24,8 +25,8 @@ public class Project_MemDao implements IProject_MemDao{
 	 * Method 설명 	: 프로젝트 멤버 리스트 조회
 	 */
 	@Override
-	public List<Project_MemVo> projectMemList() {
-		return null;
+	public List<Project_MemVo> projectMemList(Project_MemVo projectMemVo) {
+		return sqlSession.selectList("project.projectMemList", projectMemVo);
 	}
 
 	
@@ -42,6 +43,7 @@ public class Project_MemDao implements IProject_MemDao{
 		return sqlSession.insert("project.insertProjectMem", projectMemVo);
 	}
 
+	
 	/**
 	 * 
 	 * Method 		: updatePjojectMem
@@ -52,8 +54,8 @@ public class Project_MemDao implements IProject_MemDao{
 	 * Method 설명 	: 프로젝트 멤버 업데이트(멤버레벨, 프로젝트 소유 유무, 프로젝트 멤버 닉네임)
 	 */
 	@Override
-	public int updatePjojectMem(Project_MemVo projectMemVo) {
-		return 0;
+	public int updateProjectMem(Project_MemVo projectMemVo) {
+		return sqlSession.update("project.updatePrjectMem", projectMemVo);
 	}
 
 	/**
