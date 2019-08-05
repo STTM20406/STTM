@@ -61,7 +61,6 @@ public class Board_WriteController {
 		logger.debug("!@# boardList : {}",boardList);
 		
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
-		
 		List<Board_AnswerVo> myReplyList = answerService.myReplyList(userVo.getUser_email());
 		
 		int paginationSize = (Integer) resultMap.get("paginationSize");

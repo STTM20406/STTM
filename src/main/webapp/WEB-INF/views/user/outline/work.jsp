@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="https://uicdn.toast.com/tui.chart/latest/tui-chart.min.css">
 <script src="https://uicdn.toast.com/tui.chart/latest/tui-chart-all.min.js"></script>
 <script src="/js/toast-ui-chart.js"></script>
-<div id="frmContainer" style="height:100%;width:250px;float:left;">
+<div id="frmContainer" style="height:100%;width:250px;float:left;margin-right:0;">
 	    <form id="filterFrm">
 	    	<label>업무 구분</label><br>
 	    	<select name="wrk_is_mine" class="filter">
@@ -52,12 +52,16 @@
 		    	<input type="hidden" name="user_email" value="${USER_INFO.user_email }">
 	    </form>
 </div>
-        <div id="resultContainer" style="width:450px;padding:25px;height:95%; float:left;"></div>
-        <div id="chartContainer" style="width:550px;padding:25px;height:95%;float:left;">
+        <div id="resultContainer" style="width:330px;padding:15px;height:95%; float:left;">
+	        <div class="blankContainer" style="font-size:large;width:330px;height:600px;text-align:center;padding:145px;">
+	        <p>데이터 없음</p>
+	        </div>
+        </div>
+        <div id="chartContainer" style="width:550px;padding:15px;height:95%;float:left;">
         	<div id="pieChartContainer"></div>
         	<div id="priorChartContainer"></div>
         	<div id="percentChartContainer"></div>
-        	<div id="blankContainer" style="font-size:large;width:550px;height:600px;text-align:center;padding:225px;">
+        	<div class="blankContainer" style="font-size:large;width:550px;height:600px;text-align:center;padding:225px;">
         		<p>데이터 없음</p>
         	</div>
         </div>
@@ -126,7 +130,7 @@
 				var percentChartData = data.resultMap.percentChartData;
 				var priorChartData = data.resultMap.priorChartData;
 				
-				$("#blankContainer").hide();
+				$(".blankContainer").hide();
 
 				var isBlank = data.resultMap.isBlank;
 				if(isBlank=="true") {
@@ -179,14 +183,14 @@
 		searchInit();		
 	})
 	function hideChart() {
-		var blank = $("#blankContainer");
+		var blank = $(".blankContainer");
 		$("#pieChartContainer").hide();		
 		$("#percentChartContainer").hide();		
 		$("#priorChartContainer").hide();		
 		$(blank).show();
 	}
 	function showChart() {
-		var blank = $("#blankContainer");
+		var blank = $(".blankContainer");
 		$("#pieChartContainer").show();		
 		$("#percentChartContainer").show();		
 		$("#priorChartContainer").show();		

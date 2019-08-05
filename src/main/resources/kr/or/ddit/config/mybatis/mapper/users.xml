@@ -51,13 +51,13 @@
 	where user_email = #{user_email}
 </update>
 
-<!-- 휴면 계정으로 전환하기 위하여 나의 프로젝트 멤버 
-	  리스트에서 프로젝트 소유권이 'N'인 멤버를 조회 -->
-<select id="getMyProjectMemList" parameterType="int" resultType="project_memVo">
-	select * 
-	from project_mem
-	where prj_id = #{prj_id};
-</select>
+<!-- 관리자가 사용자 정보 수정 -->
+<update id="updateUserAdm" parameterType="userVo">
+	update users
+	set user_email = #{user_email}, user_nm = #{user_nm}
+	   ,user_hp = #{user_hp}, user_st = #{user_st}
+	where user_email = #{user_email}
+</update>
 
 <!-- ******************* 관리자 - 회원 관리 ******************* -->
 

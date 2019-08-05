@@ -39,6 +39,11 @@ public class GanttChartController {
 	@Resource(name="filterService")
 	IFilterService filterService;
 	
+	@RequestMapping("/overview")
+	public String overviewGanttChartView() {
+		return "/outline/gantChart.user.tiles";
+	}
+	
 	@RequestMapping("/project")
 	public String projectGanttChartView() {
 		return "/main/gantChart/gantChart.user.tiles";
@@ -50,6 +55,6 @@ public class GanttChartController {
 		logger.debug("ganttVo : {}",ganttVo);
 		
 		int updateCnt = ganttService.update(ganttVo);
-		
+		logger.debug("updateCnt : {}",updateCnt);
 	}
 }

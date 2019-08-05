@@ -54,18 +54,6 @@ public interface IUserDao {
 	
 	/**
 	 * 
-	* Method : getMyProjectMemList
-	* 작성자 : 김경호
-	* 변경이력 : 2019-07-31
-	* @param prj_id
-	* @return
-	* Method 설명 : 휴면 계정으로 전환하기 위하여 나의 프로젝트 멤버 
-	* 			     리스트에서 프로젝트 소유권이 'N'인 멤버를 조회한다
-	 */
-	List<Project_MemVo> getMyProjectMemList(int prj_id); 
-
-	/**
-	 * 
 	* Method : userPagingList
 	* 작성자 : 김경호
 	* 변경이력 : 2019-07-19
@@ -128,6 +116,17 @@ public interface IUserDao {
 	* Method 설명 : 사용자 프로필 업데이트
 	 */
 	int updateUserProfile(UserVo userVo);
+	
+	/**
+	 * 
+	* Method : updateUserAdm
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-02
+	* @param userVo
+	* @return
+	* Method 설명 : 관리자가 사용자 정보 업데이트
+	 */
+	int updateUserAdm(UserVo userVo);
 	
 	/**
 	 * 

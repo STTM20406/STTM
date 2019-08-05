@@ -113,7 +113,8 @@
 						</li>
 						<li>
 							<label for="userPass">비밀번호</label>
-							<input type="password" id="user_pass" name="user_pass" placeholder="4~12자의 영문 대소문자와 숫자">
+							<input type="password" id="user_pass" name="user_pass" 
+							 placeholder="4~12자의 영문 대소문자와 숫자">
 						</li>
 						<li>
 							<label for="userPh">핸드폰번호</label>

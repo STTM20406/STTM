@@ -38,5 +38,15 @@ public interface IProject_MemDao {
 	 */
 	int updateProjectMem(Project_MemVo projectMemVo);
 	
+	/**
+	 * 
+	* Method : getMyProjectMemList
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-01
+	* @param prj_id
+	* @return
+	* Method 설명 : 휴면 계정으로 전환하기 위하여 나의 프로젝트 멤버를 조회한다
+	 */
+	List<Project_MemVo> getMyProjectMemList(int prj_id); 
 	
 }
