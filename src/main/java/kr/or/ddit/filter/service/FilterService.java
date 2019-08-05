@@ -895,6 +895,7 @@ public class FilterService implements IFilterService{
 		Map<String, Object> resultMap = new HashMap<>();
 		Map<Integer, Object> wrkListMap = new HashMap<>();
 		List<String> categories = new ArrayList<>();
+		Map<String, Object> workVoMap = new HashMap<>();
 		
 		Map<String, Object> cmpMap = new HashMap<>();
 		Map<String, Object> planMap = new HashMap<>();
@@ -930,6 +931,15 @@ public class FilterService implements IFilterService{
 			int nodeadlinePt = 0;
 			categories.add((String)wrkListMap.get(wrk_lst_id));
 			int index = categories.indexOf(wrkListMap.get(wrk_lst_id));
+			
+			Map<String, Object> workMap = new HashMap<>();
+			List<WorkVo> workCmpList = new ArrayList<>();
+			List<WorkVo> workPlanList = new ArrayList<>();
+			List<WorkVo> workOverdueList = new ArrayList<>();
+			List<WorkVo> workNodeadlineList = new ArrayList<>();
+			
+			workVoMap.put((String)wrkListMap.get(wrk_lst_id), workMap);
+			
 			for(WorkVo work : workList) {
 				if("AUTH04".equals(work.getAuth()))
 					continue;
@@ -961,12 +971,16 @@ public class FilterService implements IFilterService{
 							
 					if("Y".equals(work.getWrk_cmp_fl())) { // 완료된 업무
 						cmpPt += pt;
+						workCmpList.add(work);
 					} else if(work.getWrk_end_dt()==null){ // 마감일 없는 업무
 						nodeadlinePt += pt;
+						workNodeadlineList.add(work);
 					} else if(work.getWrk_start_dt()!=null && work.getWrk_end_dt()!=null && nowDate.before(work.getWrk_end_dt())) { // 계획된 업무 : 업무 시작일과 종료일이 존재하고, 마감일이 아직 지나지 않았을 때
 						planPt += pt;
+						workPlanList.add(work);
 					} else if(nowDate.after(work.getWrk_end_dt())){ // 마감일 지난 업무 : 업무 마감일이 현재보다 앞일 때
 						overduePt += pt;
+						workOverdueList.add(work);
 					}
 					cmpList.set(index, cmpPt);
 					nodeadlineList.set(index, nodeadlinePt);
@@ -974,6 +988,10 @@ public class FilterService implements IFilterService{
 					overdueList.set(index, overduePt);
 				}
 			}
+			workMap.put("cmpList", workCmpList);
+			workMap.put("planList", workPlanList);
+			workMap.put("overdueList", workOverdueList);
+			workMap.put("nodeadlineList", workNodeadlineList);
 		}
 		cmpMap.put("data", cmpList);
 		planMap.put("data", planList);
@@ -987,7 +1005,7 @@ public class FilterService implements IFilterService{
 		resultMap.put("series", seriesList);
 		logger.debug("wrkListMap : {}", wrkListMap);
 		resultMap.put("categories", categories);
-		
+		resultMap.put("work", workVoMap);
 		return resultMap;
 	}
 }

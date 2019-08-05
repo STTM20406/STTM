@@ -105,12 +105,36 @@ function loadPercentChart(percentChartContainer, percentData, width, height) {
 };
 
 function loadListChart(listChartContainer, listData, width, height) {
+	var workList = listData.work;
+	console.log(workList);
 	var options2 = {
 			chart: {"width": width, "height": height},
 			series: { stackType: 'percent' },
 			tooltip: { grouped: false,
 				template: function(category, item) {
 		        	var ratio = Math.floor(item.ratio*100);
+		        	var workVoTemplate = "";
+		        	
+		        	var cat = workList[category];
+		        	var legend = item.legend;
+		        	var keyword = "";
+		        		switch(legend){
+							case "완료된 업무":
+			        			keyword = "cmpList";
+			        			break;
+			        		case "계획된 업무":
+			        			keyword = "planList";
+			        			break;
+			        		case "마감일 지난 업무":
+			        			keyword = "overdueList";
+			        			break;
+			        		case "마감일 없는 업무":
+			        			keyword = "nodeadlineList";
+			        			break;
+		        		}
+		        	$(cat[keyword]).each(function(){
+		        		workVoTemplate += "<span>" + this.wrk_lst_nm + " > "+ this.wrk_nm + "</span>" + "<br>";
+		        	});
 		        	var tem = '<div class="tui-chart-default-tooltip">' + 
 		        			  '<div class="tui-chart-tooltip-head show">' +
 		        			  category + 
@@ -118,7 +142,9 @@ function loadListChart(listChartContainer, listData, width, height) {
 		        			  '<div class="tui-chart-tooltip-body">' +
 		        			  '<span class="tui-chart-legend-rect bar" style=\"' + item.cssText + '\"></span>' + 
 		        			  '<span>' + item.legend + '</span>' +
-		        			  '<span class="tui-chart-tooltip-value">'+ ratio + '%' + '</span>' +
+		        			  '<span class="tui-chart-tooltip-value">'+ ratio + '%' + " ("+ cat[keyword].length+"개)" + '</span>' + '<br><br>' +
+		        			  workVoTemplate
+		        			  +
 		        			  '</div>' + '</div>' + '</div>';
 		        	return tem;
 		        }
@@ -131,3 +157,4 @@ function loadListChart(listChartContainer, listData, width, height) {
 	var listChart = tui.chart.barChart(listChartContainer, listData, options2);
 	return listChart;
 };
+
