@@ -16,11 +16,39 @@
 		if ("${IW}" == 1) {
 			alert("등록완료!");
 		}
+		
+		$("#edit-prj").on("change",function(){
+			var prj_id = $(this).val();
+			prjStAjax(prj_id);
+			
+		})
+		
+		//프로젝트 상태값 변경 ajax
+		function prjStAjax(prj_id){
+			$.ajax({
+				url:"/changeWorkList",
+				method:"post",
+				contentType: "application/x-www-form-urlencoded; charset=UTF-8",  
+				data: "prj_id=" + prj_id,
+				success:function(data){
+					console.log(data);
+				
+					//다녀오셨어요
+					var html="";
+					data.data.forEach(function(item, index){
+						html += "<option value='" +item.wrk_lst_id+"'>"+item.wrk_lst_nm+"</option>";
+					});
+					
+					$("#edit-type").html(html);
+				}
+				
+			});
+		}
+		
+		
 	});
 </script>
 
-<<<<<<< HEAD
-=======
 <div id="frmContainer">
 	<form id="filterFrm">
 		<label>업무 구분</label><br>
@@ -69,7 +97,6 @@
 		<input type="hidden" name="user_email" value="${USER_INFO.user_email }">
 	</form>	
 </div>
->>>>>>> 8ded73160a5522a197eb5ce944dba4c4d454b643
 
 	<!-- 일자 클릭시 메뉴오픈 -->
 	<div id="contextMenu" class="dropdown clearfix">
@@ -90,7 +117,7 @@
 	<!-- 일정 추가 MODAL -->
 	<div class="modal fade" tabindex="-1" role="dialog" id="eventModal">
 		<div class="modal-dialog" role="document">
-		<form id="frm" action="/calendarPost" method="post">
+<!-- 		<form id="frm" action="/calendarPost" method="post"> -->
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
@@ -130,14 +157,26 @@
 
 					<div class="row">
 						<div class="col-xs-12">
-							<label class="col-xs-4" for="edit-type">업무 리스트</label> <select
-								class="inputModal" name="wrk_lst_id" id="edit-type">
+							<label class="col-xs-4" for="edit-type">프로젝트 리스트</label> 
+							<select	class="inputModal" name="prj_id" id="edit-prj">
+								<c:forEach items="${projectList}" var="PL">
+									<option value="${PL.prj_id}">${PL.prj_nm}</option>
+								</c:forEach>
+							</select>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-xs-12">
+							<label class="col-xs-4" for="edit-type">업무 리스트</label>
+							<select class="inputModal" name="wrk_lst_id" id="edit-type">
 								<c:forEach items="${workList}" var="WL">
 									<option value="${WL.wrk_lst_id}">${WL.wrk_lst_nm}</option>
 								</c:forEach>
 							</select>
 						</div>
 					</div>
+					
 					<div class="row">
 						<div class="col-xs-12">
 							<label class="col-xs-4" for="edit-color">색상</label> <select
@@ -157,7 +196,7 @@
 				</div>
 				<div class="modal-footer modalBtnContainer-addEvent">
 					<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-					<button type="submit" class="btn btn-primary" id="save-event">저장</button>
+					<button type="button" class="btn btn-primary" id="save-event">저장</button>
 				</div>
 				<div class="modal-footer modalBtnContainer-modifyEvent">
 					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
@@ -165,7 +204,7 @@
 					<button type="button" class="btn btn-primary" id="updateEvent">저장</button>
 				</div>
 			</div>
-		</form>
+<!-- 		</form> -->
 		</div>
 	</div>
 	<!-- /.modal -->

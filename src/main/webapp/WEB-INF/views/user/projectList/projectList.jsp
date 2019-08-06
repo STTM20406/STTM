@@ -186,6 +186,8 @@
 				data:"prj_id=" + prj_id,
 				success:function(data){
 					
+					console.log(data);
+					
 					$("#ppt_id").val(data.projectInfo.prj_id);
 					$("#ppt_nm").val(data.projectInfo.prj_nm);
 					$("#ppt_exp").val(data.projectInfo.prj_exp);
@@ -199,12 +201,12 @@
 					var html2 = "";
 					data.projectAdmList.forEach(function(item, index){
 						//html 생성
-						html += "<li id='"+ item.user_email +"_"+item.prj_id+"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
+						html += "<li id='"+ item.user_email +"_"+item.prj_id+"_"+item.prj_mem_lv+"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
 						
 					});	
 					
 					data.projectMemList.forEach(function(item, index){
-						html2 += "<li id='"+ item.user_email +"_"+item.prj_id+"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
+						html2 += "<li id='"+ item.user_email +"_"+item.prj_id+"_"+item.prj_mem_lv+"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
 					});	
 					
 					$(".prj_add_box").html(html);
@@ -342,7 +344,7 @@
 				success:function(data){
 					var html = "";
 					data.data.forEach(function(item, index){
-						html += "<li id='"+ item.user_email +"_"+item.prj_id+"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
+						html += "<li id='"+ item.user_email +"_"+item.prj_id+"_"+item.prj_mem_lv+"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
 					});	
 					
 					$(".prj_add_box").html(html);
@@ -376,7 +378,7 @@
 				success:function(data){
 					var html = "";
 					data.data.forEach(function(item, index){
-						html += "<li id='"+ item.user_email +"_"+item.prj_id+"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
+						html += "<li id='"+ item.user_email +"_"+item.prj_id+"_"+item.prj_mem_lv+"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
 					});	
 					
 					$(".prj_add_box").html(html);
@@ -428,7 +430,7 @@
 			projectMemAddAjax(id, mem_add_email);
 		});
 		
-		//프로젝트 관리자로 선택한 멤버 추가
+		//프로젝트 멤버 추가
 		function projectMemAddAjax(id, mem_add_email){
 			$.ajax({
 				url:"/project/projectMemAddAjax",
@@ -439,14 +441,12 @@
 					var html = "";
 					var html2 = "";
 					
-					console.log(data);
-					
 					data.projectAdmList.forEach(function(item, index){
-						html += "<li id='"+ item.user_email +"_"+item.prj_id+"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
+						html += "<li id='"+ item.user_email +"_"+item.prj_id+"_"+item.prj_mem_lv+"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
 					});	
 					
 					data.projectMemList.forEach(function(item, index){
-						html2 += "<li id='"+ item.user_email +"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
+						html2 += "<li id='"+ item.user_email +"'><span>"+ item.user_nm +"</span>"+ item.user_email + "</li>";
 					});	
 					
 					$(".prj_mem_add_box").html(html);
@@ -462,11 +462,15 @@
 			var textSplit = $(this).parent().attr("id").split("_");
 			var id = textSplit[1];
 			var email = textSplit[0];
+			var lv = textSplit[2];
+			
+			console.log(lv);
 			
 			projectMemDelAjax(id, email);
 		});
 		
 		function projectMemDelAjax(id, email){
+			
 			$.ajax({
 				url:"/project/projectMemDelAjax",
 				method:"post",
@@ -476,12 +480,16 @@
 					var html = "";
 					var html2 = "";
 					
-					data.projectAdmList.forEach(function(item, index){
-						html += "<li id='"+ item.user_email +"_"+item.prj_id+"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
-					});	
+					console.log(data);
+					console.log(data.projectAdmList);
 					
 					data.projectMemList.forEach(function(item, index){
-						html2 += "<li id='"+ item.user_email +"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
+						html += "<li id='"+ item.user_email +"_"+item.prj_id+"_"+item.prj_mem_lv+"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
+						level = item.user
+					});	
+					
+					data.projectAllMemList.forEach(function(item, index){
+						html2 += "<li id='"+ item.user_email +"'><span>"+ item.user_nm +"</span>"+ item.user_email + "</li>";
 					});	
 					
 					$(".prj_mem_add_box").html(html);
@@ -489,10 +497,6 @@
 				}
 			});
 		}
-		
-		
-		
-		
 		
 		
 		

@@ -325,40 +325,46 @@ public class ProjectController {
 		return hashmap;
 	}
 	
-	//프로젝트 관리자 삭제
+	//프로젝트 멤버 삭제
 	@RequestMapping("/projectMemDelAjax")
-	public @ResponseBody HashMap<String, Object> projectMemDelAjax(String user_email, String prj_id, Model model) {
+	public @ResponseBody HashMap<String, Object> projectMemDelAjax(String user_email, String prj_id, Model model, HttpSession session) {
 		
 		int prjId = Integer.parseInt(prj_id);
 		
 		Project_MemVo projectMemVo = new Project_MemVo();
 		projectMemVo.setUser_email(user_email);
 		projectMemVo.setPrj_id(prjId);
+		projectMemVo.setPrj_mem_lv("LV1");
 		
 		int deleteCnt = projectMemService.deleteProjectMem(projectMemVo);
 		
+		//세션에 저장된 user 정보를 가져옴
+		UserVo user = (UserVo) session.getAttribute("USER_INFO");    
+		String user_email1 = user.getUser_email();
+		
 		Project_MemVo projectMemListVo = new Project_MemVo();
-		projectMemListVo.setUser_email(user_email);
+		projectMemListVo.setUser_email(user_email1);
 		projectMemListVo.setPrj_id(prjId);
 		
 		
 		//내가 속한 프로젝트의 멤버들을 중복 없이 가져와 리스트에 담기
-		List<Project_MemVo> project_mem_list = projectMemService.projectAllMemList(user_email);
-		List<Project_MemVo> project_adm_list = projectMemService.projectMemList(projectMemListVo);
+		List<Project_MemVo> project_all_mem_list = projectMemService.projectAllMemList(user_email);
+		List<Project_MemVo> project_mem_list = projectMemService.projectMemList(projectMemListVo);
+		
 		
 		HashMap<String, Object> hashmap = new HashMap<String, Object>();
 		
 		if(deleteCnt != 0) {
-			for(int i=0; i<project_adm_list.size(); i++) {
-				for(int j=0; j<project_mem_list.size(); j++) {
-					if(project_mem_list.get(j).getUser_email().equals(project_adm_list.get(i).getUser_email())) {
-						project_mem_list.remove(project_mem_list.get(j));
+			for(int i=0; i<project_mem_list.size(); i++) {
+				for(int j=0; j<project_all_mem_list.size(); j++) {
+					if(project_mem_list.get(i).getUser_email().equals(project_all_mem_list.get(j).getUser_email())) {
+						project_all_mem_list.remove(project_all_mem_list.get(j));
 					}
 				}
 			}
 		}
 		
-		hashmap.put("projectAdmList", project_adm_list);
+		hashmap.put("projectAllMemList", project_all_mem_list);
 		hashmap.put("projectMemList", project_mem_list);
 		
 		return hashmap;

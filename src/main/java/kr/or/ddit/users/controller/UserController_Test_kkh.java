@@ -2,6 +2,7 @@ package kr.or.ddit.users.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.or.ddit.encrypt.encrypt.kisa.aria.ARIAUtil;
 import kr.or.ddit.notification_set.model.Notification_SetVo;
@@ -364,30 +366,113 @@ public class UserController_Test_kkh {
 //		@RequestMapping(path = "/admUpdateUser", method = RequestMethod.GET)
 		public String admUpdateUser(HttpSession session, Model model, String admUpdate) {
 			
-			logger.debug("admUpdate : {}",admUpdate);
+			logger.debug("admUpdate 지난주 테스트 : {}",admUpdate);
 			logger.debug("----------------------------------------------");
 			
 			UserVo userVo = userService.getUser(admUpdate);
-			logger.debug("userVo : {}",userVo);
+			logger.debug("userVo 지난주 테스트 : {}",userVo);
 			
 			model.addAttribute("userVo",userVo);
 			return "/member/memberUpdate.adm.tiles";
 		}
 		
 //		@RequestMapping(path = "/admUpdateUser", method = RequestMethod.POST)
-		public String admUpdateUserProcess(String user_email, String user_nm, 
+		public String admUpdateUserProcess(String admUpdate,String user_email, String user_nm, 
 											String user_hp, String user_st, HttpSession session) {
-//		public String admUpdateUserProcess(String ) {
-		
-		
+			
+			UserVo userVo = new UserVo();
+			userVo.setUser_email(user_email);
+			userVo.setUser_nm(user_nm);
+			userVo.setUser_hp(user_hp);
+			userVo.setUser_st(user_st);
+			
 			logger.debug("user_email 아침 테스트 : {}",user_email);
 			logger.debug("user_nm 아침 테스트 : {}",user_nm);
 			logger.debug("user_hp 아침 테스트 : {}",user_hp);
 			logger.debug("user_st 아침 테스트 : {}",user_st);
 			
-			
-//			int admUpdateUser = userService.updateUserAdm(userVo);
+			int admUpdateUser = userService.updateUserAdm(userVo);
 			
 			return "/member/memberUpdate.adm.tiles";
+		}
+		
+		/**
+		 * 
+		* Method : admSearchUserInfo
+		* 작성자 : 김경호
+		* 변경이력 : 2019-08-05
+		* @param model
+		* @param searchText
+		* @param selectBoxText
+		* @param session
+		* @param page
+		* @param pageSize
+		* @return
+		* Method 설명 : 관리자가 이메일,이름,전화번호로 회원을 검색하여 페이징 리스트로 보여줌
+		 */
+//		@RequestMapping(path = "/admUserInfoSearch",method = RequestMethod.GET)
+		public String admSearchUserInfo
+						(Model model, String keyword, String selectBoxText,HttpSession session
+						,@RequestParam(name = "page", defaultValue = "1")int page
+						,@RequestParam(name = "pageSize", defaultValue = "10")int pageSize) {
+			
+			PageVo pageVo = new PageVo(page, pageSize);
+			UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+//			String user_email = userVo.getUser_email();
+//			String user_email = keyword;
+			
+			Map<String, Object> search = new HashMap<String, Object>();
+			
+			search.put("user_email", keyword);
+			
+			search.put("page", page);
+			search.put("pageSize", pageSize);
+			
+//			search.put("user_email", userVo.getUser_email());
+//			search.put("user_email", user_email);
+			
+			logger.debug("searchText : {}",keyword);
+			logger.debug("page : {}",page);
+			logger.debug("pageSize : {}",pageSize);
+//			logger.debug("user_email : {}",user_email);
+			
+			logger.debug("selectBoxText : {}",selectBoxText);
+			
+			if(selectBoxText.equals("userEmail")) {
+				Map<String, Object> resultMap = userService.userSearchByEmail(search);
+				
+				logger.debug("resultMap 오후 로거 테스트 : {}",resultMap);
+				
+				List<UserVo> userEmailSearchList = (List<UserVo>) resultMap.get("admSearchEmailList");
+				
+				logger.debug("userEmailSearchList 오후 로거 테스트 : {}",userEmailSearchList);
+				
+				int paginationSize = (Integer) resultMap.get("paginationSize");
+				
+				logger.debug("paginationSize 오후 로거 테스트 : {}",paginationSize);
+				
+				model.addAttribute("userList" , userEmailSearchList);
+				model.addAttribute("paginationSize", paginationSize);
+				model.addAttribute("pageVo", pageVo);
+				
+			}
+//			else if(selectBoxText.equals("userNm")) {
+//				Map<String, Object> resultMap = userService.userSearchByEmail(search);
+//				List<UserVo> userNmSearchList = (List<UserVo>) resultMap.get("admSearchNameList");
+//				int paginationSize = (Integer) resultMap.get("paginationSize");
+//				
+//				model.addAttribute("userNmSearchList", userNmSearchList);
+//				model.addAttribute("paginationSize", paginationSize);
+//				model.addAttribute("pageVo", pageVo);
+//			}else if(selectBoxText.equals("userHp")) {
+//				Map<String, Object> resultMap = userService.userSearchByEmail(search);
+//				List<UserVo> userHpSearchList = (List<UserVo>) resultMap.get("admSearchHpList");
+//				int paginationSize = (Integer) resultMap.get("paginationSize");
+//				
+//				model.addAttribute("userHpSearchList", userHpSearchList);
+//				model.addAttribute("paginationSize", paginationSize);
+//				model.addAttribute("pageVo", pageVo);
+//			}
+			return "/member/memberList.adm.tiles";
 		}
 }

@@ -241,7 +241,7 @@
 										placeholder="패스워드는 4~12자의 영문 대소문자와 숫자로만 입력" value="${user_pass}">
 								</li>
 								<li>
-									<input type="button" id="btnSetAccount" onclick="setPass()" value="비밀번호 업데이트">
+									<input type="button" class="btn_style_01" id="btnSetAccount" onclick="setPass()" value="비밀번호 업데이트">
 								</li>
 							</ul>
 						</div>

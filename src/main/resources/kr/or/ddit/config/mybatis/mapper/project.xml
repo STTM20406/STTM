@@ -144,7 +144,7 @@
 	
 	<!-- 프로젝트 멤버 삭제할 때 -->
 	<delete id="deleteProjectMem" parameterType="project_memVo">
-		DELETE FROM PROJECT_MEM WHERE PRJ_ID = #{prj_id} AND USER_EMAIL = #{user_email}
+		DELETE FROM PROJECT_MEM WHERE PRJ_ID = #{prj_id} AND USER_EMAIL = #{user_email} AND PRJ_MEM_LV = #{prj_mem_lv}
 	</delete>
 	
 
@@ -153,6 +153,30 @@
 		select * 
 		from project_mem
 		where prj_id = #{prj_id}
+	</select>
+	
+	<!-- 사용자가 멤버 탭에서 자신과 같은 프로젝트를 진행하는 멤버의 리스트를 페이징으로 조회 -->
+	<select id="projectMemPagingList" parameterType="map" resultType="project_memVo">
+		<![CDATA[
+		select * from
+			(select a.*, rownum rn
+		     from
+				(select distinct b.user_email
+	             			   , c.user_nm from
+	            	(select * 
+					 from project_mem 
+					 where user_email = #{user_email}) a, project_mem b, users c
+			 where b.prj_id in (a.prj_id)
+			 and c.user_email = b.user_email) a )
+		where rn >= (#{page}-1)*#{pageSize} + 1 and rn <= #{page}*#{pageSize}
+		]]>
+	</select>
+	
+	<!-- 프로젝트 멤버 전체수 조회 -->
+	<select id="projectMemCnt" parameterType="map" resultType="int">
+		select count(*)
+		from project_mem
+		where prj_id like '%'||#{prj_id}||'%'
 	</select>
 	
 	<!-- *******************project_trnf_hs****************** -->
