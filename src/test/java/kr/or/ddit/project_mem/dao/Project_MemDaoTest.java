@@ -1,6 +1,11 @@
 package kr.or.ddit.project_mem.dao;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -10,10 +15,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import kr.or.ddit.config.spring.ApplicationDatasource;
 import kr.or.ddit.config.spring.ApplicationTransaction;
 import kr.or.ddit.config.spring.RootContext;
+import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.project_mem.model.Project_MemVo;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -44,7 +51,6 @@ public class Project_MemDaoTest {
 		logger.debug("prjMemList : {} 가져옵시다",prjMemList); 
 		
 		/***Then***/
-		
 	}
-
+	
 }

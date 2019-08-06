@@ -1,7 +1,9 @@
 package kr.or.ddit.project_mem.service;
 
 import java.util.List;
+import java.util.Map;
 
+import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.project_mem.model.Project_MemVo;
 
 public interface IProject_MemService {
@@ -49,6 +51,17 @@ public interface IProject_MemService {
 	* Method 설명 : 휴면 계정으로 전환하기 위하여 나의 프로젝트 멤버를 조회한다
 	 */
 	List<Project_MemVo> getMyProjectMemList(int prj_id);
+	
+	/**
+	 * 
+	* Method : projectMemPagingList
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-06
+	* @param prj_id
+	* @return
+	* Method 설명 : 사용자가 멤버 탭에서 자신과 같은 프로젝트를 진행하는 멤버의 리스트를 페이징으로 조회한다.
+	 */
+	Map<String, Object> projectMemPagingList(Map<String, Object> map);
 	
 	/**
 	 * 

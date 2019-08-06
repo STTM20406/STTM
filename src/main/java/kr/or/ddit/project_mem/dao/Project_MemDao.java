@@ -1,12 +1,14 @@
 package kr.or.ddit.project_mem.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.project_mem.model.Project_MemVo;
 
 @Repository
@@ -71,7 +73,33 @@ public class Project_MemDao implements IProject_MemDao{
 	public List<Project_MemVo> getMyProjectMemList(int prj_id) {
 		return sqlSession.selectList("project.getMyProjectMemList",prj_id);
 	}
-
+	
+	/**
+	 * 
+	* Method : projectMemPagingList
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-06
+	* @param prj_id
+	* @return
+	* Method 설명 : 사용자가 멤버 탭에서 자신과 같은 프로젝트를 진행하는 멤버의 리스트를 페이징으로 조회한다.
+	 */
+	@Override
+	public List<Project_MemVo> projectMemPagingList(Map<String, Object> map) {
+		return sqlSession.selectList("project.projectMemPagingList", map);
+	}
+	
+	/**
+	 * 
+	* Method : projectMemCnt
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-06
+	* @return
+	* Method 설명 : 프로젝트 멤버 전체수 조회
+	 */
+	@Override
+	public int projectMemCnt(Map<String, Object> map) {
+		return sqlSession.selectOne("project.projectMemCnt",map);
+	}
 
 	/**
 	 * 
@@ -86,5 +114,9 @@ public class Project_MemDao implements IProject_MemDao{
 	public List<Project_MemVo> projectAllMemList(String user_email) {
 		return sqlSession.selectList("project.projectAllMemList", user_email);
 	}
+
+
+
+
 
 }

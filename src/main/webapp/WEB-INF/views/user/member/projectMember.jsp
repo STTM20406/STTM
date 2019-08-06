@@ -8,20 +8,23 @@
 	.userTr:hover{
 		cursor: pointer;
 	}
+	
+	/* 모달 설정 스타일 */
+	.layer {display:none; position:fixed; _position:absolute; top:0; left:0; width:100%; height:100%; z-index:100;}
+		.layer .bg {position:absolute; top:0; left:0; width:100%; height:100%; background:#000; opacity:.5; filter:alpha(opacity=50);}
+		.layer .pop-layer {display:block;}
+	
+	.pop-layer {display:none; position: absolute; top: 50%; left: 50%; width: 410px; height:auto;  background-color:#fff; border: 5px solid #3571B5; z-index: 10;}	
+	.pop-layer .pop-container {padding: 20px 25px;}
+	.pop-layer p.ctxt {color: #666; line-height: 25px;}
+	.pop-layer .btn-r {width: 100%; margin:10px 0 20px; padding-top: 10px; border-top: 1px solid #DDD; text-align:right;}
+	
+	a.cbtn {display:inline-block; height:25px; padding:0 14px 0; border:1px solid #304a8a; background-color:#3f5a9d; font-size:13px; color:#fff; line-height:25px;}	
+	a.cbtn:hover {border: 1px solid #091940; background-color:#1f326a; color:#fff;}
 </style>
 
 <script>
 $(document).ready(function(){
-	
-	$("#search").on("change",function(){
-		console.log($("#search").val());
-		var searchValue = $("#search").val();
-		$("#selectBoxText").val(searchValue);
-	})
-	
-	$("#sch_submit").on("click",function(){
-		$("#frmSearch").submit();
-	})
 	
 	// ------------------------------------------------------
 	//사용자 tr 태그 이벤트 등록
@@ -33,13 +36,47 @@ $(document).ready(function(){
 		
 		//사용자 아이디를 #userId 값으로 설정해주고
 		var user_email = $(this).find(".user_email").text();
-		$("#getMemInfo").val(user_email);
+		$("#prjMemList").val(user_email);
 		
 		//#frm 을 이용하여 submit();
-		$("#showMemForm").submit();
+		$("#prjMemForm").submit();
 	});
 	// ------------------------------------------------------
 });	
+
+//------- 모달 설정 스크립트 -------
+function layer_open(el){
+
+	var temp = $('#' + el);
+	var bg = temp.prev().hasClass('bg');	//dimmed 레이어를 감지하기 위한 boolean 변수
+
+	if(bg){
+		$('.layer').fadeIn();	//'bg' 클래스가 존재하면 레이어가 나타나고 배경은 dimmed 된다. 
+	}else{
+		temp.fadeIn();
+	}
+
+	//  -------화면의 중앙에 레이어를 띄운다. -------
+	if (temp.outerHeight() < $(document).height() ) temp.css('margin-top', '-'+temp.outerHeight()/2+'px');
+	else temp.css('top', '0px');
+	if (temp.outerWidth() < $(document).width() ) temp.css('margin-left', '-'+temp.outerWidth()/2+'px');
+	else temp.css('left', '0px');
+
+	temp.find('a.cbtn').click(function(e){
+		if(bg){
+			$('.layer').fadeOut(); //'bg' 클래스가 존재하면 레이어를 사라지게 한다. 
+		}else{
+			temp.fadeOut();
+		}
+		e.preventDefault();
+	});
+
+	$('.layer .bg').click(function(e){	//배경을 클릭하면 레이어를 사라지게 하는 이벤트 핸들러
+		$('.layer').fadeOut();
+		e.preventDefault();
+	});
+
+}			
 </script>
 
 <section class="contents">
@@ -47,30 +84,11 @@ $(document).ready(function(){
 	<div id="tab-1" class="tab-content current">
 		
 		<!--  -->
-		<form id="showMemForm" action="/admUserView" method="get">
-			<input type="hidden" id="getMemInfo" name="getMemInfo" >
+		<form id="prjMemForm" action="/projectMemberList" method="get">
+			<input type="hidden" id="prjMemList" name="prjMemList" >
 		</form>
 		
 		<div>
-			<div class="searchBox">
-				<div class="tb_sch_wr">
-					<fieldset id="hd_sch">
-					 	<form id="frmSearch" action="/admUserInfoSearch" method="get">
-		<input type="hidden" id="inq_cate" name="inq_cate" value="INQ01"/>
-							<input type="hidden" id="selectBoxText" name="selectBoxText" value="userEmail"/>
-			                <legend>사이트 내 전체검색</legend>
-<!-- 				                <select id="search" name="selectBoxText"> -->
-				                <select id="search">
-				                	<option value="userEmail">이메일</option>
-				                	<option value="userNm">이름</option>
-				                	<option value="userHp">전화번호</option>
-				                </select>
-			                <input type="text" name="keyword" id="keyword" maxlength="20" placeholder="검색어를 입력해주세요">
-			                <button type="submit" id="sch_submit" value="검색">검색</button>
-		                </form>
-	            	</fieldset>
-	           	</div>
-	          	</div>
 			<table class="tb_style_01">
 				<colgroup>
 					<col width="10%">
@@ -84,16 +102,12 @@ $(document).ready(function(){
 					
 						<th>사용자 이메일</th>
 						<th>사용자 이름</th>
-						<th>사용자 휴대폰 번호</th>
-						<th>회원 상태</th>
 	
-						<c:forEach items="${userList}" var="userVo">
+						<c:forEach items="${projectMemList}" var="prjVo">
 						
-							<tr class="userTr" data-user_email="${userVo.user_email }">
-								<td class="user_email">${userVo.user_email}</td>
-								<td>${userVo.user_nm}</td>
-								<td>${userVo.user_hp}</td>
-								<td>${userVo.user_st}</td>
+							<tr class="userTr" data-user_email="${prjVo.user_email }">
+								<td class="user_email">${prjVo.user_email}</td>
+								<td>${prjVo.user_nm}</td>
 							</tr>
 							
 						</c:forEach>
@@ -111,7 +125,7 @@ $(document).ready(function(){
 						<a href class="btn_first"></a>
 					</c:when>
 					<c:otherwise>
-						<a href="${cp}/admUserList?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a>
+						<a href="${cp}/projectMemberList?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a>
 					
 					</c:otherwise>
 				</c:choose>
@@ -122,7 +136,7 @@ $(document).ready(function(){
 							<span>${i}</span>
 						</c:when>
 						<c:otherwise>
-						<a href="${cp}/admUserList?page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
+						<a href="${cp}/projectMemberList?page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
 						</c:otherwise>
 					</c:choose>
 	
@@ -134,7 +148,7 @@ $(document).ready(function(){
 					</c:when>
 					
 					<c:otherwise>
-						<a href="${cp}/admUserList?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
+						<a href="${cp}/projectMemberList?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
 					</c:otherwise>
 				</c:choose>
 		
