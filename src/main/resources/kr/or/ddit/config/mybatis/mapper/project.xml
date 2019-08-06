@@ -144,7 +144,7 @@
 	
 	<!-- 프로젝트 멤버 삭제할 때 -->
 	<delete id="deleteProjectMem" parameterType="project_memVo">
-		DELETE FROM PROJECT_MEM WHERE PRJ_ID = #{prj_id} AND USER_EMAIL = #{user_email}
+		DELETE FROM PROJECT_MEM WHERE PRJ_ID = #{prj_id} AND USER_EMAIL = #{user_email} AND PRJ_MEM_LV = #{prj_mem_lv}
 	</delete>
 	
 
