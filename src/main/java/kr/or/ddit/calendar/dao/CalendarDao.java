@@ -18,10 +18,7 @@ public class CalendarDao implements ICalendarDao {
 	@Resource(name = "sqlSession")
 	private SqlSessionTemplate sqlSession;
 
-	@Override
-	public List<Work_ListVo> workList() {
-		return sqlSession.selectList("calendar.workList");
-	}
+	
 
 	@Override
 	public WorkVo wDetail(int wrk_id) {
@@ -38,9 +35,17 @@ public class CalendarDao implements ICalendarDao {
 		return sqlSession.selectList("calendar.wList",prj_id);
 	}
 
+	/**
+	* Method : projectMBList
+	* 작성자 : melong2
+	* 변경이력 :
+	* @param user_email
+	* @return
+	* Method 설명 : 로그인 한 사용자가 속해 있는 프로젝트 모든 멤버 목록
+	*/
 	@Override
-	public List<Project_MemVo> projectMBList(int prj_id) {
-		return sqlSession.selectList("calendar.projectMBList",prj_id);
+	public List<Project_MemVo> allProjectMBList(String user_email) {
+		return sqlSession.selectList("calendar.allProjectMBList",user_email);
 	}
 
 	@Override
@@ -58,9 +63,17 @@ public class CalendarDao implements ICalendarDao {
 		return sqlSession.update("calendar.upW",workVo);
 	}
 	
+	/**
+	* Method : projectWList
+	* 작성자 : melong2
+	* 변경이력 :
+	* @param user_email
+	* @return
+	* Method 설명 : 로그인 한 사용자가 속해 있는 프로젝트와 업무에 대한 정보를 다 가져오는
+	*/
 	@Override
-	public List<WorkVo> projectWList() {
-		return sqlSession.selectList("calendar.projectWList");
+	public List<WorkVo> projectWList(String user_email) {
+		return sqlSession.selectList("calendar.projectWList",user_email);
 	}
 	
 	
@@ -71,6 +84,44 @@ public class CalendarDao implements ICalendarDao {
 	@Override
 	public List<ProjectVo> projectList() {
 		return null;
+	}
+
+	
+	/**
+	 * Method : myProject 작성자 : 손영하 변경이력 : 2019-08-05 최초 생성
+	 * 
+	 * @param user_email
+	 * @return Method 설명 : 내가 속한 프로젝트 리스트를 받아오는 메서드
+	 */
+	@Override
+	public List<ProjectVo> myProject(String user_email) {
+		return sqlSession.selectList("calendar.myProject",user_email);
+	}
+	
+	/**
+	 * Method 		: myProjectWork
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-06 최초 생성
+	 * @param user_email
+	 * @return
+	 * Method 설명 	: 내가 속한 프로젝트 업무들을 받아오는 메서드
+	 */
+	@Override
+	public List<WorkVo> myProjectWork(String user_email) {
+		return sqlSession.selectList("calendar.myProjectWork",user_email);
+	}
+	
+	/**
+	* Method : workList
+	* 작성자 : melong2
+	* 변경이력 :
+	* @param prj_id
+	* @return
+	* Method 설명 : 해당 프로젝트에 업무 리스트를 받아오는
+	*/
+	@Override
+	public List<Work_ListVo> workList(int prj_id) {
+		return sqlSession.selectList("calendar.workList",prj_id);
 	}
 
 }

@@ -117,7 +117,6 @@
 	<!-- 일정 추가 MODAL -->
 	<div class="modal fade" tabindex="-1" role="dialog" id="eventModal">
 		<div class="modal-dialog" role="document">
-<!-- 		<form id="frm" action="/calendarPost" method="post"> -->
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
@@ -204,7 +203,6 @@
 					<button type="button" class="btn btn-primary" id="updateEvent">저장</button>
 				</div>
 			</div>
-<!-- 		</form> -->
 		</div>
 	</div>
 	<!-- /.modal -->
