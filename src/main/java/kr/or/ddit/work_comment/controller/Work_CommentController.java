@@ -81,9 +81,9 @@ public class Work_CommentController {
 		commentVo.setPrj_id(prj_idStr);
 		commentVo.setComm_content(inq_trim);
 		
-		int updateComm = commentService.commUpdate(commentVo);
+		int updateCommCnt = commentService.commUpdate(commentVo);
 		
-		model.addAttribute("data",updateComm);
+		model.addAttribute("data",updateCommCnt);
 		
 		return "jsonView";
 	}
