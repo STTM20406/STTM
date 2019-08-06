@@ -8,11 +8,8 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-<<<<<<< HEAD
 import kr.or.ddit.paging.model.PageVo;
-=======
 import kr.or.ddit.project.model.ProjectVo;
->>>>>>> e052ef188388a071763ebd51810a4d821e5dcf4e
 import kr.or.ddit.project_mem.dao.IProject_MemDao;
 import kr.or.ddit.project_mem.model.Project_MemVo;
 

@@ -25,23 +25,13 @@
 
 <script>
 $(document).ready(function(){
-	
-	// ------------------------------------------------------
-	//사용자 tr 태그 이벤트 등록
 	$(".userTr").on("click", function(){
-		console.log("userTr click");
-		//userId를 획득하는 방법
-		//$(this).find(".userId").text();
-		//$(this).data("userid");
 		
-		//사용자 아이디를 #userId 값으로 설정해주고
-		var user_email = $(this).find(".user_email").text();
-		$("#prjMemList").val(user_email);
+// 		var user_email = $(this).find(".user_email").text();
+// 		$("#prjMemList").val(user_email);
 		
-		//#frm 을 이용하여 submit();
 		$("#prjMemForm").submit();
 	});
-	// ------------------------------------------------------
 });	
 
 //------- 모달 설정 스크립트 -------
@@ -84,9 +74,9 @@ function layer_open(el){
 	<div id="tab-1" class="tab-content current">
 		
 		<!--  -->
-		<form id="prjMemForm" action="/projectMemberList" method="get">
-			<input type="hidden" id="prjMemList" name="prjMemList" >
-		</form>
+<!-- 		<form id="prjMemForm" action="projectMemberList" method="get"> -->
+<!-- 			<input type="text" id="prjMemList" name="prjMemList" > -->
+<!-- 		</form> -->
 		
 		<div>
 			<table class="tb_style_01">
@@ -105,8 +95,8 @@ function layer_open(el){
 	
 						<c:forEach items="${projectMemList}" var="prjVo">
 						
-							<tr class="userTr" data-user_email="${prjVo.user_email }">
-								<td class="user_email">${prjVo.user_email}</td>
+							<tr class="userTr" data-user_email="${prjVo.user_email}">
+								<td class="user_email" onclick="layer_open('layer2');return false;">${prjVo.user_email}</td>
 								<td>${prjVo.user_nm}</td>
 							</tr>
 							
@@ -117,7 +107,7 @@ function layer_open(el){
 			</table>
 		</div>
 		
-		<a href="/admInsertUser" class="btn btn-default pull-right">사용자 등록</a>
+<!-- 		<a href="/admInsertUser" class="btn_style_01">사용자 등록</a> -->
 	
 		<div class="pagination">
 				<c:choose>
@@ -154,5 +144,51 @@ function layer_open(el){
 		
 		</div>
 	</div>
-
+	
+	<div class="layer">
+		<div class="bg"></div>
+		<div id="layer2" class="pop-layer">
+			<div class="pop-container">
+				<div class="pop-conts">
+					<!--content //-->
+					<p class="ctxt mb20">
+					
+					이게 나와야 일을 합니다.
+					
+					</p>
+					
+					<div>
+						<table class="tb_style_01">
+						
+							<tbody>
+								<tr>
+								
+									<th>사용자 이메일</th>
+									<th>사용자 이름</th>
+				
+									<c:forEach items="${projectMemList}" var="prjVo">
+									
+										<tr class="userTr" data-user_email="${prjVo.user_email }">
+											<td class="user_email" onclick="layer_open('layer2');return false;">${prjVo.user_email}</td>
+											<td>${prjVo.user_nm}</td>
+										</tr>
+										
+									</c:forEach>
+									
+								</tr>
+							</tbody>
+						</table>
+						
+						<input type="button" id="" name="" onclick="" class="btn_style_01" value="친구추가">						
+					</div>
+	
+					<div class="btn-r">
+						<a href="#" class="cbtn">Close</a>
+					</div>
+					<!--// content-->
+				</div>
+			</div>
+		</div>
+	</div>
+	
 </section>

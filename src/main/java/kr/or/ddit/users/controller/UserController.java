@@ -287,7 +287,7 @@ public class UserController {
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
 		Project_MemVo prjVo = new Project_MemVo();
 		
-		logger.debug("userVo : {} 점심쯤 로거 확인1",userVo);
+		logger.debug("userVo : 점심쯤 로거 확인1 {} ",userVo);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
@@ -297,24 +297,32 @@ public class UserController {
 		map.put("user_nm", userVo.getUser_nm());
 		map.put("prj_id", prjVo.getPrj_id());
 		
-		logger.debug("map : {} 점심쯤 로거 확인2",map);
+		logger.debug("map : 점심쯤 로거 확인2 {} ",map);
 		
 		Map<String, Object> resultMap = project_MemService.projectMemPagingList(map);
 		
-		logger.debug("resultMap : {} 아침 로거 확인1",resultMap);
+		logger.debug("resultMap : 아침 로거 확인1 {} ",resultMap);
 		
 		List<UserVo> projectMemList = (List<UserVo>) resultMap.get("projectMemList");
 		
-		logger.debug("projectMemList : {} 아침 로거 확인2",projectMemList);
+		logger.debug("projectMemList : 아침 로거 확인2 {} ",projectMemList);
 		
 		int paginationSize = (Integer) resultMap.get("paginationSize");
 		
-		logger.debug("paginationSize : {} 아침 로거 확인3",paginationSize);
+		logger.debug("paginationSize : 아침 로거 확인3 {} ",paginationSize);
 		
 		model.addAttribute("projectMemList", projectMemList);
 		
 		model.addAttribute("paginationSize", paginationSize);
 		model.addAttribute("pageVo", pageVo);
+		
+		return "/member/projectMember.user.tiles";
+	}
+	
+	@RequestMapping(path = "/projectMemberView", method = RequestMethod.GET)
+	public String projectMemberListProcess(String prjMemList) {
+		
+		logger.debug("prjMemList : {} 한시간 남았을 쯤 테스트",prjMemList);
 		
 		return "/member/projectMember.user.tiles";
 	}

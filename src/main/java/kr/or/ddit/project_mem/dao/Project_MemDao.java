@@ -8,11 +8,8 @@ import javax.annotation.Resource;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
-<<<<<<< HEAD
 import kr.or.ddit.paging.model.PageVo;
-=======
 import kr.or.ddit.project.model.ProjectVo;
->>>>>>> e052ef188388a071763ebd51810a4d821e5dcf4e
 import kr.or.ddit.project_mem.model.Project_MemVo;
 
 @Repository
@@ -120,10 +117,8 @@ public class Project_MemDao implements IProject_MemDao{
 	}
 
 
-<<<<<<< HEAD
 
 
-=======
 	/**
 	 * 
 	 * Method 		: deleteProjectMem
@@ -137,6 +132,5 @@ public class Project_MemDao implements IProject_MemDao{
 	public int deleteProjectMem(Project_MemVo projectMemVo) {
 		return sqlSession.delete("project.deleteProjectMem", projectMemVo);
 	}
->>>>>>> e052ef188388a071763ebd51810a4d821e5dcf4e
 
 }

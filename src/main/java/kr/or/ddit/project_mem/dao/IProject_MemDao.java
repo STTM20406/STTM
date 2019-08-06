@@ -3,11 +3,8 @@ package kr.or.ddit.project_mem.dao;
 import java.util.List;
 import java.util.Map;
 
-<<<<<<< HEAD
 import kr.or.ddit.paging.model.PageVo;
-=======
 import kr.or.ddit.project.model.ProjectVo;
->>>>>>> e052ef188388a071763ebd51810a4d821e5dcf4e
 import kr.or.ddit.project_mem.model.Project_MemVo;
 
 public interface IProject_MemDao {
