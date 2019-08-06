@@ -287,34 +287,84 @@ public class ProjectController {
 	
 	
 	@RequestMapping("/projectMemAddAjax")
-	public String projectMemAddAjax(String user_email, String prj_id, Model model) {
+	public @ResponseBody HashMap<String, Object> projectMemAddAjax(String user_email, String prj_id, Model model) {
 		
 		int prjId = Integer.parseInt(prj_id);
 		
 		Project_MemVo projectMemVo = new Project_MemVo();
 		projectMemVo.setUser_email(user_email);
 		projectMemVo.setPrj_id(prjId);
-		projectMemVo.setPrj_mem_lv("LV0");
+		projectMemVo.setPrj_mem_lv("LV1");
+		projectMemVo.setPrj_own_fl("N");
 		
-		int updateCnt = projectMemService.updateProjectMem(projectMemVo);
+		int insertCnt = projectMemService.insertProjectMem(projectMemVo);
 		
 		Project_MemVo projectMemListVo = new Project_MemVo();
-		projectMemListVo.setPrj_id(prjId);
 		projectMemListVo.setUser_email(user_email);
+		projectMemListVo.setPrj_id(prjId);
 		
-		List<Project_MemVo> admList = new ArrayList<Project_MemVo>();
 		
-		if(updateCnt != 0) {
-			List<Project_MemVo> project_adm_list = projectMemService.projectMemList(projectMemVo);
+		//내가 속한 프로젝트의 멤버들을 중복 없이 가져와 리스트에 담기
+		List<Project_MemVo> project_mem_list = projectMemService.projectAllMemList(user_email);
+		List<Project_MemVo> project_adm_list = projectMemService.projectMemList(projectMemListVo);
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		
+		if(insertCnt != 0) {
 			for(int i=0; i<project_adm_list.size(); i++) {
-				if(project_adm_list.get(i).getPrj_mem_lv().equals("LV0")) {
-					admList.add(project_adm_list.get(i));
+				for(int j=0; j<project_mem_list.size(); j++) {
+					if(project_mem_list.get(j).getUser_email().equals(project_adm_list.get(i).getUser_email())) {
+						project_mem_list.remove(project_mem_list.get(j));
+					}
 				}
 			}
-			model.addAttribute("data", admList);
 		}
-		return "jsonView";
+		
+		hashmap.put("projectAdmList", project_adm_list);
+		hashmap.put("projectMemList", project_mem_list);
+		
+		return hashmap;
 	}
+	
+	//프로젝트 관리자 삭제
+	@RequestMapping("/projectMemDelAjax")
+	public @ResponseBody HashMap<String, Object> projectMemDelAjax(String user_email, String prj_id, Model model) {
+		
+		int prjId = Integer.parseInt(prj_id);
+		
+		Project_MemVo projectMemVo = new Project_MemVo();
+		projectMemVo.setUser_email(user_email);
+		projectMemVo.setPrj_id(prjId);
+		
+		int deleteCnt = projectMemService.deleteProjectMem(projectMemVo);
+		
+		Project_MemVo projectMemListVo = new Project_MemVo();
+		projectMemListVo.setUser_email(user_email);
+		projectMemListVo.setPrj_id(prjId);
+		
+		
+		//내가 속한 프로젝트의 멤버들을 중복 없이 가져와 리스트에 담기
+		List<Project_MemVo> project_mem_list = projectMemService.projectAllMemList(user_email);
+		List<Project_MemVo> project_adm_list = projectMemService.projectMemList(projectMemListVo);
+		
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		
+		if(deleteCnt != 0) {
+			for(int i=0; i<project_adm_list.size(); i++) {
+				for(int j=0; j<project_mem_list.size(); j++) {
+					if(project_mem_list.get(j).getUser_email().equals(project_adm_list.get(i).getUser_email())) {
+						project_mem_list.remove(project_mem_list.get(j));
+					}
+				}
+			}
+		}
+		
+		hashmap.put("projectAdmList", project_adm_list);
+		hashmap.put("projectMemList", project_mem_list);
+		
+		return hashmap;
+	}
+	
+	
 	
 	
 	//프로젝트를 생성하는 동시에 프로젝트 멤버에 생성자 insert

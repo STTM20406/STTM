@@ -20,11 +20,34 @@ function loadPieChart(pieContainer, pieData, width, height) {
 		        ,
 		        template: function(category, item) {
 		        	var ratio = Math.floor(item.ratio*100);
+		        	var pieList = pieData.pieData;
+		        	
+		        	var legend = item.legend;
+		        	var keyword = "";
+		        		switch(legend){
+							case "완료된 업무":
+			        			keyword = "cmp";
+			        			break;
+			        		case "계획된 업무":
+			        			keyword = "plan";
+			        			break;
+			        		case "마감일 지난 업무":
+			        			keyword = "overdue";
+			        			break;
+			        		case "마감일 없는 업무":
+			        			keyword = "nodeadline";
+			        			break;
+		        		}
+		        		var temp = "";
+		        	$(pieList[keyword]).each(function(){
+		        		temp += "<span>" + this.prj_nm + " > " + this.wrk_lst_nm + " > " + this.wrk_nm + "</span>" + "<br>";
+		        	});
 		        	var tem = '<div class="tui-chart-default-tooltip">' + 
 		        			  '<div class="tui-chart-tooltip-body">' +
 		        			  '<span class="tui-chart-legend-rect bar" style=\"' + item.cssText + '\"></span>' + 
 		        			  '<span>' + item.legend + '</span>' +
-		        			  '<span class="tui-chart-tooltip-value">' + item.value + '개 (' + ratio + '%)' + '</span>' +
+		        			  '<span class="tui-chart-tooltip-value">' + item.value + '개 (' + ratio + '%)' + '</span>' + '<br><br>' + 
+		        			   temp +
 		        			  '</div>' + '</div>' + '</div>';
 		        	return tem;
 		        },
@@ -44,14 +67,20 @@ function loadPriorChart(priorChartContainer, priorData, width, height) {
 	var options = {
 		    chart: {"width": width, "height": height},
 		    series: {
-		    	stackType: 'percent',
-		    	showLabel: true
+		    	stackType: 'percent'
 		    },
 		    tooltip: {
 		        grouped: false
 		        ,
 		        template: function(category, item) {
 		        	var ratio = Math.floor(item.ratio*100);
+		        	var temp = "";
+		        	var data = priorData.priorData;
+		        	var cat = data[category];
+		        	var items = cat[item.legend];
+		        	$(items).each(function() {
+		        		temp += "<span>" + this.prj_nm + " > " + this.wrk_lst_nm + " > " + this.wrk_nm + "</span>" + "<br>";
+		        	});
 		        	var tem = '<div class="tui-chart-default-tooltip">' + 
 		        			  '<div class="tui-chart-tooltip-head show">' +
 		        			  category + 
@@ -59,12 +88,13 @@ function loadPriorChart(priorChartContainer, priorData, width, height) {
 		        			  '<div class="tui-chart-tooltip-body">' +
 		        			  '<span class="tui-chart-legend-rect bar" style=\"' + item.cssText + '\"></span>' + 
 		        			  '<span>' + item.legend + '</span>' +
-		        			  '<span class="tui-chart-tooltip-value">' + item.value + '개 (' + ratio + '%)' + '</span>' +
+		        			  '<span class="tui-chart-tooltip-value">' + item.value + '개 (' + ratio + '%)' + '</span><br><br>' +
+		        			  temp +
 		        			  '</div>' + '</div>' + '</div>';
 		        	return tem;
 		        },
-		        offsetX: 20,
-		        offsetY: -10
+		        offsetX: 50,
+		        offsetY: -150
 		    },
 		    legend: {
 		    	align: 'top',
@@ -82,6 +112,12 @@ function loadPercentChart(percentChartContainer, percentData, width, height) {
 		    series: { stackType: 'percent', showLabel: true },
 		    tooltip: { grouped: false,
 		        template: function(category, item) {
+		        	var temp = "";
+		        	var data = percentData.percentData;
+		        	var items = data[item.legend];
+		        	$(items).each(function() {
+		        		temp += "<span>" + this.prj_nm + " > " + this.wrk_lst_nm + " > " + this.wrk_nm + "</span>" + "<br>";
+		        	});
 		        	var tem = '<div class="tui-chart-default-tooltip">' + 
 		        			  '<div class="tui-chart-tooltip-head show">' +
 		        			  category + 
@@ -89,11 +125,14 @@ function loadPercentChart(percentChartContainer, percentData, width, height) {
 		        			  '<div class="tui-chart-tooltip-body">' +
 		        			  '<span class="tui-chart-legend-rect bar" style=\"' + item.cssText + '\"></span>' + 
 		        			  '<span>' + item.legend + '</span>' +
-		        			  '<span class="tui-chart-tooltip-value">' + item.value + '%' + '</span>' +
+		        			  '<span class="tui-chart-tooltip-value">' + item.value + '%' + '</span>' + '<br><br>' +
+		        			  temp +
 		        			  '</div>' + '</div>' + '</div>';
 		        	return tem;
 		        			  
-		        }
+		        },
+		        offsetX: 50,
+		        offsetY: -150
 		    },
 		    legend: {
 		    	align: 'top',
@@ -106,7 +145,6 @@ function loadPercentChart(percentChartContainer, percentData, width, height) {
 
 function loadListChart(listChartContainer, listData, width, height) {
 	var workList = listData.work;
-	console.log(workList);
 	var options2 = {
 			chart: {"width": width, "height": height},
 			series: { stackType: 'percent' },

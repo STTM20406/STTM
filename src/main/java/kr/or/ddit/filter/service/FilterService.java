@@ -230,11 +230,11 @@ public class FilterService implements IFilterService{
 				} 
 					else if(nowDate.after(work.getWrk_end_dt()) && "N".equals(work.getWrk_cmp_fl()))
 				{
-					sb_result.append("<span class='overdue' style='color:#a83232;'>&nbsp;&nbsp;"+ sdf.format(work.getWrk_end_dt()) +" 까지 마감</span>");
+					sb_result.append("<span class='overdue' style='color:#a83232;'>&nbsp;&nbsp;"+ sdf.format(work.getWrk_end_dt()) +"까지 마감</span>");
 				} 
 					else if(nowDate.before(work.getWrk_start_dt()) && "N".equals(work.getWrk_cmp_fl()))
 				{
-					sb_result.append("<span class='planned' style='color:#d8db1f;'>&nbsp;&nbsp;"+ sdf.format(work.getWrk_start_dt()) +" 부터 시작</span>");
+					sb_result.append("<span class='planned' style='color:#d8db1f;'>&nbsp;&nbsp;"+ sdf.format(work.getWrk_start_dt()) +"부터 시작</span>");
 				} 
 					else if("Y".equals(work.getWrk_cmp_fl())) 
 				{
@@ -245,7 +245,7 @@ public class FilterService implements IFilterService{
 				}
 			
 				if(work.getWrk_start_dt() != null && work.getWrk_end_dt()!=null && nowDate.before(work.getWrk_end_dt()) && nowDate.after(work.getWrk_start_dt())) {
-					sb_result.append("<span class='cmp' style='color:#32a89b;'>&nbsp;&nbsp;"+ sdf.format(work.getWrk_start_dt()) +"부터 " + sdf.format(work.getWrk_end_dt()) +" 까지</span>");
+					sb_result.append("<span class='cmp' style='color:#32a89b;'>&nbsp;&nbsp;"+ sdf.format(work.getWrk_start_dt()) +"부터 " + sdf.format(work.getWrk_end_dt()) +"까지</span>");
 				}
 			
 			sb_result.append("</div>");
@@ -540,6 +540,13 @@ public class FilterService implements IFilterService{
 	public Map<String, Object> workListCalc(List<WorkVo> workList) {
 		Map<String, Object> chartDataMap = new HashMap<String, Object>();
 		
+		Map<String, Object> barChart1Data = new HashMap<>();
+		Map<String, Object> barChart1Done = new HashMap<>();
+		Map<String, Object> barChart1Undone = new HashMap<>();
+		
+		Map<String, Object> barChart2Data = new HashMap<>();
+		
+		
 		List<WorkVo> doneList = new ArrayList<WorkVo>();
 		List<WorkVo> undoneList = new ArrayList<WorkVo>();
 		
@@ -652,6 +659,27 @@ public class FilterService implements IFilterService{
 					break;
 			}
 		}
+		barChart1Data.put("완료 업무", barChart1Done);
+		barChart1Data.put("미완료 업무", barChart1Undone);
+		
+		barChart1Done.put("중요도 A", doneList_A);
+		barChart1Done.put("중요도 B", doneList_B);
+		barChart1Done.put("중요도 C", doneList_C);
+		barChart1Done.put("중요도 D", doneList_D);
+		barChart1Done.put("중요도 E", doneList_E);
+		
+		barChart1Undone.put("중요도 A", undoneList_A);
+		barChart1Undone.put("중요도 B", undoneList_B);
+		barChart1Undone.put("중요도 C", undoneList_C);
+		barChart1Undone.put("중요도 D", undoneList_D);
+		barChart1Undone.put("중요도 E", undoneList_E);
+		
+		barChart2Data.put("완료", doneList);
+		barChart2Data.put("미완료", undoneList);
+		
+		
+		
+		
 		double percentage = (int)((double)donePt / entirePt * 10000) / 100.0;
 		
 		//------------------------------------업무상태 확인----------------------------------
@@ -828,6 +856,12 @@ public class FilterService implements IFilterService{
 		barChartMap.put("percentChart", barChartMap_2);
 		
 		Map<String, Object> pieChartMap = new HashMap<>();
+		Map<String, Object> pieChartData = new HashMap<>();
+		pieChartData.put("cmp", cmpList);
+		pieChartData.put("plan", plannedList);
+		pieChartData.put("overdue", overdueList);
+		pieChartData.put("nodeadline", no_deadlineList);
+		pieChartMap.put("pieData", pieChartData);
 		List<Object> series3List = new ArrayList<>();
 		pieChartMap.put("series", series3List);
 		Map<String, Object> cmpMap = new HashMap<>();
@@ -852,7 +886,9 @@ public class FilterService implements IFilterService{
 		} else {
 			pieChartMap.put("isBlank", "false");
 		}
-			
+		
+		barChartMap_1.put("priorData", barChart1Data);
+		barChartMap_2.put("percentData", barChart2Data);
 		String isBlank = workList.size() == 0 ? "true" : "false";
 		
 		chartDataMap.put("isBlank", isBlank);
@@ -860,6 +896,7 @@ public class FilterService implements IFilterService{
 		chartDataMap.put("pieChart", pieChartMap);
 		return chartDataMap;
 	}
+	
 
 	@Override
 	public WorkVo getWork(int wrk_id) {

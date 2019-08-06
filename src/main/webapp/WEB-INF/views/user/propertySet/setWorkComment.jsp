@@ -48,15 +48,12 @@ ul.tabs li.current {
 			$("#" + tab_id).addClass('current');
 		});
 
+		// 업무코멘트 수정
 		$(".commTr .commUpdateBtn").on("click", function() {
 			//console.log($(this));
 			var commprid = $(this).siblings("input").val();
 			console.log(commprid);
 			
-			var prj_id = $(this).siblings("#prj_id02").val();
-			console.log(prj_id);
-			var comm_id = $(this).siblings("#comm_id02").val();
-			console.log(comm_id);
 // 			var testT = $(this).parents(".commDeleteTd").children().eq(1).attr('name');
 			
 			
@@ -64,23 +61,39 @@ ul.tabs li.current {
  			var inq_trim = $.trim(inq_id);
  			console.log(inq_id);
  			console.log(inq_trim);
- 			$(this).parent().prev().prev().prev().replaceWith("<td><input type='text' value='"+inq_trim+"'/></td>");
- 			updateTest(inq_trim,prj_id,comm_id);
- 			$(this).parent().prev().prev().prev().replaceWith("<td><p id='abc'></p></td>");
+ 			$(this).parent().prev().prev().prev().replaceWith("<td><input type='text' name='updateComm' id='changeInput' value='"+inq_trim+"'/></td>");
+ 			$(this).replaceWith("<button type='button' id='commUpdateChgBtn' class='commUpdateChgBtn'>수정완료</button>");
  			
+//  			updateTest(inq_trim,prj_id,comm_id);
+//  			$(this).parent().prev().prev().prev().replaceWith("<td><p id='abc'></p></td>");
+			$(".commTr #commUpdateChgBtn").on("click", function(){
+				console.log("업데이트수정완료버튼 updeteChg click");
+	 			var changVal = $("#changeInput").val();
+	 			console.log(changVal);
+								
+				var inq_trim02 = $.trim(changVal);
+				var prj_id = $(this).siblings("#prj_id02").val();
+				console.log(prj_id);
+				var comm_id = $(this).siblings("#comm_id02").val();
+				console.log(comm_id);
+				
+				updateTest(inq_trim02,prj_id,comm_id);
+				$(this).parent().prev().prev().prev().replaceWith("<td><p>"+inq_trim02+"</p></td>");
+				$(this).replaceWith("<button type='button' id='commUpdateBtn' class='commUpdateBtn'>수정</button>");
+			})
 		})
 		
-		function updateTest(inq_trim,prj_id,comm_id){
+		
+		
+		
+		function updateTest(inq_trim02,prj_id,comm_id){
 			$.ajax({
 				url:"/commUpdate",
 				method:"get",
 				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-				data : "inq_trim="+inq_trim+"&prj_id="+prj_id+"&comm_id="+comm_id,
+				data : "inq_trim="+inq_trim02+"&prj_id="+prj_id+"&comm_id="+comm_id,
 				success:function(data){
 					console.log(data);
-				
-// 					changText = data.data.name;
-// 					$("#abc").val(changText);
 					
 				}
 			})

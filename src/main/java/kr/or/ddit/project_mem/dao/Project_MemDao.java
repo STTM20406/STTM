@@ -8,7 +8,11 @@ import javax.annotation.Resource;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+<<<<<<< HEAD
 import kr.or.ddit.paging.model.PageVo;
+=======
+import kr.or.ddit.project.model.ProjectVo;
+>>>>>>> e052ef188388a071763ebd51810a4d821e5dcf4e
 import kr.or.ddit.project_mem.model.Project_MemVo;
 
 @Repository
@@ -116,7 +120,23 @@ public class Project_MemDao implements IProject_MemDao{
 	}
 
 
+<<<<<<< HEAD
 
 
+=======
+	/**
+	 * 
+	 * Method 		: deleteProjectMem
+	 * 작성자 		: 박서경 
+	 * 변경이력 		: 2019-08-06 최초 생성
+	 * @param projectVo
+	 * @return
+	 * Method 설명 	: 프로젝트 멤버 삭제
+	 */
+	@Override
+	public int deleteProjectMem(Project_MemVo projectMemVo) {
+		return sqlSession.delete("project.deleteProjectMem", projectMemVo);
+	}
+>>>>>>> e052ef188388a071763ebd51810a4d821e5dcf4e
 
 }

@@ -3,7 +3,11 @@ package kr.or.ddit.project_mem.service;
 import java.util.List;
 import java.util.Map;
 
+<<<<<<< HEAD
 import kr.or.ddit.paging.model.PageVo;
+=======
+import kr.or.ddit.project.model.ProjectVo;
+>>>>>>> e052ef188388a071763ebd51810a4d821e5dcf4e
 import kr.or.ddit.project_mem.model.Project_MemVo;
 
 public interface IProject_MemService {
@@ -52,6 +56,7 @@ public interface IProject_MemService {
 	 */
 	List<Project_MemVo> getMyProjectMemList(int prj_id);
 	
+	
 	/**
 	 * 
 	* Method : projectMemPagingList
@@ -73,4 +78,16 @@ public interface IProject_MemService {
 	 * Method 설명 	: 프로젝트 멤버 추가를 위한 프로젝트 멤버 리스트 조회
 	 */
 	List<Project_MemVo> projectAllMemList(String user_email);
+	
+	
+	/**
+	 * 
+	 * Method 		: deleteProjectMem
+	 * 작성자 		: 박서경 
+	 * 변경이력 		: 2019-08-06 최초 생성
+	 * @param projectVo
+	 * @return
+	 * Method 설명 	: 프로젝트 멤버 삭제
+	 */
+	int deleteProjectMem(Project_MemVo projectMemVo);
 }
