@@ -78,4 +78,49 @@ public interface IBoard_WriteDao {
 	int postViewCnt(int write_id);
 	
 	List<PostReplyVo> postReplyList(String user_email);
+	
+	/**
+	 * 
+	 * Method 		: selectTitle
+	 * 작성자 			: 유다연
+	 * 변경이력 		: 2019-08-05 최초 생성
+	 * @param a
+	 * @return
+	 * Method 설명 	: 게시글 제목 검색
+	 */
+	List<Board_WriteVo> selectTitle(PageVo pageVo);
+	
+	/**
+	 * 
+	 * Method 		: selectContent
+	 * 작성자 			: 유다연
+	 * 변경이력 		: 2019-08-05 최초 생성
+	 * @param a
+	 * @return
+	 * Method 설명 	: 게시글 내용 검색
+	 */
+	List<Board_WriteVo> selectContent(PageVo pageVo);
+	
+	/**
+	 * 
+	 * Method 		: selectTitleCnt
+	 * 작성자 			: 유다연
+	 * 변경이력 		: 2019-08-05 최초 생성
+	 * @param title
+	 * @return
+	 * Method 설명 	: 검색한 제목의 글 개수
+	 */
+	int selectTitleCnt(String title);
+	
+	/**
+	 * 
+	 * Method 		: selectContentCnt
+	 * 작성자 			: 유다연
+	 * 변경이력 		: 2019-08-05 최초 생성
+	 * @param content
+	 * @return
+	 * Method 설명 	: 검색한 내용의 글 개수
+	 */
+	int selectContentCnt(String content);
+	
 }

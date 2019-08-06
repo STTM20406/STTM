@@ -61,11 +61,9 @@ public class Board_WriteController {
 		logger.debug("!@# boardList : {}",boardList);
 		
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
-		List<Board_AnswerVo> myReplyList = answerService.myReplyList(userVo.getUser_email());
 		
 		int paginationSize = (Integer) resultMap.get("paginationSize");
 		
-		model.addAttribute("myReplyList",myReplyList);
 		model.addAttribute("board_id",board_id);
 		model.addAttribute("boardList", boardList);
 		
@@ -239,4 +237,48 @@ public class Board_WriteController {
 		return viewName;
 	}
 	
+	@RequestMapping(path="/boardSearch",method=RequestMethod.POST)
+	public String select(String search, String searchText, String boardnum,String page, String pageSize, Model model) {
+		
+		int pageStr = page == null ? 1 : Integer.parseInt(page);
+		int pageSizeStr =  pageSize == null ? 10 : Integer.parseInt(pageSize);
+		
+		PageVo pageVo = new PageVo(pageStr,pageSizeStr);
+		pageVo.setBoard_id(Integer.parseInt(boardnum));
+		
+		logger.debug("log search : {}, serchText : {}",search,searchText);
+		if(search.equals("title")) {
+			pageVo.setSubject(searchText);
+			Map<String, Object> resultMap =  writeService.selectTitle(pageVo);
+			
+			List<Board_WriteVo> titleList = (List<Board_WriteVo>) resultMap.get("titleList");
+			model.addAttribute("searchList",titleList);
+			
+			model.addAttribute("board_id",boardnum);
+			model.addAttribute("boardList", titleList);
+			
+		}else if(search.equals("content")) {
+			pageVo.setContent(searchText);
+			Map<String, Object> resultMap =  writeService.selectContent(pageVo);
+			
+			List<Board_WriteVo> contentList = (List<Board_WriteVo>) resultMap.get("contentList");
+			
+			model.addAttribute("board_id",boardnum);
+			model.addAttribute("boardList", contentList);
+		}
+		
+		
+		
+		
+		
+		
+		
+		//int paginationSize = (Integer) resultMap.get("paginationSize");
+		
+		
+		return "/board/community/communityList.user.tiles";
+		
+		
+		
+	}
 }

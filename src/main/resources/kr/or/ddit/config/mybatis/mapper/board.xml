@@ -131,9 +131,6 @@
 	</update>
 	
 	
-	
-	
-	
 	<!-- 게시글 join -->
 	<select id="postReplyList" parameterType="map" resultType="postReplyVo">
 	select a.write_id,a.user_email,a.subject,a.writedate,b.comm_id,b.content from (select * from board_write)a inner join    
@@ -142,11 +139,52 @@
 	</select>
 	
 	
+	<!-- 게시글 제목 검색 -->
+	<select id="selectTitle" parameterType="pageVo" resultType="board_writeVo">
+		<![CDATA[
+			select *
+		    from
+			(select a.*, rownum rn
+		    from
+		    (select a.*
+		    from board_write a 
+		    where board_id = #{board_id}
+		    and subject like '%' || #{subject} || '%'
+		    order by write_id) a)
+		    where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
+	    ]]>
+	</select>
+	
+	<!-- 게시글 내용 검색 -->
+	<select id="selectContent" parameterType="pageVo" resultType="board_writeVo">
+		<![CDATA[
+			select *
+		    from
+			(select a.*, rownum rn
+		    from
+		    (select a.*
+		    from board_write a 
+		    where board_id = #{board_id}
+		    and content like '%' || #{content} || '%'
+		    order by write_id) a)
+		    where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
+	    ]]>
+	</select>
+	
+	<!-- 검색한 제목의 글 개수 -->
+	<select id="selectTitleCnt" parameterType="string"  resultType="int">
+		select count(*) 
+		from board_write
+		where subject like '%' || #{subject} || '%'
+	</select>
 	
 	
-	
-	
-	
+	<!-- 검색한 내용의 글 개수 -->
+	<select id="selectContentCnt" parameterType="string"  resultType="int">
+		select count(*) 
+		from board_write
+		where content like '%' || #{content} || '%'
+	</select>
 	
 <!-- **********************likes*************************** -->
 	<!-- 게시글 좋아요 중복 체크 -->

@@ -59,6 +59,13 @@ ul.tabs li.current {
 			$("#" + tab_id).addClass('current');
 		});
 
+		$("#searchBtn").on("click", function() {
+			$("#searchFrm").submit();
+		
+		});
+		
+		
+		
 	})
 </script>
 
@@ -75,8 +82,22 @@ ul.tabs li.current {
 
 		<div class="tab_con">
 			<div id="tab-1" class="tab-content current">
+			<form id="searchFrm" action="/boardSearch" method="post">
+				<input type="hidden" name="boardnum" id="boardnum" value="${board_id }"> 
+				<div class="searchBox">
+                  <div class="tb_sch_wr">
+                     <fieldset id="hd_sch">
+                           <select id="search" name="search">
+                              <option value="title">제목</option>
+                              <option value="content">내용</option>
+                           </select>
+                           <input type="text" name="searchText" id="searchText" maxlength="20" placeholder="검색어를 입력해주세요">
+                           <button type="submit" id="searchBtn" value="검색">검색</button>
+                        </fieldset>
+                     </div>
+                  </div>
+                </form>
 				<form id="frm" action="/postAdd" method="get">
-					<input type="text" name="boardnum" id="boardnum" value="${board_id }"> 
 					<input type="hidden" id="write_id" name="write_id" value="" />
 					<table class="tb_style_01">
 						<tbody>
@@ -140,27 +161,6 @@ ul.tabs li.current {
 									</c:when>
 								</c:choose>
 							</c:forEach>
-										<tr>
-										<td>
-											<table class="tb_style_01">
-												<tbody>
-													<c:forEach items="${myReplyList }" var="mr">
-														<c:choose>
-															<c:when test="${mr.del_fl == 'N' && mr.user_email == USER_INFO.user_email}">
-																<tr>
-																	<th>${mr.write_id }번 게시글의 댓글입니다. <th>
-																</tr>
-																<tr>
-																	<td>${mr.comm_id }</td>
-																	<td>${mr.content }</td>
-																<tr>
-															</c:when>
-														</c:choose>
-													</c:forEach>
-												</tbody>
-											</table>
-										</td>
-										</tr>
 							</tbody>
 					</table>
 					</form>

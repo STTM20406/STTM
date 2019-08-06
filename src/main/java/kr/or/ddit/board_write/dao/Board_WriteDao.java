@@ -111,4 +111,24 @@ public class Board_WriteDao implements IBoard_WriteDao{
 		return sqlSession.selectList("board.postReplyList",user_email);
 	}
 
+	@Override
+	public List<Board_WriteVo> selectTitle(PageVo pageVo) {
+		return sqlSession.selectList("board.selectTitle",pageVo);
+	}
+
+	@Override
+	public List<Board_WriteVo> selectContent(PageVo pageVo) {
+		return sqlSession.selectList("board.selectContent",pageVo);
+	}
+
+	@Override
+	public int selectTitleCnt(String title) {
+		return sqlSession.selectOne("board.selectTitleCnt", title);
+	}
+
+	@Override
+	public int selectContentCnt(String content) {
+		return sqlSession.selectOne("board.selectContentCnt", content);
+	}
+
 }

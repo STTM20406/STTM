@@ -1,12 +1,16 @@
 package kr.or.ddit.board_write.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import kr.or.ddit.board_write.dao.Board_WriteDao;
 import kr.or.ddit.board_write.dao.IBoard_WriteDao;
 import kr.or.ddit.board_write.model.Board_WriteVo;
 import kr.or.ddit.paging.model.PageVo;
@@ -14,8 +18,11 @@ import kr.or.ddit.paging.model.PageVo;
 @Service
 public class Board_WriteService implements IBoard_WriteService{
 
+	private static final Logger logger = LoggerFactory.getLogger(Board_WriteService.class);
+	
 	@Resource(name="board_WriteDao")
 	IBoard_WriteDao board_wirteDao;
+	
 	/**
 	 * Method 		: insertPost
 	 * 작성자 			: 양한솔 
@@ -120,6 +127,44 @@ public class Board_WriteService implements IBoard_WriteService{
 		resultMap.put("postReply", board_wirteDao.postReplyList(user_email));
 		
 		return resultMap;
+	}
+
+	@Override
+	public Map<String, Object> selectTitle(PageVo pageVo) {
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("titleList", board_wirteDao.selectTitle(pageVo));
+		logger.debug("log pageVo.getSubject() : {}",pageVo.getSubject() );
+		
+		int titleCnt = board_wirteDao.selectTitleCnt(pageVo.getSubject());
+		int paginationSize = (int) Math.ceil((double)titleCnt/pageVo.getPageSize());
+		resultMap.put("paginationSize", paginationSize);
+		
+		return resultMap;
+		
+	}
+
+	@Override
+	public Map<String, Object> selectContent(PageVo pageVo) {
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("contentList", board_wirteDao.selectContent(pageVo));
+		
+		int contentCnt = board_wirteDao.selectContentCnt(pageVo.getContent());
+		int paginationSize = (int) Math.ceil((double)contentCnt/pageVo.getPageSize());
+		resultMap.put("paginationSize", paginationSize);
+		
+		return resultMap;
+	}
+
+	@Override
+	public int selectTitleCnt(String title) {
+		return board_wirteDao.selectTitleCnt(title);
+	}
+
+	@Override
+	public int selectContentCnt(String content) {
+		return board_wirteDao.selectContentCnt(content);
 	}
 
 }

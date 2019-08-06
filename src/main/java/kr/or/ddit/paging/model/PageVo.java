@@ -8,8 +8,28 @@ public class PageVo {
    private String inq_cate; // 문의 카테고리
    private String user_email; // 문의 이메일
    private int board_id; // 게시판 id
+   private String content; //게시판 내용
+   private String subject; //게시판 제목
    
-   public int getInq_id() {
+   
+   
+   public String getContent() {
+	return content;
+}
+
+public void setContent(String content) {
+	this.content = content;
+}
+
+public String getSubject() {
+	return subject;
+}
+
+public void setSubject(String subject) {
+	this.subject = subject;
+}
+
+public int getInq_id() {
       return inq_id;
    }
 
