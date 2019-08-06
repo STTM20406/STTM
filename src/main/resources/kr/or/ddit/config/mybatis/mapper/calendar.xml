@@ -1,15 +1,210 @@
-diff a/src/main/resources/kr/or/ddit/config/mybatis/mapper/calendar.xml b/src/main/resources/kr/or/ddit/config/mybatis/mapper/calendar.xml	(rejected hunks)
-@@ -4,6 +4,13 @@
-   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
- <mapper namespace="calendar">
- 
-+	<select id="workList" resultType="work_listVo">
-+		select * from 
-+			work_list
-+		order by 
-+			wrk_lst_id asc
-+	</select>
-+	
- 	<select id="wDetail" parameterType="int" resultType="workVo">
- 	SELECT  DISTINCT A.WRK_ID
- 		     ,  A.USER_EMAIL
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="calendar">
+
+   <select id="wDetail" parameterType="int" resultType="workVo">
+   SELECT  DISTINCT A.WRK_ID
+           ,  A.USER_EMAIL
+           ,  C.WRK_LST_NM
+           ,  C.PRJ_ID
+           ,  B.USER_NM
+           ,  D.PRJ_NM
+           ,  A.WRK_LST_ID
+           ,  A.WRK_RV_ID
+           ,  A.WRK_PR_ID
+           ,  A.WRK_NM
+           ,  A.WRK_DT
+           ,  A.WRK_GRADE
+           ,  A.WRK_COLOR_CD
+           ,  A.WRK_START_DT
+           ,  A.WRK_END_DT
+           ,  A.WRK_CMP_DT
+           ,  A.WRK_CMP_FL
+           ,  A.WRK_DEL_FL
+      FROM    WORK A, USERS B, WORK_LIST C, PROJECT D
+      WHERE   A.WRK_ID = #{WRK_ID}
+      AND     A.USER_EMAIL = B.USER_EMAIL
+      AND     A.WRK_LST_ID = C.WRK_LST_ID
+      AND     C.PRJ_ID = D.PRJ_ID
+        AND     A.WRK_START_DT is not null
+        AND     A.WRK_END_DT is not null
+   </select>
+
+   <insert id="wInsert" parameterType="workVo">
+   insert into
+      work
+   values (
+      WRK_SEQ.nextVal,
+      #{wrk_lst_id},
+      '',
+      WRK_SEQ.nextVal,
+      #{user_email},
+      #{wrk_nm},
+      sysdate,
+      'C',
+      #{wrk_color_cd},
+      #{wrk_start_dt},
+      #{wrk_end_dt},
+      '',
+      'N',
+      'N'
+         )
+   </insert>
+   
+<!--    특정 프로젝트내에 업무에 대한 정보를 다 받아오는 -->
+   <select id="wList" parameterType="int" resultType="workVo">
+      SELECT  DISTINCT A.WRK_ID
+           ,  A.USER_EMAIL
+           ,  C.WRK_LST_NM
+           ,  C.PRJ_ID
+           ,  B.USER_NM
+           ,  D.PRJ_NM
+           ,  A.WRK_LST_ID
+           ,  A.WRK_RV_ID
+           ,  A.WRK_PR_ID
+           ,  A.WRK_NM
+           ,  A.WRK_DT
+           ,  A.WRK_GRADE
+           ,  A.WRK_COLOR_CD
+           ,  A.WRK_START_DT
+           ,  A.WRK_END_DT
+           ,  A.WRK_CMP_DT
+           ,  A.WRK_CMP_FL
+           ,  A.WRK_DEL_FL
+      FROM    WORK A, USERS B, WORK_LIST C, PROJECT D
+      WHERE   D.prj_id = #{prj_id}
+      AND     A.USER_EMAIL = B.USER_EMAIL
+      AND     A.WRK_LST_ID = C.WRK_LST_ID
+      AND     C.PRJ_ID = D.PRJ_ID
+        AND     A.WRK_START_DT is not null
+        AND     A.WRK_END_DT is not null
+   </select>
+   
+   <!-- 내가 속한 모든 프로젝트에 업무를 받아오는!  -->
+   <select id="projectWList" parameterType="String" resultType="workVo">
+      SELECT  DISTINCT A.WRK_ID
+           ,  A.USER_EMAIL
+           ,  C.WRK_LST_NM
+           ,  C.PRJ_ID
+           ,  B.USER_NM
+           ,  D.PRJ_NM
+           ,  A.WRK_LST_ID
+           ,  A.WRK_RV_ID
+           ,  A.WRK_PR_ID
+           ,  A.WRK_NM
+           ,  A.WRK_DT
+           ,  A.WRK_GRADE
+           ,  A.WRK_COLOR_CD
+           ,  A.WRK_START_DT
+           ,  A.WRK_END_DT
+           ,  A.WRK_CMP_DT
+           ,  A.WRK_CMP_FL
+           ,  A.WRK_DEL_FL
+      FROM    WORK A, USERS B, WORK_LIST C, PROJECT D
+      WHERE   A.user_email = #{user_email}
+        AND     A.USER_EMAIL = B.USER_EMAIL
+      AND     A.WRK_LST_ID = C.WRK_LST_ID
+      AND     C.PRJ_ID = D.PRJ_ID
+        AND     A.WRK_START_DT is not null
+        AND     A.WRK_END_DT is not null
+   </select>
+   
+   
+   
+   <!-- 특정 프로젝트 멤버 목록 -->
+   <select id="projectMBList" parameterType="int" resultType="project_memVo">
+      select distinct
+            a.prj_id,
+         b.USER_EMAIL,
+         c.user_nm, 
+         b.PRJ_MEM_LV, 
+         b.PRJ_MEM_NIK, 
+         b.PRJ_OWN_FL 
+      from 
+         project a,  PROJECT_MEM b , users c 
+      where 
+          a.prj_id = #{prj_id}
+        and
+         a.prj_id = b.prj_id
+      and 
+         b.user_email = c.user_email
+            order by prj_id asc
+   </select>
+
+   <update id="dragAndDrop" parameterType="workVo">
+       update work
+         set 
+           wrk_start_dt = #{wrk_start_dt},
+           wrk_end_dt = #{wrk_end_dt}
+        where 
+           wrk_id = #{wrk_id}
+   </update>
+
+   <delete id="delW" parameterType="int">
+      delete from work 
+        where wrk_id = #{wrk_id}
+   </delete>
+   
+   <select id="projectList" resultType="projectVo">
+      select * from project
+   </select>
+   
+   <update id="upW" parameterType="workVo">
+      update 
+          work
+      set 
+          wrk_lst_id = #{wrk_lst_id},
+          wrk_nm = #{wrk_nm},
+          wrk_color_cd = #{wrk_color_cd},
+          wrk_start_dt = #{wrk_start_dt},
+          wrk_end_dt = #{wrk_end_dt}
+      where
+          wrk_id = #{wrk_id}
+   </update>
+   
+   
+   <!-- filter 적용 중.................................................................. -->
+   
+   <!-- 내가 속해 있는 프로젝트 업무들에 대한 정보를 가져오는!! -->
+   <select id="myProjectWork" parameterType="String" resultType="workVo">
+      SELECT DISTINCT  F.*, E.PRJ_ID, E.WRK_LST_NM, E.WRK_LST_DT, C.USER_NM, D.PRJ_NM
+      FROM
+      (SELECT * FROM PROJECT_MEM WHERE USER_EMAIL = #{USER_EMAIL}) A, PROJECT_MEM B, USERS C, PROJECT D, WORK_LIST E, WORK F
+      WHERE C.USER_EMAIL = B.USER_EMAIL AND B.USER_EMAIL = F.USER_EMAIL
+      AND B.PRJ_ID IN (A.PRJ_ID) 
+      AND B.PRJ_ID IN (D.PRJ_ID)
+      AND D.PRJ_ID IN (E.PRJ_ID)
+      AND E.WRK_LST_ID IN (F.WRK_LST_ID)
+   </select>
+   
+   <!-- 내가 속해 있는 모든 프로젝트 멤버 목록 -->
+   <select id="allProjectMBList" parameterType="String" resultType="project_memVo">
+       SELECT DISTINCT B.USER_EMAIL
+              , C.USER_NM FROM
+              ( SELECT * FROM PROJECT_MEM WHERE USER_EMAIL = #{USER_EMAIL}) A, PROJECT_MEM B, USERS C
+                WHERE B.PRJ_ID IN (A.PRJ_ID)
+                AND C.USER_EMAIL = B.USER_EMAIL
+   </select>
+   
+   <!-- 내가 속한 프로젝트 리스트를 받아오기!!!! -->
+   <select id="myProject" parameterType="String" resultType="projectVo">
+      SELECT   DISTINCT(A.PRJ_ID) ,   A.PRJ_NM
+      FROM   PROJECT A, PROJECT_MEM B
+      WHERE   A.PRJ_ID = B.PRJ_ID
+      AND      B.USER_EMAIL = #{USER_EMAIL}
+      ORDER BY A.PRJ_ID
+   </select>
+   
+   <!-- 특정 프로젝트의 업무 리스트를 받아오는 -->
+   <select id="workList" parameterType="int" resultType="work_listVo">
+       select * from 
+         work_list
+        where
+            prj_id=#{prj_id}
+      order by 
+         wrk_lst_id asc
+   </select>
+   
+</mapper>

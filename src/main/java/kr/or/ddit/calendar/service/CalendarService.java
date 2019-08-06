@@ -23,10 +23,6 @@ public class CalendarService implements ICalendarService {
 	@Resource(name = "calendarDao")
 	private ICalendarDao calendarDao;
 
-	@Override
-	public List<Work_ListVo> workList() {
-		return calendarDao.workList();
-	}
 
 	@Override
 	public WorkVo wDetail(int wrk_id) {
@@ -69,8 +65,8 @@ public class CalendarService implements ICalendarService {
 	   }
 
 	@Override
-	public List<Project_MemVo> projectMBList(int prj_id) {
-		return calendarDao.projectMBList(prj_id);
+	public List<Project_MemVo> allProjectMBList(String user_email) {
+		return calendarDao.allProjectMBList(user_email);
 	}
 
 	@Override
@@ -89,20 +85,83 @@ public class CalendarService implements ICalendarService {
 	}
 	
 	@Override
-	public List<WorkVo> projectWList() {
-		return calendarDao.projectWList();
+	public String projectWList(String user_email) {
+		 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+	      List<WorkVo> list = calendarDao.projectWList(user_email);
+	      String jsonData = "[";
+	      for(WorkVo workVo : list) {
+	    	  jsonData += "{\"_id\"" + ":"+ workVo.getWrk_id()  + ","
+	                  + "\"title\"" + ":" + "\"" + workVo.getWrk_nm() + "\"" + "," 
+	                  + "\"description\"" + ":" + "\"" + workVo.getPrj_nm() +"  ♬♪♩  "+ workVo.getWrk_lst_nm() + "\"" + "," 
+	                  + "\"start\"" + ":" + "\"" + sdf.format(workVo.getWrk_start_dt()) + "\"" + ","
+	                  + "\"end\"" + ":" + "\"" + sdf.format(workVo.getWrk_end_dt()) + "\"" + ","
+	                  + "\"username\"" + ":" + "\"" + workVo.getUser_nm()+ "\"" + ","
+	                  + "\"type\"" + ":" + "\"" + workVo.getWrk_lst_nm() + "\"" + ","
+	                  + "\"textColor\"" + ":" + "\"" + "#ffffff" + "\"" + ","
+	                  + "\"backgroundColor\"" + ":" + "\"" + workVo.getWrk_color_cd() + "\"" + ","
+	                 + "\"allDay\"" + ":" + "false" + "},";
+	      }
+	      jsonData = jsonData.substring(0, jsonData.lastIndexOf(","));
+	      jsonData += "]";
+	      
+	      logger.debug("jsonData : {}", jsonData);
+	      
+	      return jsonData;
 	}
-	
-	
-	
-	
-	
 	
 	@Override
 	public List<ProjectVo> projectList() {
 		return calendarDao.projectList();
 	}
-
+	
+	/**
+	 * Method : myProject 작성자 : 손영하 변경이력 : 2019-08-05 최초 생성
+	 * 
+	 * @param user_email
+	 * @return Method 설명 : 내가 속한 프로젝트 리스트를 받아오는 메서드
+	 */
+	@Override
+	public List<ProjectVo> myProject(String user_email) {
+		return calendarDao.myProject(user_email);
+	}
+	
+	/**
+	 * Method 		: myProjectWork
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-06 최초 생성
+	 * @param user_email
+	 * @return
+	 * Method 설명 	: 내가 속한 프로젝트 업무들을 받아오는 메서드
+	 */
+	@Override
+	public String myProjectWork(String user_email) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+	      List<WorkVo> list = calendarDao.myProjectWork(user_email);
+	      String jsonData = "[";
+	      for(WorkVo workVo : list) {
+	    	  jsonData += "{\"_id\"" + ":"+ workVo.getWrk_id()  + ","
+	                  + "\"title\"" + ":" + "\"" + workVo.getWrk_nm() + "\"" + "," 
+	                  + "\"description\"" + ":" + "\"" + workVo.getPrj_nm() +"  ♬♪♩  "+ workVo.getWrk_lst_nm() + "\"" + "," 
+	                  + "\"start\"" + ":" + "\"" + sdf.format(workVo.getWrk_start_dt()) + "\"" + ","
+	                  + "\"end\"" + ":" + "\"" + sdf.format(workVo.getWrk_end_dt()) + "\"" + ","
+	                  + "\"username\"" + ":" + "\"" + workVo.getUser_nm()+ "\"" + ","
+	                  + "\"type\"" + ":" + "\"" + workVo.getWrk_lst_nm() + "\"" + ","
+	                  + "\"textColor\"" + ":" + "\"" + "#ffffff" + "\"" + ","
+	                  + "\"backgroundColor\"" + ":" + "\"" + workVo.getWrk_color_cd() + "\"" + ","
+	                 + "\"allDay\"" + ":" + "false" + "},";
+	      }
+	      jsonData = jsonData.substring(0, jsonData.lastIndexOf(","));
+	      jsonData += "]";
+	      
+	      logger.debug("jsonData : {}", jsonData);
+	      
+	      return jsonData;
+	}
+	
+	@Override
+	public List<Work_ListVo> workList(int prj_id) {
+		return calendarDao.workList(prj_id);
+	}
 
 	
 }
