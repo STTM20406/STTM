@@ -133,6 +133,6 @@ public class ProjectDao implements IProjectDao{
 	public int updateAllProject(ProjectVo projectVo) {
 		return sqlSession.update("project.updateAllProject", projectVo);
 	}
-	
 
+	
 }

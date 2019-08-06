@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import kr.or.ddit.project.model.ProjectVo;
 import kr.or.ddit.project_mem.dao.IProject_MemDao;
 import kr.or.ddit.project_mem.model.Project_MemVo;
 
@@ -85,6 +86,21 @@ public class Project_MemService implements IProject_MemService{
 	@Override
 	public List<Project_MemVo> projectAllMemList(String user_email) {
 		return projectMemDao.projectAllMemList(user_email);
+	}
+
+	
+	/**
+	 * 
+	 * Method 		: deleteProjectMem
+	 * 작성자 		: 박서경 
+	 * 변경이력 		: 2019-08-06 최초 생성
+	 * @param projectVo
+	 * @return
+	 * Method 설명 	: 프로젝트 멤버 삭제
+	 */
+	@Override
+	public int deleteProjectMem(Project_MemVo projectMemVo) {
+		return projectMemDao.deleteProjectMem(projectMemVo);
 	}
 	
 }

@@ -139,7 +139,6 @@
 				data: "prj_nm=" + prj_nm,
 				success:function(data){
 					
-					console.log(data);
 					var html = "";
 					
 					data.data.projectList.forEach(function(project){
@@ -205,7 +204,7 @@
 					});	
 					
 					data.projectMemList.forEach(function(item, index){
-						html2 += "<li id='"+ item.user_email+"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
+						html2 += "<li id='"+ item.user_email +"_"+item.prj_id+"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
 					});	
 					
 					$(".prj_add_box").html(html);
@@ -406,6 +405,7 @@
 				contentType:"application/x-www-form-urlencoded; charset=UTF-8",
 				success:function(data){
 					console.log(data);
+					
 					var html = "";
 					data.data.forEach(function(item, index){
 						//html 생성
@@ -425,7 +425,7 @@
 			
 			console.log(id);
 			console.log(mem_add_email);
-			//projectMemAddAjax(id, mem_add_email);
+			projectMemAddAjax(id, mem_add_email);
 		});
 		
 		//프로젝트 관리자로 선택한 멤버 추가
@@ -435,16 +435,60 @@
 				method:"post",
 				data:"prj_id="+ id + "&user_email=" + mem_add_email,
 				success:function(data){
+					
 					var html = "";
-					data.data.forEach(function(item, index){
+					var html2 = "";
+					
+					console.log(data);
+					
+					data.projectAdmList.forEach(function(item, index){
 						html += "<li id='"+ item.user_email +"_"+item.prj_id+"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
 					});	
 					
+					data.projectMemList.forEach(function(item, index){
+						html2 += "<li id='"+ item.user_email +"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
+					});	
+					
 					$(".prj_mem_add_box").html(html);
+					$(".prj_mem_item_list").html(html2);
 				}
 			});
 		}
 		
+		
+		//프로젝트 멤버 삭제 클릭 했을 때
+		$(".prj_mem_add_box").on("click", "li input", function(){
+			
+			var textSplit = $(this).parent().attr("id").split("_");
+			var id = textSplit[1];
+			var email = textSplit[0];
+			
+			projectMemDelAjax(id, email);
+		});
+		
+		function projectMemDelAjax(id, email){
+			$.ajax({
+				url:"/project/projectMemDelAjax",
+				method:"post",
+				data:"prj_id="+ id + "&user_email=" + email,
+				success:function(data){
+					
+					var html = "";
+					var html2 = "";
+					
+					data.projectAdmList.forEach(function(item, index){
+						html += "<li id='"+ item.user_email +"_"+item.prj_id+"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
+					});	
+					
+					data.projectMemList.forEach(function(item, index){
+						html2 += "<li id='"+ item.user_email +"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
+					});	
+					
+					$(".prj_mem_add_box").html(html);
+					$(".prj_mem_item_list").html(html2);
+				}
+			});
+		}
 		
 		
 		
