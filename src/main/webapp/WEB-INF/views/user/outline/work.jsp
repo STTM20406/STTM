@@ -142,9 +142,9 @@
 				$("#prjList").html(prjList);
 				$("#makerList").html(makerList);
 				$("#followerList").html(followerList);
-				priorChart = loadPriorChart(priorChartContainer, priorData, 500, 140);
-				percentChart = loadPercentChart(percentChartContainer, percentData, 500, 140);
-				pieChart = loadPieChart(pieChartContainer, pieChartData, 500, 300);
+				priorChart = loadPriorChart(priorChartContainer, priorData, 700, 200);
+				percentChart = loadPercentChart(percentChartContainer, percentData, 700, 200);
+				pieChart = loadPieChart(pieChartContainer, pieChartData, 700, 300);
 			}
 		})
 	}
