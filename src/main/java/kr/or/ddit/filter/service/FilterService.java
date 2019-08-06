@@ -216,7 +216,7 @@ public class FilterService implements IFilterService{
 			if("AUTH04".equals(work.getAuth()))
 				continue;
 			
-			sb_result.append("<div class='result' style='border:1px solid black; width:300px; padding:5px; margin: 3px;' data-wrk_id='"+ work.getWrk_id() +"'>");
+			sb_result.append("<div class='result' style='border:1px solid black; width:470px; padding:5px 10px; margin: 3px;' data-wrk_id='"+ work.getWrk_id() +"'>");
 			sb_result.append("<span>"+ work.getPrj_nm() + " > " + work.getWrk_lst_nm() +"</span>");
 			sb_result.append("<br>");
 			sb_result.append("<span class='wrk_nm'>"+ work.getWrk_nm() +"</span>");
@@ -546,7 +546,6 @@ public class FilterService implements IFilterService{
 		
 		Map<String, Object> barChart2Data = new HashMap<>();
 		
-		
 		List<WorkVo> doneList = new ArrayList<WorkVo>();
 		List<WorkVo> undoneList = new ArrayList<WorkVo>();
 		
@@ -575,84 +574,73 @@ public class FilterService implements IFilterService{
 			if("AUTH04".equals(work.getAuth()))
 				continue;
 				
-			int priorPt = 0;
-			switch(work.getWrk_grade()) {
-				case "A":
-					priorPt = 5;
+			int priorPt = getPoint(work);
+			String status = getStatus(work);
+			switch(priorPt) {
+				case 5:
 					entirePt += priorPt; 
 					workList_A.add(work);
-					if("Y".equals(work.getWrk_cmp_fl())) 
-					{	
+					status = getStatus(work);
+					if("cmp".equals(status)) {	
 						donePt += priorPt;
 						doneList.add(work);
 						doneList_A.add(work);
-					} 
-					else 
-					{	
+					} else {	
 						undoneList.add(work);
 						undoneList_A.add(work);
 					}
 					break;
-				case "B":
-					priorPt = 4;
+				case 4:
 					entirePt += priorPt; 
 					workList_B.add(work);
-					if("Y".equals(work.getWrk_cmp_fl())) 
-					{
+					status = getStatus(work);
+					if("cmp".equals(status)) {
 						donePt += priorPt;
 						doneList.add(work);
 						doneList_B.add(work);
-					} 
-					else 
-					{
+					} else {
 						undoneList.add(work);
 						undoneList_B.add(work);
 					}
 					break;
-				case "C":
+				case 3:
 					workList_C.add(work);
 					priorPt = 3;
-					entirePt += priorPt; 
-					if("Y".equals(work.getWrk_cmp_fl())) 
-					{
+					entirePt += priorPt;
+					status = getStatus(work);
+					if("cmp".equals(status)) {
 						doneList.add(work);
 						doneList_C.add(work);
 						donePt += priorPt;
-					} 
-					else 
-					{
+					} else {
 						undoneList.add(work);
 						undoneList_C.add(work);
 					}
 					break;
-				case "D":
+				case 2:
 					priorPt = 2;
 					entirePt += priorPt; 
 					workList_D.add(work);
-					if("Y".equals(work.getWrk_cmp_fl())) 
-					{
+					status = getStatus(work);
+					if("cmp".equals(status)) {
 						doneList.add(work);
 						doneList_D.add(work);
 						donePt += priorPt;
-					} 
-					else 
-					{
+					} else {
 						undoneList.add(work);
 						undoneList_D.add(work);
 					}
 					break;
-				case "E":
+				case 1:
 					priorPt = 1;
 					entirePt += priorPt; 
 					workList_E.add(work);
-					if("Y".equals(work.getWrk_cmp_fl())) 
-					{
+					status = getStatus(work);
+					if("cmp".equals(status)) {
 						donePt += priorPt;
 						doneList.add(work);
 						doneList_E.add(work);
-					} 
-					else 
-					{
+					} else {
 						undoneList.add(work);
 						undoneList_E.add(work);
 					}
@@ -677,9 +665,6 @@ public class FilterService implements IFilterService{
 		barChart2Data.put("완료", doneList);
 		barChart2Data.put("미완료", undoneList);
 		
-		
-		
-		
 		double percentage = (int)((double)donePt / entirePt * 10000) / 100.0;
 		
 		//------------------------------------업무상태 확인----------------------------------
@@ -687,92 +672,34 @@ public class FilterService implements IFilterService{
 		List<WorkVo> overdueList = new ArrayList<WorkVo>();
 		List<WorkVo> plannedList = new ArrayList<WorkVo>();
 		List<WorkVo> no_deadlineList = new ArrayList<WorkVo>();
-		int entPt = 0;
+		
+		double entPt = 0;
 		int cmpPt = 0;
 		int planPt = 0;
 		int overduePt = 0;
 		int nodeadlinePt = 0;
-		Date nowDate = new Date();
 		
 		for(WorkVo work : workList) {
 			if("AUTH04".equals(work.getAuth()))
 				continue;
-				
-			if("Y".equals(work.getWrk_cmp_fl())) { // 완료된 업무
-				switch(work.getWrk_grade()) {
-					case "A":
-						entPt += 5;
-						cmpPt += 5;
-					case "B":
-						entPt += 4;
-						cmpPt += 4;
-					case "C":
-						entPt += 3;
-						cmpPt += 3;
-					case "D":
-						entPt += 2;
-						cmpPt += 2;
-					case "E":
-						entPt += 1;
-						cmpPt += 1;
-				}
+			
+			int point = getPoint(work);
+			String status = getStatus(work);
+			if("cmp".equals(status)) { // 완료된 업무
+				entPt += point;
+				cmpPt += point;
 				cmpList.add(work);
-			} else if(work.getWrk_end_dt()==null){ // 마감일 없는 업무
-				switch(work.getWrk_grade()) {
-				case "A":
-					entPt += 5;
-					nodeadlinePt += 5;
-				case "B":
-					entPt += 4;
-					nodeadlinePt += 4;
-				case "C":
-					entPt += 3;
-					nodeadlinePt += 3;
-				case "D":
-					entPt += 2;
-					nodeadlinePt += 2;
-				case "E":
-					entPt += 1;
-					nodeadlinePt += 1;
-				}
+			} else if("nodeadline".equals(status)){ // 마감일 없는 업무
+				entPt += point;
+				nodeadlinePt += point;
 				no_deadlineList.add(work);
-			} else if(work.getWrk_start_dt()!=null && work.getWrk_end_dt()!=null && nowDate.before(work.getWrk_end_dt())) { // 계획된 업무 : 업무 시작일과 종료일이 존재하고, 마감일이 아직 지나지 않았을 때
-				switch(work.getWrk_grade()) {
-				case "A":
-					entPt += 5;
-					planPt += 5;
-				case "B":
-					entPt += 4;
-					planPt += 4;
-				case "C":
-					entPt += 3;
-					planPt += 3;
-				case "D":
-					entPt += 2;
-					planPt += 2;
-				case "E":
-					entPt += 1;
-					planPt += 1;
-				}
+			} else if("plan".equals(status)) { // 계획된 업무 : 업무 시작일과 종료일이 존재하고, 마감일이 아직 지나지 않았을 때
+				entPt += point;
+				planPt += point;
 				plannedList.add(work);
-			} else if(nowDate.after(work.getWrk_end_dt())){ // 마감일 지난 업무 : 업무 마감일이 현재보다 앞일 때
-				switch(work.getWrk_grade()) {
-				case "A":
-					entPt += 5;
-					overduePt += 5;
-				case "B":
-					entPt += 4;
-					overduePt += 4;
-				case "C":
-					entPt += 3;
-					overduePt += 3;
-				case "D":
-					entPt += 2;
-					overduePt += 2;
-				case "E":
-					entPt += 1;
-					overduePt += 1;
-				}
+			} else if("overdue".equals(status)){ // 마감일 지난 업무 : 업무 마감일이 현재보다 앞일 때
+				entPt += point;
+				overduePt += point;
 				overdueList.add(work);
 			}
 		}
@@ -793,7 +720,7 @@ public class FilterService implements IFilterService{
 		seriesData_1.add(doneList_A.size());
 		seriesData_1.add(undoneList_A.size());
 		seriesMap_1.put("data", seriesData_1);
-//		if(!(doneList_A.isEmpty() && undoneList_A.isEmpty())) 
+		if(!(doneList_A.isEmpty() && undoneList_A.isEmpty())) 
 		seriesList_1.add(seriesMap_1);
 		
 		Map<String, Object> seriesMap_2 = new HashMap<>();
@@ -802,7 +729,7 @@ public class FilterService implements IFilterService{
 		seriesData_2.add(doneList_B.size());
 		seriesData_2.add(undoneList_B.size());
 		seriesMap_2.put("data", seriesData_2);
-//		if(!(doneList_B.isEmpty() && undoneList_B.isEmpty())) 
+		if(!(doneList_B.isEmpty() && undoneList_B.isEmpty())) 
 		seriesList_1.add(seriesMap_2);
 		
 		Map<String, Object> seriesMap_3 = new HashMap<>();
@@ -811,7 +738,7 @@ public class FilterService implements IFilterService{
 		seriesData_3.add(doneList_C.size());
 		seriesData_3.add(undoneList_C.size());
 		seriesMap_3.put("data", seriesData_3);
-//		if(!(doneList_C.isEmpty() && undoneList_C.isEmpty())) 
+		if(!(doneList_C.isEmpty() && undoneList_C.isEmpty())) 
 		seriesList_1.add(seriesMap_3);
 		
 		Map<String, Object> seriesMap_4 = new HashMap<>();
@@ -820,8 +747,7 @@ public class FilterService implements IFilterService{
 		seriesData_4.add(doneList_D.size());
 		seriesData_4.add(undoneList_D.size());
 		seriesMap_4.put("data", seriesData_4);
-		
-//		if(!(doneList_D.isEmpty() && undoneList_D.isEmpty())) 
+		if(!(doneList_D.isEmpty() && undoneList_D.isEmpty())) 
 		seriesList_1.add(seriesMap_4);
 		
 		Map<String, Object> seriesMap_5 = new HashMap<>();
@@ -830,7 +756,7 @@ public class FilterService implements IFilterService{
 		seriesData_5.add(doneList_E.size());
 		seriesData_5.add(undoneList_E.size());
 		seriesMap_5.put("data", seriesData_5);
-//		if(!(doneList_E.isEmpty() && undoneList_E.isEmpty())) 
+		if(!(doneList_E.isEmpty() && undoneList_E.isEmpty())) 
 		seriesList_1.add(seriesMap_5);
 		
 		Map<String, Object> barChartMap_2 = new HashMap<>();
@@ -845,6 +771,7 @@ public class FilterService implements IFilterService{
 		series2Data_1.put("name", "완료");
 		series2Data_1.put("data", series2List1);
 		seriesList_2.add(series2Data_1);
+		
 		Map<String, Object> series2Data_2 = new HashMap<>();
 		List<Double> series2List2 = new ArrayList<Double>();
 		series2List2.add(workList.size() == 0 ? 0: (100-percentage));
@@ -862,23 +789,45 @@ public class FilterService implements IFilterService{
 		pieChartData.put("overdue", overdueList);
 		pieChartData.put("nodeadline", no_deadlineList);
 		pieChartMap.put("pieData", pieChartData);
+		
+		double cmpData = 0; 
+		double planData = 0;
+		double overdueData = 0; 
+		double nodeadlineData = 0;
+		
+		if(cmpPt!=0) 
+			cmpData = Math.floor((cmpPt/entPt)*100);
+		
+		if(planPt!=0) 
+			planData = Math.floor((planPt/entPt)*100);
+		
+		if(overduePt!=0) 
+			overdueData = Math.floor((overduePt/entPt)*100);
+		
+		if(nodeadlinePt!=0) 
+			nodeadlineData = Math.floor((nodeadlinePt/entPt)*100);
+		
 		List<Object> series3List = new ArrayList<>();
 		pieChartMap.put("series", series3List);
+		
 		Map<String, Object> cmpMap = new HashMap<>();
 		cmpMap.put("name", "완료된 업무");
-		cmpMap.put("data", cmpList.size());
+		cmpMap.put("data", cmpData);
 		series3List.add(cmpMap);
+		
 		Map<String, Object> plannedMap = new HashMap<>();
 		plannedMap.put("name", "계획된 업무");
-		plannedMap.put("data", plannedList.size());
+		plannedMap.put("data", planData);
 		series3List.add(plannedMap);
+		
 		Map<String, Object> overdueMap = new HashMap<>();
 		overdueMap.put("name", "마감일 지난 업무");
-		overdueMap.put("data", overdueList.size());
+		overdueMap.put("data", overdueData);
 		series3List.add(overdueMap);
+		
 		Map<String, Object> nodeadlineMap = new HashMap<>();
 		nodeadlineMap.put("name", "마감일 없는 업무");
-		nodeadlineMap.put("data", no_deadlineList.size());
+		nodeadlineMap.put("data", nodeadlineData);
 		series3List.add(nodeadlineMap);
 		
 		if((cmpList.size() == 0) && (plannedList.size() == 0) && (overdueList.size() == 0) && (no_deadlineList.size() == 0)) {
@@ -896,7 +845,6 @@ public class FilterService implements IFilterService{
 		chartDataMap.put("pieChart", pieChartMap);
 		return chartDataMap;
 	}
-	
 
 	@Override
 	public WorkVo getWork(int wrk_id) {
@@ -908,6 +856,7 @@ public class FilterService implements IFilterService{
 		Map<String, Object> resultMap = new HashMap<>();
 		List<WorkVo> workList = filterList(filterVo);
 		logger.debug("workList : {}", workList);
+		Map<String, Object> progressMap = chartProgress(workList);
 		Map<String, Object> wrkLstMap = workListbChart(workList);
 		filterVo.setWrk_i_assigned("y");
 		List<WorkVo> assignedList = filterList(filterVo);
@@ -924,11 +873,91 @@ public class FilterService implements IFilterService{
 		resultMap.put("made", madePieData);
 		resultMap.put("following", followingPieData);
 		resultMap.put("list", wrkLstMap);
+		resultMap.put("progress", progressMap);
 		return resultMap;
 	}
 
+	/**
+	 * Method : chartProgress
+	 * 작성자 : 유승진
+	 * 변경이력 : 2019-08-06 최초 생성
+	 * @param workList
+	 * @return
+	 * Method 설명 : 특정 프로젝트 개요  - 프로젝트 개요 차트 정보 작성 메서드 
+	 */
+	private Map<String, Object> chartProgress(List<WorkVo> workList) {
+		Map<String, Object> progressMap = new HashMap<>();
+		List<WorkVo> cmpPrgList = new ArrayList<>();
+		List<WorkVo> overduePrgList = new ArrayList<>();
+		List<WorkVo> plannedPrgList = new ArrayList<>();
+		List<WorkVo> nodeadlinePrgList = new ArrayList<>();
+		double entPt = 0;
+		int cmpPt = 0;
+		int planPt = 0;
+		int overduePt = 0;
+		int nodeadlinePt = 0;
+		
+		for(WorkVo work : workList) {
+			if("AUTH04".equals(work.getAuth()))
+				continue;
+			
+			int point = getPoint(work);
+				entPt += point;
+			String status = getStatus(work);
+			if("cmp".equals(status)) { // 완료된 업무
+				cmpPt += point;
+				cmpPrgList.add(work);
+			} else if("nodeadline".equals(status)){ // 마감일 없는 업무
+				nodeadlinePt += point;
+				nodeadlinePrgList.add(work);
+			} else if("plan".equals(status)) { // 계획된 업무 : 업무 시작일과 종료일이 존재하고, 마감일이 아직 지나지 않았을 때
+				planPt += point;
+				plannedPrgList.add(work);
+			} else if("overdue".equals(status)){ // 마감일 지난 업무 : 업무 마감일이 현재보다 앞일 때
+				overduePt += point;
+				overduePrgList.add(work);
+			}
+		}
+		List<String> categories = new ArrayList<>();
+		categories.add("");
+		List<Object> seriesData = new ArrayList<>();
+		Map<String, Object> cmpMap = new HashMap<>();
+		Map<String, Object> plannedMap = new HashMap<>();
+		Map<String, Object> overdueMap = new HashMap<>();
+		Map<String, Object> nodeadlineMap = new HashMap<>();
+		
+		double cmpData = Math.floor((cmpPt/entPt)*100);
+		cmpMap.put("data", cmpData);
+		cmpMap.put("name", "완료된 업무");
+		
+		double planData = Math.floor((planPt/entPt)*100);
+		plannedMap.put("data", planData);
+		plannedMap.put("name", "계획된 업무");
+		logger.debug("planPt: {}, entPt: {}",planPt, entPt);
+		double overdueData = Math.floor((overduePt/entPt)*100);
+		overdueMap.put("data", overdueData);
+		overdueMap.put("name", "마감일 지난 업무");
+		
+		double nodeadlineData = Math.floor(nodeadlinePt/entPt)*100;
+		nodeadlineMap.put("data", nodeadlineData);
+		nodeadlineMap.put("name", "마감일 없는 업무");
+		
+		seriesData.add(cmpMap);
+		seriesData.add(plannedMap);
+		seriesData.add(overdueMap);
+		seriesData.add(nodeadlineMap);
+		
+		progressMap.put("cmpList", cmpPrgList);
+		progressMap.put("planList", plannedPrgList);
+		progressMap.put("overdueList", overduePrgList);
+		progressMap.put("nodeadlineList", nodeadlinePrgList);
+		progressMap.put("series", seriesData);
+		progressMap.put("categories", categories);
+		
+		return progressMap;
+	}
+
 	private Map<String, Object> workListbChart(List<WorkVo> workList) {
-		Date nowDate = new Date();
 		Map<String, Object> resultMap = new HashMap<>();
 		Map<Integer, Object> wrkListMap = new HashMap<>();
 		List<String> categories = new ArrayList<>();
@@ -982,41 +1011,20 @@ public class FilterService implements IFilterService{
 					continue;
 				
 				if(work.getWrk_lst_id() == wrk_lst_id) {
-					int pt = 0;
-					switch(work.getWrk_grade()) {
-						case "A":
-							pt = 5;
-							entPt += 5;
-							break;
-						case "B":
-							pt = 4;
-							entPt += 4;
-							break;
-						case "C":
-							pt = 3;
-							entPt += 3;
-							break;
-						case "D":
-							pt = 2;
-							entPt += 2;
-							break;
-						case "E":
-							pt = 1;
-							entPt += 1;
-							break;
-					}
-							
-					if("Y".equals(work.getWrk_cmp_fl())) { // 완료된 업무
-						cmpPt += pt;
+					int point = getPoint(work);
+						entPt += point;
+					String status = getStatus(work);
+					if("cmp".equals(status)) { // 완료된 업무
+						cmpPt += point;
 						workCmpList.add(work);
-					} else if(work.getWrk_end_dt()==null){ // 마감일 없는 업무
-						nodeadlinePt += pt;
+					} else if("nodeadline".equals(status)){ // 마감일 없는 업무
+						nodeadlinePt += point;
 						workNodeadlineList.add(work);
-					} else if(work.getWrk_start_dt()!=null && work.getWrk_end_dt()!=null && nowDate.before(work.getWrk_end_dt())) { // 계획된 업무 : 업무 시작일과 종료일이 존재하고, 마감일이 아직 지나지 않았을 때
-						planPt += pt;
+					} else if("plan".equals(status)) { // 계획된 업무 : 업무 시작일과 종료일이 존재하고, 마감일이 아직 지나지 않았을 때
+						planPt += point;
 						workPlanList.add(work);
-					} else if(nowDate.after(work.getWrk_end_dt())){ // 마감일 지난 업무 : 업무 마감일이 현재보다 앞일 때
-						overduePt += pt;
+					} else if("overdue".equals(status)){ // 마감일 지난 업무 : 업무 마감일이 현재보다 앞일 때
+						overduePt += point;
 						workOverdueList.add(work);
 					}
 					cmpList.set(index, cmpPt);
@@ -1044,5 +1052,58 @@ public class FilterService implements IFilterService{
 		resultMap.put("categories", categories);
 		resultMap.put("work", workVoMap);
 		return resultMap;
+	}
+	
+	/**
+	 * Method : getWrkgradePnt
+	 * 작성자 : 유승진
+	 * 변경이력 : 2019-08-06 최초 생성
+	 * @param workVo
+	 * @return
+	 * Method 설명 : 업무 등급을 확인하여 점수로 환산해주는 메서드
+	 */
+	private int getPoint(WorkVo workVo) {
+		int point = 0;
+		switch(workVo.getWrk_grade()) {
+			case "A":
+				point = 5;
+				break;
+			case "B":
+				point = 4;
+				break;
+			case "C":
+				point = 3;
+				break;
+			case "D":
+				point = 2;
+				break;
+			case "E":
+				point = 1;
+				break;
+		}
+		return point;
+	}
+	
+	/**
+	 * Method : getWrkStatus
+	 * 작성자 : 유승진
+	 * 변경이력 : 2019-08-06 최초 생성
+	 * @param workVo
+	 * @return
+	 * Method 설명 : 업무 시작일, 마감일, 완료일을 확인하여 업무 상태를 반환하는 메서드
+	 */
+	private String getStatus(WorkVo workVo) {
+		Date nowDate = new Date();
+		String wrkStatus = "";
+		if("Y".equals(workVo.getWrk_cmp_fl())) { // 완료된 업무
+			wrkStatus = "cmp";
+		} else if(workVo.getWrk_end_dt()==null){ // 마감일 없는 업무
+			wrkStatus = "nodeadline";
+		} else if(workVo.getWrk_start_dt()!=null && workVo.getWrk_end_dt()!=null && nowDate.before(workVo.getWrk_end_dt())) { // 계획된 업무 : 업무 시작일과 종료일이 존재하고, 마감일이 아직 지나지 않았을 때
+			wrkStatus = "plan";
+		} else if(nowDate.after(workVo.getWrk_end_dt())){ // 마감일 지난 업무 : 업무 마감일이 현재보다 앞일 때
+			wrkStatus = "overdue";
+		}
+		return wrkStatus;
 	}
 }

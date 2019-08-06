@@ -13,35 +13,37 @@
 	<div id="not_cmp_wrk_cnt" style="width:14%;height:120px;float:left;">남은 업무</div>
 </div>
 <div class="spacing" style="width:100%;height:20px;"></div>
-<div id="prj_barchart" style="height:130px; width:100%;border:1px solid #e1e1e1;">
+<div id="prj_barchart" style="height:250px; width:100%;border:1px solid #e1e1e1;">
+<p style="margin-left:30px;margin-top:10px;"><b>프로젝트 개요</b></p>
 </div>
 <div class="spacing" style="width:100%;height:20px;"></div>
-	<div id="prj_piechart" style="background-color:#e1e1e1;">
-		<div id="pie_wrk_i_assigned" style="float:left; margin:5px;">
+	<div id="prj_piechart" style="width:100%;height:300px;">
+		<div id="pie_wrk_i_assigned" style="float:left; margin:5px; width:32%;">
 		<h3 style="text-align:center;">나에게 배정된 업무</h3>
-			<div class="blank" style="width:350px; height:250px;text-align:center;">
+			<div class="blank" style="width:100%; height:250px;text-align:center;">
 				<div style="position:relative;top:50%;left:50%; transform:translate(-50%, -50%);">데이터 없음</div>
 			</div>
 		</div>
-		<div id="pie_wrk_i_made" style="float:left; margin:5px;">
+		
+		<div id="pie_wrk_i_made" style="float:left; margin:5px; width:32%;">
 		<h3 style="text-align:center;">내가 작성한 업무</h3>
-			<div class="blank" style="width:350px; height:250px;text-align:center;">
+			<div class="blank" style="width:100%; height:250px;text-align:center;">
 				<div style="position:relative;top:50%;left:50%; transform:translate(-50%, -50%);">데이터 없음</div>
 			</div>
 		</div>
-		<div id="pie_wrk_i_follow" style="float:left; margin:5px;">
+		
+		<div id="pie_wrk_i_follow" style="float:left; margin:5px; width:32%;">
 		<h3 style="text-align:center;">내가 팔로우하는 업무</h3>
-			<div class="blank" style="width:350px; height:250px;text-align:center;">
+			<div class="blank" style="width:100%; height:250px;text-align:center;">
 				<div style="position:relative;top:50%;left:50%; transform:translate(-50%, -50%);">데이터 없음</div>
 			</div>
 		</div>
 	</div>
+	
 <div class="spacing" style="width:100%;height:20px;"></div>
-	<div id="barChartContainer" style="height:300px;width:1050px;">
 		<div id="wrk_lst_barchart" style="width:100%; height:300px;">
-		<h3 style="text-align:center;">업무리스트 별 개요</h3>
+		<p style="text-align:center;"><b>업무리스트 별 개요</b></p>
 		</div>
-	</div>
 <form id="frm">
 	<input type="hidden" name="user_email" value="${USER_INFO.user_email }">
 	<input type="hidden" name="prj_id" value="1">
@@ -55,6 +57,7 @@
 		var madeContainer = document.getElementById("pie_wrk_i_made");
 		var followContainer = document.getElementById("pie_wrk_i_follow");
 		var listChartContainer = document.getElementById("wrk_lst_barchart");
+		var progressContainer = document.getElementById("prj_barchart"); 
 		console.log(serial);
 		$.ajax({
 			url: "/project/overview/ajax",
@@ -65,14 +68,16 @@
 				var assignData = data.result.assign;
 				var followingData = data.result.following;
 				var madeData = data.result.made;
-				var assignChart = loadPieChart(assignContainer, assignData, 350, 250);
-				var madeChart = loadPieChart(madeContainer, madeData, 350, 250);
-				var followChart = loadPieChart(followContainer, followingData, 350, 250);
+				var assignChart = loadPieChart(assignContainer, assignData, 487, 250);
+				var madeChart = loadPieChart(madeContainer, madeData, 487, 250);
+				var followChart = loadPieChart(followContainer, followingData, 487, 250);
 				var listData = data.result.list;
 				assignData.isBlank == "true" ? hideChart(assignContainer) : showChart(assignContainer); 
 				madeData.isBlank == "true" ? hideChart(madeContainer) : showChart(madeContainer); 
 				followingData.isBlank == "true" ? hideChart(followContainer) : showChart(followContainer);
-				var listChart = loadListChart(listChartContainer, listData, 1050, 300);
+				var listChart = loadListChart(listChartContainer, listData, 1520, 300);
+				var progressData = data.result.progress;
+				var progressChart = loadProgressChart(progressContainer, progressData, 1520, 150);
 			}
 		});
 	});
