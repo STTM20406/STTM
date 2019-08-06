@@ -87,6 +87,7 @@ var editEvent = function (event, element, view) {
             	  "&wrk_end_dt=" + event.end +
             	  "&wrk_lst_id=" + event.type + 
             	  "&wrk_color_cd=" + event.backgroundColor,
+//            	  console.log(data);
             success: function (response) {
                 alert('해당 업무가 수정되었습니다.')
             }
