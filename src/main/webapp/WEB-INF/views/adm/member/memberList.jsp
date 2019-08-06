@@ -23,16 +23,10 @@ $(document).ready(function(){
 	// ------------------------------------------------------
 	//사용자 tr 태그 이벤트 등록
 	$(".userTr").on("click", function(){
-		console.log("userTr click");
-		//userId를 획득하는 방법
-		//$(this).find(".userId").text();
-		//$(this).data("userid");
 		
-		//사용자 아이디를 #userId 값으로 설정해주고
 		var user_email = $(this).find(".user_email").text();
 		$("#getMemInfo").val(user_email);
 		
-		//#frm 을 이용하여 submit();
 		$("#showMemForm").submit();
 	});
 	// ------------------------------------------------------
@@ -137,5 +131,5 @@ $(document).ready(function(){
 		
 		</div>
 	</div>
-
+	
 </section>

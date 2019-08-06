@@ -101,15 +101,17 @@
 				var pieChartContainer = document.getElementById('pieChartContainer');
 				var priorChartContainer = document.getElementById('priorChartContainer');
 				var percentChartContainer = document.getElementById('percentChartContainer');
-					pieChart.setData(pieChartData);
-					percentChart.setData(percentData);
-					priorChart.setData(priorData);
+					pieChart["chartContainer"].remove();
+					pieChart = loadPieChart(pieChartContainer, pieChartData, 700, 300);
+					percentChart["chartContainer"].remove();
+					percentChart = loadPercentChart(percentChartContainer, percentData, 700, 200);
+					priorChart["chartContainer"].remove();
+					priorChart = loadPriorChart(priorChartContainer, priorData, 700, 200);
 // 				console.log(filterFrm);
 				$("#resultContainer").html(result);
 			}
 		})
 	}
-	
 	function searchInit() {
 		var serial = $("#filterFrm").serialize();
 		console.log(serial);
@@ -163,7 +165,6 @@
 			}
 		});
 	}	
-	
 		$("#resultContainer").on("click", ".result", function(){
 			var wrk_id = $(this).data(wrk_id);
 			workDetail(wrk_id);	

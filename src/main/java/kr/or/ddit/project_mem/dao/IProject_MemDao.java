@@ -1,7 +1,9 @@
 package kr.or.ddit.project_mem.dao;
 
 import java.util.List;
+import java.util.Map;
 
+import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.project.model.ProjectVo;
 import kr.or.ddit.project_mem.model.Project_MemVo;
 
@@ -27,7 +29,6 @@ public interface IProject_MemDao {
 	 */
 	int insertProjectMem(Project_MemVo projectMemVo);
 	
-	
 	/**
 	 * 
 	 * Method 		: updatePjojectMem
@@ -50,6 +51,27 @@ public interface IProject_MemDao {
 	 */
 	List<Project_MemVo> getMyProjectMemList(int prj_id); 
 	
+	
+	/**
+	 * 
+	* Method : projectMemPagingList
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-06
+	* @param prj_id
+	* @return
+	* Method 설명 : 사용자가 멤버 탭에서 자신과 같은 프로젝트를 진행하는 멤버의 리스트를 페이징으로 조회한다.
+	 */
+	List<Project_MemVo> projectMemPagingList(Map<String, Object> map);
+	
+	/**
+	 * 
+	* Method : projectMemCnt
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-06
+	* @return
+	* Method 설명 : 프로젝트 멤버 전체수 조회
+	 */
+	int projectMemCnt(Map<String, Object> map);
 	
 	/**
 	 * 

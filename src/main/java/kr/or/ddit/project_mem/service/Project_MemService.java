@@ -1,11 +1,14 @@
 package kr.or.ddit.project_mem.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.project.model.ProjectVo;
 import kr.or.ddit.project_mem.dao.IProject_MemDao;
 import kr.or.ddit.project_mem.model.Project_MemVo;
@@ -15,7 +18,6 @@ public class Project_MemService implements IProject_MemService{
 	
 	@Resource(name = "project_MemDao")
 	private IProject_MemDao projectMemDao;
-	
 	
 	/**
 	 * 
@@ -72,7 +74,28 @@ public class Project_MemService implements IProject_MemService{
 	public List<Project_MemVo> getMyProjectMemList(int prj_id) {
 		return projectMemDao.getMyProjectMemList(prj_id);
 	}
-
+	
+	/**
+	 * 
+	* Method : projectMemPagingList
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-06
+	* @param prj_id
+	* @return
+	* Method 설명 : 사용자가 멤버 탭에서 자신과 같은 프로젝트를 진행하는 멤버의 리스트를 페이징으로 조회한다.
+	 */
+	@Override
+	public Map<String, Object> projectMemPagingList(Map<String, Object> map) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("projectMemList", projectMemDao.projectMemPagingList(map));
+		
+		int projectMemCnt = projectMemDao.projectMemCnt(map);
+		
+		int paginationSize = (int)Math.ceil((double)projectMemCnt/(int)map.get("pageSize"));
+		resultMap.put("paginationSize", paginationSize);
+		
+		return resultMap;
+	}
 	
 	/**
 	 * 

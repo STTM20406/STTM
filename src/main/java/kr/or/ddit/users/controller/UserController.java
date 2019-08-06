@@ -39,9 +39,6 @@ public class UserController {
 	@Resource(name = "notification_SetService")
 	private INotification_SetService notification_SetService;
 	
-	@Resource(name = "projectService")
-	private IProjectService ProjectService;
-	
 	@Resource(name = "project_MemService")
 	private IProject_MemService project_MemService;
 	
@@ -284,18 +281,48 @@ public class UserController {
 	* @return
 	* Method 설명 : 회원이 해당 프로젝트의 멤버 목록을 조회
 	 */
-	@RequestMapping(path = "/projectMemberList")
-	public String projectMemberListView(PageVo pageVo, Model model) {
+	@RequestMapping(path = "/projectMemberList", method = RequestMethod.GET)
+	public String projectMemberListView(PageVo pageVo, Model model, HttpSession session) {
 		
-		Map<String, Object> resultMap = userService.userPagingList(pageVo);
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		Project_MemVo prjVo = new Project_MemVo();
 		
-		List<UserVo> userList = (List<UserVo>) resultMap.get("userList");
+		logger.debug("userVo : 점심쯤 로거 확인1 {} ",userVo);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("page", pageVo.getPage());
+		map.put("pageSize", pageVo.getPageSize());
+		map.put("user_email", userVo.getUser_email());
+		map.put("user_nm", userVo.getUser_nm());
+		map.put("prj_id", prjVo.getPrj_id());
+		
+		logger.debug("map : 점심쯤 로거 확인2 {} ",map);
+		
+		Map<String, Object> resultMap = project_MemService.projectMemPagingList(map);
+		
+		logger.debug("resultMap : 아침 로거 확인1 {} ",resultMap);
+		
+		List<UserVo> projectMemList = (List<UserVo>) resultMap.get("projectMemList");
+		
+		logger.debug("projectMemList : 아침 로거 확인2 {} ",projectMemList);
+		
 		int paginationSize = (Integer) resultMap.get("paginationSize");
 		
-		model.addAttribute("userList", userList);
+		logger.debug("paginationSize : 아침 로거 확인3 {} ",paginationSize);
+		
+		model.addAttribute("projectMemList", projectMemList);
 		
 		model.addAttribute("paginationSize", paginationSize);
 		model.addAttribute("pageVo", pageVo);
+		
+		return "/member/projectMember.user.tiles";
+	}
+	
+	@RequestMapping(path = "/projectMemberView", method = RequestMethod.GET)
+	public String projectMemberListProcess(String prjMemList) {
+		
+		logger.debug("prjMemList : {} 한시간 남았을 쯤 테스트",prjMemList);
 		
 		return "/member/projectMember.user.tiles";
 	}

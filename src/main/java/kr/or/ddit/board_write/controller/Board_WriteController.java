@@ -238,13 +238,13 @@ public class Board_WriteController {
 	}
 	
 	@RequestMapping(path="/boardSearch",method=RequestMethod.POST)
-	public String select(String search, String searchText, String boardnum,String page, String pageSize, Model model) {
+	public String select(String search, String searchText, String boardnum02,String page, String pageSize, Model model) {
 		
 		int pageStr = page == null ? 1 : Integer.parseInt(page);
 		int pageSizeStr =  pageSize == null ? 10 : Integer.parseInt(pageSize);
 		
 		PageVo pageVo = new PageVo(pageStr,pageSizeStr);
-		pageVo.setBoard_id(Integer.parseInt(boardnum));
+		pageVo.setBoard_id(Integer.parseInt(boardnum02));
 		
 		logger.debug("log search : {}, serchText : {}",search,searchText);
 		if(search.equals("title")) {
@@ -254,7 +254,7 @@ public class Board_WriteController {
 			List<Board_WriteVo> titleList = (List<Board_WriteVo>) resultMap.get("titleList");
 			model.addAttribute("searchList",titleList);
 			
-			model.addAttribute("board_id",boardnum);
+			model.addAttribute("board_id",boardnum02);
 			model.addAttribute("boardList", titleList);
 			
 		}else if(search.equals("content")) {
@@ -263,7 +263,7 @@ public class Board_WriteController {
 			
 			List<Board_WriteVo> contentList = (List<Board_WriteVo>) resultMap.get("contentList");
 			
-			model.addAttribute("board_id",boardnum);
+			model.addAttribute("board_id",boardnum02);
 			model.addAttribute("boardList", contentList);
 		}
 		
