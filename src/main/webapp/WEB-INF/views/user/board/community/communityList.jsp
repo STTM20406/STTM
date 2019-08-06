@@ -83,7 +83,7 @@ ul.tabs li.current {
 		<div class="tab_con">
 			<div id="tab-1" class="tab-content current">
 			<form id="searchFrm" action="/boardSearch" method="post">
-				<input type="hidden" name="boardnum" id="boardnum" value="${board_id }"> 
+			<input type="hidden" name="boardnum02" id="boardnum02" value="${board_id }"> 
 				<div class="searchBox">
                   <div class="tb_sch_wr">
                      <fieldset id="hd_sch">
@@ -98,6 +98,7 @@ ul.tabs li.current {
                   </div>
                 </form>
 				<form id="frm" action="/postAdd" method="get">
+				<input type="hidden" name="boardnum" id="boardnum" value="${board_id }"> 
 					<input type="hidden" id="write_id" name="write_id" value="" />
 					<table class="tb_style_01">
 						<tbody>
