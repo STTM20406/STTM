@@ -161,7 +161,7 @@ var calendar = $('#calendar').fullCalendar({
     $.ajax({
       method:"get",
       url: "/wListAjax",
-//      data: "prj_id=" + 1 ,  //나중에 수정해야함! 나중에 controller에서 session에 담긴 email꺼내면댐!
+      data: "prj_id=" + 1 ,  //나중에 수정해야함! 나중에 controller에서 session에 담긴 email꺼내면댐!
       contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
       success: function (response) {
     	  var aa = JSON.stringify(response);

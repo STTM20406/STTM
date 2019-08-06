@@ -24,12 +24,6 @@ var newEvent = function (start, end, eventType) {
     editStart.val(start);
     editEnd.val(end);
     editType.val(eventType).prop("selected", true);
-    
-    
-    var optionText = "";
-    editType.on('change', function(){
-    	optionText =$(this).children("option:checked").text();
-    })
 
     addBtnContainer.show();
     modifyBtnContainer.hide();
@@ -39,15 +33,15 @@ var newEvent = function (start, end, eventType) {
     //새로운 일정 저장버튼 클릭
     $('#save-event').unbind();
     $('#save-event').on('click', function () {
-    	console.log(editType);
+
         var eventData = {
-//            _id: eventId,
+            _id: eventId,
             title: editTitle.val(), //업무명?
             start: editStart.val(), //
             end: editEnd.val(),
             description: editDesc.val(),
             type: editType.val(), //업무 리스트
-            username: optionText, //업무리스트
+            username: '사나', //유저이름
             backgroundColor: editColor.val(),//배경색
             textColor: '#ffffff', 
             allDay: false
@@ -83,12 +77,10 @@ var newEvent = function (start, end, eventType) {
         //새로운 일정 저장
         $.ajax({
         	method:"post",
-            url: "/addEvent",
-            contentType: "application/json",
-            dataType : "json",
-            data: JSON.stringify(eventData), //컨트롤러에서 필요한것만 뽑아쓰면된다 Vo를 하나 만들어서 Vo로 받자!
-//            data: "user_id="+userId, //컨트롤러에서 필요한것만 뽑아쓰면된다 Vo를 하나 만들어서 Vo로 받자!
-            success: function (response) {
+//            url: "/addEvent",
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",  
+            data: JSON.serialize(eventData), //컨트롤러에서 필요한것만 뽑아쓰면된다 Vo를 하나 만들어서 Vo로 받자!
+            	success: function (response) {
             	alert("등록완료!")
                 //DB연동시 중복이벤트 방지를 위한
                 $('#calendar').fullCalendar('removeEvents');

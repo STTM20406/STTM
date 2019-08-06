@@ -1103,15 +1103,15 @@ a.fc-more:hover {
 /* .fc-agendaDay-button{ */
 /* 	display : none; */
 /* } */
-/* .fc-prevYear-button{ */
-/* 	display : none; */
-/* } */
-/* .fc-nextYear-button{ */
-/* 	display : none; */
-/* } */
-/* .fc-viewWeekends-button{ */
-/* 	display : none; */
-/* } */
+.fc-prevYear-button{
+	display : none;
+}
+.fc-nextYear-button{
+	display : none;
+}
+.fc-viewWeekends-button{
+	display : none;
+}
 .panel-default{
 	display : none;
 }

@@ -68,7 +68,6 @@
 				</ul>
 			</nav>
 		</div>
-		
 
 		<!-- top header -->
 		<header id="header">
@@ -107,5 +106,4 @@
         			</li>
         		</ul>
         	</div>
-        	
 		</header>
