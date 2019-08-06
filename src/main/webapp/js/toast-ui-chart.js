@@ -39,14 +39,15 @@ function loadPieChart(pieContainer, pieData, width, height) {
 			        			break;
 		        		}
 		        		var temp = "";
+		        		var items = pieList[keyword];
 		        	$(pieList[keyword]).each(function(){
-		        		temp += "<span>" + this.prj_nm + " > " + this.wrk_lst_nm + " > " + this.wrk_nm + "</span>" + "<br>";
+		        		temp += "<span>" + "["+ this.wrk_grade +"] " + this.prj_nm + " > " + this.wrk_lst_nm + " > " + this.wrk_nm + "</span>" + "<br>";
 		        	});
 		        	var tem = '<div class="tui-chart-default-tooltip">' + 
 		        			  '<div class="tui-chart-tooltip-body">' +
 		        			  '<span class="tui-chart-legend-rect bar" style=\"' + item.cssText + '\"></span>' + 
 		        			  '<span>' + item.legend + '</span>' +
-		        			  '<span class="tui-chart-tooltip-value">' + item.value + '개 (' + ratio + '%)' + '</span>' + '<br><br>' + 
+		        			  '<span class="tui-chart-tooltip-value">' + items.length + '개 (' + ratio + '%)' + '</span>' + '<br><br>' + 
 		        			   temp +
 		        			  '</div>' + '</div>' + '</div>';
 		        	return tem;
@@ -101,11 +102,63 @@ function loadPriorChart(priorChartContainer, priorData, width, height) {
 		    	showCheckbox: false
 		    }
 	};
-	
 	var priorChart = tui.chart.barChart(priorChartContainer, priorData, options);
 	return priorChart;
-	
 }
+
+function loadProgressChart(progressChartContainer, progressData, width, height) {
+	var options = {
+			chart: {"width": width, "height": height},
+			series: {
+				stackType: 'percent', showLabel: true
+			},
+			tooltip: {
+				grouped: false,
+				template: function(category, item) {
+					var ratio = Math.floor(item.ratio*100);
+					var temp = "";
+					var data = progressData;
+					var legend = item.legend;
+		        	var keyword = "";
+		        		switch(legend){
+							case "완료된 업무":
+			        			keyword = "cmpList";
+			        			break;
+			        		case "계획된 업무":
+			        			keyword = "planList";
+			        			break;
+			        		case "마감일 지난 업무":
+			        			keyword = "overdueList";
+			        			break;
+			        		case "마감일 없는 업무":
+			        			keyword = "nodeadlineList";
+			        			break;
+		        		}
+		        		var temp = "";
+					var items = data[keyword];
+					$(items).each(function() {
+						temp += "<span>"+ "["+ this.wrk_grade +"] " + this.prj_nm + " > " + this.wrk_lst_nm + " > " + this.wrk_nm + "</span>" + "<br>";
+					});
+					var tem = '<div class="tui-chart-default-tooltip">' + 
+					'<div class="tui-chart-tooltip-body">' +
+					'<span class="tui-chart-legend-rect bar" style=\"' + item.cssText + '\"></span>' + 
+					'<span>' + item.legend + '</span>' +
+					'<span class="tui-chart-tooltip-value">' + items.length + '개 (' + ratio + '%)' +
+					'</span><br><br>' +
+					temp +
+					'</div>' + '</div>' + '</div>';
+					return tem;
+				}
+			},
+			legend: {
+				align: 'top',
+				showCheckbox: false
+			}
+	};
+	var progressChart = tui.chart.barChart(progressChartContainer, progressData, options);
+	return progressChart;
+}
+
 function loadPercentChart(percentChartContainer, percentData, width, height) {
 	var options2 = {
 		    chart: {"width": width, "height": height},
@@ -116,7 +169,7 @@ function loadPercentChart(percentChartContainer, percentData, width, height) {
 		        	var data = percentData.percentData;
 		        	var items = data[item.legend];
 		        	$(items).each(function() {
-		        		temp += "<span>" + this.prj_nm + " > " + this.wrk_lst_nm + " > " + this.wrk_nm + "</span>" + "<br>";
+		        		temp += "<span>" + "["+ this.wrk_grade +"] " + this.prj_nm + " > " + this.wrk_lst_nm + " > " + this.wrk_nm + "</span>" + "<br>";
 		        	});
 		        	var tem = '<div class="tui-chart-default-tooltip">' + 
 		        			  '<div class="tui-chart-tooltip-head show">' +
@@ -151,7 +204,7 @@ function loadListChart(listChartContainer, listData, width, height) {
 			tooltip: { grouped: false,
 				template: function(category, item) {
 		        	var ratio = Math.floor(item.ratio*100);
-		        	var workVoTemplate = "";
+		        	var temp = "";
 		        	
 		        	var cat = workList[category];
 		        	var legend = item.legend;
@@ -170,8 +223,9 @@ function loadListChart(listChartContainer, listData, width, height) {
 			        			keyword = "nodeadlineList";
 			        			break;
 		        		}
+		        		var items = cat[keyword];
 		        	$(cat[keyword]).each(function(){
-		        		workVoTemplate += "<span>" + this.wrk_lst_nm + " > "+ this.wrk_nm + "</span>" + "<br>";
+		        		temp += "<span>" + "["+ this.wrk_grade +"] " + this.prj_nm + " > " + this.wrk_lst_nm + " > " + this.wrk_nm + "</span>" + "<br>";
 		        	});
 		        	var tem = '<div class="tui-chart-default-tooltip">' + 
 		        			  '<div class="tui-chart-tooltip-head show">' +
@@ -180,12 +234,14 @@ function loadListChart(listChartContainer, listData, width, height) {
 		        			  '<div class="tui-chart-tooltip-body">' +
 		        			  '<span class="tui-chart-legend-rect bar" style=\"' + item.cssText + '\"></span>' + 
 		        			  '<span>' + item.legend + '</span>' +
-		        			  '<span class="tui-chart-tooltip-value">'+ ratio + '%' + " ("+ cat[keyword].length+"개)" + '</span>' + '<br><br>' +
-		        			  workVoTemplate
+		        			  '<span class="tui-chart-tooltip-value">'+ items.length + "개 (" + ratio + '%' + ")" + '</span>' + '<br><br>' +
+		        			  temp
 		        			  +
 		        			  '</div>' + '</div>' + '</div>';
 		        	return tem;
-		        }
+		        },
+		        offsetX: -150,
+		        offsetY: -10
 			},
 			legend: {
 				align: 'top',
@@ -195,4 +251,3 @@ function loadListChart(listChartContainer, listData, width, height) {
 	var listChart = tui.chart.barChart(listChartContainer, listData, options2);
 	return listChart;
 };
-
