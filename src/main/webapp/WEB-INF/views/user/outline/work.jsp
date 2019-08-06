@@ -52,7 +52,7 @@
 		    	<input type="hidden" name="user_email" value="${USER_INFO.user_email }">
 	    </form>
 </div>	<div id="allContainer">
-        <div id="resultContainer" style="width:330px;padding:15px;height:95%; float:left;">
+        <div id="resultContainer" style="width:500px;padding:15px;height:95%; float:left;">
         </div>
         <div id="chartContainer" style="width:550px;padding:15px;height:95%;float:left;">
         	<div id="pieChartContainer"></div>
