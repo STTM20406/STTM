@@ -31,7 +31,7 @@ import kr.or.ddit.users.model.UserVo;
 //작성순서 : afterConnectionEstablished(서버 접속 시) -> afterConnectionClosed(서버연결끊을 시)
 //		  -> handleTextMessage(서버가 메세지를 받았을 때)
 // 기타 필요한 method는 중간에 필요에 따라 작성
-// 서버 연결에 필요한 wesocket변수들도 필요에 따라 추가
+// 서버 연결에 필요한 wesocket변수들도 필요에 따라 추가.
 
 //@EnableWebSocket
 public class WebSocket extends TextWebSocketHandler {
