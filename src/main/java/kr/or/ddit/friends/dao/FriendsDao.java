@@ -77,4 +77,18 @@ public class FriendsDao implements IFriendsDao{
 	public int friendSearchByEmailCnt(Map<String, Object> frd_email) {
 		return sqlSession.selectOne("friend.friendSearchByEmailCnt",frd_email);
 	}
+	
+	/**
+	 * 
+	* Method : deleteFriends
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-07
+	* @param frd_email
+	* @return
+	* Method 설명 : 일반 사용자가 친구 삭제
+	 */
+	@Override
+	public int deleteFriends(String frd_email) {
+		return sqlSession.delete("friend.deleteFriends",frd_email);
+	}
 }

@@ -334,6 +334,46 @@ public class UserController {
 		return "/member/projectMember.user.tiles";
 	}
 	
+	@RequestMapping(path = "/deleteFriends", method = RequestMethod.GET)
+	public String deleteFriends(String frd_email,PageVo pageVo, Model model, 
+			HttpSession session
+			,String prjMemPaging, String friendsPaging, Map<String, Object> user_email) {
+		
+		logger.debug("frd_email : 또굥 {}", frd_email);
+
+		int deleteFriends = friendsService.deleteFriends(frd_email);
+		
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		Project_MemVo prjVo = new Project_MemVo();
+		
+		logger.debug("userVo : 점심쯤 로거 확인1 {} ",userVo);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("page", pageVo.getPage());
+		map.put("pageSize", pageVo.getPageSize());
+		map.put("user_email", userVo.getUser_email());
+		map.put("user_nm", userVo.getUser_nm());
+		map.put("prj_id", prjVo.getPrj_id());
+		
+		map.put("frd_email", frd_email);
+		
+		Map<String, Object> resultMap1 = friendsService.friendPagingList(map);			
+		logger.debug("map : 밥먹기 전에 {}",map);
+		
+		List<FriendsVo> friendsList = (List<FriendsVo>) resultMap1.get("userFriendsList");
+		logger.debug("friendsList : 로거를 {}",friendsList);
+
+		int paginationSize1 = (Integer) resultMap1.get("paginationSize");
+		logger.debug("paginationSize : 찍어 봅시다 {}",paginationSize1);
+		
+		model.addAttribute("friendsList", friendsList);
+		model.addAttribute("paginationSize", paginationSize1);
+		model.addAttribute("pageVo", pageVo);
+		
+		return "/member/projectMember.user.tiles";
+	}
+	
 	/**
 	 * 
 	* Method : projectMemberListProcess

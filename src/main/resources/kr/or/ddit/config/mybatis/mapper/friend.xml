@@ -61,5 +61,9 @@
 		from friends
 		where frd_email like '%'||#{frd_email}||'%'
 	</select>
-
+	
+	<!-- 일반 사용자가 자신의 친구를 삭제 삭제 -->
+	<delete id="deleteFriends" parameterType="string">
+		delete friends where frd_email = #{frd_email}
+	</delete>
 </mapper>

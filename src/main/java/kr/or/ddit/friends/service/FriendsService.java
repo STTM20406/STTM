@@ -71,5 +71,19 @@ public class FriendsService implements IFriendsService{
 		
 		return resultMap;
 	}
+	
+	/**
+	 * 
+	* Method : deleteFriends
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-07
+	* @param frd_email
+	* @return
+	* Method 설명 : 일반 사용자가 친구 삭제
+	 */
+	@Override
+	public int deleteFriends(String frd_email) {
+		return friendsDao.deleteFriends(frd_email);
+	}
 
 }

@@ -31,6 +31,8 @@ public interface IFriendsDao {
 	 */
 	List<FriendsVo> friendPagingList(Map<String, Object> user_email);
 	
+//	친구 추가 기능
+	
 	/**
 	 * 
 	* Method : friendPagingCnt
@@ -63,5 +65,16 @@ public interface IFriendsDao {
 	* Method 설명 : 일반 사용자가 자신의 친구 목록을 친구의 이메일로 검색한 갯수
 	 */
 	int friendSearchByEmailCnt(Map<String, Object> frd_email);
+	
+	/**
+	 * 
+	* Method : deleteFriends
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-07
+	* @param frd_email
+	* @return
+	* Method 설명 : 일반 사용자가 친구 삭제
+	 */
+	int deleteFriends(String frd_email);
 	
 }

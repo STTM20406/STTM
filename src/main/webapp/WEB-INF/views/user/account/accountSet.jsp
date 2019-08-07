@@ -198,14 +198,6 @@
 
 	}				
     
-// 	function account() {
-// 		location.href = "/setUserPass";
-// 	}
-
-// 	function profile() {
-// 		location.href = "/setUserProfile";
-// 	}
-    
 </script>
 
 <section class = "contents">	

@@ -87,6 +87,16 @@ $(document).ready(function(){
 		$(".user_set_list").fadeOut();
 	});
 	
+	// ------- 친구 삭제 버튼 클릭시 -------
+	$(".userTr").on("click", function(){
+		
+		var user_email = $(this).find(".delFriends").text();
+		$("#friendsPaging").val(user_email);
+		
+		$("#friendsForm").submit();
+	});
+	
+	
 	
 });	
 
@@ -122,7 +132,14 @@ function layer_open(el){
 		e.preventDefault();
 	});
 
-}			
+}	
+
+// function deleteFriends() {
+// 	$("#btnDeleteFriends").on("click",function(){
+// //			$("#profileForm").submit();
+// 		alert("친구가 삭제 되었습니다.");			
+// 	});
+// }
 </script>
 
 <section class="contents">
@@ -146,7 +163,7 @@ function layer_open(el){
 	<!-- 		</form> -->
 				
 			<form id="prjMemForm" method="get">
-				<input type="hidden" id="prjMemPaging" name="prjMemPaging" value="${user_email}">
+				<input type="hidden" id="prjMemPaging" name="prjMemPaging" value="${projectMemList}">
 			</form>
 				
 			<div>
@@ -242,13 +259,13 @@ function layer_open(el){
 		
 		
 		<div id="tab-2" class="tab-content">
-					<!--  -->
-	<!-- 		<form id="prjMemForm" action="projectMemberList" method="get"> -->
-	<!-- 			<input type="text" id="prjMemList" name="prjMemList" > -->
-	<!-- 		</form> -->
+			<!-- 친구삭제 폼 -->
+<!-- 			<form id="prjMemForm" action="projectMemberList" method="get"> -->
+<!-- 				<input type="text" id="prjMemList" name="prjMemList" > -->
+<!-- 			</form> -->
 			
-			<form id="friendsForm" method="get">
-					<input type="hidden" id="friendsPaging" name="friendsPaging" value="${frd_email}">
+			<form id="friendsForm" action="/deleteFriends" method="post">
+					<input type="hidden" id="friendsPaging" name="friendsPaging">
 			</form>
 			
 			<div>
@@ -283,17 +300,7 @@ function layer_open(el){
 							<th>사용자 이메일</th>
 							<th>사용자 이메일1</th>
 							<th>사용자 이름</th>
-							<th>
-								<a href="#" class="icon_set">설정</a>
-		        				<div class="user_set_list">
-		        					<dl>
-		        						<dt></dt>
-		        						<dd><a href="/setUserPass">친구삭제</a></dd>
-		        						<dd><a href="/setUserProfile">프로필설정</a></dd>
-		        						<dd><a href="/logout">로그아웃</a></dd>
-		        					</dl>
-		        				</div>							
-							</th>
+							<th>친구삭제</th>
 		
 							<c:forEach items="${friendsList}" var="prjVo">
 							
@@ -301,8 +308,11 @@ function layer_open(el){
 									<td class="user_email">${prjVo.user_email}</td>
 									<td>${prjVo.user_email}</td>
 									<td>${prjVo.frd_email}</td>
-									<td><a href="" class="btn_style_04">친구 삭제</a></td>
-									
+									<td class="delFriends">
+										<a href="/deleteFriends?frd_email=${prjVo.frd_email}" class="frdDel">삭제하기</a>
+<!-- 										<input type="button" id="btnDeleteFriends" class="btn_style_04" onclick="deleteFriends()" value="친구삭제"> -->
+<%-- 										${prjVo.frd_email} --%>
+									</td>
 								</tr>
 								
 							</c:forEach>
