@@ -334,10 +334,56 @@ public class UserController {
 		return "/member/projectMember.user.tiles";
 	}
 	
-	@RequestMapping(path = "/projectMemberView", method = RequestMethod.GET)
-	public String projectMemberListProcess(String prjMemList) {
+	/**
+	 * 
+	* Method : projectMemberListProcess
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-07
+	* @param pageVo
+	* @param model
+	* @param session
+	 * @param frd_email 
+	* @param frd_email
+	* @param prjMemPaging
+	* @param friendsPaging
+	* @param user_email
+	* @return
+	* Method 설명 : 회원이 자신의 친구 리스트를 이메일로 검색하여 페이징으로 보여준다.
+	 */
+	@RequestMapping(path = "/friendsSearchList", method = RequestMethod.GET)
+	public String projectMemberListProcess
+		(Model model, String keyword, String selectBoxText,HttpSession session
+				,@RequestParam(name = "page", defaultValue = "1")int page
+				,@RequestParam(name = "pageSize", defaultValue = "10")int pageSize) {
+			
+		logger.debug("frd_email : 보내주냐고? {}", keyword);
 		
-		logger.debug("prjMemList : {} 한시간 남았을 쯤 테스트",prjMemList);
+		PageVo pageVo = new PageVo(page,pageSize);
+		
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		FriendsVo friendsVo = new FriendsVo();
+		
+		Map<String, Object> frd_email = new HashMap<String, Object>();
+		
+		frd_email.put("user_email", keyword);
+		
+		frd_email.put("page", pageVo.getPage());
+		frd_email.put("pageSize", pageVo.getPageSize());
+		frd_email.put("user_email", userVo.getUser_email());
+//		frd_email.put("frd_email", friendsVo.getFrd_email());
+		frd_email.put("frd_email", keyword);
+		
+		Map<String, Object> resultMap1 = friendsService.friendSearchByEmail(frd_email);
+		
+		List<FriendsVo> friendsList = (List<FriendsVo>) resultMap1.get("userFriendsList");
+
+		logger.debug("friendsList : 또굥이 {}",friendsList);
+		
+		int paginationSize1 = (Integer) resultMap1.get("paginationSize");
+		
+		model.addAttribute("friendsList", friendsList);
+		model.addAttribute("paginationSize", paginationSize1);
+		model.addAttribute("pageVo", pageVo);
 		
 		return "/member/projectMember.user.tiles";
 	}
