@@ -1,4 +1,4 @@
-package kr.or.ddit.notificatoin.dao;
+package kr.or.ddit.notification.dao;
 
 import org.springframework.stereotype.Repository;
 

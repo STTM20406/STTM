@@ -39,7 +39,7 @@
       <typeAlias type="kr.or.ddit.note_content.model.Note_ContentVo" alias="note_contentVo"/>
       <typeAlias type="kr.or.ddit.note_info.model.Note_InfoVo" alias="note_infoVo"/>
       <typeAlias type="kr.or.ddit.notification_set.model.Notification_SetVo" alias="notification_setVo"/>
-      <typeAlias type="kr.or.ddit.notificatoin.model.NotificationVo" alias="notificatoinVo"/>
+      <typeAlias type="kr.or.ddit.notification.model.NotificationVo" alias="notificatoinVo"/>
       
       
       <typeAlias type="kr.or.ddit.paging.model.PageVo" alias="pageVo"/>

@@ -1,4 +1,4 @@
-package kr.or.ddit.notificatoin.service;
+package kr.or.ddit.notification.service;
 
 import org.springframework.stereotype.Service;
 
