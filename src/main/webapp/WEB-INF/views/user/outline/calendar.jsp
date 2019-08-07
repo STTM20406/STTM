@@ -41,10 +41,8 @@
 					
 					$("#edit-type").html(html);
 				}
-				
 			});
 		}
-		
 		
 	});
 </script>
