@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import kr.or.ddit.calendar.model.CalendarVo;
 import kr.or.ddit.filter.dao.IFilterDao;
 import kr.or.ddit.filter.model.FilterVo;
 import kr.or.ddit.ganttChart.model.GanttChartVo;
@@ -53,20 +54,54 @@ public class FilterService implements IFilterService{
 		filterVo.setTd_week(sdf.format(today));
 		return filterDao.filterList(filterVo);
 	}
-
+	
+	@Override
+	public Map<String, Object> calendarTemplateJSON(FilterVo filterVo) {
+		Map<String, Object> resultMap = new HashMap<>();
+		String filterFrm = listFilterTemplateCalendar();
+		String makerList = makerListTemplate(filterVo);
+		String prjList = prjListTemplate(filterVo);
+		
+		List<WorkVo> workList = filterList(filterVo);
+		List<CalendarVo> calList = new ArrayList<>();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		
+		for(WorkVo work : workList) {
+			CalendarVo calVo = new CalendarVo();
+			calVo.set_id(work.getWrk_id());
+			calVo.setTitle(work.getWrk_nm());
+			calVo.setDescription(work.getPrj_nm() + " > " + work.getWrk_lst_nm());
+			calVo.setStart(sdf.format(work.getWrk_start_dt()));
+			calVo.setEnd(sdf.format(work.getWrk_end_dt()));
+			calVo.setUsername(work.getUser_nm());
+			calVo.setType(work.getWrk_lst_nm());
+			calVo.setTextColor("#ffffff");
+			calVo.setBackgroundColor(work.getWrk_color_cd());
+			calVo.setAllDay(false);
+			
+			calList.add(calVo);
+		}
+		resultMap.put("filterFrm", filterFrm);
+		resultMap.put("makerList", makerList);
+		resultMap.put("prjList", prjList);
+		resultMap.put("data", calList);
+		return resultMap;
+	}
+	
+	
 	@Override
 	public Map<String, Object> workListJSON(FilterVo filterVo) {
 		resultMap = new HashMap<String, Object>();
 		List<WorkVo> workList = filterList(filterVo);
 		String result = resultListTemplate(workList);
-		String prj_str = prjListTemplate(filterVo);
-		String followerList_str = followerListTemplate(filterVo);
-		String makerList_str = makerListTemplate(filterVo);
+		String prj_str = prjListTemplate(filterVo); // 프로젝트 리스트 부분
+		String followerList_str = followerListTemplate(filterVo); // 팔로워 리스트 부분
+		String makerList_str = makerListTemplate(filterVo);	// 작성자 리스트 부분
 		String filterFrm = listFilterTemplate();
 		Map<String, Object> chartDataMap = workListCalc(workList);
-//		String isBlank = (String) chartDataMap.get("isBlank");
+		String isBlank = (String) chartDataMap.get("isBlank");
 		
-//		resultMap.put("isBlank", isBlank);
+		resultMap.put("isBlank", isBlank);
 		
 		resultMap.put("filterFrm", filterFrm);                          
 		 
@@ -305,7 +340,7 @@ public class FilterService implements IFilterService{
 		List<UserVo> makerIdList = filterDao.makerIdList(filterVo);
 		StringBuffer sb_makerList = new StringBuffer();
 		for(UserVo user : makerIdList) {
-			sb_makerList.append("<input type='checkbox' class='filter' name='wrk_maker' value='"+ user.getUser_email() +"'>" + user.getUser_nm());
+			sb_makerList.append("<input type='checkbox' class='filter' name='wrk_maker' value='"+ user.getUser_email() +"' checked>" + user.getUser_nm());
 			sb_makerList.append("<br>");
 		}
 		String makerList_str = sb_makerList.toString();
@@ -451,7 +486,7 @@ public class FilterService implements IFilterService{
 	 * @return
 	 * Method 설명 : 전체 개요 페이지의 필터를 Html 형식으로 작성해주는 메서드
 	 */
-	private String listFilterTemplateCalendar() {
+	public String listFilterTemplateCalendar() {
 		StringBuffer sb_form = new StringBuffer();
 		sb_form.append("<form id='filterFrm'>");
 		sb_form.append("<label>업무 구분</label>");
@@ -511,14 +546,6 @@ public class FilterService implements IFilterService{
 		sb_form.append("<label>업무 작성자 구분</label>");
 		sb_form.append("<br>");
 		sb_form.append("<div id='makerList'></div>");
-		
-		sb_form.append("<br><br>");
-		
-		sb_form.append("<label>업무 팔로우 멤버</label>");
-		sb_form.append("<br>");
-		sb_form.append("<div id='followerList'></div>");
-		
-		
 		sb_form.append("<br>");
 		sb_form.append("<button type='button' onclick='reset()'> 필터 초기화 </button>");
 		sb_form.append("<br>");

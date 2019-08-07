@@ -6,49 +6,16 @@
 <script src="/js/toast-ui-chart.js"></script>
 <div id="frmContainer" style="height:100%;width:250px;float:left;margin-right:0;">
 	    <form id="filterFrm">
-	    	<label>업무 구분</label><br>
 	    	<select name="wrk_is_mine" class="filter">
 	    		<option value="all" selected>전체 업무</option>
 	    		<option value="mine">내 업무만</option>
 	    	</select>
-	    	<br><br><hr>
-	    	<label>작성일 기준</label><br>
 	    	<select name="wrk_dt" class="filter">
 	    		<option value="0" selected>전체</option>
 	    		<option value="30">30일 이내</option>
 	    		<option value="60">60일 이내</option>
 	    		<option value="90">90일 이내</option>
 	    	</select>
-	    	<br><br><hr>
-	    	<label>업무 주체</label>
-	    	<br>
-		    	<input type="checkbox" class="filter" name="wrk_i_assigned" value="y"> 내게 할당된 업무 <br>
-		    	<input type="checkbox" class="filter" name="wrk_i_made" value="y">	내가 작성한 업무 <br>
-		    	<input type="checkbox" class="filter" name="wrk_i_following" value="y"> 내가 팔로우한 업무 <br>
-	    	<br><br><hr>
-	    	<label>프로젝트 구분</label><br>
-	    		<div id="prjList">
-	    		</div>
-	    	<br><br><hr>
-	    	<label>마감일 기준</label><br>
-		    	<input type="checkbox" class="filter" name="overdue" value="y"> 마감일 지남 <br>
-		    	<input type="checkbox" class="filter" name="till_this_week" value="y"> 이번 주까지 <br>
-		    	<input type="checkbox" class="filter" name="till_this_month" value="y"> 이번 달까지 <br>
-		    	<input type="checkbox" class="filter" name="no_deadline" value="y"> 마감일 없음 <br>
-	    	<br><br><hr>
-	    	<label>업무 상태 구분</label><br>
-		    	<input type="checkbox" class="filter" name="is_cmp" value="y"> 완료된 업무 <br>
-		    	<input type="checkbox" class="filter" name="is_del" value="y"> 삭제된 업무 <br>
-	    	<br><br><hr>
-	    	<label>업무 작성자 구분</label><br>
-	    		<div id="makerList">
-	    		</div>
-	    	<br><br><hr>
-	    	<label>팔로우한 멤버 구분</label><br>
-	    		<div id="followerList">
-	    		</div>
-		    	<br>
-		    	<button type="button" onclick="reset()">필터 초기화</button>
 		    	<input type="hidden" name="user_email" value="${USER_INFO.user_email }">
 	    </form>
 </div>	<div id="allContainer">
@@ -78,11 +45,11 @@
 			data: serial,
 			success: function(data) {
 				console.log(data);
-				var filterFrm = data.resultMap.filterFrm;
-				var result = data.resultMap.result;
-				var prjList = data.resultMap.prjList;
-				var makerList = data.resultMap.makerList;
-				var followerList = data.resultMap.followerList;
+// 				var filterFrm = data.resultMap.filterFrm;
+// 				var result = data.resultMap.result;
+// 				var prjList = data.resultMap.prjList;
+// 				var makerList = data.resultMap.makerList;
+// 				var followerList = data.resultMap.followerList;
 				
 				var pieChartData = data.resultMap.pieChartData;
 				var percentChartData = data.resultMap.percentChartData;
@@ -140,7 +107,7 @@
 				}
 				
 				$("#resultContainer").html(result);
-// 				$("#frmContainer").html(filterFrm);
+				$("#frmContainer").html(filterFrm);
 				$("#prjList").html(prjList);
 				$("#makerList").html(makerList);
 				$("#followerList").html(followerList);

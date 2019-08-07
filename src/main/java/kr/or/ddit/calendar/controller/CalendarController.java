@@ -17,8 +17,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.or.ddit.calendar.service.ICalendarService;
+import kr.or.ddit.filter.model.FilterVo;
+import kr.or.ddit.filter.service.IFilterService;
 import kr.or.ddit.users.model.UserVo;
 import kr.or.ddit.work.model.WorkVo;
 import kr.or.ddit.work_list.model.Work_ListVo;
@@ -41,10 +44,13 @@ import kr.or.ddit.work_list.model.Work_ListVo;
  */
 @Controller
 public class CalendarController {
-
+	
 	private static final Logger logger = LoggerFactory.getLogger(CalendarController.class);
 	@Resource(name="calendarService")
 	private ICalendarService calendarService;
+	
+	@Resource(name="filterService")
+	IFilterService filterService;
 	
 	/**
 	 * Method 		: calendarGet
@@ -88,12 +94,10 @@ public class CalendarController {
 	String wListAjax(Model model, HttpSession session) {
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
 		String user_email =  userVo.getUser_email();
-		
 		logger.debug("♬♩♪  모든 프로젝트의 업무들을 가져오는 ajax");
 		String data = calendarService.myProjectAllWorkList(user_email);
 		logger.debug("♬♩♪  data: {}", data);
 		model.addAttribute("response", data);
-		
 		return "jsonView";
 	}
 	
@@ -242,5 +246,10 @@ public class CalendarController {
 		
 	}
 	
+	@RequestMapping("/calendarTest")
+	@ResponseBody
+	public Map<String, Object> calendarTestJSON(FilterVo filterVo) {
+		return filterService.calendarTemplateJSON(filterVo); 
+	}
 	
 }

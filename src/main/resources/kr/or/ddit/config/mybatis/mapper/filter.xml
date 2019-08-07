@@ -20,6 +20,7 @@
 		     ,	B.WRK_LST_NM
 		     ,	E.PRJ_ID
 		     ,	E.PRJ_NM
+		     ,	F.USER_NM
 		     ,	(CASE
                  WHEN D.PRJ_MEM_LV = 'LV0' AND E.PRJ_ID = D.PRJ_ID THEN 'AUTH01'
                  WHEN E.PRJ_AUTH = 'ASC01' AND D.PRJ_MEM_LV = 'LV1' THEN 'AUTH01'
@@ -30,10 +31,11 @@
                  WHEN E.PRJ_AUTH = 'ASC03' AND D.PRJ_MEM_LV = 'LV1' AND (SELECT C.JN_FL FROM WORK_MEM_FLW C WHERE C.WRK_ID = A.WRK_ID AND C.USER_EMAIL = #{user_email}) IN 'F' THEN 'AUTH03'
                  WHEN E.PRJ_AUTH = 'ASC03' AND D.PRJ_MEM_LV = 'LV1' AND (SELECT C.JN_FL FROM WORK_MEM_FLW C WHERE C.WRK_ID = A.WRK_ID AND C.USER_EMAIL = #{user_email}) IS NULL THEN 'AUTH04'
                  END) AUTH
-		FROM    WORK A, WORK_LIST B, (SELECT * FROM PROJECT_MEM WHERE USER_EMAIL = #{user_email})D, PROJECT E
+		FROM    WORK A, WORK_LIST B, (SELECT * FROM PROJECT_MEM WHERE USER_EMAIL = #{user_email})D, PROJECT E, USERS F
 		WHERE	A.WRK_LST_ID = B.WRK_LST_ID
 		AND		B.PRJ_ID = D.PRJ_ID
-		AND		D.PRJ_ID = E.PRJ_ID 
+		AND		D.PRJ_ID = E.PRJ_ID
+		AND		A.USER_EMAIL = F.USER_EMAIL 
 		<if test="wrk_dt != 0">AND </if>
 		<choose>
 			<when test="wrk_dt eq 30">30 &gt;= SYSDATE - A.WRK_DT </when>

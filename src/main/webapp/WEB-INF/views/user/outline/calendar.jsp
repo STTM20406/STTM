@@ -12,7 +12,28 @@
 
 
 <script>
+	function calAjax() {
+		$.ajax({
+			url: "/calendarTest",
+			type: "post",
+			data: $("#filterFrm").serialize(),
+			success: function(data){
+				console.log(data.data);
+				var filterFrm = data.filterFrm;
+				var makerList = data.makerList;
+				var prjList = data.prjList;
+				console.log("prjList : " + prjList);
+				$("#frmContainer").html(filterFrm);
+				$("#prjList").html(prjList);
+				$("#makerList").html(makerList);
+				
+			}
+		});
+	}
 	$(document).ready(function() {
+		
+		calAjax();
+		
 		if ("${IW}" == 1) {
 			alert("등록완료!");
 		}
@@ -55,8 +76,9 @@
 			
 		})
 		
+		
 		//내가 속한 전체 프로젝트 전체 업무들을 가져와야함
-		function all(callback, value){
+		function all(value){
 			$.ajax({
 				url:"/allNMine",
 				method:"post",
@@ -90,7 +112,7 @@
 		}
 		
 		//내가 속한 프로젝트에 내 업무만 다 가져와야함
-		function mine(callback,value){
+		function mine(value){
 			$.ajax({
 				url:"/allNMine",
 				method:"post",
@@ -116,50 +138,115 @@
 			        }
 			        return array;
 			        })
+			        calendar.fullCalendar('refetchEvents');
 			        //여기서 막힘...!!!!!!!
-			        callback(fixedDate);
+// 			        callback(fixedDate);
 				}
 			});
 		}
 		
-		
+		$("#frmContainer").on("change", ".filter", function(){
+			    $.ajax({
+			      method:"post",
+			      url: "/calendarTest",
+			      data: $("#filterFrm").serialize(),
+			      contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
+			      success: function (response) {
+			    	  response = response.data;
+			    	  console.log(response);
+			    	  calendar.fullCalendar('removeEvents');
+			        var fixedDate = response.map(function (array) {
+			          if (array.allDay && array.start !== array.end) {
+			            // 이틀 이상 AllDay 일정인 경우 달력에 표기시 하루를 더해야 정상출력
+			            array.end = moment(array.end).add(1, 'days');
+			          }
+			          return array;
+			        })
+			        $(fixedDate).each(function(){
+			        	console.log(this);
+			        	calendar.fullCalendar('renderEvent', this);
+			        });
+			      }
+			    });
+		});
 		
 		
 	});
 	
 	
 </script>
-
-<div id="frmContainer">
-	<form id="filterFrm">
-		<label>업무 구분</label><br>
-		<select id="sel" name="wrk_is_mine" class="filter">
-			<option value="all" selected>전체 업무</option>
-			<option value="mine">내 업무만</option>
-		</select>
-		<br><br><hr>
-		<label>프로젝트 구분</label><br>
-			<div id="prjList">
-				<c:forEach items="${projectList}" var="PL">
-					<input type="checkbox" value="${PL.prj_id}" checked>${PL.prj_nm}<br>
-				</c:forEach>
-			</div>
-		<br><br><hr>
-		<label>업무 작성자 구분</label><br>
-			<div id="makerList">
-			<div class="">
-				<div class="">
-					<c:forEach items="${mList}" var="MB">
-						<input class='filter'type="checkbox" value="${MB.user_nm}" checked>${MB.user_nm}<br>
-					</c:forEach>
-				</div>
-			</div>
-			</div>
-			<br><br><br>
-	 	<button type="button" onclick="reset()">필터 초기화</button>
-		<input type="hidden" name="user_email" value="${USER_INFO.user_email}">
-	</form>	
+<div id="frmContainer" style="height:100%;width:250px;float:left;margin-right:0;">
+	    <form id="filterFrm">
+	    	<label>업무 구분</label><br>
+	    	<select name="wrk_is_mine" class="filter">
+	    		<option value="all" selected>전체 업무</option>
+	    		<option value="mine">내 업무만</option>
+	    	</select>
+	    	<br><br><hr>
+	    	<label>작성일 기준</label><br>
+	    	<select name="wrk_dt" class="filter">
+	    		<option value="0" selected>전체</option>
+	    		<option value="30">30일 이내</option>
+	    		<option value="60">60일 이내</option>
+	    		<option value="90">90일 이내</option>
+	    	</select>
+	    	<br><br><hr>
+	    	<label>업무 주체</label>
+	    	<br>
+		    	<input type="checkbox" class="filter" name="wrk_i_assigned" value="y"> 내게 할당된 업무 <br>
+		    	<input type="checkbox" class="filter" name="wrk_i_made" value="y">	내가 작성한 업무 <br>
+		    	<input type="checkbox" class="filter" name="wrk_i_following" value="y"> 내가 팔로우한 업무 <br>
+	    	<br><br><hr>
+	    	<label>프로젝트 구분</label><br>
+	    		<div id="prjList">
+	    		</div>
+	    	<br><br><hr>
+	    	<label>마감일 기준</label><br>
+		    	<input type="checkbox" class="filter" name="overdue" value="y"> 마감일 지남 <br>
+		    	<input type="checkbox" class="filter" name="till_this_week" value="y"> 이번 주까지 <br>
+		    	<input type="checkbox" class="filter" name="till_this_month" value="y"> 이번 달까지 <br>
+		    	<input type="checkbox" class="filter" name="no_deadline" value="y"> 마감일 없음 <br>
+	    	<br><br><hr>
+	    	<label>업무 상태 구분</label><br>
+		    	<input type="checkbox" class="filter" name="is_cmp" value="y"> 완료된 업무 <br>
+		    	<input type="checkbox" class="filter" name="is_del" value="y"> 삭제된 업무 <br>
+	    	<br><br><hr>
+	    	<label>업무 작성자 구분</label><br>
+	    		<div id="makerList">
+						<c:forEach items="${mList}" var="MB">
+							<input class='filter'type="checkbox" value="${MB.user_nm}" checked>${MB.user_nm}<br>
+						</c:forEach>
+	    		</div>
+		    	<br>
+		    	<button type="button" onclick="reset()">필터 초기화</button>
+		    	<input type="hidden" name="is_cal" value="true">
+		    	<input type="hidden" name="user_email" value="${USER_INFO.user_email }">
+	    </form>
 </div>
+<!-- <div id="frmContainer"> -->
+<!-- 	<form id="filterFrm"> -->
+<!-- 		<label>업무 구분</label><br> -->
+<!-- 		<select id="sel" name="wrk_is_mine" class="filter"> -->
+<!-- 			<option value="all" selected>전체 업무</option> -->
+<!-- 			<option value="mine">내 업무만</option> -->
+<!-- 		</select> -->
+<!-- 		<br><br><hr> -->
+<!-- 		<label>프로젝트 구분</label><br> -->
+<!-- 			<div id="prjList"> -->
+<%-- 				<c:forEach items="${projectList}" var="PL"> --%>
+<%-- 					<input type="checkbox" value="${PL.prj_id}" checked>${PL.prj_nm}<br> --%>
+<%-- 				</c:forEach> --%>
+<!-- 			</div> -->
+<!-- 		<br><br><hr> -->
+<!-- 		<label>업무 작성자 구분</label><br> -->
+<!-- 			<div id="makerList"> -->
+
+<!-- 			</div> -->
+<!-- 			<br><br><br> -->
+<!-- 	 	<button type="button" onclick="reset()">필터 초기화</button> -->
+<%-- 		<input type="hidden" name="user_email" value="${USER_INFO.user_email}"> --%>
+<!-- 	</form>	 -->
+<!-- </div> -->
 
 	<!-- 일자 클릭시 메뉴오픈 -->
 	<div id="contextMenu" class="dropdown clearfix">
