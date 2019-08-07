@@ -27,7 +27,7 @@ function admUpdateUserView() {
 		
 		<form id="admUpdate" action="/admUpdateUser" method="get" >	
 			
-<!-- 			<input type="hidden" id="admUpdate" name="admUpdate"> -->
+<!-- 	<input type="hidden" id="admUpdate" name="admUpdate"> -->
 		<input type="hidden" id="admUpdate" name="admUpdate" value="${userVo.user_email}">
 
 			<table class="tb_style_01">

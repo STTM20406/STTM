@@ -115,22 +115,6 @@ public class UserController_Test_kkh {
 		}
 		return "/account/accountSet.user.tiles";
 		
-//		// 비밀번호 재설정
-//		int updateUserPass = userService.updateUserPass(userVo);
-//		
-//		if(updateUserPass != 0) {
-//			 viewName = "/account/accountSet.user.tiles";
-//		}
-//		
-//		int updateUserProfile = userService.updateUserProfile(userVo);
-//		
-//		logger.debug("updateUserProfile : {} 가져오거라", updateUserProfile);
-//		
-//		if(updateUserProfile != 0) {
-//			return "/account/accountSet.user.tiles";
-//		}
-//		
-//		return viewName;
 	}
 	
 	/**
@@ -266,6 +250,62 @@ public class UserController_Test_kkh {
 			return "/account/accountSet.user.tiles";
 //		}
 //		return viewName;
+	}
+	
+	/**
+	 * 
+	* Method : projectMemberListView
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-05
+	* @param pageVo
+	* @param model
+	* @return
+	* Method 설명 : 회원이 해당 프로젝트의 멤버 목록을 조회
+	 */
+//	@RequestMapping(path = "/projectMemberList", method = RequestMethod.GET)
+	public String projectMemberListView(PageVo pageVo, Model model, HttpSession session) {
+		
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		Project_MemVo prjVo = new Project_MemVo();
+		
+		logger.debug("userVo : 점심쯤 로거 확인1 {} ",userVo);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("page", pageVo.getPage());
+		map.put("pageSize", pageVo.getPageSize());
+		map.put("user_email", userVo.getUser_email());
+		map.put("user_nm", userVo.getUser_nm());
+		map.put("prj_id", prjVo.getPrj_id());
+		
+		logger.debug("map : 점심쯤 로거 확인2 {} ",map);
+		
+		Map<String, Object> resultMap = project_MemService.projectMemPagingList(map);
+		
+		logger.debug("resultMap : 아침 로거 확인1 {} ",resultMap);
+		
+		List<UserVo> projectMemList = (List<UserVo>) resultMap.get("projectMemList");
+		
+		logger.debug("projectMemList : 아침 로거 확인2 {} ",projectMemList);
+		
+		int paginationSize = (Integer) resultMap.get("paginationSize");
+		
+		logger.debug("paginationSize : 아침 로거 확인3 {} ",paginationSize);
+		
+		model.addAttribute("projectMemList", projectMemList);
+		
+		model.addAttribute("paginationSize", paginationSize);
+		model.addAttribute("pageVo", pageVo);
+		
+		return "/member/projectMember.user.tiles";
+	}
+	
+//	@RequestMapping(path = "/projectMemberView", method = RequestMethod.GET)
+	public String projectMemberListProcess(String prjMemList) {
+		
+		logger.debug("prjMemList : {} 한시간 남았을 쯤 테스트",prjMemList);
+		
+		return "/member/projectMember.user.tiles";
 	}
 	
 	// ------------------------------ 관리자 부분 ------------------------------ //

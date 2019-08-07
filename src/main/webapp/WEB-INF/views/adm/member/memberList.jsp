@@ -50,7 +50,6 @@ $(document).ready(function(){
 		<input type="hidden" id="inq_cate" name="inq_cate" value="INQ01"/>
 							<input type="hidden" id="selectBoxText" name="selectBoxText" value="userEmail"/>
 			                <legend>사이트 내 전체검색</legend>
-<!-- 				                <select id="search" name="selectBoxText"> -->
 				                <select id="search">
 				                	<option value="userEmail">이메일</option>
 				                	<option value="userNm">이름</option>

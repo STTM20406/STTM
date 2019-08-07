@@ -5,8 +5,40 @@
 여기로 올까요?
 
 <style>
+	
 	.userTr:hover{
 		cursor: pointer;
+	}
+	
+	/* 탭 설정 스타일 */
+	.inquiryTr:hover{
+			cursor: pointer;
+	}
+	ul.tabs {
+		margin: 0px;
+		padding: 0px;
+		list-style: none;
+	}
+	
+	ul.tabs li {
+		background: none;
+		color: #222;
+		display: inline-block;
+		padding: 10px 15px;
+		cursor: pointer;
+	}
+	
+	ul.tabs li.current {
+		color: #222;
+	}
+	
+	.tab-content {
+		display: none;
+		padding: 15px;
+	}
+	
+	.tab-content.current {
+		display: inherit;
 	}
 	
 	/* 모달 설정 스타일 */
@@ -25,13 +57,26 @@
 
 <script>
 $(document).ready(function(){
-	$(".userTr").on("click", function(){
+	
+// 	$(".userTr").on("click", function(){
 		
 // 		var user_email = $(this).find(".user_email").text();
 // 		$("#prjMemList").val(user_email);
 		
-		$("#prjMemForm").submit();
+// 		$("#prjMemForm").submit();
+// 	});
+	
+	// ------- 탭 설정 -------
+	$('ul.tabs li').click(function() {
+		var tab_id = $(this).attr('data-tab');
+
+		$('ul.tabs li').removeClass('current');
+		$('.tab-content').removeClass('current');
+
+		$(this).addClass('current');
+		$("#" + tab_id).addClass('current');
 	});
+	
 });	
 
 //------- 모달 설정 스크립트 -------
@@ -71,124 +116,214 @@ function layer_open(el){
 
 <section class="contents">
 
-	<div id="tab-1" class="tab-content current">
-		
-		<!--  -->
-<!-- 		<form id="prjMemForm" action="projectMemberList" method="get"> -->
-<!-- 			<input type="text" id="prjMemList" name="prjMemList" > -->
-<!-- 		</form> -->
-		
-		<div>
-			<table class="tb_style_01">
-				<colgroup>
-					<col width="10%">
-					<col width="40%">
-					<col width="30%">
-					<col width="10%">
-					<col width="10%">
-				</colgroup>
-				<tbody>
-					<tr>
-					
-						<th>사용자 이메일</th>
-						<th>사용자 이름</th>
+<div id="container">
+
+	<div class="sub_menu">
+			<ul class="tabs">
+				<li data-tab="tab-1">프로젝트 멤버</li>
+				<li data-tab="tab-2">친구 리스트</li>
+			</ul>
+	</div>
+
+	<div class="tab_con">
 	
-						<c:forEach items="${projectMemList}" var="prjVo">
+		<div id="tab-1" class="tab-content current">
+			
+			<!--  -->
+	<!-- 		<form id="prjMemForm" action="projectMemberList" method="get"> -->
+	<!-- 			<input type="text" id="prjMemList" name="prjMemList" > -->
+	<!-- 		</form> -->
+				
+			<form id="prjMemForm" method="get">
+				<input type="hidden" id="prjMemPaging" name="prjMemPaging" value="${user_email}">
+			</form>
+				
+			<div>
+				<table class="tb_style_01">
+					<colgroup>
+						<col width="10%">
+						<col width="40%">
+						<col width="30%">
+						<col width="10%">
+						<col width="10%">
+					</colgroup>
+					<tbody>
+						<tr>
 						
-							<tr class="userTr" data-user_email="${prjVo.user_email}">
-								<td class="user_email" onclick="layer_open('layer2');return false;">${prjVo.user_email}</td>
-								<td>${prjVo.user_nm}</td>
-							</tr>
+							<th>사용자 이메일</th>
+							<th>사용자 이름</th>
+		
+							<c:forEach items="${projectMemList}" var="prjVo">
 							
-						</c:forEach>
-						
-					</tr>
-				</tbody>
-			</table>
-		</div>
+								<tr class="userTr" data-user_email="${prjVo.user_email}">
+									<td class="user_email" onclick="layer_open('layer2');return false;">${prjVo.user_email}</td>
+									<td>${prjVo.user_nm}</td>
+								</tr>
+								
+							</c:forEach>
+							
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			
+	<!-- 		<a href="/admInsertUser" class="btn_style_01">사용자 등록</a> -->
 		
-<!-- 		<a href="/admInsertUser" class="btn_style_01">사용자 등록</a> -->
-	
-		<div class="pagination">
-				<c:choose>
-					<c:when test="${pageVo.page == 1 }">
-						<a href class="btn_first"></a>
-					</c:when>
-					<c:otherwise>
-						<a href="${cp}/projectMemberList?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a>
-					
-					</c:otherwise>
-				</c:choose>
-	
-				<c:forEach begin="1" end="${paginationSize}" var="i">
+			<div class="pagination">
 					<c:choose>
-						<c:when test="${pageVo.page == i}">
-							<span>${i}</span>
+						<c:when test="${pageVo.page == 1 }">
+							<a href class="btn_first"></a>
 						</c:when>
 						<c:otherwise>
-						<a href="${cp}/projectMemberList?page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
+							<a href="${cp}/projectMemberList?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a>
+						
 						</c:otherwise>
 					</c:choose>
-	
-				</c:forEach>
-	
-				<c:choose>
-					<c:when test="${pageVo.page == paginationSize}">
-						<a href class="btn_last"></a>
-					</c:when>
-					
-					<c:otherwise>
-						<a href="${cp}/projectMemberList?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
-					</c:otherwise>
-				</c:choose>
 		
-		</div>
-	</div>
-	
-	<div class="layer">
-		<div class="bg"></div>
-		<div id="layer2" class="pop-layer">
-			<div class="pop-container">
-				<div class="pop-conts">
-					<!--content //-->
-					<p class="ctxt mb20">
-					
-					이게 나와야 일을 합니다.
-					
-					</p>
-					
-					<div>
-						<table class="tb_style_01">
+					<c:forEach begin="1" end="${paginationSize}" var="i">
+						<c:choose>
+							<c:when test="${pageVo.page == i}">
+								<span>${i}</span>
+							</c:when>
+							<c:otherwise>
+							<a href="${cp}/projectMemberList?page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
+							</c:otherwise>
+						</c:choose>
+		
+					</c:forEach>
+		
+					<c:choose>
+						<c:when test="${pageVo.page == paginationSize}">
+							<a href class="btn_last"></a>
+						</c:when>
 						
-							<tbody>
-								<tr>
-								
-									<th>사용자 이메일</th>
-									<th>사용자 이름</th>
-				
-									<c:forEach items="${projectMemList}" var="prjVo">
-									
-										<tr class="userTr" data-user_email="${prjVo.user_email }">
-											<td class="user_email" onclick="layer_open('layer2');return false;">${prjVo.user_email}</td>
-											<td>${prjVo.user_nm}</td>
-										</tr>
-										
-									</c:forEach>
-									
-								</tr>
-							</tbody>
-						</table>
-						
-						<input type="button" id="" name="" onclick="" class="btn_style_01" value="친구추가">						
+						<c:otherwise>
+							<a href="${cp}/projectMemberList?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
+						</c:otherwise>
+					</c:choose>
+			
+			</div>
+		
+			<div class="layer">
+				<div class="bg"></div>
+				<div id="layer2" class="pop-layer">
+					<div class="pop-container">
+						<div class="pop-conts">
+							<!--content //-->
+							<p class="ctxt mb20">
+							
+							이게 나와야 일을 합니다.
+							
+							</p>
+							
+								<input type="button" id="" name="" onclick="" class="btn_style_01" value="친구추가">						
+			
+							<div class="btn-r">
+								<a href="#" class="cbtn">Close</a>
+							</div>
+							<!--// content-->
+						</div>
 					</div>
-	
-					<div class="btn-r">
-						<a href="#" class="cbtn">Close</a>
-					</div>
-					<!--// content-->
 				</div>
 			</div>
+			
 		</div>
+		
+		
+		<div id="tab-2" class="tab-content">
+		친구리스트
+		
+					<!--  -->
+	<!-- 		<form id="prjMemForm" action="projectMemberList" method="get"> -->
+	<!-- 			<input type="text" id="prjMemList" name="prjMemList" > -->
+	<!-- 		</form> -->
+			
+			<form id="friendsForm" method="get">
+					<input type="hidden" id="friendsPaging" name="friendsPaging" value="${frd_email}">
+			</form>
+			
+			<div>
+				<table class="tb_style_01">
+					<colgroup>
+						<col width="10%">
+						<col width="40%">
+						<col width="30%">
+						<col width="10%">
+						<col width="10%">
+					</colgroup>
+					<tbody>
+						<tr>
+						
+							<th>사용자 이메일</th>
+							<th>사용자 이메일1</th>
+							<th>사용자 이름</th>
+							<th>
+								<dl>
+									<dt></dt>
+									<dd>삭제 나오냐</dd>
+								</dl>
+							
+							
+							</th>
+		
+							<c:forEach items="${friendsList}" var="prjVo">
+							
+								<tr class="userTr" data-user_email="${prjVo.user_email}">
+									<td class="user_email">${prjVo.user_email}</td>
+									<td>${prjVo.user_email}</td>
+									<td>${prjVo.frd_email}</td>
+									<td>${prjVo.frd_email}</td>
+								</tr>
+								
+							</c:forEach>
+							
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			
+	<!-- 		<a href="/admInsertUser" class="btn_style_01">사용자 등록</a> -->
+		
+			<div class="pagination">
+					<c:choose>
+						<c:when test="${pageVo.page == 1 }">
+							<a href class="btn_first"></a>
+						</c:when>
+						<c:otherwise>
+							<a href="${cp}/projectMemberList?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a>
+						
+						</c:otherwise>
+					</c:choose>
+		
+					<c:forEach begin="1" end="${paginationSize}" var="i">
+						<c:choose>
+							<c:when test="${pageVo.page == i}">
+								<span>${i}</span>
+							</c:when>
+							<c:otherwise>
+							<a href="${cp}/projectMemberList?page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
+							</c:otherwise>
+						</c:choose>
+		
+					</c:forEach>
+		
+					<c:choose>
+						<c:when test="${pageVo.page == paginationSize}">
+							<a href class="btn_last"></a>
+						</c:when>
+						
+						<c:otherwise>
+							<a href="${cp}/projectMemberList?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
+						</c:otherwise>
+					</c:choose>
+			
+			</div>
+		
+		
+		</div>
+		
 	</div>
 	
+</div>
+
 </section>

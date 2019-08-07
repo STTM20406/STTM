@@ -20,6 +20,27 @@
 	<select id="roomFriendList">
 		
 	</select>
+
+	<!-- 일반 사용자가 자신의 친구 목록을  페이징 리스트로 조회 -->
+	<select id="friendPagingList" parameterType="map" resultType="friendsVo">
+		<![CDATA[
+		select *
+		from
+		(select a.*, rownum rn
+		from
+		(select a.*
+		from friends a
+		where user_email like '%'||#{user_email}||'%') a)
+		where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
+		]]>
+	</select>
+	
+	<!-- 일반 사용자가 자신의 친구 목록을 자신의 이메일로 검색한 갯수 -->
+	<select id="friendPagingCnt" parameterType="map" resultType="int">
+		select count(*)
+		from friends
+		where user_email like '%'||#{user_email}||'%'
+	</select>
 	
 
 </mapper>
