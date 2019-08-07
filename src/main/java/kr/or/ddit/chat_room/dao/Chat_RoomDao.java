@@ -52,7 +52,7 @@ public class Chat_RoomDao implements IChat_RoomDao{
 		return  sqlSession.update("chat.updateChatTitle",vo);
 	}
 
-
+//
 
 	
 	

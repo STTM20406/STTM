@@ -17,7 +17,7 @@ public class Chat_ContentService implements IChat_ContentService{
 	private IChat_ContentDao contentDao;
 	
 	/**
-	 * 
+	 * .
 	 * Method 		: roomFriendList
 	 * 작성자 			: 유다연
 	 * 변경이력 		: 2019-07-19 최초 생성

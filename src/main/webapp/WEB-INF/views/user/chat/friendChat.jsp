@@ -18,7 +18,7 @@
 		</ul>
 	</div>
 
-	<!-- popup 친구 추가-->
+	<!-- popup 친구 추가 -->
 	<div class="dim-layer">
 		<div class="dimBg"></div>
 		<div id="layer1" class="pop-layer">

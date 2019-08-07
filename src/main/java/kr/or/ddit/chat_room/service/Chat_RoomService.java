@@ -17,7 +17,7 @@ public class Chat_RoomService implements IChat_RoomService{
 	@Resource(name="chat_RoomDao")
 	private IChat_RoomDao roomDao;
 
-
+//
 	@Override
 	public int createRoom(String roomNM) {
 		int cnt = roomDao.createRoom(roomNM);

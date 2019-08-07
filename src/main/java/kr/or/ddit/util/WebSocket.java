@@ -26,12 +26,13 @@ import kr.or.ddit.chat_mem.model.Chat_MemVo;
 import kr.or.ddit.chat_mem.service.Chat_MemService;
 import kr.or.ddit.chat_room.model.Chat_RoomVo;
 import kr.or.ddit.chat_room.service.Chat_RoomService;
+import kr.or.ddit.notificatoin.model.NotificationVo;
 import kr.or.ddit.users.model.UserVo;
 
 //작성순서 : afterConnectionEstablished(서버 접속 시) -> afterConnectionClosed(서버연결끊을 시)
 //		  -> handleTextMessage(서버가 메세지를 받았을 때)
 // 기타 필요한 method는 중간에 필요에 따라 작성
-// 서버 연결에 필요한 wesocket변수들도 필요에 따라 추가
+// 서버 연결에 필요한 wesocket변수들도 필요에 따라 추가.
 
 //@EnableWebSocket
 public class WebSocket extends TextWebSocketHandler {
@@ -62,8 +63,8 @@ public class WebSocket extends TextWebSocketHandler {
 		// session : 세션마다 주는 아이디
 
 		sessions.add(session); // 세션에 있는 모든 정보를 담음
-		String senderId = getId(session); // galbi@naver.com
-		userList.put(senderId, session);
+		String senderId = getId(session); // galbi@naver.com (내가 접속한 아이디)
+		userList.put(senderId, session);  // ex: {galbi@naver.com, galbi[userVo]의 정보(이름,이메일 등등)}
 
 	}
 
@@ -93,7 +94,7 @@ public class WebSocket extends TextWebSocketHandler {
 
 		if (StringUtils.isNotEmpty(msg)) { // 메시지가 들어올 때만 처리
 			String[] strs = msg.split(",");
-			if (strs != null && strs.length == 5) {
+			if (strs != null && strs.length == 5 && strs[0].equals("chatting")) {
 				String chatting = strs[0];
 				String senderNm = strs[1];
 				String content = strs[2];
@@ -134,6 +135,21 @@ public class WebSocket extends TextWebSocketHandler {
 						//}
 
 					}
+				}
+
+			}else if(strs != null && strs.length == 3 && strs[0].equals("notify")) {
+				String notify = strs[0];	// 알림
+				String notify_cd = strs[1]; // 알림코드 (N01 : 프로젝트, N02 : 업무알림, N03 : 채팅알림, N04 : 1:1답변)
+				String userNm = strs[2];	// 사용자
+				String not_con = strs[3]; // 내용
+				
+				NotificationVo notifyVo = new NotificationVo();
+				notifyVo.setNot_con(msg); // message.getPayload() => 내가 실제로 받은 메세지 
+				
+				WebSocketSession writerSession = userList.get(userNm); // 게시글작성자
+				if("notify".equals(notify) && writerSession != null) {
+					TextMessage tmpMsg = new TextMessage(userNm+"님에게"+notify_cd+"가 배정되었습니다.");
+					writerSession.sendMessage(tmpMsg);
 				}
 
 			}
