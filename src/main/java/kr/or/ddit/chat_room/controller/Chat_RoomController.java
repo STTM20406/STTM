@@ -233,11 +233,11 @@ public class Chat_RoomController {
 	}
 	
 	//화상회의 방 생성 페이지
-	@RequestMapping(path="/faceChatMain")
+	@RequestMapping(path="/faceChat")
 	public String faceChatMain(Model model, HttpSession session) {
 	
 		
-		return "/chat/faceChat.user.tiles";
+		return "redirect:/RTCMulticonnection/index.html";
 	}
 	
 	
