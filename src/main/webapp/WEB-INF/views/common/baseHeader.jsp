@@ -12,9 +12,14 @@
 
 <%-- basic Library --%>
 <%@include file="/WEB-INF/views/common/baseLib.jsp"%>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.0.0/sockjs.min.js"></script>
 
 <script>
+var socket = null;
+
 	$(document).ready(function(){
+		connectNotify();
+	
 		$(".user_set_list").hide();
 		$(".icon_set").on("click", function(){
 			$(".user_set_list").fadeIn();
@@ -28,12 +33,46 @@
 
 		})
 		
+		
 	});
+function connectNotify(){
+	console.log("웹소켓알림시작하거라~~~");
+	socket = new SockJS("/echo.do");
+	
+	socket.onopen = function() {
+		console.log('Info : connection opened');
+
+	};
+
+	socket.onmessage = function(event) {
+		console.log("ReceiveMessage: ", event.data + "\n");
+		var $socketAlert = $('div#socketAlert');
+		$socketAlert.text(event.data);
+		$socketAlert.css('display','block');
+		setTimeout(function(){
+			$socketAlert.css('display','none');
+			
+		},3000);
+
+	};
+
+	socket.onclose = function(event) {
+		console.log('info: connection closed');
+	};
+
+	socket.onerror = function(err) {
+		console.log('error: ', err);
+	};
+	
+}
+
+
 </script>
 
 
 </head>
 <body>
+<div id="socketAlert" role="alert" style="display:none; background:skyblue;"></div>
 	<div id="wrap">
 		
 		<%@include file="/WEB-INF/views/common/baseLeft.jsp"%>

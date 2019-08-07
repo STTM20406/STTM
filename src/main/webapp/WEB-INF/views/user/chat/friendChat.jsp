@@ -18,7 +18,7 @@
 		</ul>
 	</div>
 
-	<!-- popup 친구 추가 -->
+	<!-- popup 친구 추가-->
 	<div class="dim-layer">
 		<div class="dimBg"></div>
 		<div id="layer1" class="pop-layer">
@@ -229,7 +229,7 @@
 </script>
 
 <script>
-	var socket = null;
+// 	var socket = null;
 	function connect() {
 		//var ws = new WebSocket("ws://localhost:8090/echo.do");
 		var ct_id = $('#ct_id').val();
@@ -237,13 +237,13 @@
 		var userNm = $("#user_nm").val();
 		socket = new SockJS("/echo.do");
 
-		socket.onopen = function() {
-			console.log('Info : connection opened');
-			//setTimeout(function(){connect(); }, 1000); //retry connection;
+// 		socket.onopen = function() {
+// 			console.log('Info : connection opened');
+// 			//setTimeout(function(){connect(); }, 1000); //retry connection;
 
-			$("#participate").append("<li>" + userNm + "</li>");
+// 			$("#participate").append("<li>" + userNm + "</li>");
 
-		};
+// 		};
 
 		socket.onmessage = function(event) {
 			console.log("ReceiveMessage: ", event.data + "\n");
@@ -262,9 +262,9 @@
 
 		};
 
-		socket.onclose = function(event) {
-			console.log('info: connection closed');
-		};
+// 		socket.onclose = function(event) {
+// 			console.log('info: connection closed');
+// 		};
 
 		socket.onerror = function(err) {
 			console.log('error: ', err);

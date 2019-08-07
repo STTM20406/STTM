@@ -12,8 +12,9 @@
 
 <%-- basic Library --%>
 <%@include file="/WEB-INF/views/common/adminLib.jsp"%>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.0.0/sockjs.min.js"></script>
 <script>
+var socket = null;
 	$(document).ready(function(){
 		$(".user_set_list").hide();
 		$(".icon_set").on("click", function(){
@@ -22,13 +23,43 @@
 		$(".user_set_list").on("mouseleave", function(){
 			$(".user_set_list").fadeOut();
 		});
+		connectNotify();
 		
 	});
+	
+function connectNotify(){
+	console.log("웹소켓알림시작하거라~~~");
+	socket = new SockJS("/echo.do");
+	
+	socket.onopen = function() {
+		console.log('Info : connection opened');
+		var $socketAlert = $('div#socketAlert');
+		$socketAlert.text(event.data);
+		$socketAlert.css('display','block');
+		
+
+	};
+
+	socket.onmessage = function(event) {
+		console.log("ReceiveMessage: ", event.data + "\n");
+
+	};
+
+	socket.onclose = function(event) {
+		console.log('info: connection closed');
+	};
+
+	socket.onerror = function(err) {
+		console.log('error: ', err);
+	};
+	
+}
 </script>
 
 
 </head>
 <body>
+<div id="socketAlert" role="alert" style="display:none;"></div>
 	<div id="wrap">
 		<!-- side bar -->
 		<div class="sidebar">

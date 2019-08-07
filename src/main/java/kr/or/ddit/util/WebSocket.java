@@ -139,16 +139,16 @@ public class WebSocket extends TextWebSocketHandler {
 
 			}else if(strs != null && strs.length == 3 && strs[0].equals("notify")) {
 				String notify = strs[0];	// 알림
-				String notify_cd = strs[1]; // 알림코드 (N01 : 프로젝트, N02 : 업무알림, N03 : 채팅알림, N04 : 1:1답변)
-				String userNm = strs[2];	// 사용자
-				String not_con = strs[3]; // 내용
+//				String notify_cd = strs[1]; // 알림코드 (N01 : 프로젝트, N02 : 업무알림, N03 : 채팅알림, N04 : 1:1답변)
+				String userNm = strs[1];	// 사용자
+				String not_con = strs[2]; // 내용
 				
 				NotificationVo notifyVo = new NotificationVo();
 				notifyVo.setNot_con(msg); // message.getPayload() => 내가 실제로 받은 메세지 
 				
 				WebSocketSession writerSession = userList.get(userNm); // 게시글작성자
 				if("notify".equals(notify) && writerSession != null) {
-					TextMessage tmpMsg = new TextMessage(userNm+"님에게"+notify_cd+"가 배정되었습니다.");
+					TextMessage tmpMsg = new TextMessage(userNm+"님에게"+not_con+"가 배정되었습니다.");
 					writerSession.sendMessage(tmpMsg);
 				}
 

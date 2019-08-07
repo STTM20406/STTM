@@ -5,9 +5,46 @@
 <script>
 $(document).ready(function(){
 	// 답변버튼
+// 	$("#replyBtn").on("click",function(){
+// 		$("#frm").submit();
+// 	})
+	
 	$("#replyBtn").on("click",function(){
-		$("#frm").submit();
+		var inq_id = $(this).siblings("#inq_id").val();
+		var iq_content = $(this).siblings("#iq_content").val();
+		console.log(inq_id);
+		console.log(iq_content);
+		
+		inqReply(inq_id,iq_content);
 	})
+	
+	function inqReply(inq_id,iq_content){
+		
+		console.log(iq_content);
+		$.ajax({
+				url:"/admInquiryView1",
+				method:"post",
+				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+				data : "inq_id="+inq_id+"&iq_content="+iq_content,
+				success:function(data){
+					console.log(data);
+					var html = "";
+					html +="<label>답변</label> : ";
+					html +=data.data.inquiryInfo.ans_con;
+					
+					$(".divSubject").html(html);
+					
+					console.log("소켓연결인지 확인",socket);
+					if(socket){
+						// websocket에 보내기!!
+						var socketMsg = "notify," + data.data.inquiryInfo.user_email + "," + data.data.userId.user_email;
+						console.log("메세지이이이이이이이이이",socketMsg);
+						socket.send(socketMsg);
+					}
+				}
+			})
+		}
+	
 })
 
 </script>
@@ -22,9 +59,9 @@ $(document).ready(function(){
 			<label>내용</label>
 			<label>${inquiryInfo.inq_con }</label>
 		</div>
-		<div>
-	<form id="frm" action="/admInquiryView" method="post">
-	<input type="hidden" id="inq_id" name="inq_id" value="${inquiryInfo.inq_id }"/>
+		<div class="divSubject">
+<!-- 	<form id="frm" action="/admInquiryView" method="post"> -->
+			<input type="hidden" id="inq_id" name="inq_id" value="${inquiryInfo.inq_id }"/>
 			<label>답변</label>
 			<c:choose>
 				<c:when test="${inquiryInfo.ans_st == 'N'}">
@@ -35,10 +72,10 @@ $(document).ready(function(){
 				</c:otherwise>
 			</c:choose>
 			
-		</div>
-		
-		<textarea rows="1" cols="60" name="iq_content"></textarea>
+		<br>
+		<textarea rows="1" cols="60" id="iq_content" name="iq_content"></textarea>
 		<button type="button" name="replyBtn" id="replyBtn"> 답변등록 </button>
 
-	</form>
+<!-- 	</form> -->
+		</div>
 </section>

@@ -91,20 +91,35 @@ public class Bd_InquiryController {
 	 * @return
 	 * Method 설명 	: 관리자 1:1문의 게시글 답변작성
 	 */
-	@RequestMapping(path = "/admInquiryView", method = RequestMethod.POST)
-	public String admInquiryView(int inq_id, String iq_content,Model model) {
-		String viewName="";
+	@RequestMapping("/admInquiryView1")
+	public String admInquiryView(int inq_id, String iq_content, Model model,HttpSession session) {
+		UserVo userVO = (UserVo) session.getAttribute("USER_INFO");
+
 		
+		
+		
+		logger.debug("!@# inq_id : {} ",inq_id);
+		logger.debug("!@# iq_content : {} ",iq_content);
 		Bd_InquiryVo insertInquiry = new Bd_InquiryVo(inq_id, iq_content);
 		int inquiryCnt = bd_InquiryService.insertAdmPost(insertInquiry);
 		
-		if(inquiryCnt == 1) {
-			viewName = "redirect:/admInquiryView?inq_id="+ inq_id;
-		}else {
-			viewName = "redirect:/admInquiry";
-		}
+		Bd_InquiryVo inquiryInfo = bd_InquiryService.inquiryInfo(inq_id);
+		logger.debug("!@# inquiryInfo : {} ",inquiryInfo);
 		
-		return viewName;
+//		if(inquiryCnt == 1) {
+//			viewName = "redirect:/admInquiryView?inq_id="+ inq_id;
+//		}else {
+//			viewName = "redirect:/admInquiry";
+//		}
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("userId", userVO);
+		resultMap.put("inquiryInfo",inquiryInfo);
+		
+		if(inquiryCnt ==1 ) {
+			model.addAttribute("data", resultMap);
+		}
+		return "jsonView";
 	}
 	
 	@RequestMapping(path = "/admInquirySearch",method= RequestMethod.GET)
