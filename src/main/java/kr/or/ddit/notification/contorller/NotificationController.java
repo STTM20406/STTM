@@ -1,4 +1,4 @@
-package kr.or.ddit.notificatoin.contorller;
+package kr.or.ddit.notification.contorller;
 
 import org.springframework.stereotype.Controller;
 

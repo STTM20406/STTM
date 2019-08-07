@@ -1,4 +1,4 @@
-package kr.or.ddit.notificatoin.dao;
+package kr.or.ddit.notification.dao;
 
 public interface INotificationDao {
 

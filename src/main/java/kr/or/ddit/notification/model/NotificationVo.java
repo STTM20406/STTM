@@ -1,4 +1,4 @@
-package kr.or.ddit.notificatoin.model;
+package kr.or.ddit.notification.model;
 
 import java.util.Date;
 
