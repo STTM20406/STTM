@@ -35,6 +35,7 @@ var socket = null;
 		
 		
 	});
+	$(".socketAlram").hide();
 function connectNotify(){
 	console.log("웹소켓알림시작하거라~~~");
 	socket = new SockJS("/echo.do");
@@ -46,11 +47,13 @@ function connectNotify(){
 
 	socket.onmessage = function(event) {
 		console.log("ReceiveMessage: ", event.data + "\n");
-		var $socketAlert = $('div#socketAlert');
+		var $socketAlert = $('#socketAlert p');
 		$socketAlert.text(event.data);
-		$socketAlert.css('display','block');
+		$(".socketAlram").fadeIn(300);
+		$(".socketAlram").animate({right:"0px"}, 500);
 		setTimeout(function(){
-			$socketAlert.css('display','none');
+			$(".socketAlram").fadeOut(300);
+			$(".socketAlram").animate({right:"-350px"}, 500);
 			
 		},3000);
 
@@ -69,10 +72,23 @@ function connectNotify(){
 
 </script>
 
+<style>
+	.socketAlram {background: red;
+	color: white;
+    position: fixed;
+    right: -350px;
+    top: 160px;
+    width: 350px;
+    padding: 25px;
+    z-index:999}
+
+</style>
 
 </head>
 <body>
-<div id="socketAlert" role="alert" style="display:none; background:skyblue;"></div>
+<div id="socketAlert" class="socketAlram" role="alert">
+	<p></p>
+</div>
 	<div id="wrap">
 		
 		<%@include file="/WEB-INF/views/common/baseLeft.jsp"%>
