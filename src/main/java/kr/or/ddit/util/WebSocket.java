@@ -62,8 +62,8 @@ public class WebSocket extends TextWebSocketHandler {
 		// session : 세션마다 주는 아이디
 
 		sessions.add(session); // 세션에 있는 모든 정보를 담음
-		String senderId = getId(session); // galbi@naver.com
-		userList.put(senderId, session);
+		String senderId = getId(session); // galbi@naver.com (내가 접속한 아이디)
+		userList.put(senderId, session);  // ex: {galbi@naver.com, galbi[userVo]의 정보(이름,이메일 등등)}
 
 	}
 
@@ -93,7 +93,7 @@ public class WebSocket extends TextWebSocketHandler {
 
 		if (StringUtils.isNotEmpty(msg)) { // 메시지가 들어올 때만 처리
 			String[] strs = msg.split(",");
-			if (strs != null && strs.length == 5) {
+			if (strs != null && strs.length == 5 && strs[0].equals("chatting")) {
 				String chatting = strs[0];
 				String senderNm = strs[1];
 				String content = strs[2];
