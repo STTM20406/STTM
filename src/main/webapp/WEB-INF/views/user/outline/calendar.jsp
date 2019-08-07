@@ -22,7 +22,6 @@
 			prjStAjax(prj_id);
 			
 		})
-		
 		//프로젝트 상태값 변경 ajax
 		function prjStAjax(prj_id){
 			$.ajax({
@@ -44,55 +43,121 @@
 			});
 		}
 		
+		$("#sel").on("change",function(){
+			var value = $(this).val();
+				alert(value);
+			
+			if(value == "all"){
+				all(value);
+			}else if(value=="mine"){
+				mine(value);
+			}
+			
+		})
+		
+		//내가 속한 전체 프로젝트 전체 업무들을 가져와야함
+		function all(callback, value){
+			$.ajax({
+				url:"/allNMine",
+				method:"post",
+				contentType: "application/x-www-form-urlencoded; charset=UTF-8",  
+				data: "value=" + value,
+				success:function(response){
+					console.log(response);
+					var aa = JSON.stringify(response);
+					var ab = aa.replace(/\\/g,'');
+			        var ac = ab.replace(/\"{/g,'{');
+			    	var as = ac.replace(/\}"/g,'}'); 
+			    	var qw = as.substring(13);
+			    	var result = qw.substr(0,qw.length-2);
+			    	console.log(result);
+			    	
+			    	data = JSON.parse(result);
+			    	console.log(data);
+
+			    	response = data;
+			        var fixedDate = response.map(function (array) {
+// 			        	console.log(fixedDate); //안 들어오네..
+			        if (array.allDay && array.start !== array.end) {
+			        	array.end = moment(array.end).add(1, 'days');
+			        }
+			        return array;
+			        })
+			        //여기서 막힘...!!!!!!!
+			        callback(fixedDate);
+					}
+			});
+		}
+		
+		//내가 속한 프로젝트에 내 업무만 다 가져와야함
+		function mine(callback,value){
+			$.ajax({
+				url:"/allNMine",
+				method:"post",
+				contentType: "application/x-www-form-urlencoded; charset=UTF-8",  
+				data: "value=" + value,
+				success:function(response){
+					var aa = JSON.stringify(response);
+
+			    	var ab = aa.replace(/\\/g,'');
+			    	var ac = ab.replace(/\"{/g,'{');
+			    	var as = ac.replace(/\}"/g,'}'); 
+			    	var qw = as.substring(13);
+			    	var result = qw.substr(0,qw.length-2);
+
+			    	data = JSON.parse(result);
+			    	console.log(data);
+
+			    	response = data;
+			        var fixedDate = response.map(function (array) {
+// 			        	console.log(fixedDate); //안 들어오네..
+			        if (array.allDay && array.start !== array.end) {
+			            array.end = moment(array.end).add(1, 'days');
+			        }
+			        return array;
+			        })
+			        //여기서 막힘...!!!!!!!
+			        callback(fixedDate);
+				}
+			});
+		}
+		
+		
+		
+		
 	});
+	
+	
 </script>
 
 <div id="frmContainer">
 	<form id="filterFrm">
 		<label>업무 구분</label><br>
-		<select name="wrk_is_mine" class="filter">
+		<select id="sel" name="wrk_is_mine" class="filter">
 			<option value="all" selected>전체 업무</option>
 			<option value="mine">내 업무만</option>
 		</select>
 		<br><br><hr>
-		<label>작성일 기준</label><br>
-		<select name="wrk_dt" class="filter">
-			<option value="0" selected>전체</option>
-			<option value="30">30일 이내</option>
-			<option value="60">60일 이내</option>
-			<option value="90">90일 이내</option>
-		</select>
-		<br><br><hr>
-		<label>업무 주체</label>
-		<br>
-	 	<input type="checkbox" class="filter" name="wrk_i_assigned" value="y"> 내게 할당된 업무 <br>
-	 	<input type="checkbox" class="filter" name="wrk_i_made" value="y">	내가 작성한 업무 <br>
-	 	<input type="checkbox" class="filter" name="wrk_i_following" value="y"> 내가 팔로우한 업무 <br>
-		<br><br><hr>
 		<label>프로젝트 구분</label><br>
 			<div id="prjList">
+				<c:forEach items="${projectList}" var="PL">
+					<input type="checkbox" value="${PL.prj_id}" checked>${PL.prj_nm}<br>
+				</c:forEach>
 			</div>
-		<br><br><hr>
-		<label>마감일 기준</label><br>
-	 	<input type="checkbox" class="filter" name="overdue" value="y"> 마감일 지남 <br>
-	 	<input type="checkbox" class="filter" name="till_this_week" value="y"> 이번 주까지 <br>
-	 	<input type="checkbox" class="filter" name="till_this_month" value="y"> 이번 달까지 <br>
-	 	<input type="checkbox" class="filter" name="no_deadline" value="y"> 마감일 없음 <br>
-		<br><br><hr>
-		<label>업무 상태 구분</label><br>
-	 	<input type="checkbox" class="filter" name="is_cmp" value="y"> 완료된 업무 <br>
-	 	<input type="checkbox" class="filter" name="is_del" value="y"> 삭제된 업무 <br>
 		<br><br><hr>
 		<label>업무 작성자 구분</label><br>
 			<div id="makerList">
+			<div class="">
+				<div class="">
+					<c:forEach items="${mList}" var="MB">
+						<input class='filter'type="checkbox" value="${MB.user_nm}" checked>${MB.user_nm}<br>
+					</c:forEach>
+				</div>
 			</div>
-		<br><br><hr>
-		<label>팔로우한 멤버 구분</label><br>
-			<div id="followerList">
 			</div>
-	 	<br>
+			<br><br><br>
 	 	<button type="button" onclick="reset()">필터 초기화</button>
-		<input type="hidden" name="user_email" value="${USER_INFO.user_email }">
+		<input type="hidden" name="user_email" value="${USER_INFO.user_email}">
 	</form>	
 </div>
 
@@ -101,7 +166,7 @@
 		<ul class="dropdown-menu dropNewEvent" role="menu"
 			aria-labelledby="dropdownMenu"
 			style="display: block; position: static; margin-bottom: 5px;">
-			<li><a tabindex="-1" href="#">일정 등록</a></li>
+			<li><a tabindex="-1" href="#">일정 등록 긔긔</a></li>
 		</ul>
 	</div>
 	
@@ -205,35 +270,6 @@
 	</div>
 	<!-- /.modal -->
 
-	<div class="panel panel-default">
-
-		<div class="panel-heading">
-			<h3 class="panel-title">필터</h3>
-		</div>
-
-		<div class="panel-body">
-
-			<div class="col-lg-6">
-				<label for="calendar_view">구분별</label>
-				<div class="input-group">
-					<select class="filter" id="type_filter" multiple="multiple">
-						<option value="카테고리1"></option>
-					</select>
-				</div>
-			</div>
-
-			<div class="col-lg-6">
-				<label for="calendar_view">등록자별</label>
-				<div class="input-group">
-					<c:forEach items="${mList}" var="MB">
-						<label class="checkbox-inline">
-						<input class='filter'type="checkbox" value="${MB.user_nm}" checked>${MB.user_nm}</label> 
-					</c:forEach>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- /.filter panel -->
 <!-- /.container -->
 
 <script src="/js/jquery.min.js"></script>
