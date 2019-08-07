@@ -40,8 +40,14 @@ public class Project_MemVo {
 		this.prj_mem_nik = prj_mem_nik;
 		this.prj_own_fl = prj_own_fl;
 	}
-
 	
+	//현재 접속한 사용자의 프로젝트 멤버 정보를 조회 하기 위한 생성자
+	public Project_MemVo(int prj_id, String user_email) {
+		super();
+		this.prj_id = prj_id;
+		this.user_email = user_email;
+	}
+
 	public int getPrj_id() {
 		return prj_id;
 	}

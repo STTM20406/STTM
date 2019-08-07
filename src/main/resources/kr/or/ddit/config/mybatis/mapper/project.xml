@@ -127,6 +127,18 @@
 		AND C.USER_EMAIL = B.USER_EMAIL
 	</select>
 	
+	<!-- 현재 접속한 사용자의 아이디로 프로젝트 멤버 정보 가져오기  -->
+	<select id="getProjectMemInfo" resultType="project_memVo" parameterType="project_memVo">
+		SELECT DISTINCT A.PRJ_ID
+					              	 , A.USER_EMAIL
+					              	 , A.PRJ_MEM_LV
+					              	 , A.PRJ_MEM_NIK
+					              	 , A.PRJ_OWN_FL
+					              	 , B.USER_NM 
+		FROM          		 ( SELECT * FROM PROJECT_MEM WHERE USER_EMAIL = #{user_email}) A, USERS B
+		WHERE           		   A.USER_EMAIL = B.USER_EMAIL AND A.PRJ_ID = #{prj_id}
+	</select>
+	
 	
 	<!-- 프로젝트 생성시 멤버 테이블에 동시에 인서트 / 프로젝트 멤버 추가할 때 -->
 	<insert id="insertProjectMem" parameterType="project_memVo">

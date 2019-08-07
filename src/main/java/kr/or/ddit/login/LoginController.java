@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import kr.or.ddit.board.model.BoardVo;
 import kr.or.ddit.board.service.IBoardService;
+import kr.or.ddit.chat_room.model.Chat_RoomVo;
+import kr.or.ddit.chat_room.service.IChat_RoomService;
 import kr.or.ddit.encrypt.encrypt.kisa.aria.ARIAUtil;
 import kr.or.ddit.project.service.IProjectService;
 import kr.or.ddit.users.model.UserVo;
@@ -37,6 +39,9 @@ public class LoginController {
 	
 	@Resource(name = "boardService")
 	private IBoardService boardService;
+	
+	@Resource(name = "chat_RoomService")
+	private IChat_RoomService chatroomService;
 	
 	/**
 	 * 
@@ -115,10 +120,18 @@ public class LoginController {
 				//프로젝트 리스트를 불러옴
 				model.addAttribute("projectList", projectService.projectList(user_email));
 				
-				// 게시판 리스트
-				List<BoardVo> userBoardListY = boardService.boardListYes();
+				
 				ServletContext sc = request.getServletContext();
-				sc.setAttribute("userBoardListY", userBoardListY);
+				
+				//left에 게시판 리스트
+				List<BoardVo> userBoardListY = boardService.boardListYes();
+				sc.setAttribute("userBoardListY", userBoardListY); 
+				
+				//header에 로그인한 사람의 채팅방 리스트
+				List<Chat_RoomVo> myChatRoomList = chatroomService.getRoomList(user_email);
+				sc.setAttribute("myChatRoomList", myChatRoomList);
+				
+				
 				return "/projectList/projectList.user.tiles";
 			}
  

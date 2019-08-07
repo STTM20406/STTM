@@ -55,7 +55,7 @@ public class Chat_RoomController {
 	public String projectChat(HttpServletRequest req, Model model, int prj_id) {
 //		UserVo user = (UserVo) req.getSession().getAttribute("USER_INFO");
 //		String user_email = user.getUser_email();
-		//프로젝트 멤버리스트
+		//프로젝트 멤버리스트.
 		List<Project_MemVo> projectMemList =projectService.getMyProjectMemList(prj_id);
 		
 		//채팅방 대화 내용 리스트
@@ -232,11 +232,26 @@ public class Chat_RoomController {
 		return "redirect:/friendChatList";
 	}
 	
-	@RequestMapping(path="/faceChatMain")
+	//화상회의 방 생성 페이지
+	@RequestMapping(path="/faceChat")
 	public String faceChatMain(Model model, HttpSession session) {
 	
 		
-		return "/chat/faceChat.user.tiles";
+		return "redirect:/RTCMulticonnection/index.html";
 	}
+	
+	
+	@RequestMapping(path="/projectChatList")
+	public String projectChatList(Model model, HttpSession session) {
+		
+		UserVo user = (UserVo) session.getAttribute("USER_INFO");    
+		String user_email = user.getUser_email();
+		
+		
+		
+		
+		return "/chat/projectChatList.user.tiles";
+	}
+	
 	
 }

@@ -17,10 +17,17 @@ public interface ICalendarService {
 	int wInsert(WorkVo workVo);
 
 	// 시작일과 종료 일이 설정되어있는 업무들을 받아와서 calendar에 뿌려주는!!
-	String wList(int prj_id);
+	String selectProjectWList(int prj_id);
 
-	// 모든 프로젝트의 업무에 대한 정보를 가져오는
-	String projectWList(String user_email);
+	/**
+	 * Method 		: projectWList
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-07 최초 생성
+	 * @param user_email
+	 * @return
+	 * Method 설명 	: 내가 속한 프로젝트 전체업무 들에 대한 정보
+	 */	
+	String myProjectAllWorkList(String user_email);
 
 	/**
 	 * Method 		: allProjectMBList
@@ -29,7 +36,7 @@ public interface ICalendarService {
 	 * @return
 	 * Method 설명 	: 특정 프로젝트에 멤버 리스트를 받아오는 메서드
 	 */
-	List<Project_MemVo> allProjectMBList(String user_email);
+	List<Project_MemVo> myProjectMBList(String user_email);
 
 	// drag and drop 후 날짜에 맞게 DB에 update시키기!
 	int dragAndDrop(WorkVo workVo);
@@ -39,9 +46,6 @@ public interface ICalendarService {
 
 	// 해당 업무 업데이트 하는 메서드
 	int upW(WorkVo workVo);
-
-	// 프로젝트 리스트 받아오는!!
-	List<ProjectVo> projectList();
 
 	/**
 	 * Method : myProject 작성자 : 손영하 변경이력 : 2019-08-05 최초 생성
@@ -57,9 +61,9 @@ public interface ICalendarService {
 	 * 변경이력 		: 2019-08-06 최초 생성
 	 * @param user_email
 	 * @return
-	 * Method 설명 	: 내가 속한 프로젝트 업무들을 받아오는 메서드
+	 * Method 설명 	: 내가 속한 프로젝트 내 업무들을 받아오는 메서드
 	 */
-	String myProjectWork(String user_email);
+	String myProjectWList(String user_email);
 	
 	/**
 	* Method : workList
@@ -67,7 +71,7 @@ public interface ICalendarService {
 	* 변경이력 :
 	* @param prj_id
 	* @return
-	* Method 설명 : 해당 프로젝트에 업무 리스트를 받아오는
+	* Method 설명 : 특정 프로젝트에 업무 리스트를 받아오는
 	*/
 	List<Work_ListVo> workList(int prj_id);
 }

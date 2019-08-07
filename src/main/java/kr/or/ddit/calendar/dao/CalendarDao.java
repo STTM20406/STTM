@@ -30,9 +30,17 @@ public class CalendarDao implements ICalendarDao {
 		return sqlSession.insert("calendar.wInsert", workVo);
 	}
 
+	/**
+	* Method : selectProjectWList
+	* 작성자 : melong2
+	* 변경이력 :
+	* @param prj_id
+	* @return
+	* Method 설명 : 특정 프로젝트에 업무에 대한걸 다 받아오는 메서드
+	*/
 	@Override
-	public List<WorkVo> wList(int prj_id) {
-		return sqlSession.selectList("calendar.wList",prj_id);
+	public List<WorkVo> selectProjectWList(int prj_id) {
+		return sqlSession.selectList("calendar.selectProjectWList",prj_id);
 	}
 
 	/**
@@ -44,8 +52,8 @@ public class CalendarDao implements ICalendarDao {
 	* Method 설명 : 로그인 한 사용자가 속해 있는 프로젝트 모든 멤버 목록
 	*/
 	@Override
-	public List<Project_MemVo> allProjectMBList(String user_email) {
-		return sqlSession.selectList("calendar.allProjectMBList",user_email);
+	public List<Project_MemVo> myProjectMBList(String user_email) {
+		return sqlSession.selectList("calendar.myProjectMBList",user_email);
 	}
 
 	@Override
@@ -69,23 +77,12 @@ public class CalendarDao implements ICalendarDao {
 	* 변경이력 :
 	* @param user_email
 	* @return
-	* Method 설명 : 로그인 한 사용자가 속해 있는 프로젝트와 업무에 대한 정보를 다 가져오는
+	* Method 설명 : 로그인 한 사용자가 속해 있는 프로젝트와 내 업무에 대한 정보를 다 가져오는
 	*/
 	@Override
-	public List<WorkVo> projectWList(String user_email) {
-		return sqlSession.selectList("calendar.projectWList",user_email);
+	public List<WorkVo> myProjectWList(String user_email) {
+		return sqlSession.selectList("calendar.myProjectWList",user_email);
 	}
-	
-	
-	
-	
-	
-	
-	@Override
-	public List<ProjectVo> projectList() {
-		return null;
-	}
-
 	
 	/**
 	 * Method : myProject 작성자 : 손영하 변경이력 : 2019-08-05 최초 생성
@@ -104,11 +101,11 @@ public class CalendarDao implements ICalendarDao {
 	 * 변경이력 		: 2019-08-06 최초 생성
 	 * @param user_email
 	 * @return
-	 * Method 설명 	: 내가 속한 프로젝트 업무들을 받아오는 메서드
+	 * Method 설명 	: 내가 속한 프로젝트 전체 업무들을 받아오는 메서드
 	 */
 	@Override
-	public List<WorkVo> myProjectWork(String user_email) {
-		return sqlSession.selectList("calendar.myProjectWork",user_email);
+	public List<WorkVo> myProjectAllWorkList(String user_email) {
+		return sqlSession.selectList("calendar.myProjectAllWorkList",user_email);
 	}
 	
 	/**

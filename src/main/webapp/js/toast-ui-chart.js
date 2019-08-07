@@ -5,7 +5,15 @@
  */
 function loadPieChart(pieContainer, pieData, width, height) {
 	var options3 = {
-			chart: {"width": width, "height": height},
+			chart: {
+				"width": width, 
+				"height": height,
+			    format: function(value, chartType, areaType, valuetype, legendName) {
+		            if (areaType === 'makingSeriesLabel') { // formatting at series area
+		                value = value + '%';
+		            }
+		            return value;
+		        }},
 			series: {
 				radiusRange: ['40%', '100%'],
 				showLabel: true,
@@ -13,7 +21,7 @@ function loadPieChart(pieContainer, pieData, width, height) {
 			},
 			legend: {
 				showCheckbox: false,
-				align: 'outer'
+				align: 'center'
 			},
 			tooltip: {
 		        grouped: false
@@ -66,9 +74,17 @@ function loadPieChart(pieContainer, pieData, width, height) {
 
 function loadPriorChart(priorChartContainer, priorData, width, height) {
 	var options = {
-		    chart: {"width": width, "height": height},
+		    chart: {
+		    	"width": width,
+		    	"height": height,
+			    format: function(value, chartType, areaType, valuetype, legendName) {
+		            if (areaType === 'makingSeriesLabel') { // formatting at series area
+		                value = value + '개';
+		            }
+		            return value;
+		        }},
 		    series: {
-		    	stackType: 'percent'
+		    	stackType: 'percent', showLabel: true
 		    },
 		    tooltip: {
 		        grouped: false
@@ -108,7 +124,15 @@ function loadPriorChart(priorChartContainer, priorData, width, height) {
 
 function loadProgressChart(progressChartContainer, progressData, width, height) {
 	var options = {
-			chart: {"width": width, "height": height},
+			chart: {
+				"width": width,
+				"height": height,
+			    format: function(value, chartType, areaType, valuetype, legendName) {
+		            if (areaType === 'makingSeriesLabel') { // formatting at series area
+		                value = value + '%';
+		            }
+		            return value;
+		        }},
 			series: {
 				stackType: 'percent', showLabel: true
 			},
@@ -161,7 +185,15 @@ function loadProgressChart(progressChartContainer, progressData, width, height) 
 
 function loadPercentChart(percentChartContainer, percentData, width, height) {
 	var options2 = {
-		    chart: {"width": width, "height": height},
+		    chart: {
+		    	"width": width,
+		    	"height": height,
+			    format: function(value, chartType, areaType, valuetype, legendName) {
+		            if (areaType === 'makingSeriesLabel') { // formatting at series area
+		                value = value + '%';
+		            }
+		            return value;
+		        }},
 		    series: { stackType: 'percent', showLabel: true },
 		    tooltip: { grouped: false,
 		        template: function(category, item) {
@@ -199,8 +231,16 @@ function loadPercentChart(percentChartContainer, percentData, width, height) {
 function loadListChart(listChartContainer, listData, width, height) {
 	var workList = listData.work;
 	var options2 = {
-			chart: {"width": width, "height": height},
-			series: { stackType: 'percent' },
+			chart: {
+				"width": width,
+				"height": height,
+			    format: function(value, chartType, areaType, valuetype, legendName) {
+		            if (areaType === 'makingSeriesLabel') { // formatting at series area
+		                value = value + '%';
+		            }
+		            return value;
+		        }},
+			series: { stackType: 'percent', showLabel: true },
 			tooltip: { grouped: false,
 				template: function(category, item) {
 		        	var ratio = Math.floor(item.ratio*100);

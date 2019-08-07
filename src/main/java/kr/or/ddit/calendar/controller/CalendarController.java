@@ -60,8 +60,8 @@ public class CalendarController {
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
 		String user_email =  userVo.getUser_email();
 		
-		model.addAttribute("mList", calendarService.allProjectMBList(user_email));
-		logger.debug("♬♩♪  해당 프로젝트에 속해 있는 멤버 리스트 긔긔: {}", calendarService.allProjectMBList(user_email));
+		model.addAttribute("mList", calendarService.myProjectMBList(user_email));
+		logger.debug("♬♩♪  해당 프로젝트에 속해 있는 멤버 리스트 긔긔: {}", calendarService.myProjectMBList(user_email));
 		
 		//내가 속한 프로젝트 리스트
 		model.addAttribute("projectList", calendarService.myProject(user_email));
@@ -74,64 +74,46 @@ public class CalendarController {
 		return "/outline/calendar.user.tiles";
 	}
 	
-	/**
-	 * Method 		: calendarPost
-	 * 작성자 			: 손영하
-	 * 변경이력 		: 2019-08-01 최초 생성
-	 * @param model
-	 * @param wrk_nm
-	 * @param start_dt
-	 * @param end_dt
-	 * @param wrk_lst_id
-	 * @param wrk_color_cd
-	 * @return
-	 * @throws ParseException
-	 * Method 설명 	: 일정 등록 
-	 */
-	@RequestMapping(path="/calendarPost" , method=RequestMethod.POST)
-	String calendarPost(Model model, String wrk_nm, String start_dt, String end_dt, 
-		int wrk_lst_id, String wrk_color_cd, HttpSession session) throws ParseException {
-		
-		logger.debug("♬♩♪  여기는 post");
-		logger.debug("♬♩♪ wrk_ nm: {}", wrk_nm);
-		logger.debug("♬♩♪  wrk_start_dt: {}", start_dt);
-		logger.debug("♬♩♪  wrk_end_dt: {}", end_dt);
-		logger.debug("♬♩♪ wrk_ lst_id: {}", wrk_lst_id);
-		logger.debug("♬♩♪  wrk_color_cd: {}", wrk_color_cd);
-		
-		//String 으로 받아와서 Date형식으로 바꿔줌!
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-		Date wrk_start_dt= sdf.parse(start_dt);
-		Date wrk_end_dt= sdf.parse(end_dt);
-		
-		logger.debug("♬♩♪  wrk_start_dt: {}", wrk_start_dt);
-		logger.debug("♬♩♪  wrk_end_dt: {}", wrk_end_dt);
-		
-		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
-		String user_email =  userVo.getUser_email();
-		
-		WorkVo workVo = new WorkVo(wrk_lst_id, user_email, wrk_nm, wrk_color_cd, wrk_start_dt, wrk_end_dt);
-		int insertWork = calendarService.wInsert(workVo);
-		if(insertWork==1) {
-			logger.debug("♬♩♪  업무 등록 완료!!");
-		}
-		model.addAttribute("IW", insertWork);
-		return "redirect:/calendarGet";
-	}
 	
-	//해당 프로젝트에 시작일과 종료 일이 설정되어있는 업무들을 받아와서 calendar에 뿌려주는!! (ajax)
+	/**
+	 * Method 		: wListAjax
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-07 최초 생성
+	 * @param model
+	 * @param session
+	 * @return
+	 * Method 설명 	:해당 프로젝트에 시작일과 종료 일이 설정되어있는 업무들을 받아와서 calendar에 뿌려주는!! (ajax)
+	 */
 	@RequestMapping(path="/wListAjax", method=RequestMethod.GET)
 	String wListAjax(Model model, HttpSession session) {
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
 		String user_email =  userVo.getUser_email();
 		
 		logger.debug("♬♩♪  모든 프로젝트의 업무들을 가져오는 ajax");
-		String data = calendarService.myProjectWork(user_email);
+		String data = calendarService.myProjectAllWorkList(user_email);
 		logger.debug("♬♩♪  data: {}", data);
 		model.addAttribute("response", data);
 		
 		return "jsonView";
 	}
+	
+	@RequestMapping(path="/allNMine", method=RequestMethod.POST)
+	String allNMine(Model model,String value, HttpSession session) {
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email =  userVo.getUser_email();
+		
+		if(value.equals("all")) {
+			String data = calendarService.myProjectAllWorkList(user_email);
+			model.addAttribute("response", data);
+			logger.debug("♬♩♪  all + data: {}", data);
+		}else if(value.equals("mine")) {
+			String data = calendarService.myProjectWList(user_email);
+			model.addAttribute("response", data);
+			logger.debug("♬♩♪  mine + data: {}", data);
+		}
+		return "jsonView";
+	}
+	
 	
 	//Drag and Drop 
 	@RequestMapping(path="/dragAndDrop",method=RequestMethod.POST)
@@ -172,8 +154,6 @@ public class CalendarController {
 	 */
 	@RequestMapping(path="/addEvent" , method=RequestMethod.POST)
 	String addEvent(Model model, @RequestBody Map<String, Object> map, HttpSession session) throws ParseException {
-		logger.debug("♬♩♪  등록 컨트롤러: {}", map);
-		
 		String wrk = (String) map.get("type");
 		int wrk_lst_id = Integer.parseInt(wrk);
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
@@ -238,6 +218,16 @@ public class CalendarController {
 		return "jsonView";
 	}
 	
+	
+	/**
+	 * Method 		: changeWorkList
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-07 최초 생성
+	 * @param model
+	 * @param prj_id
+	 * @return
+	 * Method 설명 	: 프로젝트 선택시 해당 업무리스트 이름 뿌림!
+	 */
 	@RequestMapping(path="/changeWorkList" , method=RequestMethod.POST)
 	String changeWorkList(Model model, int prj_id) {
 		logger.debug("♬♩♪  프로젝트 선택시 해당 업무리스트 이름 뿌림!");

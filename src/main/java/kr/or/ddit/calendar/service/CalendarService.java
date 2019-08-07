@@ -33,16 +33,11 @@ public class CalendarService implements ICalendarService {
 	public int wInsert(WorkVo workVo) {
 		return calendarDao.wInsert(workVo);
 	}
-
-//	@Override
-//	public List<WorkVo> wList(int prj_id) {
-//		return calendarDao.wList(prj_id);
-//	}
-
+	
 	@Override
-	   public String wList(int prj_id) {
+	   public String selectProjectWList(int prj_id) {
 	     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-	      List<WorkVo> list = calendarDao.wList(prj_id);
+	      List<WorkVo> list = calendarDao.selectProjectWList(prj_id);
 	      String jsonData = "[";
 	      for(WorkVo workVo : list) {
 	    	  jsonData += "{\"_id\"" + ":"+ workVo.getWrk_id()  + ","
@@ -65,8 +60,8 @@ public class CalendarService implements ICalendarService {
 	   }
 
 	@Override
-	public List<Project_MemVo> allProjectMBList(String user_email) {
-		return calendarDao.allProjectMBList(user_email);
+	public List<Project_MemVo> myProjectMBList(String user_email) {
+		return calendarDao.myProjectMBList(user_email);
 	}
 
 	@Override
@@ -85,9 +80,9 @@ public class CalendarService implements ICalendarService {
 	}
 	
 	@Override
-	public String projectWList(String user_email) {
+	public String myProjectAllWorkList(String user_email) {
 		 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-	      List<WorkVo> list = calendarDao.projectWList(user_email);
+	      List<WorkVo> list = calendarDao.myProjectAllWorkList(user_email);
 	      String jsonData = "[";
 	      for(WorkVo workVo : list) {
 	    	  jsonData += "{\"_id\"" + ":"+ workVo.getWrk_id()  + ","
@@ -107,11 +102,6 @@ public class CalendarService implements ICalendarService {
 	      logger.debug("jsonData : {}", jsonData);
 	      
 	      return jsonData;
-	}
-	
-	@Override
-	public List<ProjectVo> projectList() {
-		return calendarDao.projectList();
 	}
 	
 	/**
@@ -134,9 +124,9 @@ public class CalendarService implements ICalendarService {
 	 * Method 설명 	: 내가 속한 프로젝트 업무들을 받아오는 메서드
 	 */
 	@Override
-	public String myProjectWork(String user_email) {
+	public String myProjectWList(String user_email) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-	      List<WorkVo> list = calendarDao.myProjectWork(user_email);
+	      List<WorkVo> list = calendarDao.myProjectWList(user_email);
 	      String jsonData = "[";
 	      for(WorkVo workVo : list) {
 	    	  jsonData += "{\"_id\"" + ":"+ workVo.getWrk_id()  + ","
@@ -158,6 +148,14 @@ public class CalendarService implements ICalendarService {
 	      return jsonData;
 	}
 	
+	/**
+	* Method : workList
+	* 작성자 : melong2
+	* 변경이력 :
+	* @param prj_id
+	* @return
+	* Method 설명 : 특정 프로젝트에 대한 업무들을 받아오는 
+	*/
 	@Override
 	public List<Work_ListVo> workList(int prj_id) {
 		return calendarDao.workList(prj_id);

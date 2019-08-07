@@ -4,13 +4,55 @@
 <script src="https://uicdn.toast.com/tui.chart/latest/tui-chart-all.min.js"></script>
 <script src="/js/toast-ui-chart.js"></script>
 <div id="dateContainer" style="width:100%; height:120px;border:1px solid #e1e1e1;">
-	<div id="start_dt" style="width:14%;height:120px;float:left;">시작일</div>
-	<div id="end_dt" style="width:14%;height:120px;float:left;">마감일</div>
-	<div id="cmp_dt" style="width:14%;height:120px;float:left;">완료일</div>
-	<div id="elapsed_time" style="width:14%;height:120px;float:left;">경과 시간</div>
-	<div id="remain_time" style="width:14%;height:120px;float:left;">남은 시간</div>
-	<div id="cmp_wrk_cnt" style="width:14%;height:120px;float:left;">완료한 업무</div>
-	<div id="not_cmp_wrk_cnt" style="width:14%;height:120px;float:left;">남은 업무</div>
+	<div id="start_dt" style="width:14%;height:120px;float:left;">
+		<div class="dt" style="position:relative;top:50%;left:50%; transform:translate(-50%, -50%);">
+			<p style="text-align:center;">
+			시작일
+			</p>
+		</div>
+	</div>
+	<div id="end_dt" style="width:14%;height:120px;float:left;">
+		<div class="dt" style="position:relative;top:50%;left:50%; transform:translate(-50%, -50%);">
+			<p style="text-align:center;">
+			마감일
+			</p>d
+		</div>
+	</div>
+	<div id="cmp_dt" style="width:14%;height:120px;float:left;">
+		<div class="dt" style="position:relative;top:50%;left:50%; transform:translate(-50%, -50%);">
+			<p style="text-align:center;">
+			완료일
+			</p>
+		</div>
+	</div>
+	<div id="elapsed_time" style="width:14%;height:120px;float:left;">
+		<div class="dt" style="position:relative;top:50%;left:50%; transform:translate(-50%, -50%);">
+			<p style="text-align:center;">
+			경과 시간
+			</p>
+		</div>
+	</div>
+	<div id="remain_time" style="width:14%;height:120px;float:left;">
+		<div class="dt" style="position:relative;top:50%;left:50%; transform:translate(-50%, -50%);">
+			<p style="text-align:center;">
+			남은 시간
+			</p>
+		</div>
+	</div>
+	<div id="cmp_wrk_cnt" style="width:14%;height:120px;float:left;">
+		<div class="wrk" style="position:relative;top:50%;left:50%; transform:translate(-50%, -50%);">
+			<p style="text-align:center;">
+			완료한 업무
+			</p>
+		</div>
+	</div>
+	<div id="not_cmp_wrk_cnt" style="width:14%;height:120px;float:left;">
+		<div class="wrk" style="position:relative;top:50%;left:50%; transform:translate(-50%, -50%);">
+			<p style="text-align:center;">
+			남은 업무
+			</p>
+		</div>
+	</div>
 </div>
 <div class="spacing" style="width:100%;height:20px;"></div>
 <div id="prj_barchart" style="height:250px; width:100%;border:1px solid #e1e1e1;">

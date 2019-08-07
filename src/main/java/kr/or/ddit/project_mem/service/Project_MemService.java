@@ -21,9 +21,9 @@ public class Project_MemService implements IProject_MemService{
 	
 	/**
 	 * 
-	 * Method 		: projectMemList
-	 * 작성자 		: 박서경 
-	 * 변경이력 		: 2019-08-03 최초 생성
+	 * Method 			: projectMemList
+	 * 작성자 				: 박서경 
+	 * 변경이력 			: 2019-08-03 최초 생성
 	 * @param user_email
 	 * @return
 	 * Method 설명 	: 프로젝트 멤버 리스트 조회
@@ -35,9 +35,9 @@ public class Project_MemService implements IProject_MemService{
 
 	/**
 	 * 
-	 * Method 		: insertProjectMem
-	 * 작성자 		: 박서경 
-	 * 변경이력 		: 2019-07-21 최초 생성
+	 * Method 			: insertProjectMem
+	 * 작성자 				: 박서경 
+	 * 변경이력 			: 2019-07-21 최초 생성
 	 * @return
 	 * Method 설명 	: 프로젝트 멤버 등록(초대)
 	 */
@@ -99,9 +99,9 @@ public class Project_MemService implements IProject_MemService{
 	
 	/**
 	 * 
-	 * Method 		: projectAllMemList
-	 * 작성자 		: 박서경 
-	 * 변경이력 		: 2019-08-05 최초 생성
+	 * Method 			: projectAllMemList
+	 * 작성자 				: 박서경 
+	 * 변경이력 			: 2019-08-05 최초 생성
 	 * @param user_email
 	 * @return
 	 * Method 설명 	: 프로젝트 멤버 추가를 위한 프로젝트 멤버 리스트 조회
@@ -114,9 +114,9 @@ public class Project_MemService implements IProject_MemService{
 	
 	/**
 	 * 
-	 * Method 		: deleteProjectMem
-	 * 작성자 		: 박서경 
-	 * 변경이력 		: 2019-08-06 최초 생성
+	 * Method 			: deleteProjectMem
+	 * 작성자 				: 박서경 
+	 * 변경이력 			: 2019-08-06 최초 생성
 	 * @param projectVo
 	 * @return
 	 * Method 설명 	: 프로젝트 멤버 삭제
@@ -124,6 +124,21 @@ public class Project_MemService implements IProject_MemService{
 	@Override
 	public int deleteProjectMem(Project_MemVo projectMemVo) {
 		return projectMemDao.deleteProjectMem(projectMemVo);
+	}
+
+	
+	/**
+	 * 
+	 * Method 			: getProjectMemInfo
+	 * 작성자 				: 박서경 
+	 * 변경이력 			: 2019-08-07 최초 생성
+	 * @param projectMemVo
+	 * @return
+	 * Method 설명 	: 현재 접속한 사용자의 프로젝트 멤버 정보 조회
+	 */
+	@Override
+	public Project_MemVo getProjectMemInfo(Project_MemVo projectMemVo) {
+		return projectMemDao.getProjectMemInfo(projectMemVo);
 	}
 	
 }

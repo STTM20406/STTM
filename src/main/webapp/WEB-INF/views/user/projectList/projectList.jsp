@@ -138,9 +138,7 @@
 				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 				data: "prj_nm=" + prj_nm,
 				success:function(data){
-					
 					var html = "";
-					
 					data.data.projectList.forEach(function(project){
 						//html 생성
 		 				html += "<div class='project_item'><ul class='project_item_hd'>";
@@ -212,6 +210,25 @@
 					$(".prj_add_box").html(html);
 					$(".prj_mem_add_box").html(html2);
 					
+					if(data.userInfo.prj_mem_lv == "LV1" && data.projectInfo.prj_auth == "ASC02" || data.userInfo.prj_mem_lv == "LV1" && data.projectInfo.prj_auth == "ASC03"){
+						$("#propertySet input").prop('readonly', true);
+						$("#propertySet select").prop('disabled',true);
+						$("#propertySet button").prop('disabled', true);
+						$("#propertySet input[type=button]").prop('disabled', true);
+						$("#prjLeave").prop('disabled', false);
+						$(".prj_add_box input").css({display:"none"});
+						$(".prj_mem_add_box input").css({display:"none"});
+						$(".datePick").attr("class", "datePick");
+						$(".datePick").removeAttr("data-language");
+					}else{
+						$("#propertySet input").prop('readonly', false);
+						$("#propertySet select").prop('disabled',false);
+						$("#propertySet button").prop('disabled', false);
+						$("#propertySet input[type=button]").prop('disabled', false);
+						$(".datePick").attr("class", "datepicker-here datePick");
+						$('.datePick').attr('data-language', 'en'); 
+					}
+					
 					updateTime = data.projectInfo.prj_update;
 					updateDiff(updateTime);
 				}
@@ -273,13 +290,13 @@
 				method:"post",
 				contentType:"application/x-www-form-urlencoded; charset=UTF-8",
 				data:	"prj_id=" + projectSet.id +
-						"&prj_nm=" + projectSet.name +
-						"&prj_exp=" + projectSet.exp +
-						"&prj_auth=" + projectSet.auth +
-						"&prj_st=" + projectSet.status +
-						"&prj_start_dt=" + projectSet.start_date +
-						"&prj_end_dt=" + projectSet.end_date +
-						"&prj_cmp_dt=" + projectSet.cmp_date,
+							"&prj_nm=" + projectSet.name +
+							"&prj_exp=" + projectSet.exp +
+							"&prj_auth=" + projectSet.auth +
+							"&prj_st=" + projectSet.status +
+							"&prj_start_dt=" + projectSet.start_date +
+							"&prj_end_dt=" + projectSet.end_date +
+							"&prj_cmp_dt=" + projectSet.cmp_date,
 				success:function(data){
 					$(".project_item").each(function() {
 						var prjItemsId = $(this).attr("id");
@@ -464,7 +481,11 @@
 			var email = textSplit[0];
 			var lv = textSplit[2];
 			
-			console.log(lv);
+			if(lv == "LV0"){
+				$(".ctxt").text("프로젝트 관리자를 삭제할 수 없습니다. 프로젝트에는 최소 1인 이상의 프로젝트 관리자가 필요합니다.");
+	        	layer_popup("#layer2");
+	            return false;
+			}
 			
 			projectMemDelAjax(id, email);
 		});
@@ -752,16 +773,16 @@
 			<dl class="setItem">
 				<dt>프로젝트 시작일</dt>
 				<dd>
-					<input type="text" data-language="en" class="datepicker-here" id="ppt_start_date">
+					<input type="text" data-language="en" class="datepicker-here datePick" id="ppt_start_date">
 				</dd>
 			</dl>
 			<dl class="setItem">
 				<dt>프로젝트 마감일</dt>
-				<dd><input type="text" data-language="en" class="datepicker-here" id="ppt_end_date"></dd>
+				<dd><input type="text" data-language="en" class="datepicker-here datePick" id="ppt_end_date"></dd>
 			</dl>
 			<dl class="setItem">
 				<dt>프로젝트 완료일</dt>
-				<dd><input type="text" data-language="en" class="datepicker-here" id="ppt_cmp_date"></dd>
+				<dd><input type="text" data-language="en" class="datepicker-here datePick" id="ppt_cmp_date"></dd>
 			</dl>
 			<dl class="setItem">
 				<dt>프로젝트 관리자</dt>
@@ -813,11 +834,11 @@
 			</dl>
 			<dl class="setItem">
 				<dt>프로젝트 나가기</dt>
-				<dd><button type="button" id="" name="" onclick="">프로젝트 나가기</button></dd>
+				<dd><button type="button" id="prjLeave" name="" onclick="">프로젝트 나가기</button></dd>
 			</dl>
 			<dl class="setItem">
 				<dt>프로젝트 삭제</dt>
-				<dd><button type="button" id="" name="" onclick="">프로젝트 삭제</button></dd>
+				<dd><button type="button" id="prjDel" name="" onclick="">프로젝트 삭제</button></dd>
 			</dl>
 		</div>
 	</div>

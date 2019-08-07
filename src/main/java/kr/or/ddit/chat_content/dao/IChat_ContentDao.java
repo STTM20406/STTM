@@ -8,7 +8,7 @@ import kr.or.ddit.chat_content.model.Chat_ContentVo;
 public interface IChat_ContentDao {
 
 	/**
-	 * 
+	 * .
 	 * Method 		: chatroomContentList
 	 * 작성자 			: 유다연
 	 * 변경이력 		: 2019-07-19 최초 생성
