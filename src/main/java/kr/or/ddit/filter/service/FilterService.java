@@ -796,16 +796,16 @@ public class FilterService implements IFilterService{
 		double nodeadlineData = 0;
 		
 		if(cmpPt!=0) 
-			cmpData = Math.floor((cmpPt/entPt)*100);
+			cmpData = Math.round((cmpPt/entPt)*100);
 		
 		if(planPt!=0) 
-			planData = Math.floor((planPt/entPt)*100);
+			planData = Math.round((planPt/entPt)*100);
 		
 		if(overduePt!=0) 
-			overdueData = Math.floor((overduePt/entPt)*100);
+			overdueData = Math.round((overduePt/entPt)*100);
 		
 		if(nodeadlinePt!=0) 
-			nodeadlineData = Math.floor((nodeadlinePt/entPt)*100);
+			nodeadlineData = Math.round((nodeadlinePt/entPt)*100);
 		
 		List<Object> series3List = new ArrayList<>();
 		pieChartMap.put("series", series3List);
@@ -926,19 +926,19 @@ public class FilterService implements IFilterService{
 		Map<String, Object> overdueMap = new HashMap<>();
 		Map<String, Object> nodeadlineMap = new HashMap<>();
 		
-		double cmpData = Math.floor((cmpPt/entPt)*100);
+		double cmpData = Math.round((cmpPt/entPt)*100);
 		cmpMap.put("data", cmpData);
 		cmpMap.put("name", "완료된 업무");
 		
-		double planData = Math.floor((planPt/entPt)*100);
+		double planData = Math.round((planPt/entPt)*100);
 		plannedMap.put("data", planData);
 		plannedMap.put("name", "계획된 업무");
 		logger.debug("planPt: {}, entPt: {}",planPt, entPt);
-		double overdueData = Math.floor((overduePt/entPt)*100);
+		double overdueData = Math.round((overduePt/entPt)*100);
 		overdueMap.put("data", overdueData);
 		overdueMap.put("name", "마감일 지난 업무");
 		
-		double nodeadlineData = Math.floor(nodeadlinePt/entPt)*100;
+		double nodeadlineData = Math.round(nodeadlinePt/entPt)*100;
 		nodeadlineMap.put("data", nodeadlineData);
 		nodeadlineMap.put("name", "마감일 없는 업무");
 		
@@ -979,18 +979,19 @@ public class FilterService implements IFilterService{
 			
 			wrkListMap.put(work.getWrk_lst_id(),work.getWrk_lst_nm());
 		}
-		List<Integer> blankList = new ArrayList<>();
+		
+		List<Double> blankList = new ArrayList<>();
 		for(int i = 0; i<wrkListMap.size(); i++) {
-			blankList.add(0);
+			blankList.add(0.0);
 		}
-		List<Integer> cmpList = new ArrayList<Integer>(blankList);
-		List<Integer> planList = new ArrayList<>(blankList);
-		List<Integer> overdueList = new ArrayList<>(blankList);
-		List<Integer> nodeadlineList = new ArrayList<>(blankList);
+		List<Double> cmpList = new ArrayList<>(blankList);
+		List<Double> planList = new ArrayList<>(blankList);
+		List<Double> overdueList = new ArrayList<>(blankList);
+		List<Double> nodeadlineList = new ArrayList<>(blankList);
 		
 		logger.debug("wrkListMap.size() : {}",wrkListMap.size()); 
 		for(Integer wrk_lst_id : wrkListMap.keySet()) {
-			int entPt = 0;
+			double entPt = 0;
 			int cmpPt = 0;
 			int planPt = 0;
 			int overduePt = 0;
@@ -1027,10 +1028,28 @@ public class FilterService implements IFilterService{
 						overduePt += point;
 						workOverdueList.add(work);
 					}
-					cmpList.set(index, cmpPt);
-					nodeadlineList.set(index, nodeadlinePt);
-					planList.set(index, planPt);
-					overdueList.set(index, overduePt);
+					
+					double cmpData = 0; 
+					double planData = 0;
+					double overdueData = 0; 
+					double nodeadlineData = 0;
+					
+					if(cmpPt!=0) 
+						cmpData = Math.round((cmpPt/entPt)*100);
+					
+					if(planPt!=0) 
+						planData = Math.round((planPt/entPt)*100);
+					
+					if(overduePt!=0) 
+						overdueData = Math.round((overduePt/entPt)*100);
+					
+					if(nodeadlinePt!=0) 
+						nodeadlineData = Math.round((nodeadlinePt/entPt)*100);
+					
+					cmpList.set(index, cmpData);
+					nodeadlineList.set(index, nodeadlineData);
+					planList.set(index, planData);
+					overdueList.set(index, overdueData);
 				}
 			}
 			workMap.put("cmpList", workCmpList);

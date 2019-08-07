@@ -63,7 +63,7 @@
        		<p>데이터 없음</p>
        	</div>
 		</div>
-        <div id="work_detail" style="width:600px;padding:25px;height:100%;float:left;"></div>
+        <div id="work_detail" style="width:600px;padding:25px;height:100%;float:left;overflow-y:auto;"></div>
 <script>
 	var percentChart = null;
 	var priorChart = null;
