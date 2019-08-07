@@ -8,7 +8,7 @@ import kr.or.ddit.chat_room.model.Chat_RoomVo;
 public interface IChat_RoomService {
 
 	/**
-	 * 
+	 * .
 	 * Method 		: createRoom
 	 * 작성자 			: 유다연
 	 * 변경이력 		: 2019-07-20 최초 생성.

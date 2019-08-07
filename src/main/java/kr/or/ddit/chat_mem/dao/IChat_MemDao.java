@@ -8,7 +8,7 @@ import kr.or.ddit.chat_mem.model.Chat_MemVo;
 public interface IChat_MemDao {
 	
 	/**
-	 * 
+	 * .
 	 * Method 		: roomFriendList
 	 * 작성자 			: 유다연
 	 * 변경이력 		: 2019-07-19 최초 생성

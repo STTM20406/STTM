@@ -9,7 +9,7 @@ public interface IChat_ContentService {
 	
 	
 	/**
-	 * 
+	 * .
 	 * Method 		: chatroomContentList
 	 * 작성자 			: 유다연
 	 * 변경이력 		: 2019-07-19 최초 생성
