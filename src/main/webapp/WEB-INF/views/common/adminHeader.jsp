@@ -36,7 +36,10 @@ function connectNotify(){
 		var $socketAlert = $('div#socketAlert');
 		$socketAlert.text(event.data);
 		$socketAlert.css('display','block');
-		
+// 		setTimeout(function(){
+// 			$socketAlert.css('display','none');
+			
+// 		},3000);
 
 	};
 
