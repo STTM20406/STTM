@@ -133,4 +133,19 @@ public class Project_MemDao implements IProject_MemDao{
 		return sqlSession.delete("project.deleteProjectMem", projectMemVo);
 	}
 
+
+	/**
+	 * 
+	 * Method 			: getProjectMemInfo
+	 * 작성자 				: 박서경 
+	 * 변경이력 			: 2019-08-07 최초 생성
+	 * @param projectMemVo
+	 * @return
+	 * Method 설명 	: 현재 접속한 사용자의 프로젝트 멤버 정보 조회
+	 */
+	@Override
+	public Project_MemVo getProjectMemInfo(Project_MemVo projectMemVo) {
+		return sqlSession.selectOne("project.getProjectMemInfo", projectMemVo);
+	}
+
 }

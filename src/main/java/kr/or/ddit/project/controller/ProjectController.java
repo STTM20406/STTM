@@ -129,6 +129,10 @@ public class ProjectController {
 		List<Project_MemVo> admList = new ArrayList<Project_MemVo>();
 		List<Project_MemVo> project_adm_list = projectMemService.projectMemList(projectMemVo);
 		
+		//현재 접속한 사용자의 프로젝트 멤버 정보 매칭해서 가져오기
+		Project_MemVo projectMemInfo = new Project_MemVo(prjId, user_email);
+		Project_MemVo userInfo = projectMemService.getProjectMemInfo(projectMemInfo);
+		
 		for(int i=0; i<project_adm_list.size(); i++) {
 			if(project_adm_list.get(i).getPrj_mem_lv().equals("LV0")) {
 				admList.add(project_adm_list.get(i));
@@ -139,6 +143,7 @@ public class ProjectController {
 		hashmap.put("projectInfo", projectService.getProject(prjId));
 		hashmap.put("projectAdmList", admList);
 		hashmap.put("projectMemList", project_adm_list);
+		hashmap.put("userInfo", userInfo);
 
 		return hashmap;
 	}

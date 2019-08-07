@@ -87,4 +87,17 @@ public interface IProject_MemService {
 	 * Method 설명 	: 프로젝트 멤버 삭제
 	 */
 	int deleteProjectMem(Project_MemVo projectMemVo);
+	
+	
+	/**
+	 * 
+	 * Method 			: getProjectMemInfo
+	 * 작성자 				: 박서경 
+	 * 변경이력 			: 2019-08-07 최초 생성
+	 * @param projectMemVo
+	 * @return
+	 * Method 설명 	: 현재 접속한 사용자의 프로젝트 멤버 정보 조회
+	 */
+	Project_MemVo getProjectMemInfo(Project_MemVo projectMemVo);
+	
 }
