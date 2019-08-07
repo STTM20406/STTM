@@ -76,4 +76,14 @@ public interface IFilterService {
 	 * Method 설명 : 특정 프로젝트의 업무 개요정보를 반환하는 메서드
 	 */
 	Map<String, Object> projectOverviewJSON(FilterVo filterVo);
+	
+	/**
+	 * Method : calendarTemplateJSON
+	 * 작성자 : 유승진
+	 * 변경이력 : 2019-08-07 최초 생성
+	 * @param filterVo
+	 * @return
+	 * Method 설명 : 캘린더 화면에 필요한 데이터를 JSON 형태로 반환하는 메서드
+	 */
+	Map<String, Object> calendarTemplateJSON(FilterVo filterVo);
 }

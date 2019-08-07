@@ -159,24 +159,13 @@ var calendar = $('#calendar').fullCalendar({
    * ************** */
   events: function (start, end, timezone, callback) {
     $.ajax({
-      method:"get",
-      url: "/wListAjax",
-//      data: "prj_id=" + 1 ,  //나중에 수정해야함! 나중에 controller에서 session에 담긴 email꺼내면댐!
+      method:"post",
+      url: "/calendarTest",
+      data: $("#filterFrm").serialize(),
       contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
       success: function (response) {
-    	  var aa = JSON.stringify(response);
-
-    	  var ab = aa.replace(/\\/g,'');
-    	  var ac = ab.replace(/\"{/g,'{');
-    	  var as = ac.replace(/\}"/g,'}'); 
-    	  var qw = as.substring(13);
-    	  var result = qw.substr(0,qw.length-2);
-
-//    	  console.log(result);
-    	  data = JSON.parse(result);
-    	  console.log(data);
-
-    	  response = data;
+    	  response = response.data;
+    	  console.log(response);
         var fixedDate = response.map(function (array) {
           if (array.allDay && array.start !== array.end) {
             // 이틀 이상 AllDay 일정인 경우 달력에 표기시 하루를 더해야 정상출력

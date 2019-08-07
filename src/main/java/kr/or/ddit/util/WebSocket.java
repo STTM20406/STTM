@@ -1,16 +1,11 @@
 package kr.or.ddit.util;
 
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonWriter;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -22,11 +17,9 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import kr.or.ddit.chat_content.model.Chat_ContentVo;
 import kr.or.ddit.chat_content.service.Chat_ContentService;
-import kr.or.ddit.chat_mem.model.Chat_MemVo;
 import kr.or.ddit.chat_mem.service.Chat_MemService;
-import kr.or.ddit.chat_room.model.Chat_RoomVo;
 import kr.or.ddit.chat_room.service.Chat_RoomService;
-import kr.or.ddit.notificatoin.model.NotificationVo;
+import kr.or.ddit.notification.model.NotificationVo;
 import kr.or.ddit.users.model.UserVo;
 
 //작성순서 : afterConnectionEstablished(서버 접속 시) -> afterConnectionClosed(서버연결끊을 시)

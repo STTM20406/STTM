@@ -1,56 +1,72 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<style>
+	input {text-align: center;}
+</style>
 <link rel="stylesheet" href="https://uicdn.toast.com/tui.chart/latest/tui-chart.min.css">
 <script src="https://uicdn.toast.com/tui.chart/latest/tui-chart-all.min.js"></script>
 <script src="/js/toast-ui-chart.js"></script>
+
+<!-- flatpickr.js 시작 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
+<!-- flatpicker.js 끝 -->
+<div id="prj_list_container">
+	<select id="prj_list">
+	
+	</select>
+</div>
+<br>
 <div id="dateContainer" style="width:100%; height:120px;border:1px solid #e1e1e1;">
 	<div id="start_dt" style="width:14%;height:120px;float:left;">
+			<p style="text-align:center;margin-top:15px;">시작일</p>
 		<div class="dt" style="position:relative;top:50%;left:50%; transform:translate(-50%, -50%);">
-			<p style="text-align:center;">
-			시작일
-			</p>
+		<!-- pick를 사용할 input -->
+				<input id="st_dt" name="start_dt" data-input style="margin-left:30px;"/>
+				<a class="input-button" title="clear" data-clear>
+					X
+				</a>
 		</div>
 	</div>
 	<div id="end_dt" style="width:14%;height:120px;float:left;">
-		<div class="dt" style="position:relative;top:50%;left:50%; transform:translate(-50%, -50%);">
-			<p style="text-align:center;">
-			마감일
-			</p>d
+			<p style="text-align:center;margin-top:15px;">마감일</p>
+		<div class="dt" style="margin:0 auto;position:relative;top:50%;left:50%; transform:translate(-50%, -50%);">
+			<input id="ed_dt" name="end_dt" data-input style="margin-left:30px;"/>
+			<a class="input-button" title="clear" data-clear>
+				X
+			</a>
 		</div>
 	</div>
 	<div id="cmp_dt" style="width:14%;height:120px;float:left;">
-		<div class="dt" style="position:relative;top:50%;left:50%; transform:translate(-50%, -50%);">
-			<p style="text-align:center;">
-			완료일
-			</p>
+			<p style="text-align:center;margin-top:15px;">완료일</p>
+		<div class="dt" style="margin:0 auto;position:relative;top:50%;left:50%; transform:translate(-50%, -50%);">
+			<input id="cp_dt" name="cmp_dt" data-input style="margin-left:30px;"/>
+			<a class="input-button" title="clear" data-clear>
+				X
+			</a>
 		</div>
 	</div>
 	<div id="elapsed_time" style="width:14%;height:120px;float:left;">
-		<div class="dt" style="position:relative;top:50%;left:50%; transform:translate(-50%, -50%);">
-			<p style="text-align:center;">
-			경과 시간
-			</p>
+			<p style="text-align:center;margin-top:15px;">경과 시간</p>
+		<div style="position:relative;top:50%;left:50%; transform:translate(-50%, -50%);">
+			<p id="elap" style="text-align:center;">-</p>
 		</div>
 	</div>
 	<div id="remain_time" style="width:14%;height:120px;float:left;">
-		<div class="dt" style="position:relative;top:50%;left:50%; transform:translate(-50%, -50%);">
-			<p style="text-align:center;">
-			남은 시간
-			</p>
+			<p style="text-align:center;margin-top:15px;">남은 시간</p>
+		<div style="position:relative;top:50%;left:50%; transform:translate(-50%, -50%);">
+			<p id="remain" style="text-align:center;">-</p>
 		</div>
 	</div>
 	<div id="cmp_wrk_cnt" style="width:14%;height:120px;float:left;">
+			<p style="text-align:center;margin-top:15px;">완료한 업무</p>
 		<div class="wrk" style="position:relative;top:50%;left:50%; transform:translate(-50%, -50%);">
-			<p style="text-align:center;">
-			완료한 업무
-			</p>
 		</div>
 	</div>
 	<div id="not_cmp_wrk_cnt" style="width:14%;height:120px;float:left;">
+			<p style="text-align:center;margin-top:15px;">남은 업무</p>
 		<div class="wrk" style="position:relative;top:50%;left:50%; transform:translate(-50%, -50%);">
-			<p style="text-align:center;">
-			남은 업무
-			</p>
 		</div>
 	</div>
 </div>
@@ -93,7 +109,9 @@
 	<input type="hidden" name="wrk_is_mine" value="all">
 </form>
 <script>
+var cal = null;
 	$(function() {
+		cal = flatpickr(".dt", {"locale" : "ko", wrap: true}); // 한국어 설정
 		var serial = $("#frm").serialize();
 		var assignContainer = document.getElementById("pie_wrk_i_assigned");
 		var madeContainer = document.getElementById("pie_wrk_i_made");
@@ -122,6 +140,11 @@
 				var progressChart = loadProgressChart(progressContainer, progressData, 1520, 150);
 			}
 		});
+		$(".dt input").on("change", function() {
+			setElapDay();
+			setRemainDay();
+		});
+		
 	});
 	
 	function showChart(chartContainer) {
@@ -131,5 +154,75 @@
 	function hideChart(chartContainer) {
 		$(chartContainer).children(".tui-chart").hide();
 		$(chartContainer).children(".blank").show();
+	}
+	function setElapDay() {
+		var st_dt = $("#st_dt").val();
+		var ed_dt = $("#ed_dt").val();
+		var today = new Date();
+		var today_str = today.getFullYear()+"-"+(today.getMonth()+1)+"-"+today.getDate();
+		var elapDay = "-";
+		
+		if(st_dt) {
+			var st = new Date(st_dt);
+			st.setHours(0);
+			var isPast = new Date(today_str) - st; 
+			if(isPast<0)
+				elapDay = "-";
+			else
+				elapDay = Math.floor(isPast/(1000*60*60*24)) + "일";
+			
+			if(ed_dt) {
+				ed = new Date(ed_dt);
+				ed.setHours(0);
+				var elapPercent = "";
+				var elapVal = Math.round(((Math.floor( (new Date(today_str) - st) / (1000*60*60*24) )) / (Math.floor((ed-st)/(1000*60*60*24))) ) * 100)
+				if((ed-st) == 0) {
+					
+				} else if((new Date(today_str)-st)<0){
+					
+				} else if(elapVal>100){
+					
+				} else {
+					elapPercent = "(" + elapVal + "%)";
+				}
+				
+				elapDay = elapDay + elapPercent; 
+				console.log(elapDay);
+			}
+		}
+		$("#elap").text(elapDay);
+	}
+	function setRemainDay() {
+		var ed_dt = $("#ed_dt").val();
+		var st_dt = $("#st_dt").val();
+		var today = new Date();
+		var today_str = today.getFullYear()+"-"+(today.getMonth()+1)+"-"+today.getDate();
+		var remainDay = "-";
+		
+		if(ed_dt) {
+			var ed = new Date(ed_dt);
+			ed.setHours(0);
+			var isPast = ed - new Date(today_str);
+			if(isPast<0)
+				remainDay = "-";
+			else
+				remainDay = Math.floor(isPast/(1000*60*60*24)) + "일";
+			
+			if(st_dt) {
+				st = new Date(st_dt);
+				st.setHours(0);
+				var remainPercent = "";
+				var remainVal = Math.round(100 - (((Math.floor( (new Date(today_str) - st) / (1000*60*60*24) )) / (Math.floor((ed-st)/(1000*60*60*24))) ) * 100 ));
+				if((ed-st)==0) {
+				
+				} else if(remainVal>100) {
+					
+				} else {
+					remainPercent = "(" + remainVal + "%)";
+				}
+				remainDay = remainDay + remainPercent;
+			}
+		}
+		$("#remain").text(remainDay);
 	}
 </script>
