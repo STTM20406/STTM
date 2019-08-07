@@ -2,7 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>	
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-여기로 올까요?
+<%-- basic Library --%>
+<%@include file="/WEB-INF/views/common/baseLib.jsp"%>
 
 <style>
 	
@@ -76,6 +77,16 @@ $(document).ready(function(){
 		$(this).addClass('current');
 		$("#" + tab_id).addClass('current');
 	});
+	
+	// ------- 설정 버튼 -------
+	$(".user_set_list").hide();
+	$(".icon_set").on("click", function(){
+		$(".user_set_list").fadeIn();
+	});
+	$(".user_set_list").on("mouseleave", function(){
+		$(".user_set_list").fadeOut();
+	});
+	
 	
 });	
 
@@ -231,8 +242,6 @@ function layer_open(el){
 		
 		
 		<div id="tab-2" class="tab-content">
-		친구리스트
-		
 					<!--  -->
 	<!-- 		<form id="prjMemForm" action="projectMemberList" method="get"> -->
 	<!-- 			<input type="text" id="prjMemList" name="prjMemList" > -->
@@ -243,6 +252,23 @@ function layer_open(el){
 			</form>
 			
 			<div>
+				<div class="searchBox">
+					<div class="tb_sch_wr">
+						<fieldset id="hd_sch">
+						 	<form id="frmSearch" action="/friendsSearchList" method="get">
+			<input type="hidden" id="inq_cate" name="inq_cate" value="INQ01"/>
+								<input type="hidden" id="selectBoxText" name="selectBoxText" value="userEmail"/>
+				                <legend>사이트 내 전체검색</legend>
+					                <select id="search">
+					                	<option value="userEmail">이메일</option>
+					                </select>
+				                <input type="text" name="keyword" id="keyword" maxlength="20" placeholder="검색어를 입력해주세요">
+				                <button type="submit" id="sch_submit" value="검색">검색</button>
+			                </form>
+		            	</fieldset>
+		           	</div>
+	          	</div>
+				
 				<table class="tb_style_01">
 					<colgroup>
 						<col width="10%">
@@ -258,12 +284,15 @@ function layer_open(el){
 							<th>사용자 이메일1</th>
 							<th>사용자 이름</th>
 							<th>
-								<dl>
-									<dt></dt>
-									<dd>삭제 나오냐</dd>
-								</dl>
-							
-							
+								<a href="#" class="icon_set">설정</a>
+		        				<div class="user_set_list">
+		        					<dl>
+		        						<dt></dt>
+		        						<dd><a href="/setUserPass">친구삭제</a></dd>
+		        						<dd><a href="/setUserProfile">프로필설정</a></dd>
+		        						<dd><a href="/logout">로그아웃</a></dd>
+		        					</dl>
+		        				</div>							
 							</th>
 		
 							<c:forEach items="${friendsList}" var="prjVo">
@@ -272,7 +301,8 @@ function layer_open(el){
 									<td class="user_email">${prjVo.user_email}</td>
 									<td>${prjVo.user_email}</td>
 									<td>${prjVo.frd_email}</td>
-									<td>${prjVo.frd_email}</td>
+									<td><a href="" class="btn_style_04">친구 삭제</a></td>
+									
 								</tr>
 								
 							</c:forEach>
@@ -282,7 +312,7 @@ function layer_open(el){
 				</table>
 			</div>
 			
-	<!-- 		<a href="/admInsertUser" class="btn_style_01">사용자 등록</a> -->
+			<a href="" class="btn_style_01">친구 등록</a>
 		
 			<div class="pagination">
 					<c:choose>
@@ -290,7 +320,8 @@ function layer_open(el){
 							<a href class="btn_first"></a>
 						</c:when>
 						<c:otherwise>
-							<a href="${cp}/projectMemberList?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a>
+<%-- 							<a href="${cp}/projectMemberList?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a> --%>
+							<a href="${cp}/friendsSearchList?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a>
 						
 						</c:otherwise>
 					</c:choose>
@@ -301,7 +332,8 @@ function layer_open(el){
 								<span>${i}</span>
 							</c:when>
 							<c:otherwise>
-							<a href="${cp}/projectMemberList?page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
+<%-- 							<a href="${cp}/projectMemberList?page=${i}&pageSize=${pageVo.pageSize}">${i}</a> --%>
+							<a href="${cp}/friendsSearchList?page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
 							</c:otherwise>
 						</c:choose>
 		
@@ -313,7 +345,8 @@ function layer_open(el){
 						</c:when>
 						
 						<c:otherwise>
-							<a href="${cp}/projectMemberList?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
+<%-- 							<a href="${cp}/projectMemberList?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a> --%>
+							<a href="${cp}/friendsSearchList?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
 						</c:otherwise>
 					</c:choose>
 			

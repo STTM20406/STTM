@@ -42,5 +42,24 @@
 		where user_email like '%'||#{user_email}||'%'
 	</select>
 	
+	<!-- 일반 사용자가 자신의 친구 목록을  친구의 이메일로 검색 -->
+	<select id="friendSearchByEmail" parameterType="map" resultType="friendsVo">
+	<![CDATA[
+		select *
+		from
+		(select a.*, rownum rn
+		from
+		(select a.*
+		from friends a
+		where frd_email like '%'||#{frd_email}||'%') a)
+		where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
+	]]>
+	</select>
+	<!-- 일반 사용자가 자신의 친구 목록을 친구의 이메일로 검색한 갯수 -->
+	<select id="friendSearchByEmailCnt" parameterType="map" resultType="int">
+		select count(*)
+		from friends
+		where frd_email like '%'||#{frd_email}||'%'
+	</select>
 
 </mapper>

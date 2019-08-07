@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import kr.or.ddit.friends.model.ChatFriendsVo;
+import kr.or.ddit.friends.model.FriendsVo;
 
 public interface IFriendsService {
 
@@ -28,5 +29,16 @@ public interface IFriendsService {
 	* Method 설명 : 일반 사용자가 자신의 친구 목록을  자신의 이메일로 페이징 리스트 조회
 	 */
 	Map<String, Object> friendPagingList(Map<String, Object> user_email);
+	
+	/**
+	 * 
+	* Method : friendPagingListByEmail
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-07
+	* @param user_email
+	* @return
+	* Method 설명 : 일반 사용자가 자신의 친구 목록을  친구의 이메일로 검색
+	 */
+	Map<String, Object> friendSearchByEmail(Map<String, Object> frd_email);
 	
 }

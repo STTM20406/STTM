@@ -41,5 +41,27 @@ public interface IFriendsDao {
 	* Method 설명 : 일반 사용자가 자신의 친구 목록을 자신의 이메일로 검색한 갯수
 	 */
 	int friendPagingCnt(Map<String, Object> user_email);
+
+	/**
+	 * 
+	* Method : friendPagingListByEmail
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-07
+	* @param user_email
+	* @return
+	* Method 설명 : 일반 사용자가 자신의 친구 목록을  친구의 이메일로 검색
+	 */
+	List<FriendsVo> friendSearchByEmail(Map<String, Object> frd_email);
+	
+	/**
+	 * 
+	* Method : friendPagingByEmailCnt
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-07
+	* @param user_email
+	* @return
+	* Method 설명 : 일반 사용자가 자신의 친구 목록을 친구의 이메일로 검색한 갯수
+	 */
+	int friendSearchByEmailCnt(Map<String, Object> frd_email);
 	
 }
