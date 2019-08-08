@@ -18,8 +18,6 @@ public class CalendarDao implements ICalendarDao {
 	@Resource(name = "sqlSession")
 	private SqlSessionTemplate sqlSession;
 
-	
-
 	@Override
 	public WorkVo wDetail(int wrk_id) {
 		return sqlSession.selectOne("calendar.wDetail", wrk_id);

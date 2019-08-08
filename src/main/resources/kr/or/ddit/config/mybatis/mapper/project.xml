@@ -411,6 +411,13 @@
 	
 	<!-- *********************minutes************************ -->
 
+	<select id="minutesList" parameterType="int" resultType="minutesVo">
+		select A.*, B.user_nm from minutes A, users B
+		where prj_id=#{prj_id}
+		and A.user_email = B.user_email
+		order by A.prj_id asc
+	</select>
+
 
 
 

@@ -30,6 +30,7 @@ public class MinutesVo {
 	private Date write_date;        //작성일시
 	private String del_fl;          //삭제여부
 	
+	private String user_nm; //사용자 이름
 	
 	//기본생성자
 	public MinutesVo() {
@@ -97,13 +98,20 @@ public class MinutesVo {
 	public void setDel_fl(String del_fl) {
 		this.del_fl = del_fl;
 	}
-	
-	
-	//toString
+
+	public String getUser_nm() {
+		return user_nm;
+	}
+
+	public void setUser_nm(String user_nm) {
+		this.user_nm = user_nm;
+	}
+
 	@Override
 	public String toString() {
 		return "MinutesVo [mnu_id=" + mnu_id + ", prj_id=" + prj_id + ", user_email=" + user_email + ", content="
-				+ content + ", special=" + special + ", write_date=" + write_date + ", del_fl=" + del_fl + "]";
+				+ content + ", special=" + special + ", write_date=" + write_date + ", del_fl=" + del_fl + ", user_nm="
+				+ user_nm + "]";
 	}
 	
 }
