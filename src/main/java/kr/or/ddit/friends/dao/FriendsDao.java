@@ -24,6 +24,20 @@ public class FriendsDao implements IFriendsDao{
 	
 	/**
 	 * 
+	 * Method : insertFriends
+	 * 작성자 : 김경호
+	 * 변경이력 : 2019-08-08
+	 * @param friendsVo
+	 * @return
+	 * Method 설명 : 친구 추가
+	 */
+	@Override
+	public int insertFriends(FriendsVo friendsVo) {
+		return sqlSession.insert("friend.insertFriends", friendsVo);
+	}
+	
+	/**
+	 * 
 	* Method : friendPagingList
 	* 작성자 : 김경호
 	* 변경이력 : 2019-08-07
