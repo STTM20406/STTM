@@ -418,8 +418,71 @@
 		order by A.prj_id asc
 	</select>
 
-
-
-
+	<select id="minutesPagination" parameterType="map" resultType="minutesVo">
+		<![CDATA[
+		select a.mnu_id, a.prj_id, a.user_email, a.subject, a.special, a.write_date, a.del_fl, a.user_nm 
+		from
+		(select a.*, rownum rn 
+		from
+		(select A.*, B.user_nm from minutes A, users B
+		where prj_id = #{prj_id}
+		and A.user_email = B.user_email
+		order by A.prj_id asc) a)a
+		where rn >=(#{page}-1)*#{pageSize}+1 and rn <= #{page}*#{pageSize}
+	 	]]>
+	</select>
+	
+	<select id="minutesCnt" parameterType="int" resultType="int">
+	 select count(*)
+		from
+		minutes
+		where
+		prj_id =#{prj_id}
+		and
+		del_fl='N'
+	</select>
+	
+	<select id="minutesDetail" parameterType="int" resultType="minutesVo">
+		select A.*, B.user_nm from minutes A, users B
+		where mnu_id=#{mnu_id}
+		and A.user_email = B.user_email
+		and A.del_fl = 'N'
+	</select>
+	
+	<!-- 검색 -->
+	<select id="searchMinutes" parameterType="String" resultType="minutesVo">
+		<![CDATA[
+		select a.mnu_id, a.prj_id, a.user_email, a.subject, a.special, a.write_date, a.del_fl, a.user_nm 
+	    from
+	    (select a.*, rownum rn 
+	    from
+	    (select A.*, B.user_nm from minutes A, users B
+	    where B.user_nm like '%'||#{subject}||'%'
+	    and A.user_email = B.user_email
+	    order by A.prj_id asc) a)a
+	    where rn >=(#{page}-1)*#{pageSize}+1 and rn <= #{page}*#{pageSize}
+	    ]]>
+	</select>
+	
+	<select id="searchCnt" parameterType="String" resultType="int">
+		select count(*)
+		from  
+	    (select A.*, B.user_nm from minutes A, users B
+	    where B.user_nm like '%'||#{subject}||'%'
+	    and A.user_email = B.user_email)
+	</select>
+	
+	<select id="attenderList" parameterType="int" resultType="minutes_memVo">
+		select * from MINUTES_MEM
+		where mnu_id=#{mnu_id}
+	</select>
+	
+	<update id="upMinutes" parameterType="int">
+		update minutes set
+			del_fl = 'Y'
+		where
+			mnu_id = #{mnu_id}
+	</update>
+	
 	<!-- *********************meeting************************ -->
 </mapper>

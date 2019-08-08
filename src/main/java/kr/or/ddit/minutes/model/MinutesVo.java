@@ -25,7 +25,7 @@ public class MinutesVo {
 	private int mnu_id;				//회의록 게시글 ID
 	private int prj_id;             //프로젝트 ID
 	private String user_email;      //이메일
-	private String content;         //회의내용
+	private String subject;         //회의내용
 	private String special;         //특이사항
 	private Date write_date;        //작성일시
 	private String del_fl;          //삭제여부
@@ -67,13 +67,14 @@ public class MinutesVo {
 		this.user_email = user_email;
 	}
 
-	public String getContent() {
-		return content;
+	public String getSubject() {
+		return subject;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setSubject(String subject) {
+		this.subject = subject;
 	}
+
 
 	public String getSpecial() {
 		return special;
@@ -109,9 +110,10 @@ public class MinutesVo {
 
 	@Override
 	public String toString() {
-		return "MinutesVo [mnu_id=" + mnu_id + ", prj_id=" + prj_id + ", user_email=" + user_email + ", content="
-				+ content + ", special=" + special + ", write_date=" + write_date + ", del_fl=" + del_fl + ", user_nm="
+		return "MinutesVo [mnu_id=" + mnu_id + ", prj_id=" + prj_id + ", user_email=" + user_email + ", subject="
+				+ subject + ", special=" + special + ", write_date=" + write_date + ", del_fl=" + del_fl + ", user_nm="
 				+ user_nm + "]";
 	}
+
 	
 }
