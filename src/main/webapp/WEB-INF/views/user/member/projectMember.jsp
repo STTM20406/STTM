@@ -128,12 +128,12 @@ function layer_open(el){
 
 }	
 
-// function deleteFriends() {
-// 	$("#btnDeleteFriends").on("click",function(){
-// //			$("#profileForm").submit();
-// 		alert("친구가 삭제 되었습니다.");			
-// 	});
-// }
+// 친구 추가 버튼
+function insertFriends() {
+	$("#insertFriendsForm").submit();
+	alert("친구가 등록 되었습니다.");
+}
+
 </script>
 
 <section class="contents">
@@ -308,8 +308,9 @@ function layer_open(el){
 				</table>
 			</div>
 			
-			<input type="button" class="btn_style_01" onclick="layer_open('layer3');return false;" value="친구등록">
-		
+			<input type="button" class="inp_style_04" onclick="layer_open('layer3');return false;" value="친구 요청 목록">
+			<input type="button" class="inp_style_01" onclick="layer_open('layer4');return false;" value="친구등록">
+			
 			<div class="pagination">
 					<c:choose>
 						<c:when test="${pageVo.page == 1 }">
@@ -345,30 +346,47 @@ function layer_open(el){
 			
 			</div>
 		
-			<div class="layer">
-				<div class="bg"></div>
-				<div id="layer3" class="pop-layer">
-					<div class="pop-container">
-						<div class="pop-conts">
-							<!--content //-->
-							<p class="ctxt mb20">
-							친구 추가 입니다
-							</p>
-								<input type="text" id="" name="" value="">
-								<input type="text" id="" name="" value="">
+			<form action="/friendsInsert" id="friendsRequestForm" name="insert" method="post">
+				<div class="layer">
+					<div class="bg"></div>
+					<div id="layer3" class="pop-layer">
+						<div class="pop-container">
+							<div class="pop-conts">
+								<!--content //-->
+								<p class="ctxt mb20">
+								친구요청 목록
+								</p>
 
-							
-								<input type="button" id="" name="" onclick="" class="btn_style_01" value="친구추가">						
-			
-							<div class="btn-r">
-								<a href="#" class="cbtn">Close</a>
+								<div class="btn-r">
+									<a href="#" class="cbtn">Close</a>
+								</div>
+								<!--// content-->
 							</div>
-							<!--// content-->
 						</div>
 					</div>
 				</div>
-			</div>
-			
+			</form>
+
+			<form action="/friendsInsert" id="insertFriendsForm" name="insert" method="post">
+				<div class="layer">
+					<div class="bg"></div>
+					<div id="layer4" class="pop-layer">
+						<div class="pop-container">
+							<div class="pop-conts">
+								<!--content //-->
+								<p class="ctxt mb20">
+								친구 등록
+								</p>
+				
+								<div class="btn-r">
+									<a href="#" class="cbtn">Close</a>
+								</div>
+								<!--// content-->
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
 			
 		</div>
 		

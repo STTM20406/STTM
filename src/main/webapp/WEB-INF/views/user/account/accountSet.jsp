@@ -123,27 +123,21 @@
 			return false;
 		}
 		
-		$("#btnSetAccount").on("click",function(){
-			$("#passForm").submit();
-		});
+		$("#passForm").submit();
 		
 		alert("비밀번호가 업데이트 되었습니다!");
    }
    
    // ------- 알림 설정 업데이트 -------
 	function setNotice() {
-		$("#btnSetNotice").on("click",function(){
-				$("#noticeForm").submit();
-				alert("회원님의 알림 설정이 업데이트 되었습니다.");			
-		});
+		$("#noticeForm").submit();
+		alert("회원님의 알림 설정이 업데이트 되었습니다.");			
 	}
 
    // ------- 휴면계정 전환 버튼() -------
    function inactiveUser() {
-	   $("#btnInactive").on("click",function(){
-			$("#userStatusForm").submit();
-			alert("회원님의 계정이 휴면 상태로 전환 되었습니다.");			
-		});
+		$("#userStatusForm").submit();
+		alert("회원님의 계정이 휴면 상태로 전환 되었습니다.");			
 	}
     
     function check(re,what,message){
@@ -158,10 +152,8 @@
     
     // ------- 일반 사용자 프로필 업데이트 -------
     function setProfile(){
-    	$("#btnSetProfile").on("click",function(){
-// 			$("#profileForm").submit();
-			alert("회원님의 프로필이 업데이트 되었습니다.");			
-		});
+		$("#profileForm").submit();
+		alert("회원님의 프로필이 업데이트 되었습니다.");			
     }
     
     // ------- 모달 설정 스크립트 -------
@@ -233,7 +225,7 @@
 										placeholder="패스워드는 4~12자의 영문 대소문자와 숫자로만 입력" value="${user_pass}">
 								</li>
 								<li>
-									<input type="button" class="btn_style_01" id="btnSetAccount" onclick="setPass()" value="비밀번호 업데이트">
+									<input type="button" class="btn_style_01" onclick="setPass()" value="비밀번호 업데이트">
 								</li>
 							</ul>
 						</div>
@@ -262,7 +254,7 @@
 									<input type="checkbox" id="notice" name="work" value="${not_cd}"> 업무에 대한 알림<br>
 								</li>
 								<li>
-									<input type="button" id="btnSetNotice" onclick="setNotice()" value="알림 설정 업데이트">
+									<input type="button" onclick="setNotice()" value="알림 설정 업데이트">
 								</li>
 							</ul>
 						</div>
@@ -311,7 +303,7 @@
 													</tbody>
 												</table>
 													
-												<input type="button" id="btnInactive" onclick="inactiveUser()" value="소유권 이전 버튼" >
+												<input type="button" onclick="inactiveUser()" value="소유권 이전 버튼" >
 												<div class="btn-r">
 													<a href="#" class="cbtn">Close</a>
 												</div>
@@ -359,7 +351,7 @@
 								</li>
 								
 								<li>
-									<input type="button" id="btnSetProfile" onclick="setProfile()" value="프로필 업데이트">
+									<input type="button" onclick="setProfile()" value="프로필 업데이트">
 								</li>
 								
 							</ul>

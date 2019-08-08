@@ -21,6 +21,12 @@
 		
 	</select>
 
+	<!-- 친구 추가 -->
+	<insert id="insertFriends" parameterType="friendsVo">
+		insert into friends
+		values (#{user_email}, #{frd_email}, sysdate)
+	</insert>
+
 	<!-- 친구 페이징 리스트 -->
 	<select id="friendPagingList" parameterType="map" resultType="friendsVo">
 		<![CDATA[	
@@ -62,13 +68,6 @@
 		select count(*)
 		from friends
 		where frd_email like '%'||#{frd_email}||'%'
-	</select>
-	
-	<!-- 친구 목록 카운트 -->
-	<select id="friendCnt" parameterType="map" resultType="int">
-		select count(*)
-		from friends
-		where user_email = #{user_email}
 	</select>
 	
 	<!-- 일반 사용자가 자신의 친구를 삭제 삭제 -->

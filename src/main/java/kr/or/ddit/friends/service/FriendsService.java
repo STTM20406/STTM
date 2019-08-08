@@ -31,6 +31,22 @@ public class FriendsService implements IFriendsService{
 	
 	/**
 	 * 
+	 * Method : insertFriends
+	 * 작성자 : 김경호
+	 * 변경이력 : 2019-08-08
+	 * @param friendsVo
+	 * @return
+	 * Method 설명 : 친구 추가
+	 */
+	@Override
+	public int insertFriends(FriendsVo friendsVo) {
+		int insertFriends = 0;
+		insertFriends += friendsDao.insertFriends(friendsVo);
+		return insertFriends;
+	}
+	
+	/**
+	 * 
 	* Method : friendPagingList
 	* 작성자 : 김경호
 	* 변경이력 : 2019-08-07
@@ -94,6 +110,5 @@ public class FriendsService implements IFriendsService{
 	public int deleteFriends(String frd_email) {
 		return friendsDao.deleteFriends(frd_email);
 	}
-
 
 }

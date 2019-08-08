@@ -32,7 +32,13 @@ public class FriendsVo {
 	public FriendsVo() {
 
 	}
-		
+	
+	//생성자
+		public FriendsVo(String user_email, String frd_email) {
+			this.user_email = user_email;
+			this.frd_email = frd_email;
+		}
+	
 	//생성자
 	public FriendsVo(String user_email, String frd_email, Date frd_dt, String user_nm) {
 		super();
