@@ -2,8 +2,10 @@ package kr.or.ddit.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -141,8 +143,23 @@ public class WebSocket extends TextWebSocketHandler {
 				
 				WebSocketSession writerSession = userList.get(userNm); // 게시글작성자
 				if("notify".equals(notify) && writerSession != null) {
-					TextMessage tmpMsg = new TextMessage(userNm+"님에게"+not_con+"가 배정되었습니다.");
-					writerSession.sendMessage(tmpMsg);
+					logger.debug("!@# userList : {}",userList);
+					
+					Set set = userList.keySet();
+					Iterator iterator = set.iterator();
+					logger.debug("!@#set : {}",set);
+					logger.debug("!@#iterator : {}",iterator);
+					
+					while(iterator.hasNext()){
+						  String key = (String)iterator.next();
+						  logger.debug("!@# keyset : {}",key);
+						  
+						  if(key.equals(userNm)) {
+							  TextMessage tmpMsg = new TextMessage(userNm+"님에게"+not_con+"가 배정되었습니다.");
+								writerSession.sendMessage(tmpMsg);
+						  }
+					}
+					
 				}
 
 			}
