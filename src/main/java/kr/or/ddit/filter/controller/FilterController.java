@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.or.ddit.filter.model.FilterVo;
 import kr.or.ddit.filter.service.IFilterService;
+import kr.or.ddit.project.model.ProjectVo;
 
 @Controller
 public class FilterController {
@@ -66,5 +67,10 @@ public class FilterController {
 	@ResponseBody
 	public Map<String, Object> projectGanttChartData(FilterVo filterVo) {
 		return filterService.ganttListJSON(filterVo);
+	}
+	@RequestMapping("/project/overview/updatePrj")
+	public String updatePrj(ProjectVo prjVo) {
+		logger.debug("prjVo : {}", prjVo);
+		return filterService.updatePrj(prjVo);
 	}
 }
