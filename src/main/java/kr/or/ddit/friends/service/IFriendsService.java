@@ -26,9 +26,9 @@ public interface IFriendsService {
 	* 변경이력 : 2019-08-07
 	* @param searcj
 	* @return
-	* Method 설명 : 일반 사용자가 자신의 친구 목록을  자신의 이메일로 페이징 리스트 조회
+	* Method 설명 : 일반 사용자가 자신의 친구 목록을  페이징으로 조회
 	 */
-	Map<String, Object> friendPagingList(Map<String, Object> user_email);
+	Map<String, Object> friendPagingList(Map<String, Object> map);
 	
 	/**
 	 * 
@@ -37,7 +37,7 @@ public interface IFriendsService {
 	* 변경이력 : 2019-08-07
 	* @param user_email
 	* @return
-	* Method 설명 : 일반 사용자가 자신의 친구 목록을  친구의 이메일로 검색
+	* Method 설명 : 친구 페이징 리스트
 	 */
 	Map<String, Object> friendSearchByEmail(Map<String, Object> frd_email);
 	
@@ -51,4 +51,6 @@ public interface IFriendsService {
 	* Method 설명 : 일반 사용자가 친구 삭제
 	 */
 	int deleteFriends(String frd_email);
+	
 }
+

@@ -29,11 +29,11 @@ public class FriendsDao implements IFriendsDao{
 	* 변경이력 : 2019-08-07
 	* @param searcj
 	* @return
-	* Method 설명 : 일반 사용자가 자신의 친구 목록을  자신의 이메일로 페이징 리스트 조회
+	* Method 설명 : 친구 페이징 리스트
 	 */
 	@Override
-	public List<FriendsVo> friendPagingList(Map<String, Object> user_email) {
-		return sqlSession.selectList("friend.friendPagingList", user_email);
+	public List<FriendsVo> friendPagingList(Map<String, Object> map) {
+		return sqlSession.selectList("friend.friendPagingList", map);
 	}
 	
 	/**
@@ -43,11 +43,11 @@ public class FriendsDao implements IFriendsDao{
 	* 변경이력 : 2019-08-07
 	* @param search
 	* @return
-	* Method 설명 : 일반 사용자가 자신의 친구 목록을 자신의 이메일로 검색한 갯수
+	* Method 설명 : 친구 페이징 리스트 수
 	 */
 	@Override
-	public int friendPagingCnt(Map<String, Object> user_email) {
-		return sqlSession.selectOne("friend.friendPagingCnt",user_email);
+	public int friendPagingCnt(Map<String, Object> map) {
+		return sqlSession.selectOne("friend.friendPagingCnt", map);
 	}
 
 	/**
@@ -91,4 +91,5 @@ public class FriendsDao implements IFriendsDao{
 	public int deleteFriends(String frd_email) {
 		return sqlSession.delete("friend.deleteFriends",frd_email);
 	}
+
 }

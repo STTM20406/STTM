@@ -27,9 +27,9 @@ public interface IFriendsDao {
 	* 변경이력 : 2019-08-07
 	* @param searcj
 	* @return
-	* Method 설명 : 일반 사용자가 자신의 친구 목록을  자신의 이메일로 페이징 리스트 조회
+	* Method 설명 : 친구 페이징 리스트
 	 */
-	List<FriendsVo> friendPagingList(Map<String, Object> user_email);
+	List<FriendsVo> friendPagingList(Map<String, Object> map);
 	
 //	친구 추가 기능
 	
@@ -40,9 +40,9 @@ public interface IFriendsDao {
 	* 변경이력 : 2019-08-07
 	* @param search
 	* @return
-	* Method 설명 : 일반 사용자가 자신의 친구 목록을 자신의 이메일로 검색한 갯수
+	* Method 설명 : 친구 페이징 리스트 수
 	 */
-	int friendPagingCnt(Map<String, Object> user_email);
+	int friendPagingCnt(Map<String, Object> map);
 
 	/**
 	 * 
