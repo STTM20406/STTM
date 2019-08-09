@@ -3,7 +3,61 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="memo">
-
+	<insert id="mergeMemos" parameterType="memoVo">
+		MERGE INTO MEMO
+		USING DUAL ON 
+	        (	
+	    		memo_email = #{memo_email}
+                AND memo_date = TO_CHAR(#{memo_update}, 'yyyyMMdd')
+	            AND PRJ_ID = 1)
+	    WHEN MATCHED THEN
+	        UPDATE SET 
+	             memo_con = #{memo_con},
+	            memo_update = #{memo_update}
+	    WHEN NOT MATCHED THEN
+	        INSERT
+	        (
+                memo_id
+                ,PRJ_ID
+	            ,memo_email
+	            ,memo_con
+	            ,memo_date
+	            ,memo_update
+                ,memo_del_fl
+	        )
+	        VALUES
+	        (
+	            MEMO_SEQ.NEXTVAL
+                ,1
+	            ,#{memo_email}
+	            ,#{memo_con}
+	            ,TO_CHAR(#{memo_update}, 'yyyyMMdd')
+	            ,#{memo_update}
+                ,'N'
+	        )
+	</insert>
+	
+	<select id="getYdTdCon" parameterType="memoVo" resultType="memoVo">
+		SELECT	*
+		FROM	MEMO
+		WHERE	memo_date IN (TO_CHAR(SYSDATE-1, 'yyyyMMdd'), TO_CHAR(SYSDATE, 'yyyyMMdd'))
+		AND		PRJ_ID = #{prj_id}
+		AND		memo_email = #{memo_email}
+	</select>
+	
+	<select id="memoList" parameterType="memoVo" resultType="memoVo">
+		SELECT	*
+		FROM	MEMO
+		WHERE	PRJ_ID = #{prj_id}
+		AND		memo_email = #{memo_email}
+	</select>
+	<select id="getmemo" parameterType="memoVo" resultType="memoVo">
+		SELECT	*
+		FROM	MEMO
+		WHERE	PRJ_ID = #{prj_id}
+		AND		memo_email = #{memo_email}
+		AND		memo_date = #{memo_date}
+	</select>
 
 
 </mapper>
