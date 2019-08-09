@@ -74,7 +74,7 @@ var socket = null;
 			$(".board_id").val(c);	
 
 		})
-		
+		// 내가 한 일
 		$("").on("click",function(){
 			$("#memoView").animate({right:'0'}, 500);
 		})
