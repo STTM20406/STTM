@@ -75,15 +75,15 @@ $(document).ready(function(){
 // 		$(".user_set_list").fadeOut();
 // 	});
 	
-	$("#tab-2").on("click",function(){
-		$("#frdEmailFrom").submit();
-	});
+	// 요청 반은 친구 목록 폼 넘기기
+// 	$("#tab-2").on("click",function(){
+// 		$("#friendsRequestListForm").submit();
+// 	});
 	
 	// 요청 받은 친구 목록 클릭시 넘기기
-	$("#btnFriendsReqList").on("click", function(){
-		$("#friendsRequestListForm").submit();
-		
-	});
+// 	$("#btnFriendsReqList").on("click", function(){
+// 		$("#friendsRequestListForm").submit();
+// 	});
 	
 	// 요청 받은 친구 목록 클릭시
 	$('.requestedFriendsList').on("click", function(){
@@ -143,10 +143,10 @@ function requestFriends() {
 }
 
 // 요청 받은 친구 목록 클릭시 
-// function requestedFriendsList() {
-// 	$("#friendsRequestListForm").submit();
-// 	alert("요청 받은 친구 목록입니다. 나중에 삭제 ");
-// }
+function requestedFriendsList() {
+	$("#friendsRequestListForm").submit();
+	alert("요청 받은 친구 목록입니다. 나중에 삭제 ");
+}
 
 </script>
 
@@ -389,6 +389,9 @@ function requestFriends() {
 												<td>2</td>
 											</tr>
 											
+											<td>1</td>
+											<td>2</td>
+																						
 										</c:forEach>
 										
 									</tr>

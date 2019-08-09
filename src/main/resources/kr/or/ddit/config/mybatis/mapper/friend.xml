@@ -21,6 +21,8 @@
 	where a.req_email = b.user_email
 	</select>
 	
+	<!-- 친구 요청 수락 & 거절 -->
+	
 <!-- *************friends**************** -->
 	<!-- 전체 친구 리스트 조회(채팅에서 사용)-->
 	<select id="allFriendList" parameterType="string" resultType="chatFriendsVo">

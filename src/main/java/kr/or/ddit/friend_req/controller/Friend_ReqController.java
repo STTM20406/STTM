@@ -78,7 +78,6 @@ public class Friend_ReqController {
 	@RequestMapping(path = "/friendsRequestList", method = RequestMethod.GET)
 	public String friendsRequestList(Model model, HttpSession session) {
 		
-		
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
 		
 		String user_email = userVo.getUser_email();
