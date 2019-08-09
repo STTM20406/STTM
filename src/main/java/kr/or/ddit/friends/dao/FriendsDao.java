@@ -29,7 +29,7 @@ public class FriendsDao implements IFriendsDao{
 	 * 변경이력 : 2019-08-08
 	 * @param friendsVo
 	 * @return
-	 * Method 설명 : 친구 추가
+	 * Method 설명 : 친구 등록
 	 */
 	@Override
 	public int insertFriends(FriendsVo friendsVo) {

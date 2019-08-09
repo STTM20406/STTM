@@ -444,7 +444,7 @@ public class UserController {
 	@RequestMapping(path = "/friendsInsert", method = RequestMethod.GET)
 	public String insertFriendView(Model model, String frd_email) {
 		
-		logger.debug("frd_email : 영하가 디버그 찍어보라고 함 {}", frd_email);
+		logger.debug("frd_email : 영하가 로거 찍어보라고 함 {}", frd_email);
 		model.addAttribute("frd_email", frd_email);
 		return "/member/projectMember.user.tiles";
 	}
@@ -456,11 +456,11 @@ public class UserController {
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
 		String user_email = userVo.getUser_email();
 		
-		logger.debug("friendsVo : 영하가 디버그 찍어보라고 함1 {}", user_email);
+		logger.debug("friendsVo : 영하가 로거 찍어보라고 함1 {}", user_email);
 		
 		FriendsVo friendsVo = new FriendsVo(user_email, frd_email);
 		
-		logger.debug("friendsVo : 영하가 디버그 찍어보라고 함1 {}", friendsVo);
+		logger.debug("friendsVo : 영하가 로거 찍어보라고 함1 {}", friendsVo);
 		
 		int insertFriends = friendsService.insertFriends(friendsVo);
 		

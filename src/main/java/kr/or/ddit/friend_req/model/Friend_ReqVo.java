@@ -32,15 +32,17 @@ public class Friend_ReqVo {
 	
 	//기본 생성자
 	public Friend_ReqVo() {
-		
 	}
 	
 	
     //생성자
-    
-    
-    
-    //getter, setter
+	public Friend_ReqVo(String user_email, String req_email) {
+		super();
+		this.user_email = user_email;
+		this.req_email = req_email;
+	}
+
+	//getter, setter
 	public int getReq_id() {
 		return req_id;
 	}

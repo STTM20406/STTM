@@ -129,9 +129,9 @@ function layer_open(el){
 }	
 
 // 친구 추가 버튼
-function insertFriends() {
-	$("#insertFriendsForm").submit();
-	alert("친구가 등록 되었습니다.");
+function requestFriends() {
+	$("#friendsRequestForm").submit();
+	alert("친구 요청이 완료 되었습니다.");
 }
 
 </script>
@@ -309,7 +309,7 @@ function insertFriends() {
 			</div>
 			
 			<input type="button" class="inp_style_04" onclick="layer_open('layer3');return false;" value="친구 요청 목록">
-			<input type="button" class="inp_style_01" onclick="layer_open('layer4');return false;" value="친구등록">
+			<input type="button" class="inp_style_01" onclick="layer_open('layer4');return false;" value="친구 요청">
 			
 			<div class="pagination">
 					<c:choose>
@@ -346,42 +346,45 @@ function insertFriends() {
 			
 			</div>
 		
-			<form action="/friendsInsert" id="friendsRequestForm" name="insert" method="post">
-				<div class="layer">
-					<div class="bg"></div>
-					<div id="layer3" class="pop-layer">
-						<div class="pop-container">
-							<div class="pop-conts">
-								<!--content //-->
-								<p class="ctxt mb20">
-								친구요청 목록
-								</p>
+<!-- 			<form action="/friendsInsert" id="friendsRequestListForm" name="insert" method="post"> -->
+<!-- 				<div class="layer"> -->
+<!-- 					<div class="bg"></div> -->
+<!-- 					<div id="layer3" class="pop-layer"> -->
+<!-- 						<div class="pop-container"> -->
+<!-- 							<div class="pop-conts"> -->
+<!-- 								content // -->
+<!-- 								<p class="ctxt mb20"> -->
+<!-- 								친구요청 목록 -->
+<!-- 								</p> -->
 
-								<div class="btn-r">
-									<a href="#" class="cbtn">Close</a>
-								</div>
-								<!--// content-->
-							</div>
-						</div>
-					</div>
-				</div>
-			</form>
+<!-- 								<div class="btn-r"> -->
+<!-- 									<a href="#" class="cbtn">Close</a> -->
+<!-- 								</div> -->
+<!-- 								// content -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
+<!-- 			</form> -->
 
-			<form action="/friendsInsert" id="insertFriendsForm" name="insert" method="post">
+			<form action="/friendsRquest" id="friendsRequestForm" method="post">
 				<div class="layer">
 					<div class="bg"></div>
 					<div id="layer4" class="pop-layer">
 						<div class="pop-container">
 							<div class="pop-conts">
-								<!--content //-->
+								content //
 								<p class="ctxt mb20">
 								친구 등록
 								</p>
 				
+								<input type="text" id="req_email" name="req_email" value="${req_email}">
+								<input type="button" class="inp_style_01" id="" onclick="requestFriends()" value="친구 요청">
+				
 								<div class="btn-r">
 									<a href="#" class="cbtn">Close</a>
 								</div>
-								<!--// content-->
+								// content
 							</div>
 						</div>
 					</div>

@@ -5,7 +5,11 @@
 <mapper namespace="friend">
 
 <!-- *************friend_req**************** -->
-
+	<!-- 친구 요청 -->
+	<insert id="firendsRequest" parameterType="friend_reqVo">
+		insert into friend_req
+		values (req_seq.nextval, #{user_email}, #{req_email}, sysdate, 'FR01', sysdate)
+	</insert>
 
 <!-- *************friends**************** -->
 	<!-- 전체 친구 리스트 조회(채팅에서 사용)-->
@@ -21,7 +25,7 @@
 		
 	</select>
 
-	<!-- 친구 추가 -->
+	<!-- 친구 등록 -->
 	<insert id="insertFriends" parameterType="friendsVo">
 		insert into friends
 		values (#{user_email}, #{frd_email}, sysdate)
