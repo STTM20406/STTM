@@ -1,5 +1,7 @@
 package kr.or.ddit.friend_req.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
@@ -64,6 +66,32 @@ public class Friend_ReqController {
 		return viewName;
 	}
 	
-	
+	/**
+	 * 
+	* Method : friendsRequestList
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-09
+	* @param model
+	* @return
+	* Method 설명 : 친구 요청 리스트
+	 */
+	@RequestMapping(path = "/friendsRequestList", method = RequestMethod.GET)
+	public String friendsRequestList(Model model, HttpSession session) {
+		
+		
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		
+		String user_email = userVo.getUser_email();
+		
+		logger.debug("user_email : {}", user_email);
+		
+		List<Friend_ReqVo> friendsRequestList = friend_ReqService.friendsRequestList(user_email);
+		
+		logger.debug("friendsRequestList : 이거 가져오나  볼까? {}",friendsRequestList);
+		
+		model.addAttribute("friendsRequestList", friendsRequestList);
+		
+		return "/member/projectMember.user.tiles";
+	}
 	
 }

@@ -94,7 +94,11 @@ $(document).ready(function(){
 			</table>
 		</div>
 		
-		<a href="/admInsertUser" class="btn btn-default pull-right">사용자 등록</a>
+		<a href="/admInsertUser" class="btn btn-default pull-right">
+			<input type="button" class="inp_style_01" value="사용자 등록">
+		</a>
+		
+	
 	
 		<div class="pagination">
 				<c:choose>
