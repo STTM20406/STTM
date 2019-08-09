@@ -39,10 +39,15 @@ public class MemoController {
 //		model.addAttribute("yd_con", "");
 		
 		for(MemoVo memo : resultMemo) {
-			if(memo.getMemo_date().equals(today_str))
+			if(memo.getMemo_date().equals(today_str)) {
 				model.addAttribute("td_con", memo);
-			else 
+			}else {
 				model.addAttribute("yd_con", memo);
+			}
+			
+//			if(!memo.getMemo_date().equals(today_str)) {
+//				model.addAttribute("yd_con", memo);
+//			}
 		}
 		return "jsonView";
 	}

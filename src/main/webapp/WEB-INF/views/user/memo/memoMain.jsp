@@ -71,7 +71,7 @@
 			success: function(data) {
 				console.log(data);
 				$("#memo_con").val(data.td_con.memo_con);
-// 				$("#memo_yd_con").val(data.yd_con.memo_con);
+				$("#memo_yd_con").val(data.yd_con.memo_con);
 			}
 		});
 	}
