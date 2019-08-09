@@ -70,17 +70,17 @@
 							//html 생성
 			 				html += "<div class='project_item'><ul class='project_item_hd'>";
 			 				html += "<li>" + project.prj_nm + "</li>";
-			 				html += "<li><a href=''>설정</a></li></ul>"
-			 				html += "<ul class='project_item_con'><li>"
-			 				html += "<p class='currnt_prj_st'>" + project.prj_st + "</p>"
-			 				html += "<div class='prj_item_st'>"
-			 				html += "<input type='button' value='계획' id='prj_st_"+ project.prj_id + "'>"
-			 				html += "<input type='button' value='진행중' id='prj_st_"+ project.prj_id + "'>"
-			 				html += "<input type='button' value='완료' id='prj_st_"+ project.prj_id + "'>"
-			 				html += "<input type='button' value='보류' id='prj_st_"+ project.prj_id + "'>"
-			 				html += "<input type='button' value='취소' id='prj_st_"+ project.prj_id + "'>"
-			 				html += "<input type='button' value='상태없음' id='prj_st_"+ project.prj_id + "'>"
-							html += "</div></li></ul></div>"	
+			 				html += "<li><a href=''>설정</a></li></ul>";
+			 				html += "<ul class='project_item_con'><li>";
+			 				html += "<p class='currnt_prj_st'>" + project.prj_st + "</p>";
+			 				html += "<div class='prj_item_st'>";
+			 				html += "<input type='button' value='계획' id='prj_st_"+ project.prj_id + "'>";
+			 				html += "<input type='button' value='진행중' id='prj_st_"+ project.prj_id + "'>";
+			 				html += "<input type='button' value='완료' id='prj_st_"+ project.prj_id + "'>";
+			 				html += "<input type='button' value='보류' id='prj_st_"+ project.prj_id + "'>";
+			 				html += "<input type='button' value='취소' id='prj_st_"+ project.prj_id + "'>";
+			 				html += "<input type='button' value='상태없음' id='prj_st_"+ project.prj_id + "'>";
+							html += "</div></li></ul></div>"	;
 						});	
 					}else{
 						//상태값이 전체프로젝트일때
@@ -108,13 +108,13 @@
 
 		
 		//프로젝트 생성 다음 버튼 클릭시
-		$("#prj_btn_next").on('click', function(){
+		$("#prj_btn_next").on("click", function(){
 			$(".new_proejct").animate({left:'-100%'}, 500);
 			$(".select_template").animate({left:'0%'}, 500);
 		});
 		
 		//프로젝트 생성 이전 버튼 클릭시
-		$("#prj_btn_prev").on('click', function(){
+		$("#prj_btn_prev").on("click", function(){
 			$(".new_proejct").animate({left:'0%'}, 500);
 			$(".select_template").animate({left:'100%'}, 500);
 			
@@ -184,9 +184,18 @@
 				data:"prj_id=" + prj_id,
 				success:function(data){
 					
-					console.log(data);
+					
+					//멤버레벨이 1이면 삭제 버튼 없애기 
+					if(data.userInfo.prj_mem_lv == "LV1"){
+						$(".setItem:last-child").css({display:"none"});
+					}else{
+						$(".setItem:last-child").css({display:"block"});
+					}
+					
 					
 					$("#ppt_id").val(data.projectInfo.prj_id);
+					$("#leave_prj_id").val(data.projectInfo.prj_id); //프로젝트 나가기를 위해 value값에 프로젝트 아이디 저장
+					$("#leave_prj_mem_lv").val(data.userInfo.prj_mem_lv); //프로젝트 나가기를 위해 value값에 프로젝트 아이디 저장
 					$("#ppt_nm").val(data.projectInfo.prj_nm);
 					$("#ppt_exp").val(data.projectInfo.prj_exp);
 					$("#ppt_asc").val(data.projectInfo.prj_auth);
@@ -210,23 +219,24 @@
 					$(".prj_add_box").html(html);
 					$(".prj_mem_add_box").html(html2);
 					
+					//멤버레벨이 1인데 권한이 ASC02 또는 ASC03 일때
 					if(data.userInfo.prj_mem_lv == "LV1" && data.projectInfo.prj_auth == "ASC02" || data.userInfo.prj_mem_lv == "LV1" && data.projectInfo.prj_auth == "ASC03"){
-						$("#propertySet input").prop('readonly', true);
-						$("#propertySet select").prop('disabled',true);
-						$("#propertySet button").prop('disabled', true);
+						$("#propertySet input").prop('readonly', true); 										//설정창의 모든 input readonly
+						$("#propertySet select").prop('disabled',true);										//설정창의 모든 select disabled
+						$("#propertySet button").prop('disabled', true);										//설정창의 모든 button disabled
 						$("#propertySet input[type=button]").prop('disabled', true);
-						$("#prjLeave").prop('disabled', false);
-						$(".prj_add_box input").css({display:"none"});
-						$(".prj_mem_add_box input").css({display:"none"});
-						$(".datePick").attr("class", "datePick");
-						$(".datePick").removeAttr("data-language");
+						$("#prjLeaveBtn").prop('disabled', false);
+						$(".prj_add_box input").css({visibility:"hidden"});
+						$(".prj_mem_add_box input").css({visibility:"hidden"});
+						$(".datepicker").css({display:"none"});
 					}else{
 						$("#propertySet input").prop('readonly', false);
 						$("#propertySet select").prop('disabled',false);
 						$("#propertySet button").prop('disabled', false);
+						$(".prj_add_box input").css({visibility:"visible"});
+						$(".prj_mem_add_box input").css({visibility:"visible"});
 						$("#propertySet input[type=button]").prop('disabled', false);
-						$(".datePick").attr("class", "datepicker-here datePick");
-						$('.datePick').attr('data-language', 'en'); 
+						$(".datepicker").css({display:"block"});
 					}
 					
 					updateTime = data.projectInfo.prj_update;
@@ -256,29 +266,28 @@
 			}
 			
 			//프로젝트 종료일을 시작일 보다 작을 수 없음.
-	        var startDateArr = start_date.split('-');
-	        var endDateArr = end_date.split('-');
-	        
-	        var startDateCompare = new Date(startDateArr[0], parseInt(startDateArr[1])-1, startDateArr[2]);
-	        var endDateCompare = new Date(endDateArr[0], parseInt(endDateArr[1])-1, endDateArr[2]);
-	         
-	        if(startDateCompare.getTime() > endDateCompare.getTime()) {
-	        	$(".ctxt").text("프로젝트 마감일은 시작일 이전이여야 합니다. 다시 선택해 주세요.");
-	        	layer_popup("#layer2");
-	            return false;
-	        }
+		        var startDateArr = start_date.split('-');
+		        var endDateArr = end_date.split('-');
+		        
+		        var startDateCompare = new Date(startDateArr[0], parseInt(startDateArr[1])-1, startDateArr[2]);
+		        var endDateCompare = new Date(endDateArr[0], parseInt(endDateArr[1])-1, endDateArr[2]);
+		         
+		        if(startDateCompare.getTime() > endDateCompare.getTime()) {
+		        	$(".ctxt").text("프로젝트 마감일은 시작일 이전이여야 합니다. 다시 선택해 주세요.");
+		        	layer_popup("#layer2");
+		            return false;
+		        }
 			
 			var projectSet = {
-							id :id
-						  , name : name
-						  , exp : exp
-						  , auth : auth
-						  , status : status
-						  , start_date : start_date
-						  , end_date : end_date
-						  , cmp_date : cmp_date
+							  id : id
+						  	, name : name
+						  	, exp : exp
+						 	, auth : auth
+						  	, status : status
+						  	, start_date : start_date
+						  	, end_date : end_date
+						  	, cmp_date : cmp_date
 			}
-			
 			
 			propertySetItemAjax(projectSet);
 		});
@@ -289,14 +298,14 @@
 				url:"/project/propertySetItemAjax",
 				method:"post",
 				contentType:"application/x-www-form-urlencoded; charset=UTF-8",
-				data:	"prj_id=" + projectSet.id +
-							"&prj_nm=" + projectSet.name +
-							"&prj_exp=" + projectSet.exp +
-							"&prj_auth=" + projectSet.auth +
-							"&prj_st=" + projectSet.status +
-							"&prj_start_dt=" + projectSet.start_date +
-							"&prj_end_dt=" + projectSet.end_date +
-							"&prj_cmp_dt=" + projectSet.cmp_date,
+				data:"prj_id=" + projectSet.id +
+					"&prj_nm=" + projectSet.name +
+					"&prj_exp=" + projectSet.exp +
+					"&prj_auth=" + projectSet.auth +
+					"&prj_st=" + projectSet.status +
+					"&prj_start_dt=" + projectSet.start_date +
+					"&prj_end_dt=" + projectSet.end_date +
+					"&prj_cmp_dt=" + projectSet.cmp_date,
 				success:function(data){
 					$(".project_item").each(function() {
 						var prjItemsId = $(this).attr("id");
@@ -310,10 +319,31 @@
 		}
 
 		//프로젝트 생성 버튼 클릭시
-		$('.btn-example').on("click", function(){
-	        var $href = $(this).attr('href');
-	        layer_popup($href);
-	    });
+		$('.btn_prj_create').on("click", function(){
+		        var $href = $(this).attr('href');
+		        layer_popup($href);
+		        projectCreateMemAddAjax();
+		});
+		
+		//프로젝트 생성시 멤버 리스트 불러오기
+		function projectCreateMemAddAjax(){
+			$.ajax({
+				url:"/project/createMemAddAjax",
+				method:"post",
+				contentType:"application/x-www-form-urlencoded; charset=UTF-8",
+				success:function(data){
+					var html="";
+					data.data.forEach(function(item, index){
+// 						if(){
+							
+// 						}
+						html += "<li><input type='checkbox' name='memItem' value='"+item.user_email+"'><span>"+ item.user_nm +"</span>"+ item.user_email + "</li>";
+					});	
+					$(".prj_crt_mem_item").html(html);
+				}
+			});
+		}
+		
 		
 		//프로젝트 관리자 추가하기 버튼 클릭시 해당 프로젝트 멤버 가져오기
 		$(".prj_add_adm").fadeOut(0); //멤버리스트 layer 숨기기
@@ -376,8 +406,8 @@
 			
 			if(admNum == 1){
 				$(".ctxt").text("프로젝트 관리자를 삭제할 수 없습니다. 프로젝트에는 최소 1인 이상의 프로젝트 관리자가 필요합니다.");
-	        	layer_popup("#layer2");
-	            return false;
+		        	layer_popup("#layer2");
+		            	return false;
 			}
 			
 			var textSplit = $(this).parent().attr("id").split("_");
@@ -483,8 +513,8 @@
 			
 			if(lv == "LV0"){
 				$(".ctxt").text("프로젝트 관리자를 삭제할 수 없습니다. 프로젝트에는 최소 1인 이상의 프로젝트 관리자가 필요합니다.");
-	        	layer_popup("#layer2");
-	            return false;
+	        		layer_popup("#layer2");
+	            		return false;
 			}
 			
 			projectMemDelAjax(id, email);
@@ -519,9 +549,79 @@
 			});
 		}
 		
+		//프로젝트 나가기
+		$("#prjLeaveBtn").on("click", function(){
+			
+			var html = "";
+			html += "<h2 class='prj_leave_title'>프로젝트 나가기</h2>";
+			html += "<p class='prj_leave_exp'>정말 이 프로젝트를 나가시겠습니까?</p>";
+			html += "<a href='' class='btn-layerClose'>아니요. 안나갈래요.</a>";
+			html += "<button type='button' id='prjLeave'>네. 나갈래요.</button>";
+			
+			$(".btn-r").hide(0);
+			
+			$(".ctxt").html(html);
+        	layer_popup("#layer2");
+            return false;
+		});
+		
+		//레이어 팝업창 나갈래요 버튼 클릭시
+		$(".pop-conts .ctxt").on("click", "button#prjLeave", function(){
+			var prj_id = $("#leave_prj_id").val();
+			var prj_mem_lv = $("#leave_prj_mem_lv").val();
+			
+			$("#projectDelFrm").attr("id", "projectLeaveFrm");
+			$("#projectLeaveFrm").attr("action", "/project/leave");
+			$(".btn-r").show(0);
+			
+			if(prj_mem_lv == "LV0"){
+				$(".ctxt").text("프로젝트를 나가기를 할 수 없습니다. 프로젝트에는 최소 1인 이상의 프로젝트 관리자가 필요합니다.");
+	        	layer_popup("#layer2");
+	            return false;
+			}
+			//$("#projectLeaveFrm").submit();
+		});
+		
+		
+		//프로젝트 삭제
+		$("#prjDelBtn").on("click", function(){
+			
+			var html = "";
+			html += "<h2 class='prj_leave_title'>프로젝트 삭제</h2>";
+			html += "<p class='prj_leave_exp'>정말 삭제하시겠습니까? 해당 프로젝트는 영구 삭제됩니다.</p>";
+			html += "<a href='' class='btn-layerClose'>아니요.</a>";
+			html += "<button type='button' id='prjDel'>네. 삭제 할래요.</button>";
+			
+			$(".btn-r").hide(0);
+			
+			$(".ctxt").html(html);
+        	layer_popup("#layer2");
+            return false;
+		});
+		
+		//레이어 팝업창 삭제할래요 버튼 클릭시
+		$(".pop-conts .ctxt").on("click", "button#prjDel", function(){
+			var prj_id = $("#leave_prj_id").val();
+			$("#projectLeaveFrm").attr("id", "projectDelFrm");
+			$("#projectDelFrm").attr("action", "/project/delete");
+			$(".btn-r").show(0);
+			
+			$("#projectDelFrm").submit();
+		});
 		
 		
 	});
+	
+	//프로젝트 생성 - 선택한멤버리스트 함께 넘기기
+	function prjBtnSubmit(){
+		var memArray = [];
+		$("input[name=memItem]:checked").each(function(){
+			memArray.push($(this).val());
+		});
+		var a = $("#memList").val(memArray);
+		
+		$("#prj_insert").submit();
+	}
 	
 	//업데이트 시간 구하기
 	function updateDiff(updateTime){
@@ -612,7 +712,7 @@
 	</div>
 	<div class="sub_btn">
 		<ul>
-			<li><a href="#layer1" class="btn-example btn_style_01">프로젝트 생성</a></li>
+			<li><a href="#layer1" class="btn_prj_create a_style_01">프로젝트 생성</a></li>
 		</ul>
 	</div>
 </div>
@@ -656,6 +756,7 @@
 	</div>
 </section>
 
+
 <!--  프로젝트 생성 레이어 팝업창 -->
 <div class="dim-layer">
     <div class="dimBg"></div>
@@ -664,61 +765,58 @@
             <div class="pop-project">
                 <!--content //-->
                 <form action="/project/form" method="post" id="prj_insert">
-					<div class="new_proejct">
-						<h2>새로운 프로젝트 생성하기</h2>
-						<ul>
-							<li>
-								<label for="prj_nm">Project Name</label>
-								<input type="text" id="prj_nm" name="prj_nm" placeholder="예) 웹사이트 개발">
-							</li>
-							<li>
-								<label for="prj_exp">Project Description</label>
-								<input type="text" id="prj_exp" name="prj_exp" placeholder="(선택) 프로젝트 설명을 입렵해 주세요.">
-							</li>
-							<li>
-								<label for="prj_exp">Project Authority</label>
-								<select name="prj_auth">
-									<option value="ASC01">전체 액세스</option>
-									<option value="ASC02">제한 액세스</option>
-									<option value="ASC03">통제 액세스</option>
-								</select>
-							</li>
-							<li>
-								<label for="prj_mem">Project Member</label>
-								<div class="prj_mem_list">
-									<div class="prj_mem_sch">
-										<fieldset id="hd_sch">
-							                <legend>사이트 내 프로젝트 검색</legend>
-								                <input type="text" name="prj_mem" id="prj_mem" maxlength="20" placeholder="검색어를 입력해주세요">
-								                <button type="submit" id="prj_btn_submit" value="검색">검색</button>
-							           	</fieldset>
-									</div>
-									<ul class="prj_mem_item">
-										<li>또굥이</li>
-										<li>개굴이</li>
-										<li>사과</li>
-										<li>갈비</li>
-									</ul>
-								</div>
-							</li>
-						</ul>
-						<div class="prj_btn">
-							<a href="javascript:;" id="prj_btn_next">다음 : 템플릿 선택</a>
+                	<input type="hidden" name="memList" id="memList" value="">
+			<div class="new_proejct">
+				<h2>새로운 프로젝트 생성하기</h2>
+				<ul>
+					<li>
+						<label for="prj_nm">Project Name</label>
+						<input type="text" id="prj_nm" name="prj_nm" placeholder="예) 웹사이트 개발">
+					</li>
+					<li>
+						<label for="prj_exp">Project Description</label>
+						<input type="text" id="prj_exp" name="prj_exp" placeholder="(선택) 프로젝트 설명을 입렵해 주세요.">
+					</li>
+					<li>
+						<label for="prj_exp">Project Authority</label>
+						<select name="prj_auth">
+							<option value="ASC01">전체 액세스</option>
+							<option value="ASC02">제한 액세스</option>
+							<option value="ASC03">통제 액세스</option>
+						</select>
+					</li>
+					<li>
+						<label for="prj_mem">Project Member</label>
+						<ul class="prj_crt_mem_add_list"></ul>
+						<div class="prj_mem_list">
+							<div class="prj_mem_sch">
+								<fieldset id="hd_sch">
+					                <legend>사이트 내 프로젝트 검색</legend>
+						                <input type="text" name="prj_mem" id="prj_mem" maxlength="20" placeholder="검색어를 입력해주세요">
+						                <button type="submit" id="" value="검색">검색</button>
+					           	</fieldset>
+							</div>
+							<ul class="prj_crt_mem_item"></ul>
 						</div>
-					</div>
-					<div class="select_template">
-						<h2>프로젝트 템플릿 선택하기</h2>
-						<ul>
-							<li>없음</li>
-							<li>요일별</li>
-							<li>개인별</li>
-						</ul>
-						<div class="prj_btn">
-							<a href="javascript:;" id="prj_btn_prev">뒤로</a>
-							<input type="submit" id="prj_btn_submit" value="프로젝트 만들기">
-						</div>
-					</div>
-				</form>
+					</li>
+				</ul>
+				<div class="prj_btn">
+					<a href="javascript:;" id="prj_btn_next">다음 : 템플릿 선택</a>
+				</div>
+			</div>
+			<div class="select_template">
+				<h2>프로젝트 템플릿 선택하기</h2>
+				<ul>
+					<li>없음</li>
+					<li>요일별</li>
+					<li>개인별</li>
+				</ul>
+				<div class="prj_btn">
+					<a href="javascript:;" id="prj_btn_prev">뒤로</a>
+					<input type="button" onclick="prjBtnSubmit();" value="프로젝트 만들기">
+				</div>
+			</div>
+		</form>
                 <div class="btn-r">
                     <a href="#" class="btn-layerClose">Close</a>
                 </div>
@@ -834,16 +932,22 @@
 			</dl>
 			<dl class="setItem">
 				<dt>프로젝트 나가기</dt>
-				<dd><button type="button" id="prjLeave" name="" onclick="">프로젝트 나가기</button></dd>
+				<dd><button type="button" id="prjLeaveBtn">프로젝트 나가기</button></dd>
 			</dl>
 			<dl class="setItem">
 				<dt>프로젝트 삭제</dt>
-				<dd><button type="button" id="prjDel" name="" onclick="">프로젝트 삭제</button></dd>
+				<dd><button type="button" id="prjDelBtn" >프로젝트 삭제</button></dd>
 			</dl>
 		</div>
 	</div>
 	<div class="btnSetClose">닫기</div>
 </div>
+
+
+<form id="projectLeaveFrm" action="/project/leave" method="post" >
+	<input type="hidden" id="leave_prj_id" name="prj_id" value="">
+	<input type="hidden" id="leave_prj_mem_lv" value="">
+</form>
 
 
 <!-- 오류 알림창 -->

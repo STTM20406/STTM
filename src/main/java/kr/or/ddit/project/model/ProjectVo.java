@@ -25,14 +25,14 @@ import org.springframework.format.annotation.DateTimeFormat;
  */
 public class ProjectVo {
 
-	private int prj_id;				// 프로젝트 ID
+	private int prj_id;					// 프로젝트 ID
 	private String prj_nm;			// 프로젝트 이름
-	private String prj_exp;     	// 프로젝트 설명
-	private String prj_auth;    	// 프로젝트 권한
+	private String prj_exp;     		// 프로젝트 설명
+	private String prj_auth;    		// 프로젝트 권한
 	private Date prj_start_dt;  	// 프로젝트 시작일시
 	private Date prj_end_dt;    	// 프로젝트 마감일시
 	private Date prj_cmp_dt;    	// 프로젝트 실제 완료일시
-	private String prj_st;      	// 프로젝트 상태
+	private String prj_st;      		// 프로젝트 상태
 	private Date prj_update;      	// 프로젝트 업데이트 일시
 	private String del_fl;      	// 프로젝트 삭제 여부
 	
