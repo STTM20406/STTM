@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -273,67 +274,69 @@ public class UserController {
 	* 
 	 */
 	@RequestMapping(path = "/projectMemberList", method = RequestMethod.GET)
-	public String projectMemberListView(PageVo pageVo, Model model, 
-										HttpSession session, String frd_email
-										,String prjMemPaging, String friendsPaging, Map<String, Object> user_email) {
-		
-		logger.debug("prjMemPaging : 찍자 {}",prjMemPaging);
-		logger.debug("friendsPaging : 찍어벌라 {}",friendsPaging);
-		logger.debug("frd_email : 찍어라 {}",frd_email);
+	public String projectMemberListView(PageVo pageVo, Model model, HttpSession session) {
 		
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
 		Project_MemVo prjVo = new Project_MemVo();
 		
-		logger.debug("userVo : 점심쯤 로거 확인1 {} ",userVo);
-		
 		Map<String, Object> map = new HashMap<String, Object>();
-		
 		map.put("page", pageVo.getPage());
 		map.put("pageSize", pageVo.getPageSize());
 		map.put("user_email", userVo.getUser_email());
 		map.put("user_nm", userVo.getUser_nm());
 		map.put("prj_id", prjVo.getPrj_id());
-		
-		map.put("frd_email", frd_email);
-		
-		logger.debug("map : 점심쯤 로거 확인2 {} ",map);
-		
+
 //		if(frd_email == null) {
-			// 회원이 해당 프로젝트의 멤버 목록을 조회 한다.
-			Map<String, Object> resultMap = project_MemService.projectMemPagingList(map);
-			logger.debug("resultMap : 아침 로거 확인1 {} ",resultMap);
-			
-			List<UserVo> projectMemList = (List<UserVo>) resultMap.get("projectMemList");
-			logger.debug("projectMemList : 아침 로거 확인2 {} ",projectMemList);
-			
-			int paginationSize = (Integer) resultMap.get("paginationSize");
-			logger.debug("paginationSize : 아침 로거 확인3 {} ",paginationSize);
-			
-			model.addAttribute("projectMemList", projectMemList);
-			
-			model.addAttribute("paginationSize", paginationSize);
-			model.addAttribute("pageVo", pageVo);
+		
+		// 회원이 해당 프로젝트의 멤버 목록을 조회 한다.
+		Map<String, Object> resultMap = project_MemService.projectMemPagingList(map);
+		List<UserVo> projectMemList = (List<UserVo>) resultMap.get("projectMemList");
+		int paginationSize = (Integer) resultMap.get("paginationSize");
+		
+		model.addAttribute("projectMemList", projectMemList);
+		model.addAttribute("paginationSize", paginationSize);
+		model.addAttribute("pageVo", pageVo);
 			
 //		}else if (frd_email != null){
-			// 회원의 친구 목록을 회원 자신의 이메일로 조회하여 페이징 리스트로 보여준다
-			Map<String, Object> resultMap1 = friendsService.friendPagingList(map);			
-			logger.debug("map : 밥먹기 전에 {}",map);
-			
-			List<FriendsVo> friendsList = (List<FriendsVo>) resultMap1.get("userFriendsList");
-			logger.debug("friendsList : 로거를 {}",friendsList);
+		
+		// 회원의 친구 목록을 회원 자신의 이메일로 조회하여 페이징 리스트로 보여준다
+		logger.debug("pageVo.getPage() ::::::::::: {}", pageVo.getPage());
+		logger.debug("pageVo.getPageSize() ::::::::::: {}", pageVo.getPageSize());
+		logger.debug("userVo.getUser_email() ::::::::::: {}", userVo.getUser_email());
+		
+		Map<String, Object> rstMap = friendsService.friendPagingList(map);	
+		logger.debug("map : 밥먹기 전에 {}",rstMap);
+		
+		List<FriendsVo> friendsList = (List<FriendsVo>) rstMap.get("userFriendsList");
+		logger.debug("friendsList : 로거를 {}",friendsList);
 
-			int paginationSize1 = (Integer) resultMap1.get("paginationSize");
-			logger.debug("paginationSize : 찍어 봅시다 {}",paginationSize1);
-			
-			model.addAttribute("friendsList", friendsList);
-			model.addAttribute("paginationSize", paginationSize1);
-			model.addAttribute("pageVo", pageVo);
+		int paginationSize1 = (Integer) rstMap.get("paginationSize");
+		logger.debug("paginationSize : 찍어 봅시다 {}",paginationSize1);
+		
+		model.addAttribute("friendsList", friendsList);
+		model.addAttribute("paginationSize", paginationSize1);
+		model.addAttribute("pageVo", pageVo);
 			
 //		}
 		
 		return "/member/projectMember.user.tiles";
 	}
 	
+	/**
+	 * 
+	* Method : deleteFriends
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-08
+	* @param frd_email
+	* @param pageVo
+	* @param model
+	* @param session
+	* @param prjMemPaging
+	* @param friendsPaging
+	* @param user_email
+	* @return
+	* Method 설명 : 일반 사용자가 친구 리스트에서 자신의 친구를 삭제
+	 */
 	@RequestMapping(path = "/deleteFriends", method = RequestMethod.GET)
 	public String deleteFriends(String frd_email,PageVo pageVo, Model model, 
 			HttpSession session
@@ -348,28 +351,28 @@ public class UserController {
 		
 		logger.debug("userVo : 점심쯤 로거 확인1 {} ",userVo);
 		
-		Map<String, Object> map = new HashMap<String, Object>();
-		
-		map.put("page", pageVo.getPage());
-		map.put("pageSize", pageVo.getPageSize());
-		map.put("user_email", userVo.getUser_email());
-		map.put("user_nm", userVo.getUser_nm());
-		map.put("prj_id", prjVo.getPrj_id());
-		
-		map.put("frd_email", frd_email);
-		
-		Map<String, Object> resultMap1 = friendsService.friendPagingList(map);			
-		logger.debug("map : 밥먹기 전에 {}",map);
-		
-		List<FriendsVo> friendsList = (List<FriendsVo>) resultMap1.get("userFriendsList");
-		logger.debug("friendsList : 로거를 {}",friendsList);
-
-		int paginationSize1 = (Integer) resultMap1.get("paginationSize");
-		logger.debug("paginationSize : 찍어 봅시다 {}",paginationSize1);
-		
-		model.addAttribute("friendsList", friendsList);
-		model.addAttribute("paginationSize", paginationSize1);
-		model.addAttribute("pageVo", pageVo);
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		
+//		map.put("page", pageVo.getPage());
+//		map.put("pageSize", pageVo.getPageSize());
+//		map.put("user_email", userVo.getUser_email());
+//		map.put("user_nm", userVo.getUser_nm());
+//		map.put("prj_id", prjVo.getPrj_id());
+//		
+//		map.put("frd_email", frd_email);
+//		
+//		Map<String, Object> resultMap1 = friendsService.friendPagingList(map);			
+//		logger.debug("map : 밥먹기 전에 {}",map);
+//		
+//		List<FriendsVo> friendsList = (List<FriendsVo>) resultMap1.get("userFriendsList");
+//		logger.debug("friendsList : 로거를 {}",friendsList);
+//
+//		int paginationSize1 = (Integer) resultMap1.get("paginationSize");
+//		logger.debug("paginationSize : 찍어 봅시다 {}",paginationSize1);
+//		
+//		model.addAttribute("friendsList", friendsList);
+//		model.addAttribute("paginationSize", paginationSize1);
+//		model.addAttribute("pageVo", pageVo);
 		
 		return "/member/projectMember.user.tiles";
 	}
@@ -428,6 +431,45 @@ public class UserController {
 		return "/member/projectMember.user.tiles";
 	}
 	
+	/**
+	 * 
+	* Method : insertFriendView
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-08
+	* @param model
+	* @param frd_email
+	* @return
+	* Method 설명 : 친구 추가
+	 */
+	@RequestMapping(path = "/friendsInsert", method = RequestMethod.GET)
+	public String insertFriendView(Model model, String frd_email) {
+		
+		logger.debug("frd_email : 영하가 디버그 찍어보라고 함 {}", frd_email);
+		model.addAttribute("frd_email", frd_email);
+		return "/member/projectMember.user.tiles";
+	}
+
+	@RequestMapping(path = "/friendsInsert", method = RequestMethod.POST)
+	public String insertFriendProcess(String frd_email, HttpSession session){
+		
+		String viewName = "";
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = userVo.getUser_email();
+		
+		logger.debug("friendsVo : 영하가 디버그 찍어보라고 함1 {}", user_email);
+		
+		FriendsVo friendsVo = new FriendsVo(user_email, frd_email);
+		
+		logger.debug("friendsVo : 영하가 디버그 찍어보라고 함1 {}", friendsVo);
+		
+		int insertFriends = friendsService.insertFriends(friendsVo);
+		
+		if(insertFriends != 0) {
+			viewName =  "/member/projectMember.user.tiles";
+		}
+		
+		return viewName;
+	}
 	// ------------------------------ 관리자 부분 ------------------------------ //
 	
 	/**

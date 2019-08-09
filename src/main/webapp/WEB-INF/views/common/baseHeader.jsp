@@ -14,6 +14,48 @@
 <%@include file="/WEB-INF/views/common/baseLib.jsp"%>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.0.0/sockjs.min.js"></script>
 
+<!-- 메모 dropdown -->
+<style>
+.dropbtn {
+  background-color: #3498DB;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropbtn:hover, .dropbtn:focus {
+  background-color: #2980B9;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown a:hover {background-color: #ddd;}
+
+.show {display: block;}
+</style>
+
 <script>
 var socket = null;
 
@@ -69,6 +111,23 @@ function connectNotify(){
 	
 }
 
+// 새로추가한 메모 dropdown
+function myFunction() {
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
 
 </script>
 
@@ -111,8 +170,16 @@ function connectNotify(){
         	</div>
         	<!-- header search box end -->
 
-        	<div id="tnb">
+        	<div id="tnb" class="dropdown">
         		<ul>
+        		 <button onclick="myFunction()" class="dropbtn">메모<span class="caret"></span></button>
+        		 	
+        		 	<div id="myDropdown" class="dropdown-content">
+		        		<c:forEach items="${projectList }" var="pro" >
+		        			<a href="#"><span class="color_style01">${pro.prj_nm }</span></a>
+		        		</c:forEach>
+        		 	</div>
+        		 	
         			<li><a href="#"><span class="color_style02">타이머</span></a></li>
         			<li><a href="#"><span class="color_style01">화상회의</span></a></li>
         			<li><a href="#"><span class="color_style01">채팅</span>리스트</a></li>

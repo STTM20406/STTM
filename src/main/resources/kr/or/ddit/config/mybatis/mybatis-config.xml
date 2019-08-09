@@ -35,6 +35,7 @@
       <typeAlias type="kr.or.ddit.mail_confirm.model.Mail_ConfirmVo" alias="mail_confirmVo"/>
       <typeAlias type="kr.or.ddit.meeting.model.MeetingVo" alias="meetingVo"/>
       <typeAlias type="kr.or.ddit.memo.model.MemoVo" alias="memoVo"/>
+      <typeAlias type="kr.or.ddit.minutes.model.Minutes_MemVo" alias="minutes_memVo"/>
       <typeAlias type="kr.or.ddit.minutes.model.MinutesVo" alias="minutesVo"/>
       <typeAlias type="kr.or.ddit.note_content.model.Note_ContentVo" alias="note_contentVo"/>
       <typeAlias type="kr.or.ddit.note_info.model.Note_InfoVo" alias="note_infoVo"/>

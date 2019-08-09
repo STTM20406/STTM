@@ -22,6 +22,7 @@ import kr.or.ddit.board.service.IBoardService;
 import kr.or.ddit.chat_room.model.Chat_RoomVo;
 import kr.or.ddit.chat_room.service.IChat_RoomService;
 import kr.or.ddit.encrypt.encrypt.kisa.aria.ARIAUtil;
+import kr.or.ddit.project.model.ProjectVo;
 import kr.or.ddit.project.service.IProjectService;
 import kr.or.ddit.users.model.UserVo;
 import kr.or.ddit.users.service.IUserService;
@@ -96,11 +97,16 @@ public class LoginController {
 		String encryptPassword = ARIAUtil.ariaEncrypt(user_pass);
 		UserVo userVo = userService.getUser(user_email);
 		
+		// 회원이 속한 프로젝트리스트 조회
+		List<ProjectVo> projectList = projectService.projectList(user_email);
+		
 		//userVo에 값이 있고 userVo에 저장된 패스워드가 생성된 패스워드와 같다면
 		if(userVo != null && encryptPassword.equals(userVo.getUser_pass())) {
 			
 			//세션 생성 userVo를 USER_INFO에 담음
 			session.setAttribute("USER_INFO", userVo);
+			
+			session.setAttribute("projectList", projectList);
 			
 			//user의 권한이 'A' = 관리자이면
 			if("A".equals(userVo.getUser_right())) {

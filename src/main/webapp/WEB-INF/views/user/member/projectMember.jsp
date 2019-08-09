@@ -79,24 +79,17 @@ $(document).ready(function(){
 	});
 	
 	// ------- 설정 버튼 -------
-	$(".user_set_list").hide();
-	$(".icon_set").on("click", function(){
-		$(".user_set_list").fadeIn();
-	});
-	$(".user_set_list").on("mouseleave", function(){
-		$(".user_set_list").fadeOut();
-	});
+// 	$(".user_set_list").hide();
+// 	$(".icon_set").on("click", function(){
+// 		$(".user_set_list").fadeIn();
+// 	});
+// 	$(".user_set_list").on("mouseleave", function(){
+// 		$(".user_set_list").fadeOut();
+// 	});
 	
-	// ------- 친구 삭제 버튼 클릭시 -------
-	$(".userTr").on("click", function(){
-		
-		var user_email = $(this).find(".delFriends").text();
-		$("#friendsPaging").val(user_email);
-		
-		$("#friendsForm").submit();
+	$("#tab-2").on("click",function(){
+		$("#frdEmailFrom").submit();
 	});
-	
-	
 	
 });	
 
@@ -113,6 +106,7 @@ function layer_open(el){
 	}
 
 	//  -------화면의 중앙에 레이어를 띄운다. -------
+	
 	if (temp.outerHeight() < $(document).height() ) temp.css('margin-top', '-'+temp.outerHeight()/2+'px');
 	else temp.css('top', '0px');
 	if (temp.outerWidth() < $(document).width() ) temp.css('margin-left', '-'+temp.outerWidth()/2+'px');
@@ -134,12 +128,12 @@ function layer_open(el){
 
 }	
 
-// function deleteFriends() {
-// 	$("#btnDeleteFriends").on("click",function(){
-// //			$("#profileForm").submit();
-// 		alert("친구가 삭제 되었습니다.");			
-// 	});
-// }
+// 친구 추가 버튼
+function insertFriends() {
+	$("#insertFriendsForm").submit();
+	alert("친구가 등록 되었습니다.");
+}
+
 </script>
 
 <section class="contents">
@@ -161,10 +155,6 @@ function layer_open(el){
 	<!-- 		<form id="prjMemForm" action="projectMemberList" method="get"> -->
 	<!-- 			<input type="text" id="prjMemList" name="prjMemList" > -->
 	<!-- 		</form> -->
-				
-			<form id="prjMemForm" method="get">
-				<input type="hidden" id="prjMemPaging" name="prjMemPaging" value="${projectMemList}">
-			</form>
 				
 			<div>
 				<table class="tb_style_01">
@@ -259,14 +249,10 @@ function layer_open(el){
 		
 		
 		<div id="tab-2" class="tab-content">
-			<!-- 친구삭제 폼 -->
-<!-- 			<form id="prjMemForm" action="projectMemberList" method="get"> -->
-<!-- 				<input type="text" id="prjMemList" name="prjMemList" > -->
-<!-- 			</form> -->
 			
-			<form id="friendsForm" action="/deleteFriends" method="post">
-					<input type="hidden" id="friendsPaging" name="friendsPaging">
-			</form>
+<!-- 			<form id="frdEmailFrom" action="/projectMemberList" method="get"> -->
+<%-- 				<input type="text" id="frd_email" name="frd_email" value="${friendsList.frd_email}"> --%>
+<!-- 			</form> -->
 			
 			<div>
 				<div class="searchBox">
@@ -297,16 +283,16 @@ function layer_open(el){
 					<tbody>
 						<tr>
 						
-							<th>사용자 이메일</th>
-							<th>사용자 이메일1</th>
-							<th>사용자 이름</th>
+<!-- 							<th>사용자 이메일 - 추후 삭제</th> -->
+							<th>친구 이름</th>
+							<th>친구 이메일</th>
 							<th>친구삭제</th>
 		
 							<c:forEach items="${friendsList}" var="prjVo">
 							
 								<tr class="userTr" data-user_email="${prjVo.user_email}">
-									<td class="user_email">${prjVo.user_email}</td>
-									<td>${prjVo.user_email}</td>
+<%-- 									<td class="user_email">${prjVo.user_email}</td> --%>
+									<td>${prjVo.user_nm}</td>
 									<td>${prjVo.frd_email}</td>
 									<td class="delFriends">
 										<a href="/deleteFriends?frd_email=${prjVo.frd_email}" class="frdDel">삭제하기</a>
@@ -322,15 +308,15 @@ function layer_open(el){
 				</table>
 			</div>
 			
-			<a href="" class="btn_style_01">친구 등록</a>
-		
+			<input type="button" class="inp_style_04" onclick="layer_open('layer3');return false;" value="친구 요청 목록">
+			<input type="button" class="inp_style_01" onclick="layer_open('layer4');return false;" value="친구등록">
+			
 			<div class="pagination">
 					<c:choose>
 						<c:when test="${pageVo.page == 1 }">
 							<a href class="btn_first"></a>
 						</c:when>
 						<c:otherwise>
-<%-- 							<a href="${cp}/projectMemberList?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a> --%>
 							<a href="${cp}/friendsSearchList?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a>
 						
 						</c:otherwise>
@@ -342,7 +328,6 @@ function layer_open(el){
 								<span>${i}</span>
 							</c:when>
 							<c:otherwise>
-<%-- 							<a href="${cp}/projectMemberList?page=${i}&pageSize=${pageVo.pageSize}">${i}</a> --%>
 							<a href="${cp}/friendsSearchList?page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
 							</c:otherwise>
 						</c:choose>
@@ -355,14 +340,54 @@ function layer_open(el){
 						</c:when>
 						
 						<c:otherwise>
-<%-- 							<a href="${cp}/projectMemberList?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a> --%>
 							<a href="${cp}/friendsSearchList?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
 						</c:otherwise>
 					</c:choose>
 			
 			</div>
 		
-		
+			<form action="/friendsInsert" id="friendsRequestForm" name="insert" method="post">
+				<div class="layer">
+					<div class="bg"></div>
+					<div id="layer3" class="pop-layer">
+						<div class="pop-container">
+							<div class="pop-conts">
+								<!--content //-->
+								<p class="ctxt mb20">
+								친구요청 목록
+								</p>
+
+								<div class="btn-r">
+									<a href="#" class="cbtn">Close</a>
+								</div>
+								<!--// content-->
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+
+			<form action="/friendsInsert" id="insertFriendsForm" name="insert" method="post">
+				<div class="layer">
+					<div class="bg"></div>
+					<div id="layer4" class="pop-layer">
+						<div class="pop-container">
+							<div class="pop-conts">
+								<!--content //-->
+								<p class="ctxt mb20">
+								친구 등록
+								</p>
+				
+								<div class="btn-r">
+									<a href="#" class="cbtn">Close</a>
+								</div>
+								<!--// content-->
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+			
 		</div>
 		
 	</div>

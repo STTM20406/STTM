@@ -1,5 +1,16 @@
 package kr.or.ddit.memo.dao;
 
-public interface IMemoDao {
+import java.util.List;
 
+import kr.or.ddit.memo.model.MemoVo;
+
+public interface IMemoDao {
+	
+	int mergeMemo(MemoVo memoVo);
+	
+	List<MemoVo> memoList(MemoVo memoVo);
+	
+	List<MemoVo> getYdTdCon(MemoVo memoVo);
+	
+	MemoVo getMemo(MemoVo memoVo);
 }

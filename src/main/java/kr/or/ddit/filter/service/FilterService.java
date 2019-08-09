@@ -18,6 +18,7 @@ import kr.or.ddit.filter.dao.IFilterDao;
 import kr.or.ddit.filter.model.FilterVo;
 import kr.or.ddit.ganttChart.model.GanttChartVo;
 import kr.or.ddit.project.model.ProjectVo;
+import kr.or.ddit.project.service.IProjectService;
 import kr.or.ddit.users.model.UserVo;
 import kr.or.ddit.work.model.WorkVo;
 
@@ -42,7 +43,10 @@ public class FilterService implements IFilterService{
 	private static final Logger logger = LoggerFactory.getLogger(FilterService.class);
 	@Resource(name="filterDao")
 	private IFilterDao filterDao;
-
+	
+	@Resource(name="projectService")
+	private IProjectService projectService;
+	
 	private Map<String, Object> resultMap; 
 	
 	@Override
@@ -883,6 +887,43 @@ public class FilterService implements IFilterService{
 		Map<String, Object> resultMap = new HashMap<>();
 		List<WorkVo> workList = filterList(filterVo);
 		logger.debug("workList : {}", workList);
+		int doneCnt = 0;
+		int undoneCnt = 0;
+		int entPnt = 0;
+		int donePnt = 0;
+		int undonePnt = 0;
+		for(WorkVo work : workList) {
+			int point = getPoint(work);
+			String status = getStatus(work);
+			entPnt += point;
+			switch(status) {
+			case "cmp":
+				doneCnt++;
+				donePnt += point;
+				break;
+			default :
+				undoneCnt++;
+				undonePnt += point;
+				break;
+			}
+		}
+		double donePercent = 0;
+		
+			if(donePnt!=0)
+				donePercent = Math.round(((double)donePnt/entPnt) * 100);
+		double undonePercent = 0;
+		
+			if(undonePnt!=0)
+				undonePercent = Math.round(((double)undonePnt/entPnt) * 100);
+			
+		Map<String, Object> cntMap = new HashMap<String, Object>();
+		cntMap.put("doneCnt", doneCnt);
+		cntMap.put("undoneCnt", undoneCnt);
+		cntMap.put("donePercent", donePercent);
+		cntMap.put("undonePercent", undonePercent);
+		
+		ProjectVo prjVo = projectService.getProject(filterVo.getPrj_id());
+		resultMap.put("prjVo", prjVo);
 		Map<String, Object> progressMap = chartProgress(workList);
 		Map<String, Object> wrkLstMap = workListbChart(workList);
 		filterVo.setWrk_i_assigned("y");
@@ -901,6 +942,7 @@ public class FilterService implements IFilterService{
 		resultMap.put("following", followingPieData);
 		resultMap.put("list", wrkLstMap);
 		resultMap.put("progress", progressMap);
+		resultMap.put("cnt", cntMap);
 		return resultMap;
 	}
 
@@ -1099,7 +1141,27 @@ public class FilterService implements IFilterService{
 		resultMap.put("work", workVoMap);
 		return resultMap;
 	}
-	
+	@Override
+	public String updatePrj(ProjectVo prjVo) {
+		ProjectVo projectVo = projectService.getProject(prjVo.getPrj_id());
+		logger.debug("projectVo 변경 전 : {}", projectVo);
+		
+		projectVo.setPrj_start_dt(prjVo.getPrj_start_dt());
+		projectVo.setPrj_end_dt(prjVo.getPrj_end_dt());
+		projectVo.setPrj_cmp_dt(prjVo.getPrj_cmp_dt());
+		
+		logger.debug("projectVo 변경 후 : {}", projectVo);
+		
+		int cnt = projectService.updateAllProject(projectVo);
+		String result = "";
+		
+		if(cnt==1)
+			result = "OK";
+		else 
+			result = "ERROR";
+		
+		return result;
+	}
 	/**
 	 * Method : getWrkgradePnt
 	 * 작성자 : 유승진
