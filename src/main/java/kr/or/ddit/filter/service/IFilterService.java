@@ -97,4 +97,14 @@ public interface IFilterService {
 	 * Method 설명 : 프로젝트 개요 화면에서 날짜 변경시 DB 정보를 업데이트 하는 메서드
 	 */
 	String updatePrj(ProjectVo prjVo);
+	
+	/**
+	 * Method : prjList
+	 * 작성자 : 유승진
+	 * 변경이력 : 2019-08-09 최초 생성
+	 * @param filterVo
+	 * @return
+	 * Method 설명 : 사용자가 참여하고 있는 프로젝트 리스트를 반환하는 메서드
+	 */
+	List<String> prjList(String user_email);
 }

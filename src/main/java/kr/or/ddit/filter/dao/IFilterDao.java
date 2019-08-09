@@ -57,4 +57,24 @@ public interface IFilterDao {
 	 * Method 설명 : 임시 생성한 특정 업무 상세정보 조회 메서드
 	 */
 	WorkVo workDetail(int wrk_id);
+	
+	/**
+	 * Method : prjList
+	 * 작성자 : 유승진
+	 * 변경이력 : 2019-08-09 최초 생성
+	 * @param user_email
+	 * @return
+	 * Method 설명 : 해당 회원이 소속된 프로젝트 리스트 조회 메서드
+	 */
+	List<ProjectVo> prjList(String user_email);
+	
+	/**
+	 * Method : checkAuth
+	 * 작성자 : 유승진
+	 * 변경이력 : 2019-08-09 최초 생성
+	 * @param filterVo
+	 * @return
+	 * Method 설명 : 해당 프로젝트의 설정을 수정가능한 사용자인지 확인하는 메서드
+	 */
+	int checkAuth(FilterVo filterVo);
 }
