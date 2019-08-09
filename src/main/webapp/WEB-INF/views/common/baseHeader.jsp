@@ -50,21 +50,17 @@ var socket = null;
 $(document).ready(function(){
 	connectNotify();
 
-<<<<<<< HEAD
-		})
 		// 내가 한 일
 		$("").on("click",function(){
 			$("#memoView").animate({right:'0'}, 500);
 		})
 		
-=======
 	$(".user_set_list").hide();
 	$(".icon_set").on("click", function(){
 		$(".user_set_list").fadeIn();
 	});
 	$(".user_set_list").on("mouseleave", function(){
 		$(".user_set_list").fadeOut();
->>>>>>> 30a1c2b40486f5cca86cda8e8a0dc1d533151f38
 	});
 	$(".board_id").on("click",function(){
 		var c = $(this).children().attr("id");
@@ -240,6 +236,9 @@ $(function() {
 	width: 350px;
 	padding: 25px;
 	z-index: 999
+}
+#memoView {
+display : none;
 }
 </style>
 
