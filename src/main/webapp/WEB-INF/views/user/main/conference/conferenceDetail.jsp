@@ -25,7 +25,7 @@
 	    <label>♬♩♪ 회의록 번호 : ${minutesVo.mnu_id}</label>
 		<label>♬ 참석자 : </label>
 	    <c:forEach items="${minutes_memList}" var="List">
-	    	<label>${List.USER_NM} </label>
+	    	<label>${List.user_nm} </label>
 	    </c:forEach>
 	    <br>
 		<label>♩ 작성자 : ${minutesVo.user_nm}</label>
@@ -49,15 +49,4 @@
 		</c:when>
 	</c:choose>
 	
-	<br>	
-    <input type="text" value="${minutesVo.mnu_id}" readonly><br>
-    <input type="text" value="${minutesVo.prj_id}" readonly><br>
-    <input type="text" value="${minutesVo.user_email}" readonly><br>
-    <input type="text" value="${minutesVo.subject}" readonly><br>
-    <input type="text" value="${minutesVo.special}" readonly><br>
-    <fmt:formatDate value="${minutesVo.write_date}" var="date" pattern="yyyy-MM-dd HH:mm" />
-	<input type="text" value="${date}" readonly><br>
-    <input type="text" value="${minutesVo.del_fl}" readonly><br>
-    <input type="text" value="${minutesVo.user_nm}" readonly><br>
-    
 </fieldSet>

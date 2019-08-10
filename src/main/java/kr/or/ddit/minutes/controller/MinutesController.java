@@ -1,5 +1,6 @@
 package kr.or.ddit.minutes.controller;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,7 @@ import kr.or.ddit.minutes.model.Minutes_MemVo;
 import kr.or.ddit.minutes.service.IMinutesService;
 import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.users.model.UserVo;
+import kr.or.ddit.work.service.IWorkService;
 
 @Controller
 public class MinutesController {
@@ -28,8 +30,11 @@ public class MinutesController {
 	@Resource(name="minutesService")
 	IMinutesService minutesService;
 	
+//	@RequestMapping(name="workService")
+//	private IWorkService workService;
+	
 	@RequestMapping(path="/conferenceList", method = RequestMethod.GET)
-	String conferenceList(Model model, PageVo pageVo) {
+	String conferenceList(Model model, PageVo pageVo, HttpSession session ) {
 		int prj_id = 1; //session에서 꺼내자
 		
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -57,10 +62,7 @@ public class MinutesController {
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
 		String user_nm = userVo.getUser_nm();
 		model.addAttribute("user_nm", user_nm);
-		logger.debug("♬♩♪  접속중인 사람 이름은!!! user_nm: {}", user_nm);
 		
-		
-		logger.debug("♬♩♪  conferenceDetail 입니다~: {}", mnu_id);
 		MinutesVo minutesVo = minutesService.minutesDetail(mnu_id);
 		model.addAttribute("minutesVo", minutesVo);
 		
@@ -118,6 +120,16 @@ public class MinutesController {
 		return "/main/conference/conferenceList.user.tiles";
 	}
 	
+	/**
+	 * Method 		: delMinutes
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-09 최초 생성
+	 * @param model
+	 * @param mnu_id
+	 * @param pageVo
+	 * @return
+	 * Method 설명 	: 상태값 Y로 바꾸는 삭제 메서드
+	 */
 	@RequestMapping(path="/delMinutes", method = RequestMethod.GET)
 	String delMinutes(Model model, int mnu_id, PageVo pageVo) {
 		logger.debug("♬♩♪ delMinutes controller입니다. mnu_id: {}", mnu_id);
@@ -147,16 +159,23 @@ public class MinutesController {
 		return "/main/conference/conferenceList.user.tiles";
 	}
 	
+	/**
+	 * Method 		: upMinutes
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-09 최초 생성
+	 * @param model
+	 * @param mnu_id
+	 * @param pageVo
+	 * @param session
+	 * @return
+	 * Method 설명 	: 수정 메서드
+	 */
 	@RequestMapping(path="/upMinutes", method = RequestMethod.GET)
-	String upMinutes(Model model, int mnu_id, PageVo pageVo, HttpSession session) {
-		logger.debug("♬♩♪  upMinutes메서드의  mnu_id: {}", mnu_id);
+	String upMinutesGet(Model model, int mnu_id, PageVo pageVo, HttpSession session) {
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
 		String user_nm = userVo.getUser_nm();
 		model.addAttribute("user_nm", user_nm);
-		logger.debug("♬♩♪  접속중인 사람 이름은!!! user_nm: {}", user_nm);
 		
-		
-		logger.debug("♬♩♪  conferenceDetail 입니다~: {}", mnu_id);
 		MinutesVo minutesVo = minutesService.minutesDetail(mnu_id);
 		model.addAttribute("minutesVo", minutesVo);
 		
@@ -165,8 +184,73 @@ public class MinutesController {
 		model.addAttribute("minutes_memList", minutes_memList);
 		logger.debug("♬♩♪  minutes_memList: {}", minutes_memList);
 		
-		
 		return "/main/conference/conferenceModify.user.tiles";
+	}
+	
+	@RequestMapping(path="/upMinutes", method = RequestMethod.POST)
+	String upMinutesPost(Model model, int mnu_id, PageVo pageVo, HttpSession session, 
+			String subject,String special ) {
+		
+		return null;
+	}
+	
+	/**
+	 * Method 		: insertConference
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-09 최초 생성
+	 * @return
+	 * Method 설명 	: 회의록 등록
+	 */
+	@RequestMapping(path="/insertConference", method = RequestMethod.GET)
+	String insertConferenceGet(HttpSession session, Model model) {
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = userVo.getUser_email();
+		
+		List<UserVo> userList = minutesService.memberList(user_email);
+		logger.debug("♬♩♪  userList: {}", userList);
+		model.addAttribute("userList", userList);
+		return "/main/conference/conferenceInsert.user.tiles";
+	}
+	
+	@RequestMapping(path="/insertConference", method = RequestMethod.POST)
+	String insertConferencePost(HttpSession session, Model model, String user_email,
+			String insertSubject, String insertSpecial) {
+		int prj_id = 1; //session에서 꺼내야함
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String email = userVo.getUser_email();
+		logger.debug("♬♩♪  insertSubject: {}", insertSubject);
+		logger.debug("♬♩♪  insertSpecial: {}", insertSpecial);
+		
+		logger.debug("♬♩♪  insertConference + user_email: {}", user_email);
+		
+		//회의록 등록!!!
+		MinutesVo minutesVo = new MinutesVo(prj_id, email, insertSubject, insertSpecial);
+		int mCnt = minutesService.insertMinutes(minutesVo);
+		if(mCnt==1) {
+			logger.debug("♬♩♪  회의록 게시물 등록! ");
+		}
+		
+		//가장 최근에 작성한 글 mnu_id 가져오기!
+		MinutesVo minutesVo1 = minutesService.recentMinutes();
+		int mnu_id = minutesVo1.getMnu_id();
+		logger.debug("♬♩♪  mnu_id: {}", mnu_id);
+		
+		List<String> userEmailList = Arrays.asList(user_email.split(","));
+		logger.debug("♬♩♪  userEmailList: {}", userEmailList);
+		
+		Minutes_MemVo memVo = new Minutes_MemVo();
+		int cnt = 0;
+		
+		for (int i = 0; i < userEmailList.size(); i++) {
+			memVo.setUser_email(userEmailList.get(i));
+			memVo.setMnu_id(mnu_id);
+			
+			cnt = minutesService.insertAttender(memVo);
+		}
+		if(cnt==1) {
+			logger.debug("♬♩♪  등록완료!!!!");
+		}
+		return "redirect:/conferenceList";
 	}
 	
 	
