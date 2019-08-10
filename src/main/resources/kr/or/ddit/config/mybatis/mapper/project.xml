@@ -101,6 +101,10 @@
 		UPDATE PROJECT SET DEL_FL = 'Y' WHERE PRJ_ID = #{prj_id}
 	</update>
 
+	<!-- 프로젝트 아이디 MAX값 -->
+	<select id="maxProjectId" resultType="int">
+		select max(prj_id) from project
+	</select>
 
 	<!-- *********************project_mem******************** -->
 
@@ -189,6 +193,21 @@
 		select count(*)
 		from project_mem
 		where prj_id like '%'||#{prj_id}||'%'
+	</select>
+	
+	
+	<!-- 헤더에 화상회의 친구목록 리스트 -->
+	<select id="headerChatFriendList" parameterType="string" resultType="project_memVo">
+		select m.prj_id, u.user_nm
+		from project_mem m, users u, project p
+		where m.user_email = u.user_email
+		and p.prj_id = m.prj_id
+		and m.prj_id in
+		            (select prj_id
+		            from project_mem m
+		            where m.user_email in #{user_email})
+		and p.del_fl = 'N'            
+		order by m.prj_id, u.user_nm
 	</select>
 	
 	<!-- *******************project_trnf_hs****************** -->
