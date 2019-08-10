@@ -49,7 +49,7 @@ Last update : 2019. 07. 22.
 
 #tnb {position: absolute; right: 70px; top: 41px;}
 #tnb ul {}
-#tnb ul li {display:inline-block; margin-right:35px}
+#tnb ul li {display:inline-block; margin-right:25px}
 #tnb ul li:last-child {margin:0;}
 #tnb ul li a {display:block; padding-left:25px; font-size:13px; color:#a7abb2; position:relative;}
 #tnb ul li a span {}
@@ -57,15 +57,15 @@ Last update : 2019. 07. 22.
 
 
 
-#tnb ul li:nth-child(4)>a {padding-left:20px;}
-#tnb ul li:nth-child(5) {position:relative;}
-#tnb ul li:nth-child(5)>a {padding-left:20px; text-indent:-9999px}
+#tnb ul li:nth-child(5)>a {padding-left:20px;}
+#tnb ul li:nth-child(6) {position:relative;}
+#tnb ul li:nth-child(6)>a {padding-left:20px; text-indent:-9999px}
 
-#tnb ul li:nth-child(1)>a:after {width:19px; background-position:-21px 0px;}
-#tnb ul li:nth-child(2)>a:after {background-position: 0px 0px;}
-#tnb ul li:nth-child(3)>a:after {width: 19px; background-position: -43px 0px;}
-#tnb ul li:nth-child(4)>a:after {background-position: -62px 0px;}
-#tnb ul li:nth-child(5)>a:after {background-position: -77px 0px;}
+#tnb ul li:nth-child(2)>a:after {width:19px; background-position:-21px 0px;}
+#tnb ul li:nth-child(3)>a:after {background-position: 0px 0px;}
+#tnb ul li:nth-child(4)>a:after {width: 19px; background-position: -43px 0px;}
+#tnb ul li:nth-child(5)>a:after {background-position: -62px 0px;}
+#tnb ul li:nth-child(6)>a:after {background-position: -77px 0px;}
 
 /* header search box */
 #header .hd_sch_wr {width:480px; height:36px; border:2px solid #eef1f3; border-radius:30px; position: absolute; right:700px; top:32px; line-height: 27px;}

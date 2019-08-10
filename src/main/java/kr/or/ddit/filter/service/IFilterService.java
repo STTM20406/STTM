@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import kr.or.ddit.filter.model.FilterVo;
+import kr.or.ddit.project.model.ProjectVo;
 import kr.or.ddit.work.model.WorkVo;
 
 public interface IFilterService {
@@ -86,4 +87,24 @@ public interface IFilterService {
 	 * Method 설명 : 캘린더 화면에 필요한 데이터를 JSON 형태로 반환하는 메서드
 	 */
 	Map<String, Object> calendarTemplateJSON(FilterVo filterVo);
+
+	/**
+	 * Method : updatePrj
+	 * 작성자 : 유승진
+	 * 변경이력 : 2019-08-08 최초 생성
+	 * @param prjVo
+	 * @return
+	 * Method 설명 : 프로젝트 개요 화면에서 날짜 변경시 DB 정보를 업데이트 하는 메서드
+	 */
+	String updatePrj(ProjectVo prjVo);
+	
+	/**
+	 * Method : prjList
+	 * 작성자 : 유승진
+	 * 변경이력 : 2019-08-09 최초 생성
+	 * @param filterVo
+	 * @return
+	 * Method 설명 : 사용자가 참여하고 있는 프로젝트 리스트를 반환하는 메서드
+	 */
+	List<String> prjList(String user_email);
 }

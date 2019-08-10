@@ -19,6 +19,16 @@ public interface IFriendsDao {
 	 */
 	public List<ChatFriendsVo> friendList(String user_email);
 		
+	/**
+	 * 
+	 * Method : insertFriends
+	 * 작성자 : 김경호
+	 * 변경이력 : 2019-08-08
+	 * @param friendsVo
+	 * @return
+	 * Method 설명 : 친구 등록
+	 */
+	int insertFriends(FriendsVo friendsVo);
 	
 	/**
 	 * 
@@ -30,8 +40,6 @@ public interface IFriendsDao {
 	* Method 설명 : 친구 페이징 리스트
 	 */
 	List<FriendsVo> friendPagingList(Map<String, Object> map);
-	
-//	친구 추가 기능
 	
 	/**
 	 * 
@@ -76,5 +84,5 @@ public interface IFriendsDao {
 	* Method 설명 : 일반 사용자가 친구 삭제
 	 */
 	int deleteFriends(String frd_email);
-	
+
 }

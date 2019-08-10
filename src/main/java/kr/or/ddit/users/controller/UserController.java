@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -275,12 +276,10 @@ public class UserController {
 	@RequestMapping(path = "/projectMemberList", method = RequestMethod.GET)
 	public String projectMemberListView(PageVo pageVo, Model model, HttpSession session) {
 		
-		
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
 		Project_MemVo prjVo = new Project_MemVo();
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		
 		map.put("page", pageVo.getPage());
 		map.put("pageSize", pageVo.getPageSize());
 		map.put("user_email", userVo.getUser_email());
@@ -288,7 +287,8 @@ public class UserController {
 		map.put("prj_id", prjVo.getPrj_id());
 
 //		if(frd_email == null) {
-			// 회원이 해당 프로젝트의 멤버 목록을 조회 한다.
+		
+		// 회원이 해당 프로젝트의 멤버 목록을 조회 한다.
 		Map<String, Object> resultMap = project_MemService.projectMemPagingList(map);
 		List<UserVo> projectMemList = (List<UserVo>) resultMap.get("projectMemList");
 		int paginationSize = (Integer) resultMap.get("paginationSize");
@@ -298,16 +298,11 @@ public class UserController {
 		model.addAttribute("pageVo", pageVo);
 			
 //		}else if (frd_email != null){
+		
 		// 회원의 친구 목록을 회원 자신의 이메일로 조회하여 페이징 리스트로 보여준다
-			
 		logger.debug("pageVo.getPage() ::::::::::: {}", pageVo.getPage());
 		logger.debug("pageVo.getPageSize() ::::::::::: {}", pageVo.getPageSize());
 		logger.debug("userVo.getUser_email() ::::::::::: {}", userVo.getUser_email());
-		
-//		Map<String, Object> hashMap = new HashMap<String, Object>();
-//		hashMap.put("page", pageVo.getPage());
-//		hashMap.put("pageSize", pageVo.getPageSize());
-//		hashMap.put("user_email", userVo.getUser_email());
 		
 		Map<String, Object> rstMap = friendsService.friendPagingList(map);	
 		logger.debug("map : 밥먹기 전에 {}",rstMap);
@@ -436,6 +431,45 @@ public class UserController {
 		return "/member/projectMember.user.tiles";
 	}
 	
+	/**
+	 * 
+	* Method : insertFriendView
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-08
+	* @param model
+	* @param frd_email
+	* @return
+	* Method 설명 : 친구 추가
+	 */
+	@RequestMapping(path = "/friendsInsert", method = RequestMethod.GET)
+	public String insertFriendView(Model model, String frd_email) {
+		
+		logger.debug("frd_email : 영하가 로거 찍어보라고 함 {}", frd_email);
+		model.addAttribute("frd_email", frd_email);
+		return "/member/projectMember.user.tiles";
+	}
+
+	@RequestMapping(path = "/friendsInsert", method = RequestMethod.POST)
+	public String insertFriendProcess(String frd_email, HttpSession session){
+		
+		String viewName = "";
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = userVo.getUser_email();
+		
+		logger.debug("friendsVo : 영하가 로거 찍어보라고 함1 {}", user_email);
+		
+		FriendsVo friendsVo = new FriendsVo(user_email, frd_email);
+		
+		logger.debug("friendsVo : 영하가 로거 찍어보라고 함1 {}", friendsVo);
+		
+		int insertFriends = friendsService.insertFriends(friendsVo);
+		
+		if(insertFriends != 0) {
+			viewName =  "/member/projectMember.user.tiles";
+		}
+		
+		return viewName;
+	}
 	// ------------------------------ 관리자 부분 ------------------------------ //
 	
 	/**

@@ -9,8 +9,8 @@
 	<!-- 내가 속한 프로젝트 리스트 조회 -->
 	<select id="projectList" parameterType="string" resultType="projectVo">
 		SELECT * FROM (SELECT * FROM PROJECT)A INNER JOIN
-					  (SELECT * FROM PROJECT_MEM)B ON
-		A.PRJ_ID = B.PRJ_ID AND B.USER_EMAIL = #{user_email}
+					  				(SELECT * FROM PROJECT_MEM)B ON
+		A.PRJ_ID = B.PRJ_ID AND B.USER_EMAIL = #{user_email} AND A.DEL_FL = 'N'
 	</select>
 
 	<!--프로젝트 아이디에 맞는 프로젝트 정보 조회 -->
@@ -31,7 +31,7 @@
 			 , A.DEL_FL
 			 , B.USER_EMAIL
 		FROM ( SELECT A.* FROM (SELECT * FROM PROJECT WHERE PRJ_ST = #{prj_st}) A) A, PROJECT_MEM B
-		WHERE  A.PRJ_ID = B.PRJ_ID AND B.USER_EMAIL = #{user_email}
+		WHERE  A.PRJ_ID = B.PRJ_ID AND B.USER_EMAIL = #{user_email} AND A.DEL_FL = 'N'
 	</select>
 	
 	
@@ -48,7 +48,7 @@
 			 , A.DEL_FL
 			 , B.USER_EMAIL
 		FROM ( SELECT A.* FROM (SELECT * FROM PROJECT WHERE LOWER(PRJ_NM) LIKE '%'||#{prj_nm}||'%') A) A, PROJECT_MEM B
-		WHERE  A.PRJ_ID = B.PRJ_ID AND B.USER_EMAIL = #{user_email}
+		WHERE  A.PRJ_ID = B.PRJ_ID AND B.USER_EMAIL = #{user_email} AND A.DEL_FL = 'N'
 	</select>
 
 
@@ -57,8 +57,8 @@
 		<selectKey resultType="Integer" keyProperty="prj_id" order="BEFORE">
 			SELECT PRJ_SEQ.NEXTVAL FROM DUAL
 		</selectKey>
-		INSERT INTO PROJECT (PRJ_ID, PRJ_NM, PRJ_EXP, PRJ_AUTH, PRJ_ST, DEL_FL)
-		VALUES (#{prj_id}, #{prj_nm}, #{prj_exp}, #{prj_auth}, #{prj_st}, 'N')
+		INSERT INTO PROJECT (PRJ_ID, PRJ_NM, PRJ_EXP, PRJ_AUTH, PRJ_ST, PRJ_UPDATE, DEL_FL)
+		VALUES (#{prj_id}, #{prj_nm}, #{prj_exp}, #{prj_auth}, #{prj_st}, SYSDATE, 'N')
 	</insert>
 	
 
@@ -130,13 +130,13 @@
 	<!-- 현재 접속한 사용자의 아이디로 프로젝트 멤버 정보 가져오기  -->
 	<select id="getProjectMemInfo" resultType="project_memVo" parameterType="project_memVo">
 		SELECT DISTINCT A.PRJ_ID
-					              	 , A.USER_EMAIL
-					              	 , A.PRJ_MEM_LV
-					              	 , A.PRJ_MEM_NIK
-					              	 , A.PRJ_OWN_FL
-					              	 , B.USER_NM 
-		FROM          		 ( SELECT * FROM PROJECT_MEM WHERE USER_EMAIL = #{user_email}) A, USERS B
-		WHERE           		   A.USER_EMAIL = B.USER_EMAIL AND A.PRJ_ID = #{prj_id}
+			              	     , A.USER_EMAIL
+			              	     , A.PRJ_MEM_LV
+			              	     , A.PRJ_MEM_NIK
+			              	     , A.PRJ_OWN_FL
+			              	     , B.USER_NM 
+		FROM          	    ( SELECT * FROM PROJECT_MEM WHERE USER_EMAIL = #{user_email}) A, USERS B
+		WHERE           	      A.USER_EMAIL = B.USER_EMAIL AND A.PRJ_ID = #{prj_id}
 	</select>
 	
 	

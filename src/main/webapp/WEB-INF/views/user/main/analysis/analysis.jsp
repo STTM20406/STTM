@@ -13,9 +13,14 @@
 <script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
 <!-- flatpicker.js 끝 -->
 <div id="prj_list_container">
-	<select id="prj_list">
-	
-	</select>
+	<form id="prj_list_frm">
+		<select id="prj_list" name='over_prj_id' >
+			<option>1</option> <!-- 나중에 세션에 저장된 값으로 대체 -->
+		</select>
+	<input type="hidden" name="user_email" value="${USER_INFO.user_email }">
+	<input type="hidden" name="wrk_dt" value="0">
+	<input type="hidden" name="wrk_is_mine" value="all">
+</form>
 </div>
 <br>
 <div id="dateContainer" style="width:100%; height:120px;border:1px solid #e1e1e1;">
@@ -62,11 +67,13 @@
 	<div id="cmp_wrk_cnt" style="width:14%;height:120px;float:left;">
 			<p style="text-align:center;margin-top:15px;">완료한 업무</p>
 		<div class="wrk" style="position:relative;top:50%;left:50%; transform:translate(-50%, -50%);">
+			<p id="done" style="text-align:center;">-</p>
 		</div>
 	</div>
 	<div id="not_cmp_wrk_cnt" style="width:14%;height:120px;float:left;">
 			<p style="text-align:center;margin-top:15px;">남은 업무</p>
 		<div class="wrk" style="position:relative;top:50%;left:50%; transform:translate(-50%, -50%);">
+			<p id="undone" style="text-align:center;">-</p>
 		</div>
 	</div>
 </div>
@@ -102,51 +109,100 @@
 		<div id="wrk_lst_barchart" style="width:100%; height:300px;">
 		<p style="text-align:center;"><b>업무리스트 별 개요</b></p>
 		</div>
-<form id="frm">
-	<input type="hidden" name="user_email" value="${USER_INFO.user_email }">
-	<input type="hidden" name="prj_id" value="1">
-	<input type="hidden" name="wrk_dt" value="0">
-	<input type="hidden" name="wrk_is_mine" value="all">
-</form>
+
 <script>
 var cal = null;
-	$(function() {
-		cal = flatpickr(".dt", {"locale" : "ko", wrap: true}); // 한국어 설정
-		var serial = $("#frm").serialize();
-		var assignContainer = document.getElementById("pie_wrk_i_assigned");
-		var madeContainer = document.getElementById("pie_wrk_i_made");
-		var followContainer = document.getElementById("pie_wrk_i_follow");
-		var listChartContainer = document.getElementById("wrk_lst_barchart");
-		var progressContainer = document.getElementById("prj_barchart"); 
-		console.log(serial);
+var assignChart = null;
+var madeChart = null;
+var followChart = null;
+var listChart = null;
+var progressChart = null;
+	function loadPrjList() {
+		var user_email = $("#prj_list_frm input[name=user_email]").val();
+		$.ajax({
+			url: "/project/overview/prjList",
+			data: {"user_email": user_email},
+			type: "post",
+			success: function(data){
+				console.log(data);
+				var options = "";
+				$(data).each(function(){
+					options += this;
+				})
+				$("#prj_list").html(options);
+			}
+		});
+	}
+	function loadPrjOverview(serial) {
 		$.ajax({
 			url: "/project/overview/ajax",
 			type: "POST",
 			data: serial,
 			success: function(data){
 				console.log(data);
+				
+				var assignContainer = document.getElementById("pie_wrk_i_assigned");
+				var madeContainer = document.getElementById("pie_wrk_i_made");
+				var followContainer = document.getElementById("pie_wrk_i_follow");
+				var listChartContainer = document.getElementById("wrk_lst_barchart");
+				var progressContainer = document.getElementById("prj_barchart"); 
+				
 				var assignData = data.result.assign;
 				var followingData = data.result.following;
 				var madeData = data.result.made;
-				var assignChart = loadPieChart(assignContainer, assignData, 487, 250);
-				var madeChart = loadPieChart(madeContainer, madeData, 487, 250);
-				var followChart = loadPieChart(followContainer, followingData, 487, 250);
+				
+				if(assignChart == null) {
+					assignChart = loadPieChart(assignContainer, assignData, 487, 250);
+				} else {
+					assignChart["chartContainer"].remove();
+					assignChart = loadPieChart(assignContainer, assignData, 487, 250);
+				}
+				if(madeChart == null){
+					madeChart = loadPieChart(madeContainer, madeData, 487, 250);
+				} else {
+					madeChart["chartContainer"].remove();
+					madeChart = loadPieChart(madeContainer, madeData, 487, 250);
+				}
+				
+				if(followChart == null) {
+					followChart = loadPieChart(followContainer, followingData, 487, 250);
+				} else {
+					followChart["chartContainer"].remove();
+					followChart = loadPieChart(followContainer, followingData, 487, 250);
+				}
+					
 				var listData = data.result.list;
 				assignData.isBlank == "true" ? hideChart(assignContainer) : showChart(assignContainer); 
 				madeData.isBlank == "true" ? hideChart(madeContainer) : showChart(madeContainer); 
 				followingData.isBlank == "true" ? hideChart(followContainer) : showChart(followContainer);
-				var listChart = loadListChart(listChartContainer, listData, 1520, 300);
-				var progressData = data.result.progress;
-				var progressChart = loadProgressChart(progressContainer, progressData, 1520, 150);
+				if(listChart == null) {
+					listChart = loadListChart(listChartContainer, listData, 1520, 300);
+				} else {
+					listChart["chartContainer"].remove();					
+					listChart = loadListChart(listChartContainer, listData, 1520, 300);
+				}
+				
+				progressData = data.result.progress;
+				
+				if(progressChart == null) {
+					progressChart = loadProgressChart(progressContainer, progressData, 1520, 150);
+				} else {
+					progressChart["chartContainer"].remove();
+					progressChart = loadProgressChart(progressContainer, progressData, 1520, 150);
+				}
+				
+				var prjVo = data.result.prjVo;
+				setPrjDates(prjVo);
+				var cnt = data.result.cnt;
+				setCnts(cnt);
+				
+				var auth = data.result.auth;
+				if(auth=="NO")
+					console.log("NO!");
+				
 			}
 		});
-		$(".dt input").on("change", function() {
-			setElapDay();
-			setRemainDay();
-		});
-		
-	});
-	
+	}
 	function showChart(chartContainer) {
 		$(chartContainer).children(".blank").hide();
 		$(chartContainer).children(".tui-chart").show();
@@ -187,7 +243,6 @@ var cal = null;
 				}
 				
 				elapDay = elapDay + elapPercent; 
-				console.log(elapDay);
 			}
 		}
 		$("#elap").text(elapDay);
@@ -217,7 +272,9 @@ var cal = null;
 				
 				} else if(remainVal>100) {
 					
-				} else {
+				} else if(remainVal<0) {
+					
+				}else {
 					remainPercent = "(" + remainVal + "%)";
 				}
 				remainDay = remainDay + remainPercent;
@@ -225,4 +282,85 @@ var cal = null;
 		}
 		$("#remain").text(remainDay);
 	}
+	function setPrjDates(prjVo) {
+		console.log(prjVo);
+		var st_str = prjVo.prjStartDtStr;
+		var ed_str = prjVo.prjEndDtStr;
+		var cmp_str = prjVo.prjCmpDtStr;
+		
+		var cal_st = cal[0];
+		var cal_ed = cal[1];
+		var cal_cmp = cal[2];
+		
+		var st_is_blank = cal[0].selectedDates.length == 0 ? true : false;
+		var ed_is_blank = cal[1].selectedDates.length == 0 ? true : false;
+		var cmp_is_blank = cal[2].selectedDates.length == 0 ? true : false;
+	
+// 		if(st_is_blank && ed_is_blank && cmp_is_blank){
+			cal_st.setDate(st_str);
+			cal_ed.setDate(ed_str);
+			cal_cmp.setDate(cmp_str);
+			setElapDay();
+			setRemainDay();
+// 		}
+	}
+	function setCnts(cnt) {
+		var doneCnt = cnt.doneCnt;
+		var undoneCnt = cnt.undoneCnt;
+		var donePercent = cnt.donePercent;
+		var undonePercent = cnt.undonePercent;
+		
+		var done = doneCnt + "개 (" + donePercent + "%)";
+		var undone = undoneCnt + "개 (" + undonePercent + "%)";
+		
+		$("#done").text(done);
+		$("#undone").text(undone);
+	}
+	function updatePrj() {
+		var cal_st = cal[0];
+		var cal_ed = cal[1];
+		var cal_cmp = cal[2];
+		
+		var prj_st_dt = cal_st.selectedDates[0];
+		var prj_ed_dt = cal_ed.selectedDates[0];
+		var prj_cmp_dt = cal_cmp.selectedDates[0];
+		
+		var prjVo = {
+				'prj_id': $("#prj_list").val(),
+				'prj_start_dt': prj_st_dt,
+				'prj_end_dt': prj_ed_dt,
+				'prj_cmp_dt': prj_cmp_dt
+				};
+		console.log(prjVo);
+		$.ajax({
+			url: '/project/overview/updatePrj',
+			type: 'post',
+			data: prjVo,
+			success: function(data){
+				console.log(data);
+			}
+		});
+	}
+	
+	$(function() {
+		loadPrjList();	
+	});
+</script>
+<script>
+$(function() {
+	cal = flatpickr(".dt", {"locale" : "ko", wrap: true}); // 한국어 설정
+	
+	$(".dt input").on("change", function() {
+		setElapDay();
+		setRemainDay();
+		updatePrj();
+	});
+	$("#prj_list_container").on("change", "#prj_list", function() {
+		var serial = $("#prj_list_frm").serialize();
+		loadPrjOverview(serial);
+	});
+	var serial = $("#prj_list_frm").serialize();
+	console.log(serial);
+	loadPrjOverview(serial);
+});
 </script>

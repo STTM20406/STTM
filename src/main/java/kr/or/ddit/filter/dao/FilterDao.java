@@ -41,4 +41,14 @@ public class FilterDao implements IFilterDao{
 	public WorkVo workDetail(int wrk_id) {
 		return sqlSession.selectOne("filter.workDetail", wrk_id);
 	}
+	
+	@Override
+	public List<ProjectVo> prjList(String user_email) {
+		return sqlSession.selectList("filter.prjList", user_email);
+	}
+	
+	@Override
+	public int checkAuth(FilterVo filterVo) {
+		return sqlSession.selectOne("filter.checkAuth", filterVo);
+	}
 }

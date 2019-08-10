@@ -159,13 +159,14 @@ var calendar = $('#calendar').fullCalendar({
    * ************** */
   events: function (start, end, timezone, callback) {
     $.ajax({
-      method:"post",
+      method:"get",
       url: "/calendarTest",
       data: $("#filterFrm").serialize(),
       contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
       success: function (response) {
+
+    	  console.log(response.data);
     	  response = response.data;
-    	  console.log(response);
         var fixedDate = response.map(function (array) {
           if (array.allDay && array.start !== array.end) {
             // 이틀 이상 AllDay 일정인 경우 달력에 표기시 하루를 더해야 정상출력
@@ -173,6 +174,8 @@ var calendar = $('#calendar').fullCalendar({
           }
           return array;
         })
+        calData = fixedDate;
+        console.log(fixedDate);
         callback(fixedDate);
       }
     });

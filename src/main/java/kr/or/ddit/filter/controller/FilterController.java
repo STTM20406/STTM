@@ -1,5 +1,6 @@
 package kr.or.ddit.filter.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.or.ddit.filter.model.FilterVo;
 import kr.or.ddit.filter.service.IFilterService;
+import kr.or.ddit.project.model.ProjectVo;
 
 @Controller
 public class FilterController {
@@ -31,7 +33,8 @@ public class FilterController {
 		return "/main/analysis/analysis.user.tiles";
 	}
 	@RequestMapping("/project/overview/ajax")
-	public String projectOverviewAjax(Model model, FilterVo filterVo) {
+	public String projectOverviewAjax(Model model, FilterVo filterVo, Integer over_prj_id) {
+		filterVo.setPrj_id(over_prj_id);
 		model.addAttribute("result", filterService.projectOverviewJSON(filterVo));
 		return "jsonView";
 	}
@@ -66,5 +69,16 @@ public class FilterController {
 	@ResponseBody
 	public Map<String, Object> projectGanttChartData(FilterVo filterVo) {
 		return filterService.ganttListJSON(filterVo);
+	}
+	@RequestMapping("/project/overview/updatePrj")
+	public String updatePrj(ProjectVo prjVo) {
+		logger.debug("prjVo : {}", prjVo);
+		return filterService.updatePrj(prjVo);
+	}
+	
+	@RequestMapping("/project/overview/prjList")
+	@ResponseBody
+	public List<String> prjList(String user_email){
+		return filterService.prjList(user_email);
 	}
 }
