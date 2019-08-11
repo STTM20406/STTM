@@ -39,10 +39,23 @@ public class MemoController {
 //		model.addAttribute("yd_con", "");
 		
 		for(MemoVo memo : resultMemo) {
-			if(memo.getMemo_date().equals(today_str)) {
+//			if(memo.getMemo_date().equals(today_str) && !memo.getMemo_con().equals(null)) {
+//				model.addAttribute("td_con", memo);
+//			}else if(!memo.getMemo_date().equals(today_str) && !memo.getMemo_con().equals(null))  {
+//				model.addAttribute("yd_con", memo);
+//			}else if(memo.getMemo_date().equals(today_str) && memo.getMemo_con().equals(null)) {
+//				model.addAttribute("td_con", "");
+//			}else if(!memo.getMemo_date().equals(today_str) && memo.getMemo_con().) {
+//				model.addAttribute("yd_con", "");
+//			}
+			if(memo.getMemo_date().equals(today_str) && memo.getMemo_con()!=null) {
 				model.addAttribute("td_con", memo);
-			}else {
+			}else if(!memo.getMemo_date().equals(today_str) && memo.getMemo_con()!=null){
 				model.addAttribute("yd_con", memo);
+			}else if(memo.getMemo_date().equals(today_str) && memo.getMemo_con() == null) {
+				model.addAttribute("td_con", "");
+			}else if(!memo.getMemo_date().equals(today_str) && memo.getMemo_con() == null) {
+				model.addAttribute("yd_con", "");
 			}
 			
 //			if(!memo.getMemo_date().equals(today_str)) {

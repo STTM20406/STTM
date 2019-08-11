@@ -50,10 +50,7 @@ var socket = null;
 $(document).ready(function(){
 	connectNotify();
 
-		// 내가 한 일
-		$("").on("click",function(){
-			$("#memoView").animate({right:'0'}, 500);
-		})
+		
 		
 	$(".user_set_list").hide();
 	$(".icon_set").on("click", function(){
@@ -68,9 +65,116 @@ $(document).ready(function(){
 
 	})
 	
-	$("").on("click",function(){
+	// 내가 한 일
+	$(".memoA").on("click",function(){
+		console.log("CLICKCLICK");
+		var a = $(this).siblings("input").val();
+		console.log(a);
+		var b = $("#prj_id").val(a);
+		
+		// 내가 한 일
+		$(function() {
+				$("textarea").change(function(){
+					var td_con = $("#memo_td_con").val();
+					var serial = $("#memoFrm").serialize();
+					mergeMemo(serial);
+				});
+				$("#memoList").on("click", ".memoList", function(){
+					var prj_id = $(this).parents().find("table").data("prj_id");
+					var user_email = $(this).parents().find("table").data("memo_email");
+					var dt_str = $(this).data("memo_dt_str");
+					console.log(user_email);
+					console.log(prj_id);
+					console.log(dt_str);
+					
+					var memoVo = {"memo_email": user_email, "memo_dt_str": dt_str, "prj_id": prj_id};
+					getMemo(memoVo);
+				});
+				
+				$("#memoList").on("click", ".todayMemo", function(){
+					todayMemo();
+				});
+				
+				getYdTdCon();
+				$("#memoList").hide();
+				$("#memoDetail").hide();
+			});
+			
+			function copyTask(btn) {
+				var btn = $(btn).parent().find("#memo_con");
+				btn.select();
+				document.execCommand('copy');
+				console.log("Copied!");
+			};
+			
+			function mergeMemo(serialData) {
+				$.ajax({
+					url: "/merge",
+					data: serialData,
+					type: "POST",
+					success: function(data) {
+						console.log(data);
+					}
+				});
+			}
+			
+			function getYdTdCon() {
+				$.ajax({
+					url: '/yd_con',
+					type: "POST",
+					data: $("#memoFrm").serialize(),
+					success: function(data) {
+						console.log(data);
+						$("#memo_con").val(data.td_con.memo_con);
+						$("#memo_yd_con").val(data.yd_con.memo_con);
+					}
+				});
+			}
+			
+			function memoList() {
+				var serial = $("#memoFrm").serialize();
+				$.ajax({
+					url: "/memoList",
+					type: "POST",
+					data: serial,
+					success: function(data){
+						console.log(data);
+						$("#memo").hide();
+						$("#memoDetail").hide();
+						$("#memoList").html(data.memoList);
+						$("#memoList").show();
+					}
+				})
+			}
+			function getMemo(memoVo) {
+				$.ajax({
+					url: "/getMemo",
+					type: "POST",
+					data: memoVo,
+					success: function(data){
+						console.log(data);
+						$("#memoList").hide();
+						$("#memoDetail").html(data.memo);
+						$("#memoDetail").show();
+					}
+				})		
+			}
+			
+			function todayMemo() {
+				$("#memoList").hide();
+				$("#memo").show();
+			}
+		
+		
 		$("#memoView").animate({right:'0'}, 500);
 	})
+	
+	//프로젝트 닫기 버튼을 클릭했을 때
+	$(".btnSetClose").on("click", function(){
+		$("#memoView").animate({right:'-700px'}, 500);
+	});
+	
+
 	
 });
 
@@ -130,98 +234,6 @@ window.onclick = function(event) {
   }
 }
 
-// 내가 한 일
-$(function() {
-		$("textarea").change(function(){
-			var td_con = $("#memo_td_con").val();
-			var serial = $("#memoFrm").serialize();
-			mergeMemo(serial);
-		});
-		$("#memoList").on("click", ".memoList", function(){
-			var prj_id = $(this).parents().find("table").data("prj_id");
-			var user_email = $(this).parents().find("table").data("memo_email");
-			var dt_str = $(this).data("memo_dt_str");
-			console.log(user_email);
-			console.log(prj_id);
-			console.log(dt_str);
-			
-			var memoVo = {"memo_email": user_email, "memo_dt_str": dt_str, "prj_id": prj_id};
-			getMemo(memoVo);
-		});
-		
-		$("#memoList").on("click", ".todayMemo", function(){
-			todayMemo();
-		});
-		
-		getYdTdCon();
-		$("#memoList").hide();
-		$("#memoDetail").hide();
-	});
-	
-	function copyTask(btn) {
-		var btn = $(btn).parent().find("#memo_con");
-		btn.select();
-		document.execCommand('copy');
-		console.log("Copied!");
-	};
-	
-	function mergeMemo(serialData) {
-		$.ajax({
-			url: "/merge",
-			data: serialData,
-			type: "POST",
-			success: function(data) {
-				console.log(data);
-			}
-		});
-	}
-	
-	function getYdTdCon() {
-		$.ajax({
-			url: '/yd_con',
-			type: "POST",
-			data: $("#memoFrm").serialize(),
-			success: function(data) {
-				console.log(data);
-				$("#memo_con").val(data.td_con.memo_con);
-				$("#memo_yd_con").val(data.yd_con.memo_con);
-			}
-		});
-	}
-	
-	function memoList() {
-		var serial = $("#memoFrm").serialize();
-		$.ajax({
-			url: "/memoList",
-			type: "POST",
-			data: serial,
-			success: function(data){
-				console.log(data);
-				$("#memo").hide();
-				$("#memoDetail").hide();
-				$("#memoList").html(data.memoList);
-				$("#memoList").show();
-			}
-		})
-	}
-	function getMemo(memoVo) {
-		$.ajax({
-			url: "/getMemo",
-			type: "POST",
-			data: memoVo,
-			success: function(data){
-				console.log(data);
-				$("#memoList").hide();
-				$("#memoDetail").html(data.memo);
-				$("#memoDetail").show();
-			}
-		})		
-	}
-	
-	function todayMemo() {
-		$("#memoList").hide();
-		$("#memo").show();
-	}
 
 
 </script>
@@ -237,9 +249,7 @@ $(function() {
 	padding: 25px;
 	z-index: 999
 }
-#memoView {
-display : none;
-}
+
 </style>
 
 </head>
@@ -259,13 +269,15 @@ display : none;
 					style="resize: none;"></textarea>
 				<br> <input type="hidden" name="memo_email"
 					value="${USER_INFO.user_email }"> <input type="hidden"
-					name="prj_id" value="${pro.prj_id }">
+					name="prj_id" id="prj_id" value="">
 				<button type="button" onclick="copyTask(this)">복사하기</button>
 				<button type="button" onclick="memoList()">목록</button>
 			</form>
 		</div>
 		<div id="memoList"></div>
 		<div id="memoDetail"></div>
+		<div class="btnSetClose">닫기</div>
+		
 	</div>
 
 
@@ -297,7 +309,10 @@ display : none;
 						<a href="#"><span class="caret color_style01">메모</span></a>
 						<div id="myDropdown" class="dropdown-content">
 							<c:forEach items="${projectList }" var="pro">
-								<a href="#"><span class="color_style01">${pro.prj_nm }</span></a>
+								<div>
+									<a href="#" class="memoA" ><span class="color_style01">${pro.prj_nm }</span></a>
+									<input type="hidden" id="memoPrj_id" value="${pro.prj_id }"/>
+								</div>
 							</c:forEach>
 						</div>
 					</li>
