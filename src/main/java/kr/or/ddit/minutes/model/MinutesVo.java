@@ -31,16 +31,27 @@ public class MinutesVo {
 	private String del_fl;          //삭제여부
 	
 	private String user_nm; //사용자 이름
+	private int num; //레벨
 	
 	//기본생성자
 	public MinutesVo() {
 		
 	}
-
 	
-	//생성자
-	
-	
+	/**
+	 * @param prj_id
+	 * @param user_email
+	 * @param subject
+	 * @param special
+	 * @param user_nm
+	 * 회의록 등록
+	 */
+	public MinutesVo(int prj_id, String user_email, String subject, String special) {
+		this.prj_id = prj_id;
+		this.user_email = user_email;
+		this.subject = subject;
+		this.special = special;
+	}
 	
 	//getter, setter
 	public int getMnu_id() {
@@ -108,12 +119,19 @@ public class MinutesVo {
 		this.user_nm = user_nm;
 	}
 
+	public int getNum() {
+		return num;
+	}
+
+	public void setNum(int num) {
+		this.num = num;
+	}
+
 	@Override
 	public String toString() {
 		return "MinutesVo [mnu_id=" + mnu_id + ", prj_id=" + prj_id + ", user_email=" + user_email + ", subject="
 				+ subject + ", special=" + special + ", write_date=" + write_date + ", del_fl=" + del_fl + ", user_nm="
-				+ user_nm + "]";
+				+ user_nm + ", num=" + num + "]";
 	}
-
 	
 }

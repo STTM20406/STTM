@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import kr.or.ddit.minutes.dao.IMinutesDao;
 import kr.or.ddit.minutes.model.MinutesVo;
 import kr.or.ddit.minutes.model.Minutes_MemVo;
+import kr.or.ddit.users.model.UserVo;
 
 @Service
 public class MinutesService implements IMinutesService{
@@ -95,5 +96,31 @@ public class MinutesService implements IMinutesService{
 	public int upMinutes(int mnu_id) {
 		return minutesDao.upMinutes(mnu_id);
 	}
+
+	@Override
+	public List<UserVo> memberList(String user_email) {
+		return minutesDao.memberList(user_email);
+	}
+
+	@Override
+	public MinutesVo recentMinutes() {
+		return minutesDao.recentMinutes();
+	}
+
+	@Override
+	public int insertAttender(Minutes_MemVo memVo) {
+		return minutesDao.insertAttender(memVo);
+	}
+
+	@Override
+	public UserVo whoAreYou(String user_email) {
+		return minutesDao.whoAreYou(user_email);
+	}
+
+	@Override
+	public int insertMinutes(MinutesVo minutesVo) {
+		return minutesDao.insertMinutes(minutesVo);
+	}
+
 
 }

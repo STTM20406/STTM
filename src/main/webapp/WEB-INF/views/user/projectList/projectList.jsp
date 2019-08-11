@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-
 <!-- date picker resource-->
 <link href="/css/datepicker.min.css" rel="stylesheet" type="text/css">
 <script src="/js/datepicker.min.js"></script>
-<script src="/js/datepicker.en.js"></script> <!-- Include English language -->
+<script src="/js/datepicker.en.js"></script>
+<!-- Include English language -->
 
 <script>
 	
@@ -13,6 +13,16 @@
 	var updateTime = "";
 	
 	$(document).ready(function(){
+		
+		//프로젝트 리스트 클릭시 업무 페이지로 이동
+		$(".prj_title").on("click", function(){
+			var prj_id = $(this).attr("id");
+			$("#projectId").val(prj_id);
+			
+			$("#projectFrm").submit();
+		});
+		
+		
 		//프로젝트 상태 클릭 이벤트
 		$(".my_project_list").on("click", ".prj_item_st input", function(){
 			
@@ -337,7 +347,7 @@
 // 						if(){
 							
 // 						}
-						html += "<li><input type='checkbox' name='memItem' value='"+item.user_email+"'><span>"+ item.user_nm +"</span>"+ item.user_email + "</li>";
+						html += "<li><input type='checkbox'0-98p value='"+item.user_email+"'><span>"+ item.user_nm +"</span>"+ item.user_email + "</li>";
 					});	
 					$(".prj_crt_mem_item").html(html);
 				}
@@ -687,6 +697,10 @@
     }
 </script>
 
+<form id="projectFrm" action="/work/list" method="post">
+	<input type="hidden" name="prj_id" id="projectId" value="">
+</form>
+
 <div class="sub_menu">
 	<div class="prj_hd">
 		<div class="prj_st_select">
@@ -703,16 +717,18 @@
 		<div class="prj_sch_box">
 			<div class="prj_sch_wr">
 				<fieldset id="hd_sch">
-	                <legend>사이트 내 프로젝트 검색</legend>
-	                <input type="text" name="prj_sch" id="prj_sch" maxlength="20" placeholder="검색어를 입력해주세요">
-	                <button type="button" id="sch_submit" value="검색">검색</button>
-	           	</fieldset>
-           	</div>
+					<legend>사이트 내 프로젝트 검색</legend>
+					<input type="text" name="prj_sch" id="prj_sch" maxlength="20"
+						placeholder="검색어를 입력해주세요">
+					<button type="button" id="sch_submit" value="검색">검색</button>
+				</fieldset>
+			</div>
 		</div>
 	</div>
 	<div class="sub_btn">
 		<ul>
-			<li><a href="#layer1" class="btn_prj_create a_style_01">프로젝트 생성</a></li>
+			<li><a href="#layer1" class="btn_prj_create a_style_01">프로젝트
+					생성</a></li>
 		</ul>
 	</div>
 </div>
@@ -721,109 +737,106 @@
 	<div class="project">
 		<div class="project_wrap">
 			<h2>즐겨찾는 프로젝트</h2>
-			<div class="project_list">
-				
-			</div>
+			<div class="project_list"></div>
 		</div>
-		
+
 		<div class="project_wrap">
 			<h2>프로젝트 리스트</h2>
 			<div class="project_list my_project_list">
 				<c:forEach items="${projectList}" var="projectList">
-				<div class="project_item" id="${projectList.prj_id}">
-					<ul class="project_item_hd">
-						<li class="prj_title">${projectList.prj_nm}</li>
-						<li><a href="javascript:;" class="btnSetting" id="${projectList.prj_id}">설정</a></li>
-					</ul>
-					<ul class="project_item_con">
-						<li>
-							<p class="currnt_prj_st">${projectList.prj_st}</p>
-							<div class="prj_item_st">
-								<input type="button" value="계획" id="prj_st_${projectList.prj_id}">
-								<input type="button" value="진행중" id="prj_st_${projectList.prj_id}">
-								<input type="button" value="완료" id="prj_st_${projectList.prj_id}">
-								<input type="button" value="보류" id="prj_st_${projectList.prj_id}">
-								<input type="button" value="취소" id="prj_st_${projectList.prj_id}">
-								<input type="button" value="상태없음" id="prj_st_${projectList.prj_id}">
-							</div>
-						</li>
-					</ul>
-				</div>
+					<div class="project_item" id="${projectList.prj_id}">
+						<ul class="project_item_hd">
+							<li class="prj_title" id="${projectList.prj_id}">${projectList.prj_nm}</li>
+							<li><a href="javascript:;" class="btnSetting"
+								id="${projectList.prj_id}">설정</a></li>
+						</ul>
+						<ul class="project_item_con">
+							<li>
+								<p class="currnt_prj_st">${projectList.prj_st}</p>
+								<div class="prj_item_st">
+									<input type="button" value="계획"
+										id="prj_st_${projectList.prj_id}"> <input
+										type="button" value="진행중" id="prj_st_${projectList.prj_id}">
+									<input type="button" value="완료"
+										id="prj_st_${projectList.prj_id}"> <input
+										type="button" value="보류" id="prj_st_${projectList.prj_id}">
+									<input type="button" value="취소"
+										id="prj_st_${projectList.prj_id}"> <input
+										type="button" value="상태없음" id="prj_st_${projectList.prj_id}">
+								</div>
+							</li>
+						</ul>
+					</div>
 				</c:forEach>
 			</div>
 		</div>
-		
+
 	</div>
 </section>
 
 
 <!--  프로젝트 생성 레이어 팝업창 -->
 <div class="dim-layer">
-    <div class="dimBg"></div>
-    <div id="layer1" class="pop-layer">
-        <div class="pop-container">
-            <div class="pop-project">
-                <!--content //-->
-                <form action="/project/form" method="post" id="prj_insert">
-                	<input type="hidden" name="memList" id="memList" value="">
-			<div class="new_proejct">
-				<h2>새로운 프로젝트 생성하기</h2>
-				<ul>
-					<li>
-						<label for="prj_nm">Project Name</label>
-						<input type="text" id="prj_nm" name="prj_nm" placeholder="예) 웹사이트 개발">
-					</li>
-					<li>
-						<label for="prj_exp">Project Description</label>
-						<input type="text" id="prj_exp" name="prj_exp" placeholder="(선택) 프로젝트 설명을 입렵해 주세요.">
-					</li>
-					<li>
-						<label for="prj_exp">Project Authority</label>
-						<select name="prj_auth">
-							<option value="ASC01">전체 액세스</option>
-							<option value="ASC02">제한 액세스</option>
-							<option value="ASC03">통제 액세스</option>
-						</select>
-					</li>
-					<li>
-						<label for="prj_mem">Project Member</label>
-						<ul class="prj_crt_mem_add_list"></ul>
-						<div class="prj_mem_list">
-							<div class="prj_mem_sch">
-								<fieldset id="hd_sch">
-					                <legend>사이트 내 프로젝트 검색</legend>
-						                <input type="text" name="prj_mem" id="prj_mem" maxlength="20" placeholder="검색어를 입력해주세요">
-						                <button type="submit" id="" value="검색">검색</button>
-					           	</fieldset>
-							</div>
-							<ul class="prj_crt_mem_item"></ul>
+	<div class="dimBg"></div>
+	<div id="layer1" class="pop-layer">
+		<div class="pop-container">
+			<div class="pop-project">
+				<!--content //-->
+				<form action="/project/form" method="post" id="prj_insert">
+					<input type="hidden" name="memList" id="memList" value="">
+					<div class="new_proejct">
+						<h2>새로운 프로젝트 생성하기</h2>
+						<ul>
+							<li><label for="prj_nm">Project Name</label> <input
+								type="text" id="prj_nm" name="prj_nm" placeholder="예) 웹사이트 개발">
+							</li>
+							<li><label for="prj_exp">Project Description</label> <input
+								type="text" id="prj_exp" name="prj_exp"
+								placeholder="(선택) 프로젝트 설명을 입렵해 주세요."></li>
+							<li><label for="prj_exp">Project Authority</label> <select
+								name="prj_auth">
+									<option value="ASC01">전체 액세스</option>
+									<option value="ASC02">제한 액세스</option>
+									<option value="ASC03">통제 액세스</option>
+							</select></li>
+							<li><label for="prj_mem">Project Member</label>
+								<ul class="prj_crt_mem_add_list"></ul>
+								<div class="prj_mem_list">
+									<div class="prj_mem_sch">
+										<fieldset id="hd_sch">
+											<legend>사이트 내 프로젝트 검색</legend>
+											<input type="text" name="prj_mem" id="prj_mem" maxlength="20"
+												placeholder="검색어를 입력해주세요">
+											<button type="submit" id="" value="검색">검색</button>
+										</fieldset>
+									</div>
+									<ul class="prj_crt_mem_item"></ul>
+								</div></li>
+						</ul>
+						<div class="prj_btn">
+							<a href="javascript:;" id="prj_btn_next">다음 : 템플릿 선택</a>
 						</div>
-					</li>
-				</ul>
-				<div class="prj_btn">
-					<a href="javascript:;" id="prj_btn_next">다음 : 템플릿 선택</a>
+					</div>
+					<div class="select_template">
+						<h2>프로젝트 템플릿 선택하기</h2>
+						<ul>
+							<li>없음</li>
+							<li>요일별</li>
+							<li>개인별</li>
+						</ul>
+						<div class="prj_btn">
+							<a href="javascript:;" id="prj_btn_prev">뒤로</a> <input
+								type="button" onclick="prjBtnSubmit();" value="프로젝트 만들기">
+						</div>
+					</div>
+				</form>
+				<div class="btn-r">
+					<a href="#" class="btn-layerClose">Close</a>
 				</div>
+				<!--// content-->
 			</div>
-			<div class="select_template">
-				<h2>프로젝트 템플릿 선택하기</h2>
-				<ul>
-					<li>없음</li>
-					<li>요일별</li>
-					<li>개인별</li>
-				</ul>
-				<div class="prj_btn">
-					<a href="javascript:;" id="prj_btn_prev">뒤로</a>
-					<input type="button" onclick="prjBtnSubmit();" value="프로젝트 만들기">
-				</div>
-			</div>
-		</form>
-                <div class="btn-r">
-                    <a href="#" class="btn-layerClose">Close</a>
-                </div>
-                <!--// content-->
-            </div>
-        </div>
-    </div>
+		</div>
+	</div>
 </div>
 
 
@@ -832,14 +845,19 @@
 	<div class="propertySetWrap">
 		<div class="setHd">
 			<div class="setHdTitle">
-				<input type="hidden" id="ppt_id" name="ppt_id" value="">
-				<span class="prj_asc">전체</span>
-				<h2><input type="text" id="ppt_nm" name="ppt_nm" value=""></h2>
+				<input type="hidden" id="ppt_id" name="ppt_id" value=""> <span
+					class="prj_asc">전체</span>
+				<h2>
+					<input type="text" id="ppt_nm" name="ppt_nm" value="">
+				</h2>
 			</div>
 			<p class="prj_update">3분전에 업데이트 되었습니다.</p>
-			<p><input type="text" id="ppt_exp" name="ppt_exp" placeholder="프로젝트 설명을 입력해 주세요."></p>
+			<p>
+				<input type="text" id="ppt_exp" name="ppt_exp"
+					placeholder="프로젝트 설명을 입력해 주세요.">
+			</p>
 		</div>
-		
+
 		<div class="setCon">
 			<dl class="setItem">
 				<dt>프로젝트 권한설정</dt>
@@ -871,35 +889,44 @@
 			<dl class="setItem">
 				<dt>프로젝트 시작일</dt>
 				<dd>
-					<input type="text" data-language="en" class="datepicker-here datePick" id="ppt_start_date">
+					<input type="text" data-language="en"
+						class="datepicker-here datePick" id="ppt_start_date">
 				</dd>
 			</dl>
 			<dl class="setItem">
 				<dt>프로젝트 마감일</dt>
-				<dd><input type="text" data-language="en" class="datepicker-here datePick" id="ppt_end_date"></dd>
+				<dd>
+					<input type="text" data-language="en"
+						class="datepicker-here datePick" id="ppt_end_date">
+				</dd>
 			</dl>
 			<dl class="setItem">
 				<dt>프로젝트 완료일</dt>
-				<dd><input type="text" data-language="en" class="datepicker-here datePick" id="ppt_cmp_date"></dd>
+				<dd>
+					<input type="text" data-language="en"
+						class="datepicker-here datePick" id="ppt_cmp_date">
+				</dd>
 			</dl>
 			<dl class="setItem">
 				<dt>프로젝트 관리자</dt>
 				<dd>
-					<button type="button" id="ppt_adm_set" name="ppt_adm_set">관리자 추가 버튼</button>
-					
+					<button type="button" id="ppt_adm_set" name="ppt_adm_set">관리자
+						추가 버튼</button>
+
 					<!-- 프로젝트 관리자 리스트 box -->
 					<ul class="prj_add_box"></ul>
-					
+
 					<div class="prj_add_adm">
 						<label for="prj_mem">프로젝트 관리자 추가</label>
 						<div class="prj_mem_list">
 							<div class="prj_mem_sch">
 								<fieldset id="hd_sch">
-					                <legend>사이트 내 프로젝트 검색</legend>
-						                <input type="text" name="prj_mem" id="prj_mem" maxlength="20" placeholder="검색어를 입력해주세요">
-					           	</fieldset>
+									<legend>사이트 내 프로젝트 검색</legend>
+									<input type="text" name="prj_mem" id="prj_mem" maxlength="20"
+										placeholder="검색어를 입력해주세요">
+								</fieldset>
 							</div>
-							
+
 							<!-- 추가된 프로젝트 관리자 리스트 box -->
 							<ul class="prj_mem_item"></ul>
 						</div>
@@ -909,21 +936,23 @@
 			<dl class="setItem">
 				<dt>프로젝트 멤버</dt>
 				<dd>
-					<button type="button" id="ppt_mem_set" name="ppt_mem_set">프로젝트 멤버 추가 버튼</button>
-					
+					<button type="button" id="ppt_mem_set" name="ppt_mem_set">프로젝트
+						멤버 추가 버튼</button>
+
 					<!-- 프로젝트 멤버 리스트 box -->
 					<ul class="prj_mem_add_box"></ul>
-					
+
 					<div class="prj_add_mem">
 						<label for="prj_mem">프로젝트 멤버 추가</label>
 						<div class="prj_mem_list">
 							<div class="prj_mem_sch">
 								<fieldset id="hd_sch">
-					                <legend>사이트 내 프로젝트 검색</legend>
-						                <input type="text" name="prj_mem" id="prj_mem" maxlength="20" placeholder="검색어를 입력해주세요">
-					           	</fieldset>
+									<legend>사이트 내 프로젝트 검색</legend>
+									<input type="text" name="prj_mem" id="prj_mem" maxlength="20"
+										placeholder="검색어를 입력해주세요">
+								</fieldset>
 							</div>
-							
+
 							<!-- 추가된 프로젝트 멤버 리스트 box -->
 							<ul class="prj_mem_item_list"></ul>
 						</div>
@@ -932,11 +961,15 @@
 			</dl>
 			<dl class="setItem">
 				<dt>프로젝트 나가기</dt>
-				<dd><button type="button" id="prjLeaveBtn">프로젝트 나가기</button></dd>
+				<dd>
+					<button type="button" id="prjLeaveBtn">프로젝트 나가기</button>
+				</dd>
 			</dl>
 			<dl class="setItem">
 				<dt>프로젝트 삭제</dt>
-				<dd><button type="button" id="prjDelBtn" >프로젝트 삭제</button></dd>
+				<dd>
+					<button type="button" id="prjDelBtn">프로젝트 삭제</button>
+				</dd>
 			</dl>
 		</div>
 	</div>
@@ -944,7 +977,7 @@
 </div>
 
 
-<form id="projectLeaveFrm" action="/project/leave" method="post" >
+<form id="projectLeaveFrm" action="/project/leave" method="post">
 	<input type="hidden" id="leave_prj_id" name="prj_id" value="">
 	<input type="hidden" id="leave_prj_mem_lv" value="">
 </form>
@@ -953,17 +986,17 @@
 <!-- 오류 알림창 -->
 <!-- <div class="dim-layer"> -->
 <!-- 	<div class="dimBg"></div> -->
-	<div id="layer2" class="pop-layer">
-	    <div class="pop-container">
-	        <div class="pop-conts">
-	            <!--content //-->
-	            <p class="ctxt mb20"> </p>
-	            <div class="btn-r">
-	                <a href="#" class="btn-layerClose">Close</a>
-	            </div>
-	            <!--// content-->
-	        </div>
-	    </div>
+<div id="layer2" class="pop-layer">
+	<div class="pop-container">
+		<div class="pop-conts">
+			<!--content //-->
+			<p class="ctxt mb20"></p>
+			<div class="btn-r">
+				<a href="#" class="btn-layerClose">Close</a>
+			</div>
+			<!--// content-->
+		</div>
 	</div>
+</div>
 <!-- </div> -->
 

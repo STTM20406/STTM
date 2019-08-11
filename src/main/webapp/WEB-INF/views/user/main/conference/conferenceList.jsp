@@ -12,12 +12,12 @@
 	
 }
 </style>
-
+		
 <script>
 	$(document).ready(function(){
 		//사용자 tr 태그 이벤트 등록
 		$(".minutes").on("click", function(){
-			var mnu_id = $(this).find(".mnu_id").text();
+			var mnu_id = $(this).find(".mnu_id").attr("id");
 			$('#mnu_id').val(mnu_id);
 			$('#frm').submit();
 			
@@ -57,22 +57,26 @@
 	
 	<table>
 		<tr>
-			<th>게시글 ID</th>
-			<th>작성일시  ♬♩♪  작성자</th>
+			<th>번호</th>
+			<th>작성자</th>
+			<th>작성일시 </th>
 		</tr>
 		<c:forEach items="${minutesList}" var="MList">
 			<c:choose>
 				<c:when test="${MList.del_fl eq 'N'}">
 					<tr class="minutes">
-						<td class="mnu_id">${MList.mnu_id}</td>
-						<fmt:formatDate value="${MList.write_date}" var="date" pattern="yyyy-MM-dd HH:mm" />
-						<td>${date}에 ${MList.user_nm} 님에 의해 작성된 회의록</td>
+						<td class="mnu_id" id="${MList.mnu_id}">${MList.num}</td>
+						<fmt:formatDate value="${MList.write_date}" var="date" pattern="yyyy-MM-dd" />
+						<td>${MList.user_nm}  님이  </td>
+						<td>${date}에 작성 하신 회의록 입니다.</td>
 					</tr>
 				</c:when>
 			</c:choose>
 		</c:forEach>
 	</table>
-
+	
+	<a href="/insertConference">회의록 등록</a>
+	
 		<div class="pagination">
 			<c:choose>
 				<c:when test="${pageVo.page eq 1}">

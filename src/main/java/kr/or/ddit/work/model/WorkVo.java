@@ -23,21 +23,23 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class WorkVo {
  
 	private int wrk_id;				// 업무 ID
-	private int wrk_lst_id;         // 업무리스트 ID
-	private int wrk_rv_id;          // 업무 예약 알림 ID
-	private int wrk_pr_id;          // 부모 업무 ID
+	private int wrk_lst_id;         		// 업무리스트 ID
+	private int wrk_rv_id;          		// 업무 예약 알림 ID
+	private int wrk_pr_id;          		// 부모 업무 ID
 	private String user_email;		// 업무 작성자 이메일
-	private String wrk_nm;          // 업무 이름
-	private Date wrk_dt;         	// 업무 생성일시
-	private String wrk_grade;       // 업무 등급
-	private String wrk_color_cd;    // 업무 컬러 코드
+	private String wrk_nm;          	// 업무 이름
+	private Date wrk_dt;         		// 업무 생성일시
+	private String wrk_grade;       	// 업무 등급
+	private String wrk_color_cd;   	// 업무 컬러 코드
+	
 	@DateTimeFormat(pattern = "yyyy-MM-dd kk:mm")
-	private Date wrk_start_dt;    	// 업무 시작일
+	private Date wrk_start_dt;    		// 업무 시작일
 	@DateTimeFormat(pattern = "yyyy-MM-dd kk:mm")
 	private Date wrk_end_dt;      	// 업무 종료일
+	
 	private Date wrk_cmp_dt;      	// 업무 완료 체크일
-	private String wrk_cmp_fl;      // 업무 완료 여부
-	private String wrk_del_fl;      // 업무 삭제 여부
+	private String wrk_cmp_fl;      	// 업무 완료 여부
+	private String wrk_del_fl;      		// 업무 삭제 여부
 	
 	//여기서부턴 Filter쪽에서 간편하게 값을 받아오기 위해 추가한 부분입니다.
 	private int prj_id;				// 업무가 할당된 프로젝트 ID

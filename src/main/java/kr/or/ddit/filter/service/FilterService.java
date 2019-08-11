@@ -937,15 +937,30 @@ public class FilterService implements IFilterService{
 		filterVo.setWrk_i_following("y");
 		List<WorkVo> followingList = filterList(filterVo);
 		Map<String, Object> followingPieData = (Map<String, Object>) workListCalc(followingList).get("pieChart");
+		
+		int authCnt = filterDao.checkAuth(filterVo);
+		
+		
 		resultMap.put("assign", assignedPieData);
 		resultMap.put("made", madePieData);
 		resultMap.put("following", followingPieData);
 		resultMap.put("list", wrkLstMap);
 		resultMap.put("progress", progressMap);
 		resultMap.put("cnt", cntMap);
+		resultMap.put("auth", authCnt == 0 ? "NO" : "OK");
 		return resultMap;
 	}
-
+	
+	@Override
+	public List<String> prjList(String user_email) {
+		List<ProjectVo> prjList = filterDao.prjList(user_email);
+		List<String> htmlList = new ArrayList<>();
+		for(ProjectVo prjVo : prjList) {
+			htmlList.add("<option class='prjList' value='"+ prjVo.getPrj_id() +"'>" + prjVo.getPrj_nm() +"</option>");
+		}
+		return htmlList;
+	} 
+	
 	/**
 	 * Method : chartProgress
 	 * 작성자 : 유승진

@@ -1,5 +1,7 @@
 package kr.or.ddit.friend_req.service;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -27,6 +29,19 @@ public class Friend_ReqService implements IFriend_ReqService{
 		int friendsRequest = 0;
 		friendsRequest += friend_ReqDao.firendsRequest(friendsReqVo);
 		return friendsRequest;
+	}
+	
+	/**
+	 * 
+	* Method : friendsRequestList
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-09
+	* @return
+	* Method 설명 : 친구 요청 받은 목록
+	 */
+	@Override
+	public List<Friend_ReqVo> friendsRequestList(String user_email) {
+		return friend_ReqDao.friendsRequestList(user_email);
 	}
 
 }

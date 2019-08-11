@@ -1,5 +1,6 @@
 package kr.or.ddit.filter.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -32,7 +33,8 @@ public class FilterController {
 		return "/main/analysis/analysis.user.tiles";
 	}
 	@RequestMapping("/project/overview/ajax")
-	public String projectOverviewAjax(Model model, FilterVo filterVo) {
+	public String projectOverviewAjax(Model model, FilterVo filterVo, Integer over_prj_id) {
+		filterVo.setPrj_id(over_prj_id);
 		model.addAttribute("result", filterService.projectOverviewJSON(filterVo));
 		return "jsonView";
 	}
@@ -72,5 +74,11 @@ public class FilterController {
 	public String updatePrj(ProjectVo prjVo) {
 		logger.debug("prjVo : {}", prjVo);
 		return filterService.updatePrj(prjVo);
+	}
+	
+	@RequestMapping("/project/overview/prjList")
+	@ResponseBody
+	public List<String> prjList(String user_email){
+		return filterService.prjList(user_email);
 	}
 }
