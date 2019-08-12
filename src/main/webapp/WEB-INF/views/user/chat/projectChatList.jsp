@@ -33,6 +33,7 @@
 
 	<form id="frm" action="/friendChat" method="get">
 		<input type="hidden" id="ct_id" name="ct_id">
+		<input type="hidden" id="what" name="what" value="project">
 	</form>
 
 	<div class="sub_menu">
@@ -65,10 +66,9 @@
 				<td><c:forEach items="${realRoomMap}" var="friend"
 						varStatus="status">
 						<c:if test="${friend.key == room.ct_id }">
-							<input type="text" style="width: 300px;" value="${friend.value}">
+							<label>${friend.value}</label>
 						</c:if>
 					</c:forEach></td>
-				<td><a href="#layer2" class="btn-example1 btn_style_01" id="${room.ct_id}_${room.ct_nm}">채팅방 수정</a></td>
 			</tr>
 		</c:forEach>
 

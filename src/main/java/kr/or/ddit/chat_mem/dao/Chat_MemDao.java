@@ -1,6 +1,7 @@
 package kr.or.ddit.chat_mem.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -72,6 +73,21 @@ public class Chat_MemDao implements IChat_MemDao{
 	@Override
 	public List<ChatParticipateUserVo> inviteFriend(ChatParticipateUserVo vo) {
 		return sqlSession.selectList("chat.inviteFriend",vo);
+	}
+
+	@Override
+	public int deleteChatMemProject(int prj_id) {
+		return sqlSession.delete("chat.deleteChatMemProject",prj_id);
+	}
+
+	@Override
+	public int outChatMemProject(Map<String, Object> map) {
+		return sqlSession.delete("chat.outChatMemProject",map);
+	}
+
+	@Override
+	public int insertChatMemProject(Map<String, Object> map) {
+		return sqlSession.insert("chat.insertChatMemProject",map);
 	}
 
 }

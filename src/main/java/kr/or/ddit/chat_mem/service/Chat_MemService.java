@@ -122,4 +122,22 @@ public class Chat_MemService implements IChat_MemService{
 		return list;
 	}
 
+	@Override
+	public int deleteChatMemProject(int prj_id) {
+		int cnt = memDao.deleteChatMemProject(prj_id);
+		return cnt;
+	}
+
+	@Override
+	public int outChatMemProject(Map<String, Object> map) {
+		 int cnt = memDao.outChatMemProject(map);
+		return cnt;
+	}
+
+	@Override
+	public int insertChatMemProject(Map<String, Object> map) {
+		int cnt = memDao.insertChatMemProject(map);
+		return cnt;
+	}
+
 }

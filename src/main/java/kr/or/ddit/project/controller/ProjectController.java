@@ -19,6 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.or.ddit.chat_content.service.IChat_ContentService;
+import kr.or.ddit.chat_mem.model.Chat_MemVo;
+import kr.or.ddit.chat_mem.service.IChat_MemService;
+import kr.or.ddit.chat_room.model.Chat_RoomVo;
+import kr.or.ddit.chat_room.service.IChat_RoomService;
 import kr.or.ddit.project.model.ProjectVo;
 import kr.or.ddit.project.service.IProjectService;
 import kr.or.ddit.project_mem.model.Project_MemVo;
@@ -36,6 +41,15 @@ public class ProjectController {
 
 	@Resource(name = "project_MemService")
 	private IProject_MemService projectMemService;
+	
+	@Resource(name="chat_RoomService")
+	private IChat_RoomService roomService;
+	
+	@Resource(name="chat_MemService")
+	private IChat_MemService memService;
+	
+	@Resource(name="chat_ContentService")
+	private IChat_ContentService contentService;
 
 	// 프로젝트 리스트 조회
 	@RequestMapping(path = "/list", method = RequestMethod.GET)
@@ -299,7 +313,13 @@ public class ProjectController {
 		projectMemVo.setPrj_own_fl("N");
 
 		int insertCnt = projectMemService.insertProjectMem(projectMemVo);
-
+		
+		//채팅방에 프로젝트 멤버 추가
+		Map<String, Object> insertMap = new HashMap<String, Object>();
+		insertMap.put("user_email", user_email);
+		insertMap.put("prj_id", prjId);
+		memService.insertChatMemProject(insertMap);
+		
 		Project_MemVo projectMemListVo = new Project_MemVo();
 		projectMemListVo.setUser_email(user_email);
 		projectMemListVo.setPrj_id(prjId);
@@ -337,6 +357,15 @@ public class ProjectController {
 		projectMemVo.setUser_email(user_email);
 		projectMemVo.setPrj_id(prjId);
 		projectMemVo.setPrj_mem_lv("LV1");
+		
+		//프로젝트 채팅방 대화 내역 삭제
+		Map<String, Object> outMap = new HashMap<String, Object>();
+		outMap.put("user_email", user_email);
+		outMap.put("prj_id", prjId);
+		contentService.outChatContentProject(outMap);
+		
+		//프로젝트 채팅방 멤버 나가기
+		memService.outChatMemProject(outMap);
 
 		int deleteCnt = projectMemService.deleteProjectMem(projectMemVo);
 
@@ -384,6 +413,12 @@ public class ProjectController {
 		
 		//프로젝트 생성 
 		int insertProjectCnt = projectService.insertProject(projectVo);
+		
+		//프로젝트 채팅방 생성
+		int maxPrj_id = projectService.maxProjectId();
+		ProjectVo pVo = projectService.getProject(maxPrj_id);
+		Chat_RoomVo roomVo = new Chat_RoomVo(pVo.getPrj_nm(), maxPrj_id);
+		roomService.createRoomProject(roomVo);
 
 		//프로젝트 관리자 insert
 		Project_MemVo projectMemVo = new Project_MemVo();
@@ -394,6 +429,11 @@ public class ProjectController {
 
 		int insertProjectAdmCnt = projectMemService.insertProjectMem(projectMemVo);
 		int insertProjectMemCnt = 0;
+		
+		//프로젝트 채팅방멤버에 관리자 입력
+		int chatRoomMax = roomService.maxRoomId();
+		Chat_MemVo memVo = new Chat_MemVo(chatRoomMax, user_email);
+		memService.insertChatMem(memVo);
 		
 		//선택한 멤버 리스트를 가져와서 반복해서 insert하기
 		for (int i = 0; i < memberList.size(); i++) {
@@ -406,6 +446,10 @@ public class ProjectController {
 			projectMemListVo.setPrj_own_fl("N"); 					// 프로젝트멤버 - 멤버 소유 유무 셋팅
 			
 			insertProjectMemCnt = projectMemService.insertProjectMem(projectMemListVo);
+			
+			//프로젝트 채팅방에 멤버 입력
+			memVo.setUser_email(memEmail);
+			memService.insertChatMem(memVo);
 		}
 
 		// 값이 0이 아닐때
@@ -458,7 +502,16 @@ public class ProjectController {
 		projectMemVo.setUser_email(user_email);
 		projectMemVo.setPrj_id(prjId);
 		projectMemVo.setPrj_mem_lv("LV1");
-
+		
+		//프로젝트 채팅방 대화 내역 삭제
+		Map<String, Object> outMap = new HashMap<String, Object>();
+		outMap.put("user_email", user_email);
+		outMap.put("prj_id", prjId);
+		contentService.outChatContentProject(outMap);
+		
+		//프로젝트 채팅방 멤버 나가기
+		memService.outChatMemProject(outMap);
+		
 		int deleteCnt = projectMemService.deleteProjectMem(projectMemVo);
 		if (deleteCnt != 0) {
 			viewName = "redirect:/project/list";
@@ -477,8 +530,18 @@ public class ProjectController {
 		ProjectVo projectVo = new ProjectVo();
 		projectVo.setPrj_id(prjId);
 
+		//채팅방 내용 삭제
+		contentService.deleteChatContentProject(prjId);
+		
+		//채팅방 멤버 삭제
+		memService.deleteChatMemProject(prjId);
+		
+		//채팅방 삭제
+		roomService.deleteChatRoomProject(prjId);
+		
+		
 		int deleteCnt = projectService.deleteProject(projectVo);
-
+		
 		if (deleteCnt != 0) {
 			viewName = "redirect:/project/list";
 		}

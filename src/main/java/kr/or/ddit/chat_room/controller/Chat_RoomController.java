@@ -50,6 +50,32 @@ public class Chat_RoomController {
 	@Resource(name="project_MemService")
 	private IProject_MemService projectService;
 	
+	
+	@RequestMapping(path="/projectChatList")
+	public String projectChatList(Model model, HttpSession session) {
+		
+		UserVo user = (UserVo) session.getAttribute("USER_INFO");    
+		String user_email = user.getUser_email();
+		
+		//내가 갖고 있는 방목록 가져오기
+		List<Chat_RoomVo> roomlist = roomService.getRoomListProject(user_email);
+		
+		
+		//방마다의 친구 리스트를 가져옴
+		Map<Integer, Object> realRoomMap = memService.allRoomFriendList();
+		logger.debug("realRoomMap : {}", realRoomMap);
+		
+		
+		
+		model.addAttribute("realRoomMap",realRoomMap);
+		model.addAttribute("roomlist", roomlist);
+		
+		
+		return "/chat/projectChatList.user.tiles";
+	}
+	
+	
+	
 	//프로젝트 채팅방
 	@RequestMapping(path="/projectChat")
 	public String projectChat(HttpServletRequest req, Model model, int prj_id) {
@@ -109,8 +135,8 @@ public class Chat_RoomController {
 	
 	
 	@RequestMapping(path="/friendChat", method = RequestMethod.GET)
-	public String friendChat(Model model, HttpServletRequest req, String ct_id) {
-		
+	public String friendChat(Model model, HttpServletRequest req, String ct_id, String what) {
+		logger.debug("what log : {}",what);
 		UserVo user = (UserVo) req.getSession().getAttribute("USER_INFO");
 		String user_email = user.getUser_email();
 		
@@ -139,6 +165,7 @@ public class Chat_RoomController {
 		model.addAttribute("chatroomContentList",chatroomContentList);
 		model.addAttribute("friendList", friendList);
 		model.addAttribute("inviteList",inviteList);
+		model.addAttribute("what",what);
 		
 		return "/chat/friendChat.user.tiles";
 	}
@@ -232,26 +259,9 @@ public class Chat_RoomController {
 		return "redirect:/friendChatList";
 	}
 	
-	//화상회의 방 생성 페이지
-	@RequestMapping(path="/faceChat")
-	public String faceChatMain(Model model, HttpSession session) {
-	
-		
-		return "redirect:/RTCMulticonnection/index.html";
-	}
 	
 	
-	@RequestMapping(path="/projectChatList")
-	public String projectChatList(Model model, HttpSession session) {
-		
-		UserVo user = (UserVo) session.getAttribute("USER_INFO");    
-		String user_email = user.getUser_email();
-		
-		
-		
-		
-		return "/chat/projectChatList.user.tiles";
-	}
+
 	
 	
 }

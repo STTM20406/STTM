@@ -24,6 +24,8 @@ import kr.or.ddit.chat_room.service.IChat_RoomService;
 import kr.or.ddit.encrypt.encrypt.kisa.aria.ARIAUtil;
 import kr.or.ddit.project.model.ProjectVo;
 import kr.or.ddit.project.service.IProjectService;
+import kr.or.ddit.project_mem.model.Project_MemVo;
+import kr.or.ddit.project_mem.service.IProject_MemService;
 import kr.or.ddit.users.model.UserVo;
 import kr.or.ddit.users.service.IUserService;
 
@@ -37,6 +39,9 @@ public class LoginController {
 	
 	@Resource(name = "projectService")
 	private IProjectService projectService;
+	
+	@Resource(name= "project_MemService")
+	private IProject_MemService projectMemService;
 	
 	@Resource(name = "boardService")
 	private IBoardService boardService;
@@ -134,10 +139,10 @@ public class LoginController {
 				sc.setAttribute("userBoardListY", userBoardListY); 
 				
 				//header에 로그인한 사람의 채팅방 리스트
-				List<Chat_RoomVo> myChatRoomList = chatroomService.getRoomList(user_email);
-				sc.setAttribute("myChatRoomList", myChatRoomList);
-				
-				
+				sc.setAttribute("projectList", projectList);
+				//header에 로그인한 사람이 속한 프로젝트의 멤버들 출력
+				List<Project_MemVo> headerChatFriendList = projectMemService.headerChatFriendList(user_email);
+				sc.setAttribute("headerChatFriendList", headerChatFriendList);
 				return "/projectList/projectList.user.tiles";
 			}
  

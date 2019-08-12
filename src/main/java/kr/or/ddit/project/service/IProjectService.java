@@ -100,4 +100,14 @@ public interface IProjectService {
 	 * Method 설명 	: 프로젝트 설정 전체 업데이트
 	 */
 	int updateAllProject(ProjectVo projectVo);
+	
+	/**
+	 * 
+	 * Method 		: maxProjectId
+	 * 작성자 			: 유다연
+	 * 변경이력 		: 2019-08-10 최초 생성
+	 * @return
+	 * Method 설명 	: 프로젝트 id max 값
+	 */
+	int maxProjectId();
 }

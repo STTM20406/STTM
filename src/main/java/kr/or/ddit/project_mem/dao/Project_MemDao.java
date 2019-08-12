@@ -148,4 +148,12 @@ public class Project_MemDao implements IProject_MemDao{
 		return sqlSession.selectOne("project.getProjectMemInfo", projectMemVo);
 	}
 
+
+	@Override
+	public List<Project_MemVo> headerChatFriendList(String user_email) {
+		return sqlSession.selectList("project.headerChatFriendList",user_email);
+	}
+
+
+
 }

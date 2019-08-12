@@ -46,10 +46,12 @@
 
 									</div></li>
 							</ul>
-							<div class="prj_btn">
-								<a href="javascript:;" id="prj_btn_prev">뒤로</a> <input
-									type="submit" id="prj_btn_submit" value="친구 추가">
-							</div>
+								<div class="prj_btn">
+							<c:if test="${what == 'friend' }">
+									<a href="javascript:;" id="prj_btn_prev">뒤로</a> <input
+										type="submit" id="prj_btn_submit" value="친구 추가">
+							</c:if>
+								</div>
 						</div>
 
 					</form>

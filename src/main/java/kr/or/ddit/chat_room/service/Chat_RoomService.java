@@ -19,11 +19,19 @@ public class Chat_RoomService implements IChat_RoomService{
 
 //
 	@Override
-	public int createRoom(String roomNM) {
-		int cnt = roomDao.createRoom(roomNM);
+	public int createRoom(String roomNm) {
+		int cnt = roomDao.createRoom(roomNm);
 		return cnt;
 	}
 
+	@Override
+	public int createRoomProject(Chat_RoomVo vo) {
+		int cnt = roomDao.createRoomProject(vo);
+		return cnt;
+	}
+	
+	
+	
 	@Override
 	public List<Chat_RoomVo> getRoomList(String user_email) {
 		List<Chat_RoomVo> list = roomDao.getRoomList(user_email);
@@ -53,6 +61,24 @@ public class Chat_RoomService implements IChat_RoomService{
 		int cnt = roomDao.updateChatTitle(vo);
 		return cnt;
 	}
+
+	@Override
+	public List<Chat_RoomVo> getRoomListProject(String user_email) {
+		List<Chat_RoomVo> list = roomDao.getRoomListProject(user_email);
+		return list;
+	}
+
+	@Override
+	public int deleteChatRoomProject(int prj_id) {
+		int cnt = roomDao.deleteChatRoomProject(prj_id);
+		return cnt;
+	}
+
+
+
+
+
+
 
 
 

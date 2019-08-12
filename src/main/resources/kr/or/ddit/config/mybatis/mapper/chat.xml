@@ -10,6 +10,11 @@
 		insert into chat_room(ct_id,ct_nm,ct_dt) values(ct_seq.nextval, #{ct_nm}, sysdate)
 	</insert>
 	
+	<!-- 채팅방 생성 (insertChatMem을 같이 실행해서 채팅방 생성한 회원을 채팅 멤버에 추가), 프로젝트 채팅방 생성-->
+	<insert id="createRoomProject" parameterType="chat_roomVo">
+		insert into chat_room(ct_id,ct_nm,ct_dt,prj_id) values(ct_seq.nextval, #{ct_nm}, sysdate, #{prj_id})
+	</insert>
+	
 
 	<!-- 자신이 참여되어 있는 채팅방 리스트 -->
 	<select id="getRoomList" parameterType="string" resultType="chat_roomVo">
@@ -17,6 +22,16 @@
 		from chat_room r,chat_mem m
 		where r.ct_id = m.ct_id
 		and m.user_email = #{user_email}
+		and r.prj_id is null
+	</select>
+	
+	<!-- 자신이 참여되어 있는 채팅방 리스트 프로젝트-->
+	<select id="getRoomListProject" parameterType="string" resultType="chat_roomVo">
+		select * 
+		from chat_mem m ,chat_room r
+		where m.ct_id = r.ct_id
+		and m.user_email = #{user_email}
+		and r.prj_id is not null
 	</select>
 	
 	<!-- 현재 어느방에 들어가 있는지 확인 -->
@@ -27,6 +42,11 @@
 	<!-- 방 삭제 -->
 	<delete id="deleteChatRoom" parameterType="int">
 		delete from chat_room where ct_id = #{ct_id}
+	</delete>
+	
+	<!-- 방 삭제 프로젝트 -->
+	<delete id="deleteChatRoomProject" parameterType="int">
+		delete from chat_room where prj_id = #{prj_id}
 	</delete>
 	
 	<!-- 채팅방 아이디 조회 -->
@@ -66,10 +86,39 @@
 		insert into chat_mem(ct_id,user_email) values(#{ct_id}, #{user_email}) 
 	</insert>
 	
+	<!-- 채팅방 멤버 추가 프로젝트 -->
+	<insert id="insertChatMemProject" parameterType="map">
+		insert into chat_mem values(
+	    (select ct_id from chat_room where prj_id=#{prj_id})
+	    ,#{user_email}) 
+	</insert>
+	
+	
 	<!-- 채팅방 멤버 탈퇴 (이거 지우기 전에 대화내용 모두 지운 후에 탈퇴 가능) -->
 	<delete id="deleteChatMem" parameterType="chat_memVo">
 		delete from chat_mem 
 		where user_email = #{user_email} and ct_id = #{ct_id}
+	</delete>
+	
+	<!-- 채팅방 멤버 탈퇴 (이거 지우기 전에 대화내용 모두 지운 후에 탈퇴 가능), 프로젝트 -->
+	<delete id="outChatMemProject" parameterType="map">
+		delete
+		from chat_mem
+		where ct_id = 
+		    (select ct_id
+		    from chat_room
+		    where prj_id = #{prj_id})
+		and user_email = #{user_email}
+	</delete>
+	
+	<!-- 채팅방의 프로젝트 멤버 모두 삭제-->
+	<delete id="deleteChatMemProject" parameterType="int">
+		delete
+		from chat_mem
+		where ct_id = 
+			    (select ct_id
+			    from chat_room
+			    where prj_id = #{prj_id})
 	</delete>
 
 	<!-- 채팅방 멤버 수 -->
@@ -109,5 +158,28 @@
 		delete from chat_content 
 		where user_email = #{user_email} and ct_id = #{ct_id}
 	</delete>
+	
+	<!-- 각 대화방에서의 각 사용자 대화 내역 삭제  프로젝트-->
+	<delete id="outChatContentProject" parameterType="map">
+		delete
+		from chat_content
+		where ct_id = 
+		    (select ct_id
+		    from chat_room
+		    where prj_id = #{prj_id})
+		and user_email = #{user_email}
+
+	</delete>
+	
+	
+	<!-- 대화방의 전체 대화 내역 삭제 -->
+	<delete id="deleteChatContentProject" parameterType="int">
+		delete from chat_content
+		where ct_id = 
+			    (select ct_id
+			    from chat_room
+			    where prj_id = #{prj_id})
+	</delete>
+	
 
 </mapper>

@@ -50,8 +50,6 @@ var socket = null;
 $(document).ready(function(){
 	connectNotify();
 
-		
-		
 	$(".user_set_list").hide();
 	$(".icon_set").on("click", function(){
 		$(".user_set_list").fadeIn();
@@ -65,13 +63,14 @@ $(document).ready(function(){
 
 	})
 	
+	
 	// 내가 한 일
 	$(".memoA").on("click",function(){
 		console.log("CLICKCLICK");
 		var a = $(this).siblings("input").val();
 		console.log(a);
 		var b = $("#prj_id").val(a);
-		
+			
 		// 내가 한 일
 		$(function() {
 				$("textarea").change(function(){
@@ -174,7 +173,32 @@ $(document).ready(function(){
 		$("#memoView").animate({right:'-700px'}, 500);
 	});
 	
-
+	//화상회의생성 버튼 클릭시
+	$('#chat').on("click", function(){
+		
+        var $href = $(this).attr('href');
+        layer_popup($href);
+    });
+	
+	//화상회의생성 다음 버튼 클릭시
+	$("#prj_btn_next").on("click", function(){
+		$(".new_proejct").animate({left:'-100%'}, 500);
+		$(".select_template").animate({left:'0%'}, 500);
+	});
+	
+	//화상회의생성 이전 버튼 클릭시
+	$("#prj_btn_prev").on("click", function(){
+		$(".new_proejct").animate({left:'0%'}, 500);
+		$(".select_template").animate({left:'100%'}, 500);
+		
+	});
+	
+	$(".checkSelect").on("click",function(){
+		a = $('input[name="projectRadio"]:checked').val();
+		console.log(a);
+		$("#checkProject").val(a);
+	});
+	
 	
 });
 
@@ -234,8 +258,52 @@ window.onclick = function(event) {
   }
 }
 
+	//layer popup - 화상회의방 생성
+	function layer_popup(el){
+		console.log(el);
 
+        var $el = $(el);		//레이어의 id를 $el 변수에 저장
+        var isDim = $el.prev().hasClass('dimBg');	//dimmed 레이어를 감지하기 위한 boolean 변수
 
+        isDim ? $('.dim-layer').fadeIn() : $el.fadeIn();
+
+        var $elWidth = ~~($el.outerWidth()),
+            $elHeight = ~~($el.outerHeight()),
+            docWidth = $(document).width(),
+            docHeight = $(document).height();
+
+        // 화면의 중앙에 레이어를 띄운다.
+        if ($elHeight < docHeight || $elWidth < docWidth) {
+            $el.css({
+                marginTop: -$elHeight /2,
+                marginLeft: -$elWidth/2
+            })
+        } else {
+            $el.css({top: 0, left: 0});
+        }
+
+        $el.find('a.btn-layerClose').click(function(){
+            isDim ? $('.dim-layer').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
+            return false;
+        });
+
+        $('.layer .dimBg').click(function(){
+            $('.dim-layer').fadeOut();
+            return false;
+        });
+
+    }
+	
+	//화상회의값 보내기 - 선택한멤버리스트 함께 넘기기
+	function prjBtnSubmit(){
+		var memArray = [];
+		$("input[name=projectRadio]:checked").each(function(){
+			memArray.push($(this).val());
+		});
+		var a = $("#memList").val(memArray);
+		
+		$("#prj_insert").submit();
+	}
 </script>
 
 <style>
@@ -249,7 +317,6 @@ window.onclick = function(event) {
 	padding: 25px;
 	z-index: 999
 }
-
 </style>
 
 </head>
@@ -332,3 +399,72 @@ window.onclick = function(event) {
 				</ul>
 			</div>
 		</header>
+	
+	
+	
+<!--  화상회의 생성 레이어 팝업창 -->
+<!-- <div class="dim-layer"> -->
+<!-- 	<div class="dimBg"></div> -->
+	<div id="layerChatHeader" class="pop-layer">
+		<div class="pop-container">
+			<div class="pop-project">
+				<!--content //-->
+				<form action="/chatSend" method="post" id="chatSend">
+					<input type="hidden" name="memList" id="memList" value="">
+					<input type="hidden" name="checkProject" id="checkProject">
+					<div class="new_proejct">
+						<h2>화상회의방 생성</h2>
+						<ul>
+							<li><label>화상회의방 이름</label> <input
+								type="text" id="prj_nm" name="prj_nm" placeholder="예) 프로젝트1">
+							</li>
+							<li><label for="prj_mem">프로젝트 리스트</label>
+									<div class="prj_mem_list">
+										<ul>
+											<c:forEach items="${projectList}" var="project"
+												varStatus="status">
+												<li><input type="radio" id="projectRadio" name="projectRadio"
+													class="checkSelect" value="${project.prj_id}">${project.prj_id} ${ project.prj_nm }
+												</li>
+											</c:forEach>
+										</ul>
+
+									</div></li>
+						</ul>
+						<div class="prj_btn">
+							<a href="javascript:;" id="prj_btn_next">다음 : 템플릿 선택</a>
+						</div>
+					</div>
+					<div class="select_template">
+						<h2>화상회의방 멤버 선택</h2>
+						<ul>
+							<li><label for="prj_mem">멤버 선택</label>
+									<div class="prj_mem_list">
+										<ul>
+											<c:forEach items="${headerChatFriendList}" var="memlist" varStatus="status">
+												<c:if test="${memlist.prj_id == 1  }">
+														<li><input type="checkbox" name="friend"
+															class="checkSelect1" value="${memlist.prj_id}">${memlist.user_nm }
+														</li>
+												</c:if>
+											</c:forEach>
+										</ul>
+
+									</div></li>
+						</ul>
+						<div class="prj_btn">
+							<a href="javascript:;" id="prj_btn_prev">뒤로</a> <input
+								type="button" onclick="prjBtnSubmit();" value="프로젝트 만들기">
+						</div>
+					</div>
+				</form>
+				<div class="btn-r">
+					<a href="#" class="btn-layerClose">Close</a>
+				</div>
+				<!--// content-->
+			</div>
+		</div>
+	</div>
+<!-- </div> -->
+
+	

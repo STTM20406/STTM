@@ -1,6 +1,7 @@
 package kr.or.ddit.chat_content.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -59,6 +60,27 @@ public class Chat_ContentService implements IChat_ContentService{
 	@Override
 	public int deleteChatContent(Chat_ContentVo vo) {
 		int cnt = contentDao.deleteChatContent(vo);
+		return cnt;
+	}
+
+	/**
+	 * 
+	 * Method 		: deleteChatContentProject
+	 * 작성자 			: 유다연 
+	 * 변경이력 		: 2019-07-22 최초 생성
+	 * @param vo
+	 * @return
+	 * Method 설명 	: 각 대화방에서의 각 사용자 대화 내역 삭제, 프로젝트
+	 */
+	@Override
+	public int deleteChatContentProject(int prj_id) {
+		int cnt = contentDao.deleteChatContentProject(prj_id);
+		return cnt;
+	}
+
+	@Override
+	public int outChatContentProject(Map<String, Object> map) {
+		int cnt = contentDao.outChatContentProject(map);
 		return cnt;
 	}
 

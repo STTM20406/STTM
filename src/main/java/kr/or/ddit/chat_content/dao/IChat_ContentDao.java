@@ -1,6 +1,7 @@
 package kr.or.ddit.chat_content.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import kr.or.ddit.chat_content.model.ChatParticipateUserVo;
 import kr.or.ddit.chat_content.model.Chat_ContentVo;
@@ -39,6 +40,28 @@ public interface IChat_ContentDao {
 	 * Method 설명 	: 각 대화방에서의 각 사용자 대화 내역 삭제
 	 */
 	public int deleteChatContent(Chat_ContentVo vo);
+	
+	/**
+	 * 
+	 * Method 		: deleteChatContent
+	 * 작성자 			: 유다연 
+	 * 변경이력 		: 2019-07-22 최초 생성
+	 * @param vo
+	 * @return
+	 * Method 설명 	: 각 대화방에서의 각 사용자 대화 내역 삭제 프로젝트
+	 */
+	public int outChatContentProject(Map<String, Object> map);
+	
+	/**
+	 * 
+	 * Method 		: deleteChatContentProject
+	 * 작성자 			: 유다연 
+	 * 변경이력 		: 2019-07-22 최초 생성
+	 * @param vo
+	 * @return
+	 * Method 설명 	: 각 대화방에서의 각 사용자 대화 내역 삭제, 프로젝트
+	 */
+	public int deleteChatContentProject(int prj_id);
 	
 
 }

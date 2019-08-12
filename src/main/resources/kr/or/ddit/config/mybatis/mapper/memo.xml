@@ -35,6 +35,7 @@
 	            ,#{memo_update}
                 ,'N'
 	        )
+	       
 	</insert>
 	
 	<select id="getYdTdCon" parameterType="memoVo" resultType="memoVo">
