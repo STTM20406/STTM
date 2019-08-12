@@ -29,6 +29,7 @@
 					        ,  C.WRK_LST_NM 
 					        ,  A.WRK_ID
 					        ,  A.WRK_NM
+					        ,  C.DEL_FL
 					        ,  A.USER_EMAIL
 					        ,  B.USER_NM
 					        ,  A.WRK_RV_ID
@@ -46,6 +47,7 @@
      		AND				A.USER_EMAIL = B.USER_EMAIL
       		AND				A.WRK_LST_ID = C.WRK_LST_ID
       		AND				C.PRJ_ID = D.PRJ_ID
+      		AND     			C.DEL_FL = 'N'
 	</select>
 
 
@@ -94,7 +96,7 @@
 <!-- ******************work_list**************** -->
 	
 	<!-- 프로젝트 아이디로  업무 리스트만 조회 -->
-	<select id="workList" parameterType="int" resultType="work_listVo">
+	<select id="workList" parameterType="int" resultType="workVo">
 		SELECT 	  A.WRK_LST_ID
 		     		, A.PRJ_ID
 		     		, A.WRK_LST_NM
@@ -105,6 +107,20 @@
 		AND    	  DEL_FL = 'N'
 	</select>
 	
+	<!--  업무리스트 생성 -->
+	<insert id="insertWorkList" parameterType="work_listVo">
+		INSERT INTO WORK_LIST VALUES(WRK_LST_SEQ.NEXTVAL, #{prj_id}, #{wrk_lst_nm}, SYSDATE, 'N')
+	</insert>
+	
+	<!--  업무리스트 이름 수정 -->
+	<update id="updateWorkList" parameterType="int">
+		UPDATE WORK_LIST SET WRK_LST_NM = #{wrk_lst_nm} WHERE WRK_LST_ID = #{wrk_lst_id}
+	</update>
+	
+	<!--  업무리스트 삭제 (플래그 업데이트) -->
+	<update id="deleteWorkList" parameterType="int">
+		UPDATE WORK_LIST SET DEL_FL = 'Y' WHERE WRK_LST_ID = #{wrk_lst_id}
+	</update>
 	
 
 

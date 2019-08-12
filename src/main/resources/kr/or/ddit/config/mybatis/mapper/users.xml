@@ -51,14 +51,6 @@
 	where user_email = #{user_email}
 </update>
 
-<!-- 관리자가 사용자 정보 수정 -->
-<update id="updateUserAdm" parameterType="userVo">
-	update users
-	set user_email = #{user_email}, user_nm = #{user_nm}
-	   ,user_hp = #{user_hp}, user_st = #{user_st}
-	where user_email = #{user_email}
-</update>
-
 <!-- 사용자 페이지 리스트 조회 -->
 <!-- pageVo int page, int pageSize -->
 <select id="userPagingList" parameterType="pageVo" resultType="userVo">
@@ -89,6 +81,14 @@
 </select>
 
 <!-- ******************* 관리자 - 회원 관리 ******************* -->
+
+<!-- 관리자가 사용자 정보 수정 -->
+<update id="updateUserAdm" parameterType="userVo">
+	update users
+	set user_email = #{user_email}, user_nm = #{user_nm}
+	   ,user_hp = #{user_hp}, user_st = #{user_st}
+	where user_email = #{user_email}
+</update>
 
 <!-- 관리자가 회원 리스트를 회원의 이메일로 검색 후 페이징 리스트 조회 -->
 <select id="userSearchByEmail" parameterType="map" resultType="userVo">

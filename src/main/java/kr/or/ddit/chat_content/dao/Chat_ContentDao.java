@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.or.ddit.chat_content.model.ChatParticipateUserVo;
 import kr.or.ddit.chat_content.model.Chat_ContentVo;
+import kr.or.ddit.project.model.ProjectVo;
 
 @Repository
 public class Chat_ContentDao implements IChat_ContentDao{
@@ -66,8 +67,8 @@ public class Chat_ContentDao implements IChat_ContentDao{
 	}
 
 	@Override
-	public int outChatContentProject(Map<String, Object> map) {
-		return sqlSession.delete("chat.outChatContentProject",map);
+	public int outChatContentProject(ProjectVo vo) {
+		return sqlSession.delete("chat.outChatContentProject",vo);
 	}
 
 }

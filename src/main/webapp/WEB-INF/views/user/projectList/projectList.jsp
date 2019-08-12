@@ -559,7 +559,7 @@
 		}
 		
 		//프로젝트 나가기
-		$("#prjLeaveBtn").on("click", function(){
+		$(".setItem").on("click", "#prjLeaveBtn", function(){
 			
 			var html = "";
 			html += "<h2 class='prj_leave_title'>프로젝트 나가기</h2>";
@@ -570,8 +570,8 @@
 			$(".btn-r").hide(0);
 			
 			$(".ctxt").html(html);
-        	layer_popup("#layer2");
-            return false;
+        		layer_popup("#layer2");
+            		return false;
 		});
 		
 		//레이어 팝업창 나갈래요 버튼 클릭시
@@ -585,10 +585,14 @@
 			
 			if(prj_mem_lv == "LV0"){
 				$(".ctxt").text("프로젝트를 나가기를 할 수 없습니다. 프로젝트에는 최소 1인 이상의 프로젝트 관리자가 필요합니다.");
-	        	layer_popup("#layer2");
-	            return false;
+	        		layer_popup("#layer2");
+	        		return false;
 			}
-			//$("#projectLeaveFrm").submit();
+<<<<<<< HEAD
+			
+=======
+>>>>>>> branch 'master' of https://github.com/STTM20406/STTM
+			$("#projectLeaveFrm").submit();
 		});
 		
 		

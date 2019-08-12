@@ -87,7 +87,7 @@
 	</insert>
 	
 	<!-- 채팅방 멤버 추가 프로젝트 -->
-	<insert id="insertChatMemProject" parameterType="map">
+	<insert id="insertChatMemProject" parameterType="projectVo">
 		insert into chat_mem values(
 	    (select ct_id from chat_room where prj_id=#{prj_id})
 	    ,#{user_email}) 
@@ -101,7 +101,7 @@
 	</delete>
 	
 	<!-- 채팅방 멤버 탈퇴 (이거 지우기 전에 대화내용 모두 지운 후에 탈퇴 가능), 프로젝트 -->
-	<delete id="outChatMemProject" parameterType="map">
+	<delete id="outChatMemProject" parameterType="projectVo">
 		delete
 		from chat_mem
 		where ct_id = 
@@ -160,7 +160,7 @@
 	</delete>
 	
 	<!-- 각 대화방에서의 각 사용자 대화 내역 삭제  프로젝트-->
-	<delete id="outChatContentProject" parameterType="map">
+	<delete id="outChatContentProject" parameterType="projectVo">
 		delete
 		from chat_content
 		where ct_id = 

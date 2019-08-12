@@ -17,8 +17,6 @@ public class WorkDao implements IWorkDao{
 	@Resource(name="sqlSession")
 	SqlSessionTemplate sqlSession;
 	
-	private static final Logger logger = LoggerFactory.getLogger(WorkDao.class);
-	
 	@Override
 	public int updateWork(WorkVo workVo) {
 		return sqlSession.update("work.updateWork", workVo);
@@ -35,8 +33,6 @@ public class WorkDao implements IWorkDao{
 	 */
 	@Override
 	public List<WorkVo> getWork(int wrk_lst_id) {
-		logger.debug("wrk_lst_id :::::::::::dao {}", wrk_lst_id);
-		
 		return sqlSession.selectList("work.getWork", wrk_lst_id);
 	}
 

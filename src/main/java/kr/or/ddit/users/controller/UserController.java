@@ -213,53 +213,6 @@ public class UserController {
 	
 	/**
 	 * 
-	* Method : setUserProfile
-	* 작성자 : 김경호
-	* 변경이력 : 2019-07-30
-	* @return
-	* Method 설명 : 일반 사용자 계정 설정
-	 */
-	@RequestMapping(path = "/setUserProfile", method = RequestMethod.GET)
-	public String setUserProfile(HttpSession session, Model model) {
-		
-//		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
-//		String user_nm = userVo.getUser_nm();
-//		String user_hp = userVo.getUser_hp();
-//		
-//		model.addAttribute("user_nm", user_nm);
-//		model.addAttribute("user_hp", user_hp);
-		
-		return "/account/accountSet.user.tiles";
-	}
-							
-	@RequestMapping(path = "/setUserProfile", method = RequestMethod.POST)
-	public String setUserProfileProcess(HttpSession session) {
-		
-//		String viewName = "";
-//		
-//		UserVo getUserSession = (UserVo) session.getAttribute("USER_INFO");
-//		String user_email = getUserSession.getUser_email();
-//		
-//		String user_nm = getUserSession.getUser_nm();
-//		String user_hp = getUserSession.getUser_hp();
-//		
-//		logger.debug("user_nm : {} 아까는 가져왔으나", user_nm);
-//		logger.debug("user_hp : {} 지금은 가져오지 않는다", user_hp);
-//		
-//		UserVo userVo = new UserVo();
-//		userVo.setUser_nm(user_nm);
-//		userVo.setUser_hp(user_hp);
-//
-//		int updateUserProfile = userService.updateUserProfile(userVo);
-//		
-//		if(updateUserProfile != 0) {
-			return "/account/accountSet.user.tiles";
-//		}
-//		return viewName;
-	}
-	
-	/**
-	 * 
 	* Method : projectMemberListView
 	* 작성자 : 김경호
 	* 변경이력 : 2019-08-05
@@ -370,29 +323,6 @@ public class UserController {
 		
 		logger.debug("userVo : 점심쯤 로거 확인1 {} ",userVo);
 		
-//		Map<String, Object> map = new HashMap<String, Object>();
-//		
-//		map.put("page", pageVo.getPage());
-//		map.put("pageSize", pageVo.getPageSize());
-//		map.put("user_email", userVo.getUser_email());
-//		map.put("user_nm", userVo.getUser_nm());
-//		map.put("prj_id", prjVo.getPrj_id());
-//		
-//		map.put("frd_email", frd_email);
-//		
-//		Map<String, Object> resultMap1 = friendsService.friendPagingList(map);			
-//		logger.debug("map : 밥먹기 전에 {}",map);
-//		
-//		List<FriendsVo> friendsList = (List<FriendsVo>) resultMap1.get("userFriendsList");
-//		logger.debug("friendsList : 로거를 {}",friendsList);
-//
-//		int paginationSize1 = (Integer) resultMap1.get("paginationSize");
-//		logger.debug("paginationSize : 찍어 봅시다 {}",paginationSize1);
-//		
-//		model.addAttribute("friendsList", friendsList);
-//		model.addAttribute("paginationSize", paginationSize1);
-//		model.addAttribute("pageVo", pageVo);
-		
 		return "/member/projectMember.user.tiles";
 	}
 	
@@ -489,6 +419,7 @@ public class UserController {
 		
 		return viewName;
 	}
+	
 	// ------------------------------ 관리자 부분 ------------------------------ //
 	
 	/**
@@ -599,7 +530,9 @@ public class UserController {
 	
 	@RequestMapping(path = "/admUpdateUser", method = RequestMethod.POST)
 	public String admUpdateUserProcess(String admUpdate,String user_email, String user_nm, 
-										String user_hp, String user_st, HttpSession session) {
+										String user_hp, String user_st) {
+		
+		logger.debug("admUpdate : {}",admUpdate);
 		
 		UserVo userVo = new UserVo();
 		userVo.setUser_email(user_email);
