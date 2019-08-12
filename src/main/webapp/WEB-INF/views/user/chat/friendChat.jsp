@@ -237,7 +237,7 @@
 		var ct_id = $('#ct_id').val();
 		var userId = $("#user_email").val();
 		var userNm = $("#user_nm").val();
-		socket = new SockJS("/echo.do");
+		//socket = new SockJS("/echo.do");
 
 // 		socket.onopen = function() {
 // 			console.log('Info : connection opened');

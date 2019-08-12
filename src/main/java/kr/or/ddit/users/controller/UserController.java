@@ -11,9 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,7 +23,6 @@ import kr.or.ddit.friends.service.IFriendsService;
 import kr.or.ddit.notification_set.model.Notification_SetVo;
 import kr.or.ddit.notification_set.service.INotification_SetService;
 import kr.or.ddit.paging.model.PageVo;
-import kr.or.ddit.project.service.IProjectService;
 import kr.or.ddit.project_mem.model.Project_MemVo;
 import kr.or.ddit.project_mem.service.IProject_MemService;
 import kr.or.ddit.users.model.UserVo;
@@ -321,6 +318,27 @@ public class UserController {
 		
 		return "/member/projectMember.user.tiles";
 	}
+	
+	/**
+	 * 
+	* Method : projectMemView
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-12
+	* @return
+	* Method 설명 : 멤버 - 프로젝트 멤버 탭에서 사용자가 한개의 프로젝트 멤버 tr을 클릭하였을때 상세 정보를 보여줌 
+	 */
+	@RequestMapping(path = "/projectMemView", method = RequestMethod.GET)
+	public String projectMemView(Model model, String user_email) {
+		
+		logger.debug("user_email : 오늘 첫 로거 {}", user_email);
+		
+		UserVo userVo = new UserVo(user_email);
+		
+		model.addAttribute("userVo", userVo);
+		
+		return "/member/projectMember.user.tiles";
+	}
+	
 	
 	/**
 	 * 

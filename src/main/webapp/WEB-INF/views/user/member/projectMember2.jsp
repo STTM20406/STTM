@@ -75,22 +75,23 @@ $(document).ready(function(){
 // 		$(".user_set_list").fadeOut();
 // 	});
 	
-	$("#tab-2").on("click",function(){
-		$("#frdEmailFrom").submit();
+	// 프로젝트 멤버 tr클릭시 레이어창 띄우기
+	$('.trPrjMemAdd').on("click", function(){
+	        var $href = $(this).attr('href');
+	        layer_popup($href);
 	});
-	
-	// 친구 요청 버튼 클릭시 폼 넘기기
-	$("#btnFriendsReqList").on("click", function(){
-		$("#friendsRequestListForm").submit();
-		
-	});
-	
-	//프로젝트 생성 버튼 클릭시
-	$('.friendsBtn').on("click", function(){
+
+	// 요청 받은 친구 목록 클릭시
+	$('.requestedFriendsList').on("click", function(){
 	        var $href = $(this).attr('href');
 	        layer_popup($href);
 	});
 	
+	// 친구 요청 버튼 클릭시
+	$('.friendsBtn').on("click", function(){
+	        var $href = $(this).attr('href');
+	        layer_popup($href);
+	});
 	
 });	
 
@@ -137,6 +138,12 @@ function requestFriends() {
 	alert("친구 요청이 완료 되었습니다.");
 }
 
+// 요청 받은 친구 목록 클릭시 
+function requestedFriendsList() {
+	$("#friendsRequestListForm").submit();
+	alert("요청 받은 친구 목록입니다. 나중에 삭제 ");
+}
+
 </script>
 
 <section class="contents">
@@ -177,7 +184,10 @@ function requestFriends() {
 							<c:forEach items="${projectMemList}" var="prjVo">
 							
 								<tr class="userTr" data-user_email="${prjVo.user_email}">
-									<td class="user_email" onclick="layer_open('layer2');return false;">${prjVo.user_email}</td>
+									<td class="user_email" >
+										<a href="#layer2" class="trPrjMemAdd">${prjVo.user_email}</a>
+									</td>
+									
 									<td>${prjVo.user_nm}</td>
 								</tr>
 								
@@ -311,9 +321,10 @@ function requestFriends() {
 				</table>
 			</div>
 			
-			<input type="button" id="btnFriendsReqList" class="inp_style_04" onclick="layer_open('layer3');return false;" value="친구 요청 목록">
+<!-- 			<input type="button" id="btnFriendsReqList" class="inp_style_04" onclick="layer_open('layer3');return false;" value="친구 요청 목록"> -->
 <!-- 			<input type="button"  onclick="layer_open('layer4');return false;" value="친구 요청"> -->
-			<a href="#layer4" class="friendsBtn a_style_01">친구요청</a>
+			<a href="#layer3" class="requestedFriendsList a_style_01">요청 받은 친구 목록</a>
+			<a href="#layer4" class="friendsBtn a_style_01">친구 요청</a>
 			
 			<div class="pagination">
 					<c:choose>
@@ -351,60 +362,48 @@ function requestFriends() {
 			</div>
 		
 			<form action="/friendsRequestList" id="friendsRequestListForm" method="get">
-				<div class="layer">
-					<div class="bg"></div>
-					<div id="layer3" class="pop-layer">
-						<div class="pop-container">
-							<div class="pop-conts">
-								
-								<p class="ctxt mb20">
-								친구요청 목록
-								</p>
-								
-								<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-									<div class="row">
-										<div class="col-sm-8 blog-main">
-											<h2 class="sub-header">사용자</h2>
-											<div class="table-responsive">
-												<table class="table table-striped">
-													<tr>
-														<th>친구 이름</th>
-													</tr>
-													
-													<!-- userList의 데이터를 한건 조회해서
-													     pageContext.setAttriubte("user", vo); -->
-													<c:forEach items="${friendsRequestList }" var="friReqList">
-														<tr>
-															<td>${friReqList.user_nm }</td>
-														</tr>
-													</c:forEach>
-													
-												</table>
-											</div>
+				<div id="layer3" class="pop-layer">
+				    <div class="pop-container">
+				        <div class="pop-conts">
+				            <!--content //-->
+			
+							<table class="tb_style_01">
+								<colgroup>
+									<col width="30%">
+									<col width="30%">
+									<col width="30%">
+								</colgroup>
+								<tbody>
+									<tr>
+									
+										<th>친구 이름</th>
+										<th>수락</th>
+										<th>거절</th>
 					
-											<a class="btn btn-default pull-right">사용자 등록</a>
-					
-											<div class="text-center">
-												<ul class="pagination">
-													<li><a href="#">1</a></li>
-													<li><a href="#">2</a></li>
-													<li><a href="#">3</a></li>
-													<li><a href="#">4</a></li>
-													<li><a href="#">5</a></li>
-												</ul>
-											</div>
+										<c:forEach items="${friendsRequestList}" var="friReqList">
+										
+											<tr class="userTr" data-user_email="${prjVo.user_email}">
+												<td>${friReqList.user_nm}</td>
+												<td>1</td>
+												<td>2</td>
+											</tr>
 											
-										</div>
-									</div>
-								</div>
-								
-								<div class="btn-r">
-									<a href="#" class="cbtn">Close</a>
-								</div>
-								
-							</div>
-						</div>
-					</div>
+											<td>1</td>
+											<td>2</td>
+																						
+										</c:forEach>
+										
+									</tr>
+								</tbody>
+							</table>
+							
+				            <div class="btn-r">
+				                <a href="#" class="btn-layerClose">Close</a>
+				            </div>
+				            
+				            <!--// content-->
+				        </div>
+				    </div>
 				</div>
 			</form>
 
@@ -429,8 +428,6 @@ function requestFriends() {
 				    </div>
 				</div>
 			</form>
-			
-			
 			
 		</div>
 		
