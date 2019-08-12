@@ -67,9 +67,13 @@ $(document).ready(function(){
 	// 내가 한 일
 	$(".memoA").on("click",function(){
 		console.log("CLICKCLICK");
-		var a = $(this).siblings("input").val();
+		var a = $(this).siblings("#memoPrj_id").val();
+		var nm = $(this).siblings("#memoPrj_nm").val();
 		console.log(a);
+		console.log(nm);
 		var b = $("#prj_id").val(a);
+		var prjNm = $("#h2prj_nm").text(nm);
+		
 			
 		// 내가 한 일
 		$(function() {
@@ -328,10 +332,11 @@ window.onclick = function(event) {
 	<div id="memoView">
 		<div id="memo">
 			<form id="memoFrm">
-				<label>어제 한 일 :</label> <br>
+				<h1 id="h2prj_nm"></h1>
+				<label>어제 한 일 </label> <br>
 				<textarea rows="5" cols="30" id="memo_yd_con" readonly
 					style="resize: none;"></textarea>
-				<br> <label>오늘 할 일 :</label> <br>
+				<br> <label>오늘 할 일 </label> <br>
 				<textarea rows="5" cols="30" name="memo_con" id="memo_con"
 					style="resize: none;"></textarea>
 				<br> <input type="hidden" name="memo_email"
@@ -379,11 +384,12 @@ window.onclick = function(event) {
 								<div>
 									<a href="#" class="memoA" ><span class="color_style01">${pro.prj_nm }</span></a>
 									<input type="hidden" id="memoPrj_id" value="${pro.prj_id }"/>
+									<input type="hidden" id="memoPrj_nm" value="${pro.prj_nm }"/>
 								</div>
 							</c:forEach>
 						</div>
 					</li>
-					<li><a href="#"><span class="color_style02">타이머</span></a></li>
+					<li><a href="/timer"><span class="color_style02">타이머</span></a></li>
 					<li><a href="#layerChatHeader" id="chat"><span class="color_style01">화상회의</span></a></li>
 					<li><a href="#"><span class="color_style01">채팅</span>리스트</a></li>
 					<li><a href="#" class="icon_set"><span class="color_style01">${USER_INFO.user_nm}</span>님 환영합니다</a>
