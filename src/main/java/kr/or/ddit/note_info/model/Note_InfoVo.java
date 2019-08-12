@@ -26,7 +26,7 @@ public class Note_InfoVo {
 	private String send_email; // 쪽지 발신자
 	private String rcv_email; // 쪽지 수신자
 	private Date send_date; // 쪽지 발신 일시
-	private Date rcv_fl; // 쪽지 수신 일시
+	private Date rcv_date; // 쪽지 수신 일시
 	private String read_fl; // 쪽지 읽음 여부
 	private String send_del_fl; // 발신인 삭제 여부
 	private String rcv_del_fl; // 수신인 삭제 여부
