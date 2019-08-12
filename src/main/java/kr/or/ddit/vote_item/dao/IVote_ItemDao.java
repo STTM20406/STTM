@@ -1,5 +1,7 @@
 package kr.or.ddit.vote_item.dao;
 
-public interface IVote_ItemDao {
+import kr.or.ddit.vote_item.model.Vote_ItemVo;
 
+public interface IVote_ItemDao {
+	int insertVoteItem(Vote_ItemVo voteItemVo);
 }

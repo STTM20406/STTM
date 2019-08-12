@@ -2,6 +2,8 @@ package kr.or.ddit.vote.model;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 /**
  * 
 * VoteVo.java
@@ -26,11 +28,13 @@ public class VoteVo {
 	private int prj_id; //프로젝트 아이디
 	private String vote_email; // 투표 작성자
 	private Date vote_start_date; // 투표 작성일
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
 	private Date vote_end_date; // 투표 마감일
 	private String vote_subject; // 투표 제목
 	private String vote_con; // 투표 내용
 	private String vote_ano; // 익명 여부
-	private String vote_st; // 투표 상태
+	private String vote_st; // 투표 상태 - C : 완료 P : 진행중
+	private String vote_del_fl; // 투표 삭제 여부 - Y : 삭제됨 N : 삭제 안됨
 	
 	public VoteVo() {
 
@@ -50,11 +54,14 @@ public class VoteVo {
 		this.vote_st = vote_st;
 	}
 
+
+	
 	@Override
 	public String toString() {
 		return "VoteVo [vote_id=" + vote_id + ", prj_id=" + prj_id + ", vote_email=" + vote_email + ", vote_start_date="
 				+ vote_start_date + ", vote_end_date=" + vote_end_date + ", vote_subject=" + vote_subject
-				+ ", vote_con=" + vote_con + ", vote_ano=" + vote_ano + ", vote_st=" + vote_st + "]";
+				+ ", vote_con=" + vote_con + ", vote_ano=" + vote_ano + ", vote_st=" + vote_st + ", vote_del_fl="
+				+ vote_del_fl + "]";
 	}
 
 	public int getVote_id() {
@@ -128,5 +135,10 @@ public class VoteVo {
 	public void setVote_st(String vote_st) {
 		this.vote_st = vote_st;
 	}
-
+	public String getVote_del_fl() {
+		return vote_del_fl;
+	}
+	public void setVote_del_fl(String vote_del_fl) {
+		this.vote_del_fl = vote_del_fl;
+	}
 }
