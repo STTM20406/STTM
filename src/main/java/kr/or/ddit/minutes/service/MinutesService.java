@@ -6,6 +6,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import kr.or.ddit.minutes.dao.IMinutesDao;
@@ -15,7 +17,9 @@ import kr.or.ddit.users.model.UserVo;
 
 @Service
 public class MinutesService implements IMinutesService{
-
+	
+	private static final Logger logger = LoggerFactory.getLogger(MinutesService.class);
+	
 	@Resource(name = "minutesDao")
 	private IMinutesDao minutesDao;
 	
@@ -44,14 +48,33 @@ public class MinutesService implements IMinutesService{
 	public Map<String, Object> minutesPagination(Map<String, Object> map) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("minutesList", minutesDao.minutesPagination(map));
-		
 		int cnt = minutesDao.minutesCnt((int)map.get("prj_id"));
-		
 		int paginationSize = (int) Math.ceil((double) cnt/ (int) map.get("pageSize"));
 		resultMap.put("paginationSize", paginationSize);
 		return resultMap;
 	}
-
+	/**
+	 * Method : searchPagination
+	 * 작성자 : melong2
+	 * 변경이력 :
+	 * @param map
+	 * @return
+	 * Method 설명 : 검색 후 페이지 네이션 아직 미완료
+	 */
+	@Override
+	public Map<String, Object> searchPagination(Map<String, Object> map) {
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("searchList", minutesDao.searchPagination(map));
+		logger.debug("♬♩♪ pagination logger");
+		
+		int cnt = minutesDao.searchCnt((String)map.get("user_nm"));
+		
+		int paginationSize = (int)Math.ceil((double) cnt/ (int) map.get("pageSize"));
+		resultMap.put("paginationSize", paginationSize);
+		return resultMap;
+	}
+	
 	/**
 	 * Method 		: minutesDetail
 	 * 작성자 			: 손영하
@@ -65,19 +88,6 @@ public class MinutesService implements IMinutesService{
 		return minutesDao.minutesDetail(mnu_id);
 	}
 
-	/**
-	* Method : searchPagination
-	* 작성자 : melong2
-	* 변경이력 :
-	* @param map
-	* @return
-	* Method 설명 : 검색 후 페이지 네이션 아직 미완료
-	*/
-	@Override
-	public Map<String, Object> searchPagination(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	/**
 	* Method : attenderList
@@ -120,6 +130,17 @@ public class MinutesService implements IMinutesService{
 	@Override
 	public int insertMinutes(MinutesVo minutesVo) {
 		return minutesDao.insertMinutes(minutesVo);
+	}
+
+	@Override
+	public int updateMinutes(MinutesVo minutesVo) {
+		return minutesDao.updateMinutes(minutesVo);
+	}
+
+	@Override
+	public int searchCnt(String name_nm) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 

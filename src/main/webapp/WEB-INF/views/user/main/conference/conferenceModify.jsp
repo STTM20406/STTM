@@ -22,19 +22,26 @@
 </style>
 <script>
 $(document).ready(function(){
-	alert("수정 하실 사항을 입력하여 주십시오.");
+	$('#modify').on('click',function(){
+		if($('#subject').val()==''){
+			alert("수정 하실 사항을 입력하여 주십시오.");
+		} else{
+			$('#frm').submit();
+		}
+		
+	});
 });
 
 </script>
 
 
 <fieldSet id="fs">
-	<form action="/upMinutes" method="post">
+	<form id="frm" action="/upMinutes" method="post">
 	<input type="hidden" name="mnu_id" value="${minutesVo.mnu_id}">
 		<label>♬♩♪ 회의록 번호 : ${minutesVo.mnu_id}</label> 
 		<label>♬ 참석자 :</label>
 		<c:forEach items="${minutes_memList}" var="List">
-			<label>${List.USER_NM} </label>
+			<label>${List.user_nm} </label>
 		</c:forEach>
 		
 		<br>
@@ -51,6 +58,6 @@ $(document).ready(function(){
 		</div>
 	</form>
 
-	<button id="modify" type="submit">수정완료!</button>
+	<button id="modify" type="button">수정완료!</button>
 	
 </fieldSet>

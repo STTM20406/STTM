@@ -116,4 +116,24 @@ public interface IMinutesService {
 	 * Method 설명 	: 회의록 등록
 	 */
 	int insertMinutes(MinutesVo minutesVo);
+	
+	/**
+	 * Method 		: updateMinutes
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-11 최초 생성
+	 * @param mnu_id
+	 * @return
+	 * Method 설명 	: 회의록 내용 수정!
+	 */
+	int updateMinutes(MinutesVo minutesVo);
+	
+	/**
+	 * Method 		: searchCnt
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-11 최초 생성
+	 * @param subject
+	 * @return
+	 * Method 설명 	: 검색 결과 개수
+	 */
+	int searchCnt(String user_nm);
 }

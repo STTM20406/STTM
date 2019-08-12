@@ -470,14 +470,16 @@
 	</select>
 	
 	<!-- 검색 -->
-	<select id="searchMinutes" parameterType="String" resultType="minutesVo">
+	<select id="searchPagination" parameterType="map" resultType="minutesVo">
 		<![CDATA[
-		select a.mnu_id, a.prj_id, a.user_email, a.subject, a.special, a.write_date, a.del_fl, a.user_nm 
+		select rownum num, a.mnu_id, a.prj_id, a.user_email, a.subject, a.special, a.write_date, a.del_fl, a.user_nm 
 	    from
 	    (select a.*, rownum rn 
 	    from
 	    (select A.*, B.user_nm from minutes A, users B
-	    where B.user_nm like '%'||#{subject}||'%'
+	    where B.user_nm like '%'||#{user_nm}||'%'
+	    and A.prj_id=#{prj_id}
+	    and A.del_fl ='N'
 	    and A.user_email = B.user_email
 	    order by A.prj_id asc) a)a
 	    where rn >=(#{page}-1)*#{pageSize}+1 and rn <= #{page}*#{pageSize}
@@ -488,7 +490,8 @@
 		select count(*)
 		from  
 	    (select A.*, B.user_nm from minutes A, users B
-	    where B.user_nm like '%'||#{subject}||'%'
+	    where B.user_nm like '%'||#{user_nm}||'%'
+	    and A.del_fl ='N'
 	    and A.user_email = B.user_email)
 	</select>
 	
@@ -541,6 +544,15 @@
 		insert into minutes 
 		values(MNU_SEQ.nextVal,#{prj_id},#{user_email},#{subject},#{special},sysdate,'N')
 	</insert>
+	
+	<update id="updateMinutes" parameterType="minutesVo" >
+		update minutes 
+			set 
+			    subject=#{subject},
+			    special=#{special}
+			where
+    			mnu_id=#{mnu_id}
+	</update>
 	
 	<!-- *********************meeting************************ -->
 </mapper>
