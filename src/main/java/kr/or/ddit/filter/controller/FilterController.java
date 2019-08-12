@@ -28,11 +28,11 @@ public class FilterController {
 		return "/outline/work.user.tiles";
 	}
 	
-	@RequestMapping("/project/overview")
+	@RequestMapping("/analysis")
 	public String projectOverview() {
 		return "/main/analysis/analysis.user.tiles";
 	}
-	@RequestMapping("/project/overview/ajax")
+	@RequestMapping("/analysis/ajax")
 	public String projectOverviewAjax(Model model, FilterVo filterVo, Integer over_prj_id) {
 		filterVo.setPrj_id(over_prj_id);
 		model.addAttribute("result", filterService.projectOverviewJSON(filterVo));
@@ -70,13 +70,13 @@ public class FilterController {
 	public Map<String, Object> projectGanttChartData(FilterVo filterVo) {
 		return filterService.ganttListJSON(filterVo);
 	}
-	@RequestMapping("/project/overview/updatePrj")
+	@RequestMapping("/analysis/updatePrj")
 	public String updatePrj(ProjectVo prjVo) {
 		logger.debug("prjVo : {}", prjVo);
 		return filterService.updatePrj(prjVo);
 	}
 	
-	@RequestMapping("/project/overview/prjList")
+	@RequestMapping("/analysis/prjList")
 	@ResponseBody
 	public List<String> prjList(String user_email){
 		return filterService.prjList(user_email);

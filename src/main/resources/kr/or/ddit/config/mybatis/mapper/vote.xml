@@ -6,6 +6,9 @@
 
 	<!-- **************** vote ******************** -->
 	<insert id="insertVote" parameterType="voteVo">
+		<selectKey order="BEFORE" resultType="Integer" keyProperty="vote_id">
+			SELECT VOTE_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
 		INSERT INTO VOTE
 			(
 				 VOTE_ID
@@ -17,29 +20,71 @@
 				,VOTE_CON
 				,VOTE_ANO
 				,VOTE_ST
+				,VOTE_DEL_FL
 			)
 			VALUES
 			(
-				 VOTE_SEQ.NEXTVAL
+				 #{vote_id}
 				,#{prj_id}
 				,#{vote_email}
-				,#{vote_start_date}
-				,#{vote_end_date}
+				,SYSDATE
+				,#{vote_end_date,jdbcType=DATE}
 				,#{vote_subject}
 				,#{vote_con}
-				,#{vote_ano}
-				,#{vote_st}
+				,#{vote_ano,jdbcType=VARCHAR}
+				,'P'
+				,'N'
 			)
-			<selectKey order="AFTER" resultType="java.lang.Integer" keyProperty="vote_id">
-				SELECT VOTE_SEQ.CURRVAL FROM DUAL;
-			</selectKey>
 	</insert>
-
-	<!-- **************** vote_item ******************** -->
 	
+	<select id="voteList" parameterType="Integer" resultType="voteVo">
+		SELECT	*
+		FROM	VOTE
+		WHERE	PRJ_ID = #{prj_id}
+		ORDER BY PRJ_ID
+	</select>
+	<!-- **************** vote_item ******************** -->
+	<insert id="insertVoteItem" parameterType="vote_itemVo">
+		INSERT INTO VOTE_ITEM
+		(
+			VOTE_ITEM_ID
+			,VOTE_ID
+			,VOTE_ITEM_CON
+		) 
+		VALUES
+		(
+			VOTE_IT_SEQ.NEXTVAL
+			,#{vote_id}
+			,#{vote_item_con}
+		)
+	</insert>
+	<select id="itemList" parameterType="Integer">
+		SELECT	*
+		FROM	VOTE_ITEM
+		WHERE	VOTE_ID = #{vote_id}
+		ORDER BY VOTE_ITEM_ID
+	</select>
 	
 	<!-- **************** vote_part ******************** -->
-	
-	
-	
+	<insert id="insertVotePart" parameterType="vote_partVo">
+		INSERT INTO VOTE_PART
+		(
+			PRJ_ID
+			,USER_EMAIL
+			,VOTE_ID
+			,VOTE_ITEM_ID
+		)
+		VALUES
+		(
+			#{prj_id}
+			,#{user_email}
+			,#{vote_id}
+			,#{vote_item_id}
+		)
+	</insert>
+	<select id="partList" parameterType="Integer" resultType="vote_partVo">
+		SELECT	USER_EMAIL, VOTE_ID, VOTE_ITEM_ID
+		FROM	VOTE_PART
+		WHERE	VOTE_ID = #{vote_id}
+	</select>
 </mapper>
