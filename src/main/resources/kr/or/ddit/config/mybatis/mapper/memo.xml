@@ -30,7 +30,7 @@
 	            MEMO_SEQ.NEXTVAL
                 ,1
 	            ,#{memo_email}
-	            ,null
+	            ,#{memo_con}
 	            ,TO_CHAR(#{memo_update}, 'yyyyMMdd')
 	            ,#{memo_update}
                 ,'N'
