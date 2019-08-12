@@ -50,11 +50,6 @@ var socket = null;
 $(document).ready(function(){
 	connectNotify();
 
-		// 내가 한 일
-		$("").on("click",function(){
-			$("#memoView").animate({right:'0'}, 500);
-		})
-		
 	$(".user_set_list").hide();
 	$(".icon_set").on("click", function(){
 		$(".user_set_list").fadeIn();
@@ -68,13 +63,14 @@ $(document).ready(function(){
 
 	})
 	
-		// 내가 한 일
+	
+	// 내가 한 일
 	$(".memoA").on("click",function(){
 		console.log("CLICKCLICK");
 		var a = $(this).siblings("input").val();
 		console.log(a);
 		var b = $("#prj_id").val(a);
-		
+			
 		// 내가 한 일
 		$(function() {
 				$("textarea").change(function(){
@@ -172,6 +168,11 @@ $(document).ready(function(){
 		$("#memoView").animate({right:'0'}, 500);
 	})
 	
+	//프로젝트 닫기 버튼을 클릭했을 때
+	$(".btnSetClose").on("click", function(){
+		$("#memoView").animate({right:'-700px'}, 500);
+	});
+	
 	//화상회의생성 버튼 클릭시
 	$('#chat').on("click", function(){
 		
@@ -198,10 +199,7 @@ $(document).ready(function(){
 		$("#checkProject").val(a);
 	});
 	
-	//프로젝트 닫기 버튼을 클릭했을 때
-	$(".btnSetClose").on("click", function(){
-		$("#memoView").animate({right:'-700px'}, 500);
-	});
+	
 });
 
 $(".socketAlram").hide();
@@ -259,99 +257,6 @@ window.onclick = function(event) {
     }
   }
 }
-
-	// 내가 한 일
-	$(function() {
-		$("textarea").change(function(){
-			var td_con = $("#memo_td_con").val();
-			var serial = $("#memoFrm").serialize();
-			mergeMemo(serial);
-		});
-		$("#memoList").on("click", ".memoList", function(){
-			var prj_id = $(this).parents().find("table").data("prj_id");
-			var user_email = $(this).parents().find("table").data("memo_email");
-			var dt_str = $(this).data("memo_dt_str");
-			console.log(user_email);
-			console.log(prj_id);
-			console.log(dt_str);
-			
-			var memoVo = {"memo_email": user_email, "memo_dt_str": dt_str, "prj_id": prj_id};
-			getMemo(memoVo);
-		});
-		
-		$("#memoList").on("click", ".todayMemo", function(){
-			todayMemo();
-		});
-		
-		getYdTdCon();
-		$("#memoList").hide();
-		$("#memoDetail").hide();
-	});
-	
-	function copyTask(btn) {
-		var btn = $(btn).parent().find("#memo_con");
-		btn.select();
-		document.execCommand('copy');
-		console.log("Copied!");
-	};
-	
-	function mergeMemo(serialData) {
-		$.ajax({
-			url: "/merge",
-			data: serialData,
-			type: "POST",
-			success: function(data) {
-				console.log(data);
-			}
-		});
-	}
-	
-	function getYdTdCon() {
-		$.ajax({
-			url: '/yd_con',
-			type: "POST",
-			data: $("#memoFrm").serialize(),
-			success: function(data) {
-				console.log(data);
-				$("#memo_con").val(data.td_con.memo_con);
-				$("#memo_yd_con").val(data.yd_con.memo_con);
-			}
-		});
-	}
-	
-	function memoList() {
-		var serial = $("#memoFrm").serialize();
-		$.ajax({
-			url: "/memoList",
-			type: "POST",
-			data: serial,
-			success: function(data){
-				console.log(data);
-				$("#memo").hide();
-				$("#memoDetail").hide();
-				$("#memoList").html(data.memoList);
-				$("#memoList").show();
-			}
-		})
-	}
-	function getMemo(memoVo) {
-		$.ajax({
-			url: "/getMemo",
-			type: "POST",
-			data: memoVo,
-			success: function(data){
-				console.log(data);
-				$("#memoList").hide();
-				$("#memoDetail").html(data.memo);
-				$("#memoDetail").show();
-			}
-		})		
-	}
-	
-	function todayMemo() {
-		$("#memoList").hide();
-		$("#memo").show();
-	}
 
 	//layer popup - 화상회의방 생성
 	function layer_popup(el){
@@ -412,9 +317,6 @@ window.onclick = function(event) {
 	padding: 25px;
 	z-index: 999
 }
-#memoView {
-display : none;
-}
 </style>
 
 </head>
@@ -434,7 +336,7 @@ display : none;
 					style="resize: none;"></textarea>
 				<br> <input type="hidden" name="memo_email"
 					value="${USER_INFO.user_email }"> <input type="hidden"
-					name="prj_id" value="">
+					name="prj_id" id="prj_id" value="">
 				<button type="button" onclick="copyTask(this)">복사하기</button>
 				<button type="button" onclick="memoList()">목록</button>
 			</form>
@@ -442,6 +344,7 @@ display : none;
 		<div id="memoList"></div>
 		<div id="memoDetail"></div>
 		<div class="btnSetClose">닫기</div>
+		
 	</div>
 
 
@@ -481,7 +384,7 @@ display : none;
 						</div>
 					</li>
 					<li><a href="#"><span class="color_style02">타이머</span></a></li>
-					<li><a href="#layerChatHeader" id="chat"><span class="color_style01">화상회의</span></a></li>
+					<li><a href="#"><span class="color_style01">화상회의</span></a></li>
 					<li><a href="#"><span class="color_style01">채팅</span>리스트</a></li>
 					<li><a href="#" class="icon_set"><span class="color_style01">${USER_INFO.user_nm}</span>님 환영합니다</a>
 						<div class="user_set_list">
@@ -496,7 +399,6 @@ display : none;
 				</ul>
 			</div>
 		</header>
-	</div>
 	
 	
 	
@@ -540,7 +442,7 @@ display : none;
 									<div class="prj_mem_list">
 										<ul>
 											<c:forEach items="${headerChatFriendList}" var="memlist" varStatus="status">
-												<c:if test="${memlist.prj_id == '1'  }">
+												<c:if test="${memlist.prj_id == 1  }">
 														<li><input type="checkbox" name="friend"
 															class="checkSelect1" value="${memlist.prj_id}">${memlist.user_nm }
 														</li>
