@@ -38,6 +38,22 @@
 	text-decoration: none;
 	display: block;
 }
+.dropdown-Notecontent {
+	display: none;
+	position: absolute;
+	background-color: #f1f1f1;
+	min-width: 160px;
+	overflow: auto;
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+	z-index: 1;
+}
+
+.dropdown-Notecontent a {
+	color: black;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+}
 
 .show {
 	display: block;
@@ -261,6 +277,26 @@ window.onclick = function(event) {
     }
   }
 }
+// 새로추가한 쪽지 dropdown
+function myFunctionNote() {
+  	$(".dropdown-Notecontent").fadeIn(300);
+	$(".dropdown-Notecontent").on("mouseleave", function(){
+		$(this).fadeOut(300);
+	});
+}
+
+window.onclick = function(event) {
+  if (!event.target.matches('.dropNotebtn')) {
+    var dropdowns = document.getElementsByClassName("dropdown-Notecontent");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
 
 	//layer popup - 화상회의방 생성
 	function layer_popup(el){
@@ -299,7 +335,7 @@ window.onclick = function(event) {
     }
 	
 	//화상회의값 보내기 - 선택한멤버리스트 함께 넘기기
-	function prjBtnSubmit(){
+	function faceBtnSubmit(){
 		var memArray = [];
 		$("input[name=projectRadio]:checked").each(function(){
 			memArray.push($(this).val());
@@ -377,6 +413,13 @@ window.onclick = function(event) {
 
 			<div id="tnb" class="dropdown">
 				<ul>
+					<li onclick="myFunctionNote()" class="dropNotebtn">
+						<a href="#"><span class="caret color_style01">쪽지</span></a>
+						<div id="myDropdown" class="dropdown-Notecontent">
+							<a href="#" class="asxz" ><span class="color_style01">쪽지보내기</span></a>
+							<a href="#" class="asdfw" ><span class="color_style01">쪽지함</span></a>
+						</div>
+					</li>
 					<li onclick="myFunction()" class="dropbtn">
 						<a href="#"><span class="caret color_style01">메모</span></a>
 						<div id="myDropdown" class="dropdown-content">
@@ -460,7 +503,7 @@ window.onclick = function(event) {
 						</ul>
 						<div class="prj_btn">
 							<a href="javascript:;" id="prj_btn_prev">뒤로</a> <input
-								type="button" onclick="prjBtnSubmit();" value="프로젝트 만들기">
+								type="button" onclick="faceBtnSubmit();" value="프로젝트 만들기">
 						</div>
 					</div>
 				</form>
