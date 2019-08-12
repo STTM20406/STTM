@@ -5,6 +5,7 @@ import java.util.Map;
 
 import kr.or.ddit.chat_content.model.ChatParticipateUserVo;
 import kr.or.ddit.chat_content.model.Chat_ContentVo;
+import kr.or.ddit.project.model.ProjectVo;
 
 public interface IChat_ContentDao {
 
@@ -50,7 +51,7 @@ public interface IChat_ContentDao {
 	 * @return
 	 * Method 설명 	: 각 대화방에서의 각 사용자 대화 내역 삭제 프로젝트
 	 */
-	public int outChatContentProject(Map<String, Object> map);
+	public int outChatContentProject(ProjectVo vo);
 	
 	/**
 	 * 

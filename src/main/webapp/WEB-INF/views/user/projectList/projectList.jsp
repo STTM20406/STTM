@@ -588,7 +588,7 @@
 	        	layer_popup("#layer2");
 	            return false;
 			}
-			//$("#projectLeaveFrm").submit();
+			$("#projectLeaveFrm").submit();
 		});
 		
 		

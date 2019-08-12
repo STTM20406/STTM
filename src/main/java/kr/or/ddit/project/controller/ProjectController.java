@@ -315,10 +315,11 @@ public class ProjectController {
 		int insertCnt = projectMemService.insertProjectMem(projectMemVo);
 		
 		//채팅방에 프로젝트 멤버 추가
-		Map<String, Object> insertMap = new HashMap<String, Object>();
-		insertMap.put("user_email", user_email);
-		insertMap.put("prj_id", prjId);
-		memService.insertChatMemProject(insertMap);
+		ProjectVo vo = new ProjectVo();
+		vo.setUser_email(user_email);
+		vo.setPrj_id(prjId);
+		memService.insertChatMemProject(vo);
+		
 		
 		Project_MemVo projectMemListVo = new Project_MemVo();
 		projectMemListVo.setUser_email(user_email);
@@ -359,13 +360,13 @@ public class ProjectController {
 		projectMemVo.setPrj_mem_lv("LV1");
 		
 		//프로젝트 채팅방 대화 내역 삭제
-		Map<String, Object> outMap = new HashMap<String, Object>();
-		outMap.put("user_email", user_email);
-		outMap.put("prj_id", prjId);
-		contentService.outChatContentProject(outMap);
+		ProjectVo chatOut = new ProjectVo();
+		chatOut.setUser_email(user_email);
+		chatOut.setPrj_id(prjId);
 		
+		int content = contentService.outChatContentProject(chatOut);
 		//프로젝트 채팅방 멤버 나가기
-		memService.outChatMemProject(outMap);
+		int mem = memService.outChatMemProject(chatOut);
 
 		int deleteCnt = projectMemService.deleteProjectMem(projectMemVo);
 
@@ -504,14 +505,15 @@ public class ProjectController {
 		projectMemVo.setPrj_mem_lv("LV1");
 		
 		//프로젝트 채팅방 대화 내역 삭제
-		Map<String, Object> outMap = new HashMap<String, Object>();
-		outMap.put("user_email", user_email);
-		outMap.put("prj_id", prjId);
-		contentService.outChatContentProject(outMap);
+		ProjectVo chatOut = new ProjectVo();
+		chatOut.setUser_email(user_email);
+		chatOut.setPrj_id(prjId);
 		
+		int content = contentService.outChatContentProject(chatOut);
 		//프로젝트 채팅방 멤버 나가기
-		memService.outChatMemProject(outMap);
+		int mem = memService.outChatMemProject(chatOut);
 		
+		logger.debug("log content: {}, mem : {}",content,mem);
 		int deleteCnt = projectMemService.deleteProjectMem(projectMemVo);
 		if (deleteCnt != 0) {
 			viewName = "redirect:/project/list";

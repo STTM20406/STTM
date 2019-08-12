@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.or.ddit.chat_content.model.ChatParticipateUserVo;
 import kr.or.ddit.chat_mem.model.Chat_MemVo;
+import kr.or.ddit.project.model.ProjectVo;
 
 @Repository
 public class Chat_MemDao implements IChat_MemDao{
@@ -81,13 +82,13 @@ public class Chat_MemDao implements IChat_MemDao{
 	}
 
 	@Override
-	public int outChatMemProject(Map<String, Object> map) {
-		return sqlSession.delete("chat.outChatMemProject",map);
+	public int outChatMemProject(ProjectVo vo) {
+		return sqlSession.delete("chat.outChatMemProject",vo);
 	}
 
 	@Override
-	public int insertChatMemProject(Map<String, Object> map) {
-		return sqlSession.insert("chat.insertChatMemProject",map);
+	public int insertChatMemProject(ProjectVo vo) {
+		return sqlSession.insert("chat.insertChatMemProject",vo);
 	}
 
 }
