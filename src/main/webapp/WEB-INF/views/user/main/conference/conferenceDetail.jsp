@@ -47,6 +47,7 @@
 		<c:when test="${user_nm eq minutesVo.user_nm}">
 			<a href="/upMinutes?mnu_id=${minutesVo.mnu_id}">수정</a>&nbsp;&nbsp;&nbsp;<a href="/delMinutes?mnu_id=${minutesVo.mnu_id}">삭제</a>
 		</c:when>
-	</c:choose>
+	</c:choose>&nbsp;&nbsp;&nbsp;
+	<a href="/conferenceList">뒤로</a>
 	
 </fieldSet>

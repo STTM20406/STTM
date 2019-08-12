@@ -27,8 +27,8 @@
 			if($('#searchText').val().length == 0){
 				alert("검색어를 입력해주세요");
 			}else{
-				var search = $(this).find(".search").text();
-				console.log(search);
+// 				var search = $(this).find(".search").val();
+// 				console.log(search);
 				$('#frmSearch').submit();
 			}
 		});
@@ -46,9 +46,8 @@
 			<form id="frmSearch" action="/searchMinutes" method="get">
 	                <select class="search" name="subject">
 	                	<option value="writer">작성자</option>
-	                	<option value="attender">참석자</option>
 	                </select>
-                <input type="text" name="searchText" id="searchText" maxlength="20" placeholder="검색어를 입력해주세요">
+                <input type="text" name="user_nm" id="searchText" maxlength="20" placeholder="검색어를 입력해주세요">
                 <button type="button" id ="searchBtn" value="검색">검색</button>
 			</form>
     	</div>
@@ -83,7 +82,7 @@
 					<li class="disabled"><span>&lt;</span></li>
 				</c:when>
 				<c:otherwise>
-					<li><a href="/conferenceList?prj_id=1&page=${pageVo.page-1}&pageSize=${pageVo.pageSize}">&lt;
+					<li><a href="/conferenceList?prj_id=${prj_id}&page=${pageVo.page-1}&pageSize=${pageVo.pageSize}">&lt;
 					</a></li>
 				</c:otherwise>
 			</c:choose>
@@ -94,7 +93,7 @@
 						<li class="active"><span>${i}</span></li>
 					</c:when>
 					<c:otherwise>
-						<li><a href="/conferenceList?prj_id=1&page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
+						<li><a href="/conferenceList?prj_id=${prj_id}&page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
 						</li>
 					</c:otherwise>
 				</c:choose>
@@ -105,7 +104,7 @@
 					<li class="disabled"><span>&gt;</span></li>
 				</c:when>
 				<c:otherwise>
-					<li><a href="/conferenceList?prj_id=1&page=${pageVo.page+1}&pageSize=${pageVo.pageSize}">&gt;</a>
+					<li><a href="/conferenceList?prj_id=${prj_id}&page=${pageVo.page+1}&pageSize=${pageVo.pageSize}">&gt;</a>
 					</li>
 				</c:otherwise>
 			</c:choose>

@@ -68,7 +68,8 @@
 		<label>♬♩♪ 특이사항</label><br>
 		<textarea id="special"></textarea>
 	</div> 
-	<input type="button" id="writer" onclick="insert()" value="작성완료">
+	<input type="button" id="writer" onclick="insert()" value="작성완료">&nbsp;&nbsp;&nbsp;
+	<a type="button" href="/conferenceList">뒤로</a>
 
     
 </fieldSet>

@@ -80,7 +80,7 @@ public class MinutesDao implements IMinutesDao{
 	*/
 	@Override
 	public List<MinutesVo> searchPagination(Map<String, Object> map) {
-		return sqlSession.selectOne("project.searchPagination",map);
+		return sqlSession.selectList("project.searchPagination",map);
 	}
 
 	@Override
@@ -116,6 +116,16 @@ public class MinutesDao implements IMinutesDao{
 	@Override
 	public int insertMinutes(MinutesVo minutesVo) {
 		return sqlSession.insert("project.insertMinutes",minutesVo);
+	}
+
+	@Override
+	public int updateMinutes(MinutesVo minutesVo) {
+		return sqlSession.update("project.updateMinutes",minutesVo);
+	}
+
+	@Override
+	public int searchCnt(String user_nm) {
+		return sqlSession.selectOne("project.searchCnt",user_nm);
 	}
 
 

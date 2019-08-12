@@ -19,8 +19,8 @@ import kr.or.ddit.minutes.model.MinutesVo;
 import kr.or.ddit.minutes.model.Minutes_MemVo;
 import kr.or.ddit.minutes.service.IMinutesService;
 import kr.or.ddit.paging.model.PageVo;
+import kr.or.ddit.project.model.ProjectVo;
 import kr.or.ddit.users.model.UserVo;
-import kr.or.ddit.work.service.IWorkService;
 
 @Controller
 public class MinutesController {
@@ -35,7 +35,8 @@ public class MinutesController {
 	
 	@RequestMapping(path="/conferenceList", method = RequestMethod.GET)
 	String conferenceList(Model model, PageVo pageVo, HttpSession session ) {
-		int prj_id = 1; //session에서 꺼내자
+		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
+		int prj_id = projectVo.getPrj_id();
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("page", pageVo.getPage());
@@ -74,50 +75,33 @@ public class MinutesController {
 		return "/main/conference/conferenceDetail.user.tiles";
 	}
 	
-	
 	//수정해야합니다!!!!!!!!!!!!!!!!!!!!!!!!!!! 검색했을때 페이지 네이션
 	@RequestMapping(path="/searchMinutes", method = RequestMethod.GET)
-	String searchMinutes(PageVo pageVo, Model model,  String subject) {
-		int prj_id = 1; //session에서 꺼내자
+	String searchMinutes(PageVo pageVo, Model model,  String user_nm, HttpSession session) {
+		logger.debug("♬♩♪  name_nm이 들어오나요?: {}", user_nm);
+		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
+		int prj_id = projectVo.getPrj_id();
 		
-		//작성자로 검색했을때 Pagination처리
-		if(subject.equals("writer")) {
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("page", pageVo.getPage());
-			map.put("pageSize", pageVo.getPageSize());
-			map.put("prj_id", prj_id);
-			
-			Map<String, Object> resultMap = minutesService.minutesPagination(map);
-			List<MinutesVo> minutesList = (List<MinutesVo>) resultMap.get("minutesList");
-			
-			int paginationSize = (Integer) resultMap.get("paginationSize");
-			logger.debug("♬♩♪  paginationSize: {}", paginationSize);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("page", pageVo.getPage());
+		map.put("pageSize", pageVo.getPageSize());
+		map.put("user_nm", user_nm);
+		map.put("prj_id", prj_id);
+		
+		Map<String, Object> resultMap = minutesService.searchPagination(map);
+		List<MinutesVo> searchList = (List<MinutesVo>) resultMap.get("searchList");
+		logger.debug("♬♩♪  searchList: {}", searchList);
+		int paginationSize = (Integer) resultMap.get("paginationSize");
+		logger.debug("♬♩♪  paginationSize: {}", paginationSize);
 
-			model.addAttribute("paginationSize", paginationSize);
-			model.addAttribute("pageVo", pageVo);
+		model.addAttribute("paginationSize", paginationSize);
+		model.addAttribute("pageVo", pageVo);
 
-			model.addAttribute("minutesList", minutesList);
-			model.addAttribute("prj_id", prj_id);
-		//참석자로 검색했을때 Pagination처리
-		} else if(subject.equals("attender")) {
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("page", pageVo.getPage());
-			map.put("pageSize", pageVo.getPageSize());
-			map.put("prj_id", prj_id);
-			
-			Map<String, Object> resultMap = minutesService.minutesPagination(map);
-			List<MinutesVo> minutesList = (List<MinutesVo>) resultMap.get("minutesList");
-			
-			int paginationSize = (Integer) resultMap.get("paginationSize");
-			logger.debug("♬♩♪  paginationSize: {}", paginationSize);
-
-			model.addAttribute("paginationSize", paginationSize);
-			model.addAttribute("pageVo", pageVo);
-
-			model.addAttribute("minutesList", minutesList);
-			model.addAttribute("prj_id", prj_id);
-		}
-		return "/main/conference/conferenceList.user.tiles";
+		model.addAttribute("searchList", searchList);
+		model.addAttribute("user_nm", user_nm);
+		model.addAttribute("prj_id", prj_id);
+	
+		return "/main/conference/conferenceSearchList.user.tiles";
 	}
 	
 	/**
@@ -190,8 +174,30 @@ public class MinutesController {
 	@RequestMapping(path="/upMinutes", method = RequestMethod.POST)
 	String upMinutesPost(Model model, int mnu_id, PageVo pageVo, HttpSession session, 
 			String subject,String special ) {
+		logger.debug("♬♩♪  updtae Minutes mnu_id: {}", mnu_id);
+		logger.debug("♬♩♪ subject: {}", subject);
+		logger.debug("♬♩♪ special: {}", special);
 		
-		return null;
+		MinutesVo minutesVo = new MinutesVo();
+		minutesVo.setMnu_id(mnu_id);
+		minutesVo.setSubject(subject);
+		minutesVo.setSpecial(special);
+		
+		minutesService.updateMinutes(minutesVo);
+		
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_nm = userVo.getUser_nm();
+		model.addAttribute("user_nm", user_nm);
+		
+		MinutesVo minutesVo1 = minutesService.minutesDetail(mnu_id);
+		model.addAttribute("minutesVo", minutesVo1);
+		
+		//참석자 리스트를 받아오는
+		List<Minutes_MemVo> minutes_memList = minutesService.attenderList(mnu_id);
+		model.addAttribute("minutes_memList", minutes_memList);
+		logger.debug("♬♩♪  minutes_memList: {}", minutes_memList);
+		
+		return "/main/conference/conferenceDetail.user.tiles";
 	}
 	
 	/**
@@ -215,7 +221,9 @@ public class MinutesController {
 	@RequestMapping(path="/insertConference", method = RequestMethod.POST)
 	String insertConferencePost(HttpSession session, Model model, String user_email,
 			String insertSubject, String insertSpecial) {
-		int prj_id = 1; //session에서 꺼내야함
+		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
+		int prj_id = projectVo.getPrj_id();
+		
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
 		String email = userVo.getUser_email();
 		logger.debug("♬♩♪  insertSubject: {}", insertSubject);
