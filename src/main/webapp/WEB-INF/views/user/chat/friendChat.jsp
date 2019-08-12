@@ -8,8 +8,8 @@
 	<input type="hidden" id="ct_id" name="ct_id" value="${ct_id }">
 	<input type="hidden" id="user_nm" value="${USER_INFO.user_nm }">
 	<input type="hidden" id="user_email" value="${USER_INFO.user_email}">
-	
-	
+
+
 	<div class="sub_menu">
 		<ul class="sub_menu_item">
 			<li><a href="/friendChatList">친구 채팅</a></li>
@@ -26,8 +26,8 @@
 				<div class="pop-project">
 					<!--content //-->
 					<form action="/addFriend" method="post" id="addFriend">
-						<input type="hidden" id="array" name="array" >
-						<input type="hidden" id="ct_id" name="ct_id" value="${ct_id }">
+						<input type="hidden" id="array" name="array"> <input
+							type="hidden" id="ct_id" name="ct_id" value="${ct_id }">
 						<div class="new_proejct">
 							<!-- 방 만들기 테이블 -->
 							<ul>
@@ -46,12 +46,12 @@
 
 									</div></li>
 							</ul>
-								<div class="prj_btn">
-							<c:if test="${what == 'friend' }">
-									<a href="javascript:;" id="prj_btn_prev">뒤로</a> <input
-										type="submit" id="prj_btn_submit" value="친구 추가">
-							</c:if>
-								</div>
+							<div class="prj_btn">
+								<c:if test="${what == 'friend' }">
+									<a href="javascript:;" id="prj_btn_prev">뒤로</a>
+									<input type="submit" id="prj_btn_submit" value="친구 추가">
+								</c:if>
+							</div>
 						</div>
 
 					</form>
@@ -67,72 +67,122 @@
 
 
 	<div class="chat_wrap">
-		<div class="chat_list">
-			<div class="chat_friends">
-				<h2>채팅방 멤버</h2>
-				<ul>
-					<c:forEach items="${friendList }" var="friendlist">
-						<li>${friendlist }</li>
-					</c:forEach>
-				</ul>
-				<br> <br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<a href="#layer1" class="btn-example btn_style_01">친구 추가</a>
-				<br>
-				<br> <br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br> <input type="button" value="채팅방 리스트로 가기">
-			</div>
-		</div>
-		<div class="chat_room">
-			<div class="chat_room_hd">
-				<h2>${roomNm }</h2>
-			</div>
-			<div class="chat_room_con">
-				<c:forEach items="${chatroomContentList }" var="contentList">
-					<c:if test="${contentList.user_email != USER_INFO.user_email }">
-						<br>
-						<dl class="chat_other">
-							<dt id="otherName">${contentList.user_nm }</dt>
-							<dd id="otherContent">${contentList.ch_msg }</dd>
-						</dl>
-
-					</c:if>
-					<c:if test="${contentList.user_email == USER_INFO.user_email }">
-						<br>
-						<dl class="chat_me">
-							<dt id="meName">${contentList.user_nm }</dt>
-							<dd id="meContent">${contentList.ch_msg }</dd>
-						</dl>
-					</c:if>
-
+	<div class="chat_list">
+		<div class="chat_friends">
+			<h2>채팅방 멤버</h2>
+			<ul>
+				<c:forEach items="${friendList }" var="friendlist">
+					<li>${friendlist }</li>
 				</c:forEach>
-			</div>
-			<div class="chat_room_bt">
-				<input type="text" id="msg" name="msg"
-					placeholder="write something.." value=""> <input
-					type="button" id="buttonMessage" value="보내기">
-			</div>
+			</ul>
+			<br> <br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<a href="#layer1" class="btn-example btn_style_01">친구 추가</a>
+			<br>
+			<br> <br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br> <input type="button" value="채팅방 리스트로 가기">
+	       </div>
 		</div>
-
-
 	</div>
 
+<!-- 	<div class="messaging"> -->
+<!-- 		<div class="inbox_msg"> -->
+	<div class="chat_room"> 
+		<div class="chat_room_hd">
+			<div class="mesgs">
+				<div class="msg_history">
+				<c:forEach items="${chatroomContentList }" var="contentList">
+					<c:if test="${contentList.user_email != USER_INFO.user_email }">
+						<div class="incoming_msg">
+							<div class="received_msg">
+								<div class="received_withd_msg">
+									<p>${contentList.user_nm }</p>
+									<p>${contentList.ch_msg }</p>
+									<span class="time_date"> 11:01 AM | June 9</span>
+								</div>
+							</div>
+						</div>
+					
+					</c:if>
+					<c:if test="${contentList.user_email == USER_INFO.user_email }"> 
+						<div class="outgoing_msg">
+							<div class="sent_msg">
+								<p>${contentList.user_nm }</p>
+								<p>${contentList.ch_msg }</p>
+								<span class="time_date"> 11:01 AM | June 9</span>
+							</div>
+						</div>
+					
+					</c:if>
+				</c:forEach>
+					
+			
+				</div>
+				<div class="type_msg">
+					<div class="type_msg">
+			            <div class="input_msg_write">
+			              <input type="text" id="msg" name="msg" class="write_msg" placeholder="Type a message" />
+			              <button class="msg_send_btn" id="buttonMessage" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+			            </div>
+			        </div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+				
+		<!-- 		<div class="chat_room"> -->
+		<!-- 			<div class="chat_room_hd"> -->
+		<%-- 				<h2>${roomNm }</h2> --%>
+		<!-- 			</div> -->
+		<!-- 			<div class="chat_room_con"> -->
+		<%-- 				<c:forEach items="${chatroomContentList }" var="contentList"> --%>
+		<%-- 					<c:if test="${contentList.user_email != USER_INFO.user_email }"> --%>
+		<!-- 						<br> -->
+		<!-- 						<dl class="chat_other"> -->
+		<%-- 							<dt id="otherName">${contentList.user_nm }</dt> --%>
+		<%-- 							<dd id="otherContent">${contentList.ch_msg }</dd> --%>
+		<!-- 						</dl> -->
+
+		<%-- 					</c:if> --%>
+		<%-- 					<c:if test="${contentList.user_email == USER_INFO.user_email }"> --%>
+		<!-- 						<br> -->
+		<!-- 						<dl class="chat_me"> -->
+		<%-- 							<dt id="meName">${contentList.user_nm }</dt> --%>
+		<%-- 							<dd id="meContent">${contentList.ch_msg }</dd> --%>
+		<!-- 						</dl> -->
+		<%-- 					</c:if> --%>
+
+		<%-- 				</c:forEach> --%>
+		<!-- 			</div> -->
+		<!-- 			<div class="chat_room_bt"> -->
+		<!-- 				<input type="text" id="msg" name="msg" -->
+		<!-- 					placeholder="write something.." value=""> <input -->
+		<!-- 					type="button" id="buttonMessage" value="보내기"> -->
+		<!-- 			</div> -->
+		<!-- 		</div> -->
+
+
+		<!-- 	</div> -->
 </section>
 
 
@@ -167,71 +217,71 @@
 
 						});
 
-				$("#addFriend").on('click', function(){
-					
+				$("#addFriend").on('click', function() {
+
 					var array = Array();
 					var cnt = 0;
 					var chkbox = $(".friend");
-					
-					for(i=0;i<chkbox.length;i++){
-						if(chkbox[i].checked == true){
+
+					for (i = 0; i < chkbox.length; i++) {
+						if (chkbox[i].checked == true) {
 							array[cnt] = chkbox[i].value;
 							cnt++;
 						}
 					}
-				
+
 					$("#array").val(array);
 					console.log($("#array").val());
 				});
-			
-				$('.btn-example').on("click", function(){
-					
-			        var $href = $(this).attr('href');
-			        layer_popup($href);
-			    });
-			
+
+				$('.btn-example').on("click", function() {
+
+					var $href = $(this).attr('href');
+					layer_popup($href);
+				});
+
 			});
-	
-	
+
 	//layer popup - 프로젝트 생성
-	function layer_popup(el){
+	function layer_popup(el) {
 		console.log(el);
 
-        var $el = $(el);		//레이어의 id를 $el 변수에 저장
-        var isDim = $el.prev().hasClass('dimBg');	//dimmed 레이어를 감지하기 위한 boolean 변수
+		var $el = $(el); //레이어의 id를 $el 변수에 저장
+		var isDim = $el.prev().hasClass('dimBg'); //dimmed 레이어를 감지하기 위한 boolean 변수
 
-        isDim ? $('.dim-layer').fadeIn() : $el.fadeIn();
+		isDim ? $('.dim-layer').fadeIn() : $el.fadeIn();
 
-        var $elWidth = ~~($el.outerWidth()),
-            $elHeight = ~~($el.outerHeight()),
-            docWidth = $(document).width(),
-            docHeight = $(document).height();
+		var $elWidth = ~~($el.outerWidth()), $elHeight = ~~($el.outerHeight()), docWidth = $(
+				document).width(), docHeight = $(document).height();
 
-        // 화면의 중앙에 레이어를 띄운다.
-        if ($elHeight < docHeight || $elWidth < docWidth) {
-            $el.css({
-                marginTop: -$elHeight /2,
-                marginLeft: -$elWidth/2
-            })
-        } else {
-            $el.css({top: 0, left: 0});
-        }
+		// 화면의 중앙에 레이어를 띄운다.
+		if ($elHeight < docHeight || $elWidth < docWidth) {
+			$el.css({
+				marginTop : -$elHeight / 2,
+				marginLeft : -$elWidth / 2
+			})
+		} else {
+			$el.css({
+				top : 0,
+				left : 0
+			});
+		}
 
-        $el.find('a.btn-layerClose').click(function(){
-            isDim ? $('.dim-layer').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
-            return false;
-        });
+		$el.find('a.btn-layerClose').click(function() {
+			isDim ? $('.dim-layer').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
+			return false;
+		});
 
-        $('.layer .dimBg').click(function(){
-            $('.dim-layer').fadeOut();
-            return false;
-        });
+		$('.layer .dimBg').click(function() {
+			$('.dim-layer').fadeOut();
+			return false;
+		});
 
-    }
+	}
 </script>
 
 <script>
-// 	var socket = null;
+	// 	var socket = null;
 	function connect() {
 		//var ws = new WebSocket("ws://localhost:8090/echo.do");
 		var ct_id = $('#ct_id').val();
@@ -239,13 +289,13 @@
 		var userNm = $("#user_nm").val();
 		//socket = new SockJS("/echo.do");
 
-// 		socket.onopen = function() {
-// 			console.log('Info : connection opened');
-// 			//setTimeout(function(){connect(); }, 1000); //retry connection;
+		// 		socket.onopen = function() {
+		// 			console.log('Info : connection opened');
+		// 			//setTimeout(function(){connect(); }, 1000); //retry connection;
 
-// 			$("#participate").append("<li>" + userNm + "</li>");
+		// 			$("#participate").append("<li>" + userNm + "</li>");
 
-// 		};
+		// 		};
 
 		socket.onmessage = function(event) {
 			console.log("ReceiveMessage: ", event.data + "\n");
@@ -255,18 +305,18 @@
 					+ strArray[1] + "strArray[2]" + strArray[2]);
 
 			if (strArray[0] == userId) {
-				$(".chat_me").append(
-						"<br><br>" + strArray[1] + "<br>" + strArray[2]);
+				$(".sent_msg").append(
+						"<p>" + strArray[1] + "</p><p>" + strArray[2] + "</p>" + "<span class='time_date'> 11:01 AM | June 9</span>");
 			} else {
-				$(".chat_other").append(
-						"<br><br>" + strArray[1] + "<br>" + strArray[2]);
+				$(".received_withd_msg").append(
+						"<p>" + strArray[1] + "</p><p>" + strArray[2] + "</p>" + "<span class='time_date'> 11:01 AM | June 9</span>");
 			}
 
 		};
 
-// 		socket.onclose = function(event) {
-// 			console.log('info: connection closed');
-// 		};
+		// 		socket.onclose = function(event) {
+		// 			console.log('info: connection closed');
+		// 		};
 
 		socket.onerror = function(err) {
 			console.log('error: ', err);
