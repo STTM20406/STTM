@@ -30,11 +30,12 @@
 	            MEMO_SEQ.NEXTVAL
                 ,1
 	            ,#{memo_email}
-	            ,#{memo_con}
+	            ,null
 	            ,TO_CHAR(#{memo_update}, 'yyyyMMdd')
 	            ,#{memo_update}
                 ,'N'
 	        )
+	       
 	</insert>
 	
 	<select id="getYdTdCon" parameterType="memoVo" resultType="memoVo">
