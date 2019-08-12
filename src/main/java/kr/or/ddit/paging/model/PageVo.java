@@ -11,9 +11,29 @@ public class PageVo {
    private String content; //게시판 내용
    private String subject; //게시판 제목
    
+   private String send_email; // 쪽지 발신자
+   private String rcv_email; // 쪽지 수신자   
    
    
-   public String getContent() {
+   
+   
+   public String getSend_email() {
+	return send_email;
+}
+
+public void setSend_email(String send_email) {
+	this.send_email = send_email;
+}
+
+public String getRcv_email() {
+	return rcv_email;
+}
+
+public void setRcv_email(String rcv_email) {
+	this.rcv_email = rcv_email;
+}
+
+public String getContent() {
 	return content;
 }
 

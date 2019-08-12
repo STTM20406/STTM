@@ -22,7 +22,7 @@ import java.util.Date;
  */
 public class Note_InfoVo {
 	
-	private int note_id; // 쪽지 아이디
+	private int note_con_id; // 쪽지 아이디
 	private String send_email; // 쪽지 발신자
 	private String rcv_email; // 쪽지 수신자
 	private Date send_date; // 쪽지 발신 일시
@@ -35,10 +35,10 @@ public class Note_InfoVo {
 
 	}
 
-	public Note_InfoVo(int note_id, String send_email, String rcv_email, Date send_date, Date rcv_date, String read_fl,
+	public Note_InfoVo(int note_con_id, String send_email, String rcv_email, Date send_date, Date rcv_date, String read_fl,
 			String send_del_fl, String rcv_del_fl) {
 		super();
-		this.note_id = note_id;
+		this.note_con_id = note_con_id;
 		this.send_email = send_email;
 		this.rcv_email = rcv_email;
 		this.send_date = send_date;
@@ -50,17 +50,17 @@ public class Note_InfoVo {
 
 	@Override
 	public String toString() {
-		return "Note_InfoVo [note_id=" + note_id + ", send_email=" + send_email + ", rcv_email=" + rcv_email
+		return "Note_InfoVo [note_con_id=" + note_con_id + ", send_email=" + send_email + ", rcv_email=" + rcv_email
 				+ ", send_date=" + send_date + ", rcv_date=" + rcv_date + ", read_fl=" + read_fl + ", send_del_fl="
 				+ send_del_fl + ", rcv_del_fl=" + rcv_del_fl + "]";
 	}
 
-	public int getNote_id() {
-		return note_id;
+	public int getNote_con_id() {
+		return note_con_id;
 	}
 
-	public void setNote_id(int note_id) {
-		this.note_id = note_id;
+	public void setNote_con_id(int note_con_id) {
+		this.note_con_id = note_con_id;
 	}
 
 	public String getSend_email() {

@@ -6,12 +6,15 @@
 
 <!-- *********** note_content ************* -->
 	<insert id="insertContent" parameterType="String">
+	<selectKey resultType="Integer" keyProperty="note_con_id" order="BEFORE">
+			SELECT note_con_seq.nextval FROM DUAL
+		</selectKey>
 		insert into note_content values(note_con_seq.nextval,#{note_con})
 	</insert>
 
 <!-- *********** note_info ************* -->
 	<insert id="insertInfo" parameterType="note_infoVo">
-		insert into NOTE_INFO values(note_con_seq.currval,#{send_email},#{rcv_email},sysdate,sysdate,'N','N','N')
+		insert into NOTE_INFO values(#{note_con_id},#{send_email},#{rcv_email},sysdate,sysdate,'N','N','N')
 	</insert>
 
 <!-- *********** note_list *********** -->
@@ -29,9 +32,9 @@
        B.rcv_del_fl    
 	from NOTE_CONTENT A, NOTE_INFO B
 	where A.note_con_id = B.note_con_id 
-	and B.rcv_email = #{rcv_email}
+	and B.rcv_email = ${rcv_email}
 	order by rcv_date) c)
-			where (#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
+			where (${page}-1)*${pageSize} + 1 and rn <=${page}*${pageSize}
 	]]>
 	</select>
 	
@@ -57,9 +60,9 @@
 	       B.send_del_fl
 		from NOTE_CONTENT A, NOTE_INFO B
 		where A.note_con_id = B.note_con_id 
-		and B.send_email = #{send_email}
+		and B.send_email = ${send_email}
 		order by rcv_date) c)
-		where (#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
+		where (${page}-1)*${pageSize} + 1 and rn <=${page}*${pageSize}
 		]]>
 	</select>
 	
