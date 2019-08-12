@@ -319,8 +319,7 @@ window.onclick = function(event) {
 					<li><a href="#"><span class="color_style02">타이머</span></a></li>
 					<li><a href="#"><span class="color_style01">화상회의</span></a></li>
 					<li><a href="#"><span class="color_style01">채팅</span>리스트</a></li>
-					<li><a href="#"><span class="color_style01">${USER_INFO.user_nm}</span>님 환영합니다</a></li>
-					<li><a href="#" class="icon_set">설정</a>
+					<li><a href="#" class="icon_set"><span class="color_style01">${USER_INFO.user_nm}</span>님 환영합니다</a>
 						<div class="user_set_list">
 							<dl>
 								<dt></dt>
