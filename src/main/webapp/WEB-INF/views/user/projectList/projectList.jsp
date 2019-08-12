@@ -118,16 +118,15 @@
 
 		
 		//프로젝트 생성 다음 버튼 클릭시
-		$("#prj_btn_next").on("click", function(){
+		$(".prj_btn").on("click", "#prj_btn_next", function(){
 			$(".new_proejct").animate({left:'-100%'}, 500);
 			$(".select_template").animate({left:'0%'}, 500);
 		});
 		
 		//프로젝트 생성 이전 버튼 클릭시
-		$("#prj_btn_prev").on("click", function(){
+		$(".prj_btn").on("click", "#prj_btn_prev", function(){
 			$(".new_proejct").animate({left:'0%'}, 500);
 			$(".select_template").animate({left:'100%'}, 500);
-			
 		});
 		
 		
