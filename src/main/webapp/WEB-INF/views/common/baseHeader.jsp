@@ -340,7 +340,7 @@ window.onclick = function(event) {
 		$("input[name=projectRadio]:checked").each(function(){
 			memArray.push($(this).val());
 		});
-		var a = $("#memList").val(memArray);
+		var a = $("#memList1").val(memArray);
 		
 		$("#prj_insert").submit();
 	}
@@ -459,7 +459,7 @@ window.onclick = function(event) {
 			<div class="pop-project">
 				<!--content //-->
 				<form action="/chatSend" method="post" id="chatSend">
-					<input type="hidden" name="memList" id="memList" value="">
+					<input type="hidden" name="memList1" id="memList1" value="">
 					<input type="hidden" name="checkProject" id="checkProject">
 					<div class="new_proejct">
 						<h2>화상회의방 생성</h2>
@@ -490,10 +490,10 @@ window.onclick = function(event) {
 							<li><label for="prj_mem">멤버 선택</label>
 									<div class="prj_mem_list">
 										<ul>
-											<c:forEach items="${headerChatFriendList}" var="memlist" varStatus="status">
-												<c:if test="${memlist.prj_id == 1  }">
+											<c:forEach items="${headerChatFriendList}" var="memlist1" varStatus="status">
+												<c:if test="${memlist1.prj_id == 1  }">
 														<li><input type="checkbox" name="friend"
-															class="checkSelect1" value="${memlist.prj_id}">${memlist.user_nm }
+															class="checkSelect1" value="${memlist1.prj_id}">${memlist1.user_nm }
 														</li>
 												</c:if>
 											</c:forEach>
