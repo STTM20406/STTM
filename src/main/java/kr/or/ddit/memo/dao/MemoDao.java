@@ -21,6 +21,11 @@ public class MemoDao implements IMemoDao{
 	}
 
 	@Override
+	public int mergeMemoYd(MemoVo memoVo) {
+		return sqlSession.insert("memo.mergeMemosYd",memoVo);
+	}
+
+	@Override
 	public List<MemoVo> memoList(MemoVo memoVo) {
 		return sqlSession.selectList("memo.memoList", memoVo);
 	}
@@ -34,5 +39,6 @@ public class MemoDao implements IMemoDao{
 	public MemoVo getMemo(MemoVo memoVo) {
 		return sqlSession.selectOne("memo.getmemo", memoVo);
 	}
+
 
 }

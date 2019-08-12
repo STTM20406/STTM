@@ -7,6 +7,8 @@ import kr.or.ddit.memo.model.MemoVo;
 public interface IMemoService {
 	
 	String mergeMemo(MemoVo memoVo);
+
+	String mergeMemoYd(MemoVo memoVo);
 	
 	String memoList(MemoVo memoVo);
 	

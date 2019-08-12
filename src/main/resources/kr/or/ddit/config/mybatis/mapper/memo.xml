@@ -9,7 +9,7 @@
 	        (	
 	    		memo_email = #{memo_email}
                 AND memo_date = TO_CHAR(#{memo_update}, 'yyyyMMdd')
-	            AND PRJ_ID = 1)
+	            AND PRJ_ID = #{prj_id})
 	    WHEN MATCHED THEN
 	        UPDATE SET 
 	             memo_con = #{memo_con},
@@ -28,11 +28,43 @@
 	        VALUES
 	        (
 	            MEMO_SEQ.NEXTVAL
-                ,1
+                ,#{prj_id}
 	            ,#{memo_email}
 	            ,#{memo_con}
 	            ,TO_CHAR(#{memo_update}, 'yyyyMMdd')
 	            ,#{memo_update}
+                ,'N'
+	        )
+	       
+	</insert>
+	
+	<insert id="mergeMemosYd" parameterType="memoVo">
+		MERGE INTO MEMO
+		USING DUAL ON 
+	        (	
+	    		memo_email = #{memo_email}
+                AND memo_date = TO_CHAR(sysdate-1, 'yyyyMMdd')
+	            AND PRJ_ID = #{prj_id})
+	   
+	    WHEN NOT MATCHED THEN
+	        INSERT
+	        (
+                memo_id
+                ,PRJ_ID
+	            ,memo_email
+	            ,memo_con
+	            ,memo_date
+	            ,memo_update
+                ,memo_del_fl
+	        )
+	        VALUES
+	        (
+	            MEMO_SEQ.NEXTVAL
+                ,#{prj_id}
+	            ,#{memo_email}
+	            ,null
+	            ,TO_CHAR(sysdate-1, 'yyyyMMdd')
+	            ,sysdate-1
                 ,'N'
 	        )
 	       

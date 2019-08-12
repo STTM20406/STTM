@@ -30,7 +30,11 @@ public class UserVo {
 	private String user_filename;	// 원본사진파일명
 	
 	public UserVo() {
+	}
+	
+	public UserVo(String user_email) {
 
+		
 	}
 
 	public UserVo(String user_email, String user_pass, String user_nm, String user_hp, String user_job,
