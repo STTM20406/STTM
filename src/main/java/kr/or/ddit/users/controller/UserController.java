@@ -61,7 +61,7 @@ public class UserController {
 		// 세션에 저장된 user 정보를 가져옴
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
 		
-		logger.debug("userVo : {} 123", userVo );
+		logger.debug("userVo : 테스트다 {} 123", userVo );
 		
 		// 암호화된  비밀번호 가져오기
 		String encodePass = userVo.getUser_pass();
@@ -99,6 +99,7 @@ public class UserController {
 		if(user_nm == null) {
 		
 			UserVo userVo = new UserVo();
+			userVo.setUser_email(user_email);
 			userVo.setUser_pass(ARIAUtil.ariaEncrypt(user_pass));
 			
 			int updateUserPass = userService.updateUserPass(userVo);
