@@ -25,7 +25,7 @@ public class VoteVo {
 	private int vote_id; // 투표 아이디
 	private int prj_id; //프로젝트 아이디
 	private String vote_email; // 투표 작성자
-	private Date votd_start_date; // 투표 작성일
+	private Date vote_start_date; // 투표 작성일
 	private Date vote_end_date; // 투표 마감일
 	private String vote_subject; // 투표 제목
 	private String vote_con; // 투표 내용
@@ -36,13 +36,13 @@ public class VoteVo {
 
 	}
 
-	public VoteVo(int vote_id, int prj_id, String vote_email, Date votd_start_date, Date vote_end_date,
+	public VoteVo(int vote_id, int prj_id, String vote_email, Date vote_start_date, Date vote_end_date,
 			String vote_subject, String vote_con, String vote_ano, String vote_st) {
 		super();
 		this.vote_id = vote_id;
 		this.prj_id = prj_id;
 		this.vote_email = vote_email;
-		this.votd_start_date = votd_start_date;
+		this.vote_start_date = vote_start_date;
 		this.vote_end_date = vote_end_date;
 		this.vote_subject = vote_subject;
 		this.vote_con = vote_con;
@@ -52,8 +52,8 @@ public class VoteVo {
 
 	@Override
 	public String toString() {
-		return "VoteVo [vote_id=" + vote_id + ", prj_id=" + prj_id + ", vote_email=" + vote_email + ", votd_start_date="
-				+ votd_start_date + ", vote_end_date=" + vote_end_date + ", vote_subject=" + vote_subject
+		return "VoteVo [vote_id=" + vote_id + ", prj_id=" + prj_id + ", vote_email=" + vote_email + ", vote_start_date="
+				+ vote_start_date + ", vote_end_date=" + vote_end_date + ", vote_subject=" + vote_subject
 				+ ", vote_con=" + vote_con + ", vote_ano=" + vote_ano + ", vote_st=" + vote_st + "]";
 	}
 
@@ -81,12 +81,12 @@ public class VoteVo {
 		this.vote_email = vote_email;
 	}
 
-	public Date getVotd_start_date() {
-		return votd_start_date;
+	public Date getVote_start_date() {
+		return vote_start_date;
 	}
 
-	public void setVotd_start_date(Date votd_start_date) {
-		this.votd_start_date = votd_start_date;
+	public void setVote_start_date(Date vote_start_date) {
+		this.vote_start_date = vote_start_date;
 	}
 
 	public Date getVote_end_date() {
