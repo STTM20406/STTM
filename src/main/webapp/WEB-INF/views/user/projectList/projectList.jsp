@@ -588,7 +588,10 @@
 	        		layer_popup("#layer2");
 	        		return false;
 			}
+<<<<<<< HEAD
 			
+=======
+>>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 			$("#projectLeaveFrm").submit();
 		});
 		

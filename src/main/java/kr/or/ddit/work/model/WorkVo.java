@@ -4,6 +4,8 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import kr.or.ddit.work_list.model.Work_ListVo;
+
 /**
  * WorkVo.java
  *
@@ -20,7 +22,7 @@ import org.springframework.format.annotation.DateTimeFormat;
  *
  * </pre>
  */
-public class WorkVo {
+public class WorkVo extends Work_ListVo{
  
 	private int wrk_id;				// 업무 ID
 	private int wrk_lst_id;         		// 업무리스트 ID

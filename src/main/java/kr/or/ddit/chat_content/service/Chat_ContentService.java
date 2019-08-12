@@ -1,19 +1,24 @@
 package kr.or.ddit.chat_content.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import kr.or.ddit.chat_content.dao.IChat_ContentDao;
 import kr.or.ddit.chat_content.model.ChatParticipateUserVo;
 import kr.or.ddit.chat_content.model.Chat_ContentVo;
+import kr.or.ddit.project.model.ProjectVo;
 
 @Service
 public class Chat_ContentService implements IChat_ContentService{
 
+	private static final Logger logger = LoggerFactory.getLogger(Chat_ContentService.class);
 	@Resource(name="chat_ContentDao")
 	private IChat_ContentDao contentDao;
 	
@@ -79,8 +84,8 @@ public class Chat_ContentService implements IChat_ContentService{
 	}
 
 	@Override
-	public int outChatContentProject(Map<String, Object> map) {
-		int cnt = contentDao.outChatContentProject(map);
+	public int outChatContentProject(ProjectVo vo) {
+		int cnt = contentDao.outChatContentProject(vo);
 		return cnt;
 	}
 

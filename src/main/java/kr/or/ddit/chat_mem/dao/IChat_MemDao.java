@@ -5,6 +5,7 @@ import java.util.Map;
 
 import kr.or.ddit.chat_content.model.ChatParticipateUserVo;
 import kr.or.ddit.chat_mem.model.Chat_MemVo;
+import kr.or.ddit.project.model.ProjectVo;
 
 public interface IChat_MemDao {
 	
@@ -39,7 +40,7 @@ public interface IChat_MemDao {
 	 * @return
 	 * Method 설명 	: 채팅방 멤버 추가 프로젝트
 	 */
-	public int insertChatMemProject(Map<String, Object> map);
+	public int insertChatMemProject(ProjectVo vo);
 	
 	/**
 	 * 
@@ -61,7 +62,7 @@ public interface IChat_MemDao {
 	 * @return
 	 * Method 설명 	: 채팅방 멤버 탈퇴 프로젝트
 	 */
-	public int outChatMemProject(Map<String, Object> map);
+	public int outChatMemProject(ProjectVo vo);
 	
 	/**
 	 * 

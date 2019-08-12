@@ -14,6 +14,7 @@ import kr.or.ddit.chat_content.model.ChatParticipateUserVo;
 import kr.or.ddit.chat_mem.dao.IChat_MemDao;
 import kr.or.ddit.chat_mem.model.Chat_MemVo;
 import kr.or.ddit.chat_room.dao.IChat_RoomDao;
+import kr.or.ddit.project.model.ProjectVo;
 
 @Service
 public class Chat_MemService implements IChat_MemService{
@@ -129,14 +130,14 @@ public class Chat_MemService implements IChat_MemService{
 	}
 
 	@Override
-	public int outChatMemProject(Map<String, Object> map) {
-		 int cnt = memDao.outChatMemProject(map);
+	public int outChatMemProject(ProjectVo vo) {
+		int cnt = memDao.outChatMemProject(vo);
 		return cnt;
 	}
 
 	@Override
-	public int insertChatMemProject(Map<String, Object> map) {
-		int cnt = memDao.insertChatMemProject(map);
+	public int insertChatMemProject(ProjectVo vo) {
+		int cnt = memDao.insertChatMemProject(vo);
 		return cnt;
 	}
 

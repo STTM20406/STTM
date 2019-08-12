@@ -13,10 +13,7 @@ $(document).ready(function(){
 });
 
 function admUpdateUserView() {
-	$("#btnMemUpdateView").on("click",function(){
-		$("#admUpdate").submit();
-		alert("회원 정보 수정 화면 입니다");			
-	});
+	$("#admUpdate").submit();
 }
 </script>
 

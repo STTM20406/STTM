@@ -47,13 +47,31 @@
 <script>
 $(document).ready(function(){
 	
-// 	$(".userTr").on("click", function(){
-		
-// 		var user_email = $(this).find(".user_email").text();
-// 		$("#prjMemList").val(user_email);
-		
-// 		$("#prjMemForm").submit();
-// 	});
+	// 프로젝트 멤버 리스트중 한개의 멤버를 클릭시
+	$(".prjMemTr").on("click", function(){
+		var user_email = $(this).find(".user_email").attr("id");
+		$('#user_email').val(user_email);
+		$('#prjMemView').submit();
+	});
+	
+	
+	// 프로젝트 멤버 tr클릭시 레이어창 띄우기
+	$('.prjMemTr').on("click", function(){
+	        var $href = $(this).attr('href');
+	        layer_popup($href);
+	});
+
+	// 요청 받은 친구 목록 클릭시
+	$('.requestedFriendsList').on("click", function(){
+	        var $href = $(this).attr('href');
+	        layer_popup($href);
+	});
+	
+	// 친구 요청 버튼 클릭시
+	$('.friendsBtn').on("click", function(){
+	        var $href = $(this).attr('href');
+	        layer_popup($href);
+	});
 	
 	// ------- 탭 설정 -------
 	$('ul.tabs li').click(function() {
@@ -74,24 +92,6 @@ $(document).ready(function(){
 // 	$(".user_set_list").on("mouseleave", function(){
 // 		$(".user_set_list").fadeOut();
 // 	});
-	
-	// 프로젝트 멤버 tr클릭시 레이어창 띄우기
-	$('.trPrjMemAdd').on("click", function(){
-	        var $href = $(this).attr('href');
-	        layer_popup($href);
-	});
-
-	// 요청 받은 친구 목록 클릭시
-	$('.requestedFriendsList').on("click", function(){
-	        var $href = $(this).attr('href');
-	        layer_popup($href);
-	});
-	
-	// 친구 요청 버튼 클릭시
-	$('.friendsBtn').on("click", function(){
-	        var $href = $(this).attr('href');
-	        layer_popup($href);
-	});
 	
 });	
 
@@ -144,6 +144,19 @@ function requestedFriendsList() {
 	alert("요청 받은 친구 목록입니다. 나중에 삭제 ");
 }
 
+// function projectMemListAjax(){
+// 	$.ajax({
+// 		url: "/projectMemberList",
+// 		method: "get",
+// 		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+// 		PageVo pageVo, Model model, HttpSession session
+// 		data: 
+// 		success: function(data){
+			
+// 		}
+		
+// 	});
+// }
 </script>
 
 <section class="contents">
@@ -161,13 +174,12 @@ function requestedFriendsList() {
 	
 		<div id="tab-1" class="tab-content current">
 			
-			<!--  -->
-	<!-- 		<form id="prjMemForm" action="projectMemberList" method="get"> -->
-	<!-- 			<input type="text" id="prjMemList" name="prjMemList" > -->
-	<!-- 		</form> -->
-				
+			<form id="prjMemView" action="/projectMemView" method="get">
+				<input type="hidden" id="user_email" name="user_email">
+			</form>
+			
 			<div>
-				<table class="tb_style_01">
+				<table id="prjMemTable">
 					<colgroup>
 						<col width="10%">
 						<col width="40%">
@@ -183,23 +195,25 @@ function requestedFriendsList() {
 		
 							<c:forEach items="${projectMemList}" var="prjVo">
 							
-								<tr class="userTr" data-user_email="${prjVo.user_email}">
-									<td class="user_email" >
-										<a href="#layer2" class="trPrjMemAdd">${prjVo.user_email}</a>
+								<tr class="prjMemTr" data-user_email="${prjVo.user_email}">
+									<td class="user_email" id="${prjVo.user_email}">
+<%-- 										<a href="#layer2" class="trPrjMemAdd">${prjVo.user_email}</a> --%>
+										<a href="#layer2">${prjVo.user_email}</a>
 									</td>
 									
 									<td>${prjVo.user_nm}</td>
 								</tr>
 								
 							</c:forEach>
-							
+								
 						</tr>
 					</tbody>
 				</table>
+				
+				 <div class="col-lg-12" id="ex1_Result2" ></div> 
+
 			</div>
 			
-	<!-- 		<a href="/admInsertUser" class="btn_style_01">사용자 등록</a> -->
-		
 			<div class="pagination">
 					<c:choose>
 						<c:when test="${pageVo.page == 1 }">
@@ -234,29 +248,27 @@ function requestedFriendsList() {
 					</c:choose>
 			
 			</div>
-		
-			<div class="layer">
-				<div class="bg"></div>
-				<div id="layer2" class="pop-layer">
-					<div class="pop-container">
-						<div class="pop-conts">
-							<!--content //-->
-							<p class="ctxt mb20">
-							
-							이게 나와야 일을 합니다.
-							
-							</p>
-							
-								<input type="button" id="" name="" onclick="" class="btn_style_01" value="친구추가">						
 			
-							<div class="btn-r">
-								<a href="#" class="cbtn">Close</a>
-							</div>
-							<!--// content-->
-						</div>
-					</div>
+			<form action="/나중에 입력하기" id="prjMemTrForm" method="post">
+				<div id="layer2" class="pop-layer">
+				    <div class="pop-container">
+				        <div class="pop-conts">
+				            <!--content //-->
+			
+				            <p class="ctxt mb20">
+							친구 등록
+							</p>
+			
+							<input type="button" class="inp_style_01" id="" onclick="requestFriends()" value="친구 요청">
+							
+				            <div class="btn-r">
+				                <a href="#" class="btn-layerClose">Close</a>
+				            </div>
+				            <!--// content-->
+				        </div>
+				    </div>
 				</div>
-			</div>
+			</form>
 			
 		</div>
 		

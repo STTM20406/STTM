@@ -17,8 +17,6 @@ public class WorkService implements IWorkService{
 	@Resource(name="workDao")
 	IWorkDao workDao;
 	
-	private static final Logger logger = LoggerFactory.getLogger(WorkService.class);
-	
 	@Override
 	public int updateWork(WorkVo workVo) {
 		return workDao.updateWork(workVo);
@@ -36,8 +34,6 @@ public class WorkService implements IWorkService{
 	 */
 	@Override
 	public List<WorkVo> getWork(int wrk_lst_id) {
-		
-		logger.debug("wrk_lst_id ::::::::: log service {}", wrk_lst_id); 
 		return workDao.getWork(wrk_lst_id);
 	}
 
