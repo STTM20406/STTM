@@ -33,49 +33,15 @@ public class MemoController {
 	
 	@RequestMapping("/yd_con")
 	public String getYesterdayTask(Model model, MemoVo memoVo) {
-		logger.debug("notesVo : {}", memoVo);
+		String memoYd = memoService.mergeMemoYd(memoVo);
+		logger.debug("!@#notesVo : {}", memoVo);
+		logger.debug("!@#memoYd : {}", memoYd);
 		List<MemoVo> resultMemo = memoService.getYdTdCon(memoVo);
 		String today_str = sdf.format(new Date());
-//		model.addAttribute("yd_con", "");
+		
+		
 		
 		for(MemoVo memo : resultMemo) {
-//			if(memo.getMemo_date().equals(today_str) && !memo.getMemo_con().equals("")) {
-//				model.addAttribute("td_con", memo);
-//				logger.debug("!@#memo@@@@@@@@@@@@@@@@@@111111111111 : {}",memo);
-//			}else if(!memo.getMemo_date().equals(today_str) && !memo.getMemo_con().equals(""))  {
-//				logger.debug("!@#memo@@@@@@@@@@@@@@@@@@222222222222 : {}",memo);
-//				model.addAttribute("yd_con", memo);
-//			}else if(memo.getMemo_date().equals(today_str) && memo.getMemo_con().equals("")) {
-//				String a = "";
-//				memo.setMemo_con(a);
-//				logger.debug("!@#memo@@@@@@@@@@@@@@@@@@3333333333 : {}",memo);
-//				model.addAttribute("td_con", memo);
-//			}else if(!memo.getMemo_date().equals(today_str) && memo.getMemo_con().equals("")) {
-//				String a = "";
-//				memo.setMemo_con(a);
-//				logger.debug("!@#memo@@@@@@@@@@@@@@@@@@44444444444444442 : {}",memo);
-//				model.addAttribute("yd_con", memo);
-//			}
-//			if(memo.getMemo_date().equals(today_str) && !memo.getMemo_con().equals("")) {
-//				model.addAttribute("td_con", memo);
-//				logger.debug("!@#memo@@@@@@@@@@@@@@@@@@111111111111 : {}",memo);
-//			}
-//			if(!memo.getMemo_date().equals(today_str) && !memo.getMemo_con().equals(""))  {
-//				logger.debug("!@#memo@@@@@@@@@@@@@@@@@@222222222222 : {}",memo);
-//				model.addAttribute("yd_con", memo);
-//			}
-//			if(memo.getMemo_date().equals(today_str) && memo.getMemo_con().equals("")) {
-//				String a = "";
-//				memo.setMemo_con(a);
-//				logger.debug("!@#memo@@@@@@@@@@@@@@@@@@3333333333 : {}",memo);
-//				model.addAttribute("td_con", memo);
-//			}
-//			if(!memo.getMemo_date().equals(today_str) && memo.getMemo_con().equals("")) {
-//				String a = "";
-//				memo.setMemo_con(a);
-//				logger.debug("!@#memo@@@@@@@@@@@@@@@@@@44444444444444442 : {}",memo);
-//				model.addAttribute("yd_con", memo);
-//			}
 			if(memo.getMemo_date().equals(today_str) && memo.getMemo_con() != null) {
 				model.addAttribute("td_con", memo);
 				logger.debug("!@#memo@@@@@@@@@@@@@@@@@@111111111111 : {}",memo);
@@ -85,13 +51,13 @@ public class MemoController {
 				model.addAttribute("yd_con", memo);
 			}
 			if(memo.getMemo_date().equals(today_str) && memo.getMemo_con() == null) {
-				String a = "";
+				String a = "오늘 작성한 내용이 없습니다.";
 				memo.setMemo_con(a);
 				logger.debug("!@#memo@@@@@@@@@@@@@@@@@@3333333333 : {}",memo);
 				model.addAttribute("td_con", memo);
 			}
 			if(!memo.getMemo_date().equals(today_str) && memo.getMemo_con() == null) {
-				String a = "";
+				String a = "어제 작성한 내용이 없습니다.";
 				memo.setMemo_con(a);
 				logger.debug("!@#memo@@@@@@@@@@@@@@@@@@44444444444444442 : {}",memo);
 				model.addAttribute("yd_con", memo);

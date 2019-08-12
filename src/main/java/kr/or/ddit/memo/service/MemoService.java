@@ -30,6 +30,21 @@ public class MemoService implements IMemoService{
 		
 		return result;
 	}
+	
+	@Override
+	public String mergeMemoYd(MemoVo memoVo) {
+		int memoResult = memoDao.mergeMemoYd(memoVo);
+		String result="";
+		
+		if(memoResult == 1) {
+			result = "OK";
+		}else {
+			result = "NO";
+		}
+		
+		return result;
+	}
+	
 
 	@Override
 	public String memoList(MemoVo memoVo) {
