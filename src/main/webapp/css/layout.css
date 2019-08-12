@@ -50,7 +50,7 @@ Last update : 2019. 07. 22.
 #tnb {position: absolute; right: 70px; top: 41px;}
 #tnb ul {}
 #tnb ul li {display:inline-block; margin-right:25px}
-#tnb ul li:last-child {margin:0;}
+#tnb ul li:last-child {margin:0; position:relative;}
 #tnb ul li a {display:block; padding-left:25px; font-size:13px; color:#a7abb2; position:relative;}
 #tnb ul li a span {}
 #tnb ul li>a:after {width: 18px; height: 18px; content: ''; display: inline-block; background-size: 90px; position: absolute; background-image: url(../img/hd_icons.png); background-repeat: no-repeat; left: 0px; top: 0px;}

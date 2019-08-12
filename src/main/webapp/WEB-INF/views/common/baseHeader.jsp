@@ -392,6 +392,7 @@ window.onclick = function(event) {
 								<dt></dt>
 								<dd><a href="/setUserPass">계정설정</a></dd>
 								<dd><a href="/setUserProfile">프로필설정</a></dd>
+								<dd><a href="/individualBox">개인보관함</a></dd>
 								<dd><a href="/logout">로그아웃</a></dd>
 							</dl>
 						</div>
@@ -399,7 +400,6 @@ window.onclick = function(event) {
 				</ul>
 			</div>
 		</header>
-	
 	
 	
 <!--  화상회의 생성 레이어 팝업창 -->
