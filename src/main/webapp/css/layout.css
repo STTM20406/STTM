@@ -300,7 +300,6 @@ a.btn-layerClose:hover {border: 1px solid #091940; background-color:#1f326a; col
 
 
 /* chatting setting layaer style */
-.container{max-width:1170px; margin:auto;}
 .inbox_people {
   background: #f8f8f8 none repeat scroll 0 0;
   float: left;
