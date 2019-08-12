@@ -5,7 +5,35 @@
 <mapper namespace="vote">
 
 	<!-- **************** vote ******************** -->
-
+	<insert id="insertVote" parameterType="voteVo">
+		INSERT INTO VOTE
+			(
+				 VOTE_ID
+				,PRJ_ID
+				,VOTE_EMAIL
+				,VOTE_START_DATE
+				,VOTE_END_DATE
+				,VOTE_SUBJECT
+				,VOTE_CON
+				,VOTE_ANO
+				,VOTE_ST
+			)
+			VALUES
+			(
+				 VOTE_SEQ.NEXTVAL
+				,#{prj_id}
+				,#{vote_email}
+				,#{vote_start_date}
+				,#{vote_end_date}
+				,#{vote_subject}
+				,#{vote_con}
+				,#{vote_ano}
+				,#{vote_st}
+			)
+			<selectKey order="AFTER" resultType="java.lang.Integer" keyProperty="vote_id">
+				SELECT VOTE_SEQ.CURRVAL FROM DUAL;
+			</selectKey>
+	</insert>
 
 	<!-- **************** vote_item ******************** -->
 	

@@ -14,7 +14,7 @@
 <!-- flatpicker.js 끝 -->
 <div id="prj_list_container">
 	<form id="prj_list_frm">
-		<select id="prj_list" name='over_prj_id' >
+		프로젝트 : <select id="prj_list" name='over_prj_id' >
 			<option>1</option> <!-- 나중에 세션에 저장된 값으로 대체 -->
 		</select>
 	<input type="hidden" name="user_email" value="${USER_INFO.user_email }">

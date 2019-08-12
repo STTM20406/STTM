@@ -22,22 +22,22 @@ public class Vote_ItemVo {
 	
 	private int vote_item_id; // 투표 항목 아이디
 	private int vote_id; // 투표 아이디
-	private String votd_item_con; // 투표 항목 아이디
+	private String vote_item_con; // 투표 항목 내용
 	
 	public Vote_ItemVo() {
 
 	}
 
-	public Vote_ItemVo(int vote_item_id, int vote_id, String votd_item_con) {
+	public Vote_ItemVo(int vote_item_id, int vote_id, String vote_item_con) {
 		super();
 		this.vote_item_id = vote_item_id;
 		this.vote_id = vote_id;
-		this.votd_item_con = votd_item_con;
+		this.vote_item_con = vote_item_con;
 	}
 
 	@Override
 	public String toString() {
-		return "Vote_ItemVo [vote_item_id=" + vote_item_id + ", vote_id=" + vote_id + ", votd_item_con=" + votd_item_con
+		return "Vote_ItemVo [vote_item_id=" + vote_item_id + ", vote_id=" + vote_id + ", vote_item_con=" + vote_item_con
 				+ "]";
 	}
 
@@ -57,12 +57,12 @@ public class Vote_ItemVo {
 		this.vote_id = vote_id;
 	}
 
-	public String getVotd_item_con() {
-		return votd_item_con;
+	public String getVote_item_con() {
+		return vote_item_con;
 	}
 
-	public void setVotd_item_con(String votd_item_con) {
-		this.votd_item_con = votd_item_con;
+	public void setVote_item_con(String vote_item_con) {
+		this.vote_item_con = vote_item_con;
 	}
 	
 }
