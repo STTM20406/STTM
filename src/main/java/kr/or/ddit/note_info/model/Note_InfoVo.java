@@ -35,14 +35,14 @@ public class Note_InfoVo {
 
 	}
 
-	public Note_InfoVo(int note_id, String send_email, String rcv_email, Date send_date, Date rcv_fl, String read_fl,
+	public Note_InfoVo(int note_id, String send_email, String rcv_email, Date send_date, Date rcv_date, String read_fl,
 			String send_del_fl, String rcv_del_fl) {
 		super();
 		this.note_id = note_id;
 		this.send_email = send_email;
 		this.rcv_email = rcv_email;
 		this.send_date = send_date;
-		this.rcv_fl = rcv_fl;
+		this.rcv_date = rcv_date;
 		this.read_fl = read_fl;
 		this.send_del_fl = send_del_fl;
 		this.rcv_del_fl = rcv_del_fl;
@@ -51,7 +51,7 @@ public class Note_InfoVo {
 	@Override
 	public String toString() {
 		return "Note_InfoVo [note_id=" + note_id + ", send_email=" + send_email + ", rcv_email=" + rcv_email
-				+ ", send_date=" + send_date + ", rcv_fl=" + rcv_fl + ", read_fl=" + read_fl + ", send_del_fl="
+				+ ", send_date=" + send_date + ", rcv_date=" + rcv_date + ", read_fl=" + read_fl + ", send_del_fl="
 				+ send_del_fl + ", rcv_del_fl=" + rcv_del_fl + "]";
 	}
 
@@ -87,12 +87,12 @@ public class Note_InfoVo {
 		this.send_date = send_date;
 	}
 
-	public Date getRcv_fl() {
-		return rcv_fl;
+	public Date getRcv_date() {
+		return rcv_date;
 	}
 
-	public void setRcv_fl(Date rcv_fl) {
-		this.rcv_fl = rcv_fl;
+	public void setRcv_fl(Date rcv_date) {
+		this.rcv_date = rcv_date;
 	}
 
 	public String getRead_fl() {
