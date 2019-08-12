@@ -4,12 +4,71 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="note">
 
-<!-- *********** note_info ************* -->
-
-
-
-
-
 <!-- *********** note_content ************* -->
+	<insert id="insertContent" parameterType="String">
+		insert into note_content values(note_con_seq.nextval,#{note_con})
+	</insert>
+
+<!-- *********** note_info ************* -->
+	<insert id="insertInfo" parameterType="note_infoVo">
+		insert into NOTE_INFO values(note_con_seq.currval,#{send_email},#{rcv_email},sysdate,sysdate,'N','N','N')
+	</insert>
+
+<!-- *********** note_list *********** -->
+	<!-- 받은 쪽지리스트 -->
+	<select id="rcvList" parameterType="pageVo" resultType="noteTotalVo">
+	<![CDATA[
+	select *
+    from
+	(select c.*, rownum rn
+    from
+    (select B.send_email,
+       A.note_con,
+       B.rcv_date,
+       B.read_fl,
+       B.rcv_del_fl    
+	from NOTE_CONTENT A, NOTE_INFO B
+	where A.note_con_id = B.note_con_id 
+	and B.rcv_email = #{rcv_email}
+	order by rcv_date) c)
+			where (#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
+	]]>
+	</select>
+	
+	<!-- 받은 쪽지개수 -->
+	<select id="rcvCnt" parameterType="map" resultType="int">
+		select count(*)
+		from NOTE_CONTENT A, NOTE_INFO B
+		where A.note_con_id = B.note_con_id 
+		and B.rcv_email = #{rcv_email}
+	</select>
+	
+	<!-- 보낸 쪽지리스트 -->
+	<select id="sendList" parameterType="pageVo" resultType="noteTotalVo">
+	<![CDATA[
+	select *
+    from
+	(select c.*, rownum rn
+    from
+    (select B.rcv_email,
+	       A.note_con,       
+	       B.send_date,
+	       B.read_fl,
+	       B.send_del_fl
+		from NOTE_CONTENT A, NOTE_INFO B
+		where A.note_con_id = B.note_con_id 
+		and B.send_email = #{send_email}
+		order by rcv_date) c)
+		where (#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
+		]]>
+	</select>
+	
+	<!-- 보낸 쪽지개수 -->
+	<select id="sendCnt" parameterType="map" resultType="int">
+		select count(*)
+		from NOTE_CONTENT A, NOTE_INFO B
+		where A.note_con_id = B.note_con_id 
+		and B.send_email = #{send_email}
+	</select>
 
 </mapper>
