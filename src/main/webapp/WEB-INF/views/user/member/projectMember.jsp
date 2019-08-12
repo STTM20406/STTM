@@ -144,6 +144,20 @@ function requestedFriendsList() {
 	alert("요청 받은 친구 목록입니다. 나중에 삭제 ");
 }
 
+
+function projectMemListAjax(){
+	$.ajax({
+		url: "/projectMemberList",
+		method: "get",
+		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+// 		PageVo pageVo, Model model, HttpSession session
+		data: 
+		success: function(data){
+			
+		}
+		
+	});
+}
 </script>
 
 <section class="contents">

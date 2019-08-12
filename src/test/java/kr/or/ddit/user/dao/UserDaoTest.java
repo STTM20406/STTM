@@ -114,7 +114,7 @@ public class UserDaoTest {
 		assertEquals(1, updateProfile);
 		userDao.deleteUser(originVo.getUser_email());
 	}
-	
+
 	/**
 	 * 
 	* Method : updateUserProfileTest2

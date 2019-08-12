@@ -67,4 +67,5 @@ public class UserServiceTest {
 		assertEquals("engineer", userVo.getUser_job());
 	}
 	
+	
 }

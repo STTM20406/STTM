@@ -5,10 +5,7 @@
 <script>
 
     function admUpdateUser() {
-    	$("#btnMemUpdate").on("click",function(){
-			$("#memViewForm").submit();
-		});
-		
+		$("#memViewForm").submit();
 		alert("[관리자] 회원정보가 업데이트 되었습니다.");
 	}
     
