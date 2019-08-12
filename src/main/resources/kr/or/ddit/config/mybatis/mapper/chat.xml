@@ -18,20 +18,22 @@
 
 	<!-- 자신이 참여되어 있는 채팅방 리스트 -->
 	<select id="getRoomList" parameterType="string" resultType="chat_roomVo">
-		select r.ct_id, r.ct_nm, r.ct_dt
+		select r.ct_id, r.ct_nm, r.ct_dt,rownum rn
 		from chat_room r,chat_mem m
 		where r.ct_id = m.ct_id
 		and m.user_email = #{user_email}
 		and r.prj_id is null
+		order by ct_id desc
 	</select>
 	
 	<!-- 자신이 참여되어 있는 채팅방 리스트 프로젝트-->
 	<select id="getRoomListProject" parameterType="string" resultType="chat_roomVo">
-		select * 
+		select r.ct_id, r.ct_nm, r.ct_dt,rownum rn
 		from chat_mem m ,chat_room r
 		where m.ct_id = r.ct_id
 		and m.user_email = #{user_email}
 		and r.prj_id is not null
+		order by ct_id desc
 	</select>
 	
 	<!-- 현재 어느방에 들어가 있는지 확인 -->
@@ -64,6 +66,8 @@
 		SET 	ct_nm = #{ct_nm}
 		WHERE   ct_id = #{ct_id}
 	</update>
+	
+
 	
 <!-- ************************* chat_memVo **********************************-->
 
@@ -135,6 +139,8 @@
 		        where a.user_email = #{user_email}
 		        and a.frd_email not in (select user_email from chat_mem where ct_id = #{ct_id}))
 	</select>
+
+
 
 <!-- ************************* chat_contentVo **********************************-->
 

@@ -1,6 +1,7 @@
 package kr.or.ddit.chat_room.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -64,8 +65,10 @@ public class Chat_RoomDao implements IChat_RoomDao{
 
 	@Override
 	public int deleteChatRoomProject(int prj_id) {
-		return sqlSession.selectOne("chat.deleteChatRoomProject",prj_id);
+		return sqlSession.delete("chat.deleteChatRoomProject",prj_id);
 	}
+
+
 
 //
 

@@ -423,8 +423,8 @@ public class ProjectController {
 		int maxPrj_id = projectService.maxProjectId();
 		ProjectVo pVo = projectService.getProject(maxPrj_id);
 		Chat_RoomVo roomVo = new Chat_RoomVo(pVo.getPrj_nm(), maxPrj_id);
-		roomService.createRoomProject(roomVo);
-
+		int room = roomService.createRoomProject(roomVo);
+		
 		//프로젝트 관리자 insert
 		Project_MemVo projectMemVo = new Project_MemVo();
 		projectMemVo.setPrj_id(projectVo.getPrj_id()); 		// 프로젝트관리자 - 프로젝트 ID 셋팅
@@ -438,7 +438,9 @@ public class ProjectController {
 		//프로젝트 채팅방멤버에 관리자 입력
 		int chatRoomMax = roomService.maxRoomId();
 		Chat_MemVo memVo = new Chat_MemVo(chatRoomMax, user_email);
-		memService.insertChatMem(memVo);
+		int mem = memService.insertChatMem(memVo);
+		
+		logger.debug("log room : {}, mem : {}",room,mem);
 		
 		//선택한 멤버 리스트를 가져와서 반복해서 insert하기
 		for (int i = 0; i < memberList.size(); i++) {
