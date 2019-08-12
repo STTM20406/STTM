@@ -134,5 +134,10 @@ public class ProjectDao implements IProjectDao{
 		return sqlSession.update("project.updateAllProject", projectVo);
 	}
 
+	@Override
+	public int maxProjectId() {
+		return sqlSession.selectOne("project.maxProjectId");
+	}
+
 	
 }

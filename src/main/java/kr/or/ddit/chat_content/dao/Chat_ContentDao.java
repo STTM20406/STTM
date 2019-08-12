@@ -1,6 +1,7 @@
 package kr.or.ddit.chat_content.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -57,6 +58,16 @@ public class Chat_ContentDao implements IChat_ContentDao{
 	@Override
 	public int deleteChatContent(Chat_ContentVo vo) {
 		return sqlSession.delete("chat.deleteChatContent",vo);
+	}
+
+	@Override
+	public int deleteChatContentProject(int prj_id) {
+		return sqlSession.delete("chat.deleteChatContentProject",prj_id);
+	}
+
+	@Override
+	public int outChatContentProject(Map<String, Object> map) {
+		return sqlSession.delete("chat.outChatContentProject",map);
 	}
 
 }

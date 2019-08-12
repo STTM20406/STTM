@@ -439,14 +439,15 @@
 
 	<select id="minutesPagination" parameterType="map" resultType="minutesVo">
 		<![CDATA[
-		select a.mnu_id, a.prj_id, a.user_email, a.subject, a.special, a.write_date, a.del_fl, a.user_nm 
+		select rownum num, a.mnu_id, a.prj_id, a.user_email, a.subject, a.special, a.write_date, a.del_fl, a.user_nm 
 		from
 		(select a.*, rownum rn 
 		from
 		(select A.*, B.user_nm from minutes A, users B
 		where prj_id = #{prj_id}
 		and A.user_email = B.user_email
-		order by A.prj_id asc) a)a
+		and A.del_fl ='N'
+		order by A.mnu_id desc) a)a
 		where rn >=(#{page}-1)*#{pageSize}+1 and rn <= #{page}*#{pageSize}
 	 	]]>
 	</select>
@@ -492,8 +493,9 @@
 	</select>
 	
 	<select id="attenderList" parameterType="int" resultType="minutes_memVo">
-		select * from MINUTES_MEM
-		where mnu_id=#{mnu_id}
+		select A.*, B.user_nm from MINUTES_MEM A, users B
+		where mnu_id = #{mnu_id}
+        and A.user_email=B.user_email
 	</select>
 	
 	<update id="upMinutes" parameterType="int">
@@ -502,6 +504,43 @@
 		where
 			mnu_id = #{mnu_id}
 	</update>
+	
+	<select id="memberList" parameterType="String" resultType="userVo">
+       SELECT DISTINCT B.USER_EMAIL
+              , C.USER_NM FROM
+              ( SELECT * FROM PROJECT_MEM WHERE USER_EMAIL = #{USER_EMAIL}) A, PROJECT_MEM B, USERS C
+                WHERE B.PRJ_ID IN (A.PRJ_ID)
+                AND C.USER_EMAIL = B.USER_EMAIL
+   	</select>
+   	
+	<select id="recentMinutes" resultType="minutesVo">
+       select* from 
+	   (select * from
+	   minutes
+	   order by mnu_id desc)
+	   where rownum = 1
+   	</select>
+	
+	<!--참석자 멤버 등록 -->
+	<insert id="insertAttender" parameterType="minutes_memVo">
+		insert into MINUTES_MEM values(MNU_MEM_SEQ.nextVal, #{mnu_id},#{user_email})
+	</insert>
+	
+	
+	<!-- 나중에  email값주고 이름만 받아오는 쿼리로 바꿔야함!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+	<select id="whoAreYou" parameterType="String" resultType="userVo">
+		select 
+			user_nm, user_email
+		from 
+			users
+	    where 
+	    	user_email = #{user_email}
+	</select>
+	
+	<insert id="insertMinutes" parameterType="minutesVo">
+		insert into minutes 
+		values(MNU_SEQ.nextVal,#{prj_id},#{user_email},#{subject},#{special},sysdate,'N')
+	</insert>
 	
 	<!-- *********************meeting************************ -->
 </mapper>

@@ -140,5 +140,10 @@ public class Project_MemService implements IProject_MemService{
 	public Project_MemVo getProjectMemInfo(Project_MemVo projectMemVo) {
 		return projectMemDao.getProjectMemInfo(projectMemVo);
 	}
+
+	@Override
+	public List<Project_MemVo> headerChatFriendList(String user_email) {
+		return projectMemDao.headerChatFriendList(user_email);
+	}
 	
 }

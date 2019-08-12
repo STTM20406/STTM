@@ -1,6 +1,7 @@
 package kr.or.ddit.chat_mem.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import kr.or.ddit.chat_content.model.ChatParticipateUserVo;
 import kr.or.ddit.chat_mem.model.Chat_MemVo;
@@ -31,6 +32,17 @@ public interface IChat_MemDao {
 	
 	/**
 	 * 
+	 * Method 		: insertChatMemProject
+	 * 작성자 			: 유다연
+	 * 변경이력 		: 2019-07-19 최초 생성
+	 * @param vo
+	 * @return
+	 * Method 설명 	: 채팅방 멤버 추가 프로젝트
+	 */
+	public int insertChatMemProject(Map<String, Object> map);
+	
+	/**
+	 * 
 	 * Method 		: deleteChatMem
 	 * 작성자 			: 유다연
 	 * 변경이력 		: 2019-07-19 최초 생성
@@ -39,6 +51,28 @@ public interface IChat_MemDao {
 	 * Method 설명 	: 채팅방 멤버 탈퇴
 	 */
 	public int deleteChatMem(Chat_MemVo vo);
+	
+	/**
+	 * 
+	 * Method 		: deleteChatMem
+	 * 작성자 			: 유다연
+	 * 변경이력 		: 2019-07-19 최초 생성
+	 * @param user_email
+	 * @return
+	 * Method 설명 	: 채팅방 멤버 탈퇴 프로젝트
+	 */
+	public int outChatMemProject(Map<String, Object> map);
+	
+	/**
+	 * 
+	 * Method 		: deleteChatMem
+	 * 작성자 			: 유다연
+	 * 변경이력 		: 2019-07-19 최초 생성
+	 * @param user_email
+	 * @return
+	 * Method 설명 	: 채팅방의 프로젝트 멤버 모두 삭제
+	 */
+	public int deleteChatMemProject(int prj_id);
 	
 	/**
 	 * 

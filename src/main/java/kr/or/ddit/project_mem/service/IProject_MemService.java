@@ -100,4 +100,15 @@ public interface IProject_MemService {
 	 */
 	Project_MemVo getProjectMemInfo(Project_MemVo projectMemVo);
 	
+	/**
+	 * 
+	 * Method 		: headerChatFriendList
+	 * 작성자 			: 유다연
+	 * 변경이력 		: 2019-08-10 최초 생성
+	 * @param user_email
+	 * @return
+	 * Method 설명 	: 헤더에 화상회의 친구목록 리스트
+	 */
+	List<Project_MemVo> headerChatFriendList(String user_email);
+	
 }

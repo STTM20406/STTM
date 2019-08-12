@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.or.ddit.minutes.model.MinutesVo;
 import kr.or.ddit.minutes.model.Minutes_MemVo;
+import kr.or.ddit.users.model.UserVo;
 
 @Repository
 public class MinutesDao implements IMinutesDao{
@@ -91,5 +92,31 @@ public class MinutesDao implements IMinutesDao{
 	public int upMinutes(int mnu_id) {
 		return sqlSession.update("project.upMinutes",mnu_id);
 	}
+
+	@Override
+	public List<UserVo> memberList(String user_email) {
+		return sqlSession.selectList("project.memberList",user_email);
+	}
+
+	@Override
+	public MinutesVo recentMinutes() {
+		return sqlSession.selectOne("project.recentMinutes");
+	}
+
+	@Override
+	public int insertAttender(Minutes_MemVo memVo) {
+		return sqlSession.insert("project.insertAttender",memVo);
+	}
+
+	@Override
+	public UserVo whoAreYou(String user_email) {
+		return sqlSession.selectOne("project.whoAreYou",user_email);
+	}
+
+	@Override
+	public int insertMinutes(MinutesVo minutesVo) {
+		return sqlSession.insert("project.insertMinutes",minutesVo);
+	}
+
 
 }

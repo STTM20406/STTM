@@ -26,6 +26,7 @@ public class Chat_RoomVo {
 	private int ct_id; // 채팅방 아이디
 	private String ct_nm; // 채팅방 이름
 	private Date ct_dt; // 채팅방 생성일
+	private int prj_id; // 프로젝트 아이디
 	private int rn;
 	
 	public String getBirthStr() {
@@ -40,13 +41,22 @@ public class Chat_RoomVo {
 	public Chat_RoomVo() {
 
 	}
-
-	public Chat_RoomVo(int ct_id, String ct_nm, Date ct_dt) {
+	
+	
+	
+	//프로젝트 멤버 채팅방 생성
+	public Chat_RoomVo( String ct_nm, int prj_id) {
 		super();
-		this.ct_id = ct_id;
 		this.ct_nm = ct_nm;
-		this.ct_dt = ct_dt;
+		this.prj_id = prj_id;
 	}
+
+	//일반채팅방 생성
+	public Chat_RoomVo(String ct_nm) {
+		super();
+		this.ct_nm = ct_nm;
+	}
+
 
 	@Override
 	public String toString() {
@@ -54,6 +64,16 @@ public class Chat_RoomVo {
 	}
 	
 	
+
+	public int getPrj_id() {
+		return prj_id;
+	}
+
+
+	public void setPrj_id(int prj_id) {
+		this.prj_id = prj_id;
+	}
+
 
 	public int getRn() {
 		return rn;

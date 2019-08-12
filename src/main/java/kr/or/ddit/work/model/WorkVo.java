@@ -39,7 +39,7 @@ public class WorkVo {
 	
 	private Date wrk_cmp_dt;      	// 업무 완료 체크일
 	private String wrk_cmp_fl;      	// 업무 완료 여부
-	private String wrk_del_fl;      	// 업무 삭제 여부
+	private String wrk_del_fl;      		// 업무 삭제 여부
 	
 	//여기서부턴 Filter쪽에서 간편하게 값을 받아오기 위해 추가한 부분입니다.
 	private int prj_id;				// 업무가 할당된 프로젝트 ID

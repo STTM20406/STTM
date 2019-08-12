@@ -141,4 +141,9 @@ public class ProjectService implements IProjectService{
 		return projectDao.updateAllProject(projectVo);
 	}
 
+	@Override
+	public int maxProjectId() {
+		return projectDao.maxProjectId();
+	}
+
 }

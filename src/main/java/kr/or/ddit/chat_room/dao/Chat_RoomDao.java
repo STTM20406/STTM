@@ -18,8 +18,13 @@ public class Chat_RoomDao implements IChat_RoomDao{
 	
 
 	@Override
-	public int createRoom(String roomNM) {
-		return sqlSession.insert("chat.createRoom",roomNM);
+	public int createRoom(String roomNm) {
+		return sqlSession.insert("chat.createRoom",roomNm);
+	}
+	
+	@Override
+	public int createRoomProject(Chat_RoomVo vo) {
+		return sqlSession.insert("chat.createRoomProject",vo);
 	}
 
 	@Override
@@ -50,6 +55,16 @@ public class Chat_RoomDao implements IChat_RoomDao{
 	@Override
 	public int updateChatTitle(Chat_RoomVo vo) {
 		return  sqlSession.update("chat.updateChatTitle",vo);
+	}
+
+	@Override
+	public List<Chat_RoomVo> getRoomListProject(String user_email) {
+		return sqlSession.selectList("chat.getRoomListProject",user_email);
+	}
+
+	@Override
+	public int deleteChatRoomProject(int prj_id) {
+		return sqlSession.selectOne("chat.deleteChatRoomProject",prj_id);
 	}
 
 //
