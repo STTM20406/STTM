@@ -346,7 +346,7 @@
 // 						if(){
 							
 // 						}
-						html += "<li><input type='checkbox'0-98p value='"+item.user_email+"'><span>"+ item.user_nm +"</span>"+ item.user_email + "</li>";
+						html += "<li><input type='checkbox' name='memItem' value='"+item.user_email+"'><span>"+ item.user_nm +"</span>"+ item.user_email + "</li>";
 					});	
 					$(".prj_crt_mem_item").html(html);
 				}
@@ -588,10 +588,6 @@
 	        		layer_popup("#layer2");
 	        		return false;
 			}
-<<<<<<< HEAD
-			
-=======
->>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 			$("#projectLeaveFrm").submit();
 		});
 		
@@ -608,13 +604,12 @@
 			$(".btn-r").hide(0);
 			
 			$(".ctxt").html(html);
-        	layer_popup("#layer2");
-            return false;
+       			layer_popup("#layer2");
+        		return false;
 		});
 		
 		//레이어 팝업창 삭제할래요 버튼 클릭시
 		$(".pop-conts .ctxt").on("click", "button#prjDel", function(){
-			var prj_id = $("#leave_prj_id").val();
 			$("#projectLeaveFrm").attr("id", "projectDelFrm");
 			$("#projectDelFrm").attr("action", "/project/delete");
 			$(".btn-r").show(0);
@@ -631,8 +626,7 @@
 		$("input[name=memItem]:checked").each(function(){
 			memArray.push($(this).val());
 		});
-		var a = $("#memList").val(memArray);
-		
+		$("#memList").val(memArray);
 		$("#prj_insert").submit();
 	}
 	
@@ -790,14 +784,10 @@
 					<div class="new_proejct">
 						<h2>새로운 프로젝트 생성하기</h2>
 						<ul>
-							<li><label for="prj_nm">Project Name</label> <input
-								type="text" id="prj_nm" name="prj_nm" placeholder="예) 웹사이트 개발">
+							<li><label for="prj_nm">Project Name</label> <input type="text" id="prj_nm" name="prj_nm" placeholder="예) 웹사이트 개발">
 							</li>
-							<li><label for="prj_exp">Project Description</label> <input
-								type="text" id="prj_exp" name="prj_exp"
-								placeholder="(선택) 프로젝트 설명을 입렵해 주세요."></li>
-							<li><label for="prj_exp">Project Authority</label> <select
-								name="prj_auth">
+							<li><label for="prj_exp">Project Description</label> <input type="text" id="prj_exp" name="prj_exp" placeholder="(선택) 프로젝트 설명을 입렵해 주세요."></li>
+							<li><label for="prj_exp">Project Authority</label> <select name="prj_auth">
 									<option value="ASC01">전체 액세스</option>
 									<option value="ASC02">제한 액세스</option>
 									<option value="ASC03">통제 액세스</option>
@@ -828,8 +818,7 @@
 							<li>개인별</li>
 						</ul>
 						<div class="prj_btn">
-							<a href="javascript:;" id="prj_btn_prev">뒤로</a> <input
-								type="button" onclick="prjBtnSubmit();" value="프로젝트 만들기">
+							<a href="javascript:;" id="prj_btn_prev">뒤로</a> <input type="button" onclick="prjBtnSubmit();" value="프로젝트 만들기">
 						</div>
 					</div>
 				</form>
@@ -848,16 +837,14 @@
 	<div class="propertySetWrap">
 		<div class="setHd">
 			<div class="setHdTitle">
-				<input type="hidden" id="ppt_id" name="ppt_id" value=""> <span
-					class="prj_asc">전체</span>
+				<input type="hidden" id="ppt_id" name="ppt_id" value=""> <span class="prj_asc">전체</span>
 				<h2>
 					<input type="text" id="ppt_nm" name="ppt_nm" value="">
 				</h2>
 			</div>
 			<p class="prj_update">3분전에 업데이트 되었습니다.</p>
 			<p>
-				<input type="text" id="ppt_exp" name="ppt_exp"
-					placeholder="프로젝트 설명을 입력해 주세요.">
+				<input type="text" id="ppt_exp" name="ppt_exp" placeholder="프로젝트 설명을 입력해 주세요.">
 			</p>
 		</div>
 
@@ -892,29 +879,25 @@
 			<dl class="setItem">
 				<dt>프로젝트 시작일</dt>
 				<dd>
-					<input type="text" data-language="en"
-						class="datepicker-here datePick" id="ppt_start_date">
+					<input type="text" data-language="en" class="datepicker-here datePick" id="ppt_start_date">
 				</dd>
 			</dl>
 			<dl class="setItem">
 				<dt>프로젝트 마감일</dt>
 				<dd>
-					<input type="text" data-language="en"
-						class="datepicker-here datePick" id="ppt_end_date">
+					<input type="text" data-language="en" class="datepicker-here datePick" id="ppt_end_date">
 				</dd>
 			</dl>
 			<dl class="setItem">
 				<dt>프로젝트 완료일</dt>
 				<dd>
-					<input type="text" data-language="en"
-						class="datepicker-here datePick" id="ppt_cmp_date">
+					<input type="text" data-language="en" class="datepicker-here datePick" id="ppt_cmp_date">
 				</dd>
 			</dl>
 			<dl class="setItem">
 				<dt>프로젝트 관리자</dt>
 				<dd>
-					<button type="button" id="ppt_adm_set" name="ppt_adm_set">관리자
-						추가 버튼</button>
+					<button type="button" id="ppt_adm_set" name="ppt_adm_set">관리자 추가 버튼</button>
 
 					<!-- 프로젝트 관리자 리스트 box -->
 					<ul class="prj_add_box"></ul>
@@ -939,8 +922,7 @@
 			<dl class="setItem">
 				<dt>프로젝트 멤버</dt>
 				<dd>
-					<button type="button" id="ppt_mem_set" name="ppt_mem_set">프로젝트
-						멤버 추가 버튼</button>
+					<button type="button" id="ppt_mem_set" name="ppt_mem_set">프로젝트 멤버 추가 버튼</button>
 
 					<!-- 프로젝트 멤버 리스트 box -->
 					<ul class="prj_mem_add_box"></ul>

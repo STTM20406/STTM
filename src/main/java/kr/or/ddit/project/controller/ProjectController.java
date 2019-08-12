@@ -404,8 +404,12 @@ public class ProjectController {
 	@RequestMapping(path = "/form", method = RequestMethod.POST)
 	public String porjectForm(Model model, ProjectVo projectVo, String memList, HttpSession session) {
 
+		logger.debug("memList :::::::::::: log : {}", memList); 
+		
 		String viewName = "";
 		List<String> memberList = Arrays.asList(memList.split(","));
+		logger.debug("memberList :::::::::::: log : {}", memberList); 
+		
 
 		// 세션에 저장된 user 정보를 가져옴
 		UserVo user = (UserVo) session.getAttribute("USER_INFO");
@@ -526,6 +530,7 @@ public class ProjectController {
 	@RequestMapping(path = "delete", method = RequestMethod.POST)
 	public String projectDelete(String prj_id, Model model, HttpSession session) {
 
+		logger.debug("prj_id ::::::::::::: log {}", prj_id);
 		String viewName = "";
 		int prjId = Integer.parseInt(prj_id);
 
@@ -540,7 +545,6 @@ public class ProjectController {
 		
 		//채팅방 삭제
 		roomService.deleteChatRoomProject(prjId);
-		
 		
 		int deleteCnt = projectService.deleteProject(projectVo);
 		
