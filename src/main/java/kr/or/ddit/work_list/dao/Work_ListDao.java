@@ -71,7 +71,7 @@ public class Work_ListDao implements IWork_ListDao{
 	 */
 	@Override
 	public int deleteWorkList(int wrk_lst_id) {
-		return sqlSession.update("work.deleteWorkList", wrk_lst_id);
+		return sqlSession.delete("work.deleteWorkList", wrk_lst_id);
 	}
 
 }

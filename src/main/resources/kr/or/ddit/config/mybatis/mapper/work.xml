@@ -117,9 +117,10 @@
 		UPDATE WORK_LIST SET WRK_LST_NM = #{wrk_lst_nm} WHERE WRK_LST_ID = #{wrk_lst_id}
 	</update>
 	
-	<!--  업무리스트 삭제 (플래그 업데이트) -->
+	<!--  업무리스트 삭제 (하위 업무가 없는것만 삭제) -->
 	<update id="deleteWorkList" parameterType="int">
-		UPDATE WORK_LIST SET DEL_FL = 'Y' WHERE WRK_LST_ID = #{wrk_lst_id}
+		DELETE FROM WORK_LIST WHERE WRK_LST_ID = #{wrk_lst_id}
+<!-- 		UPDATE WORK_LIST SET DEL_FL = 'Y' WHERE WRK_LST_ID = #{wrk_lst_id} -->
 	</update>
 	
 
