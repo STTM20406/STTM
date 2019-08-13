@@ -241,6 +241,9 @@ public class UserController {
 		
 			// 회원이 해당 프로젝트의 멤버 목록을 조회 한다.
 			Map<String, Object> resultMap = project_MemService.projectMemPagingList(map);
+			
+			logger.debug("map : 로거를 찍어보자 {}",map);
+			
 			List<UserVo> projectMemList = (List<UserVo>) resultMap.get("projectMemList");
 			int paginationSize = (Integer) resultMap.get("paginationSize");
 			
@@ -421,17 +424,17 @@ public class UserController {
 	}
 	
 	// ------------------------------ 타이머 ------------------------------ //
-	@RequestMapping(path = "/timer", method = RequestMethod.GET)
-	public String timer() {
-
-		return "/timer/timer.user.tiles";
-	}
+//	@RequestMapping(path = "/timer", method = RequestMethod.GET)
+//	public String timer() {
+//
+//		return "/timer/timer.user.tiles";
+//	}
 	
 	// ------------------------------ 관리자 부분 ------------------------------ //
 	
 	/**
 	 * 
-	* Method : UserPagingList
+	* Method : admUserList
 	* 작성자 : 김경호
 	* 변경이력 : 2019-08-01
 	* @param pageVo
@@ -439,7 +442,7 @@ public class UserController {
 	* @return
 	* Method 설명 : 관리자가 전체 회원의 리스트를 조회
 	 */
-	@RequestMapping("/admUserList")
+	@RequestMapping(path = "/admUserList", method = RequestMethod.GET)
 	public String admUserList(PageVo pageVo, Model model) {
 		
 		logger.debug("pageVo",pageVo);

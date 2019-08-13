@@ -2,6 +2,7 @@ package kr.or.ddit.work_list.dao;
 
 import java.util.List;
 
+import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.work_list.model.Work_ListVo;
 
 public interface IWork_ListDao {
@@ -49,4 +50,26 @@ public interface IWork_ListDao {
 	 * Method 설명 		: 해당 프로젝트 업무리스트 삭제 (플래그 업데이트)
 	 */
 	int deleteWorkList(int wrk_lst_id);
+	
+	/**
+	 * 
+	* Method : workListPagingList
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-13
+	* @param pageVo
+	* @return
+	* Method 설명 : 타이머 - 프로젝트에 세션정보를 받아와 해당 프로젝트의 업무리스트 조회
+	 */
+	List<Work_ListVo> timerWorkListPagingList(PageVo pageVo);
+	
+	/**
+	 * 
+	* Method : workListCnt
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-13
+	* @return
+	* Method 설명 : 업무 리스트 전체수 조회
+	 */
+	int timerWorkListCnt();
+	
 }

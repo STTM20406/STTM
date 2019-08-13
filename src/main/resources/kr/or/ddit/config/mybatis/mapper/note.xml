@@ -32,14 +32,14 @@
        B.rcv_del_fl    
 	from NOTE_CONTENT A, NOTE_INFO B
 	where A.note_con_id = B.note_con_id 
-	and B.rcv_email = ${rcv_email}
+	and B.rcv_email = #{rcv_email}
 	order by rcv_date) c)
-			where (${page}-1)*${pageSize} + 1 and rn <=${page}*${pageSize}
+			where rn>=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
 	]]>
 	</select>
 	
 	<!-- 받은 쪽지개수 -->
-	<select id="rcvCnt" parameterType="map" resultType="int">
+	<select id="rcvCnt" parameterType="String" resultType="int">
 		select count(*)
 		from NOTE_CONTENT A, NOTE_INFO B
 		where A.note_con_id = B.note_con_id 
@@ -60,14 +60,14 @@
 	       B.send_del_fl
 		from NOTE_CONTENT A, NOTE_INFO B
 		where A.note_con_id = B.note_con_id 
-		and B.send_email = ${send_email}
+		and B.send_email = #{send_email}
 		order by rcv_date) c)
-		where (${page}-1)*${pageSize} + 1 and rn <=${page}*${pageSize}
+		where rn>=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
 		]]>
 	</select>
 	
 	<!-- 보낸 쪽지개수 -->
-	<select id="sendCnt" parameterType="map" resultType="int">
+	<select id="sendCnt" parameterType="String" resultType="int">
 		select count(*)
 		from NOTE_CONTENT A, NOTE_INFO B
 		where A.note_con_id = B.note_con_id 

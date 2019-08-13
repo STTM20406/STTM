@@ -21,7 +21,17 @@ import java.util.Date;
 * </pre>
  */
 public class Bd_InquiryVo {
-	
+	private int rn;
+	public int getRn() {
+		return rn;
+	}
+
+
+
+	public void setRn(int rn) {
+		this.rn = rn;
+	}
+
 	private int inq_id; // 문의 아이디
 	private String user_email; // 문의 이메일
 	private String subject; // 문의 제목

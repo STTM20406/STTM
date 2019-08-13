@@ -126,8 +126,8 @@ ul.tabs li.current {
 									<c:choose>
 										<c:when test="${iq.inq_cate == 'INQ01'}">
 											<tr class="inquiryTr">
-												<td class="inquirynum">${iq.inq_id }</td>
-												<td>${iq.subject }</td>
+												<td  style="display:none;" class="inquirynum">${iq.inq_id }</td>
+												<td>${iq.rn }</td>
 												<td>${iq.user_email }</td>
 												<td><fmt:formatDate value="${iq.inq_dt }" pattern="yyyy-MM-dd"/></td>
 												<c:choose>
@@ -226,7 +226,8 @@ ul.tabs li.current {
 										<c:choose>
 											<c:when test="${iq.inq_cate == 'INQ02' }">
 												<tr class="inquiryTr">
-													<td class="inquirynum">${iq.inq_id }</td>
+													<td  style="display:none;" class="inquirynum">${iq.inq_id }</td>
+													<td>${iq.rn }</td>
 													<td>${iq.subject }</td>
 													<td>${iq.user_email }</td>
 													<td><fmt:formatDate value="${iq.inq_dt }" pattern="yyyy-MM-dd" /></td>

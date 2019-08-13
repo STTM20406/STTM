@@ -17,7 +17,7 @@
 				<th>File_Num</th>
 				<th>업무명</th>
 				<th>파일명</th>
-				<th>등록일</th>
+				<th>등록일</th> 
 				<th>공유한 사람</th>
 				<th>삭제</th>
 			</tr>

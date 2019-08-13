@@ -7,7 +7,10 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<!-- <meta http-equiv="X-UA-Compatible" content="IE=Edge"> -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="http://www.cssscript.com/wp-includes/css/sticky.css" rel="stylesheet" type="text/css">
 <title>STTM</title>
 
 <%-- basic Library --%>
@@ -33,6 +36,22 @@
 }
 
 .dropdown-content a {
+	color: black;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+}
+.dropdown-Notecontent {
+	display: none;
+	position: absolute;
+	background-color: #f1f1f1;
+	min-width: 160px;
+	overflow: auto;
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+	z-index: 1;
+}
+
+.dropdown-Notecontent a {
 	color: black;
 	padding: 12px 16px;
 	text-decoration: none;
@@ -203,6 +222,13 @@ $(document).ready(function(){
 		$("#checkProject").val(a);
 	});
 	
+	// 타이머 레이어 창 스크립트
+	$('#timerTimer').on("click", function(){
+        var $href = $(this).attr('href');
+        layer_popup($href);
+    });
+	
+	
 	
 });
 
@@ -261,6 +287,26 @@ window.onclick = function(event) {
     }
   }
 }
+// 새로추가한 쪽지 dropdown
+function myFunctionNote() {
+  	$(".dropdown-Notecontent").fadeIn(300);
+	$(".dropdown-Notecontent").on("mouseleave", function(){
+		$(this).fadeOut(300);
+	});
+}
+
+window.onclick = function(event) {
+  if (!event.target.matches('.dropNotebtn')) {
+    var dropdowns = document.getElementsByClassName("dropdown-Notecontent");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
 
 	//layer popup - 화상회의방 생성
 	function layer_popup(el){
@@ -299,12 +345,12 @@ window.onclick = function(event) {
     }
 	
 	//화상회의값 보내기 - 선택한멤버리스트 함께 넘기기
-	function prjBtnSubmit(){
+	function faceBtnSubmit(){
 		var memArray = [];
 		$("input[name=projectRadio]:checked").each(function(){
 			memArray.push($(this).val());
 		});
-		var a = $("#memList").val(memArray);
+		var a = $("#memList1").val(memArray);
 		
 		$("#prj_insert").submit();
 	}
@@ -321,6 +367,118 @@ window.onclick = function(event) {
 	padding: 25px;
 	z-index: 999
 }
+
+/* 타이머 스타일 */
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,300');
+
+button[data-setter] {
+  outline: none;
+  background: transparent;
+  border: none;
+  font-family: 'Roboto';
+  font-weight: 300;
+  font-size: 18px;
+  width: 25px;
+  height: 30px;
+  color: #F7958E;
+  cursor: pointer;
+}
+
+button[data-setter]:hover { opacity: 0.5; }
+
+.container1 {
+  position: relative;
+  top: 30px;
+  width: 300px;
+  margin: 0 auto;
+}
+
+.setters {
+  position: absolute;
+  left: 85px;
+  top: 75px;
+}
+
+.minutes-set {
+  float: left;
+  margin-right: 28px;
+}
+
+.seconds-set { float: right; }
+
+.controlls {
+  position: absolute;
+  left: 75px;
+  top: 105px;
+  text-align: center;
+}
+
+.display-remain-time {
+  font-family: 'Roboto';
+  font-weight: 100;
+  font-size: 65px;
+  color: #F7958E;
+}
+
+#pause {
+  outline: none;
+  background: transparent;
+  border: none;
+  margin-top: 10px;
+  width: 50px;
+  height: 50px;
+  position: relative;
+}
+
+.play::before {
+  display: block;
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 16px;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  border-left: 22px solid #F7958E;
+}
+
+.pause::after {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  width: 15px;
+  height: 30px;
+  background-color: transparent;
+  border-radius: 1px;
+  border: 5px solid #F7958E;
+  border-top: none;
+  border-bottom: none;
+}
+
+#pause:hover { opacity: 0.8; }
+
+.e-c-base {
+  fill: none;
+  stroke: #B6B6B6;
+  stroke-width: 4px
+}
+
+.e-c-progress {
+  fill: none;
+  stroke: #F7958E;
+  stroke-width: 4px;
+  transition: stroke-dashoffset 0.7s;
+}
+
+.e-c-pointer {
+  fill: #FFF;
+  stroke: #F7958E;
+  stroke-width: 2px;
+}
+
+#e-pointer { transition: transform 0.7s; }
+h1 { margin-top:150px; text-align:center;}
+body { background-color:#f7f7f7;}
 </style>
 
 </head>
@@ -377,6 +535,13 @@ window.onclick = function(event) {
 
 			<div id="tnb" class="dropdown">
 				<ul>
+					<li onclick="myFunctionNote()" class="dropNotebtn">
+						<a href="#"><span class="caret color_style01">쪽지</span></a>
+						<div id="myDropdown" class="dropdown-Notecontent">
+							<a href="#" class="asxz" ><span class="color_style01">쪽지보내기</span></a>
+							<a href="/noteList" class="asdfw" ><span class="color_style01">쪽지함</span></a>
+						</div>
+					</li>
 					<li onclick="myFunction()" class="dropbtn">
 						<a href="#"><span class="caret color_style01">메모</span></a>
 						<div id="myDropdown" class="dropdown-content">
@@ -389,7 +554,7 @@ window.onclick = function(event) {
 							</c:forEach>
 						</div>
 					</li>
-					<li><a href="/timer"><span class="color_style02">타이머</span></a></li>
+					<li><a href="#timer" id="timerTimer"><span class="color_style02">타이머</span></a></li>
 					<li><a href="#layerChatHeader" id="chat"><span class="color_style01">화상회의</span></a></li>
 					<li><a href="#"><span class="color_style01">채팅</span>리스트</a></li>
 					<li><a href="#" class="icon_set"><span class="color_style01">${USER_INFO.user_nm}</span>님 환영합니다</a>
@@ -416,7 +581,7 @@ window.onclick = function(event) {
 			<div class="pop-project">
 				<!--content //-->
 				<form action="/chatSend" method="post" id="chatSend">
-					<input type="hidden" name="memList" id="memList" value="">
+					<input type="hidden" name="memList1" id="memList1" value="">
 					<input type="hidden" name="checkProject" id="checkProject">
 					<div class="new_proejct">
 						<h2>화상회의방 생성</h2>
@@ -447,10 +612,10 @@ window.onclick = function(event) {
 							<li><label for="prj_mem">멤버 선택</label>
 									<div class="prj_mem_list">
 										<ul>
-											<c:forEach items="${headerChatFriendList}" var="memlist" varStatus="status">
-												<c:if test="${memlist.prj_id == 1  }">
+											<c:forEach items="${headerChatFriendList}" var="memlist1" varStatus="status">
+												<c:if test="${memlist1.prj_id == 1  }">
 														<li><input type="checkbox" name="friend"
-															class="checkSelect1" value="${memlist.prj_id}">${memlist.user_nm }
+															class="checkSelect1" value="${memlist1.prj_id}">${memlist1.user_nm }
 														</li>
 												</c:if>
 											</c:forEach>
@@ -460,7 +625,7 @@ window.onclick = function(event) {
 						</ul>
 						<div class="prj_btn">
 							<a href="javascript:;" id="prj_btn_prev">뒤로</a> <input
-								type="button" onclick="prjBtnSubmit();" value="프로젝트 만들기">
+								type="button" onclick="faceBtnSubmit();" value="프로젝트 만들기">
 						</div>
 					</div>
 				</form>
@@ -473,4 +638,178 @@ window.onclick = function(event) {
 	</div>
 <!-- </div> -->
 
-	
+<!-----------------------------------  타이머 레이어 팝업창 ----------------------------------->
+<div id="timer" class="pop-layer">
+    <div class="pop-container">
+        <div class="pop-conts">
+<!------------------------------  timer content ------------------------------>
+            <p class="ctxt mb20">
+			타이머 가져오나
+			</p>
+			
+<h1>Circular Countdown Timer Demo</h1>
+<div class="container">
+  <div class="setters">
+    <div class="minutes-set">
+      <button data-setter="minutes-plus">+</button>
+      <button data-setter="minutes-minus">-</button>
+    </div>
+    <div class="seconds-set">
+      <button data-setter="seconds-plus">+</button>
+      <button data-setter="seconds-minus">-</button>
+    </div>
+  </div>
+  <div class="circle"> <svg width="300" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+    <g transform="translate(110,110)">
+      <circle r="100" class="e-c-base"/>
+      <g transform="rotate(-90)">
+        <circle r="100" class="e-c-progress"/>
+        <g id="e-pointer">
+          <circle cx="100" cy="0" r="8" class="e-c-pointer"/>
+        </g>
+      </g>
+    </g>
+    </svg> </div>
+  <div class="controlls">
+    <div class="display-remain-time">00:30</div>
+    <button class="play" id="pause"></button>
+  </div>
+</div>
+<script>
+//circle start
+let progressBar = document.querySelector('.e-c-progress');
+let indicator = document.getElementById('e-indicator');
+let pointer = document.getElementById('e-pointer');
+let length = Math.PI * 2 * 100;
+
+progressBar.style.strokeDasharray = length;
+
+function update(value, timePercent) {
+	var offset = - length - length * value / (timePercent);
+	progressBar.style.strokeDashoffset = offset; 
+	pointer.style.transform = `rotate(${360 * value / (timePercent)}deg)`; 
+};
+
+//circle ends
+const displayOutput = document.querySelector('.display-remain-time')
+const pauseBtn = document.getElementById('pause');
+const setterBtns = document.querySelectorAll('button[data-setter]');
+
+let intervalTimer;
+let timeLeft;
+let wholeTime = 0.5 * 60; // manage this to set the whole time 
+let isPaused = false;
+let isStarted = false;
+
+
+update(wholeTime,wholeTime); //refreshes progress bar
+displayTimeLeft(wholeTime);
+
+function changeWholeTime(seconds){
+  if ((wholeTime + seconds) > 0){
+    wholeTime += seconds;
+    update(wholeTime,wholeTime);
+  }
+}
+
+
+for (var i = 0; i < setterBtns.length; i++) {
+    setterBtns[i].addEventListener("click", function(event) {
+        var param = this.dataset.setter;
+        switch (param) {
+            case 'minutes-plus':
+                changeWholeTime(1 * 60);
+                break;
+            case 'minutes-minus':
+                changeWholeTime(-1 * 60);
+                break;
+            case 'seconds-plus':
+                changeWholeTime(1);
+                break;
+            case 'seconds-minus':
+                changeWholeTime(-1);
+                break;
+        }
+      displayTimeLeft(wholeTime);
+    });
+}
+
+function timer (seconds){ //counts time, takes seconds
+  let remainTime = Date.now() + (seconds * 1000);
+  displayTimeLeft(seconds);
+  
+  intervalTimer = setInterval(function(){
+    timeLeft = Math.round((remainTime - Date.now()) / 1000);
+    if(timeLeft < 0){
+      clearInterval(intervalTimer);
+      isStarted = false;
+      setterBtns.forEach(function(btn){
+        btn.disabled = false;
+        btn.style.opacity = 1;
+      });
+      displayTimeLeft(wholeTime);
+      pauseBtn.classList.remove('pause');
+      pauseBtn.classList.add('play');
+      return ;
+    }
+    displayTimeLeft(timeLeft);
+  }, 1000);
+}
+function pauseTimer(event){
+  if(isStarted === false){
+    timer(wholeTime);
+    isStarted = true;
+    this.classList.remove('play');
+    this.classList.add('pause');
+    
+    setterBtns.forEach(function(btn){
+      btn.disabled = true;
+      btn.style.opacity = 0.5;
+    });
+
+  }else if(isPaused){
+    this.classList.remove('play');
+
+    this.classList.add('pause');
+    timer(timeLeft);
+    isPaused = isPaused ? false : true
+  }else{
+    this.classList.remove('pause');
+    this.classList.add('play');
+    clearInterval(intervalTimer);
+    isPaused = isPaused ? false : true ;
+  }
+}
+
+function displayTimeLeft (timeLeft){ //displays time on the input
+  let minutes = Math.floor(timeLeft / 60);
+  let seconds = timeLeft % 60;
+  let displayString = `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+  displayOutput.textContent = displayString;
+  update(timeLeft, wholeTime);
+}
+
+pauseBtn.addEventListener('click',pauseTimer);
+
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-46156385-1', 'cssscript.com');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+            <div class="btn-r">
+                <a href="#" class="btn-layerClose">Close</a>
+            </div>
+<!------------------------------  timer content ------------------------------>
+        </div>
+    </div>
+</div>
+<!-----------------------------------  타이머 레이어 팝업창 ----------------------------------->
