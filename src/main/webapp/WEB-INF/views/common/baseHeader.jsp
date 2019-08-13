@@ -61,11 +61,140 @@
 .show {
 	display: block;
 }
+
+.socketAlram {
+	background: red;
+	color: white;
+	position: fixed;
+	right: -350px;
+	top: 160px;
+	width: 350px;
+	padding: 25px;
+	z-index: 999
+}
+
+/* 타이머 스타일 */
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,300');
+
+button[data-setter] {
+  outline: none;
+  background: transparent;
+  border: none;
+  font-family: 'Roboto';
+  font-weight: 300;
+  font-size: 18px;
+  width: 25px;
+  height: 30px;
+  color: #F7958E;
+  cursor: pointer;
+}
+
+button[data-setter]:hover { opacity: 0.5; }
+
+.container1 {
+  position: relative;
+  top: 30px;
+  width: 300px;
+  margin: 0 auto;
+}
+
+.setters {
+  position: absolute;
+  left: 85px;
+  top: 75px;
+}
+
+.minutes-set {
+  float: left;
+  margin-right: 28px;
+}
+
+.seconds-set { float: right; }
+
+.controlls {
+  position: absolute;
+  left: 75px;
+  top: 105px;
+  text-align: center;
+}
+
+.display-remain-time {
+  font-family: 'Roboto';
+  font-weight: 100;
+  font-size: 65px;
+  color: #F7958E;
+}
+
+#pause {
+  outline: none;
+  background: transparent;
+  border: none;
+  margin-top: 10px;
+  width: 50px;
+  height: 50px;
+  position: relative;
+}
+
+.play::before {
+  display: block;
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 16px;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  border-left: 22px solid #F7958E;
+}
+
+.pause::after {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  width: 15px;
+  height: 30px;
+  background-color: transparent;
+  border-radius: 1px;
+  border: 5px solid #F7958E;
+  border-top: none;
+  border-bottom: none;
+}
+
+#pause:hover { opacity: 0.8; }
+
+.e-c-base {
+  fill: none;
+  stroke: #B6B6B6;
+  stroke-width: 4px
+}
+
+.e-c-progress {
+  fill: none;
+  stroke: #F7958E;
+  stroke-width: 4px;
+  transition: stroke-dashoffset 0.7s;
+}
+
+.e-c-pointer {
+  fill: #FFF;
+  stroke: #F7958E;
+  stroke-width: 2px;
+}
+
+#e-pointer { transition: transform 0.7s; }
+h1 { margin-top:150px; text-align:center;}
+body { background-color:#f7f7f7;}
 </style>
 
 <script>
 var socket = null;
 
+function copyTask(btn) {
+	var btn = $(btn).parent().find("#memo_con");
+	btn.select();
+	document.execCommand('copy');
+	console.log("Copied!");
+};
 $(document).ready(function(){
 	connectNotify();
 
@@ -122,12 +251,7 @@ $(document).ready(function(){
 				$("#memoDetail").hide();
 			});
 			
-			function copyTask(btn) {
-				var btn = $(btn).parent().find("#memo_con");
-				btn.select();
-				document.execCommand('copy');
-				console.log("Copied!");
-			};
+			
 			
 			function mergeMemo(serialData) {
 				$.ajax({
@@ -356,130 +480,6 @@ window.onclick = function(event) {
 	}
 </script>
 
-<style>
-.socketAlram {
-	background: red;
-	color: white;
-	position: fixed;
-	right: -350px;
-	top: 160px;
-	width: 350px;
-	padding: 25px;
-	z-index: 999
-}
-
-/* 타이머 스타일 */
-@import url('https://fonts.googleapis.com/css?family=Roboto:100,300');
-
-button[data-setter] {
-  outline: none;
-  background: transparent;
-  border: none;
-  font-family: 'Roboto';
-  font-weight: 300;
-  font-size: 18px;
-  width: 25px;
-  height: 30px;
-  color: #F7958E;
-  cursor: pointer;
-}
-
-button[data-setter]:hover { opacity: 0.5; }
-
-.container1 {
-  position: relative;
-  top: 30px;
-  width: 300px;
-  margin: 0 auto;
-}
-
-.setters {
-  position: absolute;
-  left: 85px;
-  top: 75px;
-}
-
-.minutes-set {
-  float: left;
-  margin-right: 28px;
-}
-
-.seconds-set { float: right; }
-
-.controlls {
-  position: absolute;
-  left: 75px;
-  top: 105px;
-  text-align: center;
-}
-
-.display-remain-time {
-  font-family: 'Roboto';
-  font-weight: 100;
-  font-size: 65px;
-  color: #F7958E;
-}
-
-#pause {
-  outline: none;
-  background: transparent;
-  border: none;
-  margin-top: 10px;
-  width: 50px;
-  height: 50px;
-  position: relative;
-}
-
-.play::before {
-  display: block;
-  content: "";
-  position: absolute;
-  top: 8px;
-  left: 16px;
-  border-top: 15px solid transparent;
-  border-bottom: 15px solid transparent;
-  border-left: 22px solid #F7958E;
-}
-
-.pause::after {
-  content: "";
-  position: absolute;
-  top: 8px;
-  left: 12px;
-  width: 15px;
-  height: 30px;
-  background-color: transparent;
-  border-radius: 1px;
-  border: 5px solid #F7958E;
-  border-top: none;
-  border-bottom: none;
-}
-
-#pause:hover { opacity: 0.8; }
-
-.e-c-base {
-  fill: none;
-  stroke: #B6B6B6;
-  stroke-width: 4px
-}
-
-.e-c-progress {
-  fill: none;
-  stroke: #F7958E;
-  stroke-width: 4px;
-  transition: stroke-dashoffset 0.7s;
-}
-
-.e-c-pointer {
-  fill: #FFF;
-  stroke: #F7958E;
-  stroke-width: 2px;
-}
-
-#e-pointer { transition: transform 0.7s; }
-h1 { margin-top:150px; text-align:center;}
-body { background-color:#f7f7f7;}
-</style>
 
 </head>
 <body>
