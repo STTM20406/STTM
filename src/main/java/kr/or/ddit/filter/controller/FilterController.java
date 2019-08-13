@@ -39,11 +39,6 @@ public class FilterController {
 		return "jsonView";
 	}
 	
-//	@RequestMapping("/project/overview/prjList")
-//	public String projectOverviewProjectList() {
-//		
-//	}
-	
 	@RequestMapping("/filter/ajax")
 	public String filterAjax(Model model, FilterVo filterVo) {
 		logger.debug("filterVo : {}", filterVo);

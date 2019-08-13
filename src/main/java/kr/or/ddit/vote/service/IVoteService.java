@@ -32,5 +32,5 @@ public interface IVoteService {
 	 * @return
 	 * Method 설명 : 투표 아이디로 투표 내용을 HTML태그로 작성해 반환해주는 메서드
 	 */
-	Map<String, Object> voteDetail(Integer vote_id);
+	Map<String, Object> voteDetail(Map<String, Object> paramMap);
 }

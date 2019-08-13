@@ -101,7 +101,7 @@ public class FilterService implements IFilterService{
 		String prj_str = prjListTemplate(filterVo); // 프로젝트 리스트 부분
 		String followerList_str = followerListTemplate(filterVo); // 팔로워 리스트 부분
 		String makerList_str = makerListTemplate(filterVo);	// 작성자 리스트 부분
-		String filterFrm = listFilterTemplate();
+		String filterFrm = listFilterTemplate(filterVo);
 		Map<String, Object> chartDataMap = workListCalc(workList);
 		String isBlank = (String) chartDataMap.get("isBlank");
 		
@@ -132,7 +132,7 @@ public class FilterService implements IFilterService{
 		String prj_str = prjListTemplate(filterVo);
 		String followerList_str = followerListTemplate(filterVo);
 		String makerList_str = makerListTemplate(filterVo);
-		String filterFrm = listFilterTemplate();
+		String filterFrm = listFilterTemplate(filterVo);
 		Map<String, Object> result_Gantt= ganttMapTemplate(workList);
 		
 		if(workList.size()==0) 
@@ -255,7 +255,7 @@ public class FilterService implements IFilterService{
 			if("AUTH04".equals(work.getAuth()))
 				continue;
 			
-			sb_result.append("<div class='result' style='border:1px solid black; width:470px; padding:5px 10px; margin: 3px;' data-wrk_id='"+ work.getWrk_id() +"'>");
+			sb_result.append("<div class='result' style='border:1px solid black; width:330px; padding:5px 10px; margin: 3px;' data-wrk_id='"+ work.getWrk_id() +"'>");
 			sb_result.append("<span>"+ work.getPrj_nm() + " > " + work.getWrk_lst_nm() +"</span>");
 			sb_result.append("<br>");
 			sb_result.append("<span class='wrk_nm'>"+ work.getWrk_nm() +"</span>");
@@ -408,7 +408,7 @@ public class FilterService implements IFilterService{
 	 * @return
 	 * Method 설명 : 전체 개요 페이지의 필터를 Html 형식으로 작성해주는 메서드
 	 */
-	private String listFilterTemplate() {
+	private String listFilterTemplate(FilterVo filterVo) {
 		StringBuffer sb_form = new StringBuffer();
 		sb_form.append("<form id='filterFrm'>");
 		sb_form.append("<label>업무 구분</label>");
@@ -479,7 +479,7 @@ public class FilterService implements IFilterService{
 		sb_form.append("<br>");
 		sb_form.append("<button type='button' onclick='reset()'> 필터 초기화 </button>");
 		sb_form.append("<br>");
-		sb_form.append("<input type='hidden' name='user_email' value='${USER_INFO.user_email}'>");
+		sb_form.append("<input type='hidden' name='user_email' value='"+ filterVo.getUser_email() +"'>");
 		sb_form.append("</form>");
 		return sb_form.toString();
 	}

@@ -8,11 +8,15 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import kr.or.ddit.vote.dao.IVoteDao;
 import kr.or.ddit.vote.model.VoteVo;
 import kr.or.ddit.vote_item.dao.IVote_ItemDao;
 import kr.or.ddit.vote_item.model.Vote_ItemVo;
+import kr.or.ddit.vote_part.dao.IVote_PartDao;
+import kr.or.ddit.vote_part.model.Vote_PartVo;
 
 @Service
 public class VoteService implements IVoteService{
@@ -22,6 +26,9 @@ public class VoteService implements IVoteService{
 	
 	@Resource(name="vote_ItemDao")
 	private IVote_ItemDao vote_ItemDao;
+	
+	@Resource(name="vote_PartDao")
+	private IVote_PartDao vote_PartDao;
 	
 	@Override 
 	public String getVoteList(Integer prj_id) {
@@ -65,9 +72,50 @@ public class VoteService implements IVoteService{
 	}
 
 	@Override
-	public Map<String, Object> voteDetail(Integer vote_id) {
+	public Map<String, Object> voteDetail(Map<String, Object> paramMap) {
 		Map<String, Object> detailMap = new HashMap<>();
+		List<Vote_ItemVo> itemList = vote_ItemDao.itemList((Integer)paramMap.get("vote_id"));
 		
-		return null;
+		Vote_PartVo vote_PartVo = vote_PartDao.checkVote(paramMap); 
+		
+		boolean isVoted = vote_PartVo == null ? false : true;
+		
+		StringBuffer sb_detail = new StringBuffer();
+		for(Vote_ItemVo item : itemList) {
+			sb_detail.append("<div class='item'>");
+			sb_detail.append("<span>");
+			sb_detail.append(item.getVote_item_con());
+			sb_detail.append("</span>");
+			sb_detail.append("<input type='radio' name='vote_item_id' value='"+ item.getVote_item_id()+"'>");
+			sb_detail.append("</div>");
+		}
+		
+		StringBuffer sb_detail_voted = new StringBuffer();
+		for(Vote_ItemVo item : itemList) {
+			if(isVoted) {
+				if(vote_PartVo.getVote_item_id() == item.getVote_item_id()) {
+					sb_detail_voted.append("<div class='item voted selected'>");
+					sb_detail_voted.append("<span>");
+					sb_detail_voted.append(item.getVote_item_con());
+					sb_detail_voted.append("</span>");
+					sb_detail_voted.append("</div>");
+				} else {
+					sb_detail_voted.append("<div class='item voted'>");
+					sb_detail_voted.append("<span>");
+					sb_detail_voted.append(item.getVote_item_con());
+					sb_detail_voted.append("</span>");
+					sb_detail_voted.append("</div>");
+				}
+			}
+		}
+		detailMap.put("html", sb_detail.toString());
+		detailMap.put("htmlVoted", sb_detail_voted.toString());
+		detailMap.put("isVoted", isVoted);
+		return detailMap;
+	}
+	
+	@RequestMapping(path="/vote/check", method=RequestMethod.POST)
+	public void vote(Vote_PartVo vote_partVo) {
+		
 	}
 }
