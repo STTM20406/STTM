@@ -28,6 +28,11 @@ public class File_Dw_HisVo {
 	private int file_id; // 파일 아이디
 	private Date down_date; // 다운로드 일시
 	
+	private int num; //번호
+	private String wrk_nm; //업무이름
+	private String original_file_nm; // 실제 파일이름
+	
+	
 	public File_Dw_HisVo() {
 
 	}
@@ -41,10 +46,20 @@ public class File_Dw_HisVo {
 		this.down_date = down_date;
 	}
 
+
 	@Override
 	public String toString() {
 		return "File_Dw_HisVo [down_id=" + down_id + ", prj_id=" + prj_id + ", user_email=" + user_email + ", file_id="
-				+ file_id + ", down_date=" + down_date + "]";
+				+ file_id + ", down_date=" + down_date + ", num=" + num + ", wrk_nm=" + wrk_nm + ", original_file_nm="
+				+ original_file_nm + "]";
+	}
+
+	public int getNum() {
+		return num;
+	}
+
+	public void setNum(int num) {
+		this.num = num;
 	}
 
 	public int getDown_id() {
@@ -86,5 +101,20 @@ public class File_Dw_HisVo {
 	public void setDown_date(Date down_date) {
 		this.down_date = down_date;
 	}
-	
+
+	public String getWrk_nm() {
+		return wrk_nm;
+	}
+
+	public void setWrk_nm(String wrk_nm) {
+		this.wrk_nm = wrk_nm;
+	}
+
+	public String getOriginal_file_nm() {
+		return original_file_nm;
+	}
+
+	public void setOriginal_file_nm(String original_file_nm) {
+		this.original_file_nm = original_file_nm;
+	}
 }

@@ -1,6 +1,8 @@
 package kr.or.ddit.chat_room.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import kr.or.ddit.chat_mem.model.Chat_MemVo;
 import kr.or.ddit.chat_room.model.Chat_RoomVo;
@@ -104,5 +106,9 @@ public interface IChat_RoomService {
 	 * Method 설명 	: 채팅방 이름 수정
 	 */
 	public int updateChatTitle(Chat_RoomVo vo);
+	
+	
+
+	
 	
 }

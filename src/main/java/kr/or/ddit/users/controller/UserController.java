@@ -239,34 +239,34 @@ public class UserController {
 
 //		if(frd_email == null) {
 		
-		// 회원이 해당 프로젝트의 멤버 목록을 조회 한다.
-		Map<String, Object> resultMap = project_MemService.projectMemPagingList(map);
-		List<UserVo> projectMemList = (List<UserVo>) resultMap.get("projectMemList");
-		int paginationSize = (Integer) resultMap.get("paginationSize");
-		
-		model.addAttribute("projectMemList", projectMemList);
-		model.addAttribute("paginationSize", paginationSize);
-		model.addAttribute("pageVo", pageVo);
+			// 회원이 해당 프로젝트의 멤버 목록을 조회 한다.
+			Map<String, Object> resultMap = project_MemService.projectMemPagingList(map);
+			List<UserVo> projectMemList = (List<UserVo>) resultMap.get("projectMemList");
+			int paginationSize = (Integer) resultMap.get("paginationSize");
+			
+			model.addAttribute("projectMemList", projectMemList);
+			model.addAttribute("paginationSize", paginationSize);
+			model.addAttribute("pageVo", pageVo);
 			
 //		}else if (frd_email != null){
 		
-		// 회원의 친구 목록을 회원 자신의 이메일로 조회하여 페이징 리스트로 보여준다
-		logger.debug("pageVo.getPage() ::::::::::: {}", pageVo.getPage());
-		logger.debug("pageVo.getPageSize() ::::::::::: {}", pageVo.getPageSize());
-		logger.debug("userVo.getUser_email() ::::::::::: {}", userVo.getUser_email());
-		
-		Map<String, Object> rstMap = friendsService.friendPagingList(map);	
-		logger.debug("map : 밥먹기 전에 {}",rstMap);
-		
-		List<FriendsVo> friendsList = (List<FriendsVo>) rstMap.get("userFriendsList");
-		logger.debug("friendsList : 로거를 {}",friendsList);
-
-		int paginationSize1 = (Integer) rstMap.get("paginationSize");
-		logger.debug("paginationSize : 찍어 봅시다 {}",paginationSize1);
-		
-		model.addAttribute("friendsList", friendsList);
-		model.addAttribute("paginationSize", paginationSize1);
-		model.addAttribute("pageVo", pageVo);
+			// 회원의 친구 목록을 회원 자신의 이메일로 조회하여 페이징 리스트로 보여준다
+			logger.debug("pageVo.getPage() ::::::::::: {}", pageVo.getPage());
+			logger.debug("pageVo.getPageSize() ::::::::::: {}", pageVo.getPageSize());
+			logger.debug("userVo.getUser_email() ::::::::::: {}", userVo.getUser_email());
+			
+			Map<String, Object> rstMap = friendsService.friendPagingList(map);	
+			logger.debug("map : 밥먹기 전에 {}",rstMap);
+			
+			List<FriendsVo> friendsList = (List<FriendsVo>) rstMap.get("userFriendsList");
+			logger.debug("friendsList : 로거를 {}",friendsList);
+	
+			int paginationSize1 = (Integer) rstMap.get("paginationSize");
+			logger.debug("paginationSize : 찍어 봅시다 {}",paginationSize1);
+			
+			model.addAttribute("friendsList", friendsList);
+			model.addAttribute("paginationSize", paginationSize1);
+			model.addAttribute("pageVo", pageVo);
 			
 //		}
 		
@@ -418,6 +418,13 @@ public class UserController {
 		}
 		
 		return viewName;
+	}
+	
+	// ------------------------------ 타이머 ------------------------------ //
+	@RequestMapping(path = "/timer", method = RequestMethod.GET)
+	public String timer() {
+
+		return "/timer/timer.user.tiles";
 	}
 	
 	// ------------------------------ 관리자 부분 ------------------------------ //

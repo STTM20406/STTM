@@ -1,6 +1,8 @@
 package kr.or.ddit.chat_room.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -73,6 +75,12 @@ public class Chat_RoomService implements IChat_RoomService{
 		int cnt = roomDao.deleteChatRoomProject(prj_id);
 		return cnt;
 	}
+
+
+
+
+
+
 
 
 

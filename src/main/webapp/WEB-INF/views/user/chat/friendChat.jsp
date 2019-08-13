@@ -242,6 +242,14 @@
 
 			});
 
+	window.onkeyup = function(e) {
+	    var code = e.keyCode || e.which;
+	    if (code == 13) {
+	        $('#buttonMessage').click();
+	    }
+	};
+	
+	
 	//layer popup - 프로젝트 생성
 	function layer_popup(el) {
 		console.log(el);

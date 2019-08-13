@@ -227,6 +227,7 @@
 		#{file_size},
 		#{file_exts},
 		sysdate,
+		'PU',
 		'N')
 	</insert>
 
@@ -427,6 +428,58 @@
 		and
 		del_fl='N'
 	</select>
+	
+	<!-- 다운로드 이용 내역 -->
+	<select id="historyPagination" parameterType="map" resultType="file_dw_hisVo">
+	 <![CDATA[
+		select rownum num, a.DOWN_ID, a.PRJ_ID, a.USER_EMAIL, a.FILE_ID, a.DOWN_DATE, b.wrk_nm, c.ORIGINAL_FILE_NM
+		from
+		(select a.*, rownum rn 
+		from
+		(select * from FILE_DW_HIS
+		where prj_id = #{prj_id}
+		order by down_id desc) a)a, work b, FILE_ATTCH c
+		where rn >=(#{page}-1)*#{pageSize}+1 and rn <= #{page}*#{pageSize}
+		and a.file_id = c.file_id
+		and b.wrk_id = c.wrk_id 
+	]]>
+	</select>
+	
+	<select id="historyCnt" parameterType="int" resultType="int">
+		select count(*)
+		from
+			FILE_DW_HIS
+		where
+			prj_id = #{prj_id}
+	</select>	
+
+
+
+
+	
+	<!-- 개인 보관함!xml -->
+	<!-- 내 보관함에있는 파일 목록 페이지네이션 -->
+	<select id="individualBox" parameterType="map" resultType="file_attchVo">
+	  <![CDATA[
+	  select rownum num, a.file_id, a.prj_id, a.user_email, a.wrk_id, a.original_file_nm, a.db_file_nm, a.file_size, a.file_exts, a.file_dt, a.del_fl,a.FILE_SAVE_FL, b.wrk_nm 
+      from
+      (select a.*, rownum rn 
+      from
+      (select * 
+      from file_attch
+      WHERE prj_id = #{prj_id}
+      and user_email = #{user_email}
+      and del_fl='N'
+      and file_save_fl = 'IN'
+      order by file_id desc) a)a, work b
+      where rn >=(#{page}-1)*#{pageSize}+1 and rn <= #{page}*#{pageSize}
+      and a.WRK_ID = b.WRK_ID
+      ]]>
+	</select>
+	
+	
+	
+	
 	
 	<!-- *********************minutes************************ -->
 
