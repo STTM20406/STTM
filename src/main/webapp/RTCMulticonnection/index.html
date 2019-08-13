@@ -27,13 +27,24 @@
 				<span id="recording-status" style="display: none;"></span>
 				<button id="btn-stop-recording" style="display: none;">Stop
 					Recording</button>
-				<br>
-				<br> <input type="hidden" id="room-id1" value=""> <input
-					type="text" id="room-id" value="" size=20>
+				<br> <br> <input type="hidden" id="room-id1" value="">
+				<input type="text" id="room-id" value="" size=20>
 				<button id="open-room">Open Room</button>
 				<button id="join-room">Join Room</button>
 				<button id="open-screenSharing">Open ScreenSharing</button>
 				<button id="join-screenSharing">Join ScreenSharing</button>
+			</div>
+			<div
+				style="margin-top: 20px; position: absolute; bottom: 0; background: white; padding-bottom: 20px; width: 94%">
+				<div id="conversation-panel"></div>
+				<div id="key-press"
+					style="text-align: right; display: none; font-size: 11px;">
+					<span style="vertical-align: middle;"></span> <img
+						src="https://www.webrtc-experiment.com/images/key-press.gif"
+						style="height: 12px; vertical-align: middle;">
+				</div>
+				<textarea id="txt-chat-message"></textarea>
+				<button class="btn btn-primary" id="btn-chat-message" disabled>Send</button>
 			</div>
 		</div>
 
