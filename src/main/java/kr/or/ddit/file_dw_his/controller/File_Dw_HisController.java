@@ -34,20 +34,12 @@ public class File_Dw_HisController {
 		return "/main/fileLink/FileLinkIndividualSave.user.tiles";
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
 	//다운로드 기록! controller
 	@RequestMapping(path="/historyPagination",method = RequestMethod.GET)
 	String historyPagination(Model model, PageVo pageVo, HttpSession session) {
-//		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
-//		int prj_id = projectVo.getPrj_id();
-		int prj_id = 1;
+		ProjectVo projectVO = (ProjectVo) session.getAttribute("PROJECT_INFO");
+		int prj_id = projectVO.getPrj_id();
+//		int prj_id = 1;
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("page", pageVo.getPage());
