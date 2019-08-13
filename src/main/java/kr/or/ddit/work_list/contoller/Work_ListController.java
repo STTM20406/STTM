@@ -3,6 +3,7 @@ package kr.or.ddit.work_list.contoller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -15,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.project.model.ProjectVo;
 import kr.or.ddit.project.service.IProjectService;
+import kr.or.ddit.users.model.UserVo;
 import kr.or.ddit.work.model.WorkVo;
 import kr.or.ddit.work.service.IWorkService;
 import kr.or.ddit.work_list.model.Work_ListVo;
@@ -197,5 +200,47 @@ public class Work_ListController {
 
 		return hashmap;
 	}
-
+	/**
+	 * 
+	* Method : timerWorkListPagingList
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-13
+	* @param pageVo
+	* @param model
+	* @param session
+	* @return
+	* Method 설명 : 타이머 - 프로젝트, 업무리스트, 업무 페이징 리스트 조회 
+	 */
+	@RequestMapping(path = "/timerWorkList", method = RequestMethod.GET)
+	public String timerWorkListPagingList(PageVo pageVo, Model model, HttpSession session) {
+		
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		logger.debug("userVo : 오랜만에 로거 찍자1 {}",userVo);
+		
+		String user_email = userVo.getUser_email();
+		logger.debug("user_email : 오랜만에 로거 찍자2 {}",user_email);
+		
+		Map<String, Object> timerMap = new HashMap<String, Object>();
+		timerMap.put("page", pageVo.getPage());
+		timerMap.put("pageSize", pageVo.getPageSize());
+		timerMap.put("user_email", userVo.getUser_email());
+		
+		logger.debug("timerMap : 타이머맵 {}",timerMap);
+		
+		Map<String, Object> resultMap = workListService.timerWorkListPagingList(timerMap);
+		logger.debug("resultMap : 오랜만에 로거 찍자3 {}",resultMap);
+		
+		List<Work_ListVo> workList = (List<Work_ListVo>) resultMap.get("workList");
+		int paginationSize = (Integer) resultMap.get("paginationSize");
+		logger.debug("workList : 오랜만에 로거 찍자4 {}",workList);
+		logger.debug("paginationSize : 오랜만에 로거 찍자5 {}",paginationSize);
+		
+		model.addAttribute("user_email", user_email);
+		model.addAttribute("workList", workList);
+		model.addAttribute("paginationSize", paginationSize);
+		model.addAttribute("pageVo", pageVo);
+		
+		return "/timer/timer.user.tiles";
+	}
+	
 }
