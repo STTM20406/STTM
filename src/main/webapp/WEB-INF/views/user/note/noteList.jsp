@@ -111,6 +111,7 @@ ul.tabs li.current {
 												<td class="inquirynum">${rcv.send_email }</td>
 												<td>${rcv.note_con }</td>
 												<td><fmt:formatDate value="${rcv.rcv_date }" pattern="yyyy-MM-dd"/></td>
+												<td>${rcv.read_fl }</td>
 												<td>${rcv.rcv_del_fl }</td>
 											</tr>
 										</c:when>
@@ -180,9 +181,10 @@ ul.tabs li.current {
 									<c:choose>
 										<c:when test="${send.send_del_fl == 'N'}">
 											<tr class="sendTr">
-												<td class="inquirynum">${send.send_email }</td>
+												<td class="inquirynum">${send.rcv_email }</td>
 												<td>${send.note_con }</td>
 												<td><fmt:formatDate value="${send.send_date }" pattern="yyyy-MM-dd"/></td>
+												<td>${send.read_fl }</td>
 												<td>${send.send_del_fl }</td>
 											</tr>
 										</c:when>

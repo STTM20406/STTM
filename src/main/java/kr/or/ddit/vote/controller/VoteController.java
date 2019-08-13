@@ -1,12 +1,9 @@
 package kr.or.ddit.vote.controller;
 
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.or.ddit.vote.model.VoteVo;
 import kr.or.ddit.vote.service.IVoteService;
+import kr.or.ddit.vote_part.model.Vote_PartVo;
+import kr.or.ddit.vote_part.service.IVote_PartService;
 
 /**
  * VoteController.java
@@ -40,6 +39,9 @@ public class VoteController {
 	private static final Logger logger = LoggerFactory.getLogger(VoteController.class);
 	@Resource(name="voteService")
 	IVoteService voteService;
+	
+	@Resource(name="vote_PartService")
+	IVote_PartService vote_PartService;
 	
 	@RequestMapping(path="/vote", method=RequestMethod.GET)
 	public String voteListView() {
@@ -75,8 +77,20 @@ public class VoteController {
 	}
 	
 	@RequestMapping(path="/voteDetail", method=RequestMethod.POST)
-	public Map<String, Object> voteDetail(Integer vote_id) {
-		Map<String, Object> voteDetail = voteService.voteDetail(vote_id);
-		return null;
+	@ResponseBody
+	public Map<String, Object> voteDetail(Integer vote_id, String user_email) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("vote_id", vote_id);
+		paramMap.put("user_email", user_email);
+		
+		Map<String, Object> resultMap = voteService.voteDetail(paramMap);
+		
+		return resultMap;
+	}
+	
+	@RequestMapping(path="/vote/check", method=RequestMethod.POST)
+	@ResponseBody
+	public void vote(Vote_PartVo vote_PartVo) {
+		vote_PartService.vote(vote_PartVo);
 	}
 }

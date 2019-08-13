@@ -45,7 +45,8 @@
 		$("#memoDetail").hide();
 	});
 	
-	function copyTask(btn) {
+	function copyTask(){
+		console.log("copyTask")
 		var btn = $(btn).parent().find("#memo_con");
 		btn.select();
 		document.execCommand('copy');

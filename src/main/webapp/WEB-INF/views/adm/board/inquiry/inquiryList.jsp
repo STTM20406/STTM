@@ -128,6 +128,7 @@ ul.tabs li.current {
 											<tr class="inquiryTr">
 												<td  style="display:none;" class="inquirynum">${iq.inq_id }</td>
 												<td>${iq.rn }</td>
+												<td>${iq.subject }</td>
 												<td>${iq.user_email }</td>
 												<td><fmt:formatDate value="${iq.inq_dt }" pattern="yyyy-MM-dd"/></td>
 												<c:choose>

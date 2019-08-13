@@ -41,7 +41,7 @@
 		SELECT	*
 		FROM	VOTE
 		WHERE	PRJ_ID = #{prj_id}
-		ORDER BY PRJ_ID
+		ORDER BY VOTE_ID
 	</select>
 	<!-- **************** vote_item ******************** -->
 	<insert id="insertVoteItem" parameterType="vote_itemVo">
@@ -58,16 +58,26 @@
 			,#{vote_item_con}
 		)
 	</insert>
-	<select id="itemList" parameterType="Integer">
+	<select id="itemList" parameterType="Integer" resultType="vote_itemVo">
 		SELECT	*
 		FROM	VOTE_ITEM
-		WHERE	VOTE_ID = #{vote_id}
+		WHERE	VOTE_ID = #{vote_id,jdbcType=INTEGER}
 		ORDER BY VOTE_ITEM_ID
 	</select>
 	
 	<!-- **************** vote_part ******************** -->
 	<insert id="insertVotePart" parameterType="vote_partVo">
-		INSERT INTO VOTE_PART
+		MERGE INTO VOTE_PART
+		USING DUAL ON
+			(
+				VOTE_ID = #{vote_id} AND
+				USER_EMAIL = #{user_email}
+			)
+		WHEN MATCHED THEN
+			UPDATE SET
+				VOTE_ITEM_ID = #{vote_item_id}
+		WHEN NOT MATCHED THEN
+		INSERT 
 		(
 			PRJ_ID
 			,USER_EMAIL
@@ -86,5 +96,12 @@
 		SELECT	USER_EMAIL, VOTE_ID, VOTE_ITEM_ID
 		FROM	VOTE_PART
 		WHERE	VOTE_ID = #{vote_id}
+	</select>
+	
+	<select id="checkVote" parameterType="map" resultType="vote_partVo">
+		SELECT	*
+		FROM	VOTE_PART
+		WHERE	VOTE_ID = #{vote_id}
+		AND		USER_EMAIL = #{user_email}
 	</select>
 </mapper>
