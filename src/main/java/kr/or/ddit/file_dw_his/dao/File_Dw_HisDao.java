@@ -18,7 +18,7 @@ public class File_Dw_HisDao implements IFile_Dw_HisDao{
 	
 	@Override
 	public List<File_Dw_HisVo> historyPagination(Map<String, Object> map) {
-		return sqlSession.selectList("project.historyCnt",map);
+		return sqlSession.selectList("project.historyPagination",map);
 	}
 
 	@Override

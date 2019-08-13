@@ -61,5 +61,11 @@ public class File_AttchService implements IFile_AttchService{
 		return file_AttchDao.insertFile(file_attchVo);
 	}
 
+	@Override
+	public Map<String, Object> publicFilePagination(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

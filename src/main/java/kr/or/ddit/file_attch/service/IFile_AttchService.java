@@ -66,4 +66,15 @@ public interface IFile_AttchService {
 	   * Method 설명 : 파일 등록
 	   */
 	   int insertFile(File_AttchVo file_attchVo);
+	   
+		//////////////////////////////////////////////////////////////////
+		/**
+		* Method 		: publicFilePagination
+		* 작성자 			: 손영하
+		* 변경이력 		: 2019-08-13 최초 생성
+		* @param prj_id
+		* @return
+		* Method 설명 	: 공유함에서의 파일링크 pagination
+		*/
+	   Map<String, Object> publicFilePagination(Map<String, Object> map);
 }

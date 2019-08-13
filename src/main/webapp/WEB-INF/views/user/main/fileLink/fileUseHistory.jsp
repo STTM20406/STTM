@@ -11,6 +11,7 @@
 				<th>파일명</th>
 				<th>해당 업무명</th>
 				<th>다운로드 받은 멤버 ID</th>
+				<th>다운로드 받은 멤버 이름</th>
 				<th>다운로드 받은 날짜</th>
 			</tr>
 			<c:forEach items="${historyList}" var="history">
@@ -19,6 +20,7 @@
 					<td>${history.original_file_nm }</td>
 					<td>${history.wrk_nm}</td>
 					<td>${history.user_email}</td>
+					<td>${history.user_nm}</td>
 					<fmt:formatDate value="${history.down_date}" var="date" pattern="yyyy-MM-dd HH:mm"/>
 					<td>${date}</td>
 				</tr>

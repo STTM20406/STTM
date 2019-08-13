@@ -34,6 +34,7 @@ public class File_AttchVo {
     private String file_save_fl;		//파일 저장 구분  공유함(PU), 개인(IN)
     private String del_fl;              //삭제여부
     private String wrk_nm; 				//업무명
+    private String user_nm;				//작성자 이름
     
     //기본 생성자
     public File_AttchVo() {
@@ -63,8 +64,17 @@ public class File_AttchVo {
 	}
 	
 	//getter, setter
+	
 	public int getFile_id() {
 		return file_id;
+	}
+
+	public String getUser_nm() {
+		return user_nm;
+	}
+
+	public void setUser_nm(String user_nm) {
+		this.user_nm = user_nm;
 	}
 
 	public void setFile_id(int file_id) {
@@ -164,7 +174,6 @@ public class File_AttchVo {
 		return "File_AttchVo [file_id=" + file_id + ", prj_id=" + prj_id + ", user_email=" + user_email + ", wrk_id="
 				+ wrk_id + ", original_file_nm=" + original_file_nm + ", db_file_nm=" + db_file_nm + ", file_size="
 				+ file_size + ", file_exts=" + file_exts + ", file_dt=" + file_dt + ", file_save_fl=" + file_save_fl
-				+ ", del_fl=" + del_fl + ", wrk_nm=" + wrk_nm + "]";
+				+ ", del_fl=" + del_fl + ", wrk_nm=" + wrk_nm + ", user_nm=" + user_nm + "]";
 	}
-
 } 
