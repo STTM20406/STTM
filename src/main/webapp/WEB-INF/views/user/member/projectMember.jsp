@@ -145,19 +145,20 @@ function requestedFriendsList() {
 }
 
 
-function projectMemListAjax(){
-	$.ajax({
-		url: "/projectMemberList",
-		method: "get",
-		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-// 		PageVo pageVo, Model model, HttpSession session
-		data: 
-		success: function(data){
+// function projectMemListAjax(){
+// 	$.ajax({
+// 		url: "/projectMemberList",
+// 		method: "get",
+// 		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+// // 		PageVo pageVo, Model model, HttpSession session
+// 		data: 
+// 		success: function(data){
 			
-		}
+// 		}
 		
-	});
-}
+// 	});
+// }
+
 </script>
 
 <section class="contents">
@@ -180,7 +181,7 @@ function projectMemListAjax(){
 			</form>
 			
 			<div>
-				<table id="prjMemTable">
+				<table class="tb_style_01" id="prjMemTable">
 					<colgroup>
 						<col width="10%">
 						<col width="40%">
