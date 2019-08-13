@@ -83,11 +83,13 @@
 			});
 		}
 
-		var worksLen = "";
 		//업무리스트 삭제 버튼 클릭시
 		$(".workListBox").on("click", ".workList_set input[type=button]", function() {
 			var idText = $(this).attr("id").split("_");
 			var workListID = idText[1];
+			
+			var a = $(this).closest(".portlet-content").children().length;
+			console.log(a);
 			
 // 			if(worksLen != 0){
 // 				$(".ctxt").text("해당 업무리스트에 업무가 존재 합니다.");
@@ -95,7 +97,7 @@
 //         			return false;
 // 			}
 			
-			workListDelAjax(workListID);
+			//workListDelAjax(workListID);
 			
 			
 		});
