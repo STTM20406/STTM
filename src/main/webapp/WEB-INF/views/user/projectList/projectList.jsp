@@ -18,7 +18,6 @@
 		$(".prj_title").on("click", function(){
 			var prj_id = $(this).attr("id");
 			$("#projectId").val(prj_id);
-			
 			$("#projectFrm").submit();
 		});
 		

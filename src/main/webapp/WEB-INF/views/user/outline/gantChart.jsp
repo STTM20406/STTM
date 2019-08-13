@@ -51,7 +51,7 @@
 		    	<input type="hidden" name="user_email" value="${USER_INFO.user_email }">
 	    </form>
 </div>
-<div id="gantt_here" style="width:900px; height:652px; overflow:hidden; padding:0px; margin:0px; float:left;"></div>
+<div id="gantt_here" style="width:1200px; height:830px; overflow:hidden; padding:0px; margin:0px; float:left;"></div>
 <script>
 function search() {
 	var serial = $("#filterFrm").serialize();

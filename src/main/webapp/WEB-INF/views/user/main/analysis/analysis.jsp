@@ -24,12 +24,12 @@
 </form>
 </div>
 <br>
-<div id="dateContainer" style="width:100%; height:120px;border:1px solid #e1e1e1;">
+<div id="dateContainer" style="width:100%; height:120px;">
 	<div id="start_dt" style="width:13%;height:120px;float:left;">
 			<p style="text-align:center;margin-top:15px;">시작일</p>
 		<div class="dt" style="position:relative;top:50%;left:50%; transform:translate(-50%, -50%);">
 		<!-- pick를 사용할 input -->
-				<input id="st_dt" name="start_dt" data-input style="margin-left:10px;"/>
+				<input id="st_dt" name="start_dt" data-input style="margin-left:30px;"/>
 				<a class="input-button" title="clear" data-clear>
 					X
 				</a>
@@ -38,7 +38,7 @@
 	<div id="end_dt" style="width:13%;height:120px;float:left;">
 			<p style="text-align:center;margin-top:15px;">마감일</p>
 		<div class="dt" style="margin:0 auto;position:relative;top:50%;left:50%; transform:translate(-50%, -50%);">
-			<input id="ed_dt" name="end_dt" data-input style="margin-left:10px;"/>
+			<input id="ed_dt" name="end_dt" data-input style="margin-left:30px;"/>
 			<a class="input-button" title="clear" data-clear>
 				X
 			</a>
@@ -47,7 +47,7 @@
 	<div id="cmp_dt" style="width:13%;height:120px;float:left;">
 			<p style="text-align:center;margin-top:15px;">완료일</p>
 		<div class="dt" style="margin:0 auto;position:relative;top:50%;left:50%; transform:translate(-50%, -50%);">
-			<input id="cp_dt" name="cmp_dt" data-input style="margin-left:10px;"/>
+			<input id="cp_dt" name="cmp_dt" data-input style="margin-left:30px;"/>
 			<a class="input-button" title="clear" data-clear>
 				X
 			</a>
@@ -79,7 +79,7 @@
 	</div>
 </div>
 <div class="spacing" style="width:100%;height:20px;"></div>
-<div id="prj_barchart" style="height:250px; width:100%;border:1px solid #e1e1e1;">
+<div id="prj_barchart" style="height:250px; width:100%;">
 <p style="margin-left:30px;margin-top:10px;"><b>프로젝트 개요</b></p>
 </div>
 <div class="spacing" style="width:100%;height:20px;"></div>
@@ -178,19 +178,19 @@ var progressChart = null;
 				madeData.isBlank == "true" ? hideChart(madeContainer) : showChart(madeContainer); 
 				followingData.isBlank == "true" ? hideChart(followContainer) : showChart(followContainer);
 				if(listChart == null) {
-					listChart = loadListChart(listChartContainer, listData, 1030, 300);
+					listChart = loadListChart(listChartContainer, listData, 1500, 300);
 				} else {
 					listChart["chartContainer"].remove();					
-					listChart = loadListChart(listChartContainer, listData, 1030, 300);
+					listChart = loadListChart(listChartContainer, listData, 1500, 300);
 				}
 				
 				progressData = data.result.progress;
 				
 				if(progressChart == null) {
-					progressChart = loadProgressChart(progressContainer, progressData, 1030, 150);
+					progressChart = loadProgressChart(progressContainer, progressData, 1500, 150);
 				} else {
 					progressChart["chartContainer"].remove();
-					progressChart = loadProgressChart(progressContainer, progressData, 1030, 150);
+					progressChart = loadProgressChart(progressContainer, progressData, 1500, 150);
 				}
 				
 				var prjVo = data.result.prjVo;

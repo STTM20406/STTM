@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import kr.or.ddit.note_content.model.Note_ContentVo;
 import kr.or.ddit.note_info.model.NoteTotalVo;
 import kr.or.ddit.note_info.model.Note_InfoVo;
 import kr.or.ddit.paging.model.PageVo;
@@ -38,8 +39,8 @@ public class Note_InfoDao implements INote_InfoDao{
 	}
 
 	@Override
-	public int insertNoteContent(String content) {
-		return sqlSession.insert("note.insertContent", content);
+	public int insertNoteContent(Note_ContentVo conVo) {
+		return sqlSession.insert("note.insertContent", conVo);
 	}
 
 	@Override

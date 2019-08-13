@@ -3,7 +3,13 @@
  * 작성자 : 유승진
  * 작성일 : 2019년 07월 26일
  */
+tui.chart.registerTheme('customTheme', {
+	chart: {
+		background: "#e1e1e1"
+	}
+});
 function loadPieChart(pieContainer, pieData, width, height) {
+	
 	var options3 = {
 			chart: {
 				"width": width, 
@@ -66,7 +72,8 @@ function loadPieChart(pieContainer, pieData, width, height) {
 			,
 		    chartExportMenu: {
 		    	visible: false
-		    }
+		    },
+		    theme: 'customTheme'
 	}
 	var pieChart = tui.chart.pieChart(pieContainer, pieData, options3);
 	return pieChart; 
@@ -116,7 +123,8 @@ function loadPriorChart(priorChartContainer, priorData, width, height) {
 		    legend: {
 		    	align: 'top',
 		    	showCheckbox: false
-		    }
+		    },
+		    theme: 'customTheme'
 	};
 	var priorChart = tui.chart.barChart(priorChartContainer, priorData, options);
 	return priorChart;
@@ -177,7 +185,8 @@ function loadProgressChart(progressChartContainer, progressData, width, height) 
 			legend: {
 				align: 'top',
 				showCheckbox: false
-			}
+			},
+		    theme: 'customTheme'
 	};
 	var progressChart = tui.chart.barChart(progressChartContainer, progressData, options);
 	return progressChart;
@@ -222,7 +231,8 @@ function loadPercentChart(percentChartContainer, percentData, width, height) {
 		    legend: {
 		    	align: 'top',
 		    	showCheckbox: false
-		    }
+		    },
+		    theme: 'customTheme'
 	};
 	var percentChart = tui.chart.barChart(percentChartContainer, percentData, options2);
 	return percentChart;
@@ -286,7 +296,8 @@ function loadListChart(listChartContainer, listData, width, height) {
 			legend: {
 				align: 'top',
 				showCheckbox: false
-			}
+			},
+		    theme: 'customTheme'
 	};
 	var listChart = tui.chart.barChart(listChartContainer, listData, options2);
 	return listChart;

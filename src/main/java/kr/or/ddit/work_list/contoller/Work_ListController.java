@@ -37,6 +37,41 @@ public class Work_ListController {
 	@Resource(name = "workService")
 	private IWorkService workService;
 	
+	@RequestMapping(path = "/list", method = RequestMethod.GET)
+	public String projectViewGet(Model model, HttpSession session) {
+		
+		ProjectVo prjVO = (ProjectVo) session.getAttribute("PROJECT_INFO");
+		int prj_id =prjVO.getPrj_id();
+		ProjectVo projectVo = projectService.getProject(prj_id);
+		
+		//프로젝트에 해당하는 업무 리스트 조회
+		List<Work_ListVo> workList = workListService.workList(prj_id);
+		
+		List<WorkVo> work = new ArrayList<WorkVo>();
+		List<WorkVo> works = new ArrayList<WorkVo>();
+		
+		/*
+			해당 업무리스트에서 업무리스트 ID 가져서와 업무테이블의
+			테이블의 업무리스트 ID 매칭하여 해당 업무 가져오기
+		*/
+		for(int i=0; i<workList.size(); i++) {
+			int wrkListId = workList.get(i).getWrk_lst_id();
+			work = workService.getWork(wrkListId);
+			for(int j=0; j<work.size(); j++) {
+				//업무리스트 ID가 같으면 해당 업무를 가져와서 담기
+				works.add(work.get(j)); 
+			}
+		}
+		
+		
+		//선택한 프로젝트의 정보를 세션에 담음 
+		session.setAttribute("PROJECT_INFO", projectVo);
+		model.addAttribute("workList", workList);
+		model.addAttribute("works", works);
+		
+		return "/main/work/work.user.tiles";
+	}
+	
 	// 프로젝트 리스트 조회
 	@RequestMapping(path = "/list", method = RequestMethod.POST)
 	public String projectView(String prj_id, Model model, HttpSession session) {
@@ -128,32 +163,35 @@ public class Work_ListController {
 		
 		int deleteCnt = 0;
 		
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+
 		//하위 업무가 없을 때 삭제
 		if(workList.size() == 0) {
 			deleteCnt = workListService.deleteWorkList(wrkListID);
-		}
-				
-		List<Work_ListVo> workListItem = workListService.workList(prj_id);
-		List<WorkVo> work = new ArrayList<WorkVo>();
-		List<WorkVo> works = new ArrayList<WorkVo>();
-		
-		/*
-			해당 업무리스트에서 업무리스트 ID 가져서와 업무테이블의
-			테이블의 업무리스트 ID 매칭하여 해당 업무 가져오기
-		*/
-		for(int i=0; i<workListItem.size(); i++) {
-			int wrkListId = workListItem.get(i).getWrk_lst_id();
-			work = workService.getWork(wrkListId);
-			for(int j=0; j<work.size(); j++) {      
-				//업무리스트 ID가 같으면 해당 업무를 가져와서 담기
-				works.add(work.get(j)); 
+			
+			List<Work_ListVo> workListItem = workListService.workList(prj_id);
+			List<WorkVo> work = new ArrayList<WorkVo>();
+			List<WorkVo> works = new ArrayList<WorkVo>();
+			
+			/*
+				해당 업무리스트에서 업무리스트 ID 가져서와 업무테이블의
+				테이블의 업무리스트 ID 매칭하여 해당 업무 가져오기
+			*/
+			for(int i=0; i<workListItem.size(); i++) {
+				int wrkListId = workListItem.get(i).getWrk_lst_id();
+				work = workService.getWork(wrkListId);
+				for(int j=0; j<work.size(); j++) {      
+					//업무리스트 ID가 같으면 해당 업무를 가져와서 담기
+					works.add(work.get(j)); 
+				}
 			}
-		}
-		
-		HashMap<String, Object> hashmap = new HashMap<String, Object>();
-		if(deleteCnt != 0) {
-			hashmap.put("workList", workListItem);
-			hashmap.put("works", works);
+			
+			if(deleteCnt != 0) {
+				hashmap.put("workList", workListItem);
+				hashmap.put("works", works);
+			}
+		}else {
+			hashmap.put("null", "");
 		}
 
 		return hashmap;

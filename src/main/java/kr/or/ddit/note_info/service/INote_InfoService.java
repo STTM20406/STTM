@@ -3,6 +3,7 @@ package kr.or.ddit.note_info.service;
 import java.util.List;
 import java.util.Map;
 
+import kr.or.ddit.note_content.model.Note_ContentVo;
 import kr.or.ddit.note_info.model.NoteTotalVo;
 import kr.or.ddit.note_info.model.Note_InfoVo;
 import kr.or.ddit.paging.model.PageVo;
@@ -54,7 +55,7 @@ public interface INote_InfoService {
 	 * @return
 	 * Method 설명 	: 쪽지 내용보내기
 	 */
-	int insertNoteContent(String content);
+	int insertNoteContent(Note_ContentVo conVo);
 	
 	/**
 	 * Method 		: insertNoteInfo
