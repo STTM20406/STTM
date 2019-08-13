@@ -484,98 +484,6 @@ window.onclick = function(event) {
 
 </head>
 <body>
-<<<<<<< HEAD
-	<div id="socketAlert" class="socketAlram" role="alert">
-		<p></p>
-	</div>
-
-	<div id="memoView">
-		<div id="memo">
-			<form id="memoFrm">
-				<h1 id="h2prj_nm"></h1>
-				<label>어제 한 일 </label> <br>
-				<textarea rows="5" cols="30" id="memo_yd_con" readonly
-					style="resize: none;"></textarea>
-				<br> <label>오늘 할 일 </label> <br>
-				<textarea rows="5" cols="30" name="memo_con" id="memo_con"
-					style="resize: none;"></textarea>
-				<br> <input type="hidden" name="memo_email"
-					value="${USER_INFO.user_email }"> <input type="hidden"
-					name="prj_id" id="prj_id" value="">
-				<button type="button" onclick="copyTask(this)">복사하기</button>
-				<button type="button" onclick="memoList()">목록</button>
-			</form>
-		</div>
-		<div id="memoList"></div>
-		<div id="memoDetail"></div>
-		<div class="btnSetClose">닫기</div>
-		
-	</div>
-
-
-	<div id="wrap">
-
-		<%@include file="/WEB-INF/views/common/baseLeft.jsp"%>
-
-		<!-- top header -->
-		<header id="header">
-
-			<!-- header search box start -->
-			<div class="hd_sch_wr">
-				<fieldset id="hd_sch">
-					<legend>사이트 내 전체검색</legend>
-					<form name="" action="" onsubmit="">
-						<select>
-							<option>검색옵션</option>
-						</select> <input type="text" name="" id="" maxlength="20"
-							placeholder="검색어를 입력해주세요">
-						<button type="submit" id="sch_submit" value="검색">검색</button>
-					</form>
-				</fieldset>
-			</div>
-			<!-- header search box end -->
-
-			<div id="tnb" class="dropdown">
-				<ul>
-					<li onclick="myFunctionNote()" class="dropNotebtn">
-						<a href="#"><span class="caret color_style01">쪽지</span></a>
-						<div id="myDropdown" class="dropdown-Notecontent">
-							<a href="/noteWrite" class="asxz" ><span class="color_style01">쪽지보내기</span></a>
-							<a href="/noteList" class="asdfw" ><span class="color_style01">쪽지함</span></a>
-						</div>
-					</li>
-					<li onclick="myFunction()" class="dropbtn">
-						<a href="#"><span class="caret color_style01">메모</span></a>
-						<div id="myDropdown" class="dropdown-content">
-							<c:forEach items="${projectList }" var="pro">
-								<div>
-									<a href="#" class="memoA" ><span class="color_style01">${pro.prj_nm }</span></a>
-									<input type="hidden" id="memoPrj_id" value="${pro.prj_id }"/>
-									<input type="hidden" id="memoPrj_nm" value="${pro.prj_nm }"/>
-								</div>
-							</c:forEach>
-						</div>
-					</li>
-					<li><a href="/work/timerWorkList" id="timerTimer"><span class="color_style02">타이머</span></a></li>
-					<li><a href="#layerChatHeader" id="chat"><span class="color_style01">화상회의</span></a></li>
-					<li><a href="#"><span class="color_style01">채팅</span>리스트</a></li>
-					<li><a href="#" class="icon_set"><span class="color_style01">${USER_INFO.user_nm}</span>님 환영합니다</a>
-						<div class="user_set_list">
-							<dl>
-								<dt></dt>
-								<dd><a href="/setUserPass">계정설정</a></dd>
-								<dd><a href="/setUserProfile">프로필설정</a></dd>
-								<dd><a href="/individualBox">개인보관함</a></dd>
-								<dd><a href="/logout">로그아웃</a></dd>
-							</dl>
-						</div>
-					</li>
-				</ul>
-			</div>
-		</header>
-	
-	
-=======
    <div id="socketAlert" class="socketAlram" role="alert">
       <p></p>
    </div>
@@ -631,7 +539,7 @@ window.onclick = function(event) {
                <li onclick="myFunctionNote()" class="dropNotebtn">
                   <a href="#"><span class="caret color_style01">쪽지</span></a>
                   <div id="myDropdown" class="dropdown-Notecontent">
-                     <a href="#" class="asxz" ><span class="color_style01">쪽지보내기</span></a>
+                     <a href="/noteWrite" class="asxz" ><span class="color_style01">쪽지보내기</span></a>
                      <a href="/noteList" class="asdfw" ><span class="color_style01">쪽지함</span></a>
                   </div>
                </li>
@@ -666,7 +574,6 @@ window.onclick = function(event) {
       </header>
    
    
->>>>>>> 831b935e807fda06dc30d063dd1e6c131c86f033
 <!--  화상회의 생성 레이어 팝업창 -->
 <!-- <div class="dim-layer"> -->
 <!--    <div class="dimBg"></div> -->
