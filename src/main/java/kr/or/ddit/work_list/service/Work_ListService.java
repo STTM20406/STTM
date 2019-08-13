@@ -1,11 +1,14 @@
 package kr.or.ddit.work_list.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.work_list.dao.IWork_ListDao;
 import kr.or.ddit.work_list.model.Work_ListVo;
 
@@ -71,6 +74,27 @@ public class Work_ListService implements IWork_ListService{
 	@Override
 	public int deleteWorkList(int wrk_lst_id) {
 		return workListDao.deleteWorkList(wrk_lst_id);
+	}
+
+	/**
+	 * 
+	* Method : workListPagingList
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-13
+	* @param pageVo
+	* @return
+	* Method 설명 : 타이머 - 프로젝트에 세션정보를 받아와 해당 프로젝트의 업무리스트 조회
+	 */
+	@Override
+	public Map<String, Object> timerWorkListPagingList(PageVo pageVo) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("workList", workListDao.timerWorkListPagingList(pageVo));
+		
+		int workListCnt = workListDao.timerWorkListCnt();
+		
+		int paginationSize = (int)Math.ceil((double)workListCnt/pageVo.getPageSize());
+		resultMap.put("paginationSize", paginationSize);
+		return resultMap;
 	}
 
 }

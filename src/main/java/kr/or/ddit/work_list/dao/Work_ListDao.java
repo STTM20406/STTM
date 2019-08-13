@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.work_list.model.Work_ListVo;
 
 @Repository
@@ -29,7 +30,6 @@ public class Work_ListDao implements IWork_ListDao{
 		return sqlSession.selectList("work.workList", prj_id);
 	}
 
-	
 	/**
 	 * 
 	 * Method 			: insertWorkList
@@ -43,7 +43,6 @@ public class Work_ListDao implements IWork_ListDao{
 	public int insertWorkList(Work_ListVo workListVo) {
 		return sqlSession.insert("work.insertWorkList", workListVo);
 	}
-
 
 	/**
 	 * 
@@ -59,7 +58,6 @@ public class Work_ListDao implements IWork_ListDao{
 		return sqlSession.update("work.updateWorkList", wrk_lst_id);
 	}
 
-
 	/**
 	 * 
 	 * Method 			: deleteWorkList
@@ -72,6 +70,33 @@ public class Work_ListDao implements IWork_ListDao{
 	@Override
 	public int deleteWorkList(int wrk_lst_id) {
 		return sqlSession.delete("work.deleteWorkList", wrk_lst_id);
+	}
+
+	/**
+	 * 
+	* Method : workListPagingList
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-13
+	* @param pageVo
+	* @return
+	* Method 설명 : 타이머 - 프로젝트에 세션정보를 받아와 해당 프로젝트의 업무리스트 조회
+	 */
+	@Override
+	public List<Work_ListVo> timerWorkListPagingList(PageVo pageVo) {
+		return sqlSession.selectList("work.timerWorkListPagingList", pageVo);
+	}
+	
+	/**
+	 * 
+	* Method : workListCnt
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-13
+	* @return
+	* Method 설명 : 업무 리스트 전체수 조회
+	 */
+	@Override
+	public int timerWorkListCnt() {
+		return sqlSession.selectOne("work.timerWorkListCnt");
 	}
 
 }
