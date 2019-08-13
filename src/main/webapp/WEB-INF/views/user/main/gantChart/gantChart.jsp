@@ -25,7 +25,7 @@
 		    	<input type="checkbox" class="filter" name="wrk_i_made" value="y">	내가 작성한 업무 <br>
 		    	<input type="checkbox" class="filter" name="wrk_i_following" value="y"> 내가 팔로우한 업무 <br>
 	    	<br><br><hr>
-	    	<input type="hidden" name="prj_id" value="1"> <!-- 나중에 세션에 저장된 프로젝트 아이디 값이 들어올 예정 -->
+	    	<input type="hidden" name="prj_id" value="${PROJECT_INFO.prj_id }"> <!-- 나중에 세션에 저장된 프로젝트 아이디 값이 들어올 예정 -->
 	    	<label>마감일 기준</label><br>
 		    	<input type="checkbox" class="filter" name="overdue" value="y"> 마감일 지남 <br>
 		    	<input type="checkbox" class="filter" name="till_this_week" value="y"> 이번 주까지 <br>
@@ -48,7 +48,7 @@
 		    	<input type="hidden" name="user_email" value="${USER_INFO.user_email }">
 	    </form>
 </div>
-<div id="gantt_here" style="width:900px; height:652px; overflow:hidden; padding:0px; margin:0px; float:left;"></div>
+<div id="gantt_here" style="width:1200px; height:830px; overflow:hidden; padding:0px; margin:0px; float:left;"></div>
 <script>
 function search() {
 	var serial = $("#filterFrm").serialize();

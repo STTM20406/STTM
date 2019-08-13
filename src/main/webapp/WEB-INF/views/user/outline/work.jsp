@@ -20,10 +20,10 @@
 		    	<input type="hidden" name="user_email" value="${USER_INFO.user_email}">
 	    </form>
 </div>	
-		<div id="allContainer" style="height:95%; width:900px;">
-	        <div id="resultContainer" style="width:400px;padding:15px;height:95%; float:left;">
+		<div id="allContainer" style="height:95%; width:1100px;float:left;">
+	        <div id="resultContainer" style="width:500px;padding:15px;height:700px; float:left;">
 	        </div>
-	        <div id="chartContainer" style="width:520px;padding:15px;height:95%; float:left;">
+	        <div id="chartContainer" style="width:600px;padding:15px;height:100%; float:left;">
 	        	<div id="pieChartContainer"></div>
 	        	<div id="priorChartContainer"></div>
 	        	<div id="percentChartContainer"></div>
@@ -71,11 +71,11 @@
 				var priorChartContainer = document.getElementById('priorChartContainer');
 				var percentChartContainer = document.getElementById('percentChartContainer');
 					pieChart["chartContainer"].remove();
-					pieChart = loadPieChart(pieChartContainer, pieChartData, 490, 300);
+					pieChart = loadPieChart(pieChartContainer, pieChartData, 600, 300);
 					percentChart["chartContainer"].remove();
-					percentChart = loadPercentChart(percentChartContainer, percentData, 490, 200);
+					percentChart = loadPercentChart(percentChartContainer, percentData, 600, 200);
 					priorChart["chartContainer"].remove();
-					priorChart = loadPriorChart(priorChartContainer, priorData, 490, 200);
+					priorChart = loadPriorChart(priorChartContainer, priorData, 600, 200);
 // 				console.log(filterFrm);
 				$("#resultContainer").html(result);
 			}
@@ -113,9 +113,9 @@
 				$("#prjList").html(prjList);
 				$("#makerList").html(makerList);
 				$("#followerList").html(followerList);
-				priorChart = loadPriorChart(priorChartContainer, priorData, 490, 200);
-				percentChart = loadPercentChart(percentChartContainer, percentData, 490, 200);
-				pieChart = loadPieChart(pieChartContainer, pieChartData, 490, 300);
+				priorChart = loadPriorChart(priorChartContainer, priorData, 600, 200);
+				percentChart = loadPercentChart(percentChartContainer, percentData, 600, 200);
+				pieChart = loadPieChart(pieChartContainer, pieChartData, 600, 300);
 			}
 		})
 	}
