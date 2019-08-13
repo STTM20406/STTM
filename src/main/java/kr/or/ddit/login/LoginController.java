@@ -139,10 +139,7 @@ public class LoginController {
 				sc.setAttribute("userBoardListY", userBoardListY); 
 				
 				//header에 로그인한 사람의 채팅방 리스트
-				sc.setAttribute("projectList", projectList);
-				//header에 로그인한 사람이 속한 프로젝트의 멤버들 출력
-				List<Project_MemVo> headerChatFriendList = projectMemService.headerChatFriendList(user_email);
-				sc.setAttribute("headerChatFriendList", headerChatFriendList);
+				sc.setAttribute("headerProjectList", projectList);
 				return "/projectList/projectList.user.tiles";
 			}
  
