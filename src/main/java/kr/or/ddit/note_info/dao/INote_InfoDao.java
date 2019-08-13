@@ -25,7 +25,7 @@ public interface INote_InfoDao {
 	 * @return
 	 * Method 설명 	: 받은 쪽지개수
 	 */
-	int rcvCnt();
+	int rcvCnt(String user_email);
 	
 	/**
 	 * Method 		: sendList
@@ -44,7 +44,7 @@ public interface INote_InfoDao {
 	 * @return
 	 * Method 설명 	: 보낸 쪽지개수
 	 */
-	int sendCnt();
+	int sendCnt(String user_email);
 	
 	/**
 	 * Method 		: insertNoteContent

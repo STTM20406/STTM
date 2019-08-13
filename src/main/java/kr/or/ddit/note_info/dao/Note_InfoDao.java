@@ -23,8 +23,8 @@ public class Note_InfoDao implements INote_InfoDao{
 	}
 
 	@Override
-	public int rcvCnt() {
-		return sqlSession.selectOne("note.rcvCnt");
+	public int rcvCnt(String user_email) {
+		return sqlSession.selectOne("note.rcvCnt",user_email);
 	}
 
 	@Override
@@ -33,8 +33,8 @@ public class Note_InfoDao implements INote_InfoDao{
 	}
 
 	@Override
-	public int sendCnt() {
-		return sqlSession.selectOne("note.sendCnt");
+	public int sendCnt(String user_email) {
+		return sqlSession.selectOne("note.sendCnt",user_email);
 	}
 
 	@Override
