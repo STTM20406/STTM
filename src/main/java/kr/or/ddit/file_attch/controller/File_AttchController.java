@@ -36,7 +36,6 @@ import kr.or.ddit.util.PartUtil;
 
 //link Controller랑 합침!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 @Controller
-@RequestMapping("/main")
 public class File_AttchController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(File_AttchController.class);
@@ -167,7 +166,7 @@ public class File_AttchController {
 		if (cnt == count) {
 			logger.debug("♬♩♪  업로드 완료!!!!!");
 		}
-		model.addAttribute("fileList", file_AttchService.fileList(1));
+		model.addAttribute("fileList", file_AttchService.fileList(prj_id));
 
 		return "redirect:/main/filePagingList";
 	}
@@ -375,5 +374,37 @@ public class File_AttchController {
 			e.printStackTrace();
 		}
 	}
+	
+	//다시 긔긔~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	@RequestMapping(path = "/publicFileLinkPagination", method = RequestMethod.GET)
+	String publicFileLinkPagination(HttpSession session,Model model, PageVo pageVo) {
+		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
+		int prj_id = projectVo.getPrj_id();
+		
+		
+		
+		
+		
+		return "/main/fileLink/fileLinkCommon.user.tiles";
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

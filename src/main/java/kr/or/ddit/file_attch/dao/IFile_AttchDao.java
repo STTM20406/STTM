@@ -57,14 +57,7 @@ public interface IFile_AttchDao {
 	    */
 	   List<File_AttchVo> insertFPagination(Map<String, Object> map);
 	   
-	   /**
-	   * Method : fileCnt
-	   * 작성자 : PC13
-	   * 변경이력 :
-	   * @return
-	   * Method 설명 : 해당 프로젝트의 전체 파일 수 조회
-	   */
-	   int fileCnt(int prj_id);
+	   
 	   
 	   /**
 	    * Method : fileCnt
@@ -84,4 +77,24 @@ public interface IFile_AttchDao {
 	   */
 	   int insertFile(File_AttchVo file_attchVo);
 	
+	  //////////////////////////////////////////////////////////////////
+	   /**
+	 * Method 		: publicFilePagination
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-13 최초 생성
+	 * @param prj_id
+	 * @return
+	 * Method 설명 	: 공유함에서의 파일링크 pagination
+	 */
+	List<File_AttchVo> publicFilePagination(Map<String, Object> map);
+	
+		/**
+	   * Method : fileCnt
+	   * 작성자 : PC13
+	   * 변경이력 :
+	   * @return
+	   * Method 설명 : 해당 프로젝트의 전체 파일 수 조회
+	   */
+	   int fileCnt(int prj_id);
+	   
 }

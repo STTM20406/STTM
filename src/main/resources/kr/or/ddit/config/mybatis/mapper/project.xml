@@ -214,7 +214,45 @@
 
 
 	<!-- *********************file_attch********************* -->
+	
+	<!-- public filePagination 공용 파일 링크 보관함!!!! -->
+	<select id="publicFilePagination" parameterType="map" resultType="file_attchVo">
+		<![CDATA[
+			select 
+				rownum num, a.file_id, a.prj_id, a.user_email, a.wrk_id, a.original_file_nm, a.db_file_nm, a.file_size, a.file_exts, a.file_dt, a.del_fl, a.FILE_SAVE_FL, b.wrk_nm, C.USER_NM
+			from
+				(select a.*, rownum rn 
+			from
+			(select * 
+			from file_attch
+			WHERE prj_id = #{prj_id}
+			and del_fl='N'
+			and file_save_fl ='PU'
+			order by file_id desc) a)a, work b, USERS C
+			where rn >=(#{page}-1)*#{pageSize}+1 and rn <= #{page}*#{pageSize}
+			and b.wrk_id = a.wrk_id
+			AND A.USER_EMAIL = C.USER_EMAIL
+		]]>
+	</select>
 
+	<!-- 해당 프로젝트의 전체 파일수 조회 -->
+	<select id="fileCnt" resultType="int">
+		select count(*)
+		from
+			file_attch
+		WHERE 
+			prj_id = #{prj_id}
+        and 
+        	del_fl='N'
+        and 
+        	file_save_fl ='PU'
+	</select>
+	
+	<!-- public filePagination -->
+	
+	
+	
+	
 	<insert id="insertFile" parameterType="file_attchVo">
 		insert into FILE_ATTCH
 		values(
@@ -279,16 +317,6 @@
    ]]>
 	</select>
 
-	<!-- 해당 프로젝트의 전체 파일수 조회 -->
-	<select id="fileCnt" resultType="int">
-		select count(*)
-		from
-		file_attch
-		where
-		PRJ_ID=#{PRJ_ID}
-		and
-		del_fl='N'
-	</select>
 	
 	<!-- 등록할때 fileList Pagination wrk_id필요 -->
 	<select id="insertFPagination" parameterType="map"
@@ -432,16 +460,17 @@
 	<!-- 다운로드 이용 내역 -->
 	<select id="historyPagination" parameterType="map" resultType="file_dw_hisVo">
 	 <![CDATA[
-		select rownum num, a.DOWN_ID, a.PRJ_ID, a.USER_EMAIL, a.FILE_ID, a.DOWN_DATE, b.wrk_nm, c.ORIGINAL_FILE_NM
+		 select rownum num, a.DOWN_ID, a.PRJ_ID, a.USER_EMAIL, a.FILE_ID, a.DOWN_DATE, b.wrk_nm, c.ORIGINAL_FILE_NM, d.user_nm
 		from
 		(select a.*, rownum rn 
 		from
 		(select * from FILE_DW_HIS
 		where prj_id = #{prj_id}
-		order by down_id desc) a)a, work b, FILE_ATTCH c
-		where rn >=(#{page}-1)*#{pageSize}+1 and rn <= #{page}*#{pageSize}
+		order by down_id desc) a)a, work b, FILE_ATTCH c, users d
+        where rn >=(#{page}-1)*#{pageSize}+1 and rn <= #{page}*#{pageSize}
 		and a.file_id = c.file_id
-		and b.wrk_id = c.wrk_id 
+		and b.wrk_id = c.wrk_id
+        and a.user_email=d.user_email
 	]]>
 	</select>
 	
