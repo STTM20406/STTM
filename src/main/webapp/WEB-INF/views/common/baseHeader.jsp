@@ -195,6 +195,22 @@ function copyTask(btn) {
 	document.execCommand('copy');
 	console.log("Copied!");
 };
+
+function memoList() {
+	var serial = $("#memoFrm").serialize();
+	$.ajax({
+		url: "/memoList",
+		type: "POST",
+		data: serial,
+		success: function(data){
+			console.log(data);
+			$("#memo").hide();
+			$("#memoDetail").hide();
+			$("#memoList").html(data.memoList);
+			$("#memoList").show();
+		}
+	})
+};
 $(document).ready(function(){
 	connectNotify();
 
@@ -276,22 +292,7 @@ $(document).ready(function(){
 					}
 				});
 			}
-			
-			function memoList() {
-				var serial = $("#memoFrm").serialize();
-				$.ajax({
-					url: "/memoList",
-					type: "POST",
-					data: serial,
-					success: function(data){
-						console.log(data);
-						$("#memo").hide();
-						$("#memoDetail").hide();
-						$("#memoList").html(data.memoList);
-						$("#memoList").show();
-					}
-				})
-			}
+		
 			function getMemo(memoVo) {
 				$.ajax({
 					url: "/getMemo",
@@ -554,7 +555,7 @@ window.onclick = function(event) {
 							</c:forEach>
 						</div>
 					</li>
-					<li><a href="#timer" id="timerTimer"><span class="color_style02">타이머</span></a></li>
+					<li><a href="/work/timerWorkList" id="timerTimer"><span class="color_style02">타이머</span></a></li>
 					<li><a href="#layerChatHeader" id="chat"><span class="color_style01">화상회의</span></a></li>
 					<li><a href="#"><span class="color_style01">채팅</span>리스트</a></li>
 					<li><a href="#" class="icon_set"><span class="color_style01">${USER_INFO.user_nm}</span>님 환영합니다</a>
