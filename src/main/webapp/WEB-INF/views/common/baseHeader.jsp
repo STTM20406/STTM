@@ -539,7 +539,7 @@ body { background-color:#f7f7f7;}
 						<a href="#"><span class="caret color_style01">쪽지</span></a>
 						<div id="myDropdown" class="dropdown-Notecontent">
 							<a href="#" class="asxz" ><span class="color_style01">쪽지보내기</span></a>
-							<a href="#" class="asdfw" ><span class="color_style01">쪽지함</span></a>
+							<a href="/noteList" class="asdfw" ><span class="color_style01">쪽지함</span></a>
 						</div>
 					</li>
 					<li onclick="myFunction()" class="dropbtn">
@@ -647,27 +647,6 @@ body { background-color:#f7f7f7;}
 			타이머 가져오나
 			</p>
 			
-<div id="css-script-menu">
-  <div class="css-script-center">
-    <ul>
-      <li><a href="http://www.cssscript.com/image-caption-hover-animations-with-css3-transitions-and-transforms/">Download</a></li>
-      <li><a href="http://www.cssscript.com/">Back To CSS Script</a></li>
-    </ul>
-    <div class="css-script-ads">
-    <script type="text/javascript"><!--
-google_ad_client = "ca-pub-2783044520727903";
-/* CSSScript Demo Page */
-google_ad_slot = "3025259193";
-google_ad_width = 728;
-google_ad_height = 90;
-//-->
-</script>
-      <script type="text/javascript"
-src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-</script></div>
-    <div class="css-script-clear"></div>
-  </div>
-</div>
 <h1>Circular Countdown Timer Demo</h1>
 <div class="container">
   <div class="setters">
@@ -732,6 +711,7 @@ function changeWholeTime(seconds){
     update(wholeTime,wholeTime);
   }
 }
+
 
 for (var i = 0; i < setterBtns.length; i++) {
     setterBtns[i].addEventListener("click", function(event) {
