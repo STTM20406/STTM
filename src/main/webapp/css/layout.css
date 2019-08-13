@@ -118,8 +118,9 @@ Last update : 2019. 07. 22.
 .workList .workList_hd dl dd {position:absolute; right:0; top:1px;} 
 .workList .workList_hd dl dd .workList_add_i {background:url(../img/workList_add_icon.png) no-repeat 0 0 ; display:inline-block; width:15px; height:15px; background-size:100%; text-indent:-9999px; border:none; margin-right:3px;}
 .workList .workList_hd dl dd .workList_set_i {background:url(../img/workList_set_icon.png) no-repeat 0 0 ; display:inline-block; width:15px; height:5px; background-size:100%; text-indent:-9999px; vertical-align: middle;}
-.workList .workList_hd dl dd .workList_set {position:absolute; right:0; top:30px;}
+.workList .workList_hd dl dd .workList_set {display:none; position:absolute; right:0; top:30px;}
 .workList .workList_hd dl dd .workList_set input {border:0; background:#e1e9fe; color:#2560fa; font-weight:600; padding:10px 20px; border-radius:6px;}
+.workList_set {display:none}
 
 .workList .workList_hd ul {padding-top:10px;}
 .workList .workList_hd ul li {}

@@ -144,7 +144,7 @@ public class Work_ListController {
 		for(int i=0; i<workListItem.size(); i++) {
 			int wrkListId = workListItem.get(i).getWrk_lst_id();
 			work = workService.getWork(wrkListId);
-			for(int j=0; j<work.size(); j++) {
+			for(int j=0; j<work.size(); j++) {      
 				//업무리스트 ID가 같으면 해당 업무를 가져와서 담기
 				works.add(work.get(j)); 
 			}

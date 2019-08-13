@@ -3,7 +3,33 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 
-<style type="text/css">
+<style>
+ul.tabs {
+   margin: 0px;
+   padding: 0px;
+   list-style: none;
+}
+
+ul.tabs li {
+   background: none;
+   color: #222;
+   display: inline-block;
+   padding: 10px 15px;
+   cursor: pointer;
+}
+
+ul.tabs li.current {
+   color: #222;
+}
+
+.tab-content {
+   display: none;
+   padding: 15px;
+}
+
+.tab-content.current {
+   display: inherit;
+}
 </style>
 
 <script>
@@ -25,6 +51,15 @@
 
 		});
 
+		$('ul.tabs li').click(function() {
+	         var tab_id = $(this).attr('data-tab');
+
+	         $('ul.tabs li').removeClass('current');
+	         $('.tab-content').removeClass('current');
+
+	         $(this).addClass('current');
+	         $("#" + tab_id).addClass('current');
+	     });
 	});
 
 	
@@ -40,15 +75,11 @@
 	</form>
 
 	<div class="sub_menu">
-		<ul class="sub_menu_item">
-			<li><a href="/friendChatList">친구 채팅</a></li>
-			<li><a href="/projectChatList">프로젝트 멤버 채팅</a></li>
+		<ul class="tabs">
+			<li data-tab="tab-1"><a href="/friendChatList">친구 채팅</a></li>
+			<li data-tab="tab-2"><a href="/projectChatList">프로젝트 멤버 채팅</a></li>
 			<li><a href="#" id = "faceBtn">화상 회의</a></li>
 		</ul>
-		<div class="sub_btn">
-			<ul>
-			</ul>
-		</div>
 	</div>
 
 

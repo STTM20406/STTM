@@ -32,11 +32,6 @@ public class File_AttchDao implements IFile_AttchDao{
 	}
 
 	@Override
-	public int fileCnt(int prj_id) {
-		return sqlSession.selectOne("project.fileCnt",prj_id);
-	}
-
-	@Override
 	public File_AttchVo getFile(int file_id) {
 		return sqlSession.selectOne("project.getFile",file_id);
 	}
@@ -54,6 +49,17 @@ public class File_AttchDao implements IFile_AttchDao{
 	@Override
 	public int fCnt(int wrk_id) {
 		return sqlSession.selectOne("project.fCnt", wrk_id);
+	}
+
+	/////////////////////////////////////////////////////////////////////////
+	@Override
+	public List<File_AttchVo> publicFilePagination(Map<String, Object> map) {
+		return sqlSession.selectList("project.publicFilePagination",map);
+	}
+	
+	@Override
+	public int fileCnt(int prj_id) {
+		return sqlSession.selectOne("project.fileCnt",prj_id);
 	}
 
 }
