@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.or.ddit.file_dw_his.model.File_Dw_HisVo;
 import kr.or.ddit.file_dw_his.service.IFile_Dw_HisService;
@@ -34,20 +35,44 @@ public class File_Dw_HisController {
 		return "/main/fileLink/FileLinkIndividualSave.user.tiles";
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	//다운로드 기록! controller
 	@RequestMapping(path="/historyPagination",method = RequestMethod.GET)
-	String historyPagination(Model model, PageVo pageVo, HttpSession session) {
+	String historyPagination(Model model, HttpSession session, 
+		@RequestParam(name = "page", defaultValue = "1")int page,@RequestParam(name = "pageSize", defaultValue = "20")int pageSize) {
+		PageVo pageVo = new PageVo(page, pageSize);
+		
 		ProjectVo projectVO = (ProjectVo) session.getAttribute("PROJECT_INFO");
 		int prj_id = projectVO.getPrj_id();
-//		int prj_id = 1;
+		logger.debug("♬♩♪  historyPagination + prj_id : {}", prj_id);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("page", pageVo.getPage());
 		map.put("pageSize", pageVo.getPageSize());
 		map.put("prj_id", prj_id);
+		logger.debug("♬♩♪  map: {}", map);
+		
 		
 		Map<String, Object> resultMap = file_Dw_HisService.historyPagination(map);
-		List<File_Dw_HisVo> historyList = (List<File_Dw_HisVo>) resultMap.get("historylist");
+		List<File_Dw_HisVo> historyList = (List<File_Dw_HisVo>) resultMap.get("historyList");
+		
+		logger.debug("♬♩♪  historyPagination + historyList: {}", historyList);
 		int paginationSize = (Integer) resultMap.get("paginationSize");
 		
 		model.addAttribute("paginationSize", paginationSize);
