@@ -28,9 +28,10 @@ public class File_AttchVo {
     private int wrk_id;                 //업무 ID
     private String original_file_nm;    //실제 파일명
     private String db_file_nm;          //DB 파일명
-    private int file_size;           //파일 크기
+    private int file_size;           	//파일 크기
     private String file_exts;           //파일 확장자
     private Date file_dt;             	//등록일
+    private String file_save_fl;		//파일 저장 구분  공유함(PU), 개인(IN)
     private String del_fl;              //삭제여부
     private String wrk_nm; 				//업무명
     
@@ -40,17 +41,18 @@ public class File_AttchVo {
 	}
     
     //생성자
-    
-    
-
-	//getter, setter
-	public int getFile_id() {
-		return file_id;
-	}
-
+	/**
+	 * @param prj_id
+	 * @param user_email
+	 * @param wrk_id
+	 * @param original_file_nm
+	 * @param db_file_nm
+	 * @param file_size
+	 * @param file_exts
+	 * file 업로드
+	 */
 	public File_AttchVo(int prj_id, String user_email, int wrk_id, String original_file_nm, String db_file_nm,
 			int file_size, String file_exts) {
-		super();
 		this.prj_id = prj_id;
 		this.user_email = user_email;
 		this.wrk_id = wrk_id;
@@ -58,6 +60,11 @@ public class File_AttchVo {
 		this.db_file_nm = db_file_nm;
 		this.file_size = file_size;
 		this.file_exts = file_exts;
+	}
+	
+	//getter, setter
+	public int getFile_id() {
+		return file_id;
 	}
 
 	public void setFile_id(int file_id) {
@@ -144,13 +151,20 @@ public class File_AttchVo {
 		this.wrk_nm = wrk_nm;
 	}
 
-	//toString
+	public String getFile_save_fl() {
+		return file_save_fl;
+	}
+
+	public void setFile_save_fl(String file_save_fl) {
+		this.file_save_fl = file_save_fl;
+	}
+
 	@Override
 	public String toString() {
 		return "File_AttchVo [file_id=" + file_id + ", prj_id=" + prj_id + ", user_email=" + user_email + ", wrk_id="
 				+ wrk_id + ", original_file_nm=" + original_file_nm + ", db_file_nm=" + db_file_nm + ", file_size="
-				+ file_size + ", file_exts=" + file_exts + ", file_dt=" + file_dt + ", del_fl=" + del_fl + ", workName="
-				+ wrk_nm + "]";
+				+ file_size + ", file_exts=" + file_exts + ", file_dt=" + file_dt + ", file_save_fl=" + file_save_fl
+				+ ", del_fl=" + del_fl + ", wrk_nm=" + wrk_nm + "]";
 	}
 
 } 
