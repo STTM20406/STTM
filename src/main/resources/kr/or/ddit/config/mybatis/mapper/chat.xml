@@ -18,22 +18,24 @@
 
 	<!-- 자신이 참여되어 있는 채팅방 리스트 -->
 	<select id="getRoomList" parameterType="string" resultType="chat_roomVo">
-		select r.ct_id, r.ct_nm, r.ct_dt,rownum rn
-		from chat_room r,chat_mem m
-		where r.ct_id = m.ct_id
+		select rownum rn, a.* from(
+		select r.ct_id, r.ct_nm, r.ct_dt
+		from chat_mem m ,chat_room r
+		where m.ct_id = r.ct_id
 		and m.user_email = #{user_email}
 		and r.prj_id is null
-		order by ct_id desc
+		order by ct_id desc) a
 	</select>
 	
 	<!-- 자신이 참여되어 있는 채팅방 리스트 프로젝트-->
 	<select id="getRoomListProject" parameterType="string" resultType="chat_roomVo">
-		select r.ct_id, r.ct_nm, r.ct_dt,rownum rn
+		select rownum rn, a.* from(
+		select r.ct_id, r.ct_nm, r.ct_dt
 		from chat_mem m ,chat_room r
 		where m.ct_id = r.ct_id
 		and m.user_email = #{user_email}
 		and r.prj_id is not null
-		order by ct_id desc
+		order by ct_id desc) a
 	</select>
 	
 	<!-- 현재 어느방에 들어가 있는지 확인 -->

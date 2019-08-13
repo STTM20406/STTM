@@ -70,6 +70,12 @@
 	        var $href = $(this).attr('href');
 	        layer_popup($href);
 	    });
+		
+		
+		$("#faceBtn").on("click",function(){
+			window.open('http://localhost:9001/index.html ', '_blank')
+
+		});
 	});
 
 	
@@ -203,7 +209,7 @@
 		<ul class="sub_menu_item">
 			<li><a href="/friendChatList">친구 채팅</a></li>
 			<li><a href="/projectChatList">프로젝트 멤버 채팅</a></li>
-			<li><a href="/faceChat">화상 회의</a></li>
+			<li><a href="#" id = "faceBtn">화상 회의</a></li>
 		</ul>
 		<div class="sub_btn">
 			<ul>
