@@ -6,13 +6,10 @@
 <script>
 	$(document).ready(function() {
 		
-		//업무리스트 설정 아이콘클릭시 삭제 버튼 보여주기
-		$(".workList_set_i").on("click", function() {
-			$(this).next(".workList_set").fadeIn(300);
-		});
-
+		$(".workList_set ").hide();
+		
 		//업무리스트 삭제 버튼에서 마우스가 떠났을때 삭제버튼 사라지게 하기
-		$(".workList_set").mouseleave(function() {
+		$(".workListBox").on("mouseleave", ".workList_set", function(){
 			$(this).fadeOut(300);
 		});
 		
@@ -86,11 +83,21 @@
 			});
 		}
 
+		var worksLen = "";
 		//업무리스트 삭제 버튼 클릭시
-		$(".workList_set").on("click", "input[type=button]", function() {
+		$(".workListBox").on("click", ".workList_set input[type=button]", function() {
 			var idText = $(this).attr("id").split("_");
 			var workListID = idText[1];
+			
+// 			if(worksLen != 0){
+// 				$(".ctxt").text("해당 업무리스트에 업무가 존재 합니다.");
+// 				layer_popup("#layer2");
+//         			return false;
+// 			}
+			
 			workListDelAjax(workListID);
+			
+			
 		});
 		
 		//업무리스트 삭제
@@ -99,6 +106,9 @@
 				url : "/work/workListDelAjax",
 				method : "post",
 				data : "wrk_lst_id=" + workListID,
+				error :function(e){
+					console.log(e);	
+				},
 				success : function(data) {
 					var html = "";
 					data.workList.forEach(function(item, index) {
@@ -129,9 +139,17 @@
 			});
 		}
 		
-		$(function(){
-			$(".workList_set").hide();
+		$(".workListBox").on("click", ".workList_add_i", function(){
+			alert("test");
 		});
+		
+		//업무리스트 설정 아이콘클릭시 삭제 버튼 보여주기
+		$(".workListBox").on("click", ".workList_set_i", function() {
+			$(this).next(".workList_set").fadeIn(300);
+		});
+		
+		
+		
 		$(function() {
 			$("#sortable1, #sortable2").sortable({
 				connectWith : ".connectedSortable"
@@ -168,7 +186,7 @@
 		<li><a href="">Work</a></li>
 		<li><a href="">Gantt Chart</a></li>
 		<li><a href="">Work Analysis</a></li>
-		<li><a href="">File&amp;Link</a></li>
+		<li><a href="/publicFileLinkPagination">File&amp;Link</a></li>
 		<li><a href="">Metting</a></li>
 	</ul>
 	<div class="sub_btn">
