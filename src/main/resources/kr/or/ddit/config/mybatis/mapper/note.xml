@@ -6,10 +6,10 @@
 
 <!-- *********** note_content ************* -->
 	<insert id="insertContent" parameterType="String">
-	<selectKey resultType="Integer" keyProperty="note_con_id" order="BEFORE">
+		<selectKey resultType="Integer" keyProperty="note_con_id" order="BEFORE">
 			SELECT note_con_seq.nextval FROM DUAL
 		</selectKey>
-		insert into note_content values(note_con_seq.nextval,#{note_con})
+		insert into note_content values(#{note_con_id},#{note_con})
 	</insert>
 
 <!-- *********** note_info ************* -->

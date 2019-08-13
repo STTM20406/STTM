@@ -1,12 +1,33 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-쪽지보내기
-</body>
-</html>
+
+
+<script>
+$(document).ready(function(){
+	$("#sendBtn").on('click',function(){
+		console.log("clickBtn");
+		var p = $('#sendEmail').val();
+		console.log(p);
+		
+		$("#frm").attr("action","noteWrite");
+		$("#frm").attr("method","POST");
+		$("#frm").submit();
+		
+	})
+	
+})
+</script>
+
+<section class="contents">
+	<form id="frm">
+		<div>
+			
+			<input type="hidden" name="sendEmail" id="sendEmail" value="${send_email }"/>
+			받는 사람 : <input type="text" name="rcvEmail" value=""/> <br>
+			내용 : <br>
+			<textarea name="smarteditor" id="smarteditor" rows="10" cols="100" style="width: 766px; height: 412px;"></textarea>	<br>
+			<button type="button" id="sendBtn" class="btn_style_01">보내기</button>
+		</div>
+	</form>
+
+</section>

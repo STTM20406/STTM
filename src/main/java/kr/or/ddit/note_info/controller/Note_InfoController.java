@@ -6,9 +6,12 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import kr.or.ddit.note_info.model.Note_InfoVo;
 import kr.or.ddit.note_info.service.INote_InfoService;
@@ -18,6 +21,8 @@ import kr.or.ddit.users.model.UserVo;
 @Controller
 public class Note_InfoController {
 
+	private static final Logger logger = LoggerFactory.getLogger(Note_InfoController.class);
+	
 	@Resource(name="note_InfoService")
 	private INote_InfoService noteService;
 	
@@ -55,10 +60,38 @@ public class Note_InfoController {
 		return "/note/noteList.user.tiles";
 	}
 	
-	@RequestMapping("/noteWrite")
-	public String noteWrite(Model model) {
+	@RequestMapping(path="/noteWrite",method = RequestMethod.GET)
+	public String noteWrite(HttpSession session,Model model) {
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		model.addAttribute("send_email", userVo.getUser_email());
 		
 		return "/note/noteWrite.user.tiles";
+	}
+	@RequestMapping(path="/noteWrite",method = RequestMethod.POST)
+	public String noteWrite(Model model,String sendEmail,String rcvEmail,String smarteditor) {
+		String viewName = "";
+		
+		
+		logger.debug("!@# sendEmail : {}",sendEmail);
+		logger.debug("!@#  rcvEmail : {}",rcvEmail);
+		logger.debug("!@#  smarteditor : {}",smarteditor);
+		int contentCnt = noteService.insertNoteContent(smarteditor);
+		logger.debug("!@#  contentCnt : {}",contentCnt);
+		Note_InfoVo infoVo = new Note_InfoVo();
+		infoVo.setNote_con_id(infoVo.getNote_con_id());
+		infoVo.setRcv_email(rcvEmail);
+		infoVo.setSend_email(sendEmail);
+		
+		logger.debug("!@#  infoVo : {}",infoVo);
+		if(contentCnt ==1) {
+			int infoCnt = noteService.insertNoteInfo(infoVo);
+			
+			if(infoCnt == 1) {
+				viewName ="redirect:/noteList";
+			}
+		}
+		
+		return viewName;
 	}
 	
 	
