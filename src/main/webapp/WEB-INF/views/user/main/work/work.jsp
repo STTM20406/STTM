@@ -88,16 +88,7 @@
 			var idText = $(this).attr("id").split("_");
 			var workListID = idText[1];
 			
-			var a = $(this).closest(".portlet-content").children().length;
-			console.log(a);
-			
-// 			if(worksLen != 0){
-// 				$(".ctxt").text("해당 업무리스트에 업무가 존재 합니다.");
-// 				layer_popup("#layer2");
-//         			return false;
-// 			}
-			
-			//workListDelAjax(workListID);
+			workListDelAjax(workListID);
 			
 			
 		});
@@ -112,31 +103,37 @@
 					console.log(e);	
 				},
 				success : function(data) {
-					var html = "";
-					data.workList.forEach(function(item, index) {
-						html += "<div class='column' id='"+ item.wrk_lst_id + "'>";
-						html += "<div class='portle'><div class='portlet-header'>";
-						html += "<input type='text' value='"+ item.wrk_lst_nm +"' id='wrkListName'></div>";
-						html += "<div class='portlet-side'>";
-						html += "<input type='button' class='workList_add_i' value='새업무 추가'>";
-						html += "<a href='javascript:;' class='workList_set_i'>업무리스트 설정</a>";
-						html += "<div class='workList_set'>";
-						html += "<input type='button' id='btnWorkListDel_"+item.wrk_lst_id+"' value='업무리스트 삭제'></div></div>";
-						html += "<div class='portlet-status'><ul>";
-						html += "<li><p>진행중 업무<span>4</span></p><a href='javascript:;'>완료된업무보기 <span>2</span></a></li>";
-						html += "<li class='graph'></li></ul></div>";
-						html += "<div class='portlet-content'><ul id='sortable1' class='connectedSortable'>";
-						
-						data.works.forEach(function(work, index2) {
-	 						if(work.wrk_lst_id == item.wrk_lst_id){
-	 							html += "<li class='ui-state-default' id='"+item.wrk_lst_id+"'>"+work.wrk_nm+"</li>";
-	 						}
-						});
+					if(data.null == ""){
+		 				$(".ctxt").text("해당 업무리스트에 업무가 존재 합니다.");
+		 				layer_popup("#layer2");
+						return false;
+					}else{
+						var html = "";
+						data.workList.forEach(function(item, index) {
+							html += "<div class='column' id='"+ item.wrk_lst_id + "'>";
+							html += "<div class='portle'><div class='portlet-header'>";
+							html += "<input type='text' value='"+ item.wrk_lst_nm +"' id='wrkListName'></div>";
+							html += "<div class='portlet-side'>";
+							html += "<input type='button' class='workList_add_i' value='새업무 추가'>";
+							html += "<a href='javascript:;' class='workList_set_i'>업무리스트 설정</a>";
+							html += "<div class='workList_set'>";
+							html += "<input type='button' id='btnWorkListDel_"+item.wrk_lst_id+"' value='업무리스트 삭제'></div></div>";
+							html += "<div class='portlet-status'><ul>";
+							html += "<li><p>진행중 업무<span>4</span></p><a href='javascript:;'>완료된업무보기 <span>2</span></a></li>";
+							html += "<li class='graph'></li></ul></div>";
+							html += "<div class='portlet-content'><ul id='sortable1' class='connectedSortable'>";
 							
-						html += "</ul></div></div></div>";
-					});
+							data.works.forEach(function(work, index2) {
+		 						if(work.wrk_lst_id == item.wrk_lst_id){
+		 							html += "<li class='ui-state-default' id='"+item.wrk_lst_id+"'>"+work.wrk_nm+"</li>";
+		 						}
+							});
+								
+							html += "</ul></div></div></div>";
+							$(".workListBox").html(html);
+						});
+					}
 					
-					$(".workListBox").html(html);
 				}
 			});
 		}
@@ -185,11 +182,12 @@
 
 <div class="sub_menu">
 	<ul class="sub_menu_item">
-		<li><a href="">Work</a></li>
-		<li><a href="">Gantt Chart</a></li>
-		<li><a href="">Work Analysis</a></li>
+		<li><a href="/work/list">Work</a></li>
+		<li><a href="/gantt/project">Gantt Chart</a></li>
+		<li><a href="/analysis">Work Analysis</a></li>
 		<li><a href="/publicFileLinkPagination">File&amp;Link</a></li>
-		<li><a href="">Metting</a></li>
+		<li><a href="">Meeting</a></li>
+		<li><a href="/vote">Vote</a></li>
 	</ul>
 	<div class="sub_btn">
 		<ul>
@@ -303,3 +301,20 @@
 	<!-- 		</div> -->
 	<!-- 	</div> -->
 	<!-- </section> -->
+	
+<!-- 오류 알림창 -->
+<!-- <div class="dim-layer"> -->
+<!-- 	<div class="dimBg"></div> -->
+<div id="layer2" class="pop-layer">
+	<div class="pop-container">
+		<div class="pop-conts">
+			<!--content //-->
+			<p class="ctxt mb20"></p>
+			<div class="btn-r">
+				<a href="#" class="btn-layerClose">Close</a>
+			</div>
+			<!--// content-->
+		</div>
+	</div>
+</div>
+<!-- </div> -->
