@@ -5,7 +5,7 @@
 <mapper namespace="note">
 
 <!-- *********** note_content ************* -->
-	<insert id="insertContent" parameterType="String">
+	<insert id="insertContent" parameterType="note_contentVo">
 		<selectKey resultType="Integer" keyProperty="note_con_id" order="BEFORE">
 			SELECT note_con_seq.nextval FROM DUAL
 		</selectKey>

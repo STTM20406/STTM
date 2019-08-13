@@ -1,6 +1,7 @@
 package kr.or.ddit.work_list.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.work_list.model.Work_ListVo;
@@ -60,7 +61,7 @@ public interface IWork_ListDao {
 	* @return
 	* Method 설명 : 타이머 - 프로젝트에 세션정보를 받아와 해당 프로젝트의 업무리스트 조회
 	 */
-	List<Work_ListVo> timerWorkListPagingList(PageVo pageVo);
+	List<Work_ListVo> timerWorkListPagingList(Map<String, Object> map);
 	
 	/**
 	 * 
@@ -70,6 +71,6 @@ public interface IWork_ListDao {
 	* @return
 	* Method 설명 : 업무 리스트 전체수 조회
 	 */
-	int timerWorkListCnt();
+	int timerWorkListCnt(Map<String, Object> user_email);
 	
 }

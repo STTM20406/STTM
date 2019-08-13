@@ -322,14 +322,14 @@ $(document).ready(function(){
    });
    
    //화상회의생성 버튼 클릭시
-   $('#chat').on("click", function(){
+   $('#headerchat').on("click", function(){
       
         var $href = $(this).attr('href');
         layer_popup($href);
     });
    
    //화상회의생성 다음 버튼 클릭시
-   $("#prj_btn_next").on("click", function(){
+   $("#headerChat_btn_next").on("click", function(){
       $(".new_proejct").animate({left:'-100%'}, 500);
       $(".select_template").animate({left:'0%'}, 500);
    });
@@ -342,7 +342,7 @@ $(document).ready(function(){
    });
    
    $(".checkSelect").on("click",function(){
-      a = $('input[name="projectRadio"]:checked').val();
+      a = $('input[name="headerProject"]:checked').val();
       console.log(a);
       $("#checkProject").val(a);
    });
@@ -353,7 +353,37 @@ $(document).ready(function(){
         layer_popup($href);
     });
    
-   
+   //화상회의 프로젝트에 맞는 멤버 리스트 가져오기
+   function projectAdmListAjax(id){
+		$.ajax({
+			url:"/project/projectAdmListAjax",
+			method:"post",
+			contentType:"application/x-www-form-urlencoded; charset=UTF-8",
+			data:	"prj_id=" + id,
+			success:function(data){
+
+				var html = "";
+				data.data.forEach(function(item, index){
+					//html 생성
+					html += "<li><input type='checkbox' name='hfriend' value='" + item.user_email + "'>" + item.user_nm + "</li>";
+				});	
+				
+				$(".headerprj_mem_item").html(html);
+			}
+		});
+	};
+	
+	
+	$("#headerSelectProject").on("change",function(){
+		var hprj = $("#headerSelectProject").val();
+		$("#checkProject").val(hprj);
+		
+	});
+	
+	$("#headerChat_btn_next").on("click",function(){
+		var hprj = $("#checkProject").val();
+		projectAdmListAjax(hprj);
+	});
    
 });
 
@@ -556,7 +586,7 @@ window.onclick = function(event) {
                   </div>
                </li>
                <li><a href="/work/timerWorkList" id="timerTimer"><span class="color_style02">타이머</span></a></li>
-               <li><a href="#layerChatHeader" id="chat"><span class="color_style01">화상회의</span></a></li>
+               <li><a href="#layerChatHeader" id="headerchat"><span class="color_style01">화상회의</span></a></li>
                <li><a href="#"><span class="color_style01">채팅</span>리스트</a></li>
                <li><a href="#" class="icon_set"><span class="color_style01">${USER_INFO.user_nm}</span>님 환영합니다</a>
                   <div class="user_set_list">
@@ -581,30 +611,28 @@ window.onclick = function(event) {
       <div class="pop-container">
          <div class="pop-project">
             <!--content //-->
-            <form action="/chatSend" method="post" id="chatSend">
-               <input type="hidden" name="memList1" id="memList1" value="">
+            <form action="/headerChatSend" method="post" id="headerChatSend">
+               
                <input type="hidden" name="checkProject" id="checkProject">
                <div class="new_proejct">
                   <h2>화상회의방 생성</h2>
                   <ul>
-                     <li><label>화상회의방 이름</label> <input
-                        type="text" id="prj_nm" name="prj_nm" placeholder="예) 프로젝트1">
+                     <li><label>알림 문구</label> <input
+                        type="text" id="hChatText" name="hChatText" placeholder="예) 화상회의방이름 : 프로젝트1, 오후 3시부터 화상회의 시작합니다">
                      </li>
                      <li><label for="prj_mem">프로젝트 리스트</label>
                            <div class="prj_mem_list">
-                              <ul>
-                                 <c:forEach items="${projectList}" var="project"
-                                    varStatus="status">
-                                    <li><input type="radio" id="projectRadio" name="projectRadio"
-                                       class="checkSelect" value="${project.prj_id}">${project.prj_id} ${ project.prj_nm }
-                                    </li>
+                              <select id="headerSelectProject" name="headerSelectProject">
+                                 <c:forEach items="${headerProjectList}" var="hproject" varStatus="status">
+                                    <option class="checkSelect" value="${hproject.prj_id}">${hproject.prj_id} ${ hproject.prj_nm }</option>
+                                    
                                  </c:forEach>
-                              </ul>
+                              </select>
 
                            </div></li>
                   </ul>
                   <div class="prj_btn">
-                     <a href="javascript:;" id="prj_btn_next">다음 : 템플릿 선택</a>
+                     <a href="javascript:;" id="headerChat_btn_next">다음 : 템플릿 선택</a>
                   </div>
                </div>
                <div class="select_template">
@@ -612,15 +640,7 @@ window.onclick = function(event) {
                   <ul>
                      <li><label for="prj_mem">멤버 선택</label>
                            <div class="prj_mem_list">
-                              <ul>
-                                 <c:forEach items="${headerChatFriendList}" var="memlist1" varStatus="status">
-                                    <c:if test="${memlist1.prj_id == 1  }">
-                                          <li><input type="checkbox" name="friend"
-                                             class="checkSelect1" value="${memlist1.prj_id}">${memlist1.user_nm }
-                                          </li>
-                                    </c:if>
-                                 </c:forEach>
-                              </ul>
+                              <ul class="headerprj_mem_item"></ul>
 
                            </div></li>
                   </ul>

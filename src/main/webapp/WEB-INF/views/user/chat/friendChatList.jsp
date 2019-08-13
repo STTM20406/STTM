@@ -73,7 +73,7 @@
 		
 		
 		$("#faceBtn").on("click",function(){
-			window.open('http://localhost:9001/index.html ', '_blank')
+			window.open('http://localhost/RTCMulticonnection/index.html', '_blank')
 
 		});
 	});

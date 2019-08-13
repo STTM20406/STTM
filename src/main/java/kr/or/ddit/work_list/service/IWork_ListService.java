@@ -63,6 +63,6 @@ public interface IWork_ListService {
 	* @return
 	* Method 설명 : 타이머 - 프로젝트에 세션정보를 받아와 해당 프로젝트의 업무리스트 조회
 	 */
-	Map<String, Object> timerWorkListPagingList(PageVo pageVo);
+	Map<String, Object> timerWorkListPagingList(Map<String, Object> map);
 	
 }

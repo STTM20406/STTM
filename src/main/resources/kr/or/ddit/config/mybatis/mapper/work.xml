@@ -49,16 +49,11 @@
       		AND				C.PRJ_ID = D.PRJ_ID
       		AND     			C.DEL_FL = 'N'
 	</select>
-	
-	
-	<!-- 업무 생성 -->
-	<insert id="insertWork" parameterType="workVo">
-		<selectKey resultType="Integer" keyProperty="wrk_id" order="BEFORE">
-			SELECT WRK_SEQ.NEXTVAL FROM DUAL
-		</selectKey>
-		INSERT INTO WORK (WRK_ID, WRK_LST_ID, WRK_PR_ID, USER_EMAIL, WRK_NM, WRK_DT, WRK_GRADE, WRK_CMP_FL, WRK_DEL_FL)
-		VALUES(#{wrk_id}, #{wrk_lst_id}, #{wrk_id}, #{user_email}, #{wrk_nm}, SYSDATE, #{wrk_grade}, #{wrk_cmp_fl}, #{wrk_del_fl})
-	</insert>
+
+
+
+
+
 
 <!-- ******************work_al_mem**************** -->
 
@@ -128,11 +123,11 @@
 <!-- 		UPDATE WORK_LIST SET DEL_FL = 'Y' WHERE WRK_LST_ID = #{wrk_lst_id} -->
 	</update>
 	
-	<!-- 업무 리스트 페이징 리스트 조회 -->
+	<!-- 업무 리스트 페이지 리스트 조회 -->
 	<!-- pageVo int page, int pageSize -->
-	<select id="timerWorkListPagingList" parameterType="pageVo" resultType="work_listVo">
+	<select id="timerWorkListPagingList" parameterType="map" resultType="work_listVo">
 		<![CDATA[
-		select *
+	    select *
 		from
 		    (select a.*, rownum rn
 		         from
@@ -155,19 +150,45 @@
 		               ,  A.WRK_CMP_FL
 		               ,  A.WRK_DEL_FL
 		      FROM    WORK A, USERS B, WORK_LIST C, PROJECT D
-		      WHERE   A.user_email = #{user_email}
-		        AND     A.USER_EMAIL = B.USER_EMAIL
+		      WHERE   A.user_email = #{user_email,jdbcType=VARCHAR}
+		      AND     A.USER_EMAIL = B.USER_EMAIL
 		      AND     A.WRK_LST_ID = C.WRK_LST_ID
 		      AND     C.PRJ_ID = D.PRJ_ID
-		      AND  A.WRK_DEL_FL = 'N') a )
-		where rn >= ((1-1)*10)+1 and rn <= 1*10
+		      AND     A.WRK_DEL_FL = 'N') a )
+		where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
 		]]>
 	</select>
 	
 	<!-- 업무 리스트 전체수 조회 -->
-	<select id="timerWorkListCnt" resultType="int">
+	<select id="timerWorkListCnt" parameterType="map" resultType="int">
 		select count(*)
-		from work_list
+		from
+		    (select a.*
+		         from
+		            (SELECT  DISTINCT A.WRK_ID
+		               ,  A.USER_EMAIL
+		               ,  C.WRK_LST_NM
+		               ,  C.PRJ_ID
+		               ,  B.USER_NM
+		               ,  D.PRJ_NM
+		               ,  A.WRK_LST_ID
+		               ,  A.WRK_RV_ID
+		               ,  A.WRK_PR_ID
+		               ,  A.WRK_NM
+		               ,  A.WRK_DT
+		               ,  A.WRK_GRADE
+		               ,  A.WRK_COLOR_CD
+		               ,  A.WRK_START_DT
+		               ,  A.WRK_END_DT
+		               ,  A.WRK_CMP_DT
+		               ,  A.WRK_CMP_FL
+		               ,  A.WRK_DEL_FL
+		      FROM    WORK A, USERS B, WORK_LIST C, PROJECT D
+		      WHERE   A.user_email = #{user_email}
+		      AND     A.USER_EMAIL = B.USER_EMAIL
+		      AND     A.WRK_LST_ID = C.WRK_LST_ID
+		      AND     C.PRJ_ID = D.PRJ_ID
+		      AND     A.WRK_DEL_FL = 'N') a )
 	</select>
 
 <!-- ******************work_mem_flw**************** -->

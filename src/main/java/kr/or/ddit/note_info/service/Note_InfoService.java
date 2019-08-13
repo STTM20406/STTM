@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
 
+import kr.or.ddit.note_content.model.Note_ContentVo;
 import kr.or.ddit.note_info.dao.INote_InfoDao;
 import kr.or.ddit.note_info.model.Note_InfoVo;
 import kr.or.ddit.paging.model.PageVo;
@@ -56,8 +57,8 @@ public class Note_InfoService implements INote_InfoService{
 	}
 
 	@Override
-	public int insertNoteContent(String content) {
-		return noteDao.insertNoteContent(content);
+	public int insertNoteContent(Note_ContentVo conVo) {
+		return noteDao.insertNoteContent(conVo);
 	}
 
 	@Override

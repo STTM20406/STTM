@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import kr.or.ddit.note_content.model.Note_ContentVo;
 import kr.or.ddit.note_info.model.Note_InfoVo;
 import kr.or.ddit.note_info.service.INote_InfoService;
 import kr.or.ddit.paging.model.PageVo;
@@ -68,21 +69,17 @@ public class Note_InfoController {
 		return "/note/noteWrite.user.tiles";
 	}
 	@RequestMapping(path="/noteWrite",method = RequestMethod.POST)
-	public String noteWrite(Model model,String sendEmail,String rcvEmail,String smarteditor) {
+	public String noteWrite(Note_ContentVo conVo,Model model,String sendEmail,String rcvEmail,String smarteditor) {
 		String viewName = "";
 		
-		
-		logger.debug("!@# sendEmail : {}",sendEmail);
-		logger.debug("!@#  rcvEmail : {}",rcvEmail);
-		logger.debug("!@#  smarteditor : {}",smarteditor);
-		int contentCnt = noteService.insertNoteContent(smarteditor);
-		logger.debug("!@#  contentCnt : {}",contentCnt);
+		conVo.setNote_con_id(conVo.getNote_con_id());
+		conVo.setNote_con(smarteditor);
+		int contentCnt = noteService.insertNoteContent(conVo);
 		Note_InfoVo infoVo = new Note_InfoVo();
-		infoVo.setNote_con_id(infoVo.getNote_con_id());
+		infoVo.setNote_con_id(conVo.getNote_con_id());
 		infoVo.setRcv_email(rcvEmail);
 		infoVo.setSend_email(sendEmail);
 		
-		logger.debug("!@#  infoVo : {}",infoVo);
 		if(contentCnt ==1) {
 			int infoCnt = noteService.insertNoteInfo(infoVo);
 			
