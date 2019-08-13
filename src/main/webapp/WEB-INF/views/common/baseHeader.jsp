@@ -539,7 +539,7 @@ body { background-color:#f7f7f7;}
 						<a href="#"><span class="caret color_style01">쪽지</span></a>
 						<div id="myDropdown" class="dropdown-Notecontent">
 							<a href="#" class="asxz" ><span class="color_style01">쪽지보내기</span></a>
-							<a href="#" class="asdfw" ><span class="color_style01">쪽지함</span></a>
+							<a href="/noteList" class="asdfw" ><span class="color_style01">쪽지함</span></a>
 						</div>
 					</li>
 					<li onclick="myFunction()" class="dropbtn">
