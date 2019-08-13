@@ -37,6 +37,8 @@ public class Work_ListController {
 	@Resource(name = "workService")
 	private IWorkService workService;
 	
+	
+	//GET방식으로 업무리스트 및 업무 조회
 	@RequestMapping(path = "/list", method = RequestMethod.GET)
 	public String projectViewGet(Model model, HttpSession session) {
 		
@@ -62,7 +64,6 @@ public class Work_ListController {
 				works.add(work.get(j)); 
 			}
 		}
-		
 		
 		//선택한 프로젝트의 정보를 세션에 담음 
 		session.setAttribute("PROJECT_INFO", projectVo);
