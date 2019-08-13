@@ -48,6 +48,7 @@
       		AND				A.WRK_LST_ID = C.WRK_LST_ID
       		AND				C.PRJ_ID = D.PRJ_ID
       		AND     			C.DEL_FL = 'N'
+      		AND     			A.WRK_DEL_FL = 'N'
 	</select>
 
 
@@ -113,7 +114,7 @@
 	</insert>
 	
 	<!--  업무리스트 이름 수정 -->
-	<update id="updateWorkList" parameterType="int">
+	<update id="updateWorkList" parameterType="work_listVo">
 		UPDATE WORK_LIST SET WRK_LST_NM = #{wrk_lst_nm} WHERE WRK_LST_ID = #{wrk_lst_id}
 	</update>
 	

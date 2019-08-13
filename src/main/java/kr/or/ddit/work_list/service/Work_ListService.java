@@ -59,8 +59,8 @@ public class Work_ListService implements IWork_ListService{
 	 * Method 설명 		: 해당 프로젝트 업무리스트 이름 수정
 	 */
 	@Override
-	public int updateWorkList(int wrk_lst_id) {
-		return workListDao.updateWorkList(wrk_lst_id);
+	public int updateWorkList(Work_ListVo workListVo) {
+		return workListDao.updateWorkList(workListVo);
 	}
 
 	
@@ -71,7 +71,7 @@ public class Work_ListService implements IWork_ListService{
 	 * 변경이력 			: 2019-08-12 최초 생성
 	 * @param wrk_lst_id
 	 * @return
-	 * Method 설명 		: 해당 프로젝트 업무리스트 삭제 (플래그 업데이트)
+	 * Method 설명 		: 해당 프로젝트 업무리스트 삭제
 	 */
 	@Override
 	public int deleteWorkList(int wrk_lst_id) {

@@ -39,7 +39,7 @@ public interface IWork_ListDao {
 	 * @return
 	 * Method 설명 		: 해당 프로젝트 업무리스트 이름 수정
 	 */
-	int updateWorkList(int wrk_lst_id);
+	int updateWorkList(Work_ListVo workListVo);
 	
 	/**
 	 * 
@@ -48,7 +48,7 @@ public interface IWork_ListDao {
 	 * 변경이력 			: 2019-08-12 최초 생성
 	 * @param wrk_lst_id
 	 * @return
-	 * Method 설명 		: 해당 프로젝트 업무리스트 삭제 (플래그 업데이트)
+	 * Method 설명 		: 해당 프로젝트 업무리스트 삭제
 	 */
 	int deleteWorkList(int wrk_lst_id);
 	

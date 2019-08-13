@@ -54,6 +54,8 @@ public class Work_ListController {
 		
 		List<WorkVo> work = new ArrayList<WorkVo>();
 		List<WorkVo> works = new ArrayList<WorkVo>();
+		List<WorkVo> workCplN = new ArrayList<WorkVo>();
+		List<WorkVo> workCplY = new ArrayList<WorkVo>();
 		
 		/*
 			해당 업무리스트에서 업무리스트 ID 가져서와 업무테이블의
@@ -65,8 +67,17 @@ public class Work_ListController {
 			for(int j=0; j<work.size(); j++) {
 				//업무리스트 ID가 같으면 해당 업무를 가져와서 담기
 				works.add(work.get(j)); 
+				for(int k=0; k<works.size(); k++) {
+					if(works.get(k).getWrk_cmp_fl().equals("N")) {
+						workCplN.add(works.get(k));
+					}else {
+						workCplY.add(works.get(k));
+					}
+				}
 			}
 		}
+		
+		logger.debug("workCplN :::::::::::::log  {}", workCplN.size());
 		
 		//선택한 프로젝트의 정보를 세션에 담음 
 		session.setAttribute("PROJECT_INFO", projectVo);
@@ -241,6 +252,47 @@ public class Work_ListController {
 		model.addAttribute("pageVo", pageVo);
 		
 		return "/timer/timer.user.tiles";
+	}
+	
+	@RequestMapping("/workListNameUpdateAjax")
+	public @ResponseBody HashMap<String, Object> workListNameUpdateAjax(Work_ListVo workListVo, String wrk_lst_nm, String wrk_lst_id, Model model, HttpSession session) {
+		
+		int wrkLstId = Integer.parseInt(wrk_lst_id);
+		
+		workListVo.setWrk_lst_id(wrkLstId);
+		workListVo.setWrk_lst_nm(wrk_lst_nm);
+		
+		//세션에 저장된 프로젝트 정보를 가져옴
+		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
+		int prj_id = projectVo.getPrj_id();
+		
+		List<Work_ListVo> workList = workListService.workList(prj_id);
+		
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		
+		List<WorkVo> work = new ArrayList<WorkVo>();
+		List<WorkVo> works = new ArrayList<WorkVo>();
+		
+		/*
+			해당 업무리스트에서 업무리스트 ID 가져서와 업무테이블의
+			테이블의 업무리스트 ID 매칭하여 해당 업무 가져오기
+		*/
+		for(int i=0; i<workList.size(); i++) {
+			int wrkListId = workList.get(i).getWrk_lst_id();
+			work = workService.getWork(wrkListId);
+			for(int j=0; j<work.size(); j++) {
+				//업무리스트 ID가 같으면 해당 업무를 가져와서 담기
+				works.add(work.get(j)); 
+			}
+		}
+		
+		int updateCnt = workListService.updateWorkList(workListVo);
+		if(updateCnt != 0) {
+			hashmap.put("workList", workList);
+			hashmap.put("works", works);
+		}
+		
+		return hashmap;
 	}
 	
 }

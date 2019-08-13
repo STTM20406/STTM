@@ -73,7 +73,7 @@
 					var html = "";
 					data.workList.forEach(function(workList, index) {
 						html +="<div class='workList' id='"+ workList.wrk_lst_id + "'><span class='handle'>+++</span><div class='workList_hd'><dl>"
-						html +="<dt><input type='text' value='"+ workList.wrk_lst_nm +"' id='wrkListName"+workList.wrk_lst_id+"'></dt><dd>"
+						html +="<dt><input type='text' value='"+ workList.wrk_lst_nm+"' id='"+workList.wrk_lst_id+"' class='wrkListName'></dt><dd>"
 						html +="<input type='button' class='workList_add_i' value='새업무 추가'>"
 						html +="<a href='javascript:;' class='workList_set_i'>업무리스트 설정</a>"
 						html +="<div class='workList_set'><input type='button' id='btnWorkListDel_"+workList.wrk_lst_id+"' value='업무리스트 삭제'></div>"
@@ -127,7 +127,7 @@
 						var html = "";
 						data.workList.forEach(function(workList, index) {
 							html +="<div class='workList' id='"+ workList.wrk_lst_id + "'><span class='handle'>+++</span><div class='workList_hd'><dl>"
-							html +="<dt><input type='text' value='"+ workList.wrk_lst_nm +"' id='wrkListName"+workList.wrk_lst_id+"'></dt><dd>"
+							html +="<dt><input type='text' value='"+ workList.wrk_lst_nm+"' id='"+workList.wrk_lst_id+"' class='wrkListName'></dt><dd>"
 							html +="<input type='button' class='workList_add_i' value='새업무 추가'>"
 							html +="<a href='javascript:;' class='workList_set_i'>업무리스트 설정</a>"
 							html +="<div class='workList_set'><input type='button' id='btnWorkListDel_"+workList.wrk_lst_id+"' value='업무리스트 삭제'></div>"
@@ -160,19 +160,24 @@
 			});
 		}
 		
-		//클릭시 이름 변경
-		$("#workListBox").on("change", "#wrkListName", function(){
+		//업무리스트 이름 수정
+		$("#workListBox").on("change", ".wrkListName", function(){
 			var wrkListName = $(this).val();
-			workListNameUpdateAjax(wrkListName);
+			var wrkListId = $(this).attr("id");
+			
+			workListNameUpdateAjax(wrkListName, wrkListId);
 		});
 		
-		function workListNameUpdateAjax(wrkListName){
+		//업무리스트 이름 수정하는 ajax
+		function workListNameUpdateAjax(wrkListName, wrkListId){
 			$.ajax({
 				url : "/work/workListNameUpdateAjax",
 				method : "post",
-				data : "wrk_lst_nm=" + wrkListName,
+				data : "wrk_lst_nm=" + wrkListName + "&wrk_lst_id=" + wrkListId,
 				success : function(data) {
-					console.log(data);
+					$(".ctxt").text("이름이 변경 되었습니다.");
+	 				layer_popup("#layer2");
+					return false;
 				}
 			});
 		}
@@ -223,7 +228,7 @@
 			<div class="workList"><span class="handle">+++</span>
 				<div class="workList_hd">
 					<dl>
-						<dt><input type="text" value="${workList.wrk_lst_nm}" id="wrkListName_${workList.wrk_lst_nm}"></dt>
+						<dt><input type="text" value="${workList.wrk_lst_nm}" id="${workList.wrk_lst_id}" class="wrkListName"></dt>
 						<dd>
 							<input type="button" class="workList_add_i" value="새업무 추가">
 							<a href="javascript:;" class="workList_set_i">업무리스트 설정</a>

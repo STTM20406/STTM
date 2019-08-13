@@ -55,8 +55,8 @@ public class Work_ListDao implements IWork_ListDao{
 	 * Method 설명 		: 해당 프로젝트 업무리스트 이름 수정
 	 */
 	@Override
-	public int updateWorkList(int wrk_lst_id) {
-		return sqlSession.update("work.updateWorkList", wrk_lst_id);
+	public int updateWorkList(Work_ListVo workListVo) {
+		return sqlSession.update("work.updateWorkList", workListVo);
 	}
 
 	/**
