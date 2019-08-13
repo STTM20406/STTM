@@ -182,8 +182,6 @@ button[data-setter]:hover { opacity: 0.5; }
 }
 
 #e-pointer { transition: transform 0.7s; }
-h1 { margin-top:150px; text-align:center;}
-body { background-color:#f7f7f7;}
 </style>
 
 <script>
