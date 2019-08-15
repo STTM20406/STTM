@@ -1,5 +1,6 @@
 package kr.or.ddit.vote_part.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -21,5 +22,9 @@ public class Vote_PartDao implements IVote_PartDao{
 	@Override
 	public int vote(Vote_PartVo vote_PartVo) {
 		return sqlSession.insert("vote.insertVotePart", vote_PartVo);
+	}
+	@Override
+	public List<Vote_PartVo> partList(Integer vote_id) {
+		return sqlSession.selectList("vote.partList", vote_id);
 	}
 }	

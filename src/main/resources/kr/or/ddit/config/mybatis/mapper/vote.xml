@@ -37,15 +37,68 @@
 			)
 	</insert>
 	
-	<select id="voteList" parameterType="Integer" resultType="voteVo">
+	<select id="voteList" parameterType="map" resultType="voteVo">
+		<![CDATA[
+		SELECT *
+		FROM
+		(
+		SELECT A.*, ROWNUM RN
+		FROM
+		(SELECT  A.VOTE_ID
+		     ,  A.PRJ_ID
+		     ,  A.VOTE_EMAIL
+		     ,  A.VOTE_START_DATE
+		     ,  A.VOTE_END_DATE
+		     ,  A.VOTE_SUBJECT
+		     ,  A.VOTE_CON
+		     ,  A.VOTE_ANO
+		     ,  A.VOTE_ST
+		     ,  A.VOTE_DEL_FL
+		     ,	B.USER_NM
+		     ,  (SELECT COUNT(*) FROM VOTE_PART B WHERE A.VOTE_ID = B.VOTE_ID AND B.USER_EMAIL = #{user_email}) VOTE_FL
+		     ,  (SELECT COUNT(*) FROM VOTE_PART B WHERE A.VOTE_ID = B.VOTE_ID) PART
+     		 ,  (SELECT COUNT(*) FROM PROJECT_MEM C WHERE PRJ_ID = A.PRJ_ID) MAX
+		FROM    VOTE A, USERS B
+		WHERE	A.PRJ_ID = #{prj_id}
+		AND		A.VOTE_EMAIL = B.USER_EMAIL
+		AND		A.VOTE_DEL_FL = 'N'
+		ORDER BY VOTE_ID DESC) A ) A
+		WHERE RN >= ((#{page} - 1) * #{pageSize}) + 1 AND RN <= (#{page} * #{pageSize})
+		]]>
+	</select>
+	
+	<select id="getVote" parameterType="Integer" resultType="voteVo">
 		SELECT	*
 		FROM	VOTE
-		WHERE	PRJ_ID = #{prj_id}
-		ORDER BY VOTE_ID
+		WHERE	VOTE_ID = #{vote_id}
+	</select>
+	
+	<update id="deleteVote" parameterType="Integer">
+		UPDATE	VOTE
+		SET		VOTE_DEL_FL = 'Y'
+		WHERE	VOTE_ID = #{vote_id}
+	</update>
+	
+	<select id='getVoteCnt' resultType="Integer" parameterType="Integer">
+		SELECT	COUNT(*)
+		FROM	VOTE
+		WHERE	VOTE_DEL_FL = 'N'
+		AND		PRJ_ID = #{prj_id}
 	</select>
 	<!-- **************** vote_item ******************** -->
 	<insert id="insertVoteItem" parameterType="vote_itemVo">
-		INSERT INTO VOTE_ITEM
+		MERGE INTO VOTE_ITEM
+		USING DUAL ON 
+		(
+			VOTE_ITEM_ID IS NOT NULL AND
+			VOTE_ITEM_ID = #{vote_item_id, jdbcType=INTEGER} AND
+			VOTE_ID = #{vote_id}
+		)
+		WHEN MATCHED THEN
+			UPDATE SET		
+				VOTE_ITEM_CON = #{vote_item_con}
+		WHEN NOT MATCHED THEN
+		INSERT 
 		(
 			VOTE_ITEM_ID
 			,VOTE_ID
@@ -104,4 +157,5 @@
 		WHERE	VOTE_ID = #{vote_id}
 		AND		USER_EMAIL = #{user_email}
 	</select>
+	
 </mapper>

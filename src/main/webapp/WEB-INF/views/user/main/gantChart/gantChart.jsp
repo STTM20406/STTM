@@ -3,6 +3,8 @@
 <!-- 프로젝트 업무 간트차트 -->
 <script src="/js/dhtmlxgantt.js"></script>
 <link rel="stylesheet" href="/css/dhtmlxgantt.css" type="text/css">
+<!-- Include 할 부분 -->
+<section class="contents">
 <div id="frmContainer" style="height:100%;width:20%;float:left;">
 	    <form id="filterFrm">
 	    	<label>업무 구분</label><br>
@@ -49,6 +51,7 @@
 	    </form>
 </div>
 <div id="gantt_here" style="width:1200px; height:830px; overflow:hidden; padding:0px; margin:0px; float:left;"></div>
+</section>
 <script>
 function search() {
 	var serial = $("#filterFrm").serialize();

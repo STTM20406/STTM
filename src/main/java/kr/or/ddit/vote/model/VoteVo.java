@@ -35,7 +35,10 @@ public class VoteVo {
 	private String vote_ano; // 익명 여부
 	private String vote_st; // 투표 상태 - C : 완료 P : 진행중
 	private String vote_del_fl; // 투표 삭제 여부 - Y : 삭제됨 N : 삭제 안됨
-	
+	private Integer vote_fl; // 투표 참여 여부 1: 참여함 0: 참여 안함
+	private Integer part;	// 투표 현재 참가자 수
+	private Integer max;	// 투표 최대 참가자 수
+	private String user_nm; // 투표 작성자의 회원명
 	public VoteVo() {
 
 	}
@@ -105,10 +108,13 @@ public class VoteVo {
 	}
 
 	public String getVote_subject() {
+		
 		return vote_subject;
 	}
 
 	public void setVote_subject(String vote_subject) {
+		vote_subject.replaceAll("<", "&gt;");
+		vote_subject.replaceAll(">", "&lt;");
 		this.vote_subject = vote_subject;
 	}
 
@@ -141,4 +147,29 @@ public class VoteVo {
 	public void setVote_del_fl(String vote_del_fl) {
 		this.vote_del_fl = vote_del_fl;
 	}
+	public Integer getVote_fl() {
+		return vote_fl;
+	}
+	public void setVote_fl(Integer vote_fl) {
+		this.vote_fl = vote_fl;
+	}
+	public Integer getPart() {
+		return part;
+	}
+	public void setPart(Integer part) {
+		this.part = part;
+	}
+	public Integer getMax() {
+		return max;
+	}
+	public void setMax(Integer max) {
+		this.max = max;
+	}
+	public String getUser_nm() {
+		return user_nm;
+	}
+	public void setUser_nm(String user_nm) {
+		this.user_nm = user_nm;
+	}
+	
 }

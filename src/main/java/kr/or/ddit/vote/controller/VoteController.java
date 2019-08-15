@@ -11,8 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.vote.model.VoteVo;
 import kr.or.ddit.vote.service.IVoteService;
 import kr.or.ddit.vote_part.model.Vote_PartVo;
@@ -49,8 +51,16 @@ public class VoteController {
 	}
 	@RequestMapping(path="/vote", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> voteList(Integer prj_id) {
-		String voteHtmlList = voteService.getVoteList(prj_id);
+	public Map<String, Object> voteList(@RequestParam(name = "votelist_page")Integer page ,Integer prj_id, String user_email) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		logger.debug("voteList() prj_id : {}, user_email : {}, page : {}", prj_id, user_email, page);
+		paramMap.put("prj_id", prj_id);
+		paramMap.put("user_email", user_email);
+		page = page == null ? 1 : page;
+		paramMap.put("page", page);
+		Integer pageSize = 5;
+		paramMap.put("pageSize", pageSize);
+		String voteHtmlList = voteService.getVoteList(paramMap);
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("voteList", voteHtmlList);
 		return resultMap;
@@ -61,13 +71,18 @@ public class VoteController {
 	}
 	
 	@RequestMapping(path="/newVote", method=RequestMethod.POST)
-	public String insertVote(VoteVo voteVo, String[] vote_item, String vote_end_dt, Model model) {
+	@ResponseBody
+	public String insertVote(VoteVo voteVo, String[] vote_item, Model model) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("voteVo", voteVo);
 		paramMap.put("vote_item", vote_item);
 		int vote_id = voteService.insertVote(paramMap);
-		model.addAttribute("vote_id", vote_id);
-		return "/vote/voteDetail.user.tiles";
+		String result = "";
+		if(vote_id != 0)
+			result = "OK";
+		else
+			result = "ERROR";
+		return result;
 	}
 	
 	@RequestMapping(path="/voteDetail", method=RequestMethod.GET)
@@ -84,7 +99,6 @@ public class VoteController {
 		paramMap.put("user_email", user_email);
 		
 		Map<String, Object> resultMap = voteService.voteDetail(paramMap);
-		
 		return resultMap;
 	}
 	
@@ -92,5 +106,21 @@ public class VoteController {
 	@ResponseBody
 	public void vote(Vote_PartVo vote_PartVo) {
 		vote_PartService.vote(vote_PartVo);
+	}
+	
+	@RequestMapping(path="/vote/del", method=RequestMethod.POST)
+	@ResponseBody
+	public String delVote(Integer vote_id) {
+		int delCnt = voteService.deleteVote(vote_id);
+		String result = "";
+		switch(delCnt) {
+		case 1:
+			result = "OK";
+			break;
+		default:
+			result = "ERROR";
+			break;
+		}
+		return result;
 	}
 }

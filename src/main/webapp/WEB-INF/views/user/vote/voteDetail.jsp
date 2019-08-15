@@ -2,11 +2,11 @@
     pageEncoding="UTF-8"%>
 <style>
 	#voteContainer {width:1000px;}
-	#voteDetail {width:700px;}
-	.item {width:300px; font-size: large; border:1px solid black; margin:5px; cursor: pointer;}
-	.item span{margin-left: 50px; margin-right: 150px;}
+	#voteDetail {width:90%;}
+	.item {width:400px; font-size: large; border:1px solid black; margin:5px; cursor: pointer;}
+	.item_con{ width:75%; float:left; margin-left:30px; }
 	.item input[type=radio] {width:15px; height:15px;}
-	#voteFrm input[type=button] {width: 150px; height:30px; margin-left:75px;}
+	#voteFrm input[type=button] {width: 150px; height:30px; margin-left:125px;}
 	.voted {background-color: #e1e1e1;}
 	.selected {background-color: yellow;}
 </style>

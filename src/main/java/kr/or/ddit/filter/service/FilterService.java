@@ -477,7 +477,7 @@ public class FilterService implements IFilterService{
 		
 		
 		sb_form.append("<br>");
-		sb_form.append("<button type='button' onclick='reset()'> 필터 초기화 </button>");
+		sb_form.append("<button type='button' class='btn_style_02' onclick='reset()'> 필터 초기화 </button>");
 		sb_form.append("<br>");
 		sb_form.append("<input type='hidden' name='user_email' value='"+ filterVo.getUser_email() +"'>");
 		sb_form.append("</form>");
