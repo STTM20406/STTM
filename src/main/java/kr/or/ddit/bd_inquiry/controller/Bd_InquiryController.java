@@ -52,12 +52,16 @@ public class Bd_InquiryController {
 		Map<String, Object> resultMap = bd_InquiryService.admInquiryList(pageVo);
 		
 		
-		List<Bd_InquiryVo> inquiryList = (List<Bd_InquiryVo>) resultMap.get("inquiryList");
-		int paginationSize = (Integer) resultMap.get("paginationSize");
-		model.addAttribute("inquiryList", inquiryList);
+		List<Bd_InquiryVo> inquiryListOrigin = (List<Bd_InquiryVo>) resultMap.get("inquiryListOrigin");
+		List<Bd_InquiryVo> inquiryListAd = (List<Bd_InquiryVo>) resultMap.get("inquiryListAd");
+		int paginationSizeOrigin = (Integer) resultMap.get("paginationSizeOrigin");
+		int paginationSizeAd = (Integer) resultMap.get("paginationSizeAd");
 		
 		
-		model.addAttribute("paginationSize", paginationSize);
+		model.addAttribute("inquiryListOrigin", inquiryListOrigin);
+		model.addAttribute("inquiryListAd", inquiryListAd);
+		model.addAttribute("paginationSizeOrigin", paginationSizeOrigin);
+		model.addAttribute("paginationSizeAd", paginationSizeAd);
 		model.addAttribute("pageVo", pageVo);
 		
 		return "/board/inquiry/inquiryList.adm.tiles";
@@ -184,12 +188,16 @@ public class Bd_InquiryController {
 		Map<String, Object> resultMap = bd_InquiryService.userInquiryList(pageVo);
 		logger.debug("!@#resultMap : {}",resultMap);
 		
-		List<Bd_InquiryVo> inquiryList = (List<Bd_InquiryVo>) resultMap.get("inquiryList");
-		int paginationSize = (Integer) resultMap.get("paginationSize");
-		model.addAttribute("inquiryList", inquiryList);
-		logger.debug("!@# inquiryList : {}",inquiryList);
+		List<Bd_InquiryVo> inquiryListOrigin = (List<Bd_InquiryVo>) resultMap.get("inquiryListOrigin");
+		List<Bd_InquiryVo> inquiryListAd = (List<Bd_InquiryVo>) resultMap.get("inquiryListAd");
+		int paginationSizeOrigin = (Integer) resultMap.get("paginationSizeOrigin");
+		int paginationSizeAd = (Integer) resultMap.get("paginationSizeAd");
 		
-		model.addAttribute("paginationSize", paginationSize);
+		model.addAttribute("inquiryListOrigin", inquiryListOrigin);
+		model.addAttribute("inquiryListAd", inquiryListAd);
+		
+		model.addAttribute("paginationSizeOrigin", paginationSizeOrigin);
+		model.addAttribute("paginationSizeAd", paginationSizeAd);
 		model.addAttribute("pageVo", pageVo);
 		
 		return "/board/inquiry/inquiryList.user.tiles";

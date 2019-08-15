@@ -24,12 +24,13 @@ public class Bd_InquiryDao implements IBd_InquiryDao{
 	 * 작성자 			: 양한솔 
 	 * 변경이력 		: 2019-07-22 최초 생성
 	 * @return
-	 * Method 설명 	: 1:1문의 게시글 갯수
+	 * Method 설명 	: 1:1문의 게시글 갯수 
 	 */
 	@Override
-	public int inquiryCnt() {
-		return sqlSession.selectOne("bd_inquiry.inquiryCnt");
+	public int inquiryCnt(String inq_cate) {
+		return sqlSession.selectOne("bd_inquiry.inquiryCnt", inq_cate);
 	}
+	
 	
 	/**
 	 * Method 		: inquiryInfo
@@ -128,16 +129,29 @@ public class Bd_InquiryDao implements IBd_InquiryDao{
 // 사용자****************************************************************************************
 
 	/**
-	 * Method 		: userAdverList
+	 * Method 		: userListOrigin
 	 * 작성자 			: 양한솔 
 	 * 변경이력 		: 2019-07-21 최초 생성
 	 * @param user_email
 	 * @return
-	 * Method 설명 	: 사용자 광고문의, 일반문의 게시글페이징 조회
+	 * Method 설명 	: 사용자 일반문의 게시글페이징 조회
 	 */
 	@Override
-	public List<Bd_InquiryVo> userInquiryList(PageVo pageVo) {
-		return sqlSession.selectList("bd_inquiry.userList",pageVo);
+	public List<Bd_InquiryVo> userListOrigin(PageVo pageVo) {
+		return sqlSession.selectList("bd_inquiry.userListOrigin",pageVo);
+	}
+
+	/**
+	 * Method 		: userListAd
+	 * 작성자 			: 양한솔 
+	 * 변경이력 		: 2019-07-21 최초 생성
+	 * @param user_email
+	 * @return
+	 * Method 설명 	: 사용자 광고문의 게시글페이징 조회
+	 */
+	@Override
+	public List<Bd_InquiryVo> userListAd(PageVo pageVo) {
+		return sqlSession.selectList("bd_inquiry.userListAd",pageVo);
 	}
 	
 	/**
@@ -230,6 +244,8 @@ public class Bd_InquiryDao implements IBd_InquiryDao{
 	public int userSearchConCnt(Map<String, Object> search) {
 		return sqlSession.selectOne("bd_inquiry.userSearchConCnt",search);
 	}
+
+
 
 
 

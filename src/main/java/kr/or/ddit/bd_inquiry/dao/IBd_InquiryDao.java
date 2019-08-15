@@ -46,9 +46,10 @@ public interface IBd_InquiryDao {
 	 * 작성자 			: 양한솔 
 	 * 변경이력 		: 2019-07-22 최초 생성
 	 * @return
-	 * Method 설명 	: 1:1문의 게시글 갯수
+	 * Method 설명 	: 1:1문의 게시글 개수 
 	 */
-	int inquiryCnt();
+	public int inquiryCnt(String inq_cate);
+	
 	
 	/**
 	 * Method 		: inquiryInfo
@@ -128,9 +129,19 @@ public interface IBd_InquiryDao {
 	 * 작성자 			: 양한솔 
 	 * 변경이력 		: 2019-07-21 최초 생성
 	 * @return
-	 * Method 설명 	: 사용자 광고문의, 일반문의 게시글페이징 조회
+	 * Method 설명 	: 사용자 광고문의 게시글페이징 조회
 	 */
-	List<Bd_InquiryVo> userInquiryList(PageVo pageVo);
+	List<Bd_InquiryVo> userListOrigin(PageVo pageVo);
+	
+	/**
+	 * Method 		: userGeneralList
+	 * 작성자 			: 양한솔 
+	 * 변경이력 		: 2019-07-21 최초 생성
+	 * @return
+	 * Method 설명 	: 사용자 일반문의 게시글페이징 조회
+	 */
+	List<Bd_InquiryVo> userListAd(PageVo pageVo);
+	
 	/**
 	 * Method 		: insertUserPost
 	 * 작성자 			: 양한솔 

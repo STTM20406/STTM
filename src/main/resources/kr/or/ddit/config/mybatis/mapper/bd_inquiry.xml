@@ -5,10 +5,11 @@
 <mapper namespace="bd_inquiry">
 
 <!-- 공통 -->
-	<!-- 게시글 갯수 -->
-	<select id="inquiryCnt" resultType="int">
-		SELECT COUNT(*) FROM BD_INQUIRY where DEL_FL='N'
+	<!-- 게시글 개수 일반문의-->
+	<select id="inquiryCnt" parameterType="string"  resultType="int">
+		SELECT COUNT(*) FROM BD_INQUIRY where DEL_FL='N' and inq_cate = #{inq_cate}
 	</select>
+	
 	
 	<!-- 게시글 조회 -->
 	<select id="inquiryInfo" parameterType="int" resultType="bd_inquiryVo">
@@ -31,6 +32,7 @@
     (select a.*
     from bd_inquiry a 
     where DEL_FL='N'
+    and inq_cate = #{inq_cate}
     order by INQ_ID desc) a)
 		where rn >=(${page}-1)*${pageSize} + 1 and rn <=${page}*${pageSize}
 	]]>
@@ -100,8 +102,8 @@
 	
 <!-- 사용자 -->
 
-	<!--  사용자 일반문의, 광고문의 페이징리스트 -->
-	<select id="userList" resultType="bd_inquiryVo" parameterType="pageVo">
+	<!--  사용자 일반문의 페이징리스트 -->
+	<select id="userListOrigin" resultType="bd_inquiryVo" parameterType="pageVo">
 	<![CDATA[
 	select *
     from
@@ -110,6 +112,24 @@
     (select a.*
     from bd_inquiry a 
     where USER_EMAIL='${user_email}'
+    and inq_cate = 'INQ01'
+    and DEL_FL='N'
+    order by INQ_ID desc) a)
+	where rn >=(${page}-1)*${pageSize} + 1 and rn <=${page}*${pageSize}
+	]]>
+	</select>
+	
+	<!--  사용자 광고문의 페이징리스트 -->
+	<select id="userListAd" resultType="bd_inquiryVo" parameterType="pageVo">
+	<![CDATA[
+	select *
+    from
+	(select a.*, ROW_NUMBER() OVER(order by INQ_ID desc) rn
+    from
+    (select a.*
+    from bd_inquiry a 
+    where USER_EMAIL='${user_email}'
+    and inq_cate = 'INQ02'
     and DEL_FL='N'
     order by INQ_ID desc) a)
 	where rn >=(${page}-1)*${pageSize} + 1 and rn <=${page}*${pageSize}

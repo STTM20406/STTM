@@ -26,8 +26,8 @@ public class Bd_InquiryService implements IBd_InquiryService{
 	 * Method 설명 	: 1:1문의 게시글 갯수
 	 */
 	@Override
-	public int inquiryCnt() {
-		return bd_InquiryDao.inquiryCnt();
+	public int inquiryCnt(String inq_cate) {
+		return bd_InquiryDao.inquiryCnt(inq_cate);
 	}
 
 	/**
@@ -56,11 +56,22 @@ public class Bd_InquiryService implements IBd_InquiryService{
 	@Override
 	public Map<String, Object> admInquiryList(PageVo pageVo) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("inquiryList", bd_InquiryDao.admInquiryList(pageVo));
+		//일반문의 리스트
+		pageVo.setInq_cate("INQ01");
+		resultMap.put("inquiryListOrigin", bd_InquiryDao.admInquiryList(pageVo));
 		
-		int inquiryCnt = bd_InquiryDao.inquiryCnt();
-		int paginationSize = (int) Math.ceil((double)inquiryCnt/pageVo.getPageSize());
-		resultMap.put("paginationSize", paginationSize);
+		//광고문의 리스트
+		pageVo.setInq_cate("INQ02");
+		resultMap.put("inquiryListAd", bd_InquiryDao.admInquiryList(pageVo));
+		
+		
+		
+		int inquiryCntOrigin = bd_InquiryDao.inquiryCnt("INQ01");
+		int inquiryCntAd = bd_InquiryDao.inquiryCnt("INQ02");
+		int paginationSizeOrigin = (int) Math.ceil((double)inquiryCntOrigin/pageVo.getPageSize());
+		int paginationSizeAd = (int) Math.ceil((double)inquiryCntAd/pageVo.getPageSize());
+		resultMap.put("paginationSizeOrigin", paginationSizeOrigin);
+		resultMap.put("paginationSizeAd", paginationSizeAd);
 		
 		return resultMap;
 	}
@@ -141,12 +152,19 @@ public class Bd_InquiryService implements IBd_InquiryService{
 	@Override
 	public Map<String, Object> userInquiryList(PageVo pageVo) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("inquiryList", bd_InquiryDao.userInquiryList(pageVo));
+		resultMap.put("inquiryListOrigin", bd_InquiryDao.userListOrigin(pageVo));
+		resultMap.put("inquiryListAd", bd_InquiryDao.userListAd(pageVo));
 		
-		int inquiryCnt = bd_InquiryDao.inquiryCnt();
+		//일반문의 게시글 개수
+		int inquiryCntOrigin = bd_InquiryDao.inquiryCnt("INQ01");
 		
-		int paginationSize = (int) Math.ceil((double)inquiryCnt/pageVo.getPageSize());
-		resultMap.put("paginationSize", paginationSize);
+		//광고문의 게시글 개수
+		int inquiryCntAd = bd_InquiryDao.inquiryCnt("INQ02");
+		
+		int paginationSizeOrigin = (int) Math.ceil((double)inquiryCntOrigin/pageVo.getPageSize());
+		int paginationSizeAd = (int) Math.ceil((double)inquiryCntAd/pageVo.getPageSize());
+		resultMap.put("paginationSizeOrigin", paginationSizeOrigin);
+		resultMap.put("paginationSizeAd", paginationSizeAd);
 		
 		return resultMap;
 	}

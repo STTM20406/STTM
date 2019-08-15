@@ -144,27 +144,22 @@ ul.tabs li.current {
                         <th>답변 여부</th>
                      </tr>
 
-                        <c:forEach items="${inquiryList }" var="iq">
-                           <c:choose>
-                              <c:when test="${iq.inq_cate == 'INQ01' && iq.del_fl == 'N'}">
-                              
-                                 <tr class="inquiryTr">
-                                    <td class="inquirynum" style="display:none;">${iq.inq_id }</td>
-                                    <td>${iq.rn }</td>
-                                    <td>${iq.subject }</td>
-                                    <td>${iq.user_email }</td>
-                                    <td><fmt:formatDate value="${iq.inq_dt }" pattern="yyyy-MM-dd"/></td>
-                                    <c:choose>
-                                       <c:when test="${iq.ans_st == 'Y'}">
-                                          <td>답변 완료</td>
-                                       </c:when>
-                                       <c:otherwise>
-                                          <td>답변 미완료</td>
-                                       </c:otherwise>
-                                    </c:choose>
-                                 </tr>
-                              </c:when>
-                           </c:choose>
+                        <c:forEach items="${inquiryListOrigin }" var="iq">
+                                <tr class="inquiryTr">
+                                   <td class="inquirynum" style="display:none;">${iq.inq_id }</td>
+                                   <td>${iq.rn }</td>
+                                   <td>${iq.subject }</td>
+                                   <td>${iq.user_email }</td>
+                                   <td><fmt:formatDate value="${iq.inq_dt }" pattern="yyyy-MM-dd"/></td>
+                                   <c:choose>
+                                      <c:when test="${iq.ans_st == 'Y'}">
+                                         <td>답변 완료</td>
+                                      </c:when>
+                                      <c:otherwise>
+                                         <td>답변 미완료</td>
+                                      </c:otherwise>
+                                   </c:choose>
+                                </tr>
                         </c:forEach>
                      
                   </tbody>
@@ -185,7 +180,7 @@ ul.tabs li.current {
                      </c:otherwise>
                   </c:choose>
 
-                  <c:forEach begin="1" end="${paginationSize}" var="i">
+                  <c:forEach begin="1" end="${paginationSizeOrigin}" var="i">
                      <c:choose>
                         <c:when test="${pageVo.page == i}">
                            <span>${i}</span>
@@ -198,7 +193,7 @@ ul.tabs li.current {
                   </c:forEach>
 
                   <c:choose>
-                     <c:when test="${pageVo.page == paginationSize}">
+                     <c:when test="${pageVo.page == paginationSizeOrigin}">
                         <a href class="btn_last"></a>
                      </c:when>
                      <c:otherwise>
@@ -249,7 +244,7 @@ ul.tabs li.current {
                            <th>답변 여부</th>
    
    
-                           <c:forEach items="${inquiryList }" var="iq">
+                           <c:forEach items="${inquiryListAd }" var="iq">
                               <c:choose>
                                  <c:when test="${iq.inq_cate == 'INQ02' }">
                                     <tr class="inquiryTr">
@@ -287,7 +282,7 @@ ul.tabs li.current {
                         </c:otherwise>
                      </c:choose>
    
-                     <c:forEach begin="1" end="${paginationSize}" var="i">
+                     <c:forEach begin="1" end="${paginationSizeAd}" var="i">
                         <c:choose>
                            <c:when test="${pageVo.page == i}">
                               <span>${i}</span>
@@ -300,7 +295,7 @@ ul.tabs li.current {
                      </c:forEach>
    
                      <c:choose>
-                        <c:when test="${pageVo.page == paginationSize}">
+                        <c:when test="${pageVo.page == paginationSizeAd}">
                            <a href class="btn_last"></a>
                         </c:when>
                         <c:otherwise>
