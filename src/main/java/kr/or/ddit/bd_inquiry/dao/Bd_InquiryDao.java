@@ -129,30 +129,18 @@ public class Bd_InquiryDao implements IBd_InquiryDao{
 // 사용자****************************************************************************************
 
 	/**
-	 * Method 		: userListOrigin
+	 * Method 		: userList
 	 * 작성자 			: 양한솔 
 	 * 변경이력 		: 2019-07-21 최초 생성
 	 * @param user_email
 	 * @return
-	 * Method 설명 	: 사용자 일반문의 게시글페이징 조회
+	 * Method 설명 	: 사용자 일반문의,광고문의 게시글페이징 조회
 	 */
 	@Override
-	public List<Bd_InquiryVo> userListOrigin(PageVo pageVo) {
-		return sqlSession.selectList("bd_inquiry.userListOrigin",pageVo);
+	public List<Bd_InquiryVo> userList(PageVo pageVo) {
+		return sqlSession.selectList("bd_inquiry.userList",pageVo);
 	}
 
-	/**
-	 * Method 		: userListAd
-	 * 작성자 			: 양한솔 
-	 * 변경이력 		: 2019-07-21 최초 생성
-	 * @param user_email
-	 * @return
-	 * Method 설명 	: 사용자 광고문의 게시글페이징 조회
-	 */
-	@Override
-	public List<Bd_InquiryVo> userListAd(PageVo pageVo) {
-		return sqlSession.selectList("bd_inquiry.userListAd",pageVo);
-	}
 	
 	/**
 	 * Method 		: insertUserPost

@@ -152,8 +152,13 @@ public class Bd_InquiryService implements IBd_InquiryService{
 	@Override
 	public Map<String, Object> userInquiryList(PageVo pageVo) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("inquiryListOrigin", bd_InquiryDao.userListOrigin(pageVo));
-		resultMap.put("inquiryListAd", bd_InquiryDao.userListAd(pageVo));
+		//일반문의
+		pageVo.setInq_cate("INQ01");
+		resultMap.put("inquiryListOrigin", bd_InquiryDao.userList(pageVo));
+		
+		//광고문의
+		pageVo.setInq_cate("INQ02");
+		resultMap.put("inquiryListAd", bd_InquiryDao.userList(pageVo));
 		
 		//일반문의 게시글 개수
 		int inquiryCntOrigin = bd_InquiryDao.inquiryCnt("INQ01");

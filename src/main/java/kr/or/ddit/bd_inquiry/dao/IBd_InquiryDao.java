@@ -125,22 +125,14 @@ public interface IBd_InquiryDao {
 // *************************************************************************사용자***********************************************************************************
 
 	/**
-	 * Method 		: userGeneralList
+	 * Method 		: userList
 	 * 작성자 			: 양한솔 
 	 * 변경이력 		: 2019-07-21 최초 생성
 	 * @return
-	 * Method 설명 	: 사용자 광고문의 게시글페이징 조회
+	 * Method 설명 	: 사용자 광고문의 ,일반문의 게시글페이징 조회
 	 */
-	List<Bd_InquiryVo> userListOrigin(PageVo pageVo);
+	List<Bd_InquiryVo> userList(PageVo pageVo);
 	
-	/**
-	 * Method 		: userGeneralList
-	 * 작성자 			: 양한솔 
-	 * 변경이력 		: 2019-07-21 최초 생성
-	 * @return
-	 * Method 설명 	: 사용자 일반문의 게시글페이징 조회
-	 */
-	List<Bd_InquiryVo> userListAd(PageVo pageVo);
 	
 	/**
 	 * Method 		: insertUserPost

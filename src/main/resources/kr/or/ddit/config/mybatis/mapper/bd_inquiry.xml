@@ -102,8 +102,8 @@
 	
 <!-- 사용자 -->
 
-	<!--  사용자 일반문의 페이징리스트 -->
-	<select id="userListOrigin" resultType="bd_inquiryVo" parameterType="pageVo">
+	<!--  사용자 일반문의,광고문의 페이징리스트 -->
+	<select id="userList" resultType="bd_inquiryVo" parameterType="pageVo">
 	<![CDATA[
 	select *
     from
@@ -112,29 +112,13 @@
     (select a.*
     from bd_inquiry a 
     where USER_EMAIL='${user_email}'
-    and inq_cate = 'INQ01'
+    and inq_cate = #{inq_cate}
     and DEL_FL='N'
     order by INQ_ID desc) a)
 	where rn >=(${page}-1)*${pageSize} + 1 and rn <=${page}*${pageSize}
 	]]>
 	</select>
 	
-	<!--  사용자 광고문의 페이징리스트 -->
-	<select id="userListAd" resultType="bd_inquiryVo" parameterType="pageVo">
-	<![CDATA[
-	select *
-    from
-	(select a.*, ROW_NUMBER() OVER(order by INQ_ID desc) rn
-    from
-    (select a.*
-    from bd_inquiry a 
-    where USER_EMAIL='${user_email}'
-    and inq_cate = 'INQ02'
-    and DEL_FL='N'
-    order by INQ_ID desc) a)
-	where rn >=(${page}-1)*${pageSize} + 1 and rn <=${page}*${pageSize}
-	]]>
-	</select>
 	
 	<!-- 사용자 일반문의, 광고문의 게시글 작성 -->
 	<insert id="userInsertInquiry" parameterType="bd_inquiryVo">
