@@ -69,7 +69,58 @@
 		WHERE   ct_id = #{ct_id}
 	</update>
 	
-
+	<!-- 페이징 처리한 내가 속한 채팅방 리스트 -->
+	<select id="pagingChatRoomList" parameterType="pageVo" resultType="chat_roomVo">
+		<![CDATA[
+		select a.*
+		from(
+		    select r.ct_id, r.ct_nm, r.ct_dt,ROW_NUMBER() OVER(order by r.ct_id desc) rn
+		    from chat_mem m ,chat_room r
+		    where m.ct_id = r.ct_id
+		    and m.user_email = #{user_email}
+		    and r.prj_id is null
+		    order by r.ct_id desc)a
+		where rn >=(${page}-1)*${pageSize} + 1 and rn <=${page}*${pageSize}
+		]]>
+	</select>
+	
+	<!-- 페이징 처리한 내가 속한 채팅방 리스트 프로제트-->
+	<select id="pagingChatRoomListProject" parameterType="pageVo" resultType="chat_roomVo">
+		<![CDATA[
+		select a.*
+		from(
+		    select r.ct_id, r.ct_nm, r.ct_dt,ROW_NUMBER() OVER(order by r.ct_id desc) rn
+		    from chat_mem m ,chat_room r, project p
+		    where m.ct_id = r.ct_id
+		    and p.prj_id = r.prj_id
+		    and m.user_email = #{user_email}
+		    and p.del_fl = 'N'
+			and r.prj_id is not null
+		    order by r.ct_id desc)a
+		where rn >=(${page}-1)*${pageSize} + 1 and rn <=${page}*${pageSize}
+		]]>
+	</select>
+	
+	<!-- 내가 속한 채팅방 개수 -->
+	<select id="chatRoomCnt" parameterType="string" resultType="int">
+		select count(*) 
+		from chat_room r, chat_mem m
+		where r.ct_id = m.ct_id
+		and r.prj_id is null
+		and m.user_email = #{user_email}
+	</select>
+	
+	
+	<!-- 내가 속한 채팅방 개수 프로젝트-->
+	<select id="chatRoomCntProject" parameterType="string" resultType="int">
+		select count(*)
+		from chat_room r, chat_mem m, project p
+		where r.ct_id = m.ct_id
+		and r.prj_id = p.prj_id
+		and p.del_fl = 'N'
+		and r.prj_id is not null
+		and m.user_email = #{user_email}
+	</select>
 	
 <!-- ************************* chat_memVo **********************************-->
 
@@ -148,7 +199,7 @@
 
 	<!-- 채팅방 대화 내용 리스트 (채팅방별 대화 리스트)-->
 	<select id="chatroomContentList" parameterType="int" resultType="chat_participateVo">
-		select c.ch_msg, u.user_nm, u.user_email
+		select c.ch_msg, u.user_nm, u.user_email, c.ch_msg_dt
 		from chat_content c,users u 
 		where c.ct_id = #{ct_id} 
 		and   c.user_email = u.user_email

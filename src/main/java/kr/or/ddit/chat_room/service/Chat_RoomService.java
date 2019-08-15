@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import kr.or.ddit.chat_mem.model.Chat_MemVo;
 import kr.or.ddit.chat_room.dao.IChat_RoomDao;
 import kr.or.ddit.chat_room.model.Chat_RoomVo;
+import kr.or.ddit.paging.model.PageVo;
 
 
 @Service
@@ -73,6 +74,42 @@ public class Chat_RoomService implements IChat_RoomService{
 	@Override
 	public int deleteChatRoomProject(int prj_id) {
 		int cnt = roomDao.deleteChatRoomProject(prj_id);
+		return cnt;
+	}
+
+	@Override
+	public Map<String, Object> pagingChatRoomList(PageVo page) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("pagingChatRoomList", roomDao.pagingChatRoomList(page));
+		
+		int roomCnt = roomDao.chatRoomCnt(page.getUser_email());
+		int paginationSize = (int) Math.ceil((double)roomCnt/page.getPageSize());
+		
+		resultMap.put("paginationSize", paginationSize);
+		return resultMap;
+	}
+
+	@Override
+	public Map<String, Object> pagingChatRoomListProject(PageVo page) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("pagingChatRoomList", roomDao.pagingChatRoomListProject(page));
+		
+		int roomCnt = roomDao.chatRoomCntProject(page.getUser_email());
+		int paginationSize = (int) Math.ceil((double)roomCnt/page.getPageSize());
+		
+		resultMap.put("paginationSize", paginationSize);
+		return resultMap;
+	}
+
+	@Override
+	public int chatRoomCnt(String user_email) {
+		int cnt = roomDao.chatRoomCnt(user_email);
+		return cnt;
+	}
+
+	@Override
+	public int chatRoomCntProject(String user_email) {
+		int cnt = roomDao.chatRoomCntProject(user_email);
 		return cnt;
 	}
 

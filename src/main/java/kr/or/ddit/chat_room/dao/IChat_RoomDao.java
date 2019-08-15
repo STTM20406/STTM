@@ -5,6 +5,7 @@ import java.util.Map;
 
 import kr.or.ddit.chat_mem.model.Chat_MemVo;
 import kr.or.ddit.chat_room.model.Chat_RoomVo;
+import kr.or.ddit.paging.model.PageVo;
 
 public interface IChat_RoomDao {
 		
@@ -120,6 +121,49 @@ public interface IChat_RoomDao {
 	 */
 	public int updateChatTitle(Chat_RoomVo vo);
 	
-
+	/**
+	 * 
+	 * Method 		: pagingChatRoomList
+	 * 작성자 			: 유다연
+	 * 변경이력 		: 2019-08-14 최초 생성
+	 * @param page
+	 * @return
+	 * Method 설명 	: 페이징 처리한 내가 속한 채팅방 리스트
+	 */
+	public List<Chat_RoomVo> pagingChatRoomList(PageVo page);
+	
+	/**
+	 * 
+	 * Method 		: pagingChatRoomListProject
+	 * 작성자 			: 유다연
+	 * 변경이력 		: 2019-08-14 최초 생성
+	 * @param page
+	 * @return
+	 * Method 설명 	: 페이징 처리한 내가 속한 채팅방 리스트 프로제트
+	 */
+	public List<Chat_RoomVo> pagingChatRoomListProject(PageVo page);
+	
+	/**
+	 * 
+	 * Method 		: chatRoomCnt
+	 * 작성자 			: 유다연
+	 * 변경이력 		: 2019-08-14 최초 생성
+	 * @param user_email
+	 * @return
+	 * Method 설명 	: 내가 속한 채팅방 개수
+	 */
+	public int chatRoomCnt(String user_email);
+	
+	/**
+	 * 
+	 * Method 		: chatRoomCntProject
+	 * 작성자 			: 유다연
+	 * 변경이력 		: 2019-08-14 최초 생성
+	 * @param user_email
+	 * @return
+	 * Method 설명 	: 내가 속한 채팅방 개수 프로젝트
+	 */
+	public int chatRoomCntProject(String user_email);
+	
 	
 }

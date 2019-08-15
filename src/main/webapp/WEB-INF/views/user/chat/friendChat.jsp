@@ -13,8 +13,8 @@
 	<div class="sub_menu">
 		<ul class="sub_menu_item">
 			<li><a href="/friendChatList">친구 채팅</a></li>
-			<li><a href="/projectChat">프로젝트 멤버 채팅</a></li>
-			<li><a href="/faceChatMain">화상 회의</a></li>
+			<li><a href="/projectChatList">프로젝트 멤버 채팅</a></li>
+			<li><a href="#" id = "faceBtn">화상 회의</a></li>
 		</ul>
 	</div>
 
@@ -106,7 +106,7 @@
 	<div class="chat_room"> 
 		<div class="chat_room_hd">
 			<div class="mesgs">
-				<div class="msg_history">
+				<div class="msg_history" id="chatData">
 				<c:forEach items="${chatroomContentList }" var="contentList">
 					<c:if test="${contentList.user_email != USER_INFO.user_email }">
 						<div class="incoming_msg">
@@ -114,7 +114,7 @@
 								<div class="received_withd_msg">
 									<p>${contentList.user_nm }</p>
 									<p>${contentList.ch_msg }</p>
-									<span class="time_date"> 11:01 AM | June 9</span>
+									<span class="time_date"> ${contentList.ch_msg_dt }</span>
 								</div>
 							</div>
 						</div>
@@ -125,7 +125,7 @@
 							<div class="sent_msg">
 								<p>${contentList.user_nm }</p>
 								<p>${contentList.ch_msg }</p>
-								<span class="time_date"> 11:01 AM | June 9</span>
+								<span class="time_date">${contentList.ch_msg_dtString }</span>
 							</div>
 						</div>
 					
@@ -146,43 +146,6 @@
 		</div>
 	</div>
 
-
-
-
-				
-		<!-- 		<div class="chat_room"> -->
-		<!-- 			<div class="chat_room_hd"> -->
-		<%-- 				<h2>${roomNm }</h2> --%>
-		<!-- 			</div> -->
-		<!-- 			<div class="chat_room_con"> -->
-		<%-- 				<c:forEach items="${chatroomContentList }" var="contentList"> --%>
-		<%-- 					<c:if test="${contentList.user_email != USER_INFO.user_email }"> --%>
-		<!-- 						<br> -->
-		<!-- 						<dl class="chat_other"> -->
-		<%-- 							<dt id="otherName">${contentList.user_nm }</dt> --%>
-		<%-- 							<dd id="otherContent">${contentList.ch_msg }</dd> --%>
-		<!-- 						</dl> -->
-
-		<%-- 					</c:if> --%>
-		<%-- 					<c:if test="${contentList.user_email == USER_INFO.user_email }"> --%>
-		<!-- 						<br> -->
-		<!-- 						<dl class="chat_me"> -->
-		<%-- 							<dt id="meName">${contentList.user_nm }</dt> --%>
-		<%-- 							<dd id="meContent">${contentList.ch_msg }</dd> --%>
-		<!-- 						</dl> -->
-		<%-- 					</c:if> --%>
-
-		<%-- 				</c:forEach> --%>
-		<!-- 			</div> -->
-		<!-- 			<div class="chat_room_bt"> -->
-		<!-- 				<input type="text" id="msg" name="msg" -->
-		<!-- 					placeholder="write something.." value=""> <input -->
-		<!-- 					type="button" id="buttonMessage" value="보내기"> -->
-		<!-- 			</div> -->
-		<!-- 		</div> -->
-
-
-		<!-- 	</div> -->
 </section>
 
 
@@ -239,7 +202,11 @@
 					var $href = $(this).attr('href');
 					layer_popup($href);
 				});
+				
+				$("#faceBtn").on("click",function(){
+					window.open('http://localhost/RTCMulticonnection/index.html', '_blank')
 
+				});
 			});
 
 	window.onkeyup = function(e) {
@@ -310,14 +277,26 @@
 			var strArray = event.data.split(",");
 
 			console.log("strArray[0] :" + strArray[0] + "strArray[1]"
-					+ strArray[1] + "strArray[2]" + strArray[2]);
+					+ strArray[1] + "strArray[2]" + strArray[2] + "userId"+userId);
 
-			if (strArray[0] == userId) {
-				$(".sent_msg").append(
-						"<p>" + strArray[1] + "</p><p>" + strArray[2] + "</p>" + "<span class='time_date'> 11:01 AM | June 9</span>");
+			if (strArray[0] != userId) {
+					var printHTML = "<div class='incoming_msg'>";
+					printHTML += "<div class='received_msg'>";
+					printHTML += "<div class='received_withd_msg'>";
+					printHTML += "<p>" + strArray[1] + "</p>";
+					printHTML += "<p>" + strArray[2] + "</p>";
+					printHTML += "<span class='time_date'> 11:01 AM | June 9</span></div></div></div>";
+				$("#chatData").append(printHTML);
+				$("#chatData").scrollTop($("#chatData")[0].scrollHeight);			
+				
 			} else {
-				$(".received_withd_msg").append(
-						"<p>" + strArray[1] + "</p><p>" + strArray[2] + "</p>" + "<span class='time_date'> 11:01 AM | June 9</span>");
+				var printHTML = "<div class='outgoing_msg'>";
+				printHTML += "<div class='sent_msg'>";
+				printHTML += "<p>" + strArray[1] + "</p>";
+				printHTML += "<p>" + strArray[2] + "</p>";
+				printHTML += "<span class='time_date'> 11:01 AM | June 9</span></div></div>";
+				$("#chatData").append(printHTML);
+				$("#chatData").scrollTop($("#chatData")[0].scrollHeight);
 			}
 
 		};
