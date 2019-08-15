@@ -160,6 +160,8 @@ Last update : 2019. 07. 22.
 .inp_style_03 {height:35px; color:#2b65ff; line-height:35px; background:#e0e8fe; border-radius:2px; display:inline-block; text-align:center; font-size:13px; vertical-align:top; border:0; padding:0 20px}
 .inp_style_04 {height:35px; color:#7d6957; line-height:35px; background:#feefe1; border-radius:2px; display:inline-block; text-align:center; font-size:13px;vertical-align:top; border:0; padding:0 20px}
 
+button.rcvbtn-style {display:inline-block; height:25px; padding:0 14px 0; background-color:#3f5a9d; font-size:13px; color:#fff; line-height:25px; border:none;}
+button.rcvbtn-style:hover {background-color:#1f326a; color:#fff;}
 
 /* table style */
 .tb_style_01 {width:100%; border-collapse:collapse;}
@@ -263,7 +265,6 @@ Last update : 2019. 07. 22.
 a.btn-layerClose {display:inline-block; height:25px; padding:0 14px 0; background-color:#3f5a9d; font-size:13px; color:#fff; line-height:25px;}
 a.btn-layerClose:hover {border: 1px solid #091940; background-color:#1f326a; color:#fff;}
 
- 
 .pop-project {position:relative; overflow:hidden; height:400px}
 .new_proejct {position:absolute; left:0; top:0; width:100%}
 .select_template {position:absolute; left:100%; top:0; width:100%}
