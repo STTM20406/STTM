@@ -107,6 +107,23 @@
     ]]>
 	</select>
 	
+	<!-- 게시판별 자신만의 게시글 페이징리스트 -->
+	<select id="myBoardPostList" parameterType="pageVo" resultType="board_writeVo">
+	 <![CDATA[
+		select *
+	    from
+		(select a.*, ROW_NUMBER() OVER(order by write_id desc) rn
+	    from
+	    (select a.*
+	    from board_write a 
+	    where board_id = #{board_id}
+	    and del_yn='N'
+	    and user_email = #{user_email}
+	    order by write_id desc) a)
+	    where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
+    ]]>
+	</select>
+	
 	<!-- 게시글 수정 -->
 	<update id="updatePost" parameterType="board_writeVo">
 		update board_write set 
@@ -122,9 +139,21 @@
 		where write_id= #{write_id}
 	</update>
 	
-	<!-- 게시글 개수 -->
-	<select id="postCnt" resultType="int">
-		select count(*) from board_write where del_yn='N'
+	<!-- 게시판별 게시글 개수 -->
+	<select id="postCnt" parameterType="int" resultType="int">
+		select count(*) 
+		from board_write
+		where board_id = #{board_id}
+		and del_yn='N'
+	</select>
+	
+	<!-- 내가 쓴 게시글 개수 -->
+	<select id="myPostCnt" parameterType="pageVo" resultType="int">
+		select count(*) 
+		from board_write 
+		where board_id = #{board_id}
+		and user_email=#{user_email}
+		and del_yn='N'
 	</select>
 	
 	<!-- 게시글 조회수 증가 -->

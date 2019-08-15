@@ -88,9 +88,30 @@ public class Board_WriteService implements IBoard_WriteService{
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("boardPostList", board_wirteDao.boardPostList(pageVo));
 		
-		int postCnt = board_wirteDao.postCnt();
+		int postCnt = board_wirteDao.postCnt(pageVo.getBoard_id());
 		int paginationSize = (int) Math.ceil((double)postCnt/pageVo.getPageSize());
 		resultMap.put("paginationSize", paginationSize);
+		
+		return resultMap;
+	}
+	
+	/**
+	 * Method 		: myBoardPostList
+	 * 작성자 			: 양한솔 
+	 * 변경이력 		: 2019-07-26 최초 생성
+	 * @param pageVo
+	 * @return
+	 * Method 설명 	: 나만의 게시글 페이징리스트
+	 */
+	@Override
+	public Map<String, Object> myBoardPostList(PageVo pageVo) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		
+		resultMap.put("myBoardPostList", board_wirteDao.myBoardPostList(pageVo));
+		
+		int postCnt = board_wirteDao.myPostCnt(pageVo);
+		int paginationSize = (int) Math.ceil((double)postCnt/pageVo.getPageSize());
+		resultMap.put("myPaginationSize", paginationSize);
 		
 		return resultMap;
 	}
@@ -103,10 +124,21 @@ public class Board_WriteService implements IBoard_WriteService{
 	 * Method 설명 	: 게시글 전체 개수 조회
 	 */
 	@Override
-	public int postCnt() {
-		return board_wirteDao.postCnt();
+	public int postCnt(int board_id) {
+		return board_wirteDao.postCnt(board_id);
 	}
 
+	/**
+	 * Method 		: myPostCnt
+	 * 작성자 			: 양한솔 
+	 * 변경이력 		: 2019-07-26 최초 생성
+	 * @return
+	 * Method 설명 	: 게시글 전체 개수 조회
+	 */
+	@Override
+	public int myPostCnt(PageVo vo) {
+		return board_wirteDao.myPostCnt(vo);
+	}
 	
 	/**
 	 * Method 		: postViewCnt
@@ -166,5 +198,7 @@ public class Board_WriteService implements IBoard_WriteService{
 	public int selectContentCnt(String content) {
 		return board_wirteDao.selectContentCnt(content);
 	}
+
+
 
 }

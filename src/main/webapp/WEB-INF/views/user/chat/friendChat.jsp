@@ -114,7 +114,7 @@
 								<div class="received_withd_msg">
 									<p>${contentList.user_nm }</p>
 									<p>${contentList.ch_msg }</p>
-									<span class="time_date"> ${contentList.ch_msg_dt }</span>
+									<span class="time_date"><fmt:formatDate value="${contentList.ch_msg_dt }" pattern="yy/MM/dd HH:mm" /></span>
 								</div>
 							</div>
 						</div>
@@ -125,7 +125,7 @@
 							<div class="sent_msg">
 								<p>${contentList.user_nm }</p>
 								<p>${contentList.ch_msg }</p>
-								<span class="time_date">${contentList.ch_msg_dtString }</span>
+								<span class="time_date"><fmt:formatDate value="${contentList.ch_msg_dt }" pattern="yy/MM/dd HH:mm" /></span>
 							</div>
 						</div>
 					

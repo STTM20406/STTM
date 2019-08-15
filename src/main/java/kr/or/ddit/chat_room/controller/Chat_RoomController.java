@@ -170,15 +170,15 @@ public class Chat_RoomController {
 		// 채팅방 대화 내용 리스트 (채팅방별 대화 리스트)
 		List<ChatParticipateUserVo> chatroomContentList = contentService.chatroomContentList(Ict_id);
 		
-		Date msgDate=null;
-		for(int i=0;i<chatroomContentList.size();i++) {
-			msgDate = chatroomContentList.get(i).getCh_msg_dt();
-			SimpleDateFormat transFormat = new SimpleDateFormat("yy/MM/dd HH:mm");
-
-			chatroomContentList.get(i).setCh_msg_dtString(transFormat.format(msgDate));
-
-
-		}
+//		Date msgDate=null;
+//		for(int i=0;i<chatroomContentList.size();i++) {
+//			msgDate = chatroomContentList.get(i).getCh_msg_dt();
+//			SimpleDateFormat transFormat = new SimpleDateFormat("yy/MM/dd HH:mm");
+//
+//			chatroomContentList.get(i).setCh_msg_dtString(transFormat.format(msgDate));
+//
+//
+//		}
 		
 		
 		//채팅방에 참여한 친구 리스트

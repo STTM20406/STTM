@@ -58,13 +58,32 @@ public interface IBoard_WriteService {
 	Map<String, Object> boardPostList(PageVo pageVo);
 	
 	/**
+	 * Method 		: myBoardPostList
+	 * 작성자 			: 양한솔 
+	 * 변경이력 		: 2019-07-26 최초 생성
+	 * @param pageVo
+	 * @return
+	 * Method 설명 	: 나만의 게시글 페이징리스트
+	 */
+	Map<String, Object> myBoardPostList(PageVo pageVo);
+	
+	/**
 	 * Method 		: postCnt
 	 * 작성자 			: 양한솔 
 	 * 변경이력 		: 2019-07-26 최초 생성
 	 * @return
 	 * Method 설명 	: 게시글 전체 개수 조회
 	 */
-	int postCnt();
+	int postCnt(int board_id);
+	
+	/**
+	 * Method 		: myPostCnt
+	 * 작성자 			: 양한솔 
+	 * 변경이력 		: 2019-07-26 최초 생성
+	 * @return
+	 * Method 설명 	: 게시판별 나의 게시글 전체 개수 조회
+	 */
+	int myPostCnt(PageVo vo);
 	
 	/**
 	 * Method 		: postViewCnt

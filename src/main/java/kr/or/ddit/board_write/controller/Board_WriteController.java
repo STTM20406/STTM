@@ -34,6 +34,8 @@ public class Board_WriteController {
 	@Resource(name="board_AnswerService")
 	private IBoard_AnswerService answerService;
 	
+
+	
 	/**
 	 * Method 		: boardPostList
 	 * 작성자 			: 양한솔 
@@ -48,24 +50,32 @@ public class Board_WriteController {
 	@RequestMapping(path = "/community",method=RequestMethod.GET)
 	public String boardPostList(Model model,String page, String pageSize,int board_id,HttpSession session) {
 		
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
 		int pageStr = page == null ? 1 : Integer.parseInt(page);
 		int pageSizeStr =  pageSize == null ? 10 : Integer.parseInt(pageSize);
 		
-		
 		PageVo pageVo = new PageVo(pageStr,pageSizeStr);
 		pageVo.setBoard_id(board_id);
-		
+		pageVo.setUser_email(userVo.getUser_email());
 		Map<String, Object> resultMap =  writeService.boardPostList(pageVo);
 		
 		List<Board_WriteVo> boardList = (List<Board_WriteVo>) resultMap.get("boardPostList");
 		logger.debug("!@# boardList : {}",boardList);
 		
-		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
-		
 		int paginationSize = (Integer) resultMap.get("paginationSize");
 		
+		//나의 게시판 리스트
+		Map<String, Object> myResultMap =  writeService.myBoardPostList(pageVo);
+		List<Board_WriteVo> myBoardList = (List<Board_WriteVo>) myResultMap.get("myBoardPostList");
+		int myaginationSize = (Integer) myResultMap.get("myPaginationSize");
+		
+		
 		model.addAttribute("board_id",board_id);
+		model.addAttribute("paginationSize",paginationSize);
 		model.addAttribute("boardList", boardList);
+		model.addAttribute("myaginationSize",myaginationSize);
+		model.addAttribute("myBoardList", myBoardList);
+		model.addAttribute("pageVo", pageVo);
 		
 		return "/board/community/communityList.user.tiles";
 	}

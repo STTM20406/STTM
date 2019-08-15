@@ -83,7 +83,7 @@
     from bd_inquiry a 
     where inq_cate = #{inq_cate}
     and DEL_FL='N' 
-	and inq_con like '%'||#{inq_con}||'%'
+	and inq_con like '%'||#{subject}||'%'
     order by INQ_ID) a)
     where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
     ]]>
@@ -180,7 +180,7 @@
     where user_email = #{user_email}
     and DEL_FL='N'
 	and inq_cate = #{inq_cate}
-	and inq_con like '%'||#{inq_con}||'%'
+	and inq_con like '%'||#{subject}||'%'
     order by INQ_ID desc) a)
     where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
     ]]>

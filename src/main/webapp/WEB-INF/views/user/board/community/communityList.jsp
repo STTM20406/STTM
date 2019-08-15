@@ -131,7 +131,44 @@ ul.tabs li.current {
 					</table>
 
 					<button id="addBtn" type="button" class="btn_style_01">게시글 작성</button>
-
+					
+					<div class="pagination">
+		                  <c:choose>
+		                     <c:when test="${pageVo.page == 1 }">
+		                        <a href class="btn_first"></a>
+		                     </c:when>
+		                     <c:otherwise>
+		                        <a href="${cp}/community?board_id=${pageVo.board_id }&page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a>
+		                     
+		                     </c:otherwise>
+		                  </c:choose>
+		
+		                  <c:forEach begin="1" end="${paginationSize}" var="i">
+		                     <c:choose>
+		                        <c:when test="${pageVo.page == i}">
+		                           <span>${i}</span>
+		                        </c:when>
+		                        <c:otherwise>
+		                        <a href="${cp}/community?board_id=${pageVo.board_id }&page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
+		                        </c:otherwise>
+		                     </c:choose>
+		
+		                  </c:forEach>
+		
+		                  <c:choose>
+		                     <c:when test="${pageVo.page == paginationSize}">
+		                        <a href class="btn_last"></a>
+		                     </c:when>
+		                     <c:otherwise>
+		                     <a href="${cp}/community?board_id=${pageVo.board_id }&page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
+		                        
+		
+		                     </c:otherwise>
+		                  </c:choose>
+		            
+		            </div>
+					
+					
 					</form>	
 				</div>
 				
@@ -163,24 +200,57 @@ ul.tabs li.current {
 								<th>좋아요</th>
 								<th>조회수</th>
 							</tr>
-							<c:forEach items="${boardList }" var="board">
-								<c:choose>
-									<c:when test="${board.del_yn == 'N' && board.user_email == USER_INFO.user_email}">
-										<tr class="boardTr">
-											<td class="boardNum" style="display:none;">${board.write_id }</td>
-											<td>${board.rn }</td>
-											<td>${board.subject }</td>
-											<td>${board.user_email }</td>
-											<td><fmt:formatDate value="${board.writedate }" pattern="yyyy-MM-dd" /></td>
-											<td>댓글수 들어갈거야</td>
-											<td>${board.like_cnt }</td>
-											<td>${board.view_cnt }</td>
-										</tr>
-									</c:when>
-								</c:choose>
+							<c:forEach items="${myBoardList }" var="myboard">
+								<tr class="boardTr">
+									<td class="boardNum" style="display:none;">${myboard.write_id }</td>
+									<td>${myboard.rn }</td>
+									<td>${myboard.subject }</td>
+									<td>${myboard.user_email }</td>
+									<td><fmt:formatDate value="${myboard.writedate }" pattern="yyyy-MM-dd" /></td>
+									<td>댓글수 들어갈거야</td>
+									<td>${myboard.like_cnt }</td>
+									<td>${myboard.view_cnt }</td>
+								</tr>
 							</c:forEach>
 							</tbody>
 					</table>
+					
+					<div class="pagination">
+		                  <c:choose>
+		                     <c:when test="${pageVo.page == 1 }">
+		                        <a href class="btn_first"></a>
+		                     </c:when>
+		                     <c:otherwise>
+		                        <a href="${cp}/community?board_id=${pageVo.board_id }&page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a>
+		                     
+		                     </c:otherwise>
+		                  </c:choose>
+		
+		                  <c:forEach begin="1" end="${myaginationSize}" var="i">
+		                     <c:choose>
+		                        <c:when test="${pageVo.page == i}">
+		                           <span>${i}</span>
+		                        </c:when>
+		                        <c:otherwise>
+		                        <a href="${cp}/community?board_id=${pageVo.board_id }&page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
+		                        </c:otherwise>
+		                     </c:choose>
+		
+		                  </c:forEach>
+		
+		                  <c:choose>
+		                     <c:when test="${pageVo.page == myaginationSize}">
+		                        <a href class="btn_last"></a>
+		                     </c:when>
+		                     <c:otherwise>
+		                     <a href="${cp}/community?board_id=${pageVo.board_id }&page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
+		                        
+		
+		                     </c:otherwise>
+		                  </c:choose>
+		            
+		            </div>
+					
 					</form>
 				</div>
 		</div>

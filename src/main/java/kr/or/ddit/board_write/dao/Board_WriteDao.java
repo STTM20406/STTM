@@ -82,6 +82,19 @@ public class Board_WriteDao implements IBoard_WriteDao{
 	}
 	
 	/**
+	 * Method 		: myBoardPostList
+	 * 작성자 			: 양한솔 
+	 * 변경이력 		: 2019-07-26 최초 생성
+	 * @param pageVo
+	 * @return
+	 * Method 설명 	: 나만의 게시글 페이징리스트
+	 */
+	@Override
+	public List<Board_WriteVo> myBoardPostList(PageVo pageVo) {
+		return sqlSession.selectList("board.myBoardPostList",pageVo);
+	}
+	
+	/**
 	 * Method 		: postCnt
 	 * 작성자 			: 양한솔 
 	 * 변경이력 		: 2019-07-26 최초 생성
@@ -89,8 +102,20 @@ public class Board_WriteDao implements IBoard_WriteDao{
 	 * Method 설명 	: 게시글 전체 개수 조회
 	 */
 	@Override
-	public int postCnt() {
-		return sqlSession.selectOne("board.postCnt");
+	public int postCnt(int board_id) {
+		return sqlSession.selectOne("board.postCnt",board_id);
+	}
+	
+	/**
+	 * Method 		: myPostCnt
+	 * 작성자 			: 양한솔 
+	 * 변경이력 		: 2019-07-26 최초 생성
+	 * @return
+	 * Method 설명 	: 게시글 전체 개수 조회
+	 */
+	@Override
+	public int myPostCnt(PageVo vo) {
+		return sqlSession.selectOne("board.myPostCnt",vo);
 	}
 	
 	/**
