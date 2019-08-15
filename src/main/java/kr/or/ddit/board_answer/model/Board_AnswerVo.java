@@ -28,7 +28,7 @@ public class Board_AnswerVo {
 	private String content; // 내용
 	private Date writedate; // 작성 일시
 	private String del_fl; // 글 삭제 여부
-	
+	private int rn;
 	public Board_AnswerVo() {
 
 	}
@@ -59,6 +59,19 @@ public class Board_AnswerVo {
 		return "Board_AnswerVo [comm_id=" + comm_id + ", write_id=" + write_id + ", user_email=" + user_email
 				+ ", content=" + content + ", writedate=" + writedate + ", del_fl=" + del_fl + "]";
 	}
+
+	
+	public int getRn() {
+		return rn;
+	}
+
+
+
+	public void setRn(int rn) {
+		this.rn = rn;
+	}
+
+
 
 	public int getComm_id() {
 		return comm_id;

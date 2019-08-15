@@ -40,9 +40,12 @@
 	
 	<!-- 게시글댓글리스트 조회 -->
 	<select id="replyList" parameterType="int" resultType="board_answerVo">
-		select * 
+		select a.*, rownum rn
+		from
+		(select * 
 		from board_answer 
 		where write_id = #{write_id}
+		order by comm_id desc)a
 	</select>
 	
 	<!-- 게시글댓글 수정 -->
@@ -93,12 +96,13 @@
 	 <![CDATA[
 		select *
 	    from
-		(select a.*, rownum rn
+		(select a.*, ROW_NUMBER() OVER(order by write_id desc) rn
 	    from
 	    (select a.*
 	    from board_write a 
 	    where board_id = #{board_id}
-	    order by write_id) a)
+	    and del_yn='N'
+	    order by write_id desc) a)
 	    where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
     ]]>
 	</select>
@@ -120,7 +124,7 @@
 	
 	<!-- 게시글 개수 -->
 	<select id="postCnt" resultType="int">
-		select count(*) from board_write
+		select count(*) from board_write where del_yn='N'
 	</select>
 	
 	<!-- 게시글 조회수 증가 -->
@@ -144,13 +148,14 @@
 		<![CDATA[
 			select *
 		    from
-			(select a.*, rownum rn
+			(select a.*, ROW_NUMBER() OVER(order by write_id desc) rn
 		    from
 		    (select a.*
 		    from board_write a 
 		    where board_id = #{board_id}
+		    and del_yn='N'
 		    and subject like '%' || #{subject} || '%'
-		    order by write_id) a)
+		    order by write_id desc) a)
 		    where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
 	    ]]>
 	</select>
@@ -160,13 +165,14 @@
 		<![CDATA[
 			select *
 		    from
-			(select a.*, rownum rn
+			(select a.*, ROW_NUMBER() OVER(order by write_id desc) rn
 		    from
 		    (select a.*
 		    from board_write a 
 		    where board_id = #{board_id}
+		    and del_yn='N'
 		    and content like '%' || #{content} || '%'
-		    order by write_id) a)
+		    order by write_id desc) a)
 		    where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
 	    ]]>
 	</select>
@@ -176,6 +182,7 @@
 		select count(*) 
 		from board_write
 		where subject like '%' || #{subject} || '%'
+		and del_yn='N'
 	</select>
 	
 	
@@ -184,6 +191,7 @@
 		select count(*) 
 		from board_write
 		where content like '%' || #{content} || '%'
+		and del_yn='N'
 	</select>
 	
 <!-- **********************likes*************************** -->

@@ -31,6 +31,7 @@ public class Board_WriteVo {
 	private int view_cnt; // 조회수
 	private int like_cnt; // 좋아요수
 	private String del_yn; // 삭제 여부
+	private int rn;
 	
 	public Board_WriteVo() {
 
@@ -84,6 +85,20 @@ public class Board_WriteVo {
 				+ ", subject=" + subject + ", content=" + content + ", writedate=" + writedate + ", view_cnt="
 				+ view_cnt + ", like_cnt=" + like_cnt + ", del_yn=" + del_yn + "]";
 	}
+
+	
+	
+	public int getRn() {
+		return rn;
+	}
+
+
+
+	public void setRn(int rn) {
+		this.rn = rn;
+	}
+
+
 
 	public int getWrite_id() {
 		return write_id;

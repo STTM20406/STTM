@@ -7,7 +7,7 @@
 <!-- 공통 -->
 	<!-- 게시글 갯수 -->
 	<select id="inquiryCnt" resultType="int">
-		SELECT COUNT(*) FROM BD_INQUIRY
+		SELECT COUNT(*) FROM BD_INQUIRY where DEL_FL='N'
 	</select>
 	
 	<!-- 게시글 조회 -->
@@ -15,6 +15,7 @@
 		select *
 		from bd_inquiry
 		where inq_id = #{inq_id}
+		and DEL_FL='N'
 	</select>
 	
 	
@@ -25,11 +26,12 @@
 	<![CDATA[
 	select *
     from
-	(select a.*, rownum rn
+	(select a.*, ROW_NUMBER() OVER(order by INQ_ID desc) rn
     from
     (select a.*
     from bd_inquiry a 
-    order by INQ_ID) a)
+    where DEL_FL='N'
+    order by INQ_ID desc) a)
 		where rn >=(${page}-1)*${pageSize} + 1 and rn <=${page}*${pageSize}
 	]]>
 	</select>
@@ -47,13 +49,14 @@
 	<![CDATA[
 	select *
     from
-	(select a.*, rownum rn
+	(select a.*, ROW_NUMBER() OVER(order by INQ_ID desc) rn
     from
     (select a.*
     from bd_inquiry a 
     where inq_cate = #{inq_cate} 
+    and DEL_FL='N'
 	and subject like '%'||#{subject}||'%'
-    order by INQ_ID) a)
+    order by INQ_ID desc) a)
     where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
 	]]>
 	</select>
@@ -63,6 +66,7 @@
 	select count(*)
 	from bd_inquiry
 	where inq_cate = #{inq_cate}
+	and DEL_FL='N'
 	and subject like '%'||#{subject}||'%' 
 	</select>
 		
@@ -71,12 +75,13 @@
 	<![CDATA[
 	select *
     from
-	(select a.*, rownum rn
+	(select a.*, ROW_NUMBER() OVER(order by INQ_ID desc) rn
     from
     (select a.*
     from bd_inquiry a 
-    where inq_cate = #{inq_cate} 
-	and inq_con like '%'||#{subject}||'%'
+    where inq_cate = #{inq_cate}
+    and DEL_FL='N' 
+	and inq_con like '%'||#{inq_con}||'%'
     order by INQ_ID) a)
     where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
     ]]>
@@ -87,7 +92,8 @@
 	select count(*)
 	from bd_inquiry
 	where inq_cate = #{inq_cate}
-	and inq_con like '%'||#{subject}||'%' 
+	and DEL_FL='N'
+	and inq_con like '%'||#{inq_con}||'%' 
 	</select>
 	
 	
@@ -99,13 +105,14 @@
 	<![CDATA[
 	select *
     from
-	(select a.*, rownum rn
+	(select a.*, ROW_NUMBER() OVER(order by INQ_ID desc) rn
     from
     (select a.*
     from bd_inquiry a 
-   where USER_EMAIL='${user_email}'
-    order by INQ_ID) a)
-		where rn >=(${page}-1)*${pageSize} + 1 and rn <=${page}*${pageSize}
+    where USER_EMAIL='${user_email}'
+    and DEL_FL='N'
+    order by INQ_ID desc) a)
+	where rn >=(${page}-1)*${pageSize} + 1 and rn <=${page}*${pageSize}
 	]]>
 	</select>
 	
@@ -134,14 +141,15 @@
 	<![CDATA[
 	select *
     from
-	(select a.*, rownum rn
+	(select a.*, ROW_NUMBER() OVER(order by INQ_ID desc) rn
     from
     (select a.*
     from bd_inquiry a 
     where user_email = #{user_email}
 	and inq_cate = #{inq_cate}
+	and DEL_FL='N'
 	and subject like '%'||#{subject}||'%'
-    order by INQ_ID) a)
+    order by INQ_ID desc) a)
     where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
 	]]>
 	</select>
@@ -152,6 +160,7 @@
 	from bd_inquiry
 	where user_email = #{user_email}
 	and inq_cate = #{inq_cate}
+	and DEL_FL='N'
 	and subject like '%'||#{subject}||'%' 
 	</select>
 		
@@ -160,14 +169,15 @@
 	<![CDATA[
 	select *
     from
-	(select a.*, rownum rn
+	(select a.*, ROW_NUMBER() OVER(order by INQ_ID desc) rn
     from
     (select a.*
     from bd_inquiry a 
     where user_email = #{user_email}
+    and DEL_FL='N'
 	and inq_cate = #{inq_cate}
-	and inq_con like '%'||#{subject}||'%'
-    order by INQ_ID) a)
+	and inq_con like '%'||#{inq_con}||'%'
+    order by INQ_ID desc) a)
     where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
     ]]>
 	</select>
@@ -177,6 +187,7 @@
 	select count(*)
 	from bd_inquiry
 	where user_email = #{user_email}
+	and DEL_FL='N'
 	and inq_cate = #{inq_cate}
 	and inq_con like '%'||#{subject}||'%' 
 	</select>
