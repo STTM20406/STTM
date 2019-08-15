@@ -1,6 +1,8 @@
 package kr.or.ddit.chat_room.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +28,7 @@ import kr.or.ddit.chat_room.service.IChat_RoomService;
 import kr.or.ddit.friends.model.ChatFriendsVo;
 import kr.or.ddit.friends.model.FriendsVo;
 import kr.or.ddit.friends.service.IFriendsService;
+import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.project_mem.model.Project_MemVo;
 import kr.or.ddit.project_mem.service.IProject_MemService;
 import kr.or.ddit.users.model.UserVo;
@@ -52,13 +55,22 @@ public class Chat_RoomController {
 	
 	
 	@RequestMapping(path="/projectChatList")
-	public String projectChatList(Model model, HttpSession session) {
+	public String projectChatList(String page, String pageSize,Model model, HttpSession session) {
 		
 		UserVo user = (UserVo) session.getAttribute("USER_INFO");    
 		String user_email = user.getUser_email();
+		int pagei = page == null ? 1 : Integer.parseInt(page);
+		int pageSizei =  pageSize == null ? 10 : Integer.parseInt(pageSize);
 		
-		//내가 갖고 있는 방목록 가져오기
-		List<Chat_RoomVo> roomlist = roomService.getRoomListProject(user_email);
+		PageVo pageVo = new PageVo(pagei,pageSizei);
+		pageVo.setUser_email(user_email);
+		
+		//페이징한 내가 참여한 방 리스트
+		Map<String, Object> resultMap = roomService.pagingChatRoomListProject(pageVo);
+		
+		List<Chat_RoomVo> roomlist = (List<Chat_RoomVo>) resultMap.get("pagingChatRoomList");
+		logger.debug("*********roomlist: {}" , roomlist);
+		int paginationSize = (int) resultMap.get("paginationSize");
 		
 		
 		//방마다의 친구 리스트를 가져옴
@@ -69,7 +81,8 @@ public class Chat_RoomController {
 		
 		model.addAttribute("realRoomMap",realRoomMap);
 		model.addAttribute("roomlist", roomlist);
-		
+		model.addAttribute("paginationSize",paginationSize);
+		model.addAttribute("pageVo", pageVo);
 		
 		return "/chat/projectChatList.user.tiles";
 	}
@@ -102,18 +115,25 @@ public class Chat_RoomController {
 	
 	
 	
-	//채팅방 리스트 화면으로 이동
+	//채팅방 리스트 화면으로 이동, 페이징 처리
 	@RequestMapping(path="/friendChatList")
-	public String myChatRoomList(Model model,HttpSession session) throws NestedServletException{
+	public String myChatRoomList(String page, String pageSize,Model model,HttpSession session) throws NestedServletException{
 		
 		UserVo user = (UserVo) session.getAttribute("USER_INFO");    
-		logger.debug("********friendChatList UserVo : {}",user);
+		
 		String user_email = user.getUser_email();
+		int pagei = page == null ? 1 : Integer.parseInt(page);
+		int pageSizei =  pageSize == null ? 10 : Integer.parseInt(pageSize);
 		
+		PageVo pageVo = new PageVo(pagei,pageSizei);
+		pageVo.setUser_email(user_email);
 		
-		//내가 갖고 있는 방목록 가져오기
-		List<Chat_RoomVo> roomlist = roomService.getRoomList(user_email);
-		logger.debug("*********roomlist: {}" , roomlist);
+		//페이징한 내가 참여한 방 리스트
+		Map<String, Object> resultMap = roomService.pagingChatRoomList(pageVo);
+		
+		List<Chat_RoomVo> roomlist = (List<Chat_RoomVo>) resultMap.get("pagingChatRoomList");
+		int paginationSize = (int) resultMap.get("paginationSize");
+		
 		
 		//방마다의 친구 리스트를 가져옴
 		Map<Integer, Object> realRoomMap = memService.allRoomFriendList();
@@ -123,11 +143,11 @@ public class Chat_RoomController {
 		List<ChatFriendsVo> allFriendList = friendsService.friendList(user_email);
 		
 		
-		model.addAttribute("allFriendList",allFriendList);
 		model.addAttribute("realRoomMap",realRoomMap);
+		model.addAttribute("allFriendList",allFriendList);
 		model.addAttribute("roomlist", roomlist);
-		//model.addAttribute("inviteFriendList",inviteFriendList);
-		
+		model.addAttribute("paginationSize",paginationSize);
+		model.addAttribute("pageVo", pageVo);
 		return "/chat/friendChatList.user.tiles";
 	}
 	
@@ -149,7 +169,17 @@ public class Chat_RoomController {
 		
 		// 채팅방 대화 내용 리스트 (채팅방별 대화 리스트)
 		List<ChatParticipateUserVo> chatroomContentList = contentService.chatroomContentList(Ict_id);
-		logger.debug("************nowWhereRoom : {}",nowWhereRoom);
+		
+		Date msgDate=null;
+		for(int i=0;i<chatroomContentList.size();i++) {
+			msgDate = chatroomContentList.get(i).getCh_msg_dt();
+			SimpleDateFormat transFormat = new SimpleDateFormat("yy/MM/dd HH:mm");
+
+			chatroomContentList.get(i).setCh_msg_dtString(transFormat.format(msgDate));
+
+
+		}
+		
 		
 		//채팅방에 참여한 친구 리스트
 		List<String> friendList = memService.roomFriendList(Ict_id);

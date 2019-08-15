@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.or.ddit.chat_mem.model.Chat_MemVo;
 import kr.or.ddit.chat_room.model.Chat_RoomVo;
+import kr.or.ddit.paging.model.PageVo;
 
 @Repository
 public class Chat_RoomDao implements IChat_RoomDao{
@@ -66,6 +67,26 @@ public class Chat_RoomDao implements IChat_RoomDao{
 	@Override
 	public int deleteChatRoomProject(int prj_id) {
 		return sqlSession.delete("chat.deleteChatRoomProject",prj_id);
+	}
+
+	@Override
+	public List<Chat_RoomVo> pagingChatRoomList(PageVo page) {
+		return sqlSession.selectList("chat.pagingChatRoomList",page);
+	}
+
+	@Override
+	public List<Chat_RoomVo> pagingChatRoomListProject(PageVo page) {
+		return sqlSession.selectList("chat.pagingChatRoomListProject",page);
+	}
+
+	@Override
+	public int chatRoomCnt(String user_email) {
+		return sqlSession.selectOne("chat.chatRoomCnt",user_email);
+	}
+
+	@Override
+	public int chatRoomCntProject(String user_email) {
+		return sqlSession.selectOne("chat.chatRoomCntProject",user_email);
 	}
 
 

@@ -4,6 +4,10 @@
 
 
 <style>
+.roomNm:hover{
+	 cursor: pointer;
+}
+
 ul.tabs {
    margin: 0px;
    padding: 0px;
@@ -34,6 +38,7 @@ ul.tabs li.current {
 
 <script>
 	$(document).ready(function() {
+		
 
 		$(".tb_style_01").on("click", "td.roomNm", function() {
 			//a = .text();
@@ -60,6 +65,11 @@ ul.tabs li.current {
 	         $(this).addClass('current');
 	         $("#" + tab_id).addClass('current');
 	     });
+		
+		$("#faceBtn").on("click",function(){
+			window.open('http://localhost/RTCMulticonnection/index.html', '_blank')
+
+		});
 	});
 
 	
@@ -75,9 +85,9 @@ ul.tabs li.current {
 	</form>
 
 	<div class="sub_menu">
-		<ul class="tabs">
-			<li data-tab="tab-1"><a href="/friendChatList">친구 채팅</a></li>
-			<li data-tab="tab-2"><a href="/projectChatList">프로젝트 멤버 채팅</a></li>
+		<ul class="sub_menu_item">
+			<li><a href="/friendChatList">친구 채팅</a></li>
+			<li><a href="/projectChatList">프로젝트 멤버 채팅</a></li>
 			<li><a href="#" id = "faceBtn">화상 회의</a></li>
 		</ul>
 	</div>
@@ -110,8 +120,39 @@ ul.tabs li.current {
 
 
 	<div class="pagination">
-		<a href="" class="btn_first"></a> <span>1</span> <a href="" class="btn_last"></a>
-	</div>
+                     <c:choose>
+                        <c:when test="${pageVo.page == 1 }">
+                           <a href class="btn_first"></a>
+                        </c:when>
+                        <c:otherwise>
+                           <a href="${cp}/projectChatList?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a>
+                        
+                        </c:otherwise>
+                     </c:choose>
+   
+                     <c:forEach begin="1" end="${paginationSize}" var="i">
+                        <c:choose>
+                           <c:when test="${pageVo.page == i}">
+                              <span>${i}</span>
+                           </c:when>
+                           <c:otherwise>
+                           <a href="${cp}/projectChatList?page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
+                           </c:otherwise>
+                        </c:choose>
+   
+                     </c:forEach>
+   
+                     <c:choose>
+                        <c:when test="${pageVo.page == paginationSize}">
+                           <a href class="btn_last"></a>
+                        </c:when>
+                        <c:otherwise>
+                        <a href="${cp}/projectChatList?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
+                           
+   
+                        </c:otherwise>
+                     </c:choose>
+               </div>
 
 </section>
 
