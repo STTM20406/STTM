@@ -245,25 +245,21 @@ ul.tabs li.current {
    
    
                            <c:forEach items="${inquiryListAd }" var="iq">
-                              <c:choose>
-                                 <c:when test="${iq.inq_cate == 'INQ02' }">
-                                    <tr class="inquiryTr">
-                                       <td class="inquirynum" style="display:none;">${iq.inq_id }</td>
-                                       <td>${iq.rn }</td>
-                                       <td>${iq.subject }</td>
-                                       <td>${iq.user_email }</td>
-                                       <td><fmt:formatDate value="${iq.inq_dt }" pattern="yyyy-MM-dd" /></td>
-                                       <c:choose>
-                                          <c:when test="${iq.ans_st == 'Y'}">
-                                             <td>답변 완료</td>
-                                          </c:when>
-                                          <c:otherwise>
-                                             <td>답변 미완료</td>
-                                          </c:otherwise>
-                                       </c:choose>
-                                    </tr>
-                                 </c:when>
-                              </c:choose>
+                                 <tr class="inquiryTr">
+                                    <td class="inquirynum" style="display:none;">${iq.inq_id }</td>
+                                    <td>${iq.rn }</td>
+                                    <td>${iq.subject }</td>
+                                    <td>${iq.user_email }</td>
+                                    <td><fmt:formatDate value="${iq.inq_dt }" pattern="yyyy-MM-dd" /></td>
+                                    <c:choose>
+                                       <c:when test="${iq.ans_st == 'Y'}">
+                                          <td>답변 완료</td>
+                                       </c:when>
+                                       <c:otherwise>
+                                          <td>답변 미완료</td>
+                                       </c:otherwise>
+                                    </c:choose>
+                                 </tr>
                            </c:forEach>
                         </tr>
                      </tbody>
