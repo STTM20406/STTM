@@ -92,5 +92,38 @@ public class Note_InfoController {
 		return viewName;
 	}
 	
+	@RequestMapping(path="/rcvNoteWrite",method = RequestMethod.GET)
+	public String rcvNoteWrite(HttpSession session,Model model,String rcvEmail) {
+		logger.debug("!@# rcvEmail : {}",rcvEmail);
+		
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		model.addAttribute("send_email", userVo.getUser_email());
+		model.addAttribute("rcv_email", rcvEmail);
+		
+		return "/note/rcvNoteWrite.user.tiles";
+	}
+	
+	@RequestMapping(path="/rcvNoteWrite",method = RequestMethod.POST)
+	public String rcvNoteWrite(Note_ContentVo conVo,Model model,String sendEmail,String rcvEmail,String smarteditor) {
+		String viewName = "";
+		
+		conVo.setNote_con_id(conVo.getNote_con_id());
+		conVo.setNote_con(smarteditor);
+		int contentCnt = noteService.insertNoteContent(conVo);
+		Note_InfoVo infoVo = new Note_InfoVo();
+		infoVo.setNote_con_id(conVo.getNote_con_id());
+		infoVo.setRcv_email(rcvEmail);
+		infoVo.setSend_email(sendEmail);
+		
+		if(contentCnt ==1) {
+			int infoCnt = noteService.insertNoteInfo(infoVo);
+			
+			if(infoCnt == 1) {
+				viewName ="redirect:/noteList";
+			}
+		}
+		
+		return viewName;
+	}
 	
 }

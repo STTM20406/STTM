@@ -7,6 +7,9 @@
 .rcvTr:hover{
 		cursor: pointer;
 }
+.sendTr:hover{
+		cursor: pointer;
+}
 ul.tabs {
 	margin: 0px;
 	padding: 0px;
@@ -60,16 +63,43 @@ ul.tabs li.current {
 		$(".rcvTr").on("click",function(){
 			console.log("rcvTr click");
 			var aTag = $('#aTag').attr('href');
-			console.log(aTag);
+			var email = $(this).find('#sendEmail').text();
+			var con = $(this).find('#rcvCon').text();
+			var date = $(this).find('#rcvDate').text();
+
+			$("#lbEmail").text(email);
+			$("#smarteditor").val(con);
+			$("#lbDate").text(date);
+			$("#rcvEmaildInput").val(email);
 			layer_popup(aTag);
-			
+		})
+		
+		$(".sendTr").on("click",function(){
+			console.log("sendTr click");
+			var aTag = $('#aTag02').attr('href');
+			var email = $(this).find('#sendEmail').text();
+			var con = $(this).find('#sendCon').text();
+			var date = $(this).find('#sendDate').text();
+
+			$("#lbEmail02").text(email);
+			$("#smarteditor02").val(con);
+			$("#lbDate02").text(date);
+			layer_popup(aTag);
+		})
+		
+		$("#rcvBtn").on('click',function(){
+			console.log("rcvBtn Click")
+			$(".rcvFrm").attr("action","/rcvNoteWrite");
+			$(".rcvFrm").attr("method","GET");
+			$(".rcvFrm").submit();
 			
 			
 		})
 	});
 </script>
 
-<!-- 쪽지 상세내용 팝업 -->
+<!-- 받은 쪽지 상세내용 팝업 -->
+<form class="rcvFrm">
 		<div id="layer1" class="pop-layer">
 			<div class="pop-container">
 				<div class="pop-project">
@@ -78,23 +108,56 @@ ul.tabs li.current {
 						<div class="new_proejct">
 							<!-- 방 만들기 테이블 -->
 							<ul>
-								<li><label for="prj_nm">새 채팅방 생성</label></li>
-								<li><label for="prj_nm">채팅방 이름</label> <input type="text"
-									id="room_nm" name="room_nm"></li>
 								<li>
-									<label for="prj_mem">채팅방 친구 선택</label>
-									<div class="prj_mem_list">
-									
+									<label>보낸사람 : </label>
+									<label id="lbEmail"></label>
+									<input type="hidden" name="rcvEmail" id="rcvEmaildInput" value=""/>
+								</li>
+								<li>
+									<label>받은 날짜 : </label>
+									<label id="lbDate"></label>
+								</li>
+								<li>
+									<div>
+										<br><textarea name="smarteditor" readonly="readonly" id="smarteditor" rows="10" cols="100" style="width: 460px; height: 330px;"></textarea>
 									</div>
 								</li>
 							</ul>
-							<div class="prj_btn">
-								<a href="javascript:;" id="prj_btn_prev">뒤로</a> <input
-									type="submit" id="createBtn" value="채팅방 만들기">
-							</div>
 						</div>
-
-
+					<div class="btn-r">
+						<button type="button" id="rcvBtn" class="rcvbtn-style"> 답장</button>
+						<a href="#" class="btn-layerClose">Close</a>
+					</div>
+					<!--// content-->
+				</div>
+			</div>
+		</div>
+</form>
+		
+<!-- 보낸 쪽지 상세내용 팝업 -->
+		<div id="layer2" class="pop-layer">
+			<div class="pop-container">
+				<div class="pop-project">
+					<!--content //-->
+						<input type="hidden" id="array" name="array">
+						<div class="new_proejct">
+							<!-- 방 만들기 테이블 -->
+							<ul>
+								<li>
+									<label>보낸사람 : </label>
+									<label id="lbEmail02"></label>
+								</li>
+								<li>
+									<label>받은 날짜 : </label>
+									<label id="lbDate02"></label>
+								</li>
+								<li>
+									<div>
+										<br><textarea name="smarteditor" readonly="readonly" id="smarteditor02" rows="10" cols="100" style="width: 460px; height: 330px;"></textarea>
+									</div>
+								</li>
+							</ul>
+						</div>
 					<div class="btn-r">
 						<a href="#" class="btn-layerClose">Close</a>
 					</div>
@@ -144,12 +207,12 @@ ul.tabs li.current {
 									<c:choose>
 										<c:when test="${rcv.rcv_del_fl == 'N'}">
 											<tr class="rcvTr" >
-												<td class="inquirynum">${rcv.send_email }</td>
-												<td>${rcv.note_con }</td>
-												<td><fmt:formatDate value="${rcv.rcv_date }" pattern="yyyy-MM-dd"/></td>
+												<td class="sendEmail" id="sendEmail">${rcv.send_email }</td>
+												<td id="rcvCon">${rcv.note_con }</td>
+												<td id="rcvDate"><fmt:formatDate value="${rcv.rcv_date }" pattern="yyyy-MM-dd"/></td>
 												<td>${rcv.read_fl }</td>
 												<td>${rcv.rcv_del_fl }</td>
-												<td><a id="aTag" href="#layer1" class="btn-example1">12</a></td>
+												<td><a id="aTag" href="#layer1" class="btn-example1"></a></td>
 											</tr>
 										</c:when>
 									</c:choose>
@@ -218,11 +281,12 @@ ul.tabs li.current {
 									<c:choose>
 										<c:when test="${send.send_del_fl == 'N'}">
 											<tr class="sendTr">
-												<td class="inquirynum">${send.rcv_email }</td>
-												<td>${send.note_con }</td>
-												<td><fmt:formatDate value="${send.send_date }" pattern="yyyy-MM-dd"/></td>
+												<td class="inquirynum" id="sendEmail">${send.rcv_email }</td>
+												<td id="sendCon">${send.note_con }</td>
+												<td id="sendDate"><fmt:formatDate value="${send.send_date }" pattern="yyyy-MM-dd"/></td>
 												<td>${send.read_fl }</td>
 												<td>${send.send_del_fl }</td>
+												<td><a id="aTag02" href="#layer2" class="btn-example1"></a></td>
 											</tr>
 										</c:when>
 									</c:choose>

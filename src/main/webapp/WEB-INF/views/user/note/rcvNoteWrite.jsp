@@ -9,7 +9,7 @@ $(document).ready(function(){
 		var p = $('#sendEmail').val();
 		console.log(p);
 		
-		$("#frm").attr("action","/noteWrite");
+		$("#frm").attr("action","/rcvNoteWrite");
 		$("#frm").attr("method","POST");
 		$("#frm").submit();
 		
@@ -23,7 +23,8 @@ $(document).ready(function(){
 		<div>
 			
 			<input type="hidden" name="sendEmail" id="sendEmail" value="${send_email }"/>
-			받는 사람 : <input type="text" name="rcvEmail" value=""/>
+			받는 사람 :<label>${rcv_email }</label>
+			 <input type="hidden" name="rcvEmail" value="${rcv_email }"/>
 			<button type="button">친구목록</button> <br>
 			내용 : <br>
 			<textarea name="smarteditor" id="smarteditor" rows="10" cols="100" style="width: 766px; height: 412px;"></textarea>	<br>
