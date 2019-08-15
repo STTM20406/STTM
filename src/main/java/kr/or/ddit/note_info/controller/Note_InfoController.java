@@ -68,6 +68,7 @@ public class Note_InfoController {
 		
 		return "/note/noteWrite.user.tiles";
 	}
+	
 	@RequestMapping(path="/noteWrite",method = RequestMethod.POST)
 	public String noteWrite(Note_ContentVo conVo,Model model,String sendEmail,String rcvEmail,String smarteditor) {
 		String viewName = "";

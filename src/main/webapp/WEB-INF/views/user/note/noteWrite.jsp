@@ -23,7 +23,8 @@ $(document).ready(function(){
 		<div>
 			
 			<input type="hidden" name="sendEmail" id="sendEmail" value="${send_email }"/>
-			받는 사람 : <input type="text" name="rcvEmail" value=""/> <br>
+			받는 사람 : <input type="text" name="rcvEmail" value=""/>
+			<button type="button">친구목록</button> <br>
 			내용 : <br>
 			<textarea name="smarteditor" id="smarteditor" rows="10" cols="100" style="width: 766px; height: 412px;"></textarea>	<br>
 			<button type="button" id="sendBtn" class="btn_style_01">보내기</button>

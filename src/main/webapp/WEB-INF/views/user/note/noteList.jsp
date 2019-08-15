@@ -59,13 +59,49 @@ ul.tabs li.current {
 		
 		$(".rcvTr").on("click",function(){
 			console.log("rcvTr click");
-			var inq_id = $(this).find(".inquirynum").text();
-			$("#inq_id").val(inq_id);
+			var aTag = $('#aTag').attr('href');
+			console.log(aTag);
+			layer_popup(aTag);
 			
-			$("#frm").submit();
+			
+			
 		})
 	});
 </script>
+
+<!-- 쪽지 상세내용 팝업 -->
+		<div id="layer1" class="pop-layer">
+			<div class="pop-container">
+				<div class="pop-project">
+					<!--content //-->
+						<input type="hidden" id="array" name="array">
+						<div class="new_proejct">
+							<!-- 방 만들기 테이블 -->
+							<ul>
+								<li><label for="prj_nm">새 채팅방 생성</label></li>
+								<li><label for="prj_nm">채팅방 이름</label> <input type="text"
+									id="room_nm" name="room_nm"></li>
+								<li>
+									<label for="prj_mem">채팅방 친구 선택</label>
+									<div class="prj_mem_list">
+									
+									</div>
+								</li>
+							</ul>
+							<div class="prj_btn">
+								<a href="javascript:;" id="prj_btn_prev">뒤로</a> <input
+									type="submit" id="createBtn" value="채팅방 만들기">
+							</div>
+						</div>
+
+
+					<div class="btn-r">
+						<a href="#" class="btn-layerClose">Close</a>
+					</div>
+					<!--// content-->
+				</div>
+			</div>
+		</div>
 
 <section class="contents">
 
@@ -85,7 +121,7 @@ ul.tabs li.current {
 		</div>
 
 		<div class="tab_con">
-
+<!-- 1번 탭 -->
 			<div id="tab-1" class="tab-content current">
 				<div>
 					<table class="tb_style_01">
@@ -107,12 +143,13 @@ ul.tabs li.current {
 								<c:forEach items="${rcvList }" var="rcv">
 									<c:choose>
 										<c:when test="${rcv.rcv_del_fl == 'N'}">
-											<tr class="rcvTr">
+											<tr class="rcvTr" >
 												<td class="inquirynum">${rcv.send_email }</td>
 												<td>${rcv.note_con }</td>
 												<td><fmt:formatDate value="${rcv.rcv_date }" pattern="yyyy-MM-dd"/></td>
 												<td>${rcv.read_fl }</td>
 												<td>${rcv.rcv_del_fl }</td>
+												<td><a id="aTag" href="#layer1" class="btn-example1">12</a></td>
 											</tr>
 										</c:when>
 									</c:choose>
@@ -158,7 +195,7 @@ ul.tabs li.current {
 				
 				</div>
 			</div>
-
+<!-- 2번탭 -->
 			<div id="tab-2" class="tab-content">
 				<div>
 					<table class="tb_style_01">
