@@ -122,7 +122,7 @@ ul.tabs li.current {
 								<th>답변 여부</th>
 
 
-								<c:forEach items="${inquiryList }" var="iq">
+								<c:forEach items="${inquiryListOrigin }" var="iq">
 									<c:choose>
 										<c:when test="${iq.inq_cate == 'INQ01'}">
 											<tr class="inquiryTr">
@@ -159,7 +159,7 @@ ul.tabs li.current {
 							</c:otherwise>
 						</c:choose>
 
-						<c:forEach begin="1" end="${paginationSize}" var="i">
+						<c:forEach begin="1" end="${paginationSizeOrigin}" var="i">
 							<c:choose>
 								<c:when test="${pageVo.page == i}">
 									<span>${i}</span>
@@ -172,7 +172,7 @@ ul.tabs li.current {
 						</c:forEach>
 
 						<c:choose>
-							<c:when test="${pageVo.page == paginationSize}">
+							<c:when test="${pageVo.page == paginationSizeOrigin}">
 								<a href class="btn_last"></a>
 							</c:when>
 							<c:otherwise>
@@ -223,7 +223,7 @@ ul.tabs li.current {
 									<th>답변 여부</th>
 	
 	
-									<c:forEach items="${inquiryList }" var="iq">
+									<c:forEach items="${inquiryListAd }" var="iq">
 										<c:choose>
 											<c:when test="${iq.inq_cate == 'INQ02' }">
 												<tr class="inquiryTr">
@@ -260,7 +260,7 @@ ul.tabs li.current {
 								</c:otherwise>
 							</c:choose>
 	
-							<c:forEach begin="1" end="${paginationSize}" var="i">
+							<c:forEach begin="1" end="${paginationSizeAd}" var="i">
 								<c:choose>
 									<c:when test="${pageVo.page == i}">
 										<span>${i}</span>
@@ -273,7 +273,7 @@ ul.tabs li.current {
 							</c:forEach>
 	
 							<c:choose>
-								<c:when test="${pageVo.page == paginationSize}">
+								<c:when test="${pageVo.page == paginationSizeAd}">
 									<a href class="btn_last"></a>
 								</c:when>
 								<c:otherwise>

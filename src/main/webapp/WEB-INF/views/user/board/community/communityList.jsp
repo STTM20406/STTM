@@ -105,23 +105,24 @@ ul.tabs li.current {
 							<tr>
 								<th>번호</th>
 								<th>제목</th>
+								<th>작성자</th>
+								<th>작성일</th>
 								<th>댓글</th>
 								<th>좋아요</th>
 								<th>조회수</th>
-								<th>작성자</th>
-								<th>작성일</th>
 							</tr>
 							<c:forEach items="${boardList }" var="board">
 								<c:choose>
 									<c:when test="${board.del_yn == 'N' }">
-										<tr class="boardTr">
-											<td class="boardNum">${board.write_id }</td>
+										<tr class="boardTr"> 
+											<td class="boardNum" style= "display:none;">${board.write_id }</td>
+											<td>${board.rn }</td>
 											<td>${board.subject }</td>
+											<td>${board.user_email }</td>
+											<td><fmt:formatDate value="${board.writedate }" pattern="yyyy-MM-dd" /></td>
 											<td>댓글수 들어갈거야</td>
 											<td>${board.like_cnt }</td>
 											<td>${board.view_cnt }</td>
-											<td>${board.user_email }</td>
-											<td><fmt:formatDate value="${board.writedate }" pattern="yyyy-MM-dd" /></td>
 										</tr>
 									</c:when>
 								</c:choose>
@@ -135,29 +136,45 @@ ul.tabs li.current {
 				</div>
 				
 				<div id="tab-2" class="tab-content">
+				<form id="searchFrm" action="/boardSearch" method="post">
+				<input type="hidden" name="boardnum02" id="boardnum02" value="${board_id }"> 
+					<div class="searchBox">
+	                  <div class="tb_sch_wr">
+	                     <fieldset id="hd_sch">
+	                           <select id="search" name="search">
+	                              <option value="title">제목</option>
+	                              <option value="content">내용</option>
+	                           </select>
+	                           <input type="text" name="searchText" id="searchText" maxlength="20" placeholder="검색어를 입력해주세요">
+	                           <button type="submit" id="searchBtn" value="검색">검색</button>
+	                        </fieldset>
+	                     </div>
+	                  </div>
+                </form>
 					<form id="frm02">
 					<table class="tb_style_01">
 						<tbody>
 							<tr>
 								<th>번호</th>
 								<th>제목</th>
+								<th>작성자</th>
+								<th>작성일</th>
 								<th>댓글</th>
 								<th>좋아요</th>
 								<th>조회수</th>
-								<th>작성자</th>
-								<th>작성일</th>
 							</tr>
 							<c:forEach items="${boardList }" var="board">
 								<c:choose>
 									<c:when test="${board.del_yn == 'N' && board.user_email == USER_INFO.user_email}">
 										<tr class="boardTr">
-											<td class="boardNum">${board.write_id }</td>
+											<td class="boardNum" style="display:none;">${board.write_id }</td>
+											<td>${board.rn }</td>
 											<td>${board.subject }</td>
+											<td>${board.user_email }</td>
+											<td><fmt:formatDate value="${board.writedate }" pattern="yyyy-MM-dd" /></td>
 											<td>댓글수 들어갈거야</td>
 											<td>${board.like_cnt }</td>
 											<td>${board.view_cnt }</td>
-											<td>${board.user_email }</td>
-											<td><fmt:formatDate value="${board.writedate }" pattern="yyyy-MM-dd" /></td>
 										</tr>
 									</c:when>
 								</c:choose>

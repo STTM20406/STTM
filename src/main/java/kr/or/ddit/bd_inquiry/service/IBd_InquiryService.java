@@ -15,7 +15,7 @@ public interface IBd_InquiryService {
 	 * @return
 	 * Method 설명 	: 1:1문의 게시글 갯수
 	 */
-	int inquiryCnt();
+	public int inquiryCnt(String inq_cate);
 	
 	/**
 	 * Method 		: inquiryInfo

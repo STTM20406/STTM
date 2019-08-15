@@ -83,7 +83,8 @@ $(document).ready(function(){
 						<c:choose>
 							<c:when test="${reply.del_fl == 'N' && reply.user_email == USER_INFO.user_email}">
 								<tr class="replyTr">
-									<td class="replynum">${reply.comm_id }</td>
+									<td class="replynum" style="display:none;">${reply.comm_id }</td>
+									<td>${reply.rn }</td>
 									<td>${reply.content }</td>
 									<td>${reply.user_email }</td>
 									<td><fmt:formatDate value="${reply.writedate }" pattern="yyyy-MM-dd"/></td>

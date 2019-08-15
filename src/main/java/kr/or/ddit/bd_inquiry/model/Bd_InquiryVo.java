@@ -21,16 +21,6 @@ import java.util.Date;
 * </pre>
  */
 public class Bd_InquiryVo {
-	private int rn;
-	public int getRn() {
-		return rn;
-	}
-
-
-
-	public void setRn(int rn) {
-		this.rn = rn;
-	}
 
 	private int inq_id; // 문의 아이디
 	private String user_email; // 문의 이메일
@@ -42,6 +32,7 @@ public class Bd_InquiryVo {
 	private Date ans_dt; // 답변 작성일
 	private String ans_st; // 답변 여부
 	private String del_fl; // 글 삭제 여부
+	private int rn;
 	
 	
 	public Bd_InquiryVo() {
@@ -100,6 +91,15 @@ public class Bd_InquiryVo {
 				+ ans_dt + ", ans_st=" + ans_st + ", del_fl=" + del_fl + "]";
 	}
 
+	public int getRn() {
+		return rn;
+	}
+	
+	public void setRn(int rn) {
+		this.rn = rn;
+	}
+
+	
 	public int getInq_id() {
 		return inq_id;
 	}
