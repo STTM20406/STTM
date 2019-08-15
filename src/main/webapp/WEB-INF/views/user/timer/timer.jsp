@@ -43,27 +43,41 @@ $(document).ready(function(){
 <!-- 			<input type="hidden" id="getMemInfo" name="getMemInfo" > -->
 <!-- 		</form> -->
 		
-		<input type="hidden" id="user_email" name="user_email" value="#{user_email}">
-		
 		<div>
 			<table class="tb_style_01">
 				<colgroup>
 					<col width="10%">
-					<col width="40%">
-					<col width="30%">
+					<col width="20%">
+					<col width="10%">
+					<col width="20%">
+					<col width="20%">
 					<col width="10%">
 					<col width="10%">
 				</colgroup>
 				<tbody>
 					<tr>
 					
-						<th>업무리스트 아이디</th>
 						<th>프로젝트 아이디</th>
+						<th>프로젝트 이름</th>
+						<th>업무리스트 아이디</th>
+						<th>업무리스트 이름</th>
+						<th>사용자 이름</th>
+						<th>업무 완료 여부</th>
+						<th>업무 완료 체크</th>
 	
 						<c:forEach items="${workList}" var="workListVo">
+							
 							<tr class="workListTr" data-wrk_lst_id="${workListVo.wrk_lst_id }">
-								<td class="workListId">${workListVo.wrk_lst_id}</td>
-								<td>${workListVo.prj_id}</td>
+								
+								<td class="workListId">${workListVo.prj_id}</td>
+								<td>${workListVo.prj_nm}</td>
+								<td >${workListVo.wrk_lst_id}</td>
+								<td>${workListVo.wrk_lst_nm}</td>
+								<td>${workListVo.user_nm}</td>
+								<td>${workListVo.wrk_cmp_fl}</td>
+								<td>
+									<input type="button" value="완료" class="inp_style_01">
+								</td>
 							</tr>
 							
 						</c:forEach>
@@ -72,10 +86,6 @@ $(document).ready(function(){
 				</tbody>
 			</table>
 		</div>
-		
-		<a href="/admInsertUser" class="btn btn-default pull-right">
-			<input type="button" class="inp_style_01" value="사용자 등록">
-		</a>
 		
 		<div class="pagination">
 				<c:choose>
@@ -109,8 +119,8 @@ $(document).ready(function(){
 						<a href="${cp}/work/timerWorkList?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
 					</c:otherwise>
 				</c:choose>
-		
 		</div>
+		
 	</div>
 	
 </section>

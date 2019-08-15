@@ -106,10 +106,10 @@ Last update : 2019. 07. 22.
 
 
 /* work list */
-.work_list_wrap {}
-.work_list_wrap:after {content:''; display:block; clear:both; zoom:1;}
+.workListWrap {}
+#workListBox {white-space: nowrap; overflow-x: auto; overflow-y: hidden;}
 
-.workList {width:300px; float:left; border:1px solid #e9ecef; border-radius:3px; padding:30px 26px; margin-right:13px;}
+.workList {width:300px; display:inline-block; vertical-align:top; border:1px solid #e9ecef; border-radius:3px; padding:30px 26px; margin-right:13px;}
 .workList:last-child {margin-right:0;}
 
 .workList .workList_hd{}

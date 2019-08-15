@@ -6,6 +6,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import kr.or.ddit.paging.model.PageVo;
@@ -57,8 +59,8 @@ public class Work_ListService implements IWork_ListService{
 	 * Method 설명 		: 해당 프로젝트 업무리스트 이름 수정
 	 */
 	@Override
-	public int updateWorkList(int wrk_lst_id) {
-		return workListDao.updateWorkList(wrk_lst_id);
+	public int updateWorkList(Work_ListVo workListVo) {
+		return workListDao.updateWorkList(workListVo);
 	}
 
 	
@@ -69,7 +71,7 @@ public class Work_ListService implements IWork_ListService{
 	 * 변경이력 			: 2019-08-12 최초 생성
 	 * @param wrk_lst_id
 	 * @return
-	 * Method 설명 		: 해당 프로젝트 업무리스트 삭제 (플래그 업데이트)
+	 * Method 설명 		: 해당 프로젝트 업무리스트 삭제
 	 */
 	@Override
 	public int deleteWorkList(int wrk_lst_id) {
@@ -86,13 +88,16 @@ public class Work_ListService implements IWork_ListService{
 	* Method 설명 : 타이머 - 프로젝트에 세션정보를 받아와 해당 프로젝트의 업무리스트 조회
 	 */
 	@Override
-	public Map<String, Object> timerWorkListPagingList(PageVo pageVo) {
+	public Map<String, Object> timerWorkListPagingList(Map<String, Object> map) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("workList", workListDao.timerWorkListPagingList(pageVo));
+		List<Work_ListVo> workList = workListDao.timerWorkListPagingList(map);
 		
-		int workListCnt = workListDao.timerWorkListCnt();
+		int pageSize = (int) map.get("pageSize");
+		int workListCnt = workListDao.timerWorkListCnt(map);
 		
-		int paginationSize = (int)Math.ceil((double)workListCnt/pageVo.getPageSize());
+		int paginationSize = (int)Math.ceil((double)workListCnt/pageSize);
+		
+		resultMap.put("workList", workList);
 		resultMap.put("paginationSize", paginationSize);
 		return resultMap;
 	}

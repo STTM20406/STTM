@@ -48,15 +48,14 @@
 $(document).ready(function(){
 	
 	// 프로젝트 멤버 리스트중 한개의 멤버를 클릭시
-	$(".prjMemTr").on("click", function(){
-		var user_email = $(this).find(".user_email").attr("id");
-		$('#user_email').val(user_email);
-		$('#prjMemView').submit();
-	});
-	
+// 	$(".prjMemTr").on("click", function(){
+// 		var user_email = $(this).find(".user_email").attr("id");
+// 		$('#user_email').val(user_email);
+// 		$('#prjMemView').submit();
+// 	});
 	
 	// 프로젝트 멤버 tr클릭시 레이어창 띄우기
-	$('.prjMemTr').on("click", function(){
+	$('.prjMember').on("click", function(){
 	        var $href = $(this).attr('href');
 	        layer_popup($href);
 	});
@@ -200,7 +199,7 @@ function requestedFriendsList() {
 								<tr class="prjMemTr" data-user_email="${prjVo.user_email}">
 									<td class="user_email" id="${prjVo.user_email}">
 <%-- 										<a href="#layer2" class="trPrjMemAdd">${prjVo.user_email}</a> --%>
-										<a href="#layer2">${prjVo.user_email}</a>
+										<a href="#layer2" class="prjMember">${prjVo.user_email}</a>
 									</td>
 									
 									<td>${prjVo.user_nm}</td>
@@ -337,6 +336,7 @@ function requestedFriendsList() {
 			
 <!-- 			<input type="button" id="btnFriendsReqList" class="inp_style_04" onclick="layer_open('layer3');return false;" value="친구 요청 목록"> -->
 <!-- 			<input type="button"  onclick="layer_open('layer4');return false;" value="친구 요청"> -->
+			
 			<a href="#layer3" class="requestedFriendsList a_style_01">요청 받은 친구 목록</a>
 			<a href="#layer4" class="friendsBtn a_style_01">친구 요청</a>
 			
