@@ -50,8 +50,26 @@
       		AND     			C.DEL_FL = 'N'
       		AND     			A.WRK_DEL_FL = 'N'
 	</select>
+	
+	<select id="getWorkListCnt" parameterType="workVo" resultType="workVo">
+		SELECT  	COUNT(*) wrkListCnt, A.WRK_LST_ID
+		FROM    	WORK A, WORK_LIST B
+		WHERE   	A.WRK_LST_ID = B.WRK_LST_ID
+		AND     	A.WRK_LST_ID = #{wrk_lst_id}
+		AND     	A.WRK_CMP_FL = #{wrk_cmp_fl} GROUP BY A.WRK_LST_ID
+	</select>
 
-
+	<!--  업무 생성 -->
+	<insert id="insertWork" parameterType="workVo">
+		INSERT INTO WORK (WRK_ID, WRK_LST_ID, WRK_PR_ID, USER_EMAIL, WRK_NM, WRK_DT, WRK_GRADE, WRK_CMP_FL, WRK_DEL_FL)
+		VALUES(WRK_SEQ.NEXTVAL, #{wrk_lst_id}, WRK_SEQ.NEXTVAL, #{user_email}, #{wrk_nm}, SYSDATE, 'C', 'N', 'N')
+	</insert>
+	
+	
+	<!-- 업무 이동시 업무 리스트 아이디 업데이트 -->
+	<update id="updateWorkID" parameterType="workVo">
+		UPDATE WORK SET WRK_LST_ID = #{wrk_lst_id} WHERE WRK_ID = #{wrk_id}
+	</update>
 
 
 

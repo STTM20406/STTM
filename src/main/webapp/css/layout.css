@@ -289,11 +289,17 @@ a.btn-layerClose:hover {border: 1px solid #091940; background-color:#1f326a; col
 #propertySet .btnSetClose {position:absolute; left:-80px; top:0; width:80px; height:50px; text-align:center; line-height:50px; background:#f5f5f5}
 
 
-
-
 #frmContainer {width:20%; float:left}
 .cal_wrapper {width:80%; float:left; height:600px}
 .cal_wrapper table {width:100%}
+
+.workCreateBox {display:none}
+
+
+
+
+/* work list : work drag and drop css */
+.list {min-height:30px}
 
 /* memo setting layaer style */
 #memoView {position:fixed; right:-700px; top:100px; width:600px; height:100%; background:#f5f5f5; padding:60px 50px}

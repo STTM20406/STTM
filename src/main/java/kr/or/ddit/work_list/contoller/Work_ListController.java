@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.project.model.ProjectVo;
 import kr.or.ddit.project.service.IProjectService;
+import kr.or.ddit.project_mem.model.Project_MemVo;
+import kr.or.ddit.project_mem.service.IProject_MemService;
 import kr.or.ddit.users.model.UserVo;
 import kr.or.ddit.work.model.WorkVo;
 import kr.or.ddit.work.service.IWorkService;
@@ -40,22 +42,30 @@ public class Work_ListController {
 	@Resource(name = "workService")
 	private IWorkService workService;
 	
+	@Resource(name = "project_MemService")
+	private IProject_MemService projectMemService;
+	
 	
 	//GET방식으로 업무리스트 및 업무 조회
 	@RequestMapping(path = "/list", method = RequestMethod.GET)
-	public String projectViewGet(Model model, HttpSession session) {
+	public String projectViewGet(Model model,  UserVo userVo, ProjectVo prjVO, HttpSession session) {
 		
-		ProjectVo prjVO = (ProjectVo) session.getAttribute("PROJECT_INFO");
+		userVo = (UserVo) session.getAttribute("USER_INFO");
+		prjVO = (ProjectVo) session.getAttribute("PROJECT_INFO");
+		
 		int prj_id =prjVO.getPrj_id();
-		ProjectVo projectVo = projectService.getProject(prj_id);
+		
+		ProjectVo projectVo = projectService.getProject(prjVO.getPrj_id());
+		
+		// 현재 접속한 사용자의 프로젝트 멤버 정보 매칭해서 가져오기
+		Project_MemVo projectMemInfo = new Project_MemVo(prj_id, userVo.getUser_email());
+		Project_MemVo userInfo = projectMemService.getProjectMemInfo(projectMemInfo);
 		
 		//프로젝트에 해당하는 업무 리스트 조회
 		List<Work_ListVo> workList = workListService.workList(prj_id);
 		
 		List<WorkVo> work = new ArrayList<WorkVo>();
 		List<WorkVo> works = new ArrayList<WorkVo>();
-		List<WorkVo> workCplN = new ArrayList<WorkVo>();
-		List<WorkVo> workCplY = new ArrayList<WorkVo>();
 		
 		/*
 			해당 업무리스트에서 업무리스트 ID 가져서와 업무테이블의
@@ -67,32 +77,27 @@ public class Work_ListController {
 			for(int j=0; j<work.size(); j++) {
 				//업무리스트 ID가 같으면 해당 업무를 가져와서 담기
 				works.add(work.get(j)); 
-				for(int k=0; k<works.size(); k++) {
-					if(works.get(k).getWrk_cmp_fl().equals("N")) {
-						workCplN.add(works.get(k));
-					}else {
-						workCplY.add(works.get(k));
-					}
-				}
 			}
 		}
 		
-		logger.debug("workCplN :::::::::::::log  {}", workCplN.size());
 		
 		//선택한 프로젝트의 정보를 세션에 담음 
 		session.setAttribute("PROJECT_INFO", projectVo);
 		model.addAttribute("workList", workList);
 		model.addAttribute("works", works);
+		model.addAttribute("userInfo", userInfo);
 		
 		return "/main/work/work.user.tiles";
 	}
 	
 	// 프로젝트 리스트 조회
 	@RequestMapping(path = "/list", method = RequestMethod.POST)
-	public String projectView(String prj_id, Model model, HttpSession session) {
+	public String projectView(String prj_id, WorkVo workVo, UserVo userVo, ProjectVo projectVo, Model model, HttpSession session) {
+		
+		userVo = (UserVo) session.getAttribute("USER_INFO");
 		
 		int prjId = Integer.parseInt(prj_id);
-		ProjectVo projectVo = projectService.getProject(prjId);
+		projectVo = projectService.getProject(prjId);
 		
 		//프로젝트에 해당하는 업무 리스트 조회
 		List<Work_ListVo> workList = workListService.workList(prjId);
@@ -101,8 +106,8 @@ public class Work_ListController {
 		List<WorkVo> works = new ArrayList<WorkVo>();
 		
 		/*
-			해당 업무리스트에서 업무리스트 ID 가져서와 업무테이블의
-			테이블의 업무리스트 ID 매칭하여 해당 업무 가져오기
+			여러개의 업무리스트 ID 가져서와 업무 테이블의
+			업무리스트 ID 매칭하여 해당 업무 가져오기
 		*/
 		for(int i=0; i<workList.size(); i++) {
 			int wrkListId = workList.get(i).getWrk_lst_id();
@@ -113,18 +118,22 @@ public class Work_ListController {
 			}
 		}
 		
+		// 현재 접속한 사용자의 프로젝트 멤버 정보 매칭해서 가져오기
+		Project_MemVo projectMemInfo = new Project_MemVo(prjId, userVo.getUser_email());
+		Project_MemVo userInfo = projectMemService.getProjectMemInfo(projectMemInfo);
 		
 		//선택한 프로젝트의 정보를 세션에 담음 
 		session.setAttribute("PROJECT_INFO", projectVo);
 		model.addAttribute("workList", workList);
 		model.addAttribute("works", works);
+		model.addAttribute("userInfo", userInfo);
 		
 		return "/main/work/work.user.tiles";
 	}
 	
 	// 업무리스트 추가
 	@RequestMapping("/workListAddAjax")
-	public @ResponseBody HashMap<String, Object> workListAddAjaxString(String wrk_lst_nm, Model model, HttpSession session) {
+	public @ResponseBody HashMap<String, Object> workListAddAjaxString(String wrk_lst_nm, HttpSession session) {
 		
 		//세션에 저장된 프로젝트 정보를 가져옴
 		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
@@ -165,7 +174,7 @@ public class Work_ListController {
 	
 	//업무리스트 삭제
 	@RequestMapping("/workListDelAjax")
-	public @ResponseBody HashMap<String, Object> workListDelAjax(String wrk_lst_id, Model model, HttpSession session) {
+	public @ResponseBody HashMap<String, Object> workListDelAjax(String wrk_lst_id, HttpSession session) {
 		
 		int wrkListID = Integer.parseInt(wrk_lst_id);
 		
@@ -206,7 +215,7 @@ public class Work_ListController {
 				hashmap.put("works", works);
 			}
 		}else {
-			hashmap.put("null", "");
+			hashmap.put("noResult", "");
 		}
 
 		return hashmap;
@@ -255,7 +264,7 @@ public class Work_ListController {
 	}
 	
 	@RequestMapping("/workListNameUpdateAjax")
-	public @ResponseBody HashMap<String, Object> workListNameUpdateAjax(Work_ListVo workListVo, String wrk_lst_nm, String wrk_lst_id, Model model, HttpSession session) {
+	public @ResponseBody HashMap<String, Object> workListNameUpdateAjax(Work_ListVo workListVo, String wrk_lst_nm, String wrk_lst_id, HttpSession session) {
 		
 		int wrkLstId = Integer.parseInt(wrk_lst_id);
 		
@@ -293,6 +302,68 @@ public class Work_ListController {
 		}
 		
 		return hashmap;
+	}
+	
+	
+	//업무 생성 ajax
+	@RequestMapping("/wrkCreateAjax")
+	public @ResponseBody HashMap<String, Object> wrkCreateAjax(WorkVo workVo, String wrk_nm, String wrk_lst_id,  HttpSession session) {
+		
+		//세션에 저장된 프로젝트 정보를 가져옴
+		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
+		int prj_id = projectVo.getPrj_id();
+		
+		//세션에 저장된 현재 접속한 사용자의 정보를 가져옴
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		
+		workVo.setWrk_lst_id( Integer.parseInt(wrk_lst_id));
+		workVo.setUser_email(userVo.getUser_email());
+		workVo.setWrk_nm(wrk_nm);
+		int insertCnt = workService.insertWork(workVo);
+		
+		List<Work_ListVo> workList = workListService.workList(prj_id);
+		
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		List<WorkVo> work = new ArrayList<WorkVo>();
+		List<WorkVo> works = new ArrayList<WorkVo>();
+		
+		/*
+			해당 업무리스트에서 업무리스트 ID 가져서와 업무테이블의
+			테이블의 업무리스트 ID 매칭하여 해당 업무 가져오기
+		*/
+		for(int i=0; i<workList.size(); i++) {
+			int wrkListId = workList.get(i).getWrk_lst_id();
+			work = workService.getWork(wrkListId);
+			for(int j=0; j<work.size(); j++) {
+				//업무리스트 ID가 같으면 해당 업무를 가져와서 담기
+				works.add(work.get(j)); 
+			}
+		}
+		
+		if(insertCnt != 0) {
+			hashmap.put("workList", workList);
+			hashmap.put("works", works);
+		}
+		
+		return hashmap;
+	}
+	
+	
+	//업무리스트의 업무를 다른 업무리스트로 이동시 ajax
+	@RequestMapping("/wrkTransAjax")
+	public String wrkTransAjax(WorkVo workVo, String wrk_id, String wrk_lst_id, HttpSession session) {
+		
+		String viewNmae = "";
+		
+		workVo.setWrk_lst_id(Integer.parseInt(wrk_lst_id));
+		workVo.setWrk_id(Integer.parseInt(wrk_id));
+		int updateCnt = workService.updateWorkID(workVo);
+		
+		if(updateCnt != 0) {
+			viewNmae = "jsonView";
+		}
+		
+		return viewNmae;
 	}
 	
 }
