@@ -28,30 +28,6 @@ public class File_Dw_HisController {
 	@Resource(name="file_Dw_HisService")
 	private IFile_Dw_HisService file_Dw_HisService;
 	
-	//개인 보관함용 conrtoller
-	@RequestMapping(path="/individualBox", method = RequestMethod.GET)
-	String individualBox() {
-		logger.debug("♬♩♪  개인보관함 긔긔 ");
-		return "/main/fileLink/FileLinkIndividualSave.user.tiles";
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	//다운로드 기록! controller
 	@RequestMapping(path="/historyPagination",method = RequestMethod.GET)
 	String historyPagination(Model model, HttpSession session, 

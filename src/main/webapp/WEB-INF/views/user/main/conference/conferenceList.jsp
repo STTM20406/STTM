@@ -27,8 +27,6 @@
 			if($('#searchText').val().length == 0){
 				alert("검색어를 입력해주세요");
 			}else{
-// 				var search = $(this).find(".search").val();
-// 				console.log(search);
 				$('#frmSearch').submit();
 			}
 		});

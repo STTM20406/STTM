@@ -4,7 +4,25 @@ import java.util.List;
 import java.util.Map;
 
 import kr.or.ddit.file_attch.model.File_AttchVo;
+import kr.or.ddit.link_attch.model.Link_attchVo;
+import kr.or.ddit.paging.model.PageVo;
 
+/**
+ * IFile_AttchDao.java
+ *
+ * @author 손영하
+ * @version 1.0
+ * @see
+ *
+ * <pre>
+ * << 개정이력(Modification Information) >>
+ *
+ * 수정자 수정내용
+ * ------ ------------------------
+ * 박서경   최초 생성 2019-08-16
+ *
+ * </pre>
+ */
 public interface IFile_AttchDao {
 	
 	/**
@@ -27,15 +45,6 @@ public interface IFile_AttchDao {
 	   */
 	   List<File_AttchVo> fileList(int prj_id);
 	   
-	   /**
-	   * Method : updateFile
-	   * 작성자 : 손영하
-	   * 변경이력 :
-	   * @param file_id
-	   * @return
-	   * Method 설명 : 파일 한개의 정보를 삭제 여부의 상태값을 바꾸는 메서드
-	   */
-	   int updateFile(int file_id);
 	   
 	   /**
 	   * Method : FPagination
@@ -58,7 +67,6 @@ public interface IFile_AttchDao {
 	   List<File_AttchVo> insertFPagination(Map<String, Object> map);
 	   
 	   
-	   
 	   /**
 	    * Method : fileCnt
 	    * 작성자 : PC13
@@ -73,18 +81,27 @@ public interface IFile_AttchDao {
 	   * 작성자 : PC13
 	   * 변경이력 :
 	   * @return
-	   * Method 설명 : 파일 등록
+	   * Method 설명 : 파일 등록 PU
 	   */
 	   int insertFile(File_AttchVo file_attchVo);
+	   
+	   /**
+	    * Method : insertFile
+	    * 작성자 : PC13
+	    * 변경이력 :
+	    * @return
+	    * Method 설명 : 파일 등록 IN
+	    */
+	   int insertFileIN(File_AttchVo file_attchVo);
 	
-	  //////////////////////////////////////////////////////////////////
+	 //공용보관함//공용보관함//공용보관함//공용보관함//공용보관함//공용보관함//공용보관함//공용보관함//공용보관함//공용보관함
 	   /**
 	 * Method 		: publicFilePagination
 	 * 작성자 			: 손영하
 	 * 변경이력 		: 2019-08-13 최초 생성
 	 * @param prj_id
 	 * @return
-	 * Method 설명 	: 공유함에서의 파일링크 pagination
+	 * Method 설명 	: 공유함에서의 링크 pagination
 	 */
 	List<File_AttchVo> publicFilePagination(Map<String, Object> map);
 	
@@ -97,4 +114,82 @@ public interface IFile_AttchDao {
 	   */
 	   int fileCnt(int prj_id);
 	   
+	   /**
+	 * Method 		: publicLinkPagination
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-13 최초 생성
+	 * @param map
+	 * @return
+	 * Method 설명 	: 공유함에서의 링크 pagination
+	 */
+	List<Link_attchVo> publicLinkPagination(Map<String, Object> map);
+	   
+	/**
+	   * Method : fileCnt
+	   * 작성자 : PC13
+	   * 변경이력 :
+	   * @return
+	   * Method 설명 : 해당 프로젝트의 전체 링크 수 조회
+	   */
+	   int linkCnt(int prj_id);
+	   
+	   
+	   /**
+	   * Method : updateFile
+	   * 작성자 : 손영하
+	   * 변경이력 :
+	   * @param file_id
+	   * @return
+	   * Method 설명 : 파일 한개의 정보를 삭제 여부의 상태값을 바꾸는 메서드
+	   */
+	   int updateFile(int file_id);
+	   
+	   /**
+	   * Method : updateFile
+	   * 작성자 : 손영하
+	   * 변경이력 :
+	   * @param file_id
+	   * @return
+	   * Method 설명 : 링크 한개의 정보를 삭제 여부의 상태값을 바꾸는 메서드
+	   */
+	   int updateLink(int link_id);
+	
+	 //개인보관함//개인보관함//개인보관함//개인보관함//개인보관함//개인보관함//개인보관함//개인보관함//개인보관함
+	   
+	   /**
+	 * Method 		: individualPagination
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-16 최초 생성
+	 * @param pageVo
+	 * @return
+	 * Method 설명 	: 개인보관함 Pagination
+	 */
+	List<File_AttchVo> individualPagination(PageVo pageVo);
+	
+	/**
+	 * Method 		: individualCnt
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-16 최초 생성
+	 * @return
+	 * Method 설명 	: 개인보관함 개수!
+	 */
+	int individualCnt();
+	    
+	/**
+	 * Method 		: individualCnt
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-16 최초 생성
+	 * @return
+	 * Method 설명 	: 보관함에서 검색했을 떄 Pagination
+	 */
+	List<File_AttchVo> individualSearchPagination(Map<String, Object> map);	
+	
+	/**
+	 * Method 		: individualCnt
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-16 최초 생성
+	 * @return
+	 * Method 설명 	: 검색 수 개인보관함 개수!
+	 */
+	int searchIndividualCnt(String original_file_nm);
 }

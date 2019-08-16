@@ -219,7 +219,7 @@
 	<select id="publicFilePagination" parameterType="map" resultType="file_attchVo">
 		<![CDATA[
 			select 
-				rownum num, a.file_id, a.prj_id, a.user_email, a.wrk_id, a.original_file_nm, a.db_file_nm, a.file_size, a.file_exts, a.file_dt, a.del_fl, a.FILE_SAVE_FL, b.wrk_nm, C.USER_NM
+				rownum num, a.file_id, a.prj_id, a.user_email, a.wrk_id, a.original_file_nm, a.db_file_nm, a.file_size, a.file_exts, a.file_dt, a.del_fl, a.FILE_SAVE_FL,a.FILE_COMM_FL, b.wrk_nm, C.USER_NM
 			from
 				(select a.*, rownum rn 
 			from
@@ -227,7 +227,7 @@
 			from file_attch
 			WHERE prj_id = #{prj_id}
 			and del_fl='N'
-			and file_save_fl ='PU'
+			and file_save_fl ='Y'
 			order by file_id desc) a)a, work b, USERS C
 			where rn >=(#{page}-1)*#{pageSize}+1 and rn <= #{page}*#{pageSize}
 			and b.wrk_id = a.wrk_id
@@ -245,13 +245,57 @@
         and 
         	del_fl='N'
         and 
-        	file_save_fl ='PU'
+        	file_save_fl ='Y'
 	</select>
 	
+	<!-- linkList Pagination -->
+	<select id="publicLinkPagination" parameterType="map" resultType="link_attchVo">
+   <![CDATA[
+      select rownum num, a.link_id, a.prj_id, a.user_email, a.wrk_id, a.attch_url, a.file_link_dt, a.del_fl, b.wrk_nm, c.user_nm
+      from
+      (select a.*, rownum rn 
+      from
+      (select * 
+      from link_attch
+      WHERE prj_id = #{prj_id}
+      and del_fl = 'N'
+      order by link_id desc) a)a, work b, USERS c
+      where rn >=(#{page}-1)*#{pageSize}+1 and rn <= #{page}*#{pageSize}
+      and b.wrk_id = a.wrk_id
+      and a.user_email = c.user_email
+   ]]>
+	</select>
+
+	<!-- 해당 프로젝트의 전체 파일수 조회 -->
+	<select id="linkCnt" resultType="int">
+		select count(*)
+		from
+		link_attch
+		where
+		PRJ_ID=#{PRJ_ID}
+		and
+		del_fl='N'
+	</select>
+	
+	<!-- file, link 상태값 Y로 변경 (삭제 처리) -->
+	
+	<update id="updateFile" parameterType="int">
+		update file_attch
+		set
+		del_fl ='Y'
+		where
+		file_id =#{file_id}
+	</update>
+	
+	<update id="updateLink" parameterType="int">
+		update link_attch
+		set
+		del_fl='Y'
+		where
+		link_id = #{link_id}
+	</update>
+	
 	<!-- public filePagination -->
-	
-	
-	
 	
 	<insert id="insertFile" parameterType="file_attchVo">
 		insert into FILE_ATTCH
@@ -268,12 +312,119 @@
 		'PU',
 		'N')
 	</insert>
+	
+	<!--개인보관함 -->
+	<insert id="insertFileIN" parameterType="file_attchVo">
+		insert into FILE_ATTCH
+		values(
+		FILE_SEQ.nextVal,
+		#{prj_id},
+		#{user_email},
+		#{wrk_id},
+		#{original_file_nm},
+		#{db_file_nm},
+		#{file_size},
+		#{file_exts},
+		sysdate,
+		'IN',
+		'N')
+	</insert>
+	
+	<select id="selectFile" parameterType="int" resultType="file_attchVo">
+	<![CDATA[
+	 select a.file_id, a.prj_id, a.user_email, a.wrk_id, a.original_file_nm, a.db_file_nm, a.file_size, a.file_exts, a.file_dt, a.del_fl, a.FILE_SAVE_FL, b.wrk_nm, C.USER_NM
+      from
+      (select a.*, rownum rn 
+      from
+      (select * 
+      from file_attch
+      WHERE file_id = #{file_id}
+      and del_fl='N'
+      and file_save_fl ='PU'
+      order by file_id desc) a)a, work b, USERS C
+      where b.wrk_id = a.wrk_id
+      AND A.USER_EMAIL = C.USER_EMAIL
+      ]]>
+	</select>
 
+	<!--개인보관함 -->
+	
 	<select id="getFile" parameterType="int"
 		resultType="file_attchVo">
 		select * from FILE_ATTCH
 		where FILE_ID = #{file_id}
 	</select>
+	
+	<select id="individualPagination" parameterType="pageVo" resultType="file_attchVo">
+	   <![CDATA[
+		   	select 
+		    rownum num, a.file_id, a.prj_id, a.user_email, a.wrk_id, a.original_file_nm, a.db_file_nm, a.file_size, a.file_exts, a.file_dt, a.del_fl, a.FILE_SAVE_FL,a.FILE_COMM_FL, b.wrk_nm, C.USER_NM
+		    from
+		    (select a.*, rownum rn 
+		    from
+		    (select * 
+		    from file_attch
+		    WHERE del_fl='N'
+		    and FILE_COMM_FL ='Y'
+		    order by file_id desc) a)a, work b, USERS C
+		    where rn>=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
+		    and b.wrk_id = a.wrk_id
+		    AND A.USER_EMAIL = C.USER_EMAIL
+	   ]]>
+	</select>
+	
+	<select id="individualSearchPagination" parameterType="map" resultType="file_attchVo">
+	   <![CDATA[
+		   	select 
+		    rownum num, a.file_id, a.prj_id, a.user_email, a.wrk_id, a.original_file_nm, a.db_file_nm, a.file_size, a.file_exts, a.file_dt, a.del_fl, a.FILE_SAVE_FL,a.FILE_COMM_FL, b.wrk_nm, C.USER_NM
+		    from
+		    (select a.*, rownum rn 
+		    from
+		    (select * 
+		    from file_attch
+		    WHERE original_file_nm like '%'||#{user_nm}||'%'
+		    and del_fl='N'
+		    and FILE_COMM_FL ='Y'
+		    order by file_id desc) a)a, work b, USERS C
+		     where rn>=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
+		    and b.wrk_id = a.wrk_id
+		    AND A.USER_EMAIL = C.USER_EMAIL
+	   ]]>
+	</select>
+	
+	<select id="individualCnt" resultType="int">
+		select count(*)
+	    from
+	    (select a.*, rownum rn 
+	    from
+	    (select * 
+	    from file_attch
+	    WHERE del_fl='N'
+	    and FILE_COMM_FL ='Y'
+	    order by file_id desc) a)a, work b, USERS C
+	    where b.wrk_id = a.wrk_id
+	    AND A.USER_EMAIL = C.USER_EMAIL
+	</select>
+	
+	<select id="searchIndividualCnt" parameterType="String" resultType="int">
+		select count(*)
+	    from
+	    (select a.*, rownum rn 
+	    from
+	    (select * 
+	    from file_attch
+	    WHERE original_file_nm like '%'||#{original_file_nm}||'%'
+	    and del_fl='N'
+	    and FILE_COMM_FL ='Y'
+	    order by file_id desc) a)a, work b, USERS C
+	    where b.wrk_id = a.wrk_id
+	    AND A.USER_EMAIL = C.USER_EMAIL
+	</select>
+	
+	
+	
+	
+	<!-- 개인보관함 -->
 
 	<!-- 해당 프로젝트 파일 리스트 받아오는 쿼리문 -->
 	<select id="fileList" parameterType="int"
@@ -347,14 +498,7 @@
 		del_fl='N'
 	</select>
 
-	<!-- 삭제 여부의 상태값을 바꾸는 쿼리문 -->
-	<update id="updateFile" parameterType="int">
-		update file_attch
-		set
-		del_fl ='Y'
-		where
-		file_id =#{file_id}
-	</update>
+	
 
 	<!-- *********************link_attch********************* -->
 	<insert id="insertLink" parameterType="link_attchVo">
@@ -391,43 +535,9 @@
 		and a.wrk_id = b.wrk_id
 	</select>
 
-	<!-- 삭제 여부의 상태값을 바꾸는 쿼리문 -->
-	<update id="updateLink" parameterType="int">
-		update link_attch
-		set
-		del_fl='Y'
-		where
-		link_id = #{link_id}
-	</update>
+	
 
-	<!-- linkList Pagination -->
-	<select id="lPagination" parameterType="map"
-		resultType="link_attchVo">
-   <![CDATA[
-       select a.link_id, a.prj_id, a.user_email, a.wrk_id, a.attch_url, a.file_link_dt, a.del_fl, b.wrk_nm 
-      from
-      (select a.*, rownum rn 
-      from
-      (select * 
-      from link_attch
-      WHERE prj_id = #{prj_id}
-      and del_fl = 'N'
-      order by link_id desc) a)a, work b
-      where rn >=(#{page}-1)*#{pageSize}+1 and rn <= #{page}*#{pageSize}
-      and b.wrk_id = a.wrk_id
-   ]]>
-	</select>
-
-	<!-- 해당 프로젝트의 전체 파일수 조회 -->
-	<select id="linkCnt" resultType="int">
-		select count(*)
-		from
-		link_attch
-		where
-		PRJ_ID=#{PRJ_ID}
-		and
-		del_fl='N'
-	</select>
+	
 	
 	<!-- InsertLPagination링크수 조회 -->
 	<select id="insertLPagination" parameterType="map"	resultType="link_attchVo">

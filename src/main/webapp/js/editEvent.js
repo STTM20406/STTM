@@ -5,7 +5,9 @@ var editEvent = function (event, element, view) {
 
     $('.popover.fade.top').remove();
     $(element).popover("hide");
-
+    console.log(element);
+    $("#contextMenu").hide();
+    
     if (event.allDay === true) {
         editAllDay.prop('checked', true);
     } else {

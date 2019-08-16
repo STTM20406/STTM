@@ -1,6 +1,9 @@
 package kr.or.ddit.link_attch.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * 
@@ -27,15 +30,27 @@ public class Link_attchVo {
 	private String user_email;      //이메일
 	private int wrk_id;             //업무 ID
 	private String attch_url;       //첨부 URL
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
 	private Date file_link_dt;    	//등록일
 	private String del_fl;          //삭제 여부
+	
 	private String wrk_nm; 			//업무명
+	private String user_nm;		//맴버이름
+	private int num;
 	
 	//기본생성자
 	public Link_attchVo() {
 		
 	}
 	
+	public String getPrjStartDtStr() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		if(file_link_dt == null) {
+			return "";
+		}
+		return sdf.format(file_link_dt);
+	}
 	
 	//생성자
 	public Link_attchVo(int prj_id, String user_email, int wrk_id, String attch_url) {
@@ -44,6 +59,22 @@ public class Link_attchVo {
 		this.user_email = user_email;
 		this.wrk_id = wrk_id;
 		this.attch_url = attch_url;
+	}
+
+	public int getNum() {
+		return num;
+	}
+
+	public void setNum(int num) {
+		this.num = num;
+	}
+
+	public String getUser_nm() {
+		return user_nm;
+	}
+
+	public void setUser_nm(String user_nm) {
+		this.user_nm = user_nm;
 	}
 
 	//getter, setter

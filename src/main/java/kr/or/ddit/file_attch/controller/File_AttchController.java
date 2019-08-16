@@ -23,12 +23,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.or.ddit.file_attch.model.File_AttchVo;
 import kr.or.ddit.file_attch.service.IFile_AttchService;
 import kr.or.ddit.link_attch.model.Link_attchVo;
 import kr.or.ddit.link_attch.service.ILink_attchService;
+import kr.or.ddit.minutes.model.MinutesVo;
 import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.project.model.ProjectVo;
 import kr.or.ddit.users.model.UserVo;
@@ -265,34 +267,6 @@ public class File_AttchController {
 		return "/propertySet/setWorkFile.user.tiles";
 	}
 
-	//파일링크 리스트 보여주는 페이지, 등록하는 페이지에서의 삭제 처리
-	@RequestMapping(path="/fileUpdate", method = RequestMethod.GET)
-	public String fileUpdate(int file_id, String del) {
-		logger.debug("♬♩♪  file_id: {}", file_id);
-		logger.debug("♬♩♪  del: {}", del);
-		file_AttchService.updateFile(file_id);
-		if(del.equals("FList")) {
-			logger.debug("♬♩♪  삭제완료 fileList");
-			return "redirect:/main/fileList";
-		}else {
-			logger.debug("♬♩♪  삭제완료 filePagingList");
-			return "redirect:/main/filePagingList";
-		}
-	}
-	
-	@RequestMapping(path="/linkUpdate", method = RequestMethod.GET)
-	public String linkUpdate(int link_id, String del) {
-		logger.debug("♬♩♪  link_id: {}", link_id);
-		logger.debug("♬♩♪  del: {}", del);
-		link_attchService.updateLink(link_id);
-		if(del.equals("LList")) {
-			logger.debug("♬♩♪  삭제완료 linkList");
-			return "redirect:/main/linkList";
-		}else {
-			logger.debug("♬♩♪  삭제완료 linkPagingList");
-			return "redirect:/main/linkPagingList";
-		}
-	}
 
 	/**
 	* Method : fileDownload
@@ -375,25 +349,230 @@ public class File_AttchController {
 		}
 	}
 	
-	//다시 긔긔~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	@RequestMapping(path = "/publicFileLinkPagination", method = RequestMethod.GET)
-	String publicFileLinkPagination(HttpSession session,Model model, PageVo pageVo) {
+	//공용보관함입니다.//공용보관함입니다.//공용보관함입니다.//공용보관함입니다.//공용보관함입니다.//공용보관함입니다.//공용보관함입니다.//공용보관함입니다.
+	@RequestMapping(path = "/publicFilePagination", method = RequestMethod.GET)
+	String publicFilePagination() {
+		logger.debug("♬♩♪  여기는 공용 보관함입니다");
+		
+		return "/main/fileLink/fileLinkCommon.user.tiles";
+	}
+	
+	@RequestMapping(path = "/update", method = RequestMethod.GET)
+	String update(int file_id) {
+		logger.debug("♬♩♪  file_id: {}", file_id);
+		file_AttchService.updateFile(file_id);
+		
+		return "redirect:/publicFilePagination";
+	}
+	
+	@RequestMapping("/publicLinkPagination")
+	public String publicLinkPagination(HttpSession session, Model model, PageVo pageVo) {
+		logger.debug("♬♩♪  publicFilePagination");
 		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
 		int prj_id = projectVo.getPrj_id();
 		
+		//link pagination
+		Map<String, Object> map1 = new HashMap<String, Object>();
+		map1.put("page", pageVo.getPage());
+		map1.put("pageSize", pageVo.getPageSize());
+		map1.put("prj_id", prj_id);
+		logger.debug("♬♩♪  map: {}", map1);
 		
+		Map<String, Object> resultMap =file_AttchService.publicLinkPagination(map1);
+		List<File_AttchVo> publicLinkList = (List<File_AttchVo>) resultMap.get("publicLinkList");
 		
+		int paginationSize = (Integer) resultMap.get("paginationSize");
 		
+		model.addAttribute("paginationSize", paginationSize);
+		model.addAttribute("pageVo", pageVo);
+
+		model.addAttribute("publicLinkList", publicLinkList);
+				
+		return "jsonView";
+	}
+	
+	@RequestMapping("/publicFilePagination2")
+	public  @ResponseBody HashMap<String, Object> publicFilePagination2(HttpSession session, Model model, PageVo pageVo) {
+		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
+		int prj_id = projectVo.getPrj_id();
 		
-		return "/main/fileLink/fileLinkCommon.user.tiles";
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("page", pageVo.getPage());
+		map.put("pageSize", pageVo.getPageSize());
+		map.put("prj_id", prj_id);
+		logger.debug("♬♩♪  map: {}", map);
+		
+		//file pagination
+		Map<String, Object> resultMap =file_AttchService.publicFilePagination(map);
+		List<File_AttchVo> publicFileList = (List<File_AttchVo>) resultMap.get("publicFileList");
+		
+		int paginationSize = (Integer) resultMap.get("paginationSize");
+		
+//		model.addAttribute("paginationSize", paginationSize);
+//		model.addAttribute("pageVo", pageVo);
+//
+//		model.addAttribute("publicFileList", publicFileList);
+//		model.addAttribute("prj_id", prj_id);
+		
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		hashmap.put("paginationSize", paginationSize);
+		hashmap.put("pageVo", pageVo);
+		hashmap.put("publicFileList", publicFileList);
+		hashmap.put("prj_id", prj_id);
+		
+		return hashmap;
 		
 	}
 	
+	//file, link 삭제
 	
+	// 파일링크 리스트 보여주는 페이지, 등록하는 페이지에서의 삭제 처리
+	@RequestMapping("/updateFile")
+	public  @ResponseBody HashMap<String, Object> updateFile(int file_id, HttpSession session, PageVo pageVo) {
+		logger.debug("♬♩♪  file_id: {}", file_id);
+
+		int cnt = file_AttchService.updateFile(file_id);
+
+		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
+		int prj_id = projectVo.getPrj_id();
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("page", pageVo.getPage());
+		map.put("pageSize", pageVo.getPageSize());
+		map.put("prj_id", prj_id);
+		logger.debug("♬♩♪  map: {}", map);
+		
+		//file pagination
+		Map<String, Object> resultMap =file_AttchService.publicFilePagination(map);
+		List<File_AttchVo> publicFileList = (List<File_AttchVo>) resultMap.get("publicFileList");
+		
+		int paginationSize = (Integer) resultMap.get("paginationSize");
+		
+//		model.addAttribute("paginationSize", paginationSize);
+//		model.addAttribute("pageVo", pageVo);
+//
+//		model.addAttribute("publicFileList", publicFileList);
+//		model.addAttribute("prj_id", prj_id);
+		
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		hashmap.put("paginationSize", paginationSize);
+		hashmap.put("pageVo", pageVo);
+		hashmap.put("publicFileList", publicFileList);
+		hashmap.put("prj_id", prj_id);
+		logger.debug("♬♩♪  hashmap: {}", hashmap);
+		
+		return hashmap;
+	}
+		
+	@RequestMapping("/updateLink")
+	public  @ResponseBody HashMap<String, Object> updateLink(int link_id, HttpSession session, PageVo pageVo ) {
+		logger.debug("♬♩♪  updateLink link_id: {}", link_id);
+		
+		int cnt = file_AttchService.updateLink(link_id);
+		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
+		int prj_id = projectVo.getPrj_id();
+		
+		//link pagination
+		Map<String, Object> map1 = new HashMap<String, Object>();
+		map1.put("page", pageVo.getPage());
+		map1.put("pageSize", pageVo.getPageSize());
+		map1.put("prj_id", prj_id);
+		logger.debug("♬♩♪  map: {}", map1);
+		
+		Map<String, Object> resultMap =file_AttchService.publicLinkPagination(map1);
+		List<File_AttchVo> publicLinkList = (List<File_AttchVo>) resultMap.get("publicLinkList");
+		
+		int paginationSize = (Integer) resultMap.get("paginationSize");
+		
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		hashmap.put("paginationSize", paginationSize);
+		hashmap.put("pageVo", pageVo);
+		hashmap.put("publicLinkList", publicLinkList);
+		
+		return hashmap;
+	}
 	
+	//개인보관함입니다.//개인보관함입니다.//개인보관함입니다.//개인보관함입니다.//개인보관함입니다.//개인보관함입니다.//개인보관함입니다.//개인보관함입니다.//개인보관함입니다.//개인보관함입니다.//개인보관함입니다.//개인보관함입니다.
 	
+	/**
+	 * Method 		: moveFile
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-16 최초 생성
+	 * @param file_id
+	 * @param session
+	 * @param pageVo
+	 * @return
+	 * Method 설명 	: 개인에서 공용으로 이동시키는 메서드
+	 */
+	@RequestMapping("/moveFile")
+	public  @ResponseBody HashMap<String, Object> moveFile(int file_id, HttpSession session, PageVo pageVo ) {
+		logger.debug("♬♩♪  moveFile file_id: {}", file_id);
+		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
+		int prj_id = projectVo.getPrj_id();
+
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = userVo.getUser_email();
+		
+		File_AttchVo fileVo = file_AttchService.getFile(file_id);
+		logger.debug("♬♩♪  fileVo: {}", fileVo);
+		
+		return null;
+	}
 	
+	@RequestMapping("/individualBox")
+	String individualBox() {
+		logger.debug("♬♩♪  여기는 개인 보관함입니다");
+		return "/main/fileLink/FileIndividualBox.user.tiles";
+	}
 	
+	@RequestMapping("/individualPagination")
+	String individualPagination(Model model, PageVo pageVo) {
+		logger.debug("♬♩♪  여기는 개인보관함 apgination 처리하는 controller입니다.");
+		
+		model.addAttribute("data", file_AttchService.individualPagination(pageVo));
+		
+		return "jsonView";
+	}
+	
+	@RequestMapping("/updateInFile")
+	String updateInFile(Model model, PageVo pageVo, int file_id) {
+		int cnt = file_AttchService.updateFile(file_id);
+		if(cnt==1) {
+			logger.debug("♬♩♪  삭제완료");
+		}
+		model.addAttribute("data", file_AttchService.individualPagination(pageVo));
+		
+		return "jsonView";
+	}
+	
+	@RequestMapping("/searchFile")
+	public  @ResponseBody HashMap<String, Object> searchFile(Model model, PageVo pageVo, String original_file_nm) {
+		//파일이름으로 검색 fileName  모든 파일 검색 fileAll
+		logger.debug("♬♩♪  original_file_nm: {}", original_file_nm);
+		
+			logger.debug("♬♩♪  여기는 파일 이름으로 검색!");
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("page", pageVo.getPage());
+			map.put("pageSize", pageVo.getPageSize());
+			map.put("original_file_nm", original_file_nm);
+			
+			Map<String, Object> resultMap = file_AttchService.individualSearchPagination(map);
+			List<File_AttchVo> individualList = (List<File_AttchVo>) resultMap.get("searchIndividualList");
+			logger.debug("♬♩♪  individualList: {}", individualList);
+			int paginationSize = (Integer) resultMap.get("paginationSize");
+			model.addAttribute("paginationSize", paginationSize);
+			model.addAttribute("pageVo", pageVo);
+			model.addAttribute("individualList", individualList);
+			
+			HashMap<String, Object> hashmap = new HashMap<String, Object>();
+			hashmap.put("paginationSize", paginationSize);
+			hashmap.put("pageVo", pageVo);
+			hashmap.put("individualList", individualList);
+			return hashmap;
+			
+	
+		
+	}
 	
 	
 	
