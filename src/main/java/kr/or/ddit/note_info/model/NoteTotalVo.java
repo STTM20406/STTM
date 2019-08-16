@@ -1,5 +1,6 @@
 package kr.or.ddit.note_info.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class NoteTotalVo {
@@ -12,6 +13,22 @@ public class NoteTotalVo {
 	private String read_fl; // 쪽지 읽음 여부
 	private String send_del_fl; // 발신인 삭제 여부
 	private String rcv_del_fl; // 수신인 삭제 여부
+	
+	public String getRcvDateStr() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		if(rcv_date == null) {
+			return "";
+		}
+		return sdf.format(rcv_date);
+	}
+	
+	public String getSendDateStr() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		if(send_date == null) {
+			return "";
+		}
+		return sdf.format(send_date);
+	}
 	
 	@Override
 	public String toString() {

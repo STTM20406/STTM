@@ -50,41 +50,45 @@ ul.tabs li.current {
 			$("#frmSearch").submit();
 		})
 		
-		$('ul.tabs li').click(function() {
-			var tab_id = $(this).attr('data-tab');
-
-			$('ul.tabs li').removeClass('current');
-			$('.tab-content').removeClass('current');
-
-			$(this).addClass('current');
-			$("#" + tab_id).addClass('current');
-		});
+		$(".sub_menu").on("click", "#rcvNoteList",function(){
+			alert("rcvNoteList입니다.");
+			rcvNoteListPagination(1, 10);
+		})
 		
-		$(".rcvTr").on("click",function(){
-			console.log("rcvTr click");
+		$(".sub_menu").on("click", "#sendNoteList",function(){
+			alert("sendNoteList입니다.");
+			sendNoteListPagination(1, 10);
+		})
+		
+		$(".tb_style_01").on("click", ".rcvTr", function(){
+			console.log("rcvTr click :::::::::::::::::::::::");
 			var aTag = $('#aTag').attr('href');
 			var email = $(this).find('#sendEmail').text();
 			var con = $(this).find('#rcvCon').text();
 			var date = $(this).find('#rcvDate').text();
-
+			
+			console.log(aTag);
+			
 			$("#lbEmail").text(email);
 			$("#smarteditor").val(con);
 			$("#lbDate").text(date);
 			$("#rcvEmaildInput").val(email);
-			layer_popup(aTag);
+			layer_popupup(aTag);
 		})
 		
-		$(".sendTr").on("click",function(){
+		$(".tb_style_01").on("click",".sendTr",function(){
+			console.log("sendTr click :::::::::::::::::::::::");
 			console.log("sendTr click");
 			var aTag = $('#aTag02').attr('href');
 			var email = $(this).find('#sendEmail').text();
 			var con = $(this).find('#sendCon').text();
 			var date = $(this).find('#sendDate').text();
-
+			
+			console.log(aTag);
 			$("#lbEmail02").text(email);
 			$("#smarteditor02").val(con);
 			$("#lbDate02").text(date);
-			layer_popup(aTag);
+			layer_popupup(aTag);
 		})
 		
 		$("#rcvBtn").on('click',function(){
@@ -96,6 +100,163 @@ ul.tabs li.current {
 			
 		})
 	});
+	
+	   function layer_popupup(el){
+	      console.log(el);
+
+	        var $el = $(el);      //레이어의 id를 $el 변수에 저장
+	        var isDim = $el.prev().hasClass('dimBg');   //dimmed 레이어를 감지하기 위한 boolean 변수
+
+	        isDim ? $('.dim-layer').fadeIn() : $el.fadeIn();
+
+	        var $elWidth = ~~($el.outerWidth()),
+	            $elHeight = ~~($el.outerHeight()),
+	            docWidth = $(document).width(),
+	            docHeight = $(document).height();
+
+	        // 화면의 중앙에 레이어를 띄운다.
+	        if ($elHeight < docHeight || $elWidth < docWidth) {
+	            $el.css({
+	                marginTop: -$elHeight /2,
+	                marginLeft: -$elWidth/2
+	            })
+	        } else {
+	            $el.css({top: 0, left: 0});
+	        }
+
+	        $el.find('a.btn-layerClose').click(function(){
+	            isDim ? $('.dim-layer').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
+	            return false;
+	        });
+
+	        $('.layer .dimBg').click(function(){
+	            $('.dim-layer').fadeOut();
+	            return false;
+	        });
+
+	    }
+	
+	
+	function rcvNoteListPagination(page, pageSize) {
+		$.ajax({
+			url : "/rcvNoteList",
+			method : "post",
+			data : "page=" + page + "&pageSize="+ pageSize,
+			success : function(data) {
+				console.log(data);
+				//사용자 리스트
+				var hhtml = "";
+				var html = "";
+								
+				//hhtml생성
+				hhtml += "<tr>";
+				hhtml += "<th>보낸 사람</th>";
+				hhtml += "<th>내용</th>";
+				hhtml += "<th>받은 날짜</th>";
+				hhtml += "<th>쪽지 읽음 여부</th>";
+				hhtml += "<th>수신자 쪽지 삭제 여부</th>";
+				hhtml += "</tr>";
+				
+				data.rcvList.forEach(function(rcv, index){
+				
+					//html생성
+					html += "<tr class='rcvTr' >";
+					html += "<td class='sendEmail' id='sendEmail'>"+ rcv.send_email + "</td>";
+					html += "<td id='rcvCon'>"+ rcv.note_con + "</td>";
+					html += "<td id='rcvDate'>"+rcv.rcvDateStr+"</td>";	
+					html += "<td>"+ rcv.read_fl + "</td>";
+					html += "<td>"+ rcv.rcv_del_fl  + "</td>";
+					html += "<td><a id='aTag' href='#layer1' class='btn-example1'></a></td>";
+					html += "</tr>";
+				});
+				var pHtml = "";
+				var pageVo = data.pageVo;
+				console.log(data);
+				console.log(pageVo);
+				
+				if(pageVo.page==1)
+					pHtml += "<li class='disabled'><span>«<span></li>";
+				else
+					pHtml += "<li><a onclick='rcvNoteListPagination("+(pageVo.page-1)+", "+pageVo.pageSize+");' href='javascript:void(0);'>«</a></li>";
+				
+				for(var i =1; i <=data.rcvPaginationSize; i++){
+					if(pageVo.page==i)
+						pHtml += "<li class='active'><span>" + i + "</span></li>";
+					else
+						pHtml += "<li><a href='javascript:void(0);' onclick='rcvNoteListPagination("+ i + ", " + pageVo.pageSize+");'>"+i+"</a></li>";
+				}
+				if(pageVo.page == data.rcvPaginationSize)
+					pHtml += "<li class='disabled'><span>»<span></li>";
+				else
+					pHtml += "<li><a href='javascript:void(0);' onclick='rcvNoteListPagination("+(pageVo.page+1)+", "+pageVo.pageSize+");'>»</a></li>";
+				
+				$(".pagination").html(pHtml);
+				$("#publicHeader").html(hhtml);
+				$("#publicList").html(html);
+			}
+		});
+	}
+	
+	
+	function sendNoteListPagination(page, pageSize) {
+		$.ajax({
+			url : "/sendNoteList",
+			method : "POST",
+			data : "page=" + page + "&pageSize="+ pageSize,
+			success : function(data) {
+				console.log(data.sendList);
+				//사용자 리스트
+				var hhtml = "";
+				var html = "";
+								
+				//hhtml생성
+				hhtml += "<tr>";
+				hhtml += "<th>받는 사람</th>";
+				hhtml += "<th>내용</th>";
+				hhtml += "<th>보낸 날짜</th>";
+				hhtml += "<th>쪽지 읽음 여부</th>";
+				hhtml += "<th>발신자 쪽지 삭제 여부</th>";
+				hhtml += "</tr>";
+				
+				data.sendList.forEach(function(send, index){
+				
+					//html생성
+					html += "<tr class='sendTr' >";
+					html += "<td class='sendEmail' id='sendEmail'>"+ send.rcv_email  + "</td>";
+					html += "<td id='sendCon'>"+ send.note_con + "</td>";
+					html += "<td id='sendDate'>"+send.sendDateStr+"</td>";	
+					html += "<td>"+ send.read_fl + "</td>";
+					html += "<td>"+ send.send_del_fl  + "</td>";
+					html += "<td><a id='aTag02' href='#layer2' class='btn-example1'></a></td>";
+					html += "</tr>";
+				});
+				var pHtml = "";
+				var pageVo = data.pageVo;
+				console.log(data);
+				console.log(pageVo);
+				
+				if(pageVo.page==1)
+					pHtml += "<li class='disabled'><span>«<span></li>";
+				else
+					pHtml += "<li><a onclick='rcvNoteListPagination("+(pageVo.page-1)+", "+pageVo.pageSize+");' href='javascript:void(0);'>«</a></li>";
+				
+				for(var i =1; i <=data.sendPaginationSize; i++){
+					if(pageVo.page==i)
+						pHtml += "<li class='active'><span>" + i + "</span></li>";
+					else
+						pHtml += "<li><a href='javascript:void(0);' onclick='rcvNoteListPagination("+ i + ", " + pageVo.pageSize+");'>"+i+"</a></li>";
+				}
+				if(pageVo.page == data.sendPaginationSize)
+					pHtml += "<li class='disabled'><span>»<span></li>";
+				else
+					pHtml += "<li><a href='javascript:void(0);' onclick='rcvNoteListPagination("+(pageVo.page+1)+", "+pageVo.pageSize+");'>»</a></li>";
+				
+				$(".pagination").html(pHtml);
+				$("#publicHeader").html(hhtml);
+				$("#publicList").html(html);
+			}
+		});
+	}
 </script>
 
 <!-- 받은 쪽지 상세내용 팝업 -->
@@ -167,19 +328,13 @@ ul.tabs li.current {
 		</div>
 
 <section class="contents">
-
-	<form id="frm" action="/admInquiryView" method="get"> 
-		<input type="hidden" id="inq_id" name="inq_id" value=""/>
-		
-	</form>
 	
 	<div id="container">
 
-
 		<div class="sub_menu">
 			<ul class="tabs">
-				<li data-tab="tab-1">받은 쪽지함</li>
-				<li data-tab="tab-2">보낸 쪽지함</li>
+				<li id="rcvNoteList">받은 쪽지함</li>
+				<li id="sendNoteList">보낸 쪽지함</li>
 			</ul>
 		</div>
 
@@ -195,21 +350,22 @@ ul.tabs li.current {
 							<col width="10%">
 							<col width="10%">
 						</colgroup>
-						<tbody>
+						<thead id="publicHeader">
 							<tr>
 								<th>보낸 사람</th>
 								<th>내용</th>
 								<th>받은 날짜</th>
 								<th>쪽지 읽음 여부</th>
 								<th>수신자 쪽지 삭제 여부</th>
-
+						<thead>
+						<tbody id="publicList">
 								<c:forEach items="${rcvList }" var="rcv">
 									<c:choose>
 										<c:when test="${rcv.rcv_del_fl == 'N'}">
 											<tr class="rcvTr" >
 												<td class="sendEmail" id="sendEmail">${rcv.send_email }</td>
 												<td id="rcvCon">${rcv.note_con }</td>
-												<td id="rcvDate"><fmt:formatDate value="${rcv.rcv_date }" pattern="yyyy-MM-dd"/></td>
+												<td id="rcvDate"><fmt:formatDate value="${rcv.rcv_date }" pattern="yyyy-MM-dd HH:mm"/></td>
 												<td>${rcv.read_fl }</td>
 												<td>${rcv.rcv_del_fl }</td>
 												<td><a id="aTag" href="#layer1" class="btn-example1"></a></td>
@@ -228,7 +384,7 @@ ul.tabs li.current {
 								<a href class="btn_first"></a>
 							</c:when>
 							<c:otherwise>
-								<a href="${cp}/admInquiry?inq_cate=${pageVo.inq_cate }&page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a>
+								<a href="/noteList?page=${pageVo.page-1}&pageSize=${pageVo.pageSize}">«</a>
 							
 							</c:otherwise>
 						</c:choose>
@@ -239,7 +395,7 @@ ul.tabs li.current {
 									<span>${i}</span>
 								</c:when>
 								<c:otherwise>
-								<a href="${cp}/admInquiry?inq_cate=${pageVo.inq_cate }&page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
+								<a href="/noteList?page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
 								</c:otherwise>
 							</c:choose>
 
@@ -250,7 +406,7 @@ ul.tabs li.current {
 								<a href class="btn_last"></a>
 							</c:when>
 							<c:otherwise>
-							<a href="${cp}/admInquiry?inq_cate=${pageVo.inq_cate }&page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
+							<a href="/noteList?page=&page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
 								
 
 							</c:otherwise>
@@ -258,78 +414,6 @@ ul.tabs li.current {
 				
 				</div>
 			</div>
-<!-- 2번탭 -->
-			<div id="tab-2" class="tab-content">
-				<div>
-					<table class="tb_style_01">
-						<colgroup>
-							<col width="10%">
-							<col width="40%">
-							<col width="30%">
-							<col width="10%">
-							<col width="10%">
-						</colgroup>
-						<tbody>
-							<tr>
-								<th>받는 사람</th>
-								<th>내용</th>
-								<th>보낸 날짜</th>
-								<th>쪽지 읽음 여부</th>
-								<th>발신자 쪽지 삭제 여부</th>
-
-								<c:forEach items="${sendList }" var="send">
-									<c:choose>
-										<c:when test="${send.send_del_fl == 'N'}">
-											<tr class="sendTr">
-												<td class="inquirynum" id="sendEmail">${send.rcv_email }</td>
-												<td id="sendCon">${send.note_con }</td>
-												<td id="sendDate"><fmt:formatDate value="${send.send_date }" pattern="yyyy-MM-dd"/></td>
-												<td>${send.read_fl }</td>
-												<td>${send.send_del_fl }</td>
-												<td><a id="aTag02" href="#layer2" class="btn-example1"></a></td>
-											</tr>
-										</c:when>
-									</c:choose>
-								</c:forEach>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-
-				<div class="pagination">
-						<c:choose>
-							<c:when test="${pageVo.page == 1 }">
-								<a href class="btn_first"></a>
-							</c:when>
-							<c:otherwise>
-								<a href="${cp}/admInquiry?inq_cate=${pageVo.inq_cate }&page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a>
-							
-							</c:otherwise>
-						</c:choose>
-
-						<c:forEach begin="1" end="${sendPaginationSize}" var="i">
-							<c:choose>
-								<c:when test="${pageVo.page == i}">
-									<span>${i}</span>
-								</c:when>
-								<c:otherwise>
-								<a href="${cp}/admInquiry?inq_cate=${pageVo.inq_cate }&page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
-								</c:otherwise>
-							</c:choose>
-
-						</c:forEach>
-
-						<c:choose>
-							<c:when test="${pageVo.page == sendPaginationSize}">
-								<a href class="btn_last"></a>
-							</c:when>
-							<c:otherwise>
-							<a href="${cp}/admInquiry?inq_cate=${pageVo.inq_cate }&page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
-
-							</c:otherwise>
-						</c:choose>
-				</div>
-		</div>
 	</div>
 
 	</div>

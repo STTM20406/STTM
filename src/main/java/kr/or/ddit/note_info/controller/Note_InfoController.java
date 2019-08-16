@@ -1,5 +1,6 @@
 package kr.or.ddit.note_info.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.or.ddit.note_content.model.Note_ContentVo;
 import kr.or.ddit.note_info.model.Note_InfoVo;
@@ -125,5 +127,74 @@ public class Note_InfoController {
 		
 		return viewName;
 	}
+////////////////////////////////////////////////////////////////////////////////////
+	@RequestMapping("/rcvNoteList")
+	public @ResponseBody Map<String, Object> rcvNoteList(Model model,HttpSession session,String page,String pageSize) {
+		
+		logger.debug("!@# rcvNoteList page : {}",page);
+		logger.debug("!@# rcvNoteList pageSize : {}",pageSize);
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String userId = userVo.getUser_email();
+		
+		int pageStr = page == null ? 1 : Integer.parseInt(page);
+		int pageSizeStr =  pageSize == null ? 10 : Integer.parseInt(pageSize);
+		
+		PageVo pageVo = new PageVo(pageStr,pageSizeStr);
+		pageVo.setRcv_email(userId);
+		pageVo.setSend_email(userId);
+
+		Note_InfoVo noteVo = new Note_InfoVo();
+		
+		Map<String, Object> rcvMap = noteService.rcvList(pageVo); 
+		List<Note_InfoVo> rcvList = (List<Note_InfoVo>) rcvMap.get("rcvList");
+		int rcvPaginationSize = (int) rcvMap.get("rcvPaginationSize");
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("rcvList", rcvList);
+		resultMap.put("rcvPaginationSize", rcvPaginationSize);
+		resultMap.put("pageVo", pageVo);
+		
+		logger.debug("!@# rcvNoteList resultMap : {}",resultMap);
+//		model.addAttribute("rcvList", rcvList);
+//		model.addAttribute("rcvPaginationSize", rcvPaginationSize);
+//		
+//		model.addAttribute("data", pageVo);
+		
+		
+		return resultMap;
+	}
 	
+	
+	@RequestMapping("/sendNoteList")
+	public @ResponseBody Map<String, Object> sendNoteList(Model model,HttpSession session,String page,String pageSize) {
+		
+		
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String userId = userVo.getUser_email();
+		
+		int pageStr = page == null ? 1 : Integer.parseInt(page);
+		int pageSizeStr =  pageSize == null ? 10 : Integer.parseInt(pageSize);
+		
+		PageVo pageVo = new PageVo(pageStr,pageSizeStr);
+		pageVo.setRcv_email(userId);
+		pageVo.setSend_email(userId);
+
+		Note_InfoVo noteVo = new Note_InfoVo();
+		
+		
+		Map<String, Object> sendMap = noteService.sendList(pageVo);
+		List<Note_InfoVo> sendList = (List<Note_InfoVo>) sendMap.get("sendList");
+		int sendPaginationSize = (int) sendMap.get("sendPaginationSize");
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("sendList", sendList);
+		resultMap.put("sendPaginationSize", sendPaginationSize);
+		resultMap.put("pageVo", pageVo);
+		
+//		model.addAttribute("sendList", sendList);
+//		model.addAttribute("sendPaginationSize", sendPaginationSize);
+//		model.addAttribute("data", pageVo);
+		
+		return resultMap;
+	}
 }
