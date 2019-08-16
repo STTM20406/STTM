@@ -214,7 +214,7 @@ ul.tabs li.current {
 		
 				$(".pagination").html(pHtml);
 				$("#FileIndividualBox").html(hhtml);
-				$("#fileList").html(html);
+				$("#fileList").html(html);  
 				$(".ctxt").text("해당 게시물이 삭제 되었습니다.");
 	        	layer_popup("#layer2");
 	            return false;
