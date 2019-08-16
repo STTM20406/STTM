@@ -1,6 +1,9 @@
 package kr.or.ddit.file_attch.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * 
@@ -30,15 +33,28 @@ public class File_AttchVo {
     private String db_file_nm;          //DB 파일명
     private int file_size;           	//파일 크기
     private String file_exts;           //파일 확장자
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date file_dt;             	//등록일
     private String file_save_fl;		//파일 저장 구분  공유함(PU), 개인(IN)
     private String del_fl;              //삭제여부
+    private String file_comm_fl;        //삭제여부
+    
     private String wrk_nm; 				//업무명
     private String user_nm;				//작성자 이름
+    private int num;
     
     //기본 생성자
     public File_AttchVo() {
     	
+	}
+    
+    public String getPrjStartDtStr() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		if(file_dt == null) {
+			return "";
+		}
+		return sdf.format(file_dt);
 	}
     
     //생성자
@@ -67,6 +83,22 @@ public class File_AttchVo {
 	
 	public int getFile_id() {
 		return file_id;
+	}
+
+	public String getFile_comm_fl() {
+		return file_comm_fl;
+	}
+
+	public void setFile_comm_fl(String file_comm_fl) {
+		this.file_comm_fl = file_comm_fl;
+	}
+
+	public int getNum() {
+		return num;
+	}
+
+	public void setNum(int num) {
+		this.num = num;
 	}
 
 	public String getUser_nm() {
@@ -174,6 +206,8 @@ public class File_AttchVo {
 		return "File_AttchVo [file_id=" + file_id + ", prj_id=" + prj_id + ", user_email=" + user_email + ", wrk_id="
 				+ wrk_id + ", original_file_nm=" + original_file_nm + ", db_file_nm=" + db_file_nm + ", file_size="
 				+ file_size + ", file_exts=" + file_exts + ", file_dt=" + file_dt + ", file_save_fl=" + file_save_fl
-				+ ", del_fl=" + del_fl + ", wrk_nm=" + wrk_nm + ", user_nm=" + user_nm + "]";
+				+ ", del_fl=" + del_fl + ", file_comm_fl=" + file_comm_fl + ", wrk_nm=" + wrk_nm + ", user_nm="
+				+ user_nm + ", num=" + num + "]";
 	}
+	
 } 
