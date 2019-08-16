@@ -19,6 +19,7 @@ import kr.or.ddit.work_list.model.Work_ListVo;
  * 수정자 수정내용
  * ------ ------------------------
  * 양한솔   최초 생성 : 2019-07-19
+ * 박서경	수정 이력 : 2019-08-15
  *
  * </pre>
  */
@@ -51,6 +52,8 @@ public class WorkVo extends Work_ListVo{
 	
 	//권한 설정에 따라 가져
 	private String auth; //권한레벨????
+	
+	int wrkListCnt;				//완료된 업무와 진행중인 업무의 갯수를 담음
 	
 	public WorkVo() {
 
@@ -103,16 +106,20 @@ public class WorkVo extends Work_ListVo{
 		this.wrk_end_dt = wrk_end_dt;
 		this.wrk_id = wrk_id;
 	}
+	
 
 	@Override
 	public String toString() {
-		return "WorkVo [wrk_id=" + wrk_id + ", wrk_lst_id=" + wrk_lst_id + ", wrk_rv_id=" + wrk_rv_id + ", wrk_pr_id="
-				+ wrk_pr_id + ", user_email=" + user_email + ", wrk_nm=" + wrk_nm + ", wrk_dt=" + wrk_dt
-				+ ", wrk_grade=" + wrk_grade + ", wrk_color_cd=" + wrk_color_cd + ", wrk_start_dt=" + wrk_start_dt
-				+ ", wrk_end_dt=" + wrk_end_dt + ", wrk_cmp_dt=" + wrk_cmp_dt + ", wrk_cmp_fl=" + wrk_cmp_fl
-				+ ", wrk_del_fl=" + wrk_del_fl + ", prj_id=" + prj_id + ", prj_nm=" + prj_nm + ", wrk_lst_nm="
-				+ wrk_lst_nm + ", user_nm=" + user_nm + ", auth=" + auth + "]";
+		return "WorkVo [wrk_id=" + wrk_id + ", wrk_lst_id=" + wrk_lst_id + ", wrk_rv_id=" + wrk_rv_id
+				+ ", wrk_pr_id=" + wrk_pr_id + ", user_email=" + user_email + ", wrk_nm=" + wrk_nm
+				+ ", wrk_dt=" + wrk_dt + ", wrk_grade=" + wrk_grade + ", wrk_color_cd=" + wrk_color_cd
+				+ ", wrk_start_dt=" + wrk_start_dt + ", wrk_end_dt=" + wrk_end_dt + ", wrk_cmp_dt="
+				+ wrk_cmp_dt + ", wrk_cmp_fl=" + wrk_cmp_fl + ", wrk_del_fl=" + wrk_del_fl + ", prj_id="
+				+ prj_id + ", prj_nm=" + prj_nm + ", wrk_lst_nm=" + wrk_lst_nm + ", user_nm=" + user_nm
+				+ ", auth=" + auth + ", wrkListCnt=" + wrkListCnt + "]";
 	}
+	
+
 	public int getWrk_id() {
 		return wrk_id;
 	}
@@ -227,5 +234,14 @@ public class WorkVo extends Work_ListVo{
 	public void setAuth(String auth) {
 		this.auth = auth;
 	}
+
+	public int getWrkListCnt() {
+		return wrkListCnt;
+	}
+
+	public void setWrkListCnt(int wrkListCnt) {
+		this.wrkListCnt = wrkListCnt;
+	}
+	
 	
 }

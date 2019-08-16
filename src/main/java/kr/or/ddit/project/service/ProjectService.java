@@ -21,7 +21,7 @@ public class ProjectService implements IProjectService{
 	/**
 	 * 
 	 * Method 		: projectList
-	 * 작성자 		: 박서경 
+	 * 작성자 			: 박서경 
 	 * 변경이력 		: 2019-07-22 최초 생성
 	 * @return
 	 * Method 설명 	: 프로젝트 전체 리스트 조회
@@ -34,7 +34,7 @@ public class ProjectService implements IProjectService{
 	/**
 	 * 
 	 * Method 		: insertProject
-	 * 작성자 		: 박서경 
+	 * 작성자 			: 박서경 
 	 * 변경이력 		: 2019-07-22 최초 생성
 	 * @param projectVo
 	 * @return
@@ -48,7 +48,7 @@ public class ProjectService implements IProjectService{
 	/**
 	 * 
 	 * Method 		: updqteProject
-	 * 작성자 		: 박서경 
+	 * 작성자 			: 박서경 
 	 * 변경이력 		: 2019-07-22 최초 생성
 	 * @param projectVo
 	 * @return
@@ -62,7 +62,7 @@ public class ProjectService implements IProjectService{
 	/**
 	 * 
 	 * Method 		: deleteProject
-	 * 작성자 		: 박서경 
+	 * 작성자 			: 박서경 
 	 * 변경이력 		: 2019-07-22 최초 생성
 	 * @param projectVo
 	 * @return
@@ -93,7 +93,7 @@ public class ProjectService implements IProjectService{
 	/**
 	 * 
 	 * Method 		: projectStatusList
-	 * 작성자 		: 박서경 
+	 * 작성자 			: 박서경 
 	 * 변경이력 		: 2019-07-25 최초 생성
 	 * @param prj_st
 	 * @return
@@ -112,7 +112,7 @@ public class ProjectService implements IProjectService{
 	/**
 	 * 
 	 * Method 		: projectSearch
-	 * 작성자 		: 박서경 
+	 * 작성자 			: 박서경 
 	 * 변경이력 		: 2019-07-29 최초 생성
 	 * @param map
 	 * @return
@@ -130,7 +130,7 @@ public class ProjectService implements IProjectService{
 	/**
 	 * 
 	 * Method 		: updateAllProject
-	 * 작성자 		: 박서경 
+	 * 작성자 			: 박서경 
 	 * 변경이력 		: 2019-07-31 최초 생성
 	 * @param proejctVo
 	 * @return
