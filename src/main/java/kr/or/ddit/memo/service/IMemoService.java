@@ -10,7 +10,9 @@ public interface IMemoService {
 
 	String mergeMemoYd(MemoVo memoVo);
 	
-	String memoList(MemoVo memoVo);
+//	String memoList(MemoVo memoVo);
+	
+	List<MemoVo> memoList(MemoVo memoVo);
 	
 	List<MemoVo> getYdTdCon(MemoVo memoVo);
 	

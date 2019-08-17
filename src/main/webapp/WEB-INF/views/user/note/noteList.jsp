@@ -129,7 +129,6 @@ ul.tabs li.current {
 					hhtml += "<th>내용</th>";
 					hhtml += "<th>받은 날짜</th>";
 					hhtml += "<th>쪽지 읽음 여부</th>";
-					hhtml += "<th>수신자 쪽지 삭제 여부</th>";
 					hhtml += "</tr>";
 					
 					data.rcvList.forEach(function(rcv, index){
@@ -139,7 +138,6 @@ ul.tabs li.current {
 							html += "<td id='rcvCon'>"+ rcv.note_con + "</td>";
 							html += "<td id='rcvDate'>"+rcv.rcvDateStr+"</td>";	
 							html += "<td>"+ rcv.read_fl + "</td>";
-							html += "<td>"+ rcv.rcv_del_fl  + "</td>";
 							html += "<td><button type='button' id='rcvDelBtn' name='"+rcv.note_con_id+"'>삭제</button></td>";
 							html += "<td><a id='aTag' href='#layer1' class='btn-example1'></a></td>";
 							html += "</tr>";
@@ -207,6 +205,61 @@ ul.tabs li.current {
 
 	    }
 	
+	function rcvNoteList(){
+		//사용자 리스트
+		var hhtml = "";
+		var html = "";
+					
+		
+		//hhtml생성
+		hhtml += "<tr>";
+		hhtml += "<th>보낸 사람</th>";
+		hhtml += "<th>내용</th>";
+		hhtml += "<th>받은 날짜</th>";
+		hhtml += "<th>쪽지 읽음 여부</th>";
+		hhtml += "</tr>";
+		
+			
+		data.rcvList.forEach(function(rcv, index){
+			
+		
+			//html생성
+			html += "<tr class='rcvTr' >";
+			html += "<td class='sendEmail' id='sendEmail'>"+ rcv.send_email + "</td>";
+			html += "<td id='rcvCon'>"+ rcv.note_con + "</td>";
+			html += "<td id='rcvDate'>"+rcv.rcvDateStr+"</td>";	
+			html += "<td>"+ rcv.read_fl + "</td>";
+			html += "<td><button type='button' id='rcvDelBtn' name='"+rcv.note_con_id+"'>삭제</button></td>";
+			html += "<td><a id='aTag' href='#layer1' class='btn-example1'></a></td>";
+			html += "</tr>";
+			
+		});
+		var pHtml = "";
+		var pageVo = data.pageVo;
+		console.log(data);
+		console.log(pageVo);
+		
+		if(pageVo.page==1)
+			pHtml += "<li class='disabled'><span>«<span></li>";
+		else
+			pHtml += "<li><a onclick='rcvNoteListPagination("+(pageVo.page-1)+", "+pageVo.pageSize+");' href='javascript:void(0);'>«</a></li>";
+		
+		for(var i =1; i <=data.rcvPaginationSize; i++){
+			if(pageVo.page==i)
+				pHtml += "<li class='active'><span>" + i + "</span></li>";
+			else
+				pHtml += "<li><a href='javascript:void(0);' onclick='rcvNoteListPagination("+ i + ", " + pageVo.pageSize+");'>"+i+"</a></li>";
+		}
+		if(pageVo.page == data.rcvPaginationSize)
+			pHtml += "<li class='disabled'><span>»<span></li>";
+		else
+			pHtml += "<li><a href='javascript:void(0);' onclick='rcvNoteListPagination("+(pageVo.page+1)+", "+pageVo.pageSize+");'>»</a></li>";
+		
+		$(".pagination").html(pHtml);
+		$("#publicHeader").html(hhtml);
+		$("#publicList").html(html);
+	}   
+	   
 	function rcvNoteListPagination(page, pageSize) {
 		$.ajax({
 			url : "/rcvNoteList",
@@ -225,7 +278,6 @@ ul.tabs li.current {
 				hhtml += "<th>내용</th>";
 				hhtml += "<th>받은 날짜</th>";
 				hhtml += "<th>쪽지 읽음 여부</th>";
-				hhtml += "<th>수신자 쪽지 삭제 여부</th>";
 				hhtml += "</tr>";
 				
 					
@@ -238,7 +290,6 @@ ul.tabs li.current {
 					html += "<td id='rcvCon'>"+ rcv.note_con + "</td>";
 					html += "<td id='rcvDate'>"+rcv.rcvDateStr+"</td>";	
 					html += "<td>"+ rcv.read_fl + "</td>";
-					html += "<td>"+ rcv.rcv_del_fl  + "</td>";
 					html += "<td><button type='button' id='rcvDelBtn' name='"+rcv.note_con_id+"'>삭제</button></td>";
 					html += "<td><a id='aTag' href='#layer1' class='btn-example1'></a></td>";
 					html += "</tr>";
@@ -290,7 +341,6 @@ ul.tabs li.current {
 				hhtml += "<th>내용</th>";
 				hhtml += "<th>보낸 날짜</th>";
 				hhtml += "<th>쪽지 읽음 여부</th>";
-				hhtml += "<th>발신자 쪽지 삭제 여부</th>";
 				hhtml += "</tr>";
 				
 				data.sendList.forEach(function(send, index){
@@ -301,7 +351,6 @@ ul.tabs li.current {
 					html += "<td id='sendCon'>"+ send.note_con + "</td>";
 					html += "<td id='sendDate'>"+send.sendDateStr+"</td>";	
 					html += "<td>"+ send.read_fl + "</td>";
-					html += "<td>"+ send.send_del_fl  + "</td>";
 					html += "<td><button type='button'>삭제</button></td>";
 					html += "<td><a id='aTag02' href='#layer2' class='btn-example1'></a></td>";
 					html += "</tr>";
@@ -432,7 +481,6 @@ ul.tabs li.current {
 								<th>내용</th>
 								<th>받은 날짜</th>
 								<th>쪽지 읽음 여부</th>
-								<th>수신자 쪽지 삭제 여부</th>
 						<thead>
 						<tbody id="publicList">
 								<c:forEach items="${rcvList }" var="rcv">
@@ -441,7 +489,6 @@ ul.tabs li.current {
 												<td id="rcvCon">${rcv.note_con }</td>
 												<td id="rcvDate"><fmt:formatDate value="${rcv.rcv_date }" pattern="yyyy-MM-dd HH:mm"/></td>
 												<td>${rcv.read_fl }</td>
-												<td>${rcv.rcv_del_fl }</td>
 												<td><button type="button" id="rcvDelBtn" name="${rcv.note_con_id }">삭제</button></td>
 												<td><a id="aTag" href="#layer1" class="btn-example1"></a></td>
 												

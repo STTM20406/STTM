@@ -46,49 +46,49 @@ public class MemoService implements IMemoService{
 	}
 	
 
-	@Override
-	public String memoList(MemoVo memoVo) {
-		List<MemoVo> memoList = memoDao.memoList(memoVo);
-		StringBuffer result = new StringBuffer();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년  MM월 dd일");
-		SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd");
-		String today_dt_str = sdf2.format(new Date());
-		
-		result.append("<table ");
-		result.append("data-memo_email='");
-		result.append(memoVo.getMemo_email()+"' ");
-		result.append("data-prj_id='");
-		result.append(memoVo.getPrj_id());
-		result.append("'>");
-		
-		for(MemoVo memo : memoList) {
-			result.append("<tr ");
-			result.append("data-memo_dt_str='");
-			result.append(memoVo.getMemo_date());
-			
-			if(memoVo.getMemo_date().equals(today_dt_str))
-				{
-					result.append("' class='todayMemo'>");
-					result.append("<td>");
-					result.append("<span>");
-					result.append(sdf.format(memoVo.getMemo_update()));
-					result.append("(오늘)</span>");
-				}
-			else 
-				{
-				result.append("' class='memoList'>");
-				result.append("<td>");
-				result.append("<span>");
-				result.append(sdf.format(memoVo.getMemo_update()));
-				result.append("</span>");
-				}
-				result.append("</td>");
-				result.append("</tr>");
-		}
-		result.append("</table>");
-		
-		return result.toString();
-	}
+//	@Override
+//	public String memoList(MemoVo memoVo) {
+//		List<MemoVo> memoList = memoDao.memoList(memoVo);
+//		StringBuffer result = new StringBuffer();
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년  MM월 dd일");
+//		SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd");
+//		String today_dt_str = sdf2.format(new Date());
+//		
+//		result.append("<table ");
+//		result.append("data-memo_email='");
+//		result.append(memoVo.getMemo_email()+"' ");
+//		result.append("data-prj_id='");
+//		result.append(memoVo.getPrj_id());
+//		result.append("'>");
+//		
+//		for(MemoVo memo : memoList) {
+//			result.append("<tr ");
+//			result.append("data-memo_dt_str='");
+//			result.append(memoVo.getMemo_date());
+//			
+//			if(memoVo.getMemo_date().equals(today_dt_str))
+//				{
+//					result.append("' class='todayMemo'>");
+//					result.append("<td>");
+//					result.append("<span>");
+//					result.append(sdf.format(memoVo.getMemo_update()));
+//					result.append("(오늘)</span>");
+//				}
+//			else 
+//				{
+//				result.append("' class='memoList'>");
+//				result.append("<td>");
+//				result.append("<span>");
+//				result.append(sdf.format(memoVo.getMemo_update()));
+//				result.append("</span>");
+//				}
+//				result.append("</td>");
+//				result.append("</tr>");
+//		}
+//		result.append("</table>");
+//		
+//		return result.toString();
+//	}
 
 	@Override
 	public List<MemoVo> getYdTdCon(MemoVo memoVo) {
@@ -122,6 +122,11 @@ public class MemoService implements IMemoService{
 		result.append("</div>");	
 		
 		return result.toString();
+	}
+
+	@Override
+	public List<MemoVo> memoList(MemoVo memoVo) {
+		return memoDao.memoList(memoVo);
 	}
 
 }

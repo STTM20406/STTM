@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.or.ddit.friends.model.ChatFriendsVo;
+import kr.or.ddit.friends.service.IFriendsService;
 import kr.or.ddit.note_content.model.Note_ContentVo;
 import kr.or.ddit.note_info.model.Note_InfoVo;
 import kr.or.ddit.note_info.service.INote_InfoService;
@@ -28,6 +30,9 @@ public class Note_InfoController {
 	
 	@Resource(name="note_InfoService")
 	private INote_InfoService noteService;
+	
+	@Resource(name="friendsService")
+	private IFriendsService friendService;
 	
 	@RequestMapping("/noteList")
 	public String noteList(Model model,HttpSession session,String page,String pageSize) {
@@ -66,7 +71,12 @@ public class Note_InfoController {
 	@RequestMapping(path="/noteWrite",method = RequestMethod.GET)
 	public String noteWrite(HttpSession session,Model model) {
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		
+		List<ChatFriendsVo> friendList = friendService.friendList(userVo.getUser_email());
+		
 		model.addAttribute("send_email", userVo.getUser_email());
+		model.addAttribute("friendList", friendList);
+		
 		
 		return "/note/noteWrite.user.tiles";
 	}
@@ -230,4 +240,25 @@ public class Note_InfoController {
 		
 		return resultMap;
 	}
+	
+	/**
+	 * Method 		: noteFriendList
+	 * 작성자 			: 양한솔 
+	 * 변경이력 		: 2019-08-17 최초 생성
+	 * @param model
+	 * @param session
+	 * @return
+	 * Method 설명 	: 쪽지보내기 친구목록리스트
+	 */
+	@RequestMapping("/noteFriendList")
+	public String noteFriendList(Model model,HttpSession session) {
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		
+		List<ChatFriendsVo> friendList = friendService.friendList(userVo.getUser_email());
+		
+		model.addAttribute("friendList", friendList);
+		
+		return "jsonView";
+	}
+	
 }

@@ -44,36 +44,20 @@ public class MemoController {
 		for(MemoVo memo : resultMemo) {
 			if(memo.getMemo_date().equals(today_str) && memo.getMemo_con() != null) {
 				model.addAttribute("td_con", memo);
-				logger.debug("!@#memo@@@@@@@@@@@@@@@@@@111111111111 : {}",memo);
 			}
 			if(!memo.getMemo_date().equals(today_str) && memo.getMemo_con() != null)  {
-				logger.debug("!@#memo@@@@@@@@@@@@@@@@@@222222222222 : {}",memo);
 				model.addAttribute("yd_con", memo);
 			}
 			if(memo.getMemo_date().equals(today_str) && memo.getMemo_con() == null) {
 				String a = "오늘 작성한 내용이 없습니다.";
 				memo.setMemo_con(a);
-				logger.debug("!@#memo@@@@@@@@@@@@@@@@@@3333333333 : {}",memo);
 				model.addAttribute("td_con", memo);
 			}
 			if(!memo.getMemo_date().equals(today_str) && memo.getMemo_con() == null) {
 				String a = "어제 작성한 내용이 없습니다.";
 				memo.setMemo_con(a);
-				logger.debug("!@#memo@@@@@@@@@@@@@@@@@@44444444444444442 : {}",memo);
 				model.addAttribute("yd_con", memo);
 			}
-			
-//			if(memo.getMemo_date().equals(today_str) && memo.getMemo_con()!=null) {
-//				model.addAttribute("td_con", memo);
-//			}else if(!memo.getMemo_date().equals(today_str) && memo.getMemo_con()!=null){
-//				model.addAttribute("yd_con", memo);
-//			}else if(memo.getMemo_date().equals(today_str) && memo.getMemo_con() == null) {
-//				model.addAttribute("td_con", null);
-//			}else if(!memo.getMemo_date().equals(today_str) && memo.getMemo_con() == null) {
-//				model.addAttribute("yd_con", null);
-//			}
-	
-			
 
 		}
 		return "jsonView";
@@ -88,7 +72,7 @@ public class MemoController {
 	@RequestMapping("/memoList")
 	public String noteList(Model model, MemoVo memoVo) {
 		model.addAttribute("memoList", memoService.memoList(memoVo));
-		return "jsonView";
+		return "/memo/memoList.user.tiles";
 	}
 	@RequestMapping("/getMemo")
 	public String getNotes(Model model, MemoVo memoVo) {
