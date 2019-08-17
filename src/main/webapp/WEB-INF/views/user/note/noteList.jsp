@@ -60,12 +60,12 @@ ul.tabs li.current {
 			sendNoteListPagination(1, 10);
 		})
 		
-		$(".tb_style_01").on("click", ".rcvTr", function(){
+		$(".tb_style_01").on("click", ".rcvTr #rcvCon", function(){
 			console.log("rcvTr click :::::::::::::::::::::::");
 			var aTag = $('#aTag').attr('href');
-			var email = $(this).find('#sendEmail').text();
-			var con = $(this).find('#rcvCon').text();
-			var date = $(this).find('#rcvDate').text();
+			var email = $(this).siblings('#sendEmail').text();
+			var con = $(this).text();
+			var date = $(this).siblings('#rcvDate').text();
 			
 			console.log(aTag);
 			
@@ -76,13 +76,13 @@ ul.tabs li.current {
 			layer_popupup(aTag);
 		})
 		
-		$(".tb_style_01").on("click",".sendTr",function(){
+		$(".tb_style_01").on("click",".sendTr #sendCon",function(){
 			console.log("sendTr click :::::::::::::::::::::::");
 			console.log("sendTr click");
 			var aTag = $('#aTag02').attr('href');
-			var email = $(this).find('#sendEmail').text();
-			var con = $(this).find('#sendCon').text();
-			var date = $(this).find('#sendDate').text();
+			var email = $(this).siblings('#sendEmail').text();
+			var con = $(this).text();
+			var date = $(this).siblings('#sendDate').text();
 			
 			console.log(aTag);
 			$("#lbEmail02").text(email);
@@ -96,10 +96,81 @@ ul.tabs li.current {
 			$(".rcvFrm").attr("action","/rcvNoteWrite");
 			$(".rcvFrm").attr("method","GET");
 			$(".rcvFrm").submit();
-			
-			
 		})
+		
+		$(".tb_style_01").on("click",".rcvTr #rcvDelBtn",function(){
+			console.log("rcvDelBtn click");
+		
+			var noteConId = $(this).attr('name');
+			console.log(noteConId);
+			
+			rcvDel(noteConId,1,10);
+		})
+		
+		
 	});
+	
+		function rcvDel(noteConId,page,pageSize){
+			$.ajax({
+				url : "/rcvDel",
+				method : "post",
+				data : "note_con_id=" + noteConId + "&page=" + page + "&pageSize=" + pageSize,
+				success : function(data) {
+					console.log("lllllllllllllllll")
+					console.log(data);
+					//사용자 리스트
+					var hhtml = "";
+					var html = "";
+								
+					
+					//hhtml생성
+					hhtml += "<tr>";
+					hhtml += "<th>보낸 사람</th>";
+					hhtml += "<th>내용</th>";
+					hhtml += "<th>받은 날짜</th>";
+					hhtml += "<th>쪽지 읽음 여부</th>";
+					hhtml += "<th>수신자 쪽지 삭제 여부</th>";
+					hhtml += "</tr>";
+					
+					data.rcvList.forEach(function(rcv, index){
+							//html생성
+							html += "<tr class='rcvTr' >";
+							html += "<td class='sendEmail' id='sendEmail'>"+ rcv.send_email + "</td>";
+							html += "<td id='rcvCon'>"+ rcv.note_con + "</td>";
+							html += "<td id='rcvDate'>"+rcv.rcvDateStr+"</td>";	
+							html += "<td>"+ rcv.read_fl + "</td>";
+							html += "<td>"+ rcv.rcv_del_fl  + "</td>";
+							html += "<td><button type='button' id='rcvDelBtn' name='"+rcv.note_con_id+"'>삭제</button></td>";
+							html += "<td><a id='aTag' href='#layer1' class='btn-example1'></a></td>";
+							html += "</tr>";
+					});
+					var pHtml = "";
+					var pageVo = data.pageVo;
+					console.log(data);
+					console.log(pageVo);
+					
+					if(pageVo.page==1)
+						pHtml += "<li class='disabled'><span>«<span></li>";
+					else
+						pHtml += "<li><a onclick='rcvNoteListPagination("+(pageVo.page-1)+", "+pageVo.pageSize+");' href='javascript:void(0);'>«</a></li>";
+					
+					for(var i =1; i <=data.rcvPaginationSize; i++){
+						if(pageVo.page==i)
+							pHtml += "<li class='active'><span>" + i + "</span></li>";
+						else
+							pHtml += "<li><a href='javascript:void(0);' onclick='rcvNoteListPagination("+ i + ", " + pageVo.pageSize+");'>"+i+"</a></li>";
+					}
+					if(pageVo.page == data.rcvPaginationSize)
+						pHtml += "<li class='disabled'><span>»<span></li>";
+					else
+						pHtml += "<li><a href='javascript:void(0);' onclick='rcvNoteListPagination("+(pageVo.page+1)+", "+pageVo.pageSize+");'>»</a></li>";
+					
+					$(".pagination").html(pHtml);
+					$("#publicHeader").html(hhtml);
+					$("#publicList").html(html);
+				}
+			})
+		}
 	
 	   function layer_popupup(el){
 	      console.log(el);
@@ -136,7 +207,6 @@ ul.tabs li.current {
 
 	    }
 	
-	
 	function rcvNoteListPagination(page, pageSize) {
 		$.ajax({
 			url : "/rcvNoteList",
@@ -147,7 +217,8 @@ ul.tabs li.current {
 				//사용자 리스트
 				var hhtml = "";
 				var html = "";
-								
+							
+				
 				//hhtml생성
 				hhtml += "<tr>";
 				hhtml += "<th>보낸 사람</th>";
@@ -157,7 +228,9 @@ ul.tabs li.current {
 				hhtml += "<th>수신자 쪽지 삭제 여부</th>";
 				hhtml += "</tr>";
 				
+					
 				data.rcvList.forEach(function(rcv, index){
+					
 				
 					//html생성
 					html += "<tr class='rcvTr' >";
@@ -166,8 +239,10 @@ ul.tabs li.current {
 					html += "<td id='rcvDate'>"+rcv.rcvDateStr+"</td>";	
 					html += "<td>"+ rcv.read_fl + "</td>";
 					html += "<td>"+ rcv.rcv_del_fl  + "</td>";
+					html += "<td><button type='button' id='rcvDelBtn' name='"+rcv.note_con_id+"'>삭제</button></td>";
 					html += "<td><a id='aTag' href='#layer1' class='btn-example1'></a></td>";
 					html += "</tr>";
+					
 				});
 				var pHtml = "";
 				var pageVo = data.pageVo;
@@ -227,6 +302,7 @@ ul.tabs li.current {
 					html += "<td id='sendDate'>"+send.sendDateStr+"</td>";	
 					html += "<td>"+ send.read_fl + "</td>";
 					html += "<td>"+ send.send_del_fl  + "</td>";
+					html += "<td><button type='button'>삭제</button></td>";
 					html += "<td><a id='aTag02' href='#layer2' class='btn-example1'></a></td>";
 					html += "</tr>";
 				});
@@ -360,18 +436,16 @@ ul.tabs li.current {
 						<thead>
 						<tbody id="publicList">
 								<c:forEach items="${rcvList }" var="rcv">
-									<c:choose>
-										<c:when test="${rcv.rcv_del_fl == 'N'}">
 											<tr class="rcvTr" >
 												<td class="sendEmail" id="sendEmail">${rcv.send_email }</td>
 												<td id="rcvCon">${rcv.note_con }</td>
 												<td id="rcvDate"><fmt:formatDate value="${rcv.rcv_date }" pattern="yyyy-MM-dd HH:mm"/></td>
 												<td>${rcv.read_fl }</td>
 												<td>${rcv.rcv_del_fl }</td>
+												<td><button type="button" id="rcvDelBtn" name="${rcv.note_con_id }">삭제</button></td>
 												<td><a id="aTag" href="#layer1" class="btn-example1"></a></td>
+												
 											</tr>
-										</c:when>
-									</c:choose>
 								</c:forEach>
 							</tr>
 						</tbody>
