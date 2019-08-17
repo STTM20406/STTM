@@ -25,13 +25,15 @@
     from
 	(select c.*, rownum rn
     from
-    (select B.send_email,
+    (select B.note_con_id, 
+    	B.send_email,
        A.note_con,
        B.rcv_date,
        B.read_fl,
        B.rcv_del_fl    
 	from NOTE_CONTENT A, NOTE_INFO B
 	where A.note_con_id = B.note_con_id 
+	and B.rcv_del_fl = 'N'
 	and B.rcv_email = #{rcv_email}
 	order by rcv_date desc) c)
 			where rn>=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
@@ -43,6 +45,7 @@
 		select count(*)
 		from NOTE_CONTENT A, NOTE_INFO B
 		where A.note_con_id = B.note_con_id 
+		and B.rcv_del_fl = 'N'
 		and B.rcv_email = #{rcv_email}
 	</select>
 	
@@ -53,13 +56,15 @@
     from
 	(select c.*, rownum rn
     from
-    (select B.rcv_email,
+    (select B.note_con_id,
+    		B.rcv_email,
 	       A.note_con,       
 	       B.send_date,
 	       B.read_fl,
 	       B.send_del_fl
 		from NOTE_CONTENT A, NOTE_INFO B
 		where A.note_con_id = B.note_con_id 
+		and B.send_del_fl = 'N'
 		and B.send_email = #{send_email}
 		order by rcv_date desc) c)
 		where rn>=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
@@ -71,7 +76,13 @@
 		select count(*)
 		from NOTE_CONTENT A, NOTE_INFO B
 		where A.note_con_id = B.note_con_id 
+		and B.send_del_fl = 'N'
 		and B.send_email = #{send_email}
 	</select>
 
+	<update id="rcvDel" parameterType="int">
+		update NOTE_INFO set rcv_del_fl='Y' where note_con_id = #{note_con_id}
+	</update>
+	
+	
 </mapper>

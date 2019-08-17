@@ -67,4 +67,14 @@ public interface INote_InfoDao {
 	 */
 	int insertNoteInfo(Note_InfoVo noteInfo);
 	
+	/**
+	 * Method 		: rcvDel
+	 * 작성자 			: 양한솔 
+	 * 변경이력 		: 2019-08-16 최초 생성
+	 * @param note_con_id
+	 * @return
+	 * Method 설명 	: 수신자 쪽지 삭제(컬럼값만 변경)
+	 */
+	int rcvDel(int note_con_id);
+	
 }

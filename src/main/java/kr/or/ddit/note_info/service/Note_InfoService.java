@@ -66,4 +66,9 @@ public class Note_InfoService implements INote_InfoService{
 		return noteDao.insertNoteInfo(noteInfo);
 	}
 
+	@Override
+	public int rcvDel(int note_con_id) {
+		return noteDao.rcvDel(note_con_id);
+	}
+
 }
