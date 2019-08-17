@@ -197,4 +197,37 @@ public class Note_InfoController {
 		
 		return resultMap;
 	}
+	
+	@RequestMapping("/rcvDel")
+	public @ResponseBody Map<String, Object> rcvDelUpdate(Model model,String note_con_id,HttpSession session,String page,String pageSize) {
+		int note_con_id_num = Integer.parseInt(note_con_id);
+		int rcvDelUpdate = noteService.rcvDel(note_con_id_num);
+		
+		logger.debug("!@# rcvNoteList page : {}",page);
+		logger.debug("!@# rcvNoteList pageSize : {}",pageSize);
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String userId = userVo.getUser_email();
+		
+		int pageStr = page == null ? 1 : Integer.parseInt(page);
+		int pageSizeStr =  pageSize == null ? 10 : Integer.parseInt(pageSize);
+		
+		PageVo pageVo = new PageVo(pageStr,pageSizeStr);
+		pageVo.setRcv_email(userId);
+		pageVo.setSend_email(userId);
+
+		Note_InfoVo noteVo = new Note_InfoVo();
+		
+		Map<String, Object> rcvMap = noteService.rcvList(pageVo); 
+		List<Note_InfoVo> rcvList = (List<Note_InfoVo>) rcvMap.get("rcvList");
+		int rcvPaginationSize = (int) rcvMap.get("rcvPaginationSize");
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("rcvList", rcvList);
+		resultMap.put("rcvPaginationSize", rcvPaginationSize);
+		resultMap.put("pageVo", pageVo);
+		resultMap.put("rcvDelUpdate", rcvDelUpdate);
+		
+		
+		return resultMap;
+	}
 }
