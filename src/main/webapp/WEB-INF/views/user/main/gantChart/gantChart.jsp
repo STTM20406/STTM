@@ -3,8 +3,31 @@
 <!-- 프로젝트 업무 간트차트 -->
 <script src="/js/dhtmlxgantt.js"></script>
 <link rel="stylesheet" href="/css/dhtmlxgantt.css" type="text/css">
+<style>
+	#filterFrm label { font-size:13px; font-weight: 500; }
+	#filterFrm ul li label { cursor: pointer; }
+</style>
 <!-- Include 할 부분 -->
+<div class="sub_menu">
+	<ul class="sub_menu_item">
+		<li><a href="/work/list">Work</a></li>
+		<li><a href="/gantt/project">Gantt Chart</a></li>
+		<li><a href="/analysis">Work Analysis</a></li>
+		<li><a href="/publicFilePagination">File&amp;Link</a></li>
+		<li><a href="">Meeting</a></li>
+		<li><a href="/vote">Vote</a></li>
+	</ul>
+	<div class="sub_btn">
+		<ul>
+			<li><input type="button" value="4"></li>
+			<li><input type="button" value="프로젝트 대화"></li>
+			<li><input type="button" value="프로젝트 설정"></li>
+		</ul>
+	</div>
+</div>
+<!-- Include 끝 -->
 <section class="contents">
+<h2>${PROJECT_INFO.prj_nm } > Gantt Chart</h2>
 <div id="frmContainer" style="height:100%;width:20%;float:left;">
 	    <form id="filterFrm">
 	    	<label>업무 구분</label><br>
@@ -38,11 +61,9 @@
 		    	<input type="checkbox" class="filter" name="is_cmp" value="y"> 완료된 업무 <br>
 		    	<input type="checkbox" class="filter" name="is_del" value="y"> 삭제된 업무 <br>
 	    	<br><br><hr>
-	    	<label>업무 작성자 구분</label><br>
 	    		<div id="makerList">
 	    		</div>
 	    	<br><br><hr>
-	    	<label>팔로우한 멤버 구분</label><br>
 	    		<div id="followerList">
 	    		</div>
 		    	<br>
@@ -50,7 +71,7 @@
 		    	<input type="hidden" name="user_email" value="${USER_INFO.user_email }">
 	    </form>
 </div>
-<div id="gantt_here" style="width:1200px; height:830px; overflow:hidden; padding:0px; margin:0px; float:left;"></div>
+<div id="gantt_here" style="width:1200px; height:630px; overflow:hidden; padding:0px; margin:0px; float:left;"></div>
 </section>
 <script>
 function search() {
@@ -192,5 +213,14 @@ function workDetail(wrk_id){
 	$(function(){
 		searchInit();
 		loadGantt();
+		$("#filterFrm p").hide();
+		  // $("ul > li:first-child a").next().show();
+		  $("#filterFrm").on("click", "ul li label", function(){
+		    $(this).siblings().slideToggle(300);
+		    // $(this).next().slideDown(300);
+// 		    $("ul li span").not(this).next().slideUp(300);
+		    return false;
+		  });
+// 		  $("#ul li span").eq(0).trigger("click");
 	})
 </script>

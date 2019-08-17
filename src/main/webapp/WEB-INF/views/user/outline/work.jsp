@@ -4,7 +4,12 @@
 <link rel="stylesheet" href="https://uicdn.toast.com/tui.chart/latest/tui-chart.min.css">
 <script src="https://uicdn.toast.com/tui.chart/latest/tui-chart-all.min.js"></script>
 <script src="/js/toast-ui-chart.js"></script>
-
+<style>
+	#filterFrm label { font-size:13px; font-weight: 500; }
+	#filterFrm ul li label { cursor: pointer; }
+</style>
+<section class="contents">
+<h2>Work List</h2>
 <div id="frmContainer" style="height:100%;width:200px;float:left;margin-right:0;">
 	    <form id="filterFrm">
 	    	<select name="wrk_is_mine" class="filter">
@@ -32,6 +37,7 @@
 	       		<p>데이터 없음</p>
 	       	</div>
 		</div>
+</section>
 <!--         <div id="work_detail" style="width:600px;padding:25px;height:100%;float:left;overflow-y:auto;"></div> -->
 <script>
 	var percentChart = null;
@@ -149,7 +155,12 @@
 			search();
 		})
 	$(function(){
-		searchInit();		
+		searchInit();
+		$("#filterFrm p").hide();
+		  // $("ul > li:first-child a").next().show();
+		  $("#frmContainer").on("click", "ul li label", function(){
+		    $(this).siblings().slideToggle(300);
+		  });
 	})
 	function hideChart() {
 		var blank = $(".blankContainer");

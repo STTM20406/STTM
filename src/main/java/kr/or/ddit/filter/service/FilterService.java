@@ -304,11 +304,16 @@ public class FilterService implements IFilterService{
 	private String prjListTemplate(FilterVo filterVo) {
 		StringBuffer sb_prjList = new StringBuffer();
 		List<ProjectVo> prjIdList = filterDao.prjIdList(filterVo);
+		sb_prjList.append("<ul>");
+		sb_prjList.append("<li>");
+		sb_prjList.append("<label>프로젝트</label>");
 		for(ProjectVo prj : prjIdList) {
-			sb_prjList.append("<input type='checkbox' class='filter' name='prj_id_list' value='" + prj.getPrj_id() + "'>" );
+			sb_prjList.append("<p><input type='checkbox' class='filter' name='prj_id_list' value='" + prj.getPrj_id() + "'>" );
 			sb_prjList.append(prj.getPrj_nm());
-			sb_prjList.append("<br>");
+			sb_prjList.append("</p>");
 		}
+		sb_prjList.append("</li>");
+		sb_prjList.append("</ul>");
 		String prj_str = sb_prjList.toString();
 		return prj_str;
 	}
@@ -324,10 +329,15 @@ public class FilterService implements IFilterService{
 	private String followerListTemplate(FilterVo filterVo) {
 		StringBuffer sb_followerList = new StringBuffer();
 		List<UserVo> followerIdList = filterDao.followerIdList(filterVo);
+		sb_followerList.append("<ul>");
+		sb_followerList.append("<li>");
+		sb_followerList.append("<label>팔로워</label>");
 		for(UserVo user : followerIdList) {
-			sb_followerList.append("<input type='checkbox' class='filter' name='wrk_follower' value='" + user.getUser_email() +"'>" + user.getUser_nm());
-			sb_followerList.append("<br>");
+			sb_followerList.append("<p><input type='checkbox' class='filter' name='wrk_follower' value='" + user.getUser_email() +"'>" + user.getUser_nm());
+			sb_followerList.append("</p>");
 		}
+		sb_followerList.append("</li>");
+		sb_followerList.append("</ul>");
 		String followerList_str = sb_followerList.toString();
 		return followerList_str;
 	}
@@ -343,10 +353,15 @@ public class FilterService implements IFilterService{
 	private String makerListTemplate(FilterVo filterVo) {
 		List<UserVo> makerIdList = filterDao.makerIdList(filterVo);
 		StringBuffer sb_makerList = new StringBuffer();
+		sb_makerList.append("<ul>");
+		sb_makerList.append("<li>");
+		sb_makerList.append("<label>작성자</label>");
 		for(UserVo user : makerIdList) {
-			sb_makerList.append("<input type='checkbox' class='filter' name='wrk_maker' value='"+ user.getUser_email() +"' checked>" + user.getUser_nm());
-			sb_makerList.append("<br>");
+			sb_makerList.append("<p><input type='checkbox' class='filter' name='wrk_maker' value='"+ user.getUser_email() +"' checked>" + user.getUser_nm());
+			sb_makerList.append("</p>");
 		}
+		sb_makerList.append("</li>");
+		sb_makerList.append("</ul>");
 		String makerList_str = sb_makerList.toString();
 		return makerList_str;
 	}
@@ -375,22 +390,6 @@ public class FilterService implements IFilterService{
 		sb_detail.append("<br>");
 		sb_detail.append("&nbsp;" + "<label>"+ sdf.format(workVo.getWrk_dt()) +" 작성</label>");
 		sdf.applyPattern("yyyy-MM-dd");
-		sb_detail.append("<br>");
-		sb_detail.append("<br>");
-		sb_detail.append("<span>업무 작성일</span>");
-		sb_detail.append("&nbsp;" + "<input type='date' name='wrk_dt' value='"+ sdf.format(workVo.getWrk_dt()) + "'>");
-		sb_detail.append("<br>");
-		sb_detail.append("<br>");
-		sb_detail.append("<span>업무 작성일</span>");
-		sb_detail.append("&nbsp;" + "<input type='date' name='wrk_dt' value='"+ sdf.format(workVo.getWrk_dt()) + "'>");
-		sb_detail.append("<br>");
-		sb_detail.append("<br>");
-		sb_detail.append("<span>업무 작성일</span>");
-		sb_detail.append("&nbsp;" + "<input type='date' name='wrk_dt' value='"+ sdf.format(workVo.getWrk_dt()) + "'>");
-		sb_detail.append("<br>");
-		sb_detail.append("<br>");
-		sb_detail.append("<span>업무 작성일</span>");
-		sb_detail.append("&nbsp;" + "<input type='date' name='wrk_dt' value='"+ sdf.format(workVo.getWrk_dt()) + "'>");
 		sb_detail.append("<br>");
 		sb_detail.append("<br>");
 		sb_detail.append("<span>업무 작성일</span>");
@@ -441,8 +440,6 @@ public class FilterService implements IFilterService{
 		sb_form.append("<input type='checkbox' class='filter' name='wrk_i_following' value='y'> 내가 팔로우한 업무 <br>");
 		sb_form.append("<br><br>");
 		
-		sb_form.append("<label>프로젝트 구분</label>");
-		sb_form.append("<br>");
 		sb_form.append("<div id='prjList'></div>");
 		
 		sb_form.append("<br><br>");
@@ -457,7 +454,7 @@ public class FilterService implements IFilterService{
 		
 		sb_form.append("<br><br>");
 		
-		sb_form.append("<label>업무 상태 구분</label>");
+		sb_form.append("<label>업무 상태</label>");
 		sb_form.append("<br>");
 		
 		sb_form.append("<input type='checkbox' class='filter' name='is_cmp' value='y'> 완료된 업무 <br>");
@@ -465,14 +462,10 @@ public class FilterService implements IFilterService{
 		
 		sb_form.append("<br><br>");
 		
-		sb_form.append("<label>업무 작성자 구분</label>");
-		sb_form.append("<br>");
 		sb_form.append("<div id='makerList'></div>");
 		
 		sb_form.append("<br><br>");
 		
-		sb_form.append("<label>업무 팔로우 멤버</label>");
-		sb_form.append("<br>");
 		sb_form.append("<div id='followerList'></div>");
 		
 		

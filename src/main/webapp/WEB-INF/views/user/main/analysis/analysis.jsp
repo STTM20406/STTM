@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <style>
-	input {text-align: center; width:110px;}
+	input[type=text] {text-align: center; width:110px;}
 	.dt a {cursor: pointer;}
 </style>
 <link rel="stylesheet" href="https://uicdn.toast.com/tui.chart/latest/tui-chart.min.css">
@@ -13,6 +13,26 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
 <!-- flatpicker.js 끝 -->
+<div class="sub_menu">
+	<ul class="sub_menu_item">
+		<li><a href="/work/list">Work</a></li>
+		<li><a href="/gantt/project">Gantt Chart</a></li>
+		<li><a href="/analysis">Work Analysis</a></li>
+		<li><a href="/publicFilePagination">File&amp;Link</a></li>
+		<li><a href="">Meeting</a></li>
+		<li><a href="/vote">Vote</a></li>
+	</ul>
+	<div class="sub_btn">
+		<ul>
+			<li><input type="button" value="4"></li>
+			<li><input type="button" value="프로젝트 대화"></li>
+			<li><input type="button" value="프로젝트 설정"></li>
+		</ul>
+	</div>
+</div>
+<!-- Include 끝 -->
+<section class="contents">
+<h2>${PROJECT_INFO.prj_nm } > Analysis</h2>
 <div id="prj_list_container">
 	<form id="prj_list_frm">
 		프로젝트 : <select id="prj_list" name='over_prj_id' >
@@ -110,6 +130,7 @@
 		<div id="wrk_lst_barchart" style="width:100%; height:300px;">
 		<p style="text-align:center;"><b>업무리스트 별 개요</b></p>
 		</div>
+</section>
 
 <script>
 var cal = null;

@@ -3,6 +3,11 @@
 <!-- 사용자 별 전체 프로젝트 업무 간트차트 -->
 <script src="/js/dhtmlxgantt.js"></script>
 <link rel="stylesheet" href="/css/dhtmlxgantt.css" type="text/css">
+<style>
+	#filterFrm label { font-size:13px; font-weight: 500; }
+	#filterFrm ul li label { cursor: pointer; }
+	
+</style>
 <div id="frmContainer" style="height:100%;width:20%;float:left;">
 	    <form id="filterFrm">
 	    	<label>업무 구분</label><br>
@@ -25,7 +30,6 @@
 		    	<input type="checkbox" class="filter" name="wrk_i_made" value="y">	내가 작성한 업무 <br>
 		    	<input type="checkbox" class="filter" name="wrk_i_following" value="y"> 내가 팔로우한 업무 <br>
 	    	<br><br><hr>
-	    	<label>프로젝트 구분</label><br>
 	    		<div id="prjList">
 	    		</div>
 	    	<br><br><hr>
@@ -39,11 +43,9 @@
 		    	<input type="checkbox" class="filter" name="is_cmp" value="y"> 완료된 업무 <br>
 		    	<input type="checkbox" class="filter" name="is_del" value="y"> 삭제된 업무 <br>
 	    	<br><br><hr>
-	    	<label>업무 작성자 구분</label><br>
 	    		<div id="makerList">
 	    		</div>
 	    	<br><br><hr>
-	    	<label>팔로우한 멤버 구분</label><br>
 	    		<div id="followerList">
 	    		</div>
 		    	<br>
@@ -195,5 +197,14 @@ function workDetail(wrk_id){
 	$(function(){
 		searchInit();
 		loadGantt();
+		$("#filterFrm ul li p").hide();
+		  // $("ul > li:first-child a").next().show();
+		  $("#filterFrm").on("click", "ul li label", function(){
+		    $(this).siblings().slideToggle(300);
+		    // $(this).next().slideDown(300);
+// 		    $("ul li span").not(this).next().slideUp(300);
+		    return false;
+		  });
+// 		  $("#filterFrm ul li span").eq(0).trigger("click");
 	})
 </script>
