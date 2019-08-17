@@ -16,7 +16,19 @@
 <script src="./demos/menu.js"></script>
 </head>
 <body>
-
+<style>
+#screen-viewer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999999999999;
+    display: none;
+}
+	
+	
+</style>
 	<section>
 		<div id="faceChatArea"
 			style="position: fixed; bottom: 0; left: 0; right: 30%; height: 100%; border: 1px solid black; border-top: 0; border-bottom: 0;">
@@ -33,9 +45,12 @@
 				<button id="join-room">Join Room</button>
 				<button id="open-screenSharing">Open ScreenSharing</button>
 				<button id="join-screenSharing">Join ScreenSharing</button>
+				<button id="unmute">음소거</button>
+				<div id="screen-container" style="margin: 20px 0;"></div>
 			</div>
 			<div
 				style="margin-top: 20px; position: absolute; bottom: 0; background: white; padding-bottom: 20px; width: 94%">
+				<input type="text" value="#{USER_INFO.user_nm}">
 				<input type="text" id="input-text-chat" placeholder="Enter Text Chat" disabled>
                 <button id="share-file" disabled>Share File</button>
 				<div id="chat-container">
@@ -45,8 +60,9 @@
 			</div>
 		</div>
 
-		<div id="screen-container" style="margin: 20px 0;"></div>
-
+		
+		<div id="screen-viewer"></div>
+		
 		<div id="room-urls"
 			style="text-align: center; display: none; background: #F1EDED; margin: 15px -10px; border: 1px solid rgb(189, 189, 189); border-left: 0; border-right: 0;"></div>
 	</section>
@@ -55,7 +71,8 @@
 	<!-- <script src="http://192.168.0.62:9001/dist/RTCMultiConnection.js"></script> -->
 	<!-- <script src="http://192.168.0.62:9001/dist/RTCMultiConnection.min.js"></script> -->
 	<!-- <script src="http://192.168.0.62:9001/socket.io/socket.io.js"></script> -->
-	<script src="./node_modules/webrtc-adapter/out/adapter.js"></script>
+	<!-- <script src="http://192.168.0.62:9001/node_modules/webrtc-adapter/out/adapter.js"></script> -->
+	<!-- <script src="http://192.168.0.62:9001/node_modules/fbr/FileBufferReader.js"></script> -->
 
 	<!-- custom layout for HTML5 audio/video elements -->
 	<link rel="stylesheet" href="./dev/getHTMLMediaElement.css">
@@ -63,7 +80,8 @@
 	<script src="http://192.168.219.102:9001/dist/RTCMultiConnection.js"></script>
 	<script src="http://192.168.219.102:9001/dist/RTCMultiConnection.min.js"></script>
 	<script src="http://192.168.219.102:9001/socket.io/socket.io.js"></script>
-	<script src="/node_modules/fbr/FileBufferReader.js"></script>
+	<script src="http://192.168.219.102:9001/node_modules/webrtc-adapter/out/adapter.js"></script>
+	<script src="http://192.168.219.102:9001/node_modules/fbr/FileBufferReader.js"></script>
 	<script>
 		// ......................................................
 		// .......................UI Code........................
@@ -113,8 +131,15 @@
 
 							});
 		};
-
-
+		
+		//음소거 하기
+		document.getElementById('unmute').onclick = function() {
+			connection.streams[window.connection].unmute({
+				audio: true,
+				video: true
+			});
+		
+		};
 		// ......................................................
             // ................FileSharing/TextChat Code.............
             // ......................................................
@@ -176,13 +201,7 @@
 			OfferToReceiveVideo : true
 		};
 
-		connection.onmessage = appendDIV;
-		connection.filesContainer = document.getElementById('file-container');
-
-		connection.onopen = function() {
-			document.getElementById('share-file').disabled = false;
-			document.getElementById('input-text-chat').disabled = false;
-		};
+		
 		// https://www.rtcmulticonnection.org/docs/iceServers/
 		// use your own TURN-server here!
 		connection.iceServers = [ {
@@ -192,6 +211,14 @@
 					'stun:stun.l.google.com:19302?transport=udp', ]
 		} ];
 
+		connection.onmessage = appendDIV;
+		connection.filesContainer = document.getElementById('file-container');
+
+		connection.onopen = function() {
+			document.getElementById('share-file').disabled = false;
+			document.getElementById('input-text-chat').disabled = false;
+		};
+		
 		connection.videosContainer = document
 				.getElementById('videos-container');
 		connection.onstream = function(event) {
@@ -382,7 +409,7 @@
 				});
 			})();
 
-			disableInputButtons();
+			
 		}
 
 		// detect 2G
@@ -411,7 +438,7 @@
 								if (isRoomOpened === true) {
 
 								} else {
-									disableInputButtons(true);
+									
 									if (error === 'Room not available') {
 										alert('Someone already created this room. Please either join or create a separate room.');
 										return;
@@ -467,7 +494,7 @@
 					'stun:stun.l.google.com:19302?transport=udp', ]
 		} ];
 
-		connection1.videosContainer = document
+		connection1.screenContainer = document
 				.getElementById('screen-container');
 		connection1.onstream = function(event) {
 			var existing = document.getElementById(event.streamid);
@@ -500,15 +527,17 @@
 			}
 			video.srcObject = event.stream;
 
-			var width = innerWidth - 200;
+			//var width = innerWidth -80;
 			var mediaElement = getHTMLMediaElement(video, {
 				title : event.userid,
 				buttons : [ 'full-screen' ],
-				width : width,
+				width : 450,
+				height : 200,
+	
 				showOnMouseEnter : false
 			});
 
-			connection1.videosContainer.appendChild(mediaElement);
+			connection1.screenContainer.appendChild(mediaElement);
 
 			setTimeout(function() {
 				mediaElement.media.play();
@@ -605,7 +634,7 @@
 				});
 			})();
 
-			disableInputButtons();
+			
 		}
 	</script>
 

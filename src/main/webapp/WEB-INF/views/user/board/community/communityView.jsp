@@ -54,10 +54,10 @@ $(document).ready(function(){
 			<label>제목</label>
 			<label>${writeInfo.subject }</label>
 			<label>댓글수 : ${replyCnt }</label>
-			<label>좋아요 수 : ${replyCnt }</label>
+			<label>좋아요 수 : ${likeCnt }</label>
 			
-			<button type="button">좋아요</button>
-		
+			<input type="button" id="likeBtn" value="좋아요">
+			<input type="hidden" id="clickLike">
 		</div>
 		<div>
 			<label>내용</label>

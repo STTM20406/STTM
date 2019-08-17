@@ -234,18 +234,22 @@
 	</select>
 	
 	<!-- 게시글 좋아요 증가 -->	
-	<update id="likeAdd" parameterType="board_writeVo">
+	<update id="likeAdd" parameterType="int">
 		update board_write
 		set like_cnt = like_cnt + 1
-		where board_id =#{board_id} 
-		and write_id= #{write_id}
+		where write_id= #{write_id}
 	</update>
 	
 	<!-- 게시글 좋아요 감소 -->
-	<update id="likeDown" parameterType="board_writeVo">
+	<update id="likeDown" parameterType="int">
 		update board_write
 		set like_cnt = like_cnt - 1
-		where board_id =#{board_id} 
-		and write_id= #{write_id}
+		where write_id= #{write_id}
 	</update>
+	
+	<!-- 게시글 좋아요 개수 -->
+	<select id="likeCnt" parameterType="int">
+		select count(*) from board_write where write_id=#{write_id}
+	</select>
+	
 </mapper>

@@ -21,13 +21,18 @@ public class LikesDao implements ILikesDao{
 	}
 
 	@Override
-	public int likeAdd(Board_WriteVo writeVo) {
-		return sqlSession.insert("board.likeAdd",writeVo);
+	public int likeAdd(int write_id) {
+		return sqlSession.update("board.likeAdd",write_id);
 	}
 
 	@Override
-	public int likeDown(Board_WriteVo writeVo) {
-		return sqlSession.insert("board.likeDown",writeVo);
+	public int likeDown(int write_id) {
+		return sqlSession.update("board.likeDown",write_id);
+	}
+
+	@Override
+	public int likeCnt(int write_id) {
+		return sqlSession.update("board.likeCnt",write_id);
 	}
 
 }

@@ -20,6 +20,7 @@ import kr.or.ddit.board_answer.service.IBoard_AnswerService;
 import kr.or.ddit.board_write.model.Board_WriteVo;
 import kr.or.ddit.board_write.model.PostReplyVo;
 import kr.or.ddit.board_write.service.IBoard_WriteService;
+import kr.or.ddit.likes.service.ILikesService;
 import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.users.model.UserVo;
 
@@ -34,7 +35,8 @@ public class Board_WriteController {
 	@Resource(name="board_AnswerService")
 	private IBoard_AnswerService answerService;
 	
-
+	@Resource(name="likesService")
+	private ILikesService likeService;
 	
 	/**
 	 * Method 		: boardPostList
@@ -156,8 +158,10 @@ public class Board_WriteController {
 		
 		// 게시글 댓글 개수
 		int replyCnt = answerService.replyCnt(write_id);
+		// 게시글 좋아요 개수
+		int likeCnt = likeService.likeCnt(write_id);
 		
-		
+		model.addAttribute("likeCnt",likeCnt);
 		model.addAttribute("replyCnt",replyCnt);
 		model.addAttribute("replyList", replyList);
 		model.addAttribute("writeInfo", writeVo);

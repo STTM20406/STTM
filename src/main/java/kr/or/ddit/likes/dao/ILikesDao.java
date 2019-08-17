@@ -24,7 +24,7 @@ public interface ILikesDao {
 	 * @return
 	 * Method 설명 	: 게시글 좋아요 추가
 	 */
-	int likeAdd(Board_WriteVo writeVo);
+	int likeAdd(int write_id);
 	
 	/**
 	 * Method 		: likeDown
@@ -34,5 +34,16 @@ public interface ILikesDao {
 	 * @return
 	 * Method 설명 	: 게시글 좋아요 취소
 	 */
-	int likeDown(Board_WriteVo writeVo);
+	int likeDown(int write_id);
+	
+	/**
+	 * 
+	 * Method 		: likeCnt
+	 * 작성자 			: 유다연
+	 * 변경이력 		: 2019-08-17 최초 생성
+	 * @param write_id
+	 * @return
+	 * Method 설명 	: 게시글 좋아요 개수
+	 */
+	int likeCnt(int write_id);
 }
