@@ -46,7 +46,7 @@
 	input[name='vote_subject'] { width: 80%; }
 	input[name='vote_item'] { width: 100%; }
 	input[name='vote_con'] { width: 80%; }
-	.delItem, #addItemBtn { background-color:#ffffff; color: #2b65ff; border: none;}
+	.delItem,.delItemMdf ,#addItemBtn { background-color:#ffffff; color: #2b65ff; border: none;}
 	#voteTbl { padding: 5px; }
 	.voteItems { font-size: medium;}
 	.vote_set_list dd { text-align: center;}
@@ -85,30 +85,7 @@
   	</div>
   	<div class="modal-body">
   		<div id="VoteMdfContainer">
-		    <form id="voteMdfFrm">
-			<input type="text" name="vote_subject" placeholder="투표 제목"><br><br>
-			<input type="text" name="vote_con" placeholder="투표 설명..."><br><br>
-			<h2 class='voteItems'>투표 항목</h2>
-			<table id="voteTblMdf">
-				<tr class="voteItemMdf">
-					<td><input type="text" name="vote_item" placeholder="투표 항목..."></td>
-					<td><button type="button" class="delItem">삭제</button></td>
-				</tr>
-				<tr class="voteItemMdf">
-					<td><input type="text" name="vote_item" placeholder="투표 항목..."></td>
-					<td><button type="button" class="delItem">삭제</button></td>
-				</tr>
-			</table>
-			<button onclick="newItemMdf()" id="addItemBtn" type="button">투표 항목 추가</button>
-			<br><br>
-			<h2 class='voteItems'>기타 설정</h2>
-			<input type="hidden" name="prj_id" value="${PROJECT_INFO.prj_id }">
-			<input type="hidden" name="vote_email" value="${USER_INFO.user_email }">
-			<input type="checkbox" name="vote_ano" value="Y"> 익명 투표<br>
-			투표 마감일 : <input type="text" id="end_dt" name="vote_end_date"> <br>
-			<br>
-			<input type="button" id="newVoteSubmit" onclick="newVote()" class="btn_style_02" value="투표 등록">
-			</form>
+  		
   		</div>
   	</div>
   	<div class="modal-footer">
@@ -214,9 +191,13 @@ var cal = flatpickr("#end_dt", {"locale" : "ko", enableTime: true});
 			modalDetail.style.display = "none";
 		}
 		
-		window.onclick = function(event) { // 모달창 바깥 클릭했을 때 이벤트(작동 X)
+		window.onclick = function(event) {
 			if(event.target == modal) {
-				modal.display.display = "none";
+				modal.style.display = "none";
+			} else if(event.target == modalMdf) {
+				modalMdf.style.display = "none";
+			} else if(event.target == modalDetail) {
+				modalDetail.style.display = "none";
 			}
 		}
 		
@@ -245,6 +226,13 @@ var cal = flatpickr("#end_dt", {"locale" : "ko", enableTime: true});
 			$(this).parent().parent().remove();
 		});
 		
+		$("section").on("click", ".delItemMdf", function() { // 새 투표 모달, 투표 수정 모달에서 투표항목 삭제 클릭했을 때 이벤트
+			var itemid = $(this).parent().siblings().children("input[name='vote_item']").data("itemid");
+			var input = "<input type='hidden' name='del_item_id' value='"+ itemid +"' >";
+			$("#delItems").append(input);
+			$(this).parent().parent().remove();
+		});
+		
 		$("#voteContainer").on("click", '.vote_del', function() { // 투표 삭제 클릭했을 때 이벤트
 			var conf = confirm("정말 삭제하시겠습니까?");
 			if(conf) {
@@ -255,6 +243,7 @@ var cal = flatpickr("#end_dt", {"locale" : "ko", enableTime: true});
 		$("#voteContainer").on("click", '.vote_mdf', function() { // 투표 수정 클릭했을 때 이벤트
 			var vote_id = $(this).parent().siblings("dt").children("input").val();
 			modalMdf.style.display = "block";
+			voteDetailMdf(vote_id);
 		});
 		
 		$("#voteContainer").on("click",".item",function() { // 상세보기 모달에서 투표항목 선택했을 때 이벤트
@@ -305,26 +294,29 @@ var cal = flatpickr("#end_dt", {"locale" : "ko", enableTime: true});
 	function newVote() { // 새 투표 생성하는 함수
 		var serial = $("#newVoteFrm").serialize();
 		console.log(serial);
-		$.ajax({
-			url: '/newVote',
-			type: 'post',
-			data: serial,
-			success: function(data) {
-				console.log(data)
-				switch(data) {
-					case "OK":
-						alert("투표가 생성되었습니다.");
-						var modal = document.getElementById("newVoteModal");
-						modal.style.display = "none";
-						clearModal();
-						voteList(1);
-						break;
-					case "ERROR":
-						alert("투표 생성중 오류가 발생했습니다.")
-						break;
+		var valid = voteDtValidate(serial);
+		if(valid) {
+			$.ajax({
+				url: '/newVote',
+				type: 'post',
+				data: serial,
+				success: function(data) {
+					console.log(data)
+					switch(data) {
+						case "OK":
+							alert("투표가 생성되었습니다.");
+							var modal = document.getElementById("newVoteModal");
+							modal.style.display = "none";
+							clearModal();
+							voteList(1);
+							break;
+						case "ERROR":
+							alert("투표 생성중 오류가 발생했습니다.")
+							break;
+					}
 				}
-			}
-		});
+			});
+		}
 	}
 	function clearModal() { // 모달창 닫았을 때 내용 초기화하는 함수
 		document.getElementById("newVoteFrm").reset();
@@ -426,5 +418,122 @@ var cal = flatpickr("#end_dt", {"locale" : "ko", enableTime: true});
 		}
 		else
 			return true;
+	}
+	
+	function voteDtValidate(serial) {
+		console.log(serial);
+		var endDt = serial.split("vote_end_date=");
+		console.log(endDt);
+		if(endDt[1] == "") {
+			return true;
+		}
+		endDt = endDt[1];
+		var dtArr = endDt.split("+");
+// 		console.log(endDt);
+// 		console.log(dtArr);
+// 		console.log(endDt);
+		var dtArr2 = dtArr[1].split("%3A");
+		endDt = dtArr[0]+"T"+dtArr2[0]+":"+dtArr2[1]+"+09:00";
+		var today = new Date();
+		console.log(today);
+		var end_date = new Date(endDt);
+		console.log(end_date);
+		var end_date_long = end_date.getTime() - (1000*60*60*24);
+		if(today.getTime() > end_date_long) {
+			alert("마감일은 24시간 이후로만 설정할 수 있습니다.");
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	function voteDetailMdf(vote_id) {
+		$.ajax({
+			url: "/voteDetailMdf",
+			type: 'post',
+			data: {'vote_id': vote_id},
+			success: function(data) {
+				console.log(data);
+				$("#VoteMdfContainer").html(data.html);
+			}
+		});
+	}
+	
+	function voteMdf() {
+		var item_del = $("#delItems").serialize();
+		console.log(item_del);
+// 		var item_del_arr = new Array();
+		
+// 		$(item_del).each(function() {
+// 			console.log(this);
+// 			var itemid = $(this).val();
+// 			console.log(itemid);
+// 			item_del_arr.push(itemid);
+// 		});
+		
+// 		console.log(item_del_arr);
+		var mdfFrm = $("#voteMdfFrm");
+		var vote_subject = $(mdfFrm).find("input[name='vote_subject']").val();
+		var vote_con = $(mdfFrm).find("input[name='vote_con']").val();
+		var prj_id = $(mdfFrm).find("input[name='prj_id']").val();
+		var vote_email = $(mdfFrm).find("input[name='vote_email']").val();
+		var vote_ano = $(mdfFrm).find("input[name='vote_ano']").val();
+		var vote_end_date = $(mdfFrm).find("input[name='vote_end_date']").val();
+		var vote_id = $(mdfFrm).find("input[name='vote_id']").val();
+		
+		if(item_del) {
+// 			var del_item_id = {'del_item_id': item_del_arr};
+// 			console.log(JSON.stringify(del_item_id));
+			$.ajax({
+				url: '/voteMdfItems_del',
+				type: 'post',
+				data: item_del,
+				success: function(data){}
+			});
+		} 
+		
+		var item = $("#voteMdfFrm input[name='vote_item']");
+		var item_arr = new Array();
+		console.log(item);
+		$(item).each(function() {
+			console.log(this);
+			var itemid = $(this).data("itemid");
+			var value = $(this).val();
+			var item_obj = {'vote_item_con': value, 'vote_id': vote_id, 'vote_item_id': itemid};
+			item_arr.push(item_obj);
+		});
+		
+		console.log(item_arr);
+		
+		$.ajax({
+			url: '/voteMdfItems',
+			type: 'post',
+			contentType: 'application/json;charset=utf-8',
+			data: JSON.stringify(item_arr),
+			success: function(data) {}
+		});
+		
+		var serial = {
+				'vote_id': vote_id,
+				'vote_subject': vote_subject, 
+				'vote_con': vote_con,
+				'prj_id': prj_id,
+				'vote_email': vote_email,
+				'vote_ano': vote_ano,
+				'vote_end_date': vote_end_date
+		};
+		console.log(serial);
+		$.ajax({
+			url:'/voteMdf',
+			type: 'post',
+			data: serial,
+			success: function(data) {
+			}
+		});
+		alert("수정이 완료되었습니다.");
+		var vote_page = $("#voteFrm input[name='votelist_page']").val();
+		voteList(vote_page);
+		var modalMdf = document.getElementById("voteMdfModal");
+		modalMdf.style.display = "none";
 	}
 </script>

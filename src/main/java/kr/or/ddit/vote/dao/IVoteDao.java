@@ -55,4 +55,14 @@ public interface IVoteDao {
 	 * Method 설명 : 프로젝트 아이디를 이용하여 검색 가능한 투표의 개수를 확인하는 메서드
 	 */
 	int getVoteCnt(Integer prj_id);
+	
+	/**
+	 * Method : updateVote
+	 * 작성자 : 유승진
+	 * 변경이력 : 2019-08-17 최초 생성
+	 * @param voteVo
+	 * @return
+	 * Method 설명 : 투표 정보 업데이트 메서드
+	 */
+	int updateVote(VoteVo voteVo);
 }

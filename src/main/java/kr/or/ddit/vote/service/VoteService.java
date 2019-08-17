@@ -1,15 +1,16 @@
 package kr.or.ddit.vote.service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import kr.or.ddit.vote.dao.IVoteDao;
 import kr.or.ddit.vote.model.VoteVo;
@@ -20,7 +21,8 @@ import kr.or.ddit.vote_part.model.Vote_PartVo;
 
 @Service
 public class VoteService implements IVoteService{
-
+	private static final Logger logger = LoggerFactory.getLogger(VoteService.class);
+	
 	@Resource(name="voteDao")
 	private IVoteDao voteDao;
 	
@@ -251,4 +253,64 @@ public class VoteService implements IVoteService{
 	public int deleteVote(Integer vote_id) {
 		return voteDao.deleteVote(vote_id);
 	}	
+	
+	@Override
+	public Map<String, Object> voteDetailMdf(Integer vote_id) {
+		VoteVo voteVo = voteDao.getVote(vote_id);
+		List<Vote_ItemVo> itemList = vote_ItemDao.itemList(vote_id);
+		StringBuffer sb = new StringBuffer();
+		sb.append("<form id='voteMdfFrm'>");
+		sb.append("<input type='text' name='vote_subject' placeholder='투표 제목' value='"+ voteVo.getVote_subject() +"'><br><br>");
+		sb.append("<input type='text' name='vote_con' placeholder='투표 설명...' value='"+ voteVo.getVote_con() +"'><br><br>");
+		sb.append("<h2 class='voteItems'>투표 항목</h2>");
+		sb.append("<table id='voteTblMdf'>");
+		for(Vote_ItemVo item : itemList) {
+			sb.append("<tr class='voteItemMdf'>");
+			sb.append("<td><input type='text' name='vote_item' data-itemid="+ item.getVote_item_id() +" value='"+ item.getVote_item_con() +"' placeholder='투표 항목...'></td>");
+			sb.append("<td><button type='button' class='delItemMdf'>삭제</button></td>");
+			sb.append("</tr>");
+		}
+		sb.append("</table>");
+		sb.append("<button onclick='newItemMdf()' id='addItemBtn' type='button'>투표 항목 추가</button>");
+		sb.append("<br><br>");
+		sb.append("<h2 class='voteItems'>기타 설정</h2>");
+		sb.append("<input type='hidden' name='prj_id' value='"+ voteVo.getPrj_id()+"'>");
+		sb.append("<input type='hidden' name='vote_email' value='"+ voteVo.getVote_email() +"'>");
+		sb.append("<input type='hidden' name='vote_id' value='"+ vote_id +"'>");
+		sb.append("<input type='checkbox' name='vote_ano' value='Y' " + (voteVo.getVote_ano() == null ? "" : " checked " )+ "> 익명 투표<br>");
+		sb.append("투표 마감일 : <input type='text' id='end_dt' name='vote_end_date'> <br>");
+		sb.append("<br>");
+		sb.append("<input type='button' id='voteMdfSubmit' onclick='voteMdf()' class='btn_style_02' value='투표 등록'>");
+		sb.append("</form>");
+		sb.append("<form id='delItems'>");
+		sb.append("</form>");
+		Map<String, Object> resultMap = new HashMap<>();
+		resultMap.put("html", sb.toString());
+		return resultMap;
+	}
+	
+	@Override
+	public int voteModify(VoteVo voteVo){
+		VoteVo vote = voteDao.getVote(voteVo.getVote_id());
+		voteVo.setVote_start_date(vote.getVote_start_date());
+		voteVo.setVote_del_fl(vote.getVote_del_fl());
+		voteVo.setVote_st(vote.getVote_st());
+		return voteDao.updateVote(voteVo);
+	}
+	
+	@Override
+	public void deleteItems(List<String> del_item) {
+		List<Integer> del_item_list = new ArrayList<>();
+		for(String item : del_item) {
+			del_item_list.add(Integer.parseInt(item));
+		}
+		vote_PartDao.deleteVotePart(del_item_list);
+		vote_ItemDao.deleteVoteItem(del_item_list);
+	}
+	@Override
+	public void insertItems(List<Vote_ItemVo> vote_item) {
+		for(Vote_ItemVo item : vote_item) {
+			vote_ItemDao.insertVoteItem(item);
+		}
+	}
 }

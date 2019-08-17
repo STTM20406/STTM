@@ -85,6 +85,17 @@
 		WHERE	VOTE_DEL_FL = 'N'
 		AND		PRJ_ID = #{prj_id}
 	</select>
+	
+	<update id="updateVote" parameterType="voteVo">
+		UPDATE	VOTE
+		SET		
+				VOTE_END_DATE = #{vote_end_date,jdbcType=DATE},
+				VOTE_SUBJECT = #{vote_subject},
+				VOTE_CON = #{vote_con,jdbcType=VARCHAR},
+				VOTE_ANO = #{vote_ano,jdbcType=VARCHAR},
+				VOTE_ST = #{vote_st}
+		WHERE	VOTE_ID = #{vote_id}
+	</update>
 	<!-- **************** vote_item ******************** -->
 	<insert id="insertVoteItem" parameterType="vote_itemVo">
 		MERGE INTO VOTE_ITEM
@@ -118,6 +129,13 @@
 		ORDER BY VOTE_ITEM_ID
 	</select>
 	
+	<delete id="deleteVoteItem" parameterType="Integer">
+		DELETE	FROM VOTE_ITEM
+		WHERE	VOTE_ITEM_ID IN 
+		<foreach collection="del_item_id" item="item_id" open="(" close=")" separator=",">
+					#{item_id}
+		</foreach>
+	</delete>
 	<!-- **************** vote_part ******************** -->
 	<insert id="insertVotePart" parameterType="vote_partVo">
 		MERGE INTO VOTE_PART
@@ -158,4 +176,11 @@
 		AND		USER_EMAIL = #{user_email}
 	</select>
 	
+	<delete id="deletePart" parameterType="Integer">
+		DELETE	FROM VOTE_PART
+		WHERE	VOTE_ITEM_ID IN 
+		<foreach collection="del_item_list" item="item_id" open="(" close=")" separator=",">
+					#{item_id}
+		</foreach>
+	</delete>
 </mapper>

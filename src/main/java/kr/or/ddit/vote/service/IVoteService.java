@@ -1,6 +1,11 @@
 package kr.or.ddit.vote.service;
 
+import java.text.ParseException;
+import java.util.List;
 import java.util.Map;
+
+import kr.or.ddit.vote.model.VoteVo;
+import kr.or.ddit.vote_item.model.Vote_ItemVo;
 
 public interface IVoteService {
 
@@ -43,4 +48,43 @@ public interface IVoteService {
 	 * Method 설명 : 투표 아이디를 이용해 투표를 삭제처리(= 검색 리스트에서 제외)하는 메서드
 	 */
 	int deleteVote(Integer vote_id);
+
+	/**
+	 * Method : voteDetailMdf
+	 * 작성자 : 유승진
+	 * 변경이력 : 2019-08-16 최초 생성
+	 * @param vote_id
+	 * @return
+	 * Method 설명 : 투표 아이디를 이용해 수정할 투표 내용을 HTML태그로 작성해 반환해주는 메서드
+	 */
+	Map<String, Object> voteDetailMdf(Integer vote_id);
+
+	/**
+	 * Method : voteModify
+	 * 작성자 : 유승진
+	 * 변경이력 : 2019-08-16 최초 생성
+	 * @param params
+	 * @return
+	 * Method 설명 : 투표 내용 수정 메서드
+	 * @throws ParseException 
+	 */
+	int voteModify(VoteVo voteVo);
+
+	/**
+	 * Method : deleteItems
+	 * 작성자 : 유승진
+	 * 변경이력 : 2019-08-17 최초 생성
+	 * @param del_item_id
+	 * Method 설명 : 투표 수정중 삭제된 투표 항목 삭제 메서드
+	 */
+	void deleteItems(List<String> del_item_id);
+
+	/**
+	 * Method : insertItems
+	 * 작성자 : 유승진
+	 * 변경이력 : 2019-08-17 최초 생성
+	 * @param vote_item
+	 * Method 설명 : 투표 수정중 새로 생성된 투표 항목 / 기존 투표항목 수정 메서드 
+	 */
+	void insertItems(List<Vote_ItemVo> vote_item);
 }

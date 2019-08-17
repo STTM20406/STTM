@@ -1,5 +1,6 @@
 package kr.or.ddit.vote_part.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,5 +27,11 @@ public class Vote_PartDao implements IVote_PartDao{
 	@Override
 	public List<Vote_PartVo> partList(Integer vote_id) {
 		return sqlSession.selectList("vote.partList", vote_id);
+	}
+	@Override
+	public int deleteVotePart(List<Integer> del_item_list) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("del_item_list", del_item_list);
+		return sqlSession.delete("vote.deletePart", paramMap);
 	}
 }	

@@ -9,4 +9,5 @@ public interface IVote_ItemDao {
 	
 	List<Vote_ItemVo> itemList(Integer vote_id);
 	
+	int deleteVoteItem(List<Integer> del_item_list);
 }

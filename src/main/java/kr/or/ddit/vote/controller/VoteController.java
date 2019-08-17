@@ -1,6 +1,7 @@
 package kr.or.ddit.vote.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -9,14 +10,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.vote.model.VoteVo;
 import kr.or.ddit.vote.service.IVoteService;
+import kr.or.ddit.vote_item.model.Vote_ItemVo;
 import kr.or.ddit.vote_part.model.Vote_PartVo;
 import kr.or.ddit.vote_part.service.IVote_PartService;
 
@@ -122,5 +124,33 @@ public class VoteController {
 			break;
 		}
 		return result;
+	}
+	
+	@RequestMapping(path="/voteDetailMdf", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> voteDetailMdf(Integer vote_id) {
+		Map<String, Object> resultMap = voteService.voteDetailMdf(vote_id);
+		return resultMap;
+	}
+	
+	@RequestMapping(path="/voteMdf", method=RequestMethod.POST)
+	@ResponseBody
+	public void voteModify(VoteVo voteVo) {
+		logger.debug("voteVo : {}", voteVo);
+		voteService.voteModify(voteVo);
+	}
+	
+	@RequestMapping(path="/voteMdfItems_del", method=RequestMethod.POST)
+	@ResponseBody
+	public void voteDeleteItems(@RequestParam() List<String> del_item_id) {
+		logger.debug("item_del : {}", del_item_id);
+		voteService.deleteItems(del_item_id);
+	}
+	
+	@RequestMapping(path="/voteMdfItems", method=RequestMethod.POST)
+	@ResponseBody
+	public void voteModifyItems(@RequestBody List<Vote_ItemVo> vote_item) {
+		logger.debug("vote_item : {}", vote_item);
+		voteService.insertItems(vote_item);
 	}
 }

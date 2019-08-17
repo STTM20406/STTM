@@ -38,4 +38,8 @@ public class VoteDao implements IVoteDao{
 	public int getVoteCnt(Integer prj_id) {
 		return sqlSession.selectOne("vote.getVoteCnt", prj_id);
 	}
+	@Override
+	public int updateVote(VoteVo voteVo) {
+		return sqlSession.update("vote.updateVote", voteVo);
+	}
 }

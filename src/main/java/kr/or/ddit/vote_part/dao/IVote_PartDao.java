@@ -27,4 +27,13 @@ public interface IVote_PartDao {
 	int vote(Vote_PartVo vote_PartVo);
 	
 	List<Vote_PartVo> partList(Integer vote_id);
+
+	/**
+	 * Method : deleteVotePart
+	 * 작성자 : 유승진
+	 * 변경이력 : 2019-08-17 최초 생성
+	 * @param del_item_list
+	 * Method 설명 : 삭제된 투표 항목의 투표 내역을 삭제하는 메서드
+	 */
+	int deleteVotePart(List<Integer> del_item_list);
 }
