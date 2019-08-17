@@ -8,9 +8,9 @@
 			<label>오늘 할 일 :</label> <br>
 				<textarea rows="5" cols="30" name="memo_con" id="memo_con" style="resize:none;"></textarea><br>
 			<input type="hidden" name="memo_email" value="${USER_INFO.user_email }">
-			<input type="hidden" name="prj_id" value="1">
+			<input type="text" name="prj_id" value="">
 			<button type="button" onclick="copyTask(this)">복사하기</button>
-			<button type="button" onclick="memoList()">목록</button>
+			<button type="button" id="memoList">목록</button>
 		</form>
 	</div>
 	<div id="memoList"></div>
@@ -24,7 +24,7 @@
 			var serial = $("#memoFrm").serialize();
 			mergeMemo(serial);
 		});
-		$("#memoList").on("click", ".memoList", function(){
+		$("#memoList").on("click", function(){
 			var prj_id = $(this).parents().find("table").data("prj_id");
 			var user_email = $(this).parents().find("table").data("memo_email");
 			var dt_str = $(this).data("memo_dt_str");
@@ -33,11 +33,11 @@
 			console.log(dt_str);
 			
 			var memoVo = {"memo_email": user_email, "memo_dt_str": dt_str, "prj_id": prj_id};
-			getMemo(memoVo);
+// 			getMemo(memoVo);
 		});
 		
 		$("#memoList").on("click", ".todayMemo", function(){
-			todayMemo();
+// 			todayMemo();
 		});
 		
 		getYdTdCon();

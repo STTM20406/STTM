@@ -194,21 +194,7 @@ function copyTask(btn) {
    console.log("Copied!");
 };
 
-function memoList() {
-   var serial = $("#memoFrm").serialize();
-   $.ajax({
-      url: "/memoList",
-      type: "POST",
-      data: serial,
-      success: function(data){
-         console.log(data);
-         $("#memo").hide();
-         $("#memoDetail").hide();
-         $("#memoList").html(data.memoList);
-         $("#memoList").show();
-      }
-   })
-};
+
 $(document).ready(function(){
    connectNotify();
 
@@ -223,6 +209,17 @@ $(document).ready(function(){
       var c = $(this).children().attr("id");
       $(".board_id").val(c);   
 
+   })
+   
+   $("#memoList").on("click",function(){
+	   console.log("memoList Click");
+// 	   var prj_id = $(this).siblings("#prj_id").val();
+// 	   console.log(prj_id);
+	   
+	   $("#memoFrm").attr("action","/memoList");
+	   $("#memoFrm").attr("method","get");
+	   $("#memoFrm").submit();
+	   
    })
    
    
@@ -244,25 +241,9 @@ $(document).ready(function(){
                var serial = $("#memoFrm").serialize();
                mergeMemo(serial);
             });
-            $("#memoList").on("click", ".memoList", function(){
-               var prj_id = $(this).parents().find("table").data("prj_id");
-               var user_email = $(this).parents().find("table").data("memo_email");
-               var dt_str = $(this).data("memo_dt_str");
-               console.log(user_email);
-               console.log(prj_id);
-               console.log(dt_str);
-               
-               var memoVo = {"memo_email": user_email, "memo_dt_str": dt_str, "prj_id": prj_id};
-               getMemo(memoVo);
-            });
-            
-            $("#memoList").on("click", ".todayMemo", function(){
-               todayMemo();
-            });
+           
             
             getYdTdCon();
-            $("#memoList").hide();
-            $("#memoDetail").hide();
          });
          
          
@@ -526,11 +507,10 @@ window.onclick = function(event) {
             <br> <label>오늘 할 일 </label> <br>
             <textarea rows="5" cols="30" name="memo_con" id="memo_con"
                style="resize: none;"></textarea>
-            <br> <input type="hidden" name="memo_email"
-               value="${USER_INFO.user_email }"> <input type="hidden"
-               name="prj_id" id="prj_id" value="">
+            <br> <input type="hidden" name="memo_email" value="${USER_INFO.user_email }">
+                <input type="text" name="prj_id" id="prj_id" value="">
             <button type="button" onclick="copyTask(this)">복사하기</button>
-            <button type="button" onclick="memoList()">목록</button>
+            <button type="button" id="memoList">목록</button>
          </form>
       </div>
       <div id="memoList"></div>

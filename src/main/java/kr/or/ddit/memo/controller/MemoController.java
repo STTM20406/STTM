@@ -5,16 +5,19 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import kr.or.ddit.memo.dao.IMemoDao;
 import kr.or.ddit.memo.model.MemoVo;
 import kr.or.ddit.memo.service.IMemoService;
+import kr.or.ddit.users.model.UserVo;
 
 @Controller
 public class MemoController {
@@ -69,9 +72,16 @@ public class MemoController {
 		model.addAttribute("result", mergeResult);
 		return "jsonView";
 	}
-	@RequestMapping("/memoList")
-	public String noteList(Model model, MemoVo memoVo) {
+	@RequestMapping(path="/memoList",method=RequestMethod.GET)
+	public String noteList(Model model, int prj_id, HttpSession session) {
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		
+		MemoVo memoVo = new MemoVo();
+		memoVo.setPrj_id(prj_id);
+		memoVo.setMemo_email(userVo.getUser_email());
+		
 		model.addAttribute("memoList", memoService.memoList(memoVo));
+		
 		return "/memo/memoList.user.tiles";
 	}
 	@RequestMapping("/getMemo")
