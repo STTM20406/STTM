@@ -14,10 +14,27 @@ public class PageVo {
    private String send_email; // 쪽지 발신자
    private String rcv_email; // 쪽지 수신자   
    
+   private int prj_id;
+   private String memo_email;
    
    
-   
-   public String getSend_email() {
+   public int getPrj_id() {
+	return prj_id;
+}
+
+public void setPrj_id(int prj_id) {
+	this.prj_id = prj_id;
+}
+
+public String getMemo_email() {
+	return memo_email;
+}
+
+public void setMemo_email(String memo_email) {
+	this.memo_email = memo_email;
+}
+
+public String getSend_email() {
 	return send_email;
 }
 
