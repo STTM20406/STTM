@@ -351,7 +351,6 @@ ul.tabs li.current {
 					html += "<td id='sendCon'>"+ send.note_con + "</td>";
 					html += "<td id='sendDate'>"+send.sendDateStr+"</td>";	
 					html += "<td>"+ send.read_fl + "</td>";
-					html += "<td><button type='button'>삭제</button></td>";
 					html += "<td><a id='aTag02' href='#layer2' class='btn-example1'></a></td>";
 					html += "</tr>";
 				});
