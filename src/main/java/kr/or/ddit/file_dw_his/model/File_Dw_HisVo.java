@@ -1,5 +1,6 @@
 package kr.or.ddit.file_dw_his.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -44,6 +45,14 @@ public class File_Dw_HisVo {
 		this.user_email = user_email;
 		this.file_id = file_id;
 		this.down_date = down_date;
+	}
+	
+	 public String getPrjStartDtStr() {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			if(down_date == null) {
+				return "";
+			}
+			return sdf.format(down_date);
 	}
 
 	@Override

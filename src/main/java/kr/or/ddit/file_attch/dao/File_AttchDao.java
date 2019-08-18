@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import kr.or.ddit.file_attch.model.File_AttchVo;
 import kr.or.ddit.link_attch.model.Link_attchVo;
 import kr.or.ddit.paging.model.PageVo;
+import kr.or.ddit.project_mem.model.Project_MemVo;
 
 @Repository
 public class File_AttchDao implements IFile_AttchDao{
@@ -85,13 +86,13 @@ public class File_AttchDao implements IFile_AttchDao{
 	}
 
 	@Override
-	public List<File_AttchVo> individualPagination(PageVo pageVo) {
-		return sqlSession.selectList("project.individualPagination",pageVo);
+	public List<File_AttchVo> individualPagination(Map<String, Object> map) {
+		return sqlSession.selectList("project.individualPagination",map);
 	}
 
 	@Override
-	public int individualCnt() {
-		return sqlSession.selectOne("project.individualCnt");
+	public int individualCnt(String user_email) {
+		return sqlSession.selectOne("project.individualCnt",user_email);
 	}
 
 	@Override
@@ -102,6 +103,11 @@ public class File_AttchDao implements IFile_AttchDao{
 	@Override
 	public int searchIndividualCnt(String original_file_nm) {
 		return sqlSession.selectOne("project.searchIndividualCnt",original_file_nm);
+	}
+
+	@Override
+	public Project_MemVo selectLV(Project_MemVo project_MemVo) {
+		return sqlSession.selectOne("project.selectLV",project_MemVo);
 	}
 
 

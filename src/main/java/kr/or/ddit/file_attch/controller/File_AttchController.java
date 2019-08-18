@@ -30,9 +30,9 @@ import kr.or.ddit.file_attch.model.File_AttchVo;
 import kr.or.ddit.file_attch.service.IFile_AttchService;
 import kr.or.ddit.link_attch.model.Link_attchVo;
 import kr.or.ddit.link_attch.service.ILink_attchService;
-import kr.or.ddit.minutes.model.MinutesVo;
 import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.project.model.ProjectVo;
+import kr.or.ddit.project_mem.model.Project_MemVo;
 import kr.or.ddit.users.model.UserVo;
 import kr.or.ddit.util.PartUtil;
 
@@ -47,6 +47,8 @@ public class File_AttchController {
 	
 	@Resource(name="link_attchService")
 	private ILink_attchService link_attchService;
+	
+	
 	
 	/**
 	* Method : mainFile
@@ -387,7 +389,6 @@ public class File_AttchController {
 		model.addAttribute("pageVo", pageVo);
 
 		model.addAttribute("publicLinkList", publicLinkList);
-				
 		return "jsonView";
 	}
 	
@@ -413,12 +414,25 @@ public class File_AttchController {
 //
 //		model.addAttribute("publicFileList", publicFileList);
 //		model.addAttribute("prj_id", prj_id);
+		//테스트
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = userVo.getUser_email();
+		
+		Project_MemVo project_MemVo = new Project_MemVo();
+		
+		project_MemVo.setUser_email(user_email);
+		project_MemVo.setPrj_id(prj_id);
+		logger.debug("♬♩♪  로그인한 사람의 LV조회!긔긔 : {}", file_AttchService.selectLV(project_MemVo));
+		
+		model.addAttribute("LV", file_AttchService.selectLV(project_MemVo));	
+		//테스트
 		
 		HashMap<String, Object> hashmap = new HashMap<String, Object>();
 		hashmap.put("paginationSize", paginationSize);
 		hashmap.put("pageVo", pageVo);
 		hashmap.put("publicFileList", publicFileList);
 		hashmap.put("prj_id", prj_id);
+		hashmap.put("LV", file_AttchService.selectLV(project_MemVo));
 		
 		return hashmap;
 		
@@ -493,32 +507,6 @@ public class File_AttchController {
 	}
 	
 	//개인보관함입니다.//개인보관함입니다.//개인보관함입니다.//개인보관함입니다.//개인보관함입니다.//개인보관함입니다.//개인보관함입니다.//개인보관함입니다.//개인보관함입니다.//개인보관함입니다.//개인보관함입니다.//개인보관함입니다.
-	
-	/**
-	 * Method 		: moveFile
-	 * 작성자 			: 손영하
-	 * 변경이력 		: 2019-08-16 최초 생성
-	 * @param file_id
-	 * @param session
-	 * @param pageVo
-	 * @return
-	 * Method 설명 	: 개인에서 공용으로 이동시키는 메서드
-	 */
-	@RequestMapping("/moveFile")
-	public  @ResponseBody HashMap<String, Object> moveFile(int file_id, HttpSession session, PageVo pageVo ) {
-		logger.debug("♬♩♪  moveFile file_id: {}", file_id);
-		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
-		int prj_id = projectVo.getPrj_id();
-
-		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
-		String user_email = userVo.getUser_email();
-		
-		File_AttchVo fileVo = file_AttchService.getFile(file_id);
-		logger.debug("♬♩♪  fileVo: {}", fileVo);
-		
-		return null;
-	}
-	
 	@RequestMapping("/individualBox")
 	String individualBox() {
 		logger.debug("♬♩♪  여기는 개인 보관함입니다");
@@ -526,23 +514,54 @@ public class File_AttchController {
 	}
 	
 	@RequestMapping("/individualPagination")
-	String individualPagination(Model model, PageVo pageVo) {
+	String individualPagination(Model model, PageVo pageVo, HttpSession session) {
 		logger.debug("♬♩♪  여기는 개인보관함 apgination 처리하는 controller입니다.");
 		
-		model.addAttribute("data", file_AttchService.individualPagination(pageVo));
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = userVo.getUser_email();
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("page", pageVo.getPage());
+		map.put("pageSize", pageVo.getPageSize());
+		map.put("user_email", user_email);
+		
+		Map<String, Object> resultMap =file_AttchService.individualPagination(map);
+		List<File_AttchVo> individualList = (List<File_AttchVo>) resultMap.get("individualList");
+		
+		int paginationSize = (Integer) resultMap.get("paginationSize");
+		
+		model.addAttribute("paginationSize", paginationSize);
+		model.addAttribute("pageVo", pageVo);
+		model.addAttribute("individualList", individualList);
+		model.addAttribute("user_email", user_email);
 		
 		return "jsonView";
 	}
 	
 	@RequestMapping("/updateInFile")
-	String updateInFile(Model model, PageVo pageVo, int file_id) {
+	String updateInFile(Model model, PageVo pageVo, int file_id, HttpSession session) {
 		int cnt = file_AttchService.updateFile(file_id);
 		if(cnt==1) {
 			logger.debug("♬♩♪  삭제완료");
 		}
-		model.addAttribute("data", file_AttchService.individualPagination(pageVo));
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = userVo.getUser_email();
 		
-		return "jsonView";
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("page", pageVo.getPage());
+		map.put("pageSize", pageVo.getPageSize());
+		map.put("user_email", user_email);
+		
+		Map<String, Object> resultMap =file_AttchService.individualPagination(map);
+		List<File_AttchVo> individualList = (List<File_AttchVo>) resultMap.get("individualList");
+		
+		int paginationSize = (Integer) resultMap.get("paginationSize");
+		
+		model.addAttribute("paginationSize", paginationSize);
+		model.addAttribute("pageVo", pageVo);
+		model.addAttribute("individualList", individualList);
+		model.addAttribute("user_email", user_email);
+		return "redirect:/individualPagination";
 	}
 	
 	@RequestMapping("/searchFile")
@@ -570,8 +589,6 @@ public class File_AttchController {
 			hashmap.put("individualList", individualList);
 			return hashmap;
 			
-	
-		
 	}
 	
 	

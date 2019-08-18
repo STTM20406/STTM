@@ -1,5 +1,6 @@
 package kr.or.ddit.minutes.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -36,6 +37,14 @@ public class MinutesVo {
 	//기본생성자
 	public MinutesVo() {
 		
+	}
+	
+	public String getPrjStartDtStr() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		if(write_date == null) {
+			return "";
+		}
+		return sdf.format(write_date);
 	}
 	
 	/**

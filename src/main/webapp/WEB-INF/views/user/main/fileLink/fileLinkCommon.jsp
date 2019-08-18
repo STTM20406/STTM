@@ -30,6 +30,7 @@ ul.tabs li.current {
 	display: inherit;
 }
 </style>
+
 <script>
 	$(document).ready(function() {
 		publicFilePagination2(1,10)
@@ -54,7 +55,7 @@ ul.tabs li.current {
 				hhtml += "<th>등록일</th>";
 				hhtml += "<th>삭제</th>";
 				hhtml += "</tr>";
-				console.log(data.publicFileList);
+				
 				data.publicFileList.forEach(function(file, index){
 				
 					//html생성
@@ -68,6 +69,19 @@ ul.tabs li.current {
 					html += "<td><a href='javascript:updateFile("+file.file_id+")'>삭제</a></td>";
 					html += "</tr>";
 				});
+				
+				
+				var lvhtml = "";
+				if(data.LV.prj_mem_lv == 'LV0'){
+					lvhtml += "<li id='adminFileList'>DownLoad Statistics</li>"; 
+					if($('#adminFileList').length == 1){
+						$("#adminFileList").remove();
+					}
+					$(".tabs").append(lvhtml);
+					
+				}
+				
+					
 				var pHtml = "";
 				var pageVo = data.pageVo;
 				console.log(data);
@@ -91,24 +105,84 @@ ul.tabs li.current {
 				$(".pagination").html(pHtml);
 				$("#publicHeader").html(hhtml);
 				$("#publicList").html(html);
+				
+			}
+		});
+		
+		$(".sub_menu").on("click", "#adminFileList", function(){
+			historyPagination(1,20);
+		});
+	}
+		
+		$(".sub_menu").on("click", "#linkList",function(){
+			publicLinkPagination(1, 10);
+		})
+		
+		$(".sub_menu").on("click", "#fileList",function(){
+			publicFilePagination2(1, 10);
+		})
+	});
+	
+	function historyPagination(page, pageSize){
+		$.ajax({
+			url : "/historyPagination",
+			method : "post",
+			data : "page=" + page + "&pageSize="+ pageSize,
+			success : function(data) {
+				//사용자 리스트
+				var hhtml = "";
+				var html = "";
+				
+				//hhtml생성
+				hhtml += "<tr>";
+				hhtml += "<th>Statistic_Num</th>";
+				hhtml += "<th>파일명</th>";
+				hhtml += "<th>해당 업무명</th>";
+				hhtml += "<th>다운로드 받은 멤버 ID</th>";
+				hhtml += "<th>다운로드 받은 멤버 이름</th>";
+				hhtml += "<th>다운로드 받은 날짜</th>";
+				hhtml += "</tr>";
+				
+				data.historyList.forEach(function(history, index){
+					//html생성
+					html += "<tr>";
+					html += "<td>"+ history.num + "</td>";
+					html += "<td>"+ history.original_file_nm + "</td>";
+					html += "<td>"+ history.wrk_nm + "</td>";
+					html += "<td>"+ history.user_email + "</td>";
+					html += "<td>"+ history.user_nm + "</td>";
+					html += "<td>"+ history.prjStartDtStr + "</td>";
+					html += "</tr>";
+				});
+				
+				var pHtml = "";
+				var pageVo = data.pageVo;
+				
+				if(pageVo.page==1)
+					pHtml += "<li class='disabled'><span>«<span></li>";
+				else
+					pHtml += "<li><a onclick='historyPagination("+(pageVo.page-1)+", "+pageVo.pageSize+");' href='javascript:void(0);'>«</a></li>";
+				
+				for(var i =1; i <=data.paginationSize; i++){
+					if(pageVo.page==i)
+						pHtml += "<li class='active'><span>" + i + "</span></li>";
+					else
+						pHtml += "<li><a href='javascript:void(0);' onclick='historyPagination("+ i + ", " + pageVo.pageSize+");'>"+i+"</a></li>";
+				}
+				if(pageVo.page == data.paginationSize)
+					pHtml += "<li class='disabled'><span>»<span></li>";
+				else
+					pHtml += "<li><a href='javascript:void(0);' onclick='historyPagination("+(pageVo.page+1)+", "+pageVo.pageSize+");'>»</a></li>";
+				
+				$(".pagination").html(pHtml);
+				$("#publicHeader").html(hhtml);
+				$("#publicList").html(html);
 			}
 		});
 	}
 		
 	
-		$(".sub_menu").on("click", "#linkList",function(){
-			alert("linkList입니다.");
-			publicLinkPagination(1, 10);
-		})
-		
-		
-		//fileList 수정해야함!  
-		$(".sub_menu").on("click", "#fileList",function(){
-			alert("fileList입니다.");
-			publicFilePagination2(1, 10);
-		})
-		
-	});
+	
 	
 	function publicLinkPagination(page, pageSize) {
 		$.ajax({

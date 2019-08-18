@@ -35,11 +35,12 @@ ul.tabs li.current {
 	$(document).ready(function() {
 		individualPagination(1,10);
 		
-		$('#searchBtn').on('click',function(){
+		$('.tb_sch_wr').on('click',"#searchBtn",function(){
 			if($('#searchText').val().length == 0){
 				alert("검색어를 입력해주세요");
 			}else{
-				$('#frmSearch').submit();
+				var original_file_nm = $('#searchText').val();
+				searchFile(1,10,original_file_nm);
 			}
 		});
 		
@@ -48,6 +49,61 @@ ul.tabs li.current {
 			individualBox(1, 10);
 		})
 	})
+	
+	function searchFile(page, pageSize,original_file_nm) {
+		$.ajax({
+			url : "/searchFile",
+			method : "post",
+			data : "page=" + page + "&pageSize="+ pageSize +"&original_file_nm=" + original_file_nm,
+			success : function(data) {
+				//사용자 리스트
+				var hhtml = "";
+				var html = "";
+				console.log(data);
+				//hhtml생성
+				hhtml += "<tr>";
+				hhtml += "<th>File_Num</th>";
+				hhtml += "<th>파일명</th>";
+				hhtml += "<th>등록일</th>";
+				hhtml += "<th>삭제</th>";
+				hhtml += "<th>이동</th>";
+				hhtml += "</tr>";
+				
+				data.individualList.forEach(function(file, index){
+					//html생성
+					html += "<tr id='filetr'>";
+					html += "<td>"+ file.num + "</td>";
+					html += "<td><a href='#'>"+file.original_file_nm+"</a></td>";	
+					html += "<td>"+ file.prjStartDtStr + "</td>";
+					html += "<td><a href='javascript:updateInFile("+file.file_id+")'>삭제</a></td>";
+					html += "<td><a href='javascript:moveInFile("+file.file_id+")'>이동</a></td>";
+					html += "</tr>";
+				});
+				var pHtml = "";
+				var pageVo = data.pageVo;
+				
+				if(pageVo.page==1)
+					pHtml += "<li class='disabled'><span>«<span></li>";
+				else
+					pHtml += "<li><a href='javascript:individualPagination("+(pageVo.page-1)+", "+pageVo.pageSize+");'>«</a></li>";
+				
+				for(var i =1; i <=data.paginationSize; i++){
+					if(pageVo.page==i)
+						pHtml += "<li class='active'><span>" + i + "</span></li>";
+					else
+						pHtml += "<li><a href='javascript:individualPagination("+ i + ", " + pageVo.pageSize+");'>"+i+"</a></li>";
+				}
+				if(pageVo.page == data.paginationSize)
+					pHtml += "<li class='disabled'><span>»<span></li>";
+				else
+					pHtml += "<li><a href='javascript:individualPagination("+(pageVo.page+1)+", "+pageVo.pageSize+");'>»</a></li>";
+		
+				$(".pagination").html(pHtml);
+				$("#FileIndividualBox").html(hhtml);
+				$("#fileList").html(html);
+			}
+		});
+	}
 	
 		
 	function individualPagination(page, pageSize) {
@@ -69,7 +125,8 @@ ul.tabs li.current {
 				hhtml += "<th>이동</th>";
 				hhtml += "</tr>";
 				
-				data.data.individualList.forEach(function(file, index){
+				console.log(data);
+				data.individualList.forEach(function(file, index){
 					//html생성
 					html += "<tr id='filetr'>";
 					html += "<td>"+ file.num + "</td>";
@@ -87,13 +144,13 @@ ul.tabs li.current {
 				else
 					pHtml += "<li><a href='javascript:individualPagination("+(pageVo.page-1)+", "+pageVo.pageSize+");'>«</a></li>";
 				
-				for(var i =1; i <=data.data.paginationSize; i++){
+				for(var i =1; i <=data.paginationSize; i++){
 					if(pageVo.page==i)
 						pHtml += "<li class='active'><span>" + i + "</span></li>";
 					else
 						pHtml += "<li><a href='javascript:individualPagination("+ i + ", " + pageVo.pageSize+");'>"+i+"</a></li>";
 				}
-				if(pageVo.page == data.data.paginationSize)
+				if(pageVo.page == data.paginationSize)
 					pHtml += "<li class='disabled'><span>»<span></li>";
 				else
 					pHtml += "<li><a href='javascript:individualPagination("+(pageVo.page+1)+", "+pageVo.pageSize+");'>»</a></li>";
@@ -124,7 +181,7 @@ ul.tabs li.current {
 				hhtml += "<th>이동</th>";
 				hhtml += "</tr>";
 				
-				data.data.individualList.forEach(function(file, index){
+				data.individualList.forEach(function(file, index){
 					//html생성
 					html += "<tr id='filetr'>";
 					html += "<td>"+ file.num + "</td>";
@@ -142,13 +199,13 @@ ul.tabs li.current {
 				else
 					pHtml += "<li><a href='javascript:individualPagination("+(pageVo.page-1)+", "+pageVo.pageSize+");'>«</a></li>";
 				
-				for(var i =1; i <=data.data.paginationSize; i++){
+				for(var i =1; i <=data.paginationSize; i++){
 					if(pageVo.page==i)
 						pHtml += "<li class='active'><span>" + i + "</span></li>";
 					else
 						pHtml += "<li><a href='javascript:individualPagination("+ i + ", " + pageVo.pageSize+");'>"+i+"</a></li>";
 				}
-				if(pageVo.page == data.data.paginationSize)
+				if(pageVo.page == data.paginationSize)
 					pHtml += "<li class='disabled'><span>»<span></li>";
 				else
 					pHtml += "<li><a href='javascript:individualPagination("+(pageVo.page+1)+", "+pageVo.pageSize+");'>»</a></li>";
@@ -183,7 +240,7 @@ ul.tabs li.current {
 				
 				console.log(data);
 				
-				data.data.individualList.forEach(function(file, index){
+				data.individualList.forEach(function(file, index){
 					//html생성
 					html += "<tr id='filetr'>";
 					html += "<td>"+ file.num + "</td>";
@@ -201,13 +258,13 @@ ul.tabs li.current {
 				else
 					pHtml += "<li><a href='javascript:individualPagination("+(pageVo.page-1)+", "+pageVo.pageSize+");'>«</a></li>";
 				
-				for(var i =1; i <=data.data.paginationSize; i++){
+				for(var i =1; i <=data.paginationSize; i++){
 					if(pageVo.page==i)
 						pHtml += "<li class='active'><span>" + i + "</span></li>";
 					else
 						pHtml += "<li><a href='javascript:individualPagination("+ i + ", " + pageVo.pageSize+");'>"+i+"</a></li>";
 				}
-				if(pageVo.page == data.data.paginationSize)
+				if(pageVo.page == data.paginationSize)
 					pHtml += "<li class='disabled'><span>»<span></li>";
 				else
 					pHtml += "<li><a href='javascript:individualPagination("+(pageVo.page+1)+", "+pageVo.pageSize+");'>»</a></li>";
@@ -222,69 +279,71 @@ ul.tabs li.current {
 		});
 	}
 	
-	function moveInFile(fileID){
-		alert("이동긔긔?");
+// 	function moveInFile(fileID){
+// 		alert("이동긔긔?");
 
-		$.ajax({
-			url : "/updateInFile",
-			method : "post",
-			data : "file_id=" + fileID,
-			success : function(data) {
-				//사용자 리스트
-				var hhtml = "";
-				var html = "";
+// 		$.ajax({
+// 			url : "/여기 다시해야함니다",
+// 			method : "post",
+// 			data : "file_id=" + fileID,
+// 			success : function(data) {
+// 				//사용자 리스트
+// 				var hhtml = "";
+// 				var html = "";
 				
-				//hhtml생성
-				hhtml += "<tr>";
-				hhtml += "<th>File_Num</th>";
-				hhtml += "<th>파일명</th>";
-				hhtml += "<th>등록일</th>";
-				hhtml += "<th>삭제</th>";
-				hhtml += "<th>이동</th>";
-				hhtml += "</tr>";
+// 				//hhtml생성
+// 				hhtml += "<tr>";
+// 				hhtml += "<th>File_Num</th>";
+// 				hhtml += "<th>파일명</th>";
+// 				hhtml += "<th>등록일</th>";
+// 				hhtml += "<th>삭제</th>";
+// 				hhtml += "<th>이동</th>";
+// 				hhtml += "</tr>";
 				
-				console.log(data);
+// 				console.log(data);
 				
-				data.data.individualList.forEach(function(file, index){
-					//html생성
-					html += "<tr id='filetr'>";
-					html += "<td>"+ file.num + "</td>";
-					html += "<td><a href='#'>"+file.original_file_nm+"</a></td>";	
-					html += "<td>"+ file.prjStartDtStr + "</td>";
-					html += "<td><a href='javascript:updateInFile("+file.file_id+")'>삭제</a></td>";
-					html += "<td><a href='javascript:moveInFile("+file.file_id+")'>이동</a></td>";
-					html += "</tr>";
-				});
-				var pHtml = "";
-				var pageVo = data.pageVo;
+// 				data.data.individualList.forEach(function(file, index){
+// 					//html생성
+// 					html += "<tr id='filetr'>";
+// 					html += "<td>"+ file.num + "</td>";
+// 					html += "<td><a href='#'>"+file.original_file_nm+"</a></td>";	
+// 					html += "<td>"+ file.prjStartDtStr + "</td>";
+// 					html += "<td><a href='javascript:updateInFile("+file.file_id+")'>삭제</a></td>";
+// 					html += "<td><a href='javascript:moveInFile("+file.file_id+")'>이동</a></td>";
+// 					html += "</tr>";
+// 				});
+// 				var pHtml = "";
+// 				var pageVo = data.pageVo;
 				
-				if(pageVo.page==1)
-					pHtml += "<li class='disabled'><span>«<span></li>";
-				else
-					pHtml += "<li><a href='javascript:individualPagination("+(pageVo.page-1)+", "+pageVo.pageSize+");'>«</a></li>";
+// 				if(pageVo.page==1)
+// 					pHtml += "<li class='disabled'><span>«<span></li>";
+// 				else
+// 					pHtml += "<li><a href='javascript:individualPagination("+(pageVo.page-1)+", "+pageVo.pageSize+");'>«</a></li>";
 				
-				for(var i =1; i <=data.data.paginationSize; i++){
-					if(pageVo.page==i)
-						pHtml += "<li class='active'><span>" + i + "</span></li>";
-					else
-						pHtml += "<li><a href='javascript:individualPagination("+ i + ", " + pageVo.pageSize+");'>"+i+"</a></li>";
-				}
-				if(pageVo.page == data.data.paginationSize)
-					pHtml += "<li class='disabled'><span>»<span></li>";
-				else
-					pHtml += "<li><a href='javascript:individualPagination("+(pageVo.page+1)+", "+pageVo.pageSize+");'>»</a></li>";
+// 				for(var i =1; i <=data.data.paginationSize; i++){
+// 					if(pageVo.page==i)
+// 						pHtml += "<li class='active'><span>" + i + "</span></li>";
+// 					else
+// 						pHtml += "<li><a href='javascript:individualPagination("+ i + ", " + pageVo.pageSize+");'>"+i+"</a></li>";
+// 				}
+// 				if(pageVo.page == data.data.paginationSize)
+// 					pHtml += "<li class='disabled'><span>»<span></li>";
+// 				else
+// 					pHtml += "<li><a href='javascript:individualPagination("+(pageVo.page+1)+", "+pageVo.pageSize+");'>»</a></li>";
 		
-				$(".pagination").html(pHtml);
-				$("#FileIndividualBox").html(hhtml);
-				$("#fileList").html(html);
-				$(".ctxt").text("해당 게시물이 삭제 되었습니다.");
-	        	layer_popup("#layer2");
-	            return false;
-			}
-		});
-	}
+// 				$(".pagination").html(pHtml);
+// 				$("#FileIndividualBox").html(hhtml);
+// 				$("#fileList").html(html);
+// 				$(".ctxt").text("해당 게시물이 삭제 되었습니다.");
+// 	        	layer_popup("#layer2");
+// 	            return false;
+// 			}
+// 		});
+// 	}
 	
 	
+	
+
 	
 </script>
 
@@ -300,13 +359,11 @@ ul.tabs li.current {
 		
 		<div class="searchBox">
 			<div class="tb_sch_wr">
-				<form id="frmSearch" action="/searchFile" method="get">
 		                <select class="search" name="selectFile">
 		                	<option value="fileName">파일명</option>
 		                </select>
-	                <input type="text" name="original_file_nm" id="searchText" maxlength="20" placeholder="검색어를 입력해주세요">
+	                <input type="text" value="" name="original_file_nm" id="searchText" maxlength="20" placeholder="검색어를 입력해주세요">
 	                <button type="button" id ="searchBtn" value="검색">검색</button>
-				</form>
 	    	</div>
 	    </div>
 

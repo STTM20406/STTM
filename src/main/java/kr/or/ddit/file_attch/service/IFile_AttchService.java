@@ -5,6 +5,7 @@ import java.util.Map;
 
 import kr.or.ddit.file_attch.model.File_AttchVo;
 import kr.or.ddit.paging.model.PageVo;
+import kr.or.ddit.project_mem.model.Project_MemVo;
 
 public interface IFile_AttchService {
 	
@@ -115,7 +116,7 @@ public interface IFile_AttchService {
 		 * @return
 		 * Method 설명 	: 개인보관함 Pagination
 		 */
-		Map<String, Object> individualPagination(PageVo pageVo);
+		Map<String, Object> individualPagination(Map<String, Object> map);
 
 		/**
 		 * Method 		: individualCnt
@@ -125,5 +126,15 @@ public interface IFile_AttchService {
 		 * Method 설명 	: 보관함에서 검색했을 떄 Pagination
 		 */
 		Map<String, Object> individualSearchPagination(Map<String, Object> map);	
+		
+		/**
+		 * Method 		: selectLV
+		 * 작성자 			: 손영하
+		 * 변경이력 		: 2019-08-17 최초 생성
+		 * @param project_MemVo
+		 * @return
+		 * Method 설명 	: PM, PL 권한 받아오기!
+		 */
+		Project_MemVo selectLV(Project_MemVo project_MemVo);
 	   
 }
