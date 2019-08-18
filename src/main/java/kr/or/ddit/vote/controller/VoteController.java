@@ -153,4 +153,22 @@ public class VoteController {
 		logger.debug("vote_item : {}", vote_item);
 		voteService.insertItems(vote_item);
 	}
+	
+	@RequestMapping(path="/checkDtMdf", method=RequestMethod.POST)
+	@ResponseBody
+	public boolean voteMdfCheckDt(Integer vote_id, String vote_end_date) {
+		logger.debug("vote_id : {}", vote_id);
+		logger.debug("vote_end_date : {}", vote_end_date);
+		
+		if(vote_end_date.equals("")) {
+			return true;
+		}
+		
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("vote_id", vote_id);
+		paramMap.put("vote_end_date", vote_end_date);
+		boolean result = voteService.checkDt(paramMap);
+		logger.debug("result : {}", result);
+		return result;
+	}
 }

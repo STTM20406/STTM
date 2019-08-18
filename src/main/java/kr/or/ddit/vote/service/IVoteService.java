@@ -87,4 +87,14 @@ public interface IVoteService {
 	 * Method 설명 : 투표 수정중 새로 생성된 투표 항목 / 기존 투표항목 수정 메서드 
 	 */
 	void insertItems(List<Vote_ItemVo> vote_item);
+
+	/**
+	 * Method : checkDt
+	 * 작성자 : 유승진
+	 * 변경이력 : 2019-08-18 최초 생성
+	 * @param paramMap
+	 * @return
+	 * Method 설명 : 투표 내용 수정 시 수정할 마감일이 시작일보다 24시간 이후인지 확인하는 메서드
+	 */
+	boolean checkDt(Map<String, Object> paramMap);
 }

@@ -447,9 +447,6 @@ var cal = flatpickr("#end_dt", {"locale" : "ko", enableTime: true});
 		}
 		endDt = endDt[1];
 		var dtArr = endDt.split("+");
-// 		console.log(endDt);
-// 		console.log(dtArr);
-// 		console.log(endDt);
 		var dtArr2 = dtArr[1].split("%3A");
 		endDt = dtArr[0]+"T"+dtArr2[0]+":"+dtArr2[1]+"+09:00";
 		var today = new Date();
@@ -471,25 +468,31 @@ var cal = flatpickr("#end_dt", {"locale" : "ko", enableTime: true});
 			type: 'post',
 			data: {'vote_id': vote_id},
 			success: function(data) {
-				console.log(data);
 				$("#VoteMdfContainer").html(data.html);
+				var calMdf = flatpickr("#end_dt_mdf",  {"locale" : "ko", enableTime: true, defaultDate: new Date(data.voteVo.vote_end_date)});
 			}
 		});
 	}
 	
+	function voteDtValidateMdf(vote_id, vote_end_date) {
+		var bool = null;
+		var result;
+		$.ajax({
+			url: '/checkDtMdf',
+			type: 'post',
+			data: {'vote_id': vote_id, 'vote_end_date': vote_end_date },
+			async: false,
+			success: function(data) {
+				bool = data;
+				
+			}
+		});
+		return bool;
+	}
+	
 	function voteMdf() {
 		var item_del = $("#delItems").serialize();
-		console.log(item_del);
-// 		var item_del_arr = new Array();
 		
-// 		$(item_del).each(function() {
-// 			console.log(this);
-// 			var itemid = $(this).val();
-// 			console.log(itemid);
-// 			item_del_arr.push(itemid);
-// 		});
-		
-// 		console.log(item_del_arr);
 		var mdfFrm = $("#voteMdfFrm");
 		var vote_subject = $(mdfFrm).find("input[name='vote_subject']").val();
 		var vote_con = $(mdfFrm).find("input[name='vote_con']").val();
@@ -499,9 +502,15 @@ var cal = flatpickr("#end_dt", {"locale" : "ko", enableTime: true});
 		var vote_end_date = $(mdfFrm).find("input[name='vote_end_date']").val();
 		var vote_id = $(mdfFrm).find("input[name='vote_id']").val();
 		
+				
+		var dt_valid = voteDtValidateMdf(vote_id, vote_end_date);
+		
+		if(!dt_valid) {
+			alert("마감일시는 작성일시 기준 24시간 이후로만 설정할 수 있습니다.");
+			return;
+		}
+		
 		if(item_del) {
-// 			var del_item_id = {'del_item_id': item_del_arr};
-// 			console.log(JSON.stringify(del_item_id));
 			$.ajax({
 				url: '/voteMdfItems_del',
 				type: 'post',
@@ -512,16 +521,13 @@ var cal = flatpickr("#end_dt", {"locale" : "ko", enableTime: true});
 		
 		var item = $("#voteMdfFrm input[name='vote_item']");
 		var item_arr = new Array();
-		console.log(item);
 		$(item).each(function() {
-			console.log(this);
 			var itemid = $(this).data("itemid");
 			var value = $(this).val();
 			var item_obj = {'vote_item_con': value, 'vote_id': vote_id, 'vote_item_id': itemid};
 			item_arr.push(item_obj);
 		});
 		
-		console.log(item_arr);
 		
 		$.ajax({
 			url: '/voteMdfItems',
@@ -540,7 +546,6 @@ var cal = flatpickr("#end_dt", {"locale" : "ko", enableTime: true});
 				'vote_ano': vote_ano,
 				'vote_end_date': vote_end_date
 		};
-		console.log(serial);
 		$.ajax({
 			url:'/voteMdf',
 			type: 'post',
@@ -554,4 +559,6 @@ var cal = flatpickr("#end_dt", {"locale" : "ko", enableTime: true});
 		var modalMdf = document.getElementById("voteMdfModal");
 		modalMdf.style.display = "none";
 	}
+	
+	
 </script>

@@ -1,7 +1,11 @@
 package kr.or.ddit.vote.service;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -278,7 +282,7 @@ public class VoteService implements IVoteService{
 		sb.append("<input type='hidden' name='vote_email' value='"+ voteVo.getVote_email() +"'>");
 		sb.append("<input type='hidden' name='vote_id' value='"+ vote_id +"'>");
 		sb.append("<input type='checkbox' name='vote_ano' value='Y' " + (voteVo.getVote_ano() == null ? "" : " checked " )+ "> 익명 투표<br>");
-		sb.append("투표 마감일 : <input type='text' id='end_dt' name='vote_end_date'> <br>");
+		sb.append("투표 마감일 : <input type='text' id='end_dt_mdf' name='vote_end_date'> <br>");
 		sb.append("<br>");
 		sb.append("<input type='button' id='voteMdfSubmit' onclick='voteMdf()' class='btn_style_02' value='투표 등록'>");
 		sb.append("</form>");
@@ -286,6 +290,7 @@ public class VoteService implements IVoteService{
 		sb.append("</form>");
 		Map<String, Object> resultMap = new HashMap<>();
 		resultMap.put("html", sb.toString());
+		resultMap.put("voteVo", voteVo);
 		return resultMap;
 	}
 	
@@ -312,5 +317,41 @@ public class VoteService implements IVoteService{
 		for(Vote_ItemVo item : vote_item) {
 			vote_ItemDao.insertVoteItem(item);
 		}
+	}
+	@Override
+	public boolean checkDt(Map<String, Object> paramMap) {
+		Integer vote_id = (Integer) paramMap.get("vote_id");
+		String vote_end_date_str = (String) paramMap.get("vote_end_date");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		boolean result = false;
+		
+		if (vote_end_date_str == null) {
+			logger.debug("end_date == null");
+			return true;
+		} 
+		
+		Date vote_end_date = null; 
+		if(vote_end_date_str != null) {
+			try {
+				vote_end_date = sdf.parse(vote_end_date_str);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		GregorianCalendar cal = new GregorianCalendar();
+		
+		VoteVo voteVo = voteDao.getVote(vote_id);
+		
+		cal.setTime(voteVo.getVote_start_date());
+		cal.add(Calendar.DAY_OF_MONTH, 1);
+		Date plus_one = cal.getTime();
+		
+		if(vote_end_date.before(plus_one)) {
+			result = false;
+		} else {
+			result = true;
+		}
+		return result;
 	}
 }
