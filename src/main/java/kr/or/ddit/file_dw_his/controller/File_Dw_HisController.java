@@ -29,7 +29,7 @@ public class File_Dw_HisController {
 	private IFile_Dw_HisService file_Dw_HisService;
 	
 	//다운로드 기록! controller
-	@RequestMapping(path="/historyPagination",method = RequestMethod.GET)
+	@RequestMapping("/historyPagination")
 	String historyPagination(Model model, HttpSession session, 
 		@RequestParam(name = "page", defaultValue = "1")int page,@RequestParam(name = "pageSize", defaultValue = "20")int pageSize) {
 		PageVo pageVo = new PageVo(page, pageSize);
@@ -57,7 +57,7 @@ public class File_Dw_HisController {
 		model.addAttribute("historyList", historyList);
 		model.addAttribute("prj_id", prj_id);
 		
-		return "/main/fileLink/fileUseHistory.user.tiles";
+		return "jsonView";
 	}
 	
 	
