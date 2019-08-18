@@ -508,7 +508,7 @@ window.onclick = function(event) {
             <textarea rows="5" cols="30" name="memo_con" id="memo_con"
                style="resize: none;"></textarea>
             <br> <input type="hidden" name="memo_email" value="${USER_INFO.user_email }">
-                <input type="text" name="prj_id" id="prj_id" value="">
+                <input type="hidden" name="prj_id" id="prj_id" value="">
             <button type="button" onclick="copyTask(this)">복사하기</button>
             <button type="button" id="memoList">목록</button>
          </form>

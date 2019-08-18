@@ -65,6 +65,7 @@ public class MemoController {
 		}
 		return "jsonView";
 	}
+	
 	@RequestMapping("/merge")
 	public String updateNote(Model model, MemoVo memoVo) {
 		memoVo.setMemo_update(new Date());
@@ -72,6 +73,7 @@ public class MemoController {
 		model.addAttribute("result", mergeResult);
 		return "jsonView";
 	}
+	
 	@RequestMapping(path="/memoList",method=RequestMethod.GET)
 	public String noteList(Model model, int prj_id, HttpSession session) {
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
@@ -84,6 +86,7 @@ public class MemoController {
 		
 		return "/memo/memoList.user.tiles";
 	}
+	
 	@RequestMapping("/getMemo")
 	public String getNotes(Model model, MemoVo memoVo) {
 		logger.debug("getNotes() - notesVo : {}", memoVo);

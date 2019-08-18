@@ -16,5 +16,7 @@ public interface IMemoService {
 	
 	List<MemoVo> getYdTdCon(MemoVo memoVo);
 	
-	String getMemo(MemoVo memoVo);
+//	String getMemo(MemoVo memoVo);
+	
+	MemoVo getMemo(MemoVo memoVo);
 }

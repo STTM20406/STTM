@@ -95,38 +95,43 @@ public class MemoService implements IMemoService{
 		return memoDao.getYdTdCon(memoVo);
 	}
 
-	@Override
-	public String getMemo(MemoVo memoVo) {
-		MemoVo memo = memoDao.getMemo(memoVo);
-		StringBuffer result = new StringBuffer();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년MM월 dd일 HH시 mm분");
-		result.append("<div>");
-		result.append("<span>");
-		sdf.applyPattern("yyyy년 MM월 dd일 메모");
-		result.append(sdf.format(memo.getMemo_update()));
-		sdf.applyPattern("yyyy년 MM월 dd일 HH시 mm분");
-		result.append("</span>");
-		result.append("<br>");
-		result.append("<span>");
-		result.append(sdf.format(memo.getMemo_update())+"에 업데이트");
-		result.append("</span>");
-		result.append("<br>");
-		result.append("<textarea id='notes_task' cols='30' rows='10' style='resize:none;' readonly>");
-		result.append(memo.getMemo_con());
-		result.append("</textarea>");
-		result.append("<br>");
-		result.append("<button type='button' onclick='copyTask(this)'>");
-		result.append("복사하기</button>");
-		result.append("<button type='button' onclick='noteList()'>");
-		result.append("목록</button>");
-		result.append("</div>");	
-		
-		return result.toString();
-	}
+//	@Override
+//	public String getMemo(MemoVo memoVo) {
+//		MemoVo memo = memoDao.getMemo(memoVo);
+//		StringBuffer result = new StringBuffer();
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년MM월 dd일 HH시 mm분");
+//		result.append("<div>");
+//		result.append("<span>");
+//		sdf.applyPattern("yyyy년 MM월 dd일 메모");
+//		result.append(sdf.format(memo.getMemo_update()));
+//		sdf.applyPattern("yyyy년 MM월 dd일 HH시 mm분");
+//		result.append("</span>");
+//		result.append("<br>");
+//		result.append("<span>");
+//		result.append(sdf.format(memo.getMemo_update())+"에 업데이트");
+//		result.append("</span>");
+//		result.append("<br>");
+//		result.append("<textarea id='notes_task' cols='30' rows='10' style='resize:none;' readonly>");
+//		result.append(memo.getMemo_con());
+//		result.append("</textarea>");
+//		result.append("<br>");
+//		result.append("<button type='button' onclick='copyTask(this)'>");
+//		result.append("복사하기</button>");
+//		result.append("<button type='button' onclick='noteList()'>");
+//		result.append("목록</button>");
+//		result.append("</div>");	
+//		
+//		return result.toString();
+//	}
 
 	@Override
 	public List<MemoVo> memoList(MemoVo memoVo) {
 		return memoDao.memoList(memoVo);
+	}
+
+	@Override
+	public MemoVo getMemo(MemoVo memoVo) {
+		return memoDao.getMemo(memoVo);
 	}
 
 }

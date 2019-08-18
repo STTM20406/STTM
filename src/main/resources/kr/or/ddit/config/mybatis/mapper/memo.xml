@@ -82,14 +82,16 @@
 		SELECT	*
 		FROM	MEMO
 		WHERE	PRJ_ID = #{prj_id}
+		AND memo_con is not null 
 		AND		memo_email = #{memo_email}
 	</select>
+	
 	<select id="getmemo" parameterType="memoVo" resultType="memoVo">
 		SELECT	*
 		FROM	MEMO
 		WHERE	PRJ_ID = #{prj_id}
 		AND		memo_email = #{memo_email}
-		AND		memo_date = #{memo_date}
+		AND		memo_id = #{memo_id}
 	</select>
 
 
