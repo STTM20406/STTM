@@ -58,6 +58,16 @@ ul.tabs li.current {
 			$(this).addClass('current');
 			$("#" + tab_id).addClass('current');
 		});
+		
+		$(".sub_menu").on("click", "#rcvNoteList",function(){
+			alert("rcvNoteList입니다.");
+			rcvNoteListPagination(1, 10);
+		})
+		
+		$(".sub_menu").on("click", "#sendNoteList",function(){
+			alert("sendNoteList입니다.");
+			sendNoteListPagination(1, 10);
+		})
 
 		$("#searchBtn").on("click", function() {
 			$("#searchFrm").submit();
@@ -75,8 +85,8 @@ ul.tabs li.current {
 
 		<div class="sub_menu">
 			<ul class="tabs">
-				<li data-tab="tab-1">게시글</li>
-				<li data-tab="tab-2">내가 작성한 글</li>
+				<li id="tab-1">게시글</li>
+				<li id="tab-2">내가 작성한 글</li>
 			</ul>
 		</div>
 
