@@ -97,4 +97,13 @@ public interface IVoteService {
 	 * Method 설명 : 투표 내용 수정 시 수정할 마감일이 시작일보다 24시간 이후인지 확인하는 메서드
 	 */
 	boolean checkDt(Map<String, Object> paramMap);
+
+	/**
+	 * Method : cmpVote
+	 * 작성자 : 유승진
+	 * 변경이력 : 2019-08-18 최초 생성
+	 * @param void_id
+	 * Method 설명 : 투표 아이디를 이용해 투표를 완료처리하는 메서드
+	 */
+	void cmpVote(Integer void_id);
 }

@@ -65,4 +65,13 @@ public interface IVoteDao {
 	 * Method 설명 : 투표 정보 업데이트 메서드
 	 */
 	int updateVote(VoteVo voteVo);
+
+	/**
+	 * Method : cmpVote
+	 * 작성자 : 유승진
+	 * 변경이력 : 2019-08-18 최초 생성
+	 * @param vote_id
+	 * Method 설명 : 투표 아이디를 이용하여 투표를 완료처리하는 메서드
+	 */
+	void cmpVote(Integer vote_id);
 }
