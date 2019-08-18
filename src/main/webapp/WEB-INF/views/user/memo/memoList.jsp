@@ -113,4 +113,39 @@ $(document).ready(function(){
 			</tbody>
 		</table>
 	</div>
+	<div class="pagination">
+						<c:choose>
+							<c:when test="${pageVo.page == 1 }">
+								<a href class="btn_first"></a>
+							</c:when>
+							<c:otherwise>
+								<a href="/memoList?page=${pageVo.page-1}&pageSize=${pageVo.pageSize}">«</a>
+							
+							</c:otherwise>
+						</c:choose>
+
+						<c:forEach begin="1" end="${memoPaginationSize}" var="i">
+							<c:choose>
+								<c:when test="${pageVo.page == i}">
+									<span>${i}</span>
+								</c:when>
+								<c:otherwise>
+								<a href="/memoList?page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
+								</c:otherwise>
+							</c:choose>
+
+						</c:forEach>
+
+						<c:choose>
+							<c:when test="${pageVo.page == memoPaginationSize}">
+								<a href class="btn_last"></a>
+							</c:when>
+							<c:otherwise>
+							<a href="/memoList?page=&page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
+								
+
+							</c:otherwise>
+						</c:choose>
+				
+				</div>
 </section>

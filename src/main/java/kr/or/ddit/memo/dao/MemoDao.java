@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import kr.or.ddit.memo.model.MemoVo;
+import kr.or.ddit.paging.model.PageVo;
 
 @Repository
 public class MemoDao implements IMemoDao{
@@ -26,11 +27,6 @@ public class MemoDao implements IMemoDao{
 	}
 
 	@Override
-	public List<MemoVo> memoList(MemoVo memoVo) {
-		return sqlSession.selectList("memo.memoList", memoVo);
-	}
-
-	@Override
 	public List<MemoVo> getYdTdCon(MemoVo memoVo) {
 		return sqlSession.selectList("memo.getYdTdCon", memoVo);
 	}
@@ -38,6 +34,16 @@ public class MemoDao implements IMemoDao{
 	@Override
 	public MemoVo getMemo(MemoVo memoVo) {
 		return sqlSession.selectOne("memo.getmemo", memoVo);
+	}
+
+	@Override
+	public List<MemoVo> memoList(PageVo pageVo) {
+		return sqlSession.selectList("memo.memoList", pageVo);
+	}
+
+	@Override
+	public int memoListCnt(MemoVo memoVo) {
+		return sqlSession.selectOne("memo.memoListCnt", memoVo);
 	}
 
 

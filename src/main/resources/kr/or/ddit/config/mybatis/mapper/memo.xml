@@ -78,12 +78,29 @@
 		AND		memo_email = #{memo_email}
 	</select>
 	
-	<select id="memoList" parameterType="memoVo" resultType="memoVo">
-		SELECT	*
+	<select id="memoListCnt" parameterType="memoVo" resultType="int">
+		SELECT	count(*)
 		FROM	MEMO
 		WHERE	PRJ_ID = #{prj_id}
 		AND memo_con is not null 
 		AND		memo_email = #{memo_email}
+	</select>
+	
+	<select id="memoList" parameterType="pageVo" resultType="memoVo">
+		<![CDATA[
+	select *
+    from
+	(select c.*, rownum rn
+    from
+    (SELECT	*
+		FROM	MEMO
+		WHERE	PRJ_ID = #{prj_id}
+		AND memo_con is not null 
+		AND		memo_email = #{memo_email}
+	order by memo_update desc) c)
+			where rn>=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
+	]]>
+		
 	</select>
 	
 	<select id="getmemo" parameterType="memoVo" resultType="memoVo">

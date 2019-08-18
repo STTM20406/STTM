@@ -3,6 +3,7 @@ package kr.or.ddit.memo.controller;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import kr.or.ddit.memo.dao.IMemoDao;
 import kr.or.ddit.memo.model.MemoVo;
 import kr.or.ddit.memo.service.IMemoService;
+import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.users.model.UserVo;
 
 @Controller
@@ -75,14 +77,23 @@ public class MemoController {
 	}
 	
 	@RequestMapping(path="/memoList",method=RequestMethod.GET)
-	public String noteList(Model model, int prj_id, HttpSession session) {
+	public String noteList(Model model, int prj_id, HttpSession session, PageVo pageVo) {
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
 		
-		MemoVo memoVo = new MemoVo();
-		memoVo.setPrj_id(prj_id);
-		memoVo.setMemo_email(userVo.getUser_email());
+		pageVo.setPrj_id(prj_id);
+		pageVo.setMemo_email(userVo.getUser_email());
+//		MemoVo memoVo = new MemoVo();
+//		memoVo.setPrj_id(prj_id);
+//		memoVo.setMemo_email(userVo.getUser_email());
 		
-		model.addAttribute("memoList", memoService.memoList(memoVo));
+		Map<String, Object> resultMap = memoService.memoList(pageVo);
+		List<MemoVo>memoList = (List<MemoVo>) resultMap.get("memoList");
+		int memoPaginationSize = (int) resultMap.get("memoPaginationSize");
+		
+		
+		model.addAttribute("memoList", memoList);
+		model.addAttribute("memoPaginationSize", memoPaginationSize);
+		model.addAttribute("pageVo", pageVo);
 		
 		return "/memo/memoList.user.tiles";
 	}
