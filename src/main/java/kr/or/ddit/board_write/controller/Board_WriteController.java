@@ -119,12 +119,15 @@ public class Board_WriteController {
 		resultMap2.put("myaginationSize",myaginationSize);
 		resultMap2.put("myBoardList", myBoardList);
 		resultMap2.put("pageVo", pageVo);
+//		model.addAttribute("board_id",board_id);
+//		model.addAttribute("paginationSize",paginationSize);
+//		model.addAttribute("boardList", boardList);
+//		model.addAttribute("myaginationSize",myaginationSize);
+//		model.addAttribute("myBoardList", myBoardList);
+//		model.addAttribute("pageVo", pageVo);
 		
 		return resultMap2;
 	}
-	
-	
-	
 	
 	/**
 	 * Method 		: boardWrite

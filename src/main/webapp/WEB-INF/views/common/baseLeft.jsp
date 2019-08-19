@@ -31,6 +31,11 @@
 			<c:forEach items="${userBoardListY }" var = "board">
 				<li class="board_id"><a href="/community?board_id=${board.board_id }" id="${board.board_id }" >${board.name }</a></li>
 			</c:forEach>
+			<li><a href="#">ChatBot</a></li>
 		</ul>
 	</nav>
+	
+	
+	
+	
 </div>

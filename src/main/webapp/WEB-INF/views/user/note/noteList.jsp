@@ -362,18 +362,18 @@ ul.tabs li.current {
 				if(pageVo.page==1)
 					pHtml += "<li class='disabled'><span>«<span></li>";
 				else
-					pHtml += "<li><a onclick='rcvNoteListPagination("+(pageVo.page-1)+", "+pageVo.pageSize+");' href='javascript:void(0);'>«</a></li>";
+					pHtml += "<li><a onclick='sendNoteListPagination("+(pageVo.page-1)+", "+pageVo.pageSize+");' href='javascript:void(0);'>«</a></li>";
 				
 				for(var i =1; i <=data.sendPaginationSize; i++){
 					if(pageVo.page==i)
 						pHtml += "<li class='active'><span>" + i + "</span></li>";
 					else
-						pHtml += "<li><a href='javascript:void(0);' onclick='rcvNoteListPagination("+ i + ", " + pageVo.pageSize+");'>"+i+"</a></li>";
+						pHtml += "<li><a href='javascript:void(0);' onclick='sendNoteListPagination("+ i + ", " + pageVo.pageSize+");'>"+i+"</a></li>";
 				}
 				if(pageVo.page == data.sendPaginationSize)
 					pHtml += "<li class='disabled'><span>»<span></li>";
 				else
-					pHtml += "<li><a href='javascript:void(0);' onclick='rcvNoteListPagination("+(pageVo.page+1)+", "+pageVo.pageSize+");'>»</a></li>";
+					pHtml += "<li><a href='javascript:void(0);' onclick='sendNoteListPagination("+(pageVo.page+1)+", "+pageVo.pageSize+");'>»</a></li>";
 				
 				$(".pagination").html(pHtml);
 				$("#publicHeader").html(hhtml);

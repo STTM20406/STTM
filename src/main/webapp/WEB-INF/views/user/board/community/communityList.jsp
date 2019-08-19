@@ -70,7 +70,7 @@ ul.tabs li.current {
 			var board_id = $("#boardnum02").val();
 			console.log(board_id);
 			alert("내가 작성한 게시글List입니다.");
-// 			sendNoteListPagination(1, 10);
+			MyCommunityListPagination(board_id,1, 10);
 		})
 
 		$("#searchBtn").on("click", function() {
@@ -83,7 +83,7 @@ ul.tabs li.current {
 	function CommunityListPagination(board_id,page,pageSize){
 		$.ajax({
 				url:"/communityAjax",
-				method:"get",
+				method:"post",
 				data:"board_id=" + board_id + "&page="+page+"&pageSize="+pageSize ,
 				success : function(data){
 					console.log("lllllllllllllllll")
@@ -103,50 +103,112 @@ ul.tabs li.current {
 					hhtml += "<th>조회수</th>";
 					hhtml += "</tr>";
 					
-					data.boardList.forEach(function(board, index){
+					data.boardList.forEach(function(boardList, index){
 							//html생성
 							html += "<tr class='boardTr' >";
-							html += "<td class='boardNum' style= 'display:none;''>"+ board.write_id + "</td>";
-							html += "<td>"+ board.rn + "</td>";
-							html += "<td>"+board.subject+"</td>";	
-							html += "<td>"+ board.user_email + "</td>";
-							html += "<td>"+board.writedate+"</td>";
+							html += "<td class='boardNum' style= 'display:none;''>"+ boardList.write_id + "</td>";
+							html += "<td>"+ boardList.rn + "</td>";
+							html += "<td>"+boardList.subject+"</td>";	
+							html += "<td>"+ boardList.user_email + "</td>";
+							html += "<td>"+boardList.writedate+"</td>";
 							html += "<td>댓글수 들어갈거야</td>";
-							html += "<td>"+board.like_cnt+"</td>";
-							html += "<td>"+board.view_cnt+"</td>";
+							html += "<td>"+boardList.like_cnt+"</td>";
+							html += "<td>"+boardList.view_cnt+"</td>";
 							html += "</tr>";
 					});
 					var pHtml = "";
 					var pageVo = data.pageVo;
-					console.log(data);
+					console.log(html);
 					console.log(pageVo);
 					
 					if(pageVo.page==1)
 						pHtml += "<li class='disabled'><span>«<span></li>";
 					else
-						pHtml += "<li><a onclick='paginationSize("+(pageVo.page-1)+", "+pageVo.pageSize+");' href='javascript:void(0);'>«</a></li>";
+						pHtml += "<li><a onclick='CommunityListPagination("+(pageVo.page-1)+", "+pageVo.pageSize+");' href='javascript:void(0);'>«</a></li>";
 					
 					for(var i =1; i <=data.paginationSize; i++){
 						if(pageVo.page==i)
 							pHtml += "<li class='active'><span>" + i + "</span></li>";
 						else
-							pHtml += "<li><a href='javascript:void(0);' onclick='paginationSize("+ i + ", " + pageVo.pageSize+");'>"+i+"</a></li>";
+							pHtml += "<li><a href='javascript:void(0);' onclick='CommunityListPagination("+ i + ", " + pageVo.pageSize+");'>"+i+"</a></li>";
 					}
 					if(pageVo.page == data.paginationSize)
 						pHtml += "<li class='disabled'><span>»<span></li>";
 					else
-						pHtml += "<li><a href='javascript:void(0);' onclick='paginationSize("+(pageVo.page+1)+", "+pageVo.pageSize+");'>»</a></li>";
+						pHtml += "<li><a href='javascript:void(0);' onclick='CommunityListPagination("+(pageVo.page+1)+", "+pageVo.pageSize+");'>»</a></li>";
 					
 					$(".pagination").html(pHtml);
 					$("#publicHeader").html(hhtml);
 					$("#publicList").html(html);
 				}
 		
-			})	
+			});	
 	}
-		
-		
 	
+	function MyCommunityListPagination(board_id,page,pageSize){
+		$.ajax({
+				url:"/communityAjax",
+				method:"post",
+				data:"board_id=" + board_id + "&page="+page+"&pageSize="+pageSize ,
+				success : function(data){
+					console.log("lllllllllllllllll")
+					console.log(data);
+					//사용자 리스트
+					var hhtml = "";
+					var html = "";
+					
+					//hhtml생성
+					hhtml += "<tr>";
+					hhtml += "<th>번호</th>";
+					hhtml += "<th>제목</th>";
+					hhtml += "<th>작성자</th>";
+					hhtml += "<th>작성일</th>";
+					hhtml += "<th>댓글</th>";
+					hhtml += "<th>좋아요</th>";
+					hhtml += "<th>조회수</th>";
+					hhtml += "</tr>";
+					
+					data.myBoardList.forEach(function(boardList, index){
+							//html생성
+							html += "<tr class='boardTr' >";
+							html += "<td class='boardNum' style= 'display:none;''>"+ boardList.write_id + "</td>";
+							html += "<td>"+ boardList.rn + "</td>";
+							html += "<td>"+boardList.subject+"</td>";	
+							html += "<td>"+ boardList.user_email + "</td>";
+							html += "<td>"+boardList.writedate+"</td>";
+							html += "<td>댓글수 들어갈거야</td>";
+							html += "<td>"+boardList.like_cnt+"</td>";
+							html += "<td>"+boardList.view_cnt+"</td>";
+							html += "</tr>";
+					});
+					var pHtml = "";
+					var pageVo = data.pageVo;
+					console.log(html);
+					console.log(pageVo);
+					
+					if(pageVo.page==1)
+						pHtml += "<li class='disabled'><span>«<span></li>";
+					else
+						pHtml += "<li><a onclick='MyCommunityListPagination("+(pageVo.page-1)+", "+pageVo.pageSize+");' href='javascript:void(0);'>«</a></li>";
+					
+					for(var i =1; i <=data.myaginationSize; i++){
+						if(pageVo.page==i)
+							pHtml += "<li class='active'><span>" + i + "</span></li>";
+						else
+							pHtml += "<li><a href='javascript:void(0);' onclick='MyCommunityListPagination("+ i + ", " + pageVo.pageSize+");'>"+i+"</a></li>";
+					}
+					if(pageVo.page == data.myaginationSize)
+						pHtml += "<li class='disabled'><span>»<span></li>";
+					else
+						pHtml += "<li><a href='javascript:void(0);' onclick='MyCommunityListPagination("+(pageVo.page+1)+", "+pageVo.pageSize+");'>»</a></li>";
+					
+					$(".pagination").html(pHtml);
+					$("#publicHeader").html(hhtml);
+					$("#publicList").html(html);
+				}
+		
+			});	
+	}
 </script>
 
 
@@ -250,89 +312,6 @@ ul.tabs li.current {
 					</form>	
 				</div>
 				
-				<div id="tab-2" class="tab-content">
-				<form id="searchFrm" action="/boardSearch" method="post">
-				<input type="hidden" name="boardnum02" id="boardnum02" value="${board_id }"> 
-					<div class="searchBox">
-	                  <div class="tb_sch_wr">
-	                     <fieldset id="hd_sch">
-	                           <select id="search" name="search">
-	                              <option value="title">제목</option>
-	                              <option value="content">내용</option>
-	                           </select>
-	                           <input type="text" name="searchText" id="searchText" maxlength="20" placeholder="검색어를 입력해주세요">
-	                           <button type="submit" id="searchBtn" value="검색">검색</button>
-	                        </fieldset>
-	                     </div>
-	                  </div>
-                </form>
-					<form id="frm02">
-					<table class="tb_style_01">
-						<thead id="publicHeader">
-							<tr>
-								<th>번호</th>
-								<th>제목</th>
-								<th>작성자</th>
-								<th>작성일</th>
-								<th>댓글</th>
-								<th>좋아요</th>
-								<th>조회수</th>
-							</tr>
-							</thead>
-							<tbody id="publicList">
-							<c:forEach items="${myBoardList }" var="myboard">
-								<tr class="boardTr">
-									<td class="boardNum" style="display:none;">${myboard.write_id }</td>
-									<td>${myboard.rn }</td>
-									<td>${myboard.subject }</td>
-									<td>${myboard.user_email }</td>
-									<td><fmt:formatDate value="${myboard.writedate }" pattern="yyyy-MM-dd" /></td>
-									<td>댓글수 들어갈거야</td>
-									<td>${myboard.like_cnt }</td>
-									<td>${myboard.view_cnt }</td>
-								</tr>
-							</c:forEach>
-							</tbody>
-					</table>
-					
-					<div class="pagination">
-		                  <c:choose>
-		                     <c:when test="${pageVo.page == 1 }">
-		                        <a href class="btn_first"></a>
-		                     </c:when>
-		                     <c:otherwise>
-		                        <a href="${cp}/community?board_id=${pageVo.board_id }&page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a>
-		                     
-		                     </c:otherwise>
-		                  </c:choose>
-		
-		                  <c:forEach begin="1" end="${myaginationSize}" var="i">
-		                     <c:choose>
-		                        <c:when test="${pageVo.page == i}">
-		                           <span>${i}</span>
-		                        </c:when>
-		                        <c:otherwise>
-		                        <a href="${cp}/community?board_id=${pageVo.board_id }&page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
-		                        </c:otherwise>
-		                     </c:choose>
-		
-		                  </c:forEach>
-		
-		                  <c:choose>
-		                     <c:when test="${pageVo.page == myaginationSize}">
-		                        <a href class="btn_last"></a>
-		                     </c:when>
-		                     <c:otherwise>
-		                     <a href="${cp}/community?board_id=${pageVo.board_id }&page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
-		                        
-		
-		                     </c:otherwise>
-		                  </c:choose>
-		            
-		            </div>
-					
-					</form>
-				</div>
 		</div>
 	</div>
 </section>
