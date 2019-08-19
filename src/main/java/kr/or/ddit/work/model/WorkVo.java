@@ -1,5 +1,6 @@
 package kr.or.ddit.work.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -58,7 +59,31 @@ public class WorkVo extends Work_ListVo{
 	public WorkVo() {
 
 	}
-
+	
+	public String getWrkStartDtStr() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm");
+		if(wrk_start_dt == null) {
+			return "";
+		}
+		return sdf.format(wrk_start_dt);
+	}
+	
+	public String getWrkEndDtStr() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm");
+		if(wrk_end_dt == null) {
+			return "";
+		}
+		return sdf.format(wrk_end_dt);
+	}
+	
+	public String getWrkDtStr() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm");
+		if(wrk_dt == null) {
+			return "";
+		}
+		return sdf.format(wrk_dt);
+	}
+	
 	/**
 	 * @param wrk_lst_id
 	 * @param user_email

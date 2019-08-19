@@ -62,4 +62,28 @@ public interface IWorkService {
 	 * Method 설명 		: 업무리스트 업무를 다른 업무리스트로 이동 시켰을 때 업무리스트 아이디 업데이트
 	 */
 	int updateWorkID(WorkVo workVo);
+	
+	
+	/**
+	 * 
+	 * Method 			: getWorkInfo
+	 * 작성자 				: 박서경 
+	 * 변경이력 			: 2019-08-17 최초 생성
+	 * @param wrk_id
+	 * @return
+	 * Method 설명 		: 업무 아이디로 업무 정보 조회
+	 */
+	WorkVo getWorkInfo(int wrk_id);
+	
+	
+	/**
+	 * 
+	 * Method 			: updateWorkCmp
+	 * 작성자 				: 박서경 
+	 * 변경이력 			: 2019-08-18 최초 생성
+	 * @param workVo
+	 * @return
+	 * Method 설명 		: 업무 아이디로 업무 완료 여부 업데이트
+	 */
+	int updateWorkCmp(WorkVo workVo);
 }

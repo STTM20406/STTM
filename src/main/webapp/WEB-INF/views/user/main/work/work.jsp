@@ -75,17 +75,67 @@
 						html +="<a href='javascript:;' class='workList_set_i'>업무리스트 설정</a>"
 						html +="<div class='workList_set'><input type='button' id='btnWorkListDel_"+workList.wrk_lst_id+"' value='업무리스트 삭제'></div>"
 						html +="</dd></dl><ul><li>"
-						html +="<p>진행중 업무 <span>4</span></p>"
-						html +="<a href='javascript:'>완료된업무보기 <span>2</span></a></li>"
-						html +="<li class='graph'></li></ul></div>"
-						html +="<div class='list n1' id='"+workList.wrk_lst_id+"'>"
-						data.works.forEach(function(work, index2) {
-		 						if(work.wrk_lst_id == workList.wrk_lst_id){
-									html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work.wrk_id+"'>"+work.wrk_nm+"</div>"
+						html +="<p>진행중 업무 <span>4</span></p>";
+						html +="<p><a href='javascript:' class='btnComplete' id='"+workList.wrk_lst_id+"'>완료된업무보기</a><span>2</span></p></li>";
+						html +="<li class='graph'></li></ul><div class='workCreateBox'>";
+						html +="<textarea name='wrk_nm' id='wrk_nm' placeholder='업무 이름을 입력해 주세요. 업무 이름은 70자 이내로 입력해 주세요'></textarea>";
+						html +="<div class='workCreatebtnBox'>";
+						html +="<input type='button' value='취소' id='wrkCreateCancelBtn'>";
+						html +="<input type='button' value='만들기' id='wrkCreateBtn' class='wrkCreateBtn' name='"+workList.wrk_lst_id+"' disabled='disabled'>";
+						html +="</div></div>";
+						html +="</div>";
+						html +="<div class='workWrap'><div class='working list n1' id='"+workList.wrk_lst_id+"'>"
+							data.works.forEach(function(work, index2) {
+		 						if(work.wrk_lst_id == workList.wrk_lst_id && work.wrk_cmp_fl == 'N'){
+		 							html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work.wrk_id+"' class='workListItem'>";
+		 							html +=	"<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl'>";
+									html +=	"<h2><span>"+work.wrk_grade+"</span>"+work.wrk_nm+"</h2>";
+									html +=	"<ul>";
+									html +=	"<li>"+work.wrkStartDtStr+" ~ "+work.wrkEndDtStr+"</li>";
+									html +=	"<li><span>코멘트 개수</span><span>업무 파일 개수</span></li>";
+									html +=	"</ul>";
+									html +=	"<div class='wrk_mem_flw'><dl class='wrk_mem'>";
+									html +=	"<dt>업무 배정 멤버</dt>";
+									html +=	"<dd>";
+									html +=	"<p>또굥이</p>";
+									html +=	"</dd></dl>";
+									html +=	"<dl class='wrk_mem'>";
+									html +=	"<dt>업무 팔로워</dt>";
+									html +=	"<dd>";
+									html +=	"<p>유돌이</p>";
+									html +=	"</dd>";
+									html +=	"</dl>";
+									html +=	"</div></div>";
 		 						}
-		 				});
-						html +="</div></div>"
-						
+							});
+						html +="</div>";
+						html +="<div class='complete_"+workList.wrk_lst_id+" list n1' id='"+workList.wrk_lst_id+"'>"
+							data.works.forEach(function(work1, index3) {
+		 						if(work1.wrk_lst_id == workList.wrk_lst_id && work1.wrk_cmp_fl == 'Y'){
+									html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work1.wrk_id+"' class='workListItem'>";
+		 							html +=	"<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl' checked>";
+									html +=	"<h2><span>"+work1.wrk_grade+"</span>"+work1.wrk_nm+"</h2>";
+									html +=	"<ul>";
+									html +=	"<li>"+work1.wrkStartDtStr+" ~ "+work1.wrkEndDtStr+"</li>";
+									html +=	"<li><span>코멘트 개수</span><span>업무 파일 개수</span></li>";
+									html +=	"</ul>";
+									html +=	"<div class='wrk_mem_flw'><dl class='wrk_mem'>";
+									html +=	"<dt>업무 배정 멤버</dt>";
+									html +=	"<dd>";
+									html +=	"<p>또굥이</p>";
+									html +=	"</dd></dl>";
+									html +=	"<dl class='wrk_mem'>";
+									html +=	"<dt>업무 팔로워</dt>";
+									html +=	"<dd>";
+									html +=	"<p>유돌이</p>";
+									html +=	"</dd>";
+									html +=	"</dl>";
+									html +=	"</div></div>";
+		 						}
+		 					});
+						html +="</div></div>";
+						html +="</div>";
+					
 						$("#workListBox").html(html);
 						sortable();
 					});
@@ -121,17 +171,67 @@
 							html +="<a href='javascript:;' class='workList_set_i'>업무리스트 설정</a>"
 							html +="<div class='workList_set'><input type='button' id='btnWorkListDel_"+workList.wrk_lst_id+"' value='업무리스트 삭제'></div>"
 							html +="</dd></dl><ul><li>"
-							html +="<p>진행중 업무 <span>4</span></p>"
-							html +="<a href='javascript:'>완료된업무보기 <span>2</span></a></li>"
-							html +="<li class='graph'></li></ul></div>"
-							html +="<div class='list n1' id='"+workList.wrk_lst_id+"'>"
-							data.works.forEach(function(work, index2) {
-			 						if(work.wrk_lst_id == workList.wrk_lst_id){
-			 							html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work.wrk_id+"'>"+work.wrk_nm+"</div>"
+							html +="<p>진행중 업무 <span>4</span></p>";
+							html +="<p><a href='javascript:' class='btnComplete' id='"+workList.wrk_lst_id+"'>완료된업무보기</a><span>2</span></p></li>";
+							html +="<li class='graph'></li></ul><div class='workCreateBox'>";
+							html +="<textarea name='wrk_nm' id='wrk_nm' placeholder='업무 이름을 입력해 주세요. 업무 이름은 70자 이내로 입력해 주세요'></textarea>";
+							html +="<div class='workCreatebtnBox'>";
+							html +="<input type='button' value='취소' id='wrkCreateCancelBtn'>";
+							html +="<input type='button' value='만들기' id='wrkCreateBtn' class='wrkCreateBtn' name='"+workList.wrk_lst_id+"' disabled='disabled'>";
+							html +="</div></div>";
+							html +="</div>";
+							html +="<div class='workWrap'><div class='working list n1' id='"+workList.wrk_lst_id+"'>"
+								data.works.forEach(function(work, index2) {
+			 						if(work.wrk_lst_id == workList.wrk_lst_id && work.wrk_cmp_fl == 'N'){
+			 							html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work.wrk_id+"' class='workListItem'>";
+			 							html +=	"<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl'>";
+										html +=	"<h2><span>"+work.wrk_grade+"</span>"+work.wrk_nm+"</h2>";
+										html +=	"<ul>";
+										html +=	"<li>"+work.wrkStartDtStr+" ~ "+work.wrkEndDtStr+"</li>";
+										html +=	"<li><span>코멘트 개수</span><span>업무 파일 개수</span></li>";
+										html +=	"</ul>";
+										html +=	"<div class='wrk_mem_flw'><dl class='wrk_mem'>";
+										html +=	"<dt>업무 배정 멤버</dt>";
+										html +=	"<dd>";
+										html +=	"<p>또굥이</p>";
+										html +=	"</dd></dl>";
+										html +=	"<dl class='wrk_mem'>";
+										html +=	"<dt>업무 팔로워</dt>";
+										html +=	"<dd>";
+										html +=	"<p>유돌이</p>";
+										html +=	"</dd>";
+										html +=	"</dl>";
+										html +=	"</div></div>";
 			 						}
-			 				});
-							html +="</div></div>"
-							
+								});
+							html +="</div>";
+							html +="<div class='complete_"+workList.wrk_lst_id+" list n1' id='"+workList.wrk_lst_id+"'>"
+								data.works.forEach(function(work1, index3) {
+			 						if(work1.wrk_lst_id == workList.wrk_lst_id && work1.wrk_cmp_fl == 'Y'){
+										html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work1.wrk_id+"' class='workListItem'>";
+			 							html +=	"<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl' checked>";
+										html +=	"<h2><span>"+work1.wrk_grade+"</span>"+work1.wrk_nm+"</h2>";
+										html +=	"<ul>";
+										html +=	"<li>"+work1.wrkStartDtStr+" ~ "+work1.wrkEndDtStr+"</li>";
+										html +=	"<li><span>코멘트 개수</span><span>업무 파일 개수</span></li>";
+										html +=	"</ul>";
+										html +=	"<div class='wrk_mem_flw'><dl class='wrk_mem'>";
+										html +=	"<dt>업무 배정 멤버</dt>";
+										html +=	"<dd>";
+										html +=	"<p>또굥이</p>";
+										html +=	"</dd></dl>";
+										html +=	"<dl class='wrk_mem'>";
+										html +=	"<dt>업무 팔로워</dt>";
+										html +=	"<dd>";
+										html +=	"<p>유돌이</p>";
+										html +=	"</dd>";
+										html +=	"</dl>";
+										html +=	"</div></div>";
+			 						}
+			 					});
+							html +="</div></div>";
+							html +="</div>";
+						
 							$("#workListBox").html(html);
 							sortable();
 						});
@@ -145,6 +245,12 @@
 		$("#workListBox").on("change", ".wrkListName", function(){
 			var wrkListName = $(this).val();
 			var wrkListId = $(this).attr("id");
+			
+			if(!wrkListName){
+				$(".ctxt").text("이름을 입력해 주세요.");
+ 				layer_popup("#layer2");
+				return false;
+			}
 			
 			workListNameUpdateAjax(wrkListName, wrkListId);
 		});
@@ -194,7 +300,7 @@
 				url:"/work/wrkCreateAjax",
 				method:"post",
 				data : "wrk_lst_id=" + workLstID + "&wrk_nm=" + workName,
-				success : function(data) {
+				success:function(data){
 					var html = "";
 					data.workList.forEach(function(workList, index) {
 						html +="<div class='workList' id='"+ workList.wrk_lst_id + "'><span class='handle'>+++</span><div class='workList_hd'><dl>"
@@ -203,17 +309,67 @@
 						html +="<a href='javascript:;' class='workList_set_i'>업무리스트 설정</a>"
 						html +="<div class='workList_set'><input type='button' id='btnWorkListDel_"+workList.wrk_lst_id+"' value='업무리스트 삭제'></div>"
 						html +="</dd></dl><ul><li>"
-						html +="<p>진행중 업무 <span>4</span></p>"
-						html +="<a href='javascript:'>완료된업무보기 <span>2</span></a></li>"
-						html +="<li class='graph'></li></ul></div>"
-						html +="<div class='list n1' id='"+workList.wrk_lst_id+"'>"
-						data.works.forEach(function(work, index2) {
-		 						if(work.wrk_lst_id == workList.wrk_lst_id){
-		 							html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work.wrk_id+"'>"+work.wrk_nm+"</div>"
+						html +="<p>진행중 업무 <span>4</span></p>";
+						html +="<p><a href='javascript:' class='btnComplete' id='"+workList.wrk_lst_id+"'>완료된업무보기</a><span>2</span></p></li>";
+						html +="<li class='graph'></li></ul><div class='workCreateBox'>";
+						html +="<textarea name='wrk_nm' id='wrk_nm' placeholder='업무 이름을 입력해 주세요. 업무 이름은 70자 이내로 입력해 주세요'></textarea>";
+						html +="<div class='workCreatebtnBox'>";
+						html +="<input type='button' value='취소' id='wrkCreateCancelBtn'>";
+						html +="<input type='button' value='만들기' id='wrkCreateBtn' class='wrkCreateBtn' name='"+workList.wrk_lst_id+"' disabled='disabled'>";
+						html +="</div></div>";
+						html +="</div>";
+						html +="<div class='workWrap'><div class='working list n1' id='"+workList.wrk_lst_id+"'>"
+							data.works.forEach(function(work, index2) {
+		 						if(work.wrk_lst_id == workList.wrk_lst_id && work.wrk_cmp_fl == 'N'){
+		 							html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work.wrk_id+"' class='workListItem'>";
+		 							html +=	"<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl'>";
+									html +=	"<h2><span>"+work.wrk_grade+"</span>"+work.wrk_nm+"</h2>";
+									html +=	"<ul>";
+									html +=	"<li>"+work.wrkStartDtStr+" ~ "+work.wrkEndDtStr+"</li>";
+									html +=	"<li><span>코멘트 개수</span><span>업무 파일 개수</span></li>";
+									html +=	"</ul>";
+									html +=	"<div class='wrk_mem_flw'><dl class='wrk_mem'>";
+									html +=	"<dt>업무 배정 멤버</dt>";
+									html +=	"<dd>";
+									html +=	"<p>또굥이</p>";
+									html +=	"</dd></dl>";
+									html +=	"<dl class='wrk_mem'>";
+									html +=	"<dt>업무 팔로워</dt>";
+									html +=	"<dd>";
+									html +=	"<p>유돌이</p>";
+									html +=	"</dd>";
+									html +=	"</dl>";
+									html +=	"</div></div>";
 		 						}
-		 				});
-						html +="</div></div>"
-						
+							});
+						html +="</div>";
+						html +="<div class='complete_"+workList.wrk_lst_id+" list n1' id='"+workList.wrk_lst_id+"'>"
+							data.works.forEach(function(work1, index3) {
+		 						if(work1.wrk_lst_id == workList.wrk_lst_id && work1.wrk_cmp_fl == 'Y'){
+									html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work1.wrk_id+"' class='workListItem'>";
+		 							html +=	"<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl' checked>";
+									html +=	"<h2><span>"+work1.wrk_grade+"</span>"+work1.wrk_nm+"</h2>";
+									html +=	"<ul>";
+									html +=	"<li>"+work1.wrkStartDtStr+" ~ "+work1.wrkEndDtStr+"</li>";
+									html +=	"<li><span>코멘트 개수</span><span>업무 파일 개수</span></li>";
+									html +=	"</ul>";
+									html +=	"<div class='wrk_mem_flw'><dl class='wrk_mem'>";
+									html +=	"<dt>업무 배정 멤버</dt>";
+									html +=	"<dd>";
+									html +=	"<p>또굥이</p>";
+									html +=	"</dd></dl>";
+									html +=	"<dl class='wrk_mem'>";
+									html +=	"<dt>업무 팔로워</dt>";
+									html +=	"<dd>";
+									html +=	"<p>유돌이</p>";
+									html +=	"</dd>";
+									html +=	"</dl>";
+									html +=	"</div></div>";
+		 						}
+		 					});
+						html +="</div></div>";
+						html +="</div>";
+					
 						$("#workListBox").html(html);
 						sortable();
 					});
@@ -279,11 +435,11 @@
 		
 		
 		//업무 클릭시 업무 설정 레이어 열기
-		$("#workListBox").on("click", ".list div", function(){
+		$("#workListBox").on("click", ".wrokListItem h2", function(){
 			$("#propertySet").animate({right:'0'}, 500);
 			
 			//업무 아이디를 변수에 담음
-			var wrk_id = $(this).attr("data-wrkid");
+			var wrk_id = $(this).parent().attr("data-wrkid");
 			propertyWorkSetAjax(wrk_id);
 		});
 		
@@ -298,65 +454,13 @@
 				method:"post",
 				data:"wrk_id=" + wrk_id,
 				success:function(data){
+// 					console.log(data);
+					$("#wps_id").val(data.workVo.wrk_id);
+					$("#wps_nm").val(data.workVo.wrk_nm);
+					$("#wps_write_nm").text(data.workVo.user_nm);
+					$("#wps_write_date").text(data.workVo.wrkDtStr);
+					$("#wrk_gd").val(data.workVo.wrk_grade);
 					
-					console.log(data);
-					
-// 					//멤버레벨이 1이면 삭제 버튼 없애기 
-// 					if(data.userInfo.prj_mem_lv == "LV1"){
-// 						$(".setItem:last-child").css({display:"none"});
-// 					}else{
-// 						$(".setItem:last-child").css({display:"block"});
-// 					}
-					
-					
-// 					$("#ppt_id").val(data.projectInfo.prj_id);
-// 					$("#leave_prj_id").val(data.projectInfo.prj_id); //프로젝트 나가기를 위해 value값에 프로젝트 아이디 저장
-// 					$("#leave_prj_mem_lv").val(data.userInfo.prj_mem_lv); //프로젝트 나가기를 위해 value값에 프로젝트 아이디 저장
-// 					$("#ppt_nm").val(data.projectInfo.prj_nm);
-// 					$("#ppt_exp").val(data.projectInfo.prj_exp);
-// 					$("#ppt_asc").val(data.projectInfo.prj_auth);
-// 					$("#ppt_st").val(data.projectInfo.prj_st);
-// 					$("#ppt_start_date").val(data.projectInfo.prjStartDtStr);
-// 					$("#ppt_end_date").val(data.projectInfo.prjEndDtStr);
-// 					$("#ppt_cmp_date").val(data.projectInfo.prjCmpDtStr);
-					
-// 					var html = "";
-// 					var html2 = "";
-// 					data.projectAdmList.forEach(function(item, index){
-// 						//html 생성
-// 						html += "<li id='"+ item.user_email +"_"+item.prj_id+"_"+item.prj_mem_lv+"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
-						
-// 					});	
-					
-// 					data.projectMemList.forEach(function(item, index){
-// 						html2 += "<li id='"+ item.user_email +"_"+item.prj_id+"_"+item.prj_mem_lv+"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
-// 					});	
-					
-// 					$(".prj_add_box").html(html);
-// 					$(".prj_mem_add_box").html(html2);
-					
-// 					//멤버레벨이 1인데 권한이 ASC02 또는 ASC03 일때
-// 					if(data.userInfo.prj_mem_lv == "LV1" && data.projectInfo.prj_auth == "ASC02" || data.userInfo.prj_mem_lv == "LV1" && data.projectInfo.prj_auth == "ASC03"){
-// 						$("#propertySet input").prop('readonly', true); 										//설정창의 모든 input readonly
-// 						$("#propertySet select").prop('disabled',true);										//설정창의 모든 select disabled
-// 						$("#propertySet button").prop('disabled', true);										//설정창의 모든 button disabled
-// 						$("#propertySet input[type=button]").prop('disabled', true);
-// 						$("#prjLeaveBtn").prop('disabled', false);
-// 						$(".prj_add_box input").css({visibility:"hidden"});
-// 						$(".prj_mem_add_box input").css({visibility:"hidden"});
-// 						$(".datepicker").css({display:"none"});
-// 					}else{
-// 						$("#propertySet input").prop('readonly', false);
-// 						$("#propertySet select").prop('disabled',false);
-// 						$("#propertySet button").prop('disabled', false);
-// 						$(".prj_add_box input").css({visibility:"visible"});
-// 						$(".prj_mem_add_box input").css({visibility:"visible"});
-// 						$("#propertySet input[type=button]").prop('disabled', false);
-// 						$(".datepicker").css({display:"block"});
-// 					}
-					
-// 					updateTime = data.projectInfo.prj_update;
-// 					updateDiff(updateTime);
 				}
 			});
 		}
@@ -372,6 +476,124 @@
 		    	var activeTab = $(this).attr("data-tab");
 		    	$("#" + activeTab).fadeIn()
 		});
+		
+		//완료된업무보기 클릭 했을 때
+		$("#workListBox").on("click", ".btnComplete", function(){
+			var id = $(this).attr("id");
+			$(".complete_"+id).fadeIn(300);
+			
+			var text = $(this).text();
+			$(this).text(text.replace('완료된업무보기', '완료된 업무 숨기기'));
+			$(this).attr("class", "btnCompleteHide");
+		});
+		
+		//완료된업무숨기기 클릭시
+		$("#workListBox").on("click", ".btnCompleteHide", function(){
+			var text = $(this).text();
+			$(this).text(text.replace('완료된 업무 숨기기', '완료된업무보기'));
+			var id = $(this).attr("id");
+			$(".complete_"+id).fadeOut(300);
+			$(this).attr("class", "btnComplete");
+		});
+		
+		
+		$("#workListBox").on("click", "#wrk_cmp_fl", function(){
+			var wrkID = $(this).parent().attr("data-wrkid");
+			var wrkCMP = "";
+			if ($(this).prop('checked')){ 
+				wrkCMP = "Y";
+				completeCheckAjax(wrkID, wrkCMP);
+			}else{ 
+				wrkCMP = "N";
+				completeCheckAjax(wrkID, wrkCMP);
+			}
+		});
+		
+		
+		function completeCheckAjax(wrkID, wrkCMP){
+			alert("test");
+			$.ajax({
+				url:"/work/completeCheckAjax",
+				method:"post",
+				data:"wrk_id=" + wrkID + "&wrk_cmp_fl=" + wrkCMP,
+				success:function(data){
+					console.log(data);
+					var html = "";
+					data.workList.forEach(function(workList, index) {
+						html +="<div class='workList' id='"+ workList.wrk_lst_id + "'><span class='handle'>+++</span><div class='workList_hd'><dl>"
+						html +="<dt><input type='text' value='"+ workList.wrk_lst_nm+"' id='"+workList.wrk_lst_id+"' class='wrkListName'></dt><dd>"
+						html +="<input type='button' class='workList_add_i' value='새업무 추가'>"
+						html +="<a href='javascript:;' class='workList_set_i'>업무리스트 설정</a>"
+						html +="<div class='workList_set'><input type='button' id='btnWorkListDel_"+workList.wrk_lst_id+"' value='업무리스트 삭제'></div>"
+						html +="</dd></dl><ul><li>"
+						html +="<p>진행중 업무 <span>4</span></p>";
+						html +="<p><a href='javascript:' class='btnComplete' id='"+workList.wrk_lst_id+"'>완료된업무보기</a><span>2</span></p></li>";
+						html +="<li class='graph'></li></ul><div class='workCreateBox'>";
+						html +="<textarea name='wrk_nm' id='wrk_nm' placeholder='업무 이름을 입력해 주세요. 업무 이름은 70자 이내로 입력해 주세요'></textarea>";
+						html +="<div class='workCreatebtnBox'>";
+						html +="<input type='button' value='취소' id='wrkCreateCancelBtn'>";
+						html +="<input type='button' value='만들기' id='wrkCreateBtn' class='wrkCreateBtn' name='"+workList.wrk_lst_id+"' disabled='disabled'>";
+						html +="</div></div>";
+						html +="</div>";
+						html +="<div class='workWrap'><div class='working list n1' id='"+workList.wrk_lst_id+"'>"
+							data.works.forEach(function(work, index2) {
+		 						if(work.wrk_lst_id == workList.wrk_lst_id && work.wrk_cmp_fl == 'N'){
+		 							html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work.wrk_id+"' class='workListItem'>";
+		 							html +=	"<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl'>";
+									html +=	"<h2><span>"+work.wrk_grade+"</span>"+work.wrk_nm+"</h2>";
+									html +=	"<ul>";
+									html +=	"<li>"+work.wrkStartDtStr+" ~ "+work.wrkEndDtStr+"</li>";
+									html +=	"<li><span>코멘트 개수</span><span>업무 파일 개수</span></li>";
+									html +=	"</ul>";
+									html +=	"<div class='wrk_mem_flw'><dl class='wrk_mem'>";
+									html +=	"<dt>업무 배정 멤버</dt>";
+									html +=	"<dd>";
+									html +=	"<p>또굥이</p>";
+									html +=	"</dd></dl>";
+									html +=	"<dl class='wrk_mem'>";
+									html +=	"<dt>업무 팔로워</dt>";
+									html +=	"<dd>";
+									html +=	"<p>유돌이</p>";
+									html +=	"</dd>";
+									html +=	"</dl>";
+									html +=	"</div></div>";
+		 						}
+							});
+						html +="</div>";
+						html +="<div class='complete_"+workList.wrk_lst_id+" list n1' id='"+workList.wrk_lst_id+"'>"
+							data.works.forEach(function(work1, index3) {
+		 						if(work1.wrk_lst_id == workList.wrk_lst_id && work1.wrk_cmp_fl == 'Y'){
+									html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work1.wrk_id+"' class='workListItem'>";
+		 							html +=	"<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl' checked>";
+									html +=	"<h2><span>"+work1.wrk_grade+"</span>"+work1.wrk_nm+"</h2>";
+									html +=	"<ul>";
+									html +=	"<li>"+work1.wrkStartDtStr+" ~ "+work1.wrkEndDtStr+"</li>";
+									html +=	"<li><span>코멘트 개수</span><span>업무 파일 개수</span></li>";
+									html +=	"</ul>";
+									html +=	"<div class='wrk_mem_flw'><dl class='wrk_mem'>";
+									html +=	"<dt>업무 배정 멤버</dt>";
+									html +=	"<dd>";
+									html +=	"<p>또굥이</p>";
+									html +=	"</dd></dl>";
+									html +=	"<dl class='wrk_mem'>";
+									html +=	"<dt>업무 팔로워</dt>";
+									html +=	"<dd>";
+									html +=	"<p>유돌이</p>";
+									html +=	"</dd>";
+									html +=	"</dl>";
+									html +=	"</div></div>";
+		 						}
+		 					});
+						html +="</div></div>";
+						html +="</div>";
+					
+						$("#workListBox").html(html);
+						sortable();
+					});
+				}
+			});
+		}
+		
 	});
 </script>
 
@@ -432,7 +654,10 @@
 						<ul>
 							<li>
 								<p>진행중 업무 <span>4</span></p>
-								<a href="javascript:;">완료된업무보기 <span>2</span></a>
+								<p>
+									<a href="javascript:;" class="btnComplete" id="${workList.wrk_lst_id}">완료된업무보기</a>
+									<span>2</span>
+								</p>
 							</li>
 							<li class="graph"></li>
 						</ul>
@@ -444,15 +669,16 @@
 							</div>
 						</div>
 					</div>
-					<div class="list n1" id="${workList.wrk_lst_id}">
+					<div class="workWrap">
+						<div class="list n1 working" id="${workList.wrk_lst_id}">
 						<c:forEach items="${works}" var="work">
 							<c:choose>
-								<c:when test="${workList.wrk_lst_id == work.wrk_lst_id}">
-									<div id="${work.wrk_lst_id}" data-wrkid="${work.wrk_id}">
+								<c:when test="${workList.wrk_lst_id == work.wrk_lst_id && work.wrk_cmp_fl == 'N'}">
+									<div id="${work.wrk_lst_id}" data-wrkid="${work.wrk_id}" class="wrokListItem">
 										<input type="checkbox" name="wrk_cmp_fl" id="wrk_cmp_fl">
 										<h2><span>${work.wrk_grade}</span>${work.wrk_nm}</h2>
 										<ul>
-											<li>${work.wrk_start_dt} ~ ${work.wrk_end_dt}</li>
+											<li>${work.wrkStartDtStr} ~ ${work.wrkEndDtStr}</li>
 											<li>
 												<span>코멘트 개수</span>
 												<span>업무 파일 개수</span>
@@ -480,6 +706,44 @@
 								</c:when>
 							</c:choose>
 						</c:forEach>
+						</div>
+						<div class="complete_${workList.wrk_lst_id} list n1">
+							<c:forEach items="${works}" var="work">
+								<c:choose>
+								<c:when test="${workList.wrk_lst_id == work.wrk_lst_id && work.wrk_cmp_fl == 'Y'}">
+									<div id="${work.wrk_lst_id}" data-wrkid="${work.wrk_id}">
+										<input type="checkbox" name="wrk_cmp_fl" id="wrk_cmp_fl" checked>
+										<h2><span>${work.wrk_grade}</span>${work.wrk_nm}</h2>
+										<ul>
+											<li>${work.wrkStartDtStr} ~ ${work.wrkEndDtStr}</li>
+											<li>
+												<span>코멘트 개수</span>
+												<span>업무 파일 개수</span>
+											</li>
+										</ul>
+										<div class="wrk_mem_flw">
+											<dl class="wrk_mem">
+												<dt>업무 배정 멤버</dt>
+												<dd>
+													<p>또굥이</p>
+													<p>개굴이</p>
+													<p>쏠이</p>
+												</dd>
+											</dl>
+											<dl class="wrk_mem">
+												<dt>업무 팔로워</dt>
+												<dd>
+													<p>유돌이</p>
+													<p>하우두유두</p>
+													<p>몽몽이</p>
+												</dd>
+											</dl>
+										</div>
+									</div>
+								</c:when>
+							</c:choose>
+							</c:forEach>
+						</div>
 					</div>
 				</div>
 			</c:forEach>
@@ -496,15 +760,12 @@
 	<div class="propertySetWrap">
 		<div class="setHd">
 			<div class="setHdTitle">
-				<input type="hidden" id="ppt_id" name="ppt_id" value="">
+				<input type="hidden" id="wps_id" name="wps_id" value="">
 				<h2>
-					<input type="text" id="ppt_nm" name="ppt_nm" value="">
+					<input type="text" id="wps_nm" name="wps_nm" value="">
 				</h2>
 			</div>
-			<p class="prj_update">작성일 8월 15일</p>
-			<p>
-				<input type="text" id="ppt_exp" name="ppt_exp" placeholder="프로젝트 설명을 입력해 주세요.">
-			</p>
+			<p class="wrk_update"><span>작성자</span><em id="wps_write_nm"></em><span>작성일</span><em id="wps_write_date" ></em></p>
 		</div>
 		
 		<!-- work tab -->
@@ -523,35 +784,35 @@
 			<dl class="setItem">
 				<dt>날짜 설정</dt>
 				<dd>
-					<input type="text" data-language="en" class="datepicker-here datePick" id="ppt_start_date">
+					<input type="text" data-language="en" class="datepicker-here datePick" id="wps_start_date">
 				</dd>
 			</dl>
 			<dl class="setItem">
 				<dt>예약 알림</dt>
 				<dd>
-					<input type="text" data-language="en" class="datepicker-here datePick" id="ppt_start_date">
+					<input type="text" data-language="en" class="datepicker-here datePick" id="wps_start_date">
 				</dd>
 			</dl>
 			<dl class="setItem">
 				<dt>배정된 멤버</dt>
 				<dd>
-					<button type="button" id="ppt_adm_set" name="ppt_adm_set">멤버 추가</button>
+					<button type="button" id="wps_mem_set" name="wps_mem_set">멤버 추가</button>
 
 					<!-- 프로젝트 관리자 리스트 box -->
-					<ul class="prj_add_box"></ul>
+					<ul class="wrk_add_box"></ul>
 
-					<div class="prj_add_adm">
-						<label for="prj_mem">배정된 멤버 추가</label>
-						<div class="prj_mem_list">
-							<div class="prj_mem_sch">
+					<div class="wrk_add_mem">
+						<label for="wrk_mem">배정된 멤버 추가</label>
+						<div class="wrk_mem_list">
+							<div class="wrk_mem_sch">
 								<fieldset id="hd_sch">
 									<legend>멤버 검색 검색</legend>
-									<input type="text" name="prj_mem" id="prj_mem" maxlength="20" placeholder="검색어를 입력해주세요">
+									<input type="text" name="wrk_mem" id="wrk_mem" maxlength="20" placeholder="검색어를 입력해주세요">
 								</fieldset>
 							</div>
 
 							<!-- 추가된 프로젝트 관리자 리스트 box -->
-							<ul class="prj_mem_item"></ul>
+							<ul class="wrk_mem_item"></ul>
 						</div>
 					</div>
 				</dd>
@@ -559,23 +820,23 @@
 			<dl class="setItem">
 				<dt>팔로워</dt>
 				<dd>
-					<button type="button" id="ppt_mem_set" name="ppt_mem_set">팔로워 추가</button>
+					<button type="button" id="wrk_flw_set" name="wrk_flw_set">팔로워 추가</button>
 
 					<!-- 프로젝트 멤버 리스트 box -->
-					<ul class="prj_mem_add_box"></ul>
+					<ul class="wrk_mem_flw_box"></ul>
 
-					<div class="prj_add_mem">
-						<label for="prj_mem">팔로워 추가</label>
-						<div class="prj_mem_list">
-							<div class="prj_mem_sch">
+					<div class="wrk_add_flw">
+						<label for="wrk_flw">팔로워 추가</label>
+						<div class="wrk_flw_list">
+							<div class="wrk_flw_sch">
 								<fieldset id="hd_sch">
 									<legend>멤버 검색</legend>
-									<input type="text" name="prj_mem" id="prj_mem" maxlength="20" placeholder="검색어를 입력해주세요">
+									<input type="text" name="wrk_flw" id="wrk_flw" maxlength="20" placeholder="검색어를 입력해주세요">
 								</fieldset>
 							</div>
 
 							<!-- 추가된 프로젝트 멤버 리스트 box -->
-							<ul class="prj_mem_item_list"></ul>
+							<ul class="wrk_flw_item_list"></ul>
 						</div>
 					</div>
 				</dd>
@@ -584,7 +845,7 @@
 				<dt>중요도</dt>
 				<dd>
 					<div class="setGrade">
-						<select id="ppt_gd" name="ppt_gd">
+						<select id="wrk_gd" name="wrk_gd">
 							<option value="A">A</option>
 							<option value="B">B</option>
 							<option value="C">C</option>

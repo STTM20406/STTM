@@ -366,4 +366,60 @@ public class Work_ListController {
 		return viewNmae;
 	}
 	
+	//업무 클릭시 설정창에 업무 정보 셋팅
+	@RequestMapping("/propertyWorkSetAjax")
+	public @ResponseBody HashMap<String, Object> propertyWorkSetAjax(String wrk_id, HttpSession session) {
+		
+		int wrkID = Integer.parseInt(wrk_id);
+		WorkVo workVo = workService.getWorkInfo(wrkID);
+		
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		hashmap.put("workVo", workVo);
+
+		return hashmap;
+	}
+	
+	@RequestMapping("/completeCheckAjax")
+	public @ResponseBody HashMap<String, Object> completeCheckAjax(String wrk_id, String wrk_cmp_fl, HttpSession session) {
+		
+		logger.debug("여기까지 오냐 log");
+		//세션에 저장된 프로젝트 정보를 가져옴
+		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
+		int prj_id = projectVo.getPrj_id();
+		
+		int wrkID = Integer.parseInt(wrk_id);
+		WorkVo workVo = new  WorkVo();
+		workVo.setWrk_id(wrkID);
+		workVo.setWrk_cmp_fl(wrk_cmp_fl);
+		int updateCnt = workService.updateWorkCmp(workVo);
+		logger.debug("여기까지 들어오니 log updateCnt :::::::::: {}", updateCnt);
+		List<Work_ListVo> workList = workListService.workList(prj_id);
+		
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		List<WorkVo> work = new ArrayList<WorkVo>();
+		List<WorkVo> works = new ArrayList<WorkVo>();
+		
+		logger.debug("중간까지 여기까지 들어오니 log");
+		/*
+			해당 업무리스트에서 업무리스트 ID 가져서와 업무테이블의
+			테이블의 업무리스트 ID 매칭하여 해당 업무 가져오기
+		*/
+		for(int i=0; i<workList.size(); i++) {
+			int wrkListId = workList.get(i).getWrk_lst_id();
+			work = workService.getWork(wrkListId);
+			for(int j=0; j<work.size(); j++) {
+				//업무리스트 ID가 같으면 해당 업무를 가져와서 담기
+				works.add(work.get(j)); 
+			}
+		}
+		
+		if(updateCnt != 0) {
+			logger.debug("여기까지 들어오니 log");
+			hashmap.put("workList", workList);
+			hashmap.put("works", works);
+		}
+		
+		return hashmap;
+	}
+	
 }

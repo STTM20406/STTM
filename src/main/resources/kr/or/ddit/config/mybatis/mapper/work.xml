@@ -51,6 +51,7 @@
       		AND     			A.WRK_DEL_FL = 'N'
 	</select>
 	
+	<!-- 업무 카운트 > 다시 해야함 -->
 	<select id="getWorkListCnt" parameterType="workVo" resultType="workVo">
 		SELECT  	COUNT(*) wrkListCnt, A.WRK_LST_ID
 		FROM    	WORK A, WORK_LIST B
@@ -69,6 +70,17 @@
 	<!-- 업무 이동시 업무 리스트 아이디 업데이트 -->
 	<update id="updateWorkID" parameterType="workVo">
 		UPDATE WORK SET WRK_LST_ID = #{wrk_lst_id} WHERE WRK_ID = #{wrk_id}
+	</update>
+	
+	
+	<!-- 업무 아이디로 업무 정보 얻어오기 -->
+	<select id="getWorkInfo" parameterType="int" resultType="workVo">
+		SELECT A.*, B.USER_NM FROM WORK A, USERS B WHERE WRK_ID = #{wrk_id} AND A.USER_EMAIL = B.USER_EMAIL
+	</select>
+	
+	<!-- 업무 완료 체크시 완료 플래그 업데이트 -->
+	<update id="updateWorkCmp" parameterType="workVo">
+		UPDATE WORK SET WRK_CMP_FL = #{wrk_cmp_fl} WHERE WRK_ID = #{wrk_id}
 	</update>
 
 

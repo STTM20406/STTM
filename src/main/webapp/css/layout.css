@@ -125,10 +125,11 @@ Last update : 2019. 07. 22.
 .workList .workList_hd ul {padding-top:10px;}
 .workList .workList_hd ul li {}
 .workList .workList_hd ul li:after {content:''; display:block; clear:both; zoom:1;}
-.workList .workList_hd ul li p {float:left; color:#a2a4ad;}
-.workList .workList_hd ul li p span {width:25px; height:15px; border-radius:30px; text-align:center; line-height:13px; background:#f18898; color:#fff; display:inline-block;}
-.workList .workList_hd ul li a {float:right; color:#a2a4ad;}
-.workList .workList_hd ul li a span {width:25px; height:15px; border-radius:30px; text-align:center; line-height:13px; background:#e1e8fe; color:#2b65ff; font-weight:600; display:inline-block;}
+.workList .workList_hd ul li p:nth-child(1) {float:left; color:#a2a4ad;}
+.workList .workList_hd ul li p:nth-child(1) span {width:25px; height:15px; border-radius:30px; text-align:center; line-height:13px; background:#f18898; color:#fff; display:inline-block;}
+.workList .workList_hd ul li p:nth-child(2) {float:right; color:#a2a4ad;}
+.workList .workList_hd ul li p:nth-child(2) a {color:#a2a4ad;}
+.workList .workList_hd ul li p:nth-child(2) span {width:25px; height:15px; border-radius:30px; text-align:center; line-height:13px; background:#e1e8fe; color:#2b65ff; display:inline-block;}
 .workList .workList_hd ul li.graph {}
 
 .workList .workList_content {}
@@ -274,7 +275,7 @@ a.btn-layerClose:hover {border: 1px solid #091940; background-color:#1f326a; col
 /* property setting layaer style */
 #propertySet {position:fixed; right:-700px; top:100px; width:600px; height:100%; background:#f5f5f5; padding:60px 50px}
 #propertySet .propertySetWrap {}
-
+#propertySet .propertySetWrap .tab_content {display:none}
 
 #propertySet .setHd {margin-bottom:20px}
 #propertySet .setHd .setHdTitle {}
@@ -294,7 +295,9 @@ a.btn-layerClose:hover {border: 1px solid #091940; background-color:#1f326a; col
 .cal_wrapper table {width:100%}
 
 .workCreateBox {display:none}
+.wrk_mem_flw dl dd {display:none}
 
+.workWrap div[class^="complete_"] {display:none}
 
 
 

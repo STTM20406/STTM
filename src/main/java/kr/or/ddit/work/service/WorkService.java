@@ -80,4 +80,34 @@ public class WorkService implements IWorkService{
 		return workDao.updateWorkID(workVo);
 	}
 
+	
+	/**
+	 * 
+	 * Method 			: getWorkInfo
+	 * 작성자 				: 박서경 
+	 * 변경이력 			: 2019-08-17 최초 생성
+	 * @param wrk_id
+	 * @return
+	 * Method 설명 		: 업무 아이디로 업무 정보 조회
+	 */
+	@Override
+	public WorkVo getWorkInfo(int wrk_id) {
+		return workDao.getWorkInfo(wrk_id);
+	}
+
+
+	/**
+	 * 
+	 * Method 			: updateWorkCmp
+	 * 작성자 				: 박서경 
+	 * 변경이력 			: 2019-08-18 최초 생성
+	 * @param workVo
+	 * @return
+	 * Method 설명 		: 업무 아이디로 업무 완료 여부 업데이트
+	 */
+	@Override
+	public int updateWorkCmp(WorkVo workVo) {
+		return workDao.updateWorkCmp(workVo);
+	}
+
 }

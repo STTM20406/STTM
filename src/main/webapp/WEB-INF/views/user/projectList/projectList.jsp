@@ -151,17 +151,17 @@
 						//html 생성
 		 				html += "<div class='project_item'><ul class='project_item_hd'>";
 		 				html += "<li>" + project.prj_nm + "</li>";
-		 				html += "<li><a href=''>설정</a></li></ul>"
-		 				html += "<ul class='project_item_con'><li>"
-		 				html += "<p class='currnt_prj_st'>" + project.prj_st + "</p>"
-		 				html += "<div class='prj_item_st'>"
-		 				html += "<input type='button' value='계획' id='prj_st_"+ project.prj_id + "'>"
-		 				html += "<input type='button' value='진행중' id='prj_st_"+ project.prj_id + "'>"
-		 				html += "<input type='button' value='완료' id='prj_st_"+ project.prj_id + "'>"
-		 				html += "<input type='button' value='보류' id='prj_st_"+ project.prj_id + "'>"
-		 				html += "<input type='button' value='취소' id='prj_st_"+ project.prj_id + "'>"
-		 				html += "<input type='button' value='상태없음' id='prj_st_"+ project.prj_id + "'>"
-						html += "</div></li></ul></div>"	
+		 				html += "<li><a href=''>설정</a></li></ul>";
+		 				html += "<ul class='project_item_con'><li>";
+		 				html += "<p class='currnt_prj_st'>" + project.prj_st + "</p>";
+		 				html += "<div class='prj_item_st'>";
+		 				html += "<input type='button' value='계획' id='prj_st_"+ project.prj_id + "'>";
+		 				html += "<input type='button' value='진행중' id='prj_st_"+ project.prj_id + "'>";
+		 				html += "<input type='button' value='완료' id='prj_st_"+ project.prj_id + "'>";
+		 				html += "<input type='button' value='보류' id='prj_st_"+ project.prj_id + "'>";
+		 				html += "<input type='button' value='취소' id='prj_st_"+ project.prj_id + "'>";
+		 				html += "<input type='button' value='상태없음' id='prj_st_"+ project.prj_id + "'>";
+						html += "</div></li></ul></div>";
 					});	
 					
 					$(".my_project_list").html(html);
