@@ -27,6 +27,8 @@ public class Minutes_MemVo {
 		
 	}
 	
+	
+	
 	public int getMnu_mem_id() {
 		return mnu_mem_id;
 	}

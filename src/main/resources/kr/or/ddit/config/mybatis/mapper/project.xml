@@ -355,7 +355,7 @@
 		where FILE_ID = #{file_id}
 	</select>
 	
-	<select id="individualPagination" parameterType="pageVo" resultType="file_attchVo">
+	<select id="individualPagination" parameterType="map" resultType="file_attchVo">
 	   <![CDATA[
 		   	select 
 		    rownum num, a.file_id, a.prj_id, a.user_email, a.wrk_id, a.original_file_nm, a.db_file_nm, a.file_size, a.file_exts, a.file_dt, a.del_fl, a.FILE_SAVE_FL,a.FILE_COMM_FL, b.wrk_nm, C.USER_NM
@@ -370,6 +370,7 @@
 		    where rn>=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
 		    and b.wrk_id = a.wrk_id
 		    AND A.USER_EMAIL = C.USER_EMAIL
+		    and c.USER_EMAIL = #{user_email}
 	   ]]>
 	</select>
 	
@@ -382,7 +383,7 @@
 		    from
 		    (select * 
 		    from file_attch
-		    WHERE original_file_nm like '%'||#{user_nm}||'%'
+		    WHERE original_file_nm like '%'||#{original_file_nm}||'%'
 		    and del_fl='N'
 		    and FILE_COMM_FL ='Y'
 		    order by file_id desc) a)a, work b, USERS C
@@ -392,7 +393,7 @@
 	   ]]>
 	</select>
 	
-	<select id="individualCnt" resultType="int">
+	<select id="individualCnt" parameterType="String" resultType="int">
 		select count(*)
 	    from
 	    (select a.*, rownum rn 
@@ -404,6 +405,7 @@
 	    order by file_id desc) a)a, work b, USERS C
 	    where b.wrk_id = a.wrk_id
 	    AND A.USER_EMAIL = C.USER_EMAIL
+	    and c.USER_EMAIL = #{USER_EMAIL}
 	</select>
 	
 	<select id="searchIndividualCnt" parameterType="String" resultType="int">
@@ -421,7 +423,14 @@
 	    AND A.USER_EMAIL = C.USER_EMAIL
 	</select>
 	
-	
+	<!-- PM, PL 권한 가져오기 -->
+	<select id="selectLV" parameterType="project_memVo" resultType="project_memVo">
+		SELECT * FROM PROJECT_MEM 
+		WHERE 
+			USER_EMAIL = #{user_email} 
+		AND 
+			PRJ_ID = #{prj_id}
+	</select>
 	
 	
 	<!-- 개인보관함 -->

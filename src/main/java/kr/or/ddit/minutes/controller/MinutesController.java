@@ -33,8 +33,14 @@ public class MinutesController {
 //	@RequestMapping(name="workService")
 //	private IWorkService workService;
 	
-	@RequestMapping(path="/conferenceList", method = RequestMethod.GET)
-	String conferenceList(Model model, PageVo pageVo, HttpSession session ) {
+	@RequestMapping("/conferenceList")
+	String conferenceList( ) {
+		logger.debug("♬♩♪  conferenceList입니다!}");		
+		return "/main/conference/conferenceList.user.tiles";
+	}			
+	
+	@RequestMapping("/conferencePagination")
+	String conferencePagination(Model model, PageVo pageVo, HttpSession session ) {
 		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
 		int prj_id = projectVo.getPrj_id();
 		
@@ -48,15 +54,17 @@ public class MinutesController {
 		
 		int paginationSize = (Integer) resultMap.get("paginationSize");
 		logger.debug("♬♩♪  paginationSize: {}", paginationSize);
-
+		
 		model.addAttribute("paginationSize", paginationSize);
 		model.addAttribute("pageVo", pageVo);
-
+		
 		model.addAttribute("minutesList", minutesList);
 		model.addAttribute("prj_id", prj_id);
 		
-		return "/main/conference/conferenceList.user.tiles";
+		return "jsonView";
 	}			
+	
+	
 	
 	@RequestMapping(path="/conferenceDetail", method = RequestMethod.GET)
 	String conferenceDetail(Model model, int mnu_id, HttpSession session) {
@@ -76,7 +84,7 @@ public class MinutesController {
 	}
 	
 	//수정해야합니다!!!!!!!!!!!!!!!!!!!!!!!!!!! 검색했을때 페이지 네이션
-	@RequestMapping(path="/searchMinutes", method = RequestMethod.GET)
+	@RequestMapping("/searchMinutes")
 	String searchMinutes(PageVo pageVo, Model model,  String user_nm, HttpSession session) {
 		logger.debug("♬♩♪  name_nm이 들어오나요?: {}", user_nm);
 		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
@@ -101,7 +109,7 @@ public class MinutesController {
 		model.addAttribute("user_nm", user_nm);
 		model.addAttribute("prj_id", prj_id);
 	
-		return "/main/conference/conferenceSearchList.user.tiles";
+		return "jsonView";
 	}
 	
 	/**

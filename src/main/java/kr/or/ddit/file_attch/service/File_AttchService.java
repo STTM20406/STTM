@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import kr.or.ddit.file_attch.dao.IFile_AttchDao;
 import kr.or.ddit.file_attch.model.File_AttchVo;
 import kr.or.ddit.paging.model.PageVo;
+import kr.or.ddit.project_mem.model.Project_MemVo;
 
 @Service
 public class File_AttchService implements IFile_AttchService{
@@ -86,15 +87,15 @@ public class File_AttchService implements IFile_AttchService{
 		return resultMap;
 	}
 	
-	
 	@Override
-	public Map<String, Object> individualPagination(PageVo pageVo) {
+	public Map<String, Object> individualPagination(Map<String, Object> map) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("individualList", file_AttchDao.individualPagination(pageVo));
+		resultMap.put("individualList", file_AttchDao.individualPagination(map));
 		
-		int Cnt = file_AttchDao.individualCnt();
+		int Cnt = file_AttchDao.individualCnt((String)map.get("user_email"));
 		logger.debug("♬♩♪  individualPagination  CNT: {}", Cnt);
-		int paginationSize = (int)Math.ceil((double)Cnt/pageVo.getPageSize());
+		
+		int paginationSize = (int)Math.ceil((double)Cnt/ (int) map.get("pageSize"));
 		resultMap.put("paginationSize", paginationSize);
 		
 		return resultMap;
@@ -126,6 +127,11 @@ public class File_AttchService implements IFile_AttchService{
 		resultMap.put("paginationSize", paginationSize);
 		return resultMap;
 		
+	}
+
+	@Override
+	public Project_MemVo selectLV(Project_MemVo project_MemVo) {
+		return file_AttchDao.selectLV(project_MemVo);
 	}
 
 

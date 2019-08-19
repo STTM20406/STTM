@@ -6,6 +6,7 @@ import java.util.Map;
 import kr.or.ddit.file_attch.model.File_AttchVo;
 import kr.or.ddit.link_attch.model.Link_attchVo;
 import kr.or.ddit.paging.model.PageVo;
+import kr.or.ddit.project_mem.model.Project_MemVo;
 
 /**
  * IFile_AttchDao.java
@@ -164,7 +165,7 @@ public interface IFile_AttchDao {
 	 * @return
 	 * Method 설명 	: 개인보관함 Pagination
 	 */
-	List<File_AttchVo> individualPagination(PageVo pageVo);
+	List<File_AttchVo> individualPagination(Map<String, Object> map);
 	
 	/**
 	 * Method 		: individualCnt
@@ -173,7 +174,7 @@ public interface IFile_AttchDao {
 	 * @return
 	 * Method 설명 	: 개인보관함 개수!
 	 */
-	int individualCnt();
+	int individualCnt(String user_email);
 	    
 	/**
 	 * Method 		: individualCnt
@@ -192,4 +193,14 @@ public interface IFile_AttchDao {
 	 * Method 설명 	: 검색 수 개인보관함 개수!
 	 */
 	int searchIndividualCnt(String original_file_nm);
+	
+	/**
+	 * Method 		: selectLV
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-17 최초 생성
+	 * @param project_MemVo
+	 * @return
+	 * Method 설명 	: PM, PL 권한 받아오기!
+	 */
+	Project_MemVo selectLV(Project_MemVo project_MemVo);
 }

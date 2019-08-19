@@ -24,12 +24,10 @@ public class VoteDao implements IVoteDao{
 	public int insertVote(VoteVo voteVo) {
 		return sqlSession.insert("vote.insertVote", voteVo);
 	}
-	
 	@Override
 	public VoteVo getVote(Integer vote_id) {
 		return sqlSession.selectOne("vote.getVote", vote_id);
 	}
-	
 	@Override
 	public int deleteVote(Integer vote_id) {
 		return sqlSession.update("vote.deleteVote", vote_id);
@@ -41,5 +39,9 @@ public class VoteDao implements IVoteDao{
 	@Override
 	public int updateVote(VoteVo voteVo) {
 		return sqlSession.update("vote.updateVote", voteVo);
+	}
+	@Override
+	public void cmpVote(Integer vote_id) {
+		sqlSession.update("vote.cmpVote", vote_id);
 	}
 }

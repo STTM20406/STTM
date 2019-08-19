@@ -17,12 +17,13 @@
 	.vote_ano { width: 90%; font-size: medium; display:inline-block; color:#111111;}
 	.vote_end_dt { width: 90%; display:inline-block; font-size: medium; }
 	.vote_no_deadline { width: 90%; display:inline-block; font-size: medium; }
-	.vote_part_y { width: 90%; font-size:large; font-style: italic; font-weight: 900; color: green; padding: 2px; border-radius: 20px; width: 5%; display:inline-block;}
+	.vote_part_y, .vote_ended { font-size:large; font-style: italic; font-weight: 900; color: green; display:inline-block;}
 	.vote_part_n { width: 90%; font-size:large; font-style: italic; font-weight: 900; color: red; padding: 2px; border-radius: 20px; width: 5%; display:inline-block;}
 	.vote_part_yn { width: 90%; font-size:large; padding: 2px; display:inline-block;}
 	.vote_user_nm { width: 90%; font-size: large; padding: 2px; display:inline-block; }
 	.vote_config {font-size:large; font-weight: 900; display:inline-block; text-align:right; cursor: pointer; }
 	.vote_config_menu { width: 62px; height: 52px; }
+	.vote_end { font-size: large;}
 	.modal { display: none; /* Hidden by default */ position: fixed; /* Stay in place */ z-index: 1; /* Sit on top */ padding-top: 100px; /* Location of the box */ left: 0; top: 0; width: 100%; /* Full width */ height: 100%; /* Full height */ overflow: auto; /* Enable scroll if needed */ background-color: rgb(0,0,0); /* Fallback color */ background-color: rgba(0,0,0,0.4); /* Black w/ opacity */ }
 	.th1 { width: 25%;}
 	.th2 { width: 15%;}
@@ -53,13 +54,14 @@
 	.vote_mdf { cursor:pointer; font-size:medium; }
 	.vote_del { cursor:pointer; font-size:medium; }
 	.vote_set_list {/*position:relative; left:101%; top:-20px; */width:60px; z-index:2; display:none; padding: 1px; border: 1px solid #e1e1e1;}
-	.item { width:100%; height:25px; border:1px solid black; margin:5px; cursor: pointer;}
-	.item_con{ width:80%; float:left; margin-left:5%; }
-	.item_radio {width:15px; height:15px;}
-	#voteDetailFrm input[type=button] {width: 50%; height:30px; margin-left:25%;}
-	.voted {background-color: #e1e1e1;}
-	.selected {background-color: yellow;}
-	
+	.item { width:100%; border:1px solid black; margin:5px; cursor: pointer;}
+	#voteDetailFrm input[type=button], #btnCmp {width: 50%; height:30px; margin-left:25%; margin-top : 2px;}
+	.voted {background-color: #eeeeee;}
+	.selected {background-color: #33aaff; color: #ffffff;}
+	#btnCmp {margin-top: 3px; display: none;}
+	.vote_item {width : 88%; height: 28px; vertical-align: middle; }
+	.vote_item span {margin-left: 5%;}
+	#tblItem, #tblItemVoted { width: 100%; border-collapse: collapse;}
 </style>
 <!-- Include 할 부분 -->
 <div class="sub_menu">
@@ -170,6 +172,7 @@
 			<input type="hidden" name='prj_id' value='${PROJECT_INFO.prj_id }'>
 			<input type="hidden" name='user_email' value='${USER_INFO.user_email }'>
 			<input type="button" id="btnVote" onclick="vote()" value="투표">
+			<input type='button' id='btnCmp' onclick='cmpVote()' value="투표 완료">
 	</form>
   		</div>
   	</div>
@@ -379,17 +382,40 @@ var cal = flatpickr("#end_dt", {"locale" : "ko", enableTime: true});
 				
 				$("#detail_vote_subject").text(voteVo.vote_subject);
 				console.log(data);
-				if(isVoted) {
+				
+				var vote_email = voteVo.vote_email;
+				var vote_st = voteVo.vote_st;
+				var user_email = "${USER_INFO.user_email}";
+				
+				var isEnd = vote_st == "Y" ? true : false;
+				console.log(isEnd);
+				
+				console.log(vote_email);
+				console.log(vote_st);
+				if(user_email==vote_email && "P"==vote_st && isVoted) {
+					$("#btnCmp").css("display", "inline-block");
+				} else if(isEnd){
+					$("#btnCmp").css("display", "none");
+				}	
+				
+				if(isVoted && !isEnd) {
 					$("#voteDetail").html(htmlVoted);
 					$("#btnVote").attr("value", "다시 투표");
 					$("#btnVote").attr("onclick", "revote()");
-				} else {
-					$("#voteDetail").html(data.html);
+					$("#btnVote").attr("disabled", false);
+				} else if(!isVoted && !isEnd){
+					$("#voteDetail").html(html);
 					$("#btnVote").attr("value", "투표");
 					$("#btnVote").attr("onclick", "vote()");
-				}
+					$("#btnVote").attr("disabled", false);
+				} else if(isEnd) {
+					$("#voteDetail").html(htmlVoted);
+					$("#btnVote").attr("value", "투표가 종료되었습니다.");
+					$("#btnVote").attr("disabled", "true");
+				} 
 				var modalDetail = document.getElementById('voteDetailModal');
 				modalDetail.style.display = 'block';
+				
 			}
 		});
 	}
@@ -424,6 +450,7 @@ var cal = flatpickr("#end_dt", {"locale" : "ko", enableTime: true});
 				$("#voteDetail").html(data.html);
 				$("#btnVote").attr("value", "투표");
 				$("#btnVote").attr("onclick", "vote()");
+				$("#btnCmp").css("display", "none");
 			}
 		});		
 	}
@@ -559,6 +586,24 @@ var cal = flatpickr("#end_dt", {"locale" : "ko", enableTime: true});
 		var modalMdf = document.getElementById("voteMdfModal");
 		modalMdf.style.display = "none";
 	}
-	
+	function cmpVote() {
+		var serial = $("#voteDetailFrm").serialize();
+		console.log(serial);
+		var bool = confirm("투표를 완료하시겠습니까?");
+		
+		if(bool) {
+			$.ajax({
+				url: '/cmpVote',
+				type: 'post',
+				data : serial,
+				success: function() {
+					alert("투표가 완료처리 되었습니다.");
+					voteDetail();
+					var page = $("#voteFrm input[name='votelist_page']").val();
+					voteList(page);
+				}
+			});
+		}
+	}
 	
 </script>

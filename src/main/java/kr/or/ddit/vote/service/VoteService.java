@@ -63,6 +63,9 @@ public class VoteService implements IVoteService{
 		sb_voteList.append("<th class='th4'><span class='vote_user_nm'>");
 		sb_voteList.append("작성자");
 		sb_voteList.append("</span></th>");
+		sb_voteList.append("<th class='th7'><span class='vote_end'>");
+		sb_voteList.append("완료");
+		sb_voteList.append("</span></th>");
 		sb_voteList.append("<th class='th5'><span class='vote_part_yn'>");
 		sb_voteList.append("참가여부");
 		sb_voteList.append("</span></th>");
@@ -97,6 +100,13 @@ public class VoteService implements IVoteService{
 			sb_voteList.append("<td>");	// 작성자
 			sb_voteList.append("<span class='vote_user_nm'>" + vote.getUser_nm() + "</span>");
 			sb_voteList.append("</td>");
+			sb_voteList.append("<td>"); // 완료 여부
+			if("Y".equals(vote.getVote_st())) {
+				sb_voteList.append("<span class='vote_ended'>V</span>");
+			} else {
+				sb_voteList.append("<span class='vote_not_end'></span>");
+			}
+			sb_voteList.append("</td>");
 			sb_voteList.append("<td>");	// 참가여부
 			switch(vote.getVote_fl()) {
 				case 1:
@@ -119,7 +129,9 @@ public class VoteService implements IVoteService{
 					sb_voteList.append("<div class='vote_set_list'>");
 					sb_voteList.append("<dl>");
 					sb_voteList.append("<dt><input type='hidden' value='"+ vote.getVote_id()+"'></dt>");
-					sb_voteList.append("<dd><span class='vote_mdf'>수정</span></dd>");
+					if(vote.getVote_st().equals("P")) {
+						sb_voteList.append("<dd><span class='vote_mdf'>수정</span></dd>");
+					}
 					sb_voteList.append("<dd><span class='vote_del'>삭제</span></dd>");
 					sb_voteList.append("</dl>");
 					sb_voteList.append("</div>");
@@ -177,75 +189,72 @@ public class VoteService implements IVoteService{
 		VoteVo voteVo = voteDao.getVote((Integer)paramMap.get("vote_id"));
 		List<Vote_ItemVo> itemList = vote_ItemDao.itemList((Integer)paramMap.get("vote_id"));
 		List<Vote_PartVo> partList = vote_PartDao.partList((Integer)paramMap.get("vote_id"));
-		String subj = voteVo.getVote_subject();
-		subj.replaceAll("<", "&lt;");
-		subj.replaceAll(">", "&gt;");
-		voteVo.setVote_subject(subj);
 		
 		Vote_PartVo vote_PartVo = vote_PartDao.checkVote(paramMap); 
 		boolean isVoted = vote_PartVo == null ? false : true;
 		
-		String vote_content = "<h2>" +voteVo.getVote_con() + "</h2>";
+		String vote_content = "<h2>" +voteVo.getVote_con() + "</h2>" + "<table id='tblItem'>";
+		String vote_content_voted = "<h2>" +voteVo.getVote_con() + "</h2>" + "<table id='tblItemVoted'>";
 		
 		StringBuffer sb_detail = new StringBuffer(vote_content);
 		for(Vote_ItemVo item : itemList) {
-			
-			sb_detail.append("<div class='item'>");
-			sb_detail.append("<div class='item_con'>");
+			sb_detail.append("<tr class='item'>");
+			sb_detail.append("<td class='vote_item'>");
 			sb_detail.append("<span>");
 			sb_detail.append(item.getVote_item_con());
 			sb_detail.append("</span>");
-			sb_detail.append("</div>");
-			sb_detail.append("<div>");
-			sb_detail.append("<span><input type='radio' name='vote_item_id' value='"+ item.getVote_item_id()+"'/></span>");
-			sb_detail.append("</div>");
-			sb_detail.append("</div>");
+			sb_detail.append("</td>");
+			
+			sb_detail.append("<td>");
+			sb_detail.append("<span>");
+			sb_detail.append("<input type='radio' name='vote_item_id' value='"+ item.getVote_item_id()+"'/>");
+			sb_detail.append("</span>");
+			sb_detail.append("</td>");
+			sb_detail.append("</tr>");
 		}
-		
-		StringBuffer sb_detail_voted = new StringBuffer(vote_content);
+		sb_detail.append("</table>");
+		StringBuffer sb_detail_voted = new StringBuffer(vote_content_voted);
 		for(Vote_ItemVo item : itemList) {
-			if(isVoted) {
-				if(vote_PartVo.getVote_item_id() == item.getVote_item_id()) {
-					sb_detail_voted.append("<div class='item voted selected'>");
-					sb_detail_voted.append("<div class='item_con'>");
+				if(vote_PartVo!=null && vote_PartVo.getVote_item_id() == item.getVote_item_id()) {
+					sb_detail_voted.append("<tr class='item voted selected'>");
+					sb_detail_voted.append("<td class='vote_item'>");
 					sb_detail_voted.append("<span>");
 					sb_detail_voted.append(item.getVote_item_con());
 					sb_detail_voted.append("</span>");
-					sb_detail_voted.append("</div>");
-						int cnt = 0;
-						for(Vote_PartVo part : partList) {
-							if(item.getVote_item_id() == part.getVote_item_id()) {
-								cnt++;
-							}
+					sb_detail_voted.append("</td>");
+					int cnt = 0;
+					for(Vote_PartVo part : partList) {
+						if(item.getVote_item_id() == part.getVote_item_id()) {
+							cnt++;
 						}
-						sb_detail_voted.append("<div class='item_cnt'>");
-						sb_detail_voted.append("<span>");
-						sb_detail_voted.append(cnt+"명");
-						sb_detail_voted.append("</span>");
-						sb_detail_voted.append("</div>");
-					sb_detail_voted.append("</div>");
+					}
+					sb_detail_voted.append("<td class='voted selected'>");
+					sb_detail_voted.append("<span>");
+					sb_detail_voted.append(cnt+"명");
+					sb_detail_voted.append("</span>");
+					sb_detail_voted.append("</td>");
 				} else {
-					sb_detail_voted.append("<div class='item voted'>");
-					sb_detail_voted.append("<div class='item_con'>");
+					sb_detail_voted.append("<tr class='item voted'>");
+					sb_detail_voted.append("<td class='vote_item'>");
 					sb_detail_voted.append("<span>");
 					sb_detail_voted.append(item.getVote_item_con());
 					sb_detail_voted.append("</span>");
-					sb_detail_voted.append("</div>");
-						int cnt = 0;
-						for(Vote_PartVo part : partList) {
-							if(item.getVote_item_id() == part.getVote_item_id()) {
-								cnt++;
-							}
+					sb_detail_voted.append("</td>");
+					int cnt = 0;
+					for(Vote_PartVo part : partList) {
+						if(item.getVote_item_id() == part.getVote_item_id()) {
+							cnt++;
 						}
-						sb_detail_voted.append("<div class='item_cnt'>");
-						sb_detail_voted.append("<span>");
-						sb_detail_voted.append(cnt+"명");
-						sb_detail_voted.append("</span>");
-						sb_detail_voted.append("</div>");
-					sb_detail_voted.append("</div>");
+					}
+					
+					sb_detail_voted.append("<td class='voted'>");
+					sb_detail_voted.append("<span>");
+					sb_detail_voted.append(cnt+"명");
+					sb_detail_voted.append("</span>");
+					sb_detail_voted.append("</td>");
 				}
-			}
 		}
+		sb_detail_voted.append("</table>");
 		detailMap.put("html", sb_detail.toString());
 		detailMap.put("htmlVoted", sb_detail_voted.toString());
 		detailMap.put("isVoted", isVoted);
@@ -353,5 +362,9 @@ public class VoteService implements IVoteService{
 			result = true;
 		}
 		return result;
+	}
+	@Override
+	public void cmpVote(Integer vote_id) {
+		voteDao.cmpVote(vote_id);
 	}
 }

@@ -161,10 +161,8 @@ public class Board_WriteController {
 		
 		// 게시글 댓글 개수
 		int replyCnt = answerService.replyCnt(write_id);
-		// 게시글 좋아요 개수
-		int likeCnt = likeService.likeCnt(write_id);
 		
-		model.addAttribute("likeCnt",likeCnt);
+		
 		model.addAttribute("replyCnt",replyCnt);
 		model.addAttribute("replyList", replyList);
 		model.addAttribute("writeInfo", writeVo);
