@@ -255,12 +255,12 @@
 	
 	<!-- 게시글의 좋아요를 취소하면 게시글에 내가 좋아요 했다는 정보가 사라짐 -->
 	<delete id="whoLikeDown" parameterType="board_writeVo">
-		delete * from likes where write_id = #{write_id} and user_email = #{user_email}
+		delete from likes where write_id = #{write_id} and user_email = #{user_email}
 	</delete>
 	
 	<!-- 게시글 좋아요 개수 -->
-	<select id="likeCnt" parameterType="int">
-		select count(*) from board_write where write_id=#{write_id}
+	<select id="likeCnt" parameterType="int" resultType="int">
+		select like_cnt from board_write where write_id=#{write_id}
 	</select>
 	
 	<!-- 게시글에 내가 좋아요를 눌렀는지 확인 -->

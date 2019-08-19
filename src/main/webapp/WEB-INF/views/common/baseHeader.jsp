@@ -364,6 +364,12 @@ $(document).ready(function(){
 		projectAdmListAjax(hprj);
 	});
    
+	
+	$("#sch_submit").on("click",function(){
+		$("#searchFrm").submit();
+	});
+	
+	
 });
 
 $(".socketAlram").hide();
@@ -531,10 +537,12 @@ window.onclick = function(event) {
          <div class="hd_sch_wr">
             <fieldset id="hd_sch">
                <legend>사이트 내 전체검색</legend>
-               <form name="" action="" onsubmit="">
-                  <select>
-                     <option>검색옵션</option>
-                  </select> <input type="text" name="" id="" maxlength="20"
+               <form id="searchFrm" action="/project/headerSearch" method="get">
+                  <select id="headerSearch" name="headerSearch">
+                     <option value="1">업무리스트</option>
+                     <option value="2">업무명</option>
+                     <option value="3">프로젝트 멤버명</option>
+                  </select> <input type="text" name="headerSearchText" id="headerSearchText" maxlength="20"
                      placeholder="검색어를 입력해주세요">
                   <button type="submit" id="sch_submit" value="검색">검색</button>
                </form>

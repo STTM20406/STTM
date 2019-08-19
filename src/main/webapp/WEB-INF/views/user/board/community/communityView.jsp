@@ -44,7 +44,36 @@ $(document).ready(function(){
 			
 	})
 
-	$("#likeBtn").on("click",function(){
+	$("#likeBtnPush").on("click",function(){
+		
+		var write_id = $("#write_id").val();
+		var board_id = $("#board_id").val();
+		DownLikeAjax(write_id,board_id);
+		
+	})
+	
+	function DownLikeAjax(write_id, board_id){
+		$.ajax({
+			url:"/downLikeAjax",
+			method:"post",
+			contentType: "application/x-www-form-urlencoded; charset=UTF-8",  
+			data: "write_id=" + write_id + "&board_id=" + board_id,
+			success:function(data){
+				var text = data.data;
+				console.log(text);
+				var html = "";
+				html += "<label>좋아요 수 : " + data.data + "</label>";
+				html += "<input type='button' id='likeBtnNotPush' value='좋아요안누름'>";
+				$("#likeCnt").html(html);
+			}
+			
+		});
+		
+	}
+	
+	
+	
+	$("#likeBtnNotPush").on("click",function(){
 		
 		var write_id = $("#write_id").val();
 		var board_id = $("#board_id").val();
@@ -57,16 +86,24 @@ $(document).ready(function(){
 			url:"/addLikeAjax",
 			method:"post",
 			contentType: "application/x-www-form-urlencoded; charset=UTF-8",  
-			data: "write_id=" + write_id + "board_id=" + board_id,
+			data: "write_id=" + write_id + "&board_id=" + board_id,
 			success:function(data){
-				var text = data.data.cnt;
+				console.log(data.data);
+				var text = data.data;
 				console.log(text);
-				$("#likeCnt").text(text);
+				var html = "";
+				html += "<label>좋아요 수 : " + data.data + "</label>";
+				html += "<input type='button' id='likeBtnPush' value='좋아요누름'>";
+				$("#likeCnt").html(html);
 			}
 			
 		});
 		
 	}
+	
+	
+	
+	
 	
 })
 </script>
@@ -77,14 +114,15 @@ $(document).ready(function(){
 			<label>제목</label>
 			<label>${writeInfo.subject }</label>
 			<label>댓글수 : ${replyCnt }</label>
-			<label id="likeCnt">좋아요 수 : ${writeInfo.like_cnt }</label>
-			
-			<c:if test="${likeCheck == 1}">
-				<input type="button" id="likeBtn" value="좋아요누름">
-			</c:if>
-			<c:if test="${likeCheck == 0}">
-				<input type="button" id="likeBtn" value="좋아요안누름">
-			</c:if>
+			<div id="likeCnt">
+				<label>좋아요 수 : ${writeInfo.like_cnt }</label>
+				<c:if test="${likeCheck == 1}">
+					<input type="button" id="likeBtnPush" value="좋아요누름">
+				</c:if>
+				<c:if test="${likeCheck == 0}">
+					<input type="button" id="likeBtnNotPush" value="좋아요안누름">
+				</c:if>
+			</div>
 		</div>
 		<div>
 			<label>내용</label>

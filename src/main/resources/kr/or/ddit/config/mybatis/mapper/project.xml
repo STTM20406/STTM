@@ -105,6 +105,38 @@
 	<select id="maxProjectId" resultType="int">
 		select max(prj_id) from project
 	</select>
+	
+	<!-- !!!!!!!!!!1  검색 집합  !!!!!!!!1! -->
+	<!-- 업무리스트명 검색 -->
+	<select id="searchWorkList" parameterType="map" resultType="projectVo">
+		select distinct(p.prj_id), p.prj_nm, p.prj_exp, p.prj_auth,p.prj_start_dt,
+				p.prj_end_dt, p.prj_cmp_dt, p.prj_st, p.prj_update, p.del_fl
+		from work_list w, project p
+		where p.prj_id in(
+		    select p.prj_id
+		    from project p, project_mem m
+		    where p.prj_id = m.prj_id
+		    and p.del_fl = 'N'
+		    and m.user_email = #{user_email})
+		and w.prj_id = p.prj_id
+		and w.del_fl = 'N'
+		and wrk_lst_nm like '%' || #{wrk_lst_nm} || '%'
+	</select>
+	
+	<!-- 업무명 검색 -->
+	<select id="searchWorkNm" parameterType="workVo" resultType="projectVo">
+		select p.*
+		from project p, project_mem m
+		where p.prj_id = m.prj_id
+		and p.del_fl='N'
+		and m.user_email = #{user_email}
+		and m.prj_id in(
+		    select distinct(wl.prj_id)
+		    from work w, work_list wl
+		    where w.wrk_lst_id = wl.wrk_lst_id
+		    and w.wrk_del_fl = 'N'
+		    and wrk_nm like '%' || #{wrk_nm} || '%')
+	</select>
 
 	<!-- *********************project_mem******************** -->
 

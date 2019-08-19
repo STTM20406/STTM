@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import kr.or.ddit.project.model.ProjectVo;
+import kr.or.ddit.work.model.WorkVo;
+import kr.or.ddit.work_list.model.Work_ListVo;
 
 public interface IProjectDao {
 	
@@ -109,4 +111,25 @@ public interface IProjectDao {
 	 */
 	int maxProjectId();
 	
+	/**
+	 * 
+	 * Method 		: searchWorkList
+	 * 작성자 			: 유다연
+	 * 변경이력 		: 2019-08-19 최초 생성
+	 * @param vo
+	 * @return
+	 * Method 설명 	: 업무리스트명 검색
+	 */
+	List<ProjectVo> searchWorkList(Map<String, Object> map);
+	
+	/**
+	 * 
+	 * Method 		: searchWorkNm
+	 * 작성자 			: 유다연
+	 * 변경이력 		: 2019-08-19 최초 생성
+	 * @param vo
+	 * @return
+	 * Method 설명 	: 업무명 검색
+	 */
+	List<ProjectVo> searchWorkNm(WorkVo vo);
 }
