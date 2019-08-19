@@ -876,12 +876,12 @@
 			</dl>
 		</div>
 		
-		<!-- 여기서부터 work comment -->
+		<!--  여기서부터 work comment -->
 		<div id="tab2" class="tab_content">
 			여기는 업무 코멘트 입니다.
 		</div>
 		
-		<!-- 여기서부터 work file&link -->
+		<!--  여기서부터 work file&link-->
 		<div id="tab3" class="tab_content">
 			여기는 업무 파일 링크 입니다.
 		</div>
