@@ -382,7 +382,6 @@ public class Work_ListController {
 	@RequestMapping("/completeCheckAjax")
 	public @ResponseBody HashMap<String, Object> completeCheckAjax(String wrk_id, String wrk_cmp_fl, HttpSession session) {
 		
-		logger.debug("여기까지 오냐 log");
 		//세션에 저장된 프로젝트 정보를 가져옴
 		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
 		int prj_id = projectVo.getPrj_id();
@@ -392,14 +391,12 @@ public class Work_ListController {
 		workVo.setWrk_id(wrkID);
 		workVo.setWrk_cmp_fl(wrk_cmp_fl);
 		int updateCnt = workService.updateWorkCmp(workVo);
-		logger.debug("여기까지 들어오니 log updateCnt :::::::::: {}", updateCnt);
 		List<Work_ListVo> workList = workListService.workList(prj_id);
 		
 		HashMap<String, Object> hashmap = new HashMap<String, Object>();
 		List<WorkVo> work = new ArrayList<WorkVo>();
 		List<WorkVo> works = new ArrayList<WorkVo>();
 		
-		logger.debug("중간까지 여기까지 들어오니 log");
 		/*
 			해당 업무리스트에서 업무리스트 ID 가져서와 업무테이블의
 			테이블의 업무리스트 ID 매칭하여 해당 업무 가져오기
@@ -414,7 +411,6 @@ public class Work_ListController {
 		}
 		
 		if(updateCnt != 0) {
-			logger.debug("여기까지 들어오니 log");
 			hashmap.put("workList", workList);
 			hashmap.put("works", works);
 		}

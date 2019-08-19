@@ -440,6 +440,8 @@
 			
 			//업무 아이디를 변수에 담음
 			var wrk_id = $(this).parent().attr("data-wrkid");
+			$("#wps_wrk_id").val(wrk_id);
+			
 			propertyWorkSetAjax(wrk_id);
 		});
 		
@@ -593,6 +595,71 @@
 				}
 			});
 		}
+		
+		
+		
+		/* 여기서부터 업무 셋팅 업데이트를 위한 이벤트 핸들러 입니다. */
+		$("#propertySet input, select").on("change", function(){
+			
+			//프로젝트 셋팅 값 가져오기
+			var id = $("#wps_id").val();
+			var name = $("#wps_nm").val();
+			var auth = $("#ppt_asc").val();
+			var date = $("#wps_start_date").val();
+			var wrk_gd = $("#wrk_gd").val();
+			var wrk_color = $("input[name='wrk_color_cd']:checked").val();
+			
+			console.log(name);
+			console.log(id);
+			console.log(wrk_gd);
+			console.log(wrk_color);
+			
+			
+// 			//프로젝트 이름이 없으면 return false
+// 			if(!name){
+// 				return false;
+// 			}
+			
+// 			//프로젝트 종료일을 시작일 보다 작을 수 없음.
+// 		        var startDateArr = start_date.split('-');
+// 		        var endDateArr = end_date.split('-');
+		        
+// 		        var startDateCompare = new Date(startDateArr[0], parseInt(startDateArr[1])-1, startDateArr[2]);
+// 		        var endDateCompare = new Date(endDateArr[0], parseInt(endDateArr[1])-1, endDateArr[2]);
+		         
+// 		        if(startDateCompare.getTime() > endDateCompare.getTime()) {
+// 		        	$(".ctxt").text("프로젝트 마감일은 시작일 이전이여야 합니다. 다시 선택해 주세요.");
+// 		        	layer_popup("#layer2");
+// 		            return false;
+// 		        }
+			
+// 			var projectSet = {
+// 							  id : id
+// 						  	, name : name
+// 						  	, exp : exp
+// 						 	, auth : auth
+// 						  	, status : status
+// 						  	, start_date : start_date
+// 						  	, end_date : end_date
+// 						  	, cmp_date : cmp_date
+// 			}
+			
+// 			propertySetItemAjax(projectSet);
+		});
+		
+		//레이블 색상 선택 (라디오버튼 선택 / 선택해제)
+		var beforeChecked = -1;
+			$(function(){
+		      		$(".lableColor").on("click", "input[type=radio]", function(e) {
+		         		var index = $(this).prev().index("label");
+		         		if(beforeChecked == index) {
+		         		beforeChecked = -1;
+		         		$(this).prop("checked", false);
+		         	}else{
+		         		beforeChecked = index;
+		         	}
+		      	});
+		 });
 		
 	});
 </script>
@@ -855,21 +922,52 @@
 					</div>
 				</dd>
 			</dl>
+			
 			<dl class="setItem">
 				<dt>라벨 색상</dt>
 				<dd>
 					<div class="lableColor">
 						<ul>
-							<li>1</li>
-							<li>2</li>
-							<li>3</li>
-							<li>4</li>
-							<li>5</li>
-							<li>6</li>
-							<li>7</li>
-							<li>8</li>
-							<li>9</li>
-							<li>10</li>
+							<li>
+								<label for="wrk_color01" class="wrk_color wrk_color01"></label>
+								<input type="radio" value="CR01" name="wrk_color_cd" id="wrk_color01">
+							</li>
+							<li>
+								<label for="wrk_color02" class="wrk_color wrk_color02"></label>
+								<input type="radio" value="CR02" name="wrk_color_cd" id="wrk_color02">
+							</li>
+							<li>
+								<label for="wrk_color03" class="wrk_color wrk_color03"></label>
+								<input type="radio" value="CR03" name="wrk_color_cd" id="wrk_color03">
+							</li>
+							<li>
+								<label for="wrk_color04" class="wrk_color wrk_color04"></label>
+								<input type="radio" value="CR04" name="wrk_color_cd" id="wrk_color04">
+							</li>
+							<li>
+								<label for="wrk_color05" class="wrk_color wrk_color05"></label>
+								<input type="radio" value="CR05" name="wrk_color_cd" id="wrk_color05">
+							</li>
+							<li>
+								<label for="wrk_color06" class="wrk_color wrk_color06"></label>
+								<input type="radio" value="CR06" name="wrk_color_cd" id="wrk_color06">
+							</li>
+							<li>
+								<label for="wrk_color07" class="wrk_color wrk_color07"></label>
+								<input type="radio" value="CR07" name="wrk_color_cd" id="wrk_color07">
+							</li>
+							<li>
+								<label for="wrk_color08" class="wrk_color wrk_color08"></label>
+								<input type="radio" value="CR08" name="wrk_color_cd" id="wrk_color08">
+							</li>
+							<li>
+								<label for="wrk_color09" class="wrk_color wrk_color09"></label>
+								<input type="radio" value="CR09" name="wrk_color_cd" id="wrk_color09">
+							</li>
+							<li>
+								<label for="wrk_color10" class="wrk_color wrk_color10"></label>
+								<input type="radio" value="CR10" name="wrk_color_cd" id="wrk_color10">
+							</li>
 						</ul>
 					</div>
 				</dd>

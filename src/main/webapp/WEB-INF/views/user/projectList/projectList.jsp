@@ -26,7 +26,7 @@
 		$(".my_project_list").on("click", ".prj_item_st input", function(){
 			
 			var prj_st = $(this).val().trim();					//프로젝트 상태값
-			var prj_id_text = $(this).attr("id").split("_");	//프로젝트 아이디 뽑아오기
+			var prj_id_text = $(this).attr("id").split("_");			//프로젝트 아이디 뽑아오기
 			var prj_id = prj_id_text[2].trim();					//프로젝트 아이디 prj_id에 저장
 	
 			//ajax 호출
