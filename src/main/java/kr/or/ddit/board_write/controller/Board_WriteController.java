@@ -1,5 +1,6 @@
 package kr.or.ddit.board_write.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.or.ddit.bd_inquiry.model.Bd_InquiryVo;
 import kr.or.ddit.board_answer.model.Board_AnswerVo;
@@ -80,6 +82,45 @@ public class Board_WriteController {
 		model.addAttribute("pageVo", pageVo);
 		
 		return "/board/community/communityList.user.tiles";
+	}
+	
+	@RequestMapping("/communityAjax")
+	public @ResponseBody Map<String, Object> boardPostListAjax(Model model,String page, String pageSize,String board_id,HttpSession session) {
+		logger.debug("!@# communityAjax@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+		logger.debug("!@# board_id : {}",board_id);
+		logger.debug("!@# page : {}",page);
+		logger.debug("!@# pageSize : {}",pageSize);
+		
+		int board_idNm = Integer.parseInt(board_id);
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		int pageStr = page == null ? 1 : Integer.parseInt(page);
+		int pageSizeStr =  pageSize == null ? 10 : Integer.parseInt(pageSize);
+		
+		PageVo pageVo = new PageVo(pageStr,pageSizeStr);
+		pageVo.setBoard_id(board_idNm);
+		pageVo.setUser_email(userVo.getUser_email());
+		Map<String, Object> resultMap =  writeService.boardPostList(pageVo);
+		
+		List<Board_WriteVo> boardList = (List<Board_WriteVo>) resultMap.get("boardPostList");
+		logger.debug("!@# boardListAjax : {}",boardList);
+		
+		int paginationSize = (Integer) resultMap.get("paginationSize");
+		
+		//나의 게시판 리스트
+		Map<String, Object> myResultMap =  writeService.myBoardPostList(pageVo);
+		List<Board_WriteVo> myBoardList = (List<Board_WriteVo>) myResultMap.get("myBoardPostList");
+		int myaginationSize = (Integer) myResultMap.get("myPaginationSize");
+		
+		Map<String, Object> resultMap2 = new HashMap<String, Object>();
+		
+		resultMap2.put("board_id",board_id);
+		resultMap2.put("paginationSize",paginationSize);
+		resultMap2.put("boardList", boardList);
+		resultMap2.put("myaginationSize",myaginationSize);
+		resultMap2.put("myBoardList", myBoardList);
+		resultMap2.put("pageVo", pageVo);
+		
+		return resultMap2;
 	}
 	
 	

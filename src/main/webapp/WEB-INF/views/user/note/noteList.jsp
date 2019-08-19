@@ -480,7 +480,7 @@ ul.tabs li.current {
 								<th>내용</th>
 								<th>받은 날짜</th>
 								<th>쪽지 읽음 여부</th>
-						<thead>
+						</thead>
 						<tbody id="publicList">
 								<c:forEach items="${rcvList }" var="rcv">
 											<tr class="rcvTr" >
