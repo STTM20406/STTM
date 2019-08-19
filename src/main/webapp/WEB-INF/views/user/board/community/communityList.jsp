@@ -59,12 +59,12 @@ ul.tabs li.current {
 			$("#" + tab_id).addClass('current');
 		});
 		
-		$(".sub_menu").on("click", "#rcvNoteList",function(){
+		$(".sub_menu").on("click", "#tab-1",function(){
 			alert("rcvNoteList입니다.");
-			rcvNoteListPagination(1, 10);
+			CommunityListPagination(1, 10);
 		})
 		
-		$(".sub_menu").on("click", "#sendNoteList",function(){
+		$(".sub_menu").on("click", "#tab-2",function(){
 			alert("sendNoteList입니다.");
 			sendNoteListPagination(1, 10);
 		})
@@ -74,9 +74,22 @@ ul.tabs li.current {
 		
 		});
 		
-		
-		
 	})
+	
+	function CommunityListPagination(page,pageSize){
+		$.ajax({
+				url:"",
+				method:"",
+				data: ,
+				success : function(data){
+					
+				}
+		
+			})	
+	}
+		
+		
+	
 </script>
 
 

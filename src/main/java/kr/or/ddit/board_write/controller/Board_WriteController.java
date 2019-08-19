@@ -49,7 +49,7 @@ public class Board_WriteController {
 	 * @return
 	 * Method 설명 	: 게시판 게시글 페이징리스트
 	 */
-	@RequestMapping(path = "/community",method=RequestMethod.GET)
+	@RequestMapping("/community")
 	public String boardPostList(Model model,String page, String pageSize,int board_id,HttpSession session) {
 		
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
@@ -81,6 +81,9 @@ public class Board_WriteController {
 		
 		return "/board/community/communityList.user.tiles";
 	}
+	
+	
+	
 	
 	/**
 	 * Method 		: boardWrite
