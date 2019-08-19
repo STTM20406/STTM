@@ -53,6 +53,7 @@ public interface IProject_MemService {
 	 */
 	List<Project_MemVo> getMyProjectMemList(String user_email);
 	
+	List<Project_MemVo> getMyProjectMemList(int prj_id);
 	
 	/**
 	 * 
