@@ -159,10 +159,16 @@ public class Board_WriteController {
 		// 게시글 댓글 개수
 		int replyCnt = answerService.replyCnt(write_id);
 		
+		//게시글 좋아요 눌렀나 확인
+		Board_WriteVo likeChVo = new Board_WriteVo();
+		likeChVo.setUser_email(userVo.getUser_email());
+		likeChVo.setWrite_id(write_id);
+		int likeCheck = likeService.likePushCheck(likeChVo);
 		
 		model.addAttribute("replyCnt",replyCnt);
 		model.addAttribute("replyList", replyList);
 		model.addAttribute("writeInfo", writeVo);
+		model.addAttribute("likeCheck",likeCheck);
 		
 		return "/board/community/communityView.user.tiles";
 	}

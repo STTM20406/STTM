@@ -234,22 +234,42 @@
 	</select>
 	
 	<!-- 게시글 좋아요 증가 -->	
-	<update id="likeAdd" parameterType="int">
+	<update id="likeAdd" parameterType="board_writeVo">
 		update board_write
 		set like_cnt = like_cnt + 1
 		where write_id= #{write_id}
 	</update>
 	
+	<!-- 게시글의 좋아요를 내가 눌렀다는 정보가 들어감  -->
+	<insert id="whoLikeAdd" parameterType="board_writeVo">
+		insert into likes values(board_likes_seq.nextval,#{board_id},#{write_id},#{user_email})
+	</insert>
+	
+	
 	<!-- 게시글 좋아요 감소 -->
-	<update id="likeDown" parameterType="int">
+	<update id="likeDown" parameterType="board_writeVo">
 		update board_write
 		set like_cnt = like_cnt - 1
 		where write_id= #{write_id}
 	</update>
 	
+	<!-- 게시글의 좋아요를 취소하면 게시글에 내가 좋아요 했다는 정보가 사라짐 -->
+	<delete id="whoLikeDown" parameterType="board_writeVo">
+		delete * from likes where write_id = #{write_id} and user_email = #{user_email}
+	</delete>
+	
 	<!-- 게시글 좋아요 개수 -->
 	<select id="likeCnt" parameterType="int">
 		select count(*) from board_write where write_id=#{write_id}
 	</select>
+	
+	<!-- 게시글에 내가 좋아요를 눌렀는지 확인 -->
+	<select id="likePushCheck" parameterType="board_writeVo" resultType="int">
+		select count(*)
+		from likes
+		where user_email = #{user_email}
+		and write_id = #{write_id}
+	</select>
+	
 	
 </mapper>

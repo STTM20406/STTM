@@ -38,27 +38,42 @@ public class LikesService implements ILikesService{
 		int result = likeDao.likeCheck(resultMap);
 		
 		if(result == 0) {
-			res = likeDao.likeAdd(writeVo.getWrite_id());
+			//res = likeDao.likeAdd(writeVo.getWrite_id());
 		}else {
-			res = likeDao.likeDown(writeVo.getWrite_id());
+			//res = likeDao.likeDown(writeVo.getWrite_id());
 		}
 		
 		return res;
 	}
 
 	@Override
-	public int likeAdd(int write_id) {
-		return likeDao.likeAdd(write_id);
+	public int likeAdd(Board_WriteVo vo) {
+		return likeDao.likeAdd(vo);
 	}
 
 	@Override
-	public int likeDown(int write_id) {
-		return likeDao.likeDown(write_id);
+	public int likeDown(Board_WriteVo vo) {
+		return likeDao.likeDown(vo);
 	}
 
 	@Override
 	public int likeCnt(int write_id) {
 		return likeDao.likeCnt(write_id);
+	}
+
+	@Override
+	public int whoLikeAdd(Board_WriteVo vo) {
+		return likeDao.whoLikeAdd(vo);
+	}
+
+	@Override
+	public int whoLikeDown(Board_WriteVo vo) {
+		return likeDao.whoLikeDown(vo);
+	}
+
+	@Override
+	public int likePushCheck(Board_WriteVo vo) {
+		return likeDao.likePushCheck(vo);
 	}
 
 }
