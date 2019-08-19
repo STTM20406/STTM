@@ -52,7 +52,11 @@
 		     ,  A.VOTE_SUBJECT
 		     ,  A.VOTE_CON
 		     ,  A.VOTE_ANO
-		     ,  A.VOTE_ST
+		     ,  (CASE 
+		     		WHEN A.VOTE_ST = 'Y' THEN 'Y'
+		     		WHEN A.VOTE_END_DATE < SYSDATE THEN 'Y'
+		     		ELSE 'P'
+		     	END) VOTE_ST
 		     ,  A.VOTE_DEL_FL
 		     ,	B.USER_NM
 		     ,  (SELECT COUNT(*) FROM VOTE_PART B WHERE A.VOTE_ID = B.VOTE_ID AND B.USER_EMAIL = #{user_email}) VOTE_FL
@@ -68,9 +72,22 @@
 	</select>
 	
 	<select id="getVote" parameterType="Integer" resultType="voteVo">
-		SELECT	*
-		FROM	VOTE
-		WHERE	VOTE_ID = #{vote_id}
+		SELECT	A.VOTE_ID
+		     ,  A.PRJ_ID
+		     ,  A.VOTE_EMAIL
+		     ,  A.VOTE_START_DATE
+		     ,  A.VOTE_END_DATE
+		     ,  A.VOTE_SUBJECT
+		     ,  A.VOTE_CON
+		     ,  A.VOTE_ANO
+		     ,  (CASE 
+		     		WHEN A.VOTE_ST = 'Y' THEN 'Y'
+		     		WHEN A.VOTE_END_DATE &lt; SYSDATE THEN 'Y'
+		     		ELSE 'P'
+		     	END) VOTE_ST
+		     ,  A.VOTE_DEL_FL
+		FROM	VOTE A
+		WHERE	A.VOTE_ID = #{vote_id}
 	</select>
 	
 	<update id="deleteVote" parameterType="Integer">
@@ -94,6 +111,12 @@
 				VOTE_CON = #{vote_con,jdbcType=VARCHAR},
 				VOTE_ANO = #{vote_ano,jdbcType=VARCHAR},
 				VOTE_ST = #{vote_st}
+		WHERE	VOTE_ID = #{vote_id}
+	</update>
+	
+	<update id="cmpVote" parameterType="Integer">
+		UPDATE	VOTE
+		SET		VOTE_ST = 'Y'
 		WHERE	VOTE_ID = #{vote_id}
 	</update>
 	<!-- **************** vote_item ******************** -->

@@ -16,18 +16,16 @@
 <script src="./demos/menu.js"></script>
 </head>
 <body>
-<style>
+	<style>
 #screen-viewer {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 9999999999999;
-    display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 9999999999999;
+	display: none;
 }
-	
-	
 </style>
 	<section>
 		<div id="faceChatArea"
@@ -48,21 +46,62 @@
 				<button id="unmute">음소거</button>
 				<div id="screen-container" style="margin: 20px 0;"></div>
 			</div>
-			<div
+			<!-- <div
 				style="margin-top: 20px; position: absolute; bottom: 0; background: white; padding-bottom: 20px; width: 94%">
-				<input type="text" value="#{USER_INFO.user_nm}">
-				<input type="text" id="input-text-chat" placeholder="Enter Text Chat" disabled>
-                <button id="share-file" disabled>Share File</button>
+				<input type="text" value="#{USER_INFO.user_nm}"> <input
+					type="text" id="input-text-chat" placeholder="Enter Text Chat"
+					disabled>
+				
 				<div id="chat-container">
-                <div id="file-container"></div>
-                <div class="chat-output"></div>
-            </div>
+					<div id="file-container"></div>
+					<div class="chat-output"></div>
+				</div>
+			</div> -->
+
+			<div class="chat_room">
+				<div class="chat_room_hd">
+					<div class="mesgs">
+						<div class="msg_history" id="chatData">
+							<div class="incoming_msg">
+								<div class="received_msg">
+									<div class="received_withd_msg">
+										<p></p>
+										<p></p>
+									</div>
+								</div>
+							</div>
+
+							<div class="outgoing_msg">
+								<div class="chat-output">
+									<div id="file-container"></div>
+									<!-- <div class="chat-output"></div> -->
+								</div>
+							</div>
+
+
+						</div>
+						<div class="type_msg">
+							<div class="type_msg">
+								<div class="input_msg_write">
+									<input type="text" id="input-text-chat" name="msg" class="write_msg"
+										placeholder="Type a message" />
+									<button class="msg_send_btn" id="buttonMessage" type="button">
+										<i class="fa fa-paper-plane-o" aria-hidden="true"></i>
+									</button>
+									<button id="share-file" disabled>Share File</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
+
+
 		</div>
 
-		
+
 		<div id="screen-viewer"></div>
-		
+
 		<div id="room-urls"
 			style="text-align: center; display: none; background: #F1EDED; margin: 15px -10px; border: 1px solid rgb(189, 189, 189); border-left: 0; border-right: 0;"></div>
 	</section>
@@ -78,10 +117,13 @@
 	<link rel="stylesheet" href="./dev/getHTMLMediaElement.css">
 	<script src="http://192.168.219.102:9001/dev/getHTMLMediaElement.js"></script>
 	<script src="http://192.168.219.102:9001/dist/RTCMultiConnection.js"></script>
-	<script src="http://192.168.219.102:9001/dist/RTCMultiConnection.min.js"></script>
+	<script
+		src="http://192.168.219.102:9001/dist/RTCMultiConnection.min.js"></script>
 	<script src="http://192.168.219.102:9001/socket.io/socket.io.js"></script>
-	<script src="http://192.168.219.102:9001/node_modules/webrtc-adapter/out/adapter.js"></script>
-	<script src="http://192.168.219.102:9001/node_modules/fbr/FileBufferReader.js"></script>
+	<script
+		src="http://192.168.219.102:9001/node_modules/webrtc-adapter/out/adapter.js"></script>
+	<script
+		src="http://192.168.219.102:9001/node_modules/fbr/FileBufferReader.js"></script>
 	<script>
 		// ......................................................
 		// .......................UI Code........................
@@ -131,49 +173,51 @@
 
 							});
 		};
-		
+
 		//음소거 하기
 		document.getElementById('unmute').onclick = function() {
 			connection.streams[window.connection].unmute({
-				audio: true,
-				video: true
+				audio : true,
+				video : true
 			});
-		
+
 		};
 		// ......................................................
-            // ................FileSharing/TextChat Code.............
-            // ......................................................
+		// ................FileSharing/TextChat Code.............
+		// ......................................................
 
-            document.getElementById('share-file').onclick = function() {
-                var fileSelector = new FileSelector();
-                fileSelector.selectSingleFile(function(file) {
-                    connection.send(file);
-                });
-            };
+		document.getElementById('share-file').onclick = function() {
+			var fileSelector = new FileSelector();
+			fileSelector.selectSingleFile(function(file) {
+				connection.send(file);
+			});
+		};
 
-            document.getElementById('input-text-chat').onkeyup = function(e) {
-                if (e.keyCode != 13) return;
+		document.getElementById('input-text-chat').onkeyup = function(e) {
+			if (e.keyCode != 13)
+				return;
 
-                // removing trailing/leading whitespace
-                this.value = this.value.replace(/^\s+|\s+$/g, '');
-                if (!this.value.length) return;
+			// removing trailing/leading whitespace
+			this.value = this.value.replace(/^\s+|\s+$/g, '');
+			if (!this.value.length)
+				return;
 
-                connection.send(this.value);
-                appendDIV(this.value);
-                this.value = '';
-            };
+			connection.send(this.value);
+			appendDIV(this.value);
+			this.value = '';
+		};
 
-            var chatContainer = document.querySelector('.chat-output');
+		var chatContainer = document.querySelector('.chat-output');
 
-            function appendDIV(event) {
-                var div = document.createElement('div');
-                div.innerHTML = event.data || event;
-                chatContainer.insertBefore(div, chatContainer.firstChild);
-                div.tabIndex = 0;
-                div.focus();
+		function appendDIV(event) {
+			var div = document.createElement('div');
+			div.innerHTML = event.data || event;
+			chatContainer.insertBefore(div, chatContainer.firstChild);
+			div.tabIndex = 0;
+			div.focus();
 
-                document.getElementById('input-text-chat').focus();
-            }
+			document.getElementById('input-text-chat').focus();
+		}
 
 		// ......................................................
 		// ..................RTCMultiConnection Code.............
@@ -182,8 +226,8 @@
 		var connection = new RTCMultiConnection();
 
 		// by default, socket.io server is assumed to be deployed on your own URL
-// 		connection.socketURL = 'http://192.168.0.62:9001/';
- 		connection.socketURL = 'http://192.168.219.102:9001/';
+		// 		connection.socketURL = 'http://192.168.0.62:9001/';
+		connection.socketURL = 'http://192.168.219.102:9001/';
 
 		// comment-out below line if you do not have your own socket.io server
 		// connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
@@ -193,7 +237,7 @@
 		connection.session = {
 			audio : true,
 			video : true,
-			data: true
+			data : true
 		};
 
 		connection.sdpConstraints.mandatory = {
@@ -201,7 +245,6 @@
 			OfferToReceiveVideo : true
 		};
 
-		
 		// https://www.rtcmulticonnection.org/docs/iceServers/
 		// use your own TURN-server here!
 		connection.iceServers = [ {
@@ -218,7 +261,7 @@
 			document.getElementById('share-file').disabled = false;
 			document.getElementById('input-text-chat').disabled = false;
 		};
-		
+
 		connection.videosContainer = document
 				.getElementById('videos-container');
 		connection.onstream = function(event) {
@@ -409,7 +452,6 @@
 				});
 			})();
 
-			
 		}
 
 		// detect 2G
@@ -438,7 +480,7 @@
 								if (isRoomOpened === true) {
 
 								} else {
-									
+
 									if (error === 'Room not available') {
 										alert('Someone already created this room. Please either join or create a separate room.');
 										return;
@@ -467,8 +509,8 @@
 		var connection1 = new RTCMultiConnection();
 
 		// by default, socket.io server is assumed to be deployed on your own URL
- 		connection1.socketURL = 'http://192.168.219.102:9001/';
-// 		connection1.socketURL = 'http://192.168.0.62:9001/';
+		connection1.socketURL = 'http://192.168.219.102:9001/';
+		// 		connection1.socketURL = 'http://192.168.0.62:9001/';
 
 		// comment-out below line if you do not have your own socket.io server
 		// connection1.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
@@ -533,7 +575,7 @@
 				buttons : [ 'full-screen' ],
 				width : 450,
 				height : 200,
-	
+
 				showOnMouseEnter : false
 			});
 
@@ -634,7 +676,6 @@
 				});
 			})();
 
-			
 		}
 	</script>
 

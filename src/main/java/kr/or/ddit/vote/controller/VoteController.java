@@ -171,4 +171,13 @@ public class VoteController {
 		logger.debug("result : {}", result);
 		return result;
 	}
+	
+	@RequestMapping(path="/cmpVote", method=RequestMethod.POST)
+	@ResponseBody
+	public void cmpVote(VoteVo voteVo, Integer vote_id_int) {
+		Integer vote_id = voteVo.getVote_id();
+		logger.debug("vote_id : {}", vote_id);
+		logger.debug("vote_id_int : {}", vote_id_int);
+		voteService.cmpVote(vote_id);
+	}
 }

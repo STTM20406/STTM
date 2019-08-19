@@ -42,8 +42,30 @@ $(document).ready(function(){
 			$("#frm").attr("method","POST");
 			$("#frm").submit();
 			
-		})
+	})
 
+	$("#likeBtn").on("click",function(){
+		
+		var write_id = $("#write_id").val();
+		AddlikeAjax(write_id);
+		
+	})
+	
+	function AddlikeAjax(write_id){
+		$.ajax({
+			url:"/addLikeAjax",
+			method:"post",
+			contentType: "application/x-www-form-urlencoded; charset=UTF-8",  
+			data: "write_id=" + write_id ,
+			success:function(data){
+				var text = data.data.cnt;
+				console.log(text);
+				$("#likeCnt").text(text);
+			}
+			
+		});
+		
+	}
 	
 })
 </script>
@@ -54,7 +76,7 @@ $(document).ready(function(){
 			<label>제목</label>
 			<label>${writeInfo.subject }</label>
 			<label>댓글수 : ${replyCnt }</label>
-			<label>좋아요 수 : ${likeCnt }</label>
+			<label id="likeCnt">좋아요 수 : ${writeInfo.like_cnt }</label>
 			
 			<input type="button" id="likeBtn" value="좋아요">
 			<input type="hidden" id="clickLike">

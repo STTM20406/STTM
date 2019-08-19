@@ -59,14 +59,18 @@ ul.tabs li.current {
 			$("#" + tab_id).addClass('current');
 		});
 		
-		$(".sub_menu").on("click", "#rcvNoteList",function(){
-			alert("rcvNoteList입니다.");
-			rcvNoteListPagination(1, 10);
+		$(".sub_menu").on("click", "#postList",function(){
+			var board_id = $("#boardnum02").val();
+			console.log(board_id);
+			alert("게시글List입니다.");
+			CommunityListPagination(board_id,1, 10);
 		})
 		
-		$(".sub_menu").on("click", "#sendNoteList",function(){
-			alert("sendNoteList입니다.");
-			sendNoteListPagination(1, 10);
+		$(".sub_menu").on("click", "#myPostList",function(){
+			var board_id = $("#boardnum02").val();
+			console.log(board_id);
+			alert("내가 작성한 게시글List입니다.");
+// 			sendNoteListPagination(1, 10);
 		})
 
 		$("#searchBtn").on("click", function() {
@@ -74,9 +78,75 @@ ul.tabs li.current {
 		
 		});
 		
-		
-		
 	})
+	
+	function CommunityListPagination(board_id,page,pageSize){
+		$.ajax({
+				url:"/communityAjax",
+				method:"get",
+				data:"board_id=" + board_id + "&page="+page+"&pageSize="+pageSize ,
+				success : function(data){
+					console.log("lllllllllllllllll")
+					console.log(data);
+					//사용자 리스트
+					var hhtml = "";
+					var html = "";
+					
+					//hhtml생성
+					hhtml += "<tr>";
+					hhtml += "<th>번호</th>";
+					hhtml += "<th>제목</th>";
+					hhtml += "<th>작성자</th>";
+					hhtml += "<th>작성일</th>";
+					hhtml += "<th>댓글</th>";
+					hhtml += "<th>좋아요</th>";
+					hhtml += "<th>조회수</th>";
+					hhtml += "</tr>";
+					
+					data.boardList.forEach(function(board, index){
+							//html생성
+							html += "<tr class='boardTr' >";
+							html += "<td class='boardNum' style= 'display:none;''>"+ board.write_id + "</td>";
+							html += "<td>"+ board.rn + "</td>";
+							html += "<td>"+board.subject+"</td>";	
+							html += "<td>"+ board.user_email + "</td>";
+							html += "<td>"+board.writedate+"</td>";
+							html += "<td>댓글수 들어갈거야</td>";
+							html += "<td>"+board.like_cnt+"</td>";
+							html += "<td>"+board.view_cnt+"</td>";
+							html += "</tr>";
+					});
+					var pHtml = "";
+					var pageVo = data.pageVo;
+					console.log(data);
+					console.log(pageVo);
+					
+					if(pageVo.page==1)
+						pHtml += "<li class='disabled'><span>«<span></li>";
+					else
+						pHtml += "<li><a onclick='paginationSize("+(pageVo.page-1)+", "+pageVo.pageSize+");' href='javascript:void(0);'>«</a></li>";
+					
+					for(var i =1; i <=data.paginationSize; i++){
+						if(pageVo.page==i)
+							pHtml += "<li class='active'><span>" + i + "</span></li>";
+						else
+							pHtml += "<li><a href='javascript:void(0);' onclick='paginationSize("+ i + ", " + pageVo.pageSize+");'>"+i+"</a></li>";
+					}
+					if(pageVo.page == data.paginationSize)
+						pHtml += "<li class='disabled'><span>»<span></li>";
+					else
+						pHtml += "<li><a href='javascript:void(0);' onclick='paginationSize("+(pageVo.page+1)+", "+pageVo.pageSize+");'>»</a></li>";
+					
+					$(".pagination").html(pHtml);
+					$("#publicHeader").html(hhtml);
+					$("#publicList").html(html);
+				}
+		
+			})	
+	}
+		
+		
+	
 </script>
 
 
@@ -85,15 +155,15 @@ ul.tabs li.current {
 
 		<div class="sub_menu">
 			<ul class="tabs">
-				<li id="tab-1">게시글</li>
-				<li id="tab-2">내가 작성한 글</li>
+				<li id="postList">게시글</li>
+				<li id="myPostList">내가 작성한 글</li>
 			</ul>
 		</div>
 
 		<div class="tab_con">
 			<div id="tab-1" class="tab-content current">
 			<form id="searchFrm" action="/boardSearch" method="post">
-			<input type="hidden" name="boardnum02" id="boardnum02" value="${board_id }"> 
+			<input type="text" name="boardnum02" id="boardnum02" value="${board_id }"> 
 				<div class="searchBox">
                   <div class="tb_sch_wr">
                      <fieldset id="hd_sch">
@@ -111,7 +181,7 @@ ul.tabs li.current {
 				<input type="hidden" name="boardnum" id="boardnum" value="${board_id }"> 
 					<input type="hidden" id="write_id" name="write_id" value="" />
 					<table class="tb_style_01">
-						<tbody>
+						<thead id="publicHeader">
 							<tr>
 								<th>번호</th>
 								<th>제목</th>
@@ -121,9 +191,9 @@ ul.tabs li.current {
 								<th>좋아요</th>
 								<th>조회수</th>
 							</tr>
+						</thead>
+						<tbody id="publicList">
 							<c:forEach items="${boardList }" var="board">
-								<c:choose>
-									<c:when test="${board.del_yn == 'N' }">
 										<tr class="boardTr"> 
 											<td class="boardNum" style= "display:none;">${board.write_id }</td>
 											<td>${board.rn }</td>
@@ -134,8 +204,6 @@ ul.tabs li.current {
 											<td>${board.like_cnt }</td>
 											<td>${board.view_cnt }</td>
 										</tr>
-									</c:when>
-								</c:choose>
 							</c:forEach>
 						</tbody>
 					</table>
@@ -200,7 +268,7 @@ ul.tabs li.current {
                 </form>
 					<form id="frm02">
 					<table class="tb_style_01">
-						<tbody>
+						<thead id="publicHeader">
 							<tr>
 								<th>번호</th>
 								<th>제목</th>
@@ -210,6 +278,8 @@ ul.tabs li.current {
 								<th>좋아요</th>
 								<th>조회수</th>
 							</tr>
+							</thead>
+							<tbody id="publicList">
 							<c:forEach items="${myBoardList }" var="myboard">
 								<tr class="boardTr">
 									<td class="boardNum" style="display:none;">${myboard.write_id }</td>
