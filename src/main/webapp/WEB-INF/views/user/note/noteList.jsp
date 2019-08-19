@@ -67,12 +67,20 @@ ul.tabs li.current {
 			var con = $(this).text();
 			var date = $(this).siblings('#rcvDate').text();
 			
+			var note_id = $(this).siblings("#note_id").text();
+			
+			console.log(note_id);
+			
 			console.log(aTag);
 			
 			$("#lbEmail").text(email);
 			$("#smarteditor").val(con);
 			$("#lbDate").text(date);
 			$("#rcvEmaildInput").val(email);
+			
+			rcvNoteUpdateListPagination(note_id,1, 10);
+			
+			
 			layer_popupup(aTag);
 		})
 		
@@ -88,6 +96,9 @@ ul.tabs li.current {
 			$("#lbEmail02").text(email);
 			$("#smarteditor02").val(con);
 			$("#lbDate02").text(date);
+			
+			
+			
 			layer_popupup(aTag);
 		})
 		
@@ -135,6 +146,7 @@ ul.tabs li.current {
 							//html생성
 							html += "<tr class='rcvTr' >";
 							html += "<td class='sendEmail' id='sendEmail'>"+ rcv.send_email + "</td>";
+							html += "<td style='display:none;' id='note_id'>"+rcv.note_con_id +"</td>";
 							html += "<td id='rcvCon'>"+ rcv.note_con + "</td>";
 							html += "<td id='rcvDate'>"+rcv.rcvDateStr+"</td>";	
 							html += "<td>"+ rcv.read_fl + "</td>";
@@ -205,61 +217,71 @@ ul.tabs li.current {
 
 	    }
 	
-	function rcvNoteList(){
-		//사용자 리스트
-		var hhtml = "";
-		var html = "";
-					
-		
-		//hhtml생성
-		hhtml += "<tr>";
-		hhtml += "<th>보낸 사람</th>";
-		hhtml += "<th>내용</th>";
-		hhtml += "<th>받은 날짜</th>";
-		hhtml += "<th>쪽지 읽음 여부</th>";
-		hhtml += "</tr>";
-		
-			
-		data.rcvList.forEach(function(rcv, index){
-			
-		
-			//html생성
-			html += "<tr class='rcvTr' >";
-			html += "<td class='sendEmail' id='sendEmail'>"+ rcv.send_email + "</td>";
-			html += "<td id='rcvCon'>"+ rcv.note_con + "</td>";
-			html += "<td id='rcvDate'>"+rcv.rcvDateStr+"</td>";	
-			html += "<td>"+ rcv.read_fl + "</td>";
-			html += "<td><button type='button' id='rcvDelBtn' name='"+rcv.note_con_id+"'>삭제</button></td>";
-			html += "<td><a id='aTag' href='#layer1' class='btn-example1'></a></td>";
-			html += "</tr>";
-			
-		});
-		var pHtml = "";
-		var pageVo = data.pageVo;
-		console.log(data);
-		console.log(pageVo);
-		
-		if(pageVo.page==1)
-			pHtml += "<li class='disabled'><span>«<span></li>";
-		else
-			pHtml += "<li><a onclick='rcvNoteListPagination("+(pageVo.page-1)+", "+pageVo.pageSize+");' href='javascript:void(0);'>«</a></li>";
-		
-		for(var i =1; i <=data.rcvPaginationSize; i++){
-			if(pageVo.page==i)
-				pHtml += "<li class='active'><span>" + i + "</span></li>";
-			else
-				pHtml += "<li><a href='javascript:void(0);' onclick='rcvNoteListPagination("+ i + ", " + pageVo.pageSize+");'>"+i+"</a></li>";
-		}
-		if(pageVo.page == data.rcvPaginationSize)
-			pHtml += "<li class='disabled'><span>»<span></li>";
-		else
-			pHtml += "<li><a href='javascript:void(0);' onclick='rcvNoteListPagination("+(pageVo.page+1)+", "+pageVo.pageSize+");'>»</a></li>";
-		
-		$(".pagination").html(pHtml);
-		$("#publicHeader").html(hhtml);
-		$("#publicList").html(html);
-	}   
+	
 	   
+	function rcvNoteUpdateListPagination(note_id,page, pageSize) {
+		$.ajax({
+			url : "/rcvNoteUpdateList",
+			method : "post",
+			data : "note_id="+note_id+"&page=" + page + "&pageSize="+ pageSize,
+			success : function(data) {
+				console.log(data);
+				//사용자 리스트
+				var hhtml = "";
+				var html = "";
+							
+				
+				//hhtml생성
+				hhtml += "<tr>";
+				hhtml += "<th>보낸 사람</th>";
+				hhtml += "<th>내용</th>";
+				hhtml += "<th>받은 날짜</th>";
+				hhtml += "<th>쪽지 읽음 여부</th>";
+				hhtml += "</tr>";
+				
+					
+				data.rcvList.forEach(function(rcv, index){
+					
+				
+					//html생성
+					html += "<tr class='rcvTr' >";
+					html += "<td class='sendEmail' id='sendEmail'>"+ rcv.send_email + "</td>";
+					html += "<td style='display:none;' id='note_id'>"+rcv.note_con_id +"</td>";
+					html += "<td id='rcvCon'>"+ rcv.note_con + "</td>";
+					html += "<td id='rcvDate'>"+rcv.rcvDateStr+"</td>";	
+					html += "<td>"+ rcv.read_fl + "</td>";
+					html += "<td><button type='button' id='rcvDelBtn' name='"+rcv.note_con_id+"'>삭제</button></td>";
+					html += "<td><a id='aTag' href='#layer1' class='btn-example1'></a></td>";
+					html += "</tr>";
+					
+				});
+				var pHtml = "";
+				var pageVo = data.pageVo;
+				console.log(data);
+				console.log(pageVo);
+				
+				if(pageVo.page==1)
+					pHtml += "<li class='disabled'><span>«<span></li>";
+				else
+					pHtml += "<li><a onclick='rcvNoteListPagination("+(pageVo.page-1)+", "+pageVo.pageSize+");' href='javascript:void(0);'>«</a></li>";
+				
+				for(var i =1; i <=data.rcvPaginationSize; i++){
+					if(pageVo.page==i)
+						pHtml += "<li class='active'><span>" + i + "</span></li>";
+					else
+						pHtml += "<li><a href='javascript:void(0);' onclick='rcvNoteListPagination("+ i + ", " + pageVo.pageSize+");'>"+i+"</a></li>";
+				}
+				if(pageVo.page == data.rcvPaginationSize)
+					pHtml += "<li class='disabled'><span>»<span></li>";
+				else
+					pHtml += "<li><a href='javascript:void(0);' onclick='rcvNoteListPagination("+(pageVo.page+1)+", "+pageVo.pageSize+");'>»</a></li>";
+				
+				$(".pagination").html(pHtml);
+				$("#publicHeader").html(hhtml);
+				$("#publicList").html(html);
+			}
+		});
+	}
 	function rcvNoteListPagination(page, pageSize) {
 		$.ajax({
 			url : "/rcvNoteList",
@@ -287,6 +309,7 @@ ul.tabs li.current {
 					//html생성
 					html += "<tr class='rcvTr' >";
 					html += "<td class='sendEmail' id='sendEmail'>"+ rcv.send_email + "</td>";
+					html += "<td style='display:none;' id='note_id'>"+rcv.note_con_id +"</td>";
 					html += "<td id='rcvCon'>"+ rcv.note_con + "</td>";
 					html += "<td id='rcvDate'>"+rcv.rcvDateStr+"</td>";	
 					html += "<td>"+ rcv.read_fl + "</td>";
@@ -486,6 +509,7 @@ ul.tabs li.current {
 											<tr class="rcvTr" >
 												<td class="sendEmail" id="sendEmail">${rcv.send_email }</td>
 												<td id="rcvCon">${rcv.note_con }</td>
+												<td style="display:none;" id="note_id">${rcv.note_con_id }</td>
 												<td id="rcvDate"><fmt:formatDate value="${rcv.rcv_date }" pattern="yyyy-MM-dd HH:mm"/></td>
 												<td>${rcv.read_fl }</td>
 												<td><button type="button" id="rcvDelBtn" name="${rcv.note_con_id }">삭제</button></td>

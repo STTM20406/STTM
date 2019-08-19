@@ -154,9 +154,11 @@ public class Note_InfoController {
 		pageVo.setSend_email(userId);
 
 		Note_InfoVo noteVo = new Note_InfoVo();
+		logger.debug("!@# rcvNoteList noteVo@@@@@@@@@@ : {}",noteVo);
 		
 		Map<String, Object> rcvMap = noteService.rcvList(pageVo); 
 		List<Note_InfoVo> rcvList = (List<Note_InfoVo>) rcvMap.get("rcvList");
+				
 		int rcvPaginationSize = (int) rcvMap.get("rcvPaginationSize");
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -259,6 +261,48 @@ public class Note_InfoController {
 		model.addAttribute("friendList", friendList);
 		
 		return "jsonView";
+	}
+	
+	
+	@RequestMapping("/rcvNoteUpdateList")
+	public @ResponseBody Map<String, Object> rcvNoteListUpdate(Model model,HttpSession session,String page,String pageSize,String note_id) {
+		int note_idNm = Integer.parseInt(note_id);
+		
+		int noteUpdate = noteService.readNote(note_idNm);
+		
+		logger.debug("!@# rcvNoteList page : {}",page);
+		logger.debug("!@# rcvNoteList pageSize : {}",pageSize);
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String userId = userVo.getUser_email();
+		
+		int pageStr = page == null ? 1 : Integer.parseInt(page);
+		int pageSizeStr =  pageSize == null ? 10 : Integer.parseInt(pageSize);
+		
+		PageVo pageVo = new PageVo(pageStr,pageSizeStr);
+		pageVo.setRcv_email(userId);
+		pageVo.setSend_email(userId);
+
+		Note_InfoVo noteVo = new Note_InfoVo();
+		logger.debug("!@# rcvNoteList noteVo@@@@@@@@@@ : {}",noteVo);
+		
+		Map<String, Object> rcvMap = noteService.rcvList(pageVo); 
+		List<Note_InfoVo> rcvList = (List<Note_InfoVo>) rcvMap.get("rcvList");
+				
+		int rcvPaginationSize = (int) rcvMap.get("rcvPaginationSize");
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("rcvList", rcvList);
+		resultMap.put("rcvPaginationSize", rcvPaginationSize);
+		resultMap.put("pageVo", pageVo);
+		
+		logger.debug("!@# rcvNoteList resultMap : {}",resultMap);
+//		model.addAttribute("rcvList", rcvList);
+//		model.addAttribute("rcvPaginationSize", rcvPaginationSize);
+//		
+//		model.addAttribute("data", pageVo);
+		
+		
+		return resultMap;
 	}
 	
 }

@@ -76,4 +76,6 @@ public interface INote_InfoService {
 	 * Method 설명 	: 수신자 쪽지 삭제(컬럼값만 변경)
 	 */
 	int rcvDel(int note_con_id);
+	
+	int readNote(int note_con_id);
 }

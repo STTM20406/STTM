@@ -71,4 +71,9 @@ public class Note_InfoService implements INote_InfoService{
 		return noteDao.rcvDel(note_con_id);
 	}
 
+	@Override
+	public int readNote(int note_con_id) {
+		return noteDao.readNote(note_con_id);
+	}
+
 }
