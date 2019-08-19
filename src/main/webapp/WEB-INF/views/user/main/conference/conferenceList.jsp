@@ -41,6 +41,12 @@ ul.tabs li.current {
 		
 		conferencePagination(1,10);
 		
+		$(this).on('click','.minutes', function(){
+			var mnu_id = $(this).find(".mnu_id").attr("id");
+	 		$('#mnu_id').val(mnu_id);
+	 		$('#frm').submit();
+		});
+		
 		$('#searchBtn').on('click',function(){
 			if($('#searchText').val().length == 0){
 				alert("검색어를 입력해주세요");
@@ -70,12 +76,8 @@ ul.tabs li.current {
 					
 					data.minutesList.forEach(function(minutesList, index){
 						//html생성
-						
 						html += "<tr class='minutes'>";
-						
-						<!-- 여기서 detail이동이 안되요 -->
-// 						html += "<td class='mnu_id' id='"+ minutesList.mnu_id +"'>"+ minutesList.num + "</td>";
-						html += "<td><a href='javascript:conferenceDetail?mnu_id=" + minutesList.mnu_id + "'>"+ minutesList.num + "</a></td>";
+						html += "<td class='mnu_id' id='"+ minutesList.mnu_id +"'>"+ minutesList.num + "</td>";
 						html += "<td>"+ minutesList.user_email + "</td>";
 						html += "<td>"+ minutesList.user_nm + "</td>";
 						html += "<td>"+ minutesList.prjStartDtStr + "</td>";
@@ -169,14 +171,6 @@ ul.tabs li.current {
 		$(".sub_menu").on("click", "#minutes",function(){
 			conferencePagination(1, 10);
 		})
-		
-		//Detail page로 가야하는데 클릭 event가 안먹어!!!!!!!!!!!!!!!!!!
-		$(".minutes").on("click", function(){
-			alert("click");
-		});
-//	 		var mnu_id = $(this).find(".mnu_id").attr("id");
-//	 		$('#mnu_id').val(mnu_id);
-//	 		$('#frm').submit();
 	});
 	
 	function conferencePagination(page, pageSize){
