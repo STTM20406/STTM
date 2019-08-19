@@ -35,7 +35,8 @@
 		WHERE	A.WRK_LST_ID = B.WRK_LST_ID
 		AND		B.PRJ_ID = D.PRJ_ID
 		AND		D.PRJ_ID = E.PRJ_ID
-		AND		A.USER_EMAIL = F.USER_EMAIL 
+		AND		A.USER_EMAIL = F.USER_EMAIL
+		AND		E.DEL_FL = 'N' 
 		<if test="wrk_dt != 0">AND </if>
 		<choose>
 			<when test="wrk_dt eq 30">30 &gt;= SYSDATE - A.WRK_DT </when>
@@ -113,6 +114,7 @@
 		FROM	PROJECT A, PROJECT_MEM B
 		WHERE	A.PRJ_ID = B.PRJ_ID
 		AND		B.USER_EMAIL = #{user_email}
+		AND		A.DEL_FL = 'N'
 		ORDER BY A.PRJ_ID
 	</select>
 	
