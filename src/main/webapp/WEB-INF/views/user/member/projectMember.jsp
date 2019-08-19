@@ -71,6 +71,16 @@ $(document).ready(function(){
 	        var $href = $(this).attr('href');
 	        layer_popup($href);
 	});
+
+	// 친구 수락 버튼 클릭시
+	$('#btnAcceptReq').on("click", function(){
+		$('#friendsRequestListForm').submit();
+	});
+	
+	// 친구 거절 버튼 클릭시
+	$('#btnDenyReq').on("click", function(){
+		$('#friendsRequestListForm').submit();
+	});
 	
 	// ------- 탭 설정 -------
 	$('ul.tabs li').click(function() {
@@ -142,7 +152,6 @@ function requestedFriendsList() {
 	$("#friendsRequestListForm").submit();
 	alert("요청 받은 친구 목록입니다. 나중에 삭제 ");
 }
-
 
 // function projectMemListAjax(){
 // 	$.ajax({
@@ -375,7 +384,8 @@ function requestedFriendsList() {
 			
 			</div>
 		
-			<form action="/friendsRequestList" id="friendsRequestListForm" method="get">
+<!-- 			<form action="/friendsRequestList" id="friendsRequestListForm" method="get"> -->
+			<form action="/projectMemberList" id="friendsRequestListForm" method="post">
 				<div id="layer3" class="pop-layer">
 				    <div class="pop-container">
 				        <div class="pop-conts">
@@ -398,13 +408,14 @@ function requestedFriendsList() {
 										
 											<tr class="userTr" data-user_email="${prjVo.user_email}">
 												<td>${friReqList.user_nm}</td>
-												<td>1</td>
-												<td>2</td>
+												<td>
+													<input id="btnAcceptReq" type="button" class="inp_style_01" value="수락">
+												</td>
+												<td>
+													<input id="btnDenyReq" type="button" class="inp_style_04" value="거절">
+												</td>
 											</tr>
 											
-											<td>1</td>
-											<td>2</td>
-																						
 										</c:forEach>
 										
 									</tr>

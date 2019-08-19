@@ -51,7 +51,7 @@ public interface IProject_MemService {
 	* @return
 	* Method 설명 : 휴면 계정으로 전환하기 위하여 나의 프로젝트 멤버를 조회한다
 	 */
-	List<Project_MemVo> getMyProjectMemList(int prj_id);
+	List<Project_MemVo> getMyProjectMemList(String user_email);
 	
 	
 	/**

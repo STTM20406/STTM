@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.or.ddit.encrypt.encrypt.kisa.aria.ARIAUtil;
+import kr.or.ddit.friend_req.model.Friend_ReqVo;
+import kr.or.ddit.friend_req.service.IFriend_ReqService;
 import kr.or.ddit.friends.model.FriendsVo;
 import kr.or.ddit.friends.service.IFriendsService;
 import kr.or.ddit.notification_set.model.Notification_SetVo;
@@ -44,6 +46,9 @@ public class UserController {
 	
 	@Resource(name = "friendsService")
 	private IFriendsService friendsService;
+	
+	@Resource(name = "friend_ReqService")
+	private IFriend_ReqService friend_ReqService;
 	
 	/**
 	 * 
@@ -175,12 +180,12 @@ public class UserController {
 		logger.debug("user_email : {} 가져오나?", user_email);
 		logger.debug("user_st : {} 가져오니?", user_st);
 		
-		Project_MemVo prjMemVo = new Project_MemVo();
-		int prj_id = prjMemVo.getPrj_id();
-		model.addAttribute("prj_id", prj_id);
-		logger.debug("prj_id : {} 이제 찍히나요?",prj_id);
+//		Project_MemVo prjMemVo = new Project_MemVo();
+//		int prj_id = prjMemVo.getPrj_id();
+//		model.addAttribute("prj_id", prj_id);
+//		logger.debug("prj_id : {} 이제 찍히나요?",prj_id);
 		
-		List<Project_MemVo> getMyPrjMemList = project_MemService.getMyProjectMemList(prj_id);
+		List<Project_MemVo> getMyPrjMemList = project_MemService.getMyProjectMemList(user_email);
 		logger.debug("getMyPrjMemList : {} 이거 가져오나요?",getMyPrjMemList);
 
 		model.addAttribute("user_email", user_email);
@@ -204,9 +209,13 @@ public class UserController {
 		
 		int updateUserStatus = userService.updateUserStatus(userVo);
 		
+		logger.debug("updateUserStatus : {} 휴면계정 전환 로거", updateUserStatus);
+		
 		if(updateUserStatus != 0) {
 			viewName = "/account/accountSet.user.tiles"; 
 		}
+		
+		
 		
 		return viewName;
 	}
@@ -270,11 +279,54 @@ public class UserController {
 			model.addAttribute("friendsList", friendsList);
 			model.addAttribute("paginationSize", paginationSize1);
 			model.addAttribute("pageVo", pageVo);
+
+//			} else {
 			
-//		}
+			// 친구 요청 받은 리스트 
+			
+			String req_email = userVo.getUser_email();
+			
+			logger.debug("user_email : {}", req_email);
+			
+			List<Friend_ReqVo> friendsRequestList = friend_ReqService.friendsRequestList(req_email);
+			
+			logger.debug("friendsRequestList : 이거 가져오나  볼까? {}",friendsRequestList);
+			
+			model.addAttribute("friendsRequestList", friendsRequestList);
+			
+//			}
+			
+			
 		
 		return "/member/projectMember.user.tiles";
 	}
+	
+	/**
+	 * 
+	* Method : projectMemberListProcess
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-19
+	* @param user_nm
+	* @return
+	* Method 설명 : 친구 수락 버튼 클릭하여 친구 등록 
+	* 			     친구 거절 버튼 클릭하여 요청 받은 친구 리스트에서 친구 요청 제거 
+	 */
+	@RequestMapping(path = "/projectMemberList", method = RequestMethod.POST)
+	public String projectMemberListProcess(String user_nm) {
+		
+		if(user_nm != null) {
+			
+			FriendsVo friendsVo = new FriendsVo();
+			int acceptRequest = friendsService.insertFriends(friendsVo);
+			
+//		} else if() {
+			
+		}
+		
+		
+		return "/member/projectMember.user.tiles";
+	}
+	
 	
 	/**
 	 * 
@@ -295,7 +347,6 @@ public class UserController {
 		
 		return "/member/projectMember.user.tiles";
 	}
-	
 	
 	/**
 	 * 

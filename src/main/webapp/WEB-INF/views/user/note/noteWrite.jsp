@@ -4,6 +4,8 @@
 
 
 <script>
+
+
 $(document).ready(function(){
 	$("#sendBtn").on('click',function(){
 		console.log("clickBtn");
@@ -19,6 +21,21 @@ $(document).ready(function(){
 	$("#friendList").on('click',function(){
 		console.log("clickFriendList Click");
 		 layer_popup(layer1);
+	})
+	
+	$("#checkBtn").on('click',function(){
+		console.log("checkBtn Click");
+		var chkbox = $(".checkSelect");
+		
+		var email = ""; 
+		for(i=0;i<chkbox.length;i++){
+			if(chkbox[i].checked == true){
+				email += chkbox[i].value + ",";
+			}
+		}
+				console.log(email);
+		$("#rcvEmail").val(email);
+		console.log(a);
 	})
 	
 })
@@ -69,12 +86,12 @@ $(document).ready(function(){
 							<label>친구목록</label>
 							<div>
 							<c:forEach items="${friendList }" var="fri">
-								<input type="checkbox" name="friend" class="checkSelect" value="${fri.frd_email}">${fri.user_nm }
+								<input type="checkbox" name="rcv_emailList" class="checkSelect" value="${fri.frd_email}">${fri.user_nm }
 							</c:forEach>
 							</div>
 						</div>
 					<div class="btn-r">
-						<button type="button" id="rcvBtn" class="rcvbtn-style"> 확인</button>
+						<button type="button" id="checkBtn" class="rcvbtn-style"> 확인</button>
 						<a href="#" class="btn-layerClose">Close</a>
 					</div>
 					<!--// content-->
@@ -87,7 +104,7 @@ $(document).ready(function(){
 		<div>
 			
 			<input type="hidden" name="sendEmail" id="sendEmail" value="${send_email }"/>
-			받는 사람 : <input type="text" name="rcvEmail" value=""/>
+			받는 사람 : <input type="text" name="rcvEmail" id="rcvEmail" value=""/>
 			<button type="button" id="friendList">친구목록</button> <br>
 			내용 : <br>
 			<textarea name="smarteditor" id="smarteditor" rows="10" cols="100" style="width: 766px; height: 412px;"></textarea>	<br>

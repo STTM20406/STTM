@@ -71,8 +71,8 @@ public class Project_MemService implements IProject_MemService{
 	* Method 설명 : 휴면 계정으로 전환하기 위하여 나의 프로젝트 멤버를 조회한다
 	 */
 	@Override
-	public List<Project_MemVo> getMyProjectMemList(int prj_id) {
-		return projectMemDao.getMyProjectMemList(prj_id);
+	public List<Project_MemVo> getMyProjectMemList(String user_email) {
+		return projectMemDao.getMyProjectMemList(user_email);
 	}
 	
 	/**

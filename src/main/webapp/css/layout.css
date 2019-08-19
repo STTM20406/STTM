@@ -300,6 +300,24 @@ a.btn-layerClose:hover {border: 1px solid #091940; background-color:#1f326a; col
 .workWrap div[class^="complete_"] {display:none}
 
 
+/* work property setting layer style */
+.lableColor {}
+.lableColor ul {}
+.lableColor ul li {display:inline-block; position:relative}
+.lableColor ul li label.wrk_color {width:30px; height:30px; border-radius:2px; display:inline-block}
+.lableColor ul li input {visibility:hidden; position:absolute; left:0; top:0}
+
+
+.lableColor ul li label.wrk_color01 {background:#f00;}
+.lableColor ul li label.wrk_color02 {background:#f0f;}
+.lableColor ul li label.wrk_color03 {background:#ff0;}
+.lableColor ul li label.wrk_color04 {background:#ff6;}
+.lableColor ul li label.wrk_color05 {background:#f0f;}
+.lableColor ul li label.wrk_color06 {background:#ff0;}
+.lableColor ul li label.wrk_color07 {background:#f00;}
+.lableColor ul li label.wrk_color08 {background:#00f;}
+.lableColor ul li label.wrk_color09 {background:#0ff;}
+.lableColor ul li label.wrk_color10 {background:#f00;}
 
 /* work list : work drag and drop css */
 .list {min-height:30px}

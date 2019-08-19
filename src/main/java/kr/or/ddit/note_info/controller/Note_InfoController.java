@@ -83,26 +83,33 @@ public class Note_InfoController {
 	
 	@RequestMapping(path="/noteWrite",method = RequestMethod.POST)
 	public String noteWrite(Note_ContentVo conVo,Model model,String sendEmail,String rcvEmail,String smarteditor) {
-		String viewName = "";
 		
+		logger.debug("!@# rcvEmail@@@@@@@ {}",rcvEmail);
+		String str = "";
+		
+		String[] array = rcvEmail.split(",");
+		
+		String viewName = "";
 		conVo.setNote_con_id(conVo.getNote_con_id());
 		conVo.setNote_con(smarteditor);
 		int contentCnt = noteService.insertNoteContent(conVo);
+		
 		Note_InfoVo infoVo = new Note_InfoVo();
 		infoVo.setNote_con_id(conVo.getNote_con_id());
-		infoVo.setRcv_email(rcvEmail);
 		infoVo.setSend_email(sendEmail);
 		
-		if(contentCnt ==1) {
-			int infoCnt = noteService.insertNoteInfo(infoVo);
-			
-			if(infoCnt == 1) {
-				viewName ="redirect:/noteList";
+		for(int i=0;i<array.length;i++) {
+			infoVo.setRcv_email(array[i]);
+			if(contentCnt ==1) {
+				int infoCnt = noteService.insertNoteInfo(infoVo);
 			}
 		}
+		viewName ="redirect:/noteList";
 		
 		return viewName;
 	}
+	
+	
 	
 	@RequestMapping(path="/rcvNoteWrite",method = RequestMethod.GET)
 	public String rcvNoteWrite(HttpSession session,Model model,String rcvEmail) {
@@ -154,9 +161,11 @@ public class Note_InfoController {
 		pageVo.setSend_email(userId);
 
 		Note_InfoVo noteVo = new Note_InfoVo();
+		logger.debug("!@# rcvNoteList noteVo@@@@@@@@@@ : {}",noteVo);
 		
 		Map<String, Object> rcvMap = noteService.rcvList(pageVo); 
 		List<Note_InfoVo> rcvList = (List<Note_InfoVo>) rcvMap.get("rcvList");
+				
 		int rcvPaginationSize = (int) rcvMap.get("rcvPaginationSize");
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -259,6 +268,51 @@ public class Note_InfoController {
 		model.addAttribute("friendList", friendList);
 		
 		return "jsonView";
+	}
+	
+	
+	@RequestMapping("/rcvNoteUpdateList")
+	public @ResponseBody Map<String, Object> rcvNoteListUpdate(Model model,HttpSession session,String page,String pageSize,String note_id) {
+		Note_InfoVo noteVo = new Note_InfoVo();
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String userId = userVo.getUser_email();
+		
+		int note_idNm = Integer.parseInt(note_id);
+		noteVo.setNote_con_id(note_idNm);
+		noteVo.setRcv_email(userId);
+		
+		int noteUpdate = noteService.readNote(noteVo);
+		
+		logger.debug("!@# rcvNoteList page : {}",page);
+		logger.debug("!@# rcvNoteList pageSize : {}",pageSize);
+		
+		int pageStr = page == null ? 1 : Integer.parseInt(page);
+		int pageSizeStr =  pageSize == null ? 10 : Integer.parseInt(pageSize);
+		
+		PageVo pageVo = new PageVo(pageStr,pageSizeStr);
+		pageVo.setRcv_email(userId);
+		pageVo.setSend_email(userId);
+
+		logger.debug("!@# rcvNoteList noteVo@@@@@@@@@@ : {}",noteVo);
+		
+		Map<String, Object> rcvMap = noteService.rcvList(pageVo); 
+		List<Note_InfoVo> rcvList = (List<Note_InfoVo>) rcvMap.get("rcvList");
+				
+		int rcvPaginationSize = (int) rcvMap.get("rcvPaginationSize");
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("rcvList", rcvList);
+		resultMap.put("rcvPaginationSize", rcvPaginationSize);
+		resultMap.put("pageVo", pageVo);
+		
+		logger.debug("!@# rcvNoteList resultMap : {}",resultMap);
+//		model.addAttribute("rcvList", rcvList);
+//		model.addAttribute("rcvPaginationSize", rcvPaginationSize);
+//		
+//		model.addAttribute("data", pageVo);
+		
+		
+		return resultMap;
 	}
 	
 }

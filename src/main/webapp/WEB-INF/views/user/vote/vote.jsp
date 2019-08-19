@@ -18,7 +18,7 @@
 	.vote_end_dt { width: 90%; display:inline-block; font-size: medium; }
 	.vote_no_deadline { width: 90%; display:inline-block; font-size: medium; }
 	.vote_part_y, .vote_ended { font-size:large; font-style: italic; font-weight: 900; color: green; display:inline-block;}
-	.vote_part_n { width: 90%; font-size:large; font-style: italic; font-weight: 900; color: red; padding: 2px; border-radius: 20px; width: 5%; display:inline-block;}
+	.vote_part_n { font-size:large; font-style: italic; font-weight: 900; color: red;  display:inline-block;}
 	.vote_part_yn { width: 90%; font-size:large; padding: 2px; display:inline-block;}
 	.vote_user_nm { width: 90%; font-size: large; padding: 2px; display:inline-block; }
 	.vote_config {font-size:large; font-weight: 900; display:inline-block; text-align:right; cursor: pointer; }

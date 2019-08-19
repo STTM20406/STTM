@@ -183,7 +183,7 @@ public class UserController_Test_kkh {
 		model.addAttribute("user_email", user_email);
 		model.addAttribute("user_st", user_st);
 		
-		List<Project_MemVo> getMyPrjMemList = project_MemService.getMyProjectMemList(prj_id);
+		List<Project_MemVo> getMyPrjMemList = project_MemService.getMyProjectMemList(user_email);
 		logger.debug("getMyPrjMemList : {} 가져오너라",getMyPrjMemList);
 		
 		return "/account/accountSet.user.tiles";

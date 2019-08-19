@@ -197,10 +197,14 @@
 	
 
 	<!-- 휴면 계정으로 전환하기 위하여 나와 프로젝트 아이디가 같은 멤버 조회 -->
-	<select id="getMyProjectMemList" parameterType="int" resultType="project_memVo">
-		select * 
-		from project_mem
-		where prj_id = #{prj_id}
+	<select id="getMyProjectMemList" parameterType="string" resultType="project_memVo">
+		select distinct b.user_email
+             	, c.user_nm from
+            	(select * 
+				 from project_mem 
+				 where user_email = #{user_email}) a, project_mem b, users c
+		 where b.prj_id in (a.prj_id)
+		 and c.user_email = b.user_email
 	</select>
 	
 	<!-- 사용자가 멤버 탭에서 자신과 같은 프로젝트를 진행하는 멤버의 리스트를 페이징으로 조회 -->

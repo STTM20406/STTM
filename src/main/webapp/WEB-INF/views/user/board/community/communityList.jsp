@@ -32,6 +32,7 @@ ul.tabs li.current {
 
 .tab-content.current {
 	display: inherit;
+}
 </style>
 
 <script>
@@ -48,16 +49,6 @@ ul.tabs li.current {
 			$("#frm").attr("method", "get");
 			$("#frm").submit();
 		})
-		
-		$('ul.tabs li').click(function() {
-			var tab_id = $(this).attr('data-tab');
-
-			$('ul.tabs li').removeClass('current');
-			$('.tab-content').removeClass('current');
-
-			$(this).addClass('current');
-			$("#" + tab_id).addClass('current');
-		});
 		
 		$(".sub_menu").on("click", "#postList",function(){
 			var board_id = $("#boardnum02").val();
@@ -118,28 +109,27 @@ ul.tabs li.current {
 					});
 					var pHtml = "";
 					var pageVo = data.pageVo;
-					console.log(html);
 					console.log(pageVo);
 					
 					if(pageVo.page==1)
 						pHtml += "<li class='disabled'><span>«<span></li>";
 					else
-						pHtml += "<li><a onclick='CommunityListPagination("+(pageVo.page-1)+", "+pageVo.pageSize+");' href='javascript:void(0);'>«</a></li>";
+						pHtml += "<li><a onclick='CommunityListPagination("+board_id+","+(pageVo.page-1)+", "+pageVo.pageSize+");' href='javascript:void(0);'>«</a></li>";
 					
 					for(var i =1; i <=data.paginationSize; i++){
 						if(pageVo.page==i)
 							pHtml += "<li class='active'><span>" + i + "</span></li>";
 						else
-							pHtml += "<li><a href='javascript:void(0);' onclick='CommunityListPagination("+ i + ", " + pageVo.pageSize+");'>"+i+"</a></li>";
+							pHtml += "<li><a href='javascript:void(0);' onclick='CommunityListPagination("+board_id+","+ i + ", " + pageVo.pageSize+");'>"+i+"</a></li>";
 					}
 					if(pageVo.page == data.paginationSize)
 						pHtml += "<li class='disabled'><span>»<span></li>";
 					else
-						pHtml += "<li><a href='javascript:void(0);' onclick='CommunityListPagination("+(pageVo.page+1)+", "+pageVo.pageSize+");'>»</a></li>";
+						pHtml += "<li><a href='javascript:void(0);' onclick='CommunityListPagination("+board_id+","+(pageVo.page+1)+", "+pageVo.pageSize+");'>»</a></li>";
 					
 					$(".pagination").html(pHtml);
-					$("#publicHeader").html(hhtml);
-					$("#publicList").html(html);
+					$("#communityHeader").html(hhtml);
+					$("#communityList").html(html);
 				}
 		
 			});	
@@ -189,22 +179,22 @@ ul.tabs li.current {
 					if(pageVo.page==1)
 						pHtml += "<li class='disabled'><span>«<span></li>";
 					else
-						pHtml += "<li><a onclick='MyCommunityListPagination("+(pageVo.page-1)+", "+pageVo.pageSize+");' href='javascript:void(0);'>«</a></li>";
+						pHtml += "<li><a onclick='MyCommunityListPagination("+board_id+","+(pageVo.page-1)+", "+pageVo.pageSize+");' href='javascript:void(0);'>«</a></li>";
 					
 					for(var i =1; i <=data.myaginationSize; i++){
 						if(pageVo.page==i)
 							pHtml += "<li class='active'><span>" + i + "</span></li>";
 						else
-							pHtml += "<li><a href='javascript:void(0);' onclick='MyCommunityListPagination("+ i + ", " + pageVo.pageSize+");'>"+i+"</a></li>";
+							pHtml += "<li><a href='javascript:void(0);' onclick='MyCommunityListPagination("+board_id+","+ i + ", " + pageVo.pageSize+");'>"+i+"</a></li>";
 					}
 					if(pageVo.page == data.myaginationSize)
 						pHtml += "<li class='disabled'><span>»<span></li>";
 					else
-						pHtml += "<li><a href='javascript:void(0);' onclick='MyCommunityListPagination("+(pageVo.page+1)+", "+pageVo.pageSize+");'>»</a></li>";
+						pHtml += "<li><a href='javascript:void(0);' onclick='MyCommunityListPagination("+board_id+","+(pageVo.page+1)+", "+pageVo.pageSize+");'>»</a></li>";
 					
 					$(".pagination").html(pHtml);
-					$("#publicHeader").html(hhtml);
-					$("#publicList").html(html);
+					$("#communityHeader").html(hhtml);
+					$("#communityList").html(html);
 				}
 		
 			});	
@@ -225,7 +215,7 @@ ul.tabs li.current {
 		<div class="tab_con">
 			<div id="tab-1" class="tab-content current">
 			<form id="searchFrm" action="/boardSearch" method="post">
-			<input type="text" name="boardnum02" id="boardnum02" value="${board_id }"> 
+			<input type="hidden" name="boardnum02" id="boardnum02" value="${board_id }"> 
 				<div class="searchBox">
                   <div class="tb_sch_wr">
                      <fieldset id="hd_sch">
@@ -243,7 +233,7 @@ ul.tabs li.current {
 				<input type="hidden" name="boardnum" id="boardnum" value="${board_id }"> 
 					<input type="hidden" id="write_id" name="write_id" value="" />
 					<table class="tb_style_01">
-						<thead id="publicHeader">
+						<thead id="communityHeader">
 							<tr>
 								<th>번호</th>
 								<th>제목</th>
@@ -254,7 +244,7 @@ ul.tabs li.current {
 								<th>조회수</th>
 							</tr>
 						</thead>
-						<tbody id="publicList">
+						<tbody id=communityList>
 							<c:forEach items="${boardList }" var="board">
 										<tr class="boardTr"> 
 											<td class="boardNum" style= "display:none;">${board.write_id }</td>
