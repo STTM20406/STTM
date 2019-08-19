@@ -24,7 +24,7 @@ public interface ILikesDao {
 	 * @return
 	 * Method 설명 	: 게시글 좋아요 추가
 	 */
-	int likeAdd(int write_id);
+	int likeAdd(Board_WriteVo vo);
 	
 	/**
 	 * Method 		: likeDown
@@ -34,7 +34,7 @@ public interface ILikesDao {
 	 * @return
 	 * Method 설명 	: 게시글 좋아요 취소
 	 */
-	int likeDown(int write_id);
+	int likeDown(Board_WriteVo vo);
 	
 	/**
 	 * 
@@ -46,4 +46,37 @@ public interface ILikesDao {
 	 * Method 설명 	: 게시글 좋아요 개수
 	 */
 	int likeCnt(int write_id);
+	
+	/**
+	 * 
+	 * Method 		: whoLikeAdd
+	 * 작성자 			: 유다연
+	 * 변경이력 		: 2019-08-19 최초 생성
+	 * @param vo
+	 * @return
+	 * Method 설명 	: 게시글의 좋아요를 내가 눌렀다는 정보가 들어감
+	 */
+	int whoLikeAdd(Board_WriteVo vo);
+	
+	/**
+	 * 
+	 * Method 		: whoLikeDown
+	 * 작성자 			: 유다연
+	 * 변경이력 		: 2019-08-19 최초 생성
+	 * @param vo
+	 * @return
+	 * Method 설명 	: 게시글의 좋아요를 취소하면 게시글에 내가 좋아요 했다는 정보가 사라짐
+	 */
+	int whoLikeDown(Board_WriteVo vo);
+	
+	/**
+	 * 
+	 * Method 		: likePushCheck
+	 * 작성자 			: 유다연
+	 * 변경이력 		: 2019-08-19 최초 생성
+	 * @param vo
+	 * @return
+	 * Method 설명 	: 게시글에 내가 좋아요를 눌렀는지 확인 
+	 */
+	int likePushCheck(Board_WriteVo vo);
 }
