@@ -21,9 +21,9 @@ public interface IFriend_ReqService {
 	 * 
 	* Method : friendsRequestList
 	* 작성자 : 김경호
-	* 변경이력 : 2019-08-09
+	* 변경이력 : 2019-08-19
 	* @return
 	* Method 설명 : 친구 요청 받은 목록
 	 */
-	List<Friend_ReqVo> friendsRequestList(String user_email);
+	List<Friend_ReqVo> friendsRequestList(String req_email);
 }

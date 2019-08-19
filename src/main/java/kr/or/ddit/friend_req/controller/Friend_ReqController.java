@@ -68,23 +68,22 @@ public class Friend_ReqController {
 	
 	/**
 	 * 
-	* Method : friendsRequestList
+	* Method : requestFriendsList
 	* 작성자 : 김경호
-	* 변경이력 : 2019-08-09
-	* @param model
+	* 변경이력 : 2019-08-19
 	* @return
-	* Method 설명 : 친구 요청 리스트
+	* Method 설명 : 멤버 - 친구 리스트 에서 요청 받은 친구 목록을 리스트로 보여줌
 	 */
 	@RequestMapping(path = "/friendsRequestList", method = RequestMethod.GET)
 	public String friendsRequestList(Model model, HttpSession session) {
 		
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
 		
-		String user_email = userVo.getUser_email();
+		String req_email = userVo.getUser_email();
 		
-		logger.debug("user_email : {}", user_email);
+		logger.debug("user_email : {}", req_email);
 		
-		List<Friend_ReqVo> friendsRequestList = friend_ReqService.friendsRequestList(user_email);
+		List<Friend_ReqVo> friendsRequestList = friend_ReqService.friendsRequestList(req_email);
 		
 		logger.debug("friendsRequestList : 이거 가져오나  볼까? {}",friendsRequestList);
 		
@@ -92,5 +91,6 @@ public class Friend_ReqController {
 		
 		return "/member/projectMember.user.tiles";
 	}
+	
 	
 }

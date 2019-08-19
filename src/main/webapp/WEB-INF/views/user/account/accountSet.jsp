@@ -88,6 +88,12 @@
 			$(this).addClass('current');
 			$("#" + tab_id).addClass('current');
 		});
+		
+		
+		// ------- 휴면 계정 클릭시 -------
+// 		$('#btnPjrMemList').click(function() {
+// 			$("#userStatusForm").submit();
+// 		});
 
 	});
 
@@ -268,7 +274,7 @@
 					<form action="/setUserStatus" method="post" id="userStatusForm">
 						<div class="inputField">
 							<a href="#" class="btn-example" onclick="layer_open('layer2');return false;">
-								<button type="button" id="btnPjrMemList">휴면 계정 전환</button>
+								<input type="button" id="btnPjrMemList" value="휴면 계정 전환">
 							</a>
 							
 							<div class="layer">
@@ -279,37 +285,28 @@
 											
 											<!--content //--><!--content //--><!--content //--><!--content //--><!--content //--><!--content //--><!--content //--><!--content //-->
 											
-											<table class="tb_style_01">
-													<tbody>
-														<tr>
-														
-															<th>프로젝트 멤버 리스트</th>
-															
-															<select>
-																<option>
+<!-- 											<select> -->
+<%-- 												<c:forEach items="${getMyPrjMemList}" var="myPrMemList"> --%>
+<%-- 													<option value="${myPrMemList.user_nm}">${myPrMemList.user_nm}</option> --%>
+<%-- 												</c:forEach> --%>
+<!-- 											</select> -->
 
-																	<c:forEach items="${getMyPrjMemList}" var="myPrMemList">
-																		<tr class="prjMemListTr" data-prj_id="${myPrMemList.prj_id}">
-																			<td class="prj_id">${myPrMemList.prj_id}</td>
-																		</tr>
-																	</c:forEach>
-																
-																</option>
-																
-															</select>
-															
-															
-														</tr>
-													</tbody>
-												</table>
-													
-												<input type="button" onclick="inactiveUser()" value="소유권 이전 버튼" >
-												<div class="btn-r">
-													<a href="#" class="cbtn">Close</a>
-												</div>
-												<!--// content-->
+											<select>
+												<c:forEach items="${getMyPrjMemList}" var="myPrMemList">
+													<option value="${myPrMemList.user_nm}">${myPrMemList.user_nm}</option>
+												</c:forEach>
+											</select>
+
+<%-- 											${getMyPrjMemList.user_nm} --%>
+											
+											<input type="button" onclick="inactiveUser()" value="소유권 이전 버튼">
+											
+											<div class="btn-r">
+												<a href="#" class="cbtn">Close</a>
+											</div>
 												
 											<!--content //--><!--content //--><!--content //--><!--content //--><!--content //--><!--content //--><!--content //--><!--content //-->
+											
 										</div>
 									</div>
 								</div>
