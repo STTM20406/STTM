@@ -72,8 +72,8 @@ public class Note_InfoService implements INote_InfoService{
 	}
 
 	@Override
-	public int readNote(int note_con_id) {
-		return noteDao.readNote(note_con_id);
+	public int readNote(Note_InfoVo noteInfo) {
+		return noteDao.readNote(noteInfo);
 	}
 
 }

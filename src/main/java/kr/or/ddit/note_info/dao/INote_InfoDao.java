@@ -77,6 +77,6 @@ public interface INote_InfoDao {
 	 */
 	int rcvDel(int note_con_id);
 	
-	int readNote(int note_con_id);
+	int readNote(Note_InfoVo noteInfo);
 	
 }

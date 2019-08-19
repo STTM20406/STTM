@@ -83,8 +83,8 @@
 	<update id="rcvDel" parameterType="int">
 		update NOTE_INFO set rcv_del_fl='Y' where note_con_id = #{note_con_id}
 	</update>
-	<update id="readNote" parameterType="int">
-		update NOTE_INFO set read_fl='Y' where note_con_id = #{note_con_id}
+	<update id="readNote" parameterType="note_infoVo">
+		update NOTE_INFO set read_fl='Y' where note_con_id = #{note_con_id} and rcv_email = #{rcv_email}
 	</update>
 	
 	

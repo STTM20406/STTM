@@ -54,8 +54,8 @@ public class Note_InfoDao implements INote_InfoDao{
 	}
 
 	@Override
-	public int readNote(int note_con_id) {
-		return sqlSession.update("note.readNote",note_con_id);
+	public int readNote(Note_InfoVo noteInfo) {
+		return sqlSession.update("note.readNote",noteInfo);
 	}
 
 }

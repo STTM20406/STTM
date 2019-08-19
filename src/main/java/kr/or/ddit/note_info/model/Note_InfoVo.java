@@ -2,6 +2,7 @@ package kr.or.ddit.note_info.model;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 
@@ -31,7 +32,24 @@ public class Note_InfoVo {
 	private String read_fl; // 쪽지 읽음 여부
 	private String send_del_fl; // 발신인 삭제 여부
 	private String rcv_del_fl; // 수신인 삭제 여부
+	private List<String> rcv_emailList;
 	
+	
+	
+	
+	
+	public List<String> getRcv_emailList() {
+		return rcv_emailList;
+	}
+
+	public void setRcv_emailList(List<String> rcv_emailList) {
+		this.rcv_emailList = rcv_emailList;
+	}
+
+	public void setRcv_date(Date rcv_date) {
+		this.rcv_date = rcv_date;
+	}
+
 	public String getRcvDateStr() {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		if(rcv_date == null) {
