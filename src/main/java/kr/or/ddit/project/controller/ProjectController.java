@@ -29,6 +29,8 @@ import kr.or.ddit.project.service.IProjectService;
 import kr.or.ddit.project_mem.model.Project_MemVo;
 import kr.or.ddit.project_mem.service.IProject_MemService;
 import kr.or.ddit.users.model.UserVo;
+import kr.or.ddit.work.model.WorkVo;
+import kr.or.ddit.work_list.model.Work_ListVo;
 
 @Controller
 @RequestMapping("/project")
@@ -556,5 +558,52 @@ public class ProjectController {
 
 		return viewName;
 	}
+	
+	// 프로젝트 리스트 조회
+	@RequestMapping(path = "/headerSearch", method = RequestMethod.GET)
+	public String searchWorkList(Model model, HttpSession session, String headerSearch, String headerSearchText) {
+
+		logger.debug("log headerSearch headerSearchText: {} {}",headerSearch,headerSearchText);
+		// 세션에 저장된 user 정보를 가져옴
+		UserVo user = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = user.getUser_email();
+		
+		List<ProjectVo> projectList = new ArrayList<ProjectVo>();
+		// 업무리스트명으로 프로젝트 검색 
+		if(headerSearch.equals("1")) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("user_email", user_email);
+			map.put("wrk_lst_nm",headerSearchText);
+			
+			projectList = projectService.searchWorkList(map);
+			
+		}
+		//업무명으로 프로젝트 검색
+		else if(headerSearch.equals("2")) {
+			logger.debug("log headerSearch headerSearchText: {} {}",headerSearch,headerSearchText);
+			WorkVo workVo = new WorkVo();
+			workVo.setUser_email(user_email);
+			workVo.setWrk_nm(headerSearchText);
+			
+			projectList = projectService.searchWorkNm(workVo);
+			
+		}
+		//프로젝트 멤버명으로 프로젝트 검색
+		else if(headerSearch.equals("3")) {
+			UserVo userVo = new UserVo();
+			userVo.setUser_email(user_email);
+			userVo.setUser_nm(headerSearchText);
+			
+			projectList = projectService.searchProjectMem(userVo);
+			
+		}
+		
+		model.addAttribute("projectList", projectList);
+
+		return "/projectList/projectList.user.tiles";
+	}
+	
+	
+	
 
 }

@@ -74,6 +74,10 @@ $(document).ready(function(){
 
 	// 친구 수락 버튼 클릭시
 	$('#btnAcceptReq').on("click", function(){
+		
+		var acceptEmail = $(this).find("#acceptEmail").text();
+		$("#acceptEmail").val(user_email);
+		
 		$('#friendsRequestListForm').submit();
 	});
 	
@@ -227,7 +231,7 @@ function requestedFriendsList() {
 			<div class="pagination">
 					<c:choose>
 						<c:when test="${pageVo.page == 1 }">
-							<a href class="btn_first"></a>
+							<a class="btn_first"></a>
 						</c:when>
 						<c:otherwise>
 							<a href="${cp}/projectMemberList?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a>
@@ -406,17 +410,25 @@ function requestedFriendsList() {
 					
 										<c:forEach items="${friendsRequestList}" var="friReqList">
 										
-											<tr class="userTr" data-user_email="${prjVo.user_email}">
+											<tr class="friReqTr" data-user_email="${friReqList.user_email}">
 												<td>${friReqList.user_nm}</td>
 												<td>
-													<input id="btnAcceptReq" type="button" class="inp_style_01" value="수락">
+<!-- 													<input id="btnAcceptReq" type="button" class="inp_style_01" value="수락"> -->
+<%-- 													<input type="hidden" id="acceptEmail" value="${friReqList.user_email}"> --%>
+													<a href="/projectMemberList?acceptEmail=${friReqList.user_email}" class="a_style_01">수락</a>
 												</td>
 												<td>
-													<input id="btnDenyReq" type="button" class="inp_style_04" value="거절">
+<!-- 													<input id="btnDenyReq" type="button" class="inp_style_04" value="거절"> -->
+<%-- 													<input type="hidden" id="denyEmail" value="${friReqList.user_email}"> --%>
+													<a href="/projectMemberList?denyEmail=${friReqList.user_email}" class="a_style_04">거절</a>
 												</td>
 											</tr>
 											
 										</c:forEach>
+											
+										<form>
+											
+										</form>
 										
 									</tr>
 								</tbody>

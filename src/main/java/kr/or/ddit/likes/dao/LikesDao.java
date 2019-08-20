@@ -32,7 +32,7 @@ public class LikesDao implements ILikesDao{
 
 	@Override
 	public int likeCnt(int write_id) {
-		return sqlSession.update("board.likeCnt",write_id);
+		return sqlSession.selectOne("board.likeCnt",write_id);
 	}
 
 	@Override

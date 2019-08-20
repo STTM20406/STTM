@@ -371,7 +371,7 @@ ul.tabs li.current {
 		});
 	}
 	
-	function updateFile(fileID){
+	function updateFile(fileID, wrk_id){
 		alert("삭제긔긔");
 
 		$.ajax({

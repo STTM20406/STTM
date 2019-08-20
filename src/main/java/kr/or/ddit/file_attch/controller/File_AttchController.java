@@ -290,7 +290,7 @@ public class File_AttchController {
 		logger.debug("♬♩♪  fileVo: {}", fileVo);
 		
 		// 파일 업로드된 경로
-		String savePath = "C:\\Users\\손영하\\Desktop\\중요한거\\W_윈도우초반설정\\A_TeachingMaterial\\7.LastProject\\workspace\\STTM\\src\\main\\webapp\\uploadFile\\2019\\07";
+		String savePath = "c:\\images\\";
 		logger.debug("♬♩♪  savePath: {}", savePath);
 		
 		// 실제 내보낼 파일명
@@ -588,8 +588,150 @@ public class File_AttchController {
 			hashmap.put("pageVo", pageVo);
 			hashmap.put("individualList", individualList);
 			return hashmap;
-			
 	}
+
+	
+	//workFilePagination
+	@RequestMapping("/workFilePagination")
+	public  @ResponseBody HashMap<String, Object> workFilePagination(HttpSession session, Model model, PageVo pageVo, int wrk_id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("page", pageVo.getPage());
+		map.put("pageSize", pageVo.getPageSize());
+		map.put("wrk_id", wrk_id);
+		
+		Map<String, Object> resultMap = file_AttchService.workFilePagination(map);
+		List<File_AttchVo> workFileList = (List<File_AttchVo>) resultMap.get("workFileList");
+		int paginationSize = (Integer) resultMap.get("paginationSize");
+		
+		model.addAttribute("paginationSize", paginationSize);
+		model.addAttribute("pageVo", pageVo);
+		model.addAttribute("workFileList", workFileList);
+		
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		hashmap.put("paginationSize", paginationSize);
+		hashmap.put("pageVo", pageVo);
+		hashmap.put("workFileList", workFileList);
+		
+		return hashmap;
+	}
+	
+	//workLinkPagination
+	@RequestMapping("/workLinkPagination")
+	public  @ResponseBody HashMap<String, Object> workLinkPagination(HttpSession session, Model model, PageVo pageVo, int wrk_id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("page", pageVo.getPage());
+		map.put("pageSize", pageVo.getPageSize());
+		map.put("wrk_id", wrk_id);
+		
+		Map<String, Object> resultMap = file_AttchService.workLinkPagination(map);
+		List<Link_attchVo> workLinkList = (List<Link_attchVo>) resultMap.get("workLinkList");
+		int paginationSize = (Integer) resultMap.get("paginationSize");
+		
+		model.addAttribute("paginationSize", paginationSize);
+		model.addAttribute("pageVo", pageVo);
+		model.addAttribute("workLinkList", workLinkList);
+		
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		hashmap.put("paginationSize", paginationSize);
+		hashmap.put("pageVo", pageVo);
+		hashmap.put("workLinkList", workLinkList);
+		
+		return hashmap;
+	}
+	
+	//work.jsp 에서 file 상태 삭제로 변경
+	@RequestMapping("/workDelFile")
+	public  @ResponseBody HashMap<String, Object> workDelFile(int file_id, HttpSession session, Model model, PageVo pageVo, int wrk_id) {
+		logger.debug("♬♩♪  workDelFile입니다~~ : {}", file_id);
+		logger.debug("♬♩♪  workDelFile입니다~~ : {}", wrk_id);
+		
+		int cnt = file_AttchService.updateFile(file_id);
+	
+		if(cnt==1) {
+			logger.debug("♬♩♪  삭제완료");
+		}
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("page", pageVo.getPage());
+		map.put("pageSize", pageVo.getPageSize());
+		map.put("wrk_id", wrk_id);
+		
+		Map<String, Object> resultMap = file_AttchService.workFilePagination(map);
+		List<File_AttchVo> workFileList = (List<File_AttchVo>) resultMap.get("workFileList");
+		int paginationSize = (Integer) resultMap.get("paginationSize");
+		
+		model.addAttribute("paginationSize", paginationSize);
+		model.addAttribute("pageVo", pageVo);
+		model.addAttribute("workFileList", workFileList);
+		
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		hashmap.put("paginationSize", paginationSize);
+		hashmap.put("pageVo", pageVo);
+		hashmap.put("workFileList", workFileList);
+		
+		return hashmap;
+	}
+	
+	//work.jsp 에서 link 상태 삭제로 변경
+	@RequestMapping("/workDelLink")
+	public  @ResponseBody HashMap<String, Object> workDelLink(int link_id, HttpSession session, Model model, PageVo pageVo, int wrk_id) {
+		logger.debug("♬♩♪  workDelFile입니다~~ : {}", link_id);
+		logger.debug("♬♩♪  workDelFile입니다~~ : {}", wrk_id);
+		
+		int cnt = file_AttchService.updateLink(link_id);
+		
+		if(cnt==1) {
+			logger.debug("♬♩♪  삭제완료");
+		}
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("page", pageVo.getPage());
+		map.put("pageSize", pageVo.getPageSize());
+		map.put("wrk_id", wrk_id);
+		
+		Map<String, Object> resultMap = file_AttchService.workLinkPagination(map);
+		List<Link_attchVo> workLinkList = (List<Link_attchVo>) resultMap.get("workLinkList");
+		int paginationSize = (Integer) resultMap.get("paginationSize");
+		
+		model.addAttribute("paginationSize", paginationSize);
+		model.addAttribute("pageVo", pageVo);
+		model.addAttribute("workLinkList", workLinkList);
+		
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		hashmap.put("paginationSize", paginationSize);
+		hashmap.put("pageVo", pageVo);
+		hashmap.put("workLinkList", workLinkList);
+		
+		return hashmap;
+	}
+	
+	//workFileUpload
+	@RequestMapping("/workFileUpload")
+	public  @ResponseBody HashMap<String, Object> workFileUpload(
+			HttpSession session, Model model, PageVo pageVo, String locker,
+			@RequestPart MultipartFile[] profile, int wrk_id) {
+		
+		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
+		int prj_id = projectVo.getPrj_id();
+		
+		if(locker.equals("public")) {
+			
+			
+		}else if(locker.equals("individual")) {
+			
+			
+		}else if(locker.equals("both")) {
+			
+		}
+		
+		
+		return null;
+		
+	}
+	
+	
+	
+	
 	
 	
 	

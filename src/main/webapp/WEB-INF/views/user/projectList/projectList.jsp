@@ -172,7 +172,7 @@
 		
 		//프로젝트 설정 버튼을 클릭했을 때
 		$(".btnSetting").on("click", function(){
-			$("#propertySet").animate({right:'0'}, 500);
+			$(".propertySet").animate({right:'0'}, 500);
 			var prj_id = $(this).attr("id");
 		 	
 			propertySetAjax(prj_id);
@@ -180,7 +180,7 @@
 		
 		//프로젝트 닫기 버튼을 클릭했을 때
 		$(".btnSetClose").on("click", function(){
-			$("#propertySet").animate({right:'-700px'}, 500);
+			$(".propertySet").animate({right:'-700px'}, 500);
 		});
 		
 		
@@ -229,21 +229,21 @@
 					
 					//멤버레벨이 1인데 권한이 ASC02 또는 ASC03 일때
 					if(data.userInfo.prj_mem_lv == "LV1" && data.projectInfo.prj_auth == "ASC02" || data.userInfo.prj_mem_lv == "LV1" && data.projectInfo.prj_auth == "ASC03"){
-						$("#propertySet input").prop('readonly', true); 										//설정창의 모든 input readonly
-						$("#propertySet select").prop('disabled',true);										//설정창의 모든 select disabled
-						$("#propertySet button").prop('disabled', true);										//설정창의 모든 button disabled
-						$("#propertySet input[type=button]").prop('disabled', true);
-						$("#prjLeaveBtn").prop('disabled', false);
+						$(".propertySet input").prop('readonly', true); 										//설정창의 모든 input readonly
+						$(".propertySet select").prop('disabled',true);										//설정창의 모든 select disabled
+						$(".propertySet button").prop('disabled', true);										//설정창의 모든 button disabled
+						$(".propertySet input[type=button]").prop('disabled', true);
+						$(".prjLeaveBtn").prop('disabled', false);
 						$(".prj_add_box input").css({visibility:"hidden"});
 						$(".prj_mem_add_box input").css({visibility:"hidden"});
 						$(".datepicker").css({display:"none"});
 					}else{
-						$("#propertySet input").prop('readonly', false);
-						$("#propertySet select").prop('disabled',false);
-						$("#propertySet button").prop('disabled', false);
+						$(".propertySet input").prop('readonly', false);
+						$(".propertySet select").prop('disabled',false);
+						$(".propertySet button").prop('disabled', false);
 						$(".prj_add_box input").css({visibility:"visible"});
 						$(".prj_mem_add_box input").css({visibility:"visible"});
-						$("#propertySet input[type=button]").prop('disabled', false);
+						$(".propertySet input[type=button]").prop('disabled', false);
 						$(".datepicker").css({display:"block"});
 					}
 					
@@ -256,7 +256,7 @@
 		
 		
 		/* 여기서부터 프로젝트 셋팅 업데이트를 위한 이벤트 핸들러 입니다. */
-		$("#propertySet input, select").on("propertychange change keyup paste input blur", function(){
+		$(".propertySet input, select").on("propertychange change keyup paste input blur", function(){
 			
 			//프로젝트 셋팅 값 가져오기
 			var id = $("#ppt_id").val();
@@ -832,7 +832,7 @@
 
 
 <!-- property setting layer -->
-<div id="propertySet">
+<div id="propertySet" class="propertySet">
 	<div class="propertySetWrap">
 		<div class="setHd">
 			<div class="setHdTitle">

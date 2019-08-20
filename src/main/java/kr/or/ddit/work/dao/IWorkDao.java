@@ -84,4 +84,16 @@ public interface IWorkDao {
 	 * Method 설명 		: 업무 아이디로 업무 완료 여부 업데이트
 	 */
 	int updateWorkCmp(WorkVo workVo);
+	
+	
+	/**
+	 * 
+	 * Method 			: updateAllWork
+	 * 작성자 				: 박서경 
+	 * 변경이력 			: 2019-08-19 최초 생성
+	 * @param workVo
+	 * @return
+	 * Method 설명 		: 해당 업무 정보 전체 업데이트
+	 */
+	int updateAllWork(WorkVo workVo);
 }

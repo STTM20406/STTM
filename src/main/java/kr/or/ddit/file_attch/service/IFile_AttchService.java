@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import kr.or.ddit.file_attch.model.File_AttchVo;
-import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.project_mem.model.Project_MemVo;
 
 public interface IFile_AttchService {
@@ -136,5 +135,26 @@ public interface IFile_AttchService {
 		 * Method 설명 	: PM, PL 권한 받아오기!
 		 */
 		Project_MemVo selectLV(Project_MemVo project_MemVo);
+		
+		/////////////////////////////////////////////////////////////////////work에서 file link pagination
+		/**
+		 * Method 		: workFilePagination
+		 * 작성자 			: 손영하
+		 * 변경이력 		: 2019-08-19 최초 생성
+		 * @param map
+		 * @return
+		 * Method 설명 	: 해당업무에 관한 file pagination
+		 */
+		Map<String, Object> workFilePagination(Map<String, Object> map);
+			
+		/**
+		 * Method 		: workLinkPagination
+		 * 작성자 			: 손영하
+		 * 변경이력 		: 2019-08-19 최초 생성
+		 * @param map
+		 * @return
+		 * Method 설명 	: 해당업무에 관한 link pagination
+		 */
+		Map<String, Object> workLinkPagination(Map<String, Object> map);
 	   
 }

@@ -273,21 +273,21 @@ a.btn-layerClose:hover {border: 1px solid #091940; background-color:#1f326a; col
 
 
 /* property setting layaer style */
-#propertySet {position:fixed; right:-700px; top:100px; width:600px; height:100%; background:#f5f5f5; padding:60px 50px}
-#propertySet .propertySetWrap {}
-#propertySet .propertySetWrap .tab_content {display:none}
+.propertySet {position:fixed; right:-700px; top:100px; width:600px; height:100%; background:#f5f5f5; padding:60px 50px}
+.propertySet .propertySetWrap {}
+.propertySet .propertySetWrap .tab_content {display:none}
 
-#propertySet .setHd {margin-bottom:20px}
-#propertySet .setHd .setHdTitle {}
-#propertySet .setHd .setHdTitle:after {content:''; clear:both; display:block; zoom:1}
-#propertySet .setHd .setHdTitle * {float:left}
-#propertySet .setHd .setHdTitle h2 {}
-#propertySet .setHd .setHdTitle h2 input {font-size:25px; font-weight:300;  background:transparent; border:none}
-#propertySet .setHd .setHdTitle span.prj_asc {}
-#propertySet .setHd .setHdTitle span.prj_update {}
+.propertySet .setHd {margin-bottom:20px}
+.propertySet .setHd .setHdTitle {}
+.propertySet .setHd .setHdTitle:after {content:''; clear:both; display:block; zoom:1}
+.propertySet .setHd .setHdTitle * {float:left}
+.propertySet .setHd .setHdTitle h2 {}
+.propertySet .setHd .setHdTitle h2 input {font-size:25px; font-weight:300;  background:transparent; border:none}
+.propertySet .setHd .setHdTitle span.prj_asc {}
+.propertySet .setHd .setHdTitle span.prj_update {}
 
 
-#propertySet .btnSetClose {position:absolute; left:-80px; top:0; width:80px; height:50px; text-align:center; line-height:50px; background:#f5f5f5}
+.propertySet .btnSetClose {position:absolute; left:-80px; top:0; width:80px; height:50px; text-align:center; line-height:50px; background:#f5f5f5}
 
 
 #frmContainer {width:20%; float:left}
@@ -318,6 +318,8 @@ a.btn-layerClose:hover {border: 1px solid #091940; background-color:#1f326a; col
 .lableColor ul li label.wrk_color08 {background:#00f;}
 .lableColor ul li label.wrk_color09 {background:#0ff;}
 .lableColor ul li label.wrk_color10 {background:#f00;}
+
+.colorSelect {border:5px solid #333} /* 컬러 선택 */
 
 /* work list : work drag and drop css */
 .list {min-height:30px}

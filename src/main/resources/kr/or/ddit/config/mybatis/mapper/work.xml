@@ -80,7 +80,38 @@
 	
 	<!-- 업무 완료 체크시 완료 플래그 업데이트 -->
 	<update id="updateWorkCmp" parameterType="workVo">
-		UPDATE WORK SET WRK_CMP_FL = #{wrk_cmp_fl} WHERE WRK_ID = #{wrk_id}
+		UPDATE WORK SET 	WRK_CMP_FL = #{wrk_cmp_fl},
+							<choose>
+								<when test="wrk_cmp_dt != null">
+									WRK_CMP_DT = #{wrk_cmp_dt}
+								</when>
+								<otherwise>
+									WRK_CMP_DT = SYSDATE
+								</otherwise>
+							</choose>
+		WHERE WRK_ID = #{wrk_id}
+	</update>
+	
+	
+	<!-- 프로젝트 전체 업데이트 -->
+	<update id="updateAllWork" parameterType="workVo">
+		UPDATE WORK SET 
+				<if test="wrk_nm != null">
+				  WRK_NM = #{wrk_nm}
+				</if>
+				<if test="wrk_grade != null">
+		                , WRK_GRADE = #{wrk_grade}
+		                </if>
+		                <if test="wrk_color_cd != null">
+		                , WRK_COLOR_CD = #{wrk_color_cd}
+		                </if>
+		                <if test="wrk_start_dt != null">
+		                , WRK_START_DT = #{wrk_start_dt}
+		                </if>
+		                <if test="wrk_end_dt != null">
+		                , WRK_END_DT = #{wrk_end_dt}
+		                </if>
+		WHERE WRK_ID = #{wrk_id}
 	</update>
 
 
