@@ -259,17 +259,16 @@ function requestedFriendsList() {
 			<div>
 				<table class="tb_style_01" id="prjMemTable">
 					<colgroup>
-						<col width="10%">
-						<col width="40%">
 						<col width="30%">
-						<col width="10%">
-						<col width="10%">
+						<col width="30%">
+						<col width="30%">
 					</colgroup>
 					<tbody>
 						<tr>
 						
 							<th>사용자 이메일</th>
 							<th>사용자 이름</th>
+							<th></th>
 		
 							<c:forEach items="${projectMemList}" var="prjVo">
 							
@@ -280,6 +279,10 @@ function requestedFriendsList() {
 									</td>
 									
 									<td>${prjVo.user_nm}</td>
+									<td>
+										<a href="/projectMemberList?frdRequEmail=${prjVo.user_email}" id="" class="inp_style_01">친구요청</a>
+									</td>
+									
 								</tr>
 								
 							</c:forEach>
@@ -514,16 +517,14 @@ function requestedFriendsList() {
 				        <div class="pop-conts">
 				            <!--content //-->
 			
-				            <p class="ctxt mb20">
-							친구 등록
-							</p>
-			
-							<input type="text" id="req_email" name="req_email" value="${req_email}">
+							<input type="text" id="req_email" name="req_email" value="${req_email}"
+							placeholder="친구 아이디를 입력 해주세요">
 							<input type="button" class="inp_style_01" id="" onclick="requestFriends()" value="친구 요청">
 							
 				            <div class="btn-r">
 				                <a href="#" class="btn-layerClose">Close</a>
 				            </div>
+				            
 				            <!--// content-->
 				        </div>
 				    </div>

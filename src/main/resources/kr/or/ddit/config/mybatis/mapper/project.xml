@@ -245,8 +245,14 @@
 	<!-- 프로젝트 멤버 전체수 조회 -->
 	<select id="projectMemCnt" parameterType="map" resultType="int">
 		select count(*)
-		from project_mem
-		where prj_id like '%'||#{prj_id}||'%'
+     	from
+        (select distinct b.user_email
+                       , c.user_nm from
+            (select * 
+             from project_mem 
+             where user_email = #{user_email}) a, project_mem b, users c
+	     where b.prj_id in (a.prj_id)
+	     and c.user_email = b.user_email) a 
 	</select>
 	
 	

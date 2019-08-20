@@ -235,7 +235,10 @@ public class UserController {
 	 */
 	@RequestMapping(path = "/projectMemberList", method = RequestMethod.GET)
 	public String projectMemberListView(PageVo pageVo, Model model, HttpSession session,
-										String acceptEmail, String denyEmail) {
+										String acceptEmail, String denyEmail, String prjMemView, String frdRequEmail) {
+		
+		logger.debug("prjMemView : ruichi {}",prjMemView);
+		logger.debug("frdRequEmail : tae {}",frdRequEmail);
 		
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
 		Project_MemVo prjVo = new Project_MemVo();
@@ -260,6 +263,8 @@ public class UserController {
 			model.addAttribute("projectMemList", projectMemList);
 			model.addAttribute("paginationSize", paginationSize);
 			model.addAttribute("pageVo", pageVo);
+			
+			
 			
 //		}else if (frd_email != null){
 		
@@ -343,46 +348,21 @@ public class UserController {
 				
 				int denyRequest = friend_ReqService.deleteFriendRequest(user_email);
 				
+			} else if (frdRequEmail != null) {
+				
+				String req_email1 = userVo.getUser_email();
+				
+				UserVo userVo3 = userService.getUser(frdRequEmail);
+				String user_email = userVo3.getUser_email();
+
+				Friend_ReqVo friendsReqVo = new Friend_ReqVo(user_email,req_email1); 
+
+				int firendsRequest = friend_ReqService.firendsRequest(friendsReqVo);
 			}
 			
 			
-		
 		return "/member/projectMember.user.tiles";
 	}
-	
-//	/**
-//	 * 
-//	* Method : projectMemberListProcess
-//	* 작성자 : 김경호
-//	* 변경이력 : 2019-08-19
-//	* @param user_nm
-//	* @return
-//	* Method 설명 : 친구 수락 버튼 클릭하여 친구 등록 
-//	* 			     친구 거절 버튼 클릭하여 요청 받은 친구 리스트에서 친구 요청 제거 
-//	 */
-//	@RequestMapping(path = "/projectMemberList1", method = RequestMethod.GET)
-//	public String projectMemberListProcess(String acceptEmail, String denyEmail, String friendsRequestList) {
-//
-//		logger.debug("friendsRequestList : 모닝로거0 {}",friendsRequestList);
-//		
-//		logger.debug("acceptEmail : 모닝로거1 {}",acceptEmail);
-//		logger.debug("denyEmail : 모닝로거2 {}",denyEmail);
-//		
-//		if(acceptEmail != null) {
-//			
-////			FriendsVo friendsVo = 
-////			int acceptRequest = friendsService.insertFriends(friendsVo);
-//			
-//		} else if(denyEmail != null) {
-//			
-//			FriendsVo friendsVo = new FriendsVo();
-//			int acceptRequest = friendsService.insertFriends(friendsVo);
-//			
-//		}
-//		
-//		return "/member/projectMember.user.tiles";
-//	}
-	
 	
 	/**
 	 * 
