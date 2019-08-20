@@ -286,12 +286,12 @@ public class VoteService implements IVoteService{
 		sb.append("</table>");
 		sb.append("<button onclick='newItemMdf()' id='addItemBtn' type='button'>투표 항목 추가</button>");
 		sb.append("<br><br>");
-		sb.append("<h2 class='voteItems'>기타 설정</h2>");
+		sb.append("<h2 class='voteItems'>투표 마감일</h2>");
 		sb.append("<input type='hidden' name='prj_id' value='"+ voteVo.getPrj_id()+"'>");
 		sb.append("<input type='hidden' name='vote_email' value='"+ voteVo.getVote_email() +"'>");
 		sb.append("<input type='hidden' name='vote_id' value='"+ vote_id +"'>");
-		sb.append("<input type='checkbox' name='vote_ano' value='Y' " + (voteVo.getVote_ano() == null ? "" : " checked " )+ "> 익명 투표<br>");
-		sb.append("투표 마감일 : <input type='text' id='end_dt_mdf' name='vote_end_date'> <br>");
+		sb.append("<input type='hidden' name='vote_ano' value='Y'>");
+		sb.append("<input type='text' id='end_dt_mdf' name='vote_end_date'> <br>");
 		sb.append("<br>");
 		sb.append("<input type='button' id='voteMdfSubmit' onclick='voteMdf()' class='btn_style_02' value='투표 등록'>");
 		sb.append("</form>");
