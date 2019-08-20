@@ -441,7 +441,7 @@
 		    and del_fl='N'
 		    and FILE_COMM_FL ='Y'
 		    order by file_id desc) a)a, work b, USERS C
-		     where rn>=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
+		    where rn>=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
 		    and b.wrk_id = a.wrk_id
 		    AND A.USER_EMAIL = C.USER_EMAIL
 	   ]]>
@@ -488,6 +488,57 @@
 	
 	
 	<!-- 개인보관함 -->
+	<!-- 해당 프로젝트 해당 업무 file, link data에 대한 pagination  -->
+	<select id="workFilePagination" parameterType="map" resultType="file_attchVo">
+	  <![CDATA[
+		  select rownum num, a.file_id, a.prj_id, a.user_email, a.wrk_id, a.original_file_nm, a.db_file_nm, a.file_size, a.file_exts, a.file_dt, a.del_fl, a.FILE_SAVE_FL, b.wrk_nm, C.USER_NM
+	      from
+	      (select a.*, rownum rn 
+	      from
+	      (select * 
+	      from file_attch
+	      WHERE wrk_id = #{wrk_id}
+	      and del_fl='N'
+	      order by file_id desc) a)a, work b, USERS C
+	      where rn>=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
+	      and b.wrk_id = a.wrk_id
+	      AND A.USER_EMAIL = C.USER_EMAIL
+      ]]>
+	</select>
+	
+	<select id="workFileCnt" parameterType="int" resultType="int">
+		  select count(*)
+	      from file_attch
+	      WHERE wrk_id = #{wrk_id}
+	      and del_fl='N'
+	</select>
+	
+	<select id="workLinkPagination" parameterType="map" resultType="link_attchVo">
+	  <![CDATA[
+		  select rownum num, a.link_id, a.prj_id, a.user_email, a.wrk_id, a.attch_url, a.file_link_dt, a.del_fl, b.wrk_nm, c.user_nm
+     	  from
+	      (select a.*, rownum rn 
+	      from
+	      (select * 
+	      from link_attch
+	      WHERE wrk_id = #{wrk_id}
+	      and del_fl = 'N'
+	      order by link_id desc) a)a, work b, USERS c
+	      where rn>=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
+	      and b.wrk_id = a.wrk_id
+	      and a.user_email = c.user_email
+      ]]>
+	</select>
+	
+	<select id="workLinkCnt" parameterType="int" resultType="int">
+		  select count(*)
+	      from link_attch
+	      WHERE wrk_id = #{wrk_id}
+	      and del_fl = 'N'
+	</select>
+	
+	
+	<!-- 해당 프로젝트 해당 업무 file, link data에 대한 pagination  -->
 
 	<!-- 해당 프로젝트 파일 리스트 받아오는 쿼리문 -->
 	<select id="fileList" parameterType="int"
@@ -599,9 +650,6 @@
 	</select>
 
 	
-
-	
-	
 	<!-- InsertLPagination링크수 조회 -->
 	<select id="insertLPagination" parameterType="map"	resultType="link_attchVo">
    <![CDATA[
@@ -684,7 +732,6 @@
 	
 	
 	<!-- *********************minutes************************ -->
-
 	<select id="minutesList" parameterType="int" resultType="minutesVo">
 		select A.*, B.user_nm from minutes A, users B
 		where prj_id=#{prj_id}

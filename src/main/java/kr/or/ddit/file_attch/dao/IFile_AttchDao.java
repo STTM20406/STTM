@@ -5,7 +5,6 @@ import java.util.Map;
 
 import kr.or.ddit.file_attch.model.File_AttchVo;
 import kr.or.ddit.link_attch.model.Link_attchVo;
-import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.project_mem.model.Project_MemVo;
 
 /**
@@ -203,4 +202,54 @@ public interface IFile_AttchDao {
 	 * Method 설명 	: PM, PL 권한 받아오기!
 	 */
 	Project_MemVo selectLV(Project_MemVo project_MemVo);
+	
+	//업무에서 file link 조회하기//업무에서 file link 조회하기//업무에서 file link 조회하기//업무에서 file link 조회하기//업무에서 file link 조회하기//업무에서 file link 조회하기
+	
+	/**
+	 * Method 		: workFilePagination
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-19 최초 생성
+	 * @param map
+	 * @return
+	 * Method 설명 	: 해당업무에 관한 file pagination
+	 */
+	List<File_AttchVo> workFilePagination(Map<String, Object> map);
+		
+	/**
+	 * Method 		: workLinkPagination
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-19 최초 생성
+	 * @param map
+	 * @return
+	 * Method 설명 	: 해당업무에 관한 link pagination
+	 */
+	List<Link_attchVo> workLinkPagination(Map<String, Object> map);
+	
+	/**
+	 * Method 		: workFileCnt
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-19 최초 생성
+	 * @param file_attchVo
+	 * @return
+	 * Method 설명 	: 해당업무에 대한 file수 cnt
+	 */
+	int workFileCnt(int wrk_id);
+	
+	
+	/**
+	 * Method 		: worklinkCnt
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-19 최초 생성
+	 * @param link_attchVo
+	 * @return
+	 * Method 설명 	: 해당 업무에 대한 link cnt
+	 */
+	int workLinkCnt(int wrk_id);
+	
+	
+	
+	
+	
+	
+	
 }
