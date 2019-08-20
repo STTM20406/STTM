@@ -569,7 +569,7 @@ public class ProjectController {
 		String user_email = user.getUser_email();
 		
 		List<ProjectVo> projectList = new ArrayList<ProjectVo>();
-		//업무리스트명 검색
+		// 업무리스트명으로 프로젝트 검색 
 		if(headerSearch.equals("1")) {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("user_email", user_email);
@@ -578,7 +578,7 @@ public class ProjectController {
 			projectList = projectService.searchWorkList(map);
 			
 		}
-		//업무명 검색
+		//업무명으로 프로젝트 검색
 		else if(headerSearch.equals("2")) {
 			logger.debug("log headerSearch headerSearchText: {} {}",headerSearch,headerSearchText);
 			WorkVo workVo = new WorkVo();
@@ -588,9 +588,17 @@ public class ProjectController {
 			projectList = projectService.searchWorkNm(workVo);
 			
 		}
+		//프로젝트 멤버명으로 프로젝트 검색
+		else if(headerSearch.equals("3")) {
+			UserVo userVo = new UserVo();
+			userVo.setUser_email(user_email);
+			userVo.setUser_nm(headerSearchText);
+			
+			projectList = projectService.searchProjectMem(userVo);
+			
+		}
 		
-		
-		model.addAttribute("projectList", projectService.projectList(user_email));
+		model.addAttribute("projectList", projectList);
 
 		return "/projectList/projectList.user.tiles";
 	}

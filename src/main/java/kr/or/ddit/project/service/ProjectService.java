@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import kr.or.ddit.project.dao.IProjectDao;
 import kr.or.ddit.project.model.ProjectVo;
+import kr.or.ddit.users.model.UserVo;
 import kr.or.ddit.work.model.WorkVo;
 import kr.or.ddit.work_list.model.Work_ListVo;
 
@@ -156,6 +157,11 @@ public class ProjectService implements IProjectService{
 	@Override
 	public List<ProjectVo> searchWorkNm(WorkVo vo) {
 		return projectDao.searchWorkNm(vo);
+	}
+
+	@Override
+	public List<ProjectVo> searchProjectMem(UserVo vo) {
+		return projectDao.searchProjectMem(vo);
 	}
 
 }

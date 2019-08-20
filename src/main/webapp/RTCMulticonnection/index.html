@@ -43,7 +43,6 @@
 				<button id="join-room">Join Room</button>
 				<button id="open-screenSharing">Open ScreenSharing</button>
 				<button id="join-screenSharing">Join ScreenSharing</button>
-				<button id="unmute">음소거</button>
 				<div id="screen-container" style="margin: 20px 0;"></div>
 			</div>
 			<!-- <div
@@ -173,14 +172,6 @@
 							});
 		};
 
-		//음소거 하기
-		document.getElementById('unmute').onclick = function() {
-			connection.streams[window.connection].unmute({
-				audio : true,
-				video : true
-			});
-
-		};
 		// ......................................................
 		// ................FileSharing/TextChat Code.............
 		// ......................................................
