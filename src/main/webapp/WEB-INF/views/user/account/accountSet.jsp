@@ -274,7 +274,7 @@
 					<form action="/setUserStatus" method="post" id="userStatusForm">
 						<div class="inputField">
 							<a href="#" class="btn-example" onclick="layer_open('layer2');return false;">
-								<input type="button" id="btnPjrMemList" value="휴면 계정 전환">
+								<input type="button" id="btnPjrMemList" value="휴면 계정 전환" class="inp_style_04">
 							</a>
 							
 							<div class="layer">
@@ -299,7 +299,7 @@
 
 <%-- 											${getMyPrjMemList.user_nm} --%>
 											
-											<input type="button" onclick="inactiveUser()" value="소유권 이전 버튼">
+											<input type="button" onclick="inactiveUser()" value="소유권 이전 버튼" class="inp_style_04">
 											
 											<div class="btn-r">
 												<a href="#" class="cbtn">Close</a>
