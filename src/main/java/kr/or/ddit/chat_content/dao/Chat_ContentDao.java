@@ -71,4 +71,14 @@ public class Chat_ContentDao implements IChat_ContentDao{
 		return sqlSession.delete("chat.outChatContentProject",vo);
 	}
 
+	@Override
+	public int maxChatContentId(int ct_id) {
+		return sqlSession.selectOne("chat.maxChatContentId",ct_id);
+	}
+
+	@Override
+	public Chat_ContentVo getContent(int ct_con_id) {
+		return sqlSession.selectOne("chat.getContent",ct_con_id);
+	}
+
 }

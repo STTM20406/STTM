@@ -64,4 +64,26 @@ public interface IChat_ContentService {
 	 * Method 설명 	: 각 대화방에서의 각 사용자 대화 내역 삭제, 프로젝트
 	 */
 	public int deleteChatContentProject(int prj_id);
+	
+	/**
+	 * 
+	 * Method 		: maxChatContentId
+	 * 작성자 			: 유다연
+	 * 변경이력 		: 2019-08-20 최초 생성
+	 * @param ct_id
+	 * @return
+	 * Method 설명 	: 채팅방의 최대값 대화 아이디
+	 */
+	public int maxChatContentId(int ct_id);
+	
+	/**
+	 * 
+	 * Method 		: getContent
+	 * 작성자 			: 유다연
+	 * 변경이력 		: 2019-08-20 최초 생성
+	 * @param ct_con_id
+	 * @return
+	 * Method 설명 	: 대화내역 정보 가져오기
+	 */
+	public Chat_ContentVo getContent(int ct_con_id);
 }

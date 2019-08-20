@@ -89,4 +89,16 @@ public class Chat_ContentService implements IChat_ContentService{
 		return cnt;
 	}
 
+	@Override
+	public int maxChatContentId(int ct_id) {
+		int cnt = contentDao.maxChatContentId(ct_id);
+		return cnt;
+	}
+
+	@Override
+	public Chat_ContentVo getContent(int ct_con_id) {
+		Chat_ContentVo vo = contentDao.getContent(ct_con_id);
+		return vo;
+	}
+
 }
