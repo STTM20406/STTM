@@ -31,7 +31,7 @@ public class File_AttchVo {
     private int wrk_id;                 //업무 ID
     private String original_file_nm;    //실제 파일명
     private String db_file_nm;          //DB 파일명
-    private int file_size;           	//파일 크기
+    private long file_size;           	//파일 크기
     private String file_exts;           //파일 확장자
     
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
@@ -69,7 +69,7 @@ public class File_AttchVo {
 	 * file 업로드
 	 */
 	public File_AttchVo(int prj_id, String user_email, int wrk_id, String original_file_nm, String db_file_nm,
-			int file_size, String file_exts) {
+			long file_size, String file_exts) {
 		this.prj_id = prj_id;
 		this.user_email = user_email;
 		this.wrk_id = wrk_id;
@@ -153,11 +153,11 @@ public class File_AttchVo {
 		this.db_file_nm = db_file_nm;
 	}
 
-	public int getFile_size() {
+	public long getFile_size() {
 		return file_size;
 	}
 
-	public void setFile_size(int file_size) {
+	public void setFile_size(long file_size) {
 		this.file_size = file_size;
 	}
 

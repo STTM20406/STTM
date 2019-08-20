@@ -158,6 +158,21 @@ public class File_AttchService implements IFile_AttchService{
 		return resultMap;
 	}
 
+	@Override
+	public int insertFilePublic(File_AttchVo file_attchVo) {
+		return file_AttchDao.insertFilePublic(file_attchVo);
+	}
+
+	@Override
+	public int insertFileindividual(File_AttchVo file_attchVo) {
+		return file_AttchDao.insertFileindividual(file_attchVo);
+	}
+
+	@Override
+	public int insertFileboth(File_AttchVo file_attchVo) {
+		return file_AttchDao.insertFileboth(file_attchVo);
+	}
+
 
 
 

@@ -764,28 +764,77 @@
 			workLinkPagination(1, 10,wrk_id);
 		})
 		
-		$("#workFile").on('click','#uploadFile', function(){
-			alert("등록");
-			var locker = $("#locker input[type=radio]:checked").val();
-	 		$('#box').val(locker);
-	 		var wrk_id = $('#wps_wrk_id').val();
-	 		$('#work').val(wrk_id);
-			$('#frm').submit();
-		;})
+		
 		
 		$("#workLink").on('click','#uploadLink', function(){
-			var locker = $("#locker input[type=radio]:checked").val();
+			alert("link가즈아!!");
 			var link = $('.link').val();
+			console.log(link);
+			var locker = $("#locker input[type=radio]:checked").val();
+			console.log(locker);
+			var wrk_id = $('#wps_wrk_id').val();
+			console.log(wrk_id);
+			
+			$('#box').val(locker);
+			$('#work').val(wrk_id);
+			
+			$.ajax({
+	 		    url: "/workLinkUpload",
+	 		    type: "POST",
+	 		    data: "link=" + link + "&locker=" + locker + "&wrk_id="+ wrk_id,
+	 		    contentType:"application/x-www-form-urlencoded; charset=UTF-8",
+	 		    success: function(data){
+	 		    	workLinkPagination(1, 10, wrk_id);
+	 		    },
+	 		    error: function(e){
+	 		        alert(e.reponseText);
+	 		    }
+	 		});
+			
+			
 		})
 		
 		
+		
+		$("#workFile").on('click','#uploadFile', function(){
+
+			var form = document.getElementById("frm");
+			console.log(form);
+			form.method = "POST";
+			form.enctype = "multipart/form-data";
+// 			formData.append("uploadfile",$("input[name=uploadfile]")[0].files[0]);
+			
+			var locker = $("#locker input[type=radio]:checked").val();
+			var wrk_id = $('#wps_wrk_id').val();
+			$('#box').val(locker);
+			$('#work').val(wrk_id);
+			var formData  = new FormData(form);
+			console.log(formData);
+			console.log($(formData).serialize());
+			alert(formData);
+			$.ajax({
+	 		    url: "/workFileUpload",
+	 		    type: "POST",
+	 		    data: formData,
+				cache : false,		
+	 		    contentType: false,
+	 		    processData: false,
+	 		    success: function(data){
+	 		    	workFilePagination(1, 10, wrk_id);
+	 		    },
+	 		    error: function(e){
+	 		        alert(e.reponseText);
+	 		    }
+	 		});
+		});
+		
 	});
+	
 	function workFilePagination(page, pageSize, wrk_id) {
 		$.ajax({
 			url : "/workFilePagination",
 			method : "post",
-			data : "page=" + page + "&pageSize=" + pageSize + "&wrk_id="
-					+ wrk_id,
+			data : "page=" + page + "&pageSize=" + pageSize + "&wrk_id="+ wrk_id,
 			success : function(data) {
 				//사용자 리스트
 				var hhtml = "";
@@ -1391,7 +1440,7 @@
 					<li id="linkList">LinkList</li>
 				</ul>
 			</div>
-
+			
 			<div id="locker">
 				<input value="public" name="box" type="radio">공유함 긔긔
 				<input value="individual" name="box" type="radio">개인함 긔긔
@@ -1414,7 +1463,6 @@
 				<button type="button" id="uploadLink">등록</button>
 			</div>
 			
-				
 			<div class="tab_con">
 	
 				<div class="tab-content current">
