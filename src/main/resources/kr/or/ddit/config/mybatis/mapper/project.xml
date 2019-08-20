@@ -275,6 +275,67 @@
 
 	<!-- *********************file_attch********************* -->
 	
+	<!-- file 등록 -->
+	<insert id="insertFilePublic" parameterType="file_attchVo">
+		insert into 
+			FILE_ATTCH 
+		values(
+			FILE_SEQ.nextVal,
+			#{prj_id},
+			#{user_email},
+			#{wrk_id},
+			#{original_file_nm},
+			#{db_file_nm},
+			#{file_size},
+			#{file_exts},
+			sysdate,
+			'Y',
+			'N',
+			'N'
+			)
+	</insert>
+	
+	<insert id="insertFileindividual" parameterType="file_attchVo">
+		insert into 
+			FILE_ATTCH 
+		values(
+			FILE_SEQ.nextVal,
+			#{prj_id},
+			#{user_email},
+			#{wrk_id},
+			#{original_file_nm},
+			#{db_file_nm},
+			#{file_size},
+			#{file_exts},
+			sysdate,
+			'N',
+			'N',
+			'Y'
+			)
+	</insert>
+	
+	<insert id="insertFileboth" parameterType="file_attchVo">
+		insert into 
+			FILE_ATTCH 
+		values(
+			FILE_SEQ.nextVal,
+			#{prj_id},
+			#{user_email},
+			#{wrk_id},
+			#{original_file_nm},
+			#{db_file_nm},
+			#{file_size},
+			#{file_exts},
+			sysdate,
+			'Y',
+			'N',
+			'Y'
+			)
+	</insert>
+	
+	<!-- file 등록 -->
+	
+	
 	<!-- public filePagination 공용 파일 링크 보관함!!!! -->
 	<select id="publicFilePagination" parameterType="map" resultType="file_attchVo">
 		<![CDATA[
@@ -505,6 +566,7 @@
 	      from file_attch
 	      WHERE wrk_id = #{wrk_id}
 	      and del_fl='N'
+	      and FILE_SAVE_FL = 'Y'
 	      order by file_id desc) a)a, work b, USERS C
 	      where rn>=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
 	      and b.wrk_id = a.wrk_id

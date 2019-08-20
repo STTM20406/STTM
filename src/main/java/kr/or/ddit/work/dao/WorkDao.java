@@ -124,6 +124,24 @@ public class WorkDao implements IWorkDao{
 	public int updateAllWork(WorkVo workVo) {
 		return sqlSession.update("work.updateAllWork", workVo);
 	}
+
+	
+	/**
+	 * 
+	 * Method 			: updateWorkColor
+	 * 작성자 				: 박서경 
+	 * 변경이력 			: 2019-08-20 최초 생성
+	 * @param workVo
+	 * @return
+	 * Method 설명 		: 해당 업무 라벨 컬러 업데이트
+	 */
+	@Override
+	public int updateWorkColor(WorkVo workVo) {
+		return sqlSession.update("work.updateWorkColor", workVo);
+	}
+	
+	
+	
 	
 
 }

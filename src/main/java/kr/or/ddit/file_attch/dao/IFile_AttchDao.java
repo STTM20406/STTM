@@ -246,10 +246,36 @@ public interface IFile_AttchDao {
 	 */
 	int workLinkCnt(int wrk_id);
 	
+	///////////////////////////////////////////////////////////////////////workPage
+	/**
+	 * Method 		: insertFilePublic
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-20 최초 생성
+	 * @param file_attchVo
+	 * @return
+	 * Method 설명 	: work창에서 파일 공용으로 insert
+	 */
+	int insertFilePublic(File_AttchVo file_attchVo);
+	   
+	/**
+	 * Method 		: insertFileindividual
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-20 최초 생성
+	 * @param file_attchVo
+	 * @return
+	 * Method 설명 	: work창에서 파일 개인으로 insert
+	 */
+	int insertFileindividual(File_AttchVo file_attchVo);
 	
-	
-	
-	
+	/**
+	 * Method 		: insertFileboth
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-20 최초 생성
+	 * @param file_attchVo
+	 * @return
+	 * Method 설명 	: work창에서 파일 둘다 insert
+	 */
+	int insertFileboth(File_AttchVo file_attchVo);
 	
 	
 }

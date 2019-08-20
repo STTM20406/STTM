@@ -131,5 +131,20 @@ public class File_AttchDao implements IFile_AttchDao{
 		return sqlSession.selectOne("project.workLinkCnt",wrk_id);
 	}
 
+	@Override
+	public int insertFilePublic(File_AttchVo file_attchVo) {
+		return sqlSession.insert("project.insertFilePublic",file_attchVo);
+	}
+
+	@Override
+	public int insertFileindividual(File_AttchVo file_attchVo) {
+		return sqlSession.insert("project.insertFileindividual",file_attchVo);
+	}
+
+	@Override
+	public int insertFileboth(File_AttchVo file_attchVo) {
+		return sqlSession.insert("project.insertFileboth",file_attchVo);
+	}
+
 
 }

@@ -65,6 +65,17 @@
 				$(this).val("").focus();
 			}
 		});
+		
+		//업무 라벨 색상 변경 이벤트 핸들러
+// 		$("input:radio[name='wrk_color_cd']").on("change", function(){
+// 			console.log(this);
+// 			/*if($(this).prop("checked", false)){
+// 				alert("체크안됨");
+// 			}
+// 			else{
+// 				alert("체크됨");
+// 			}*/		
+// 		});
 
 		
 		//업무리스트 추가
@@ -471,6 +482,7 @@
 					$("#wrk_gd").val(data.workVo.wrk_grade);
 					$(".wrk_color").removeClass("colorSelect");
 					$("#"+data.workVo.wrk_color_cd).prev().addClass("colorSelect");
+					$("#"+data.workVo.wrk_color_cd).prop("checked", true);
 				}
 			});
 		}
@@ -605,10 +617,11 @@
 			});
 		}
 		
+		var wrk_color = "";
 		
 		
 		/* 여기서부터 업무 셋팅 업데이트를 위한 이벤트 핸들러 입니다. */
-		$("#propertyWorkSet input, select").on("propertychange change keyup", function(){
+		$("#propertyWorkSet input, select").on("propertychange keyup change click", function(){
 			
 			//프로젝트 셋팅 값 가져오기
 			var id = $("#wps_id").val();
@@ -616,6 +629,8 @@
 			var work_date = $("#wps_start_date").val();
 			var res_date = $("#wps_res_date").val();
 			var wrk_gd = $("#wrk_gd").val();
+<<<<<<< HEAD
+=======
 // 			var wrk_color = $("input[name='wrk_color_cd']:checked").val();
 			var wrk_color = $("input:radio[name='wrk_color_cd']").is(":checked");
 // 			if(wrk_color == true){
@@ -623,7 +638,9 @@
 // 			}else{
 // 				alert("체크안됨 ");
 // 			}
+>>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 			
+				
 			var workSplit = work_date.split(" to ");
 			var resSplit = res_date.split(" to ");
 			
@@ -641,22 +658,15 @@
 				work_end_dt = "";
 			}
 			
-			if(typeof wrk_color == "undefined"){
-				wrk_color = "";
-			}
-			
-			console.log(wrk_color);
-			
 			var projectWorkSet = {
 							  id : id
 						  	, name : name
 						  	, work_start_dt : work_start_dt
 						 	, work_end_dt : work_end_dt
 						  	, wrk_gd : wrk_gd
-						  	, wrk_color : wrk_color
 			}
 			
-// 			propertyWorkSetItemAjax(projectWorkSet);
+			propertyWorkSetItemAjax(projectWorkSet);
 		});
 		
 		//업무 설정 업데이트 ajax
@@ -668,7 +678,6 @@
 				data:"wrk_id=" + projectWorkSet.id +
 					"&wrk_nm=" + projectWorkSet.name +
 					"&wrk_grade=" + projectWorkSet.wrk_gd +
-					"&wrk_color_cd=" + projectWorkSet.wrk_color +
 					"&wrk_start_dt=" + projectWorkSet.work_start_dt +
 					"&wrk_end_dt=" + projectWorkSet.work_end_dt,
 				success:function(data){
@@ -683,21 +692,45 @@
 			});
 		}
 		//레이블 색상 선택 (라디오버튼 선택 / 선택해제)
+		
 		var beforeChecked = -1;
-			$(function(){
-		      		$(".lableColor").on("click", "input[type=radio]", function(e) {
-		         		var index = $(this).prev().index("label");
-		         		$(this).prev().removeClass("colorSelect");
-		         		if(beforeChecked == index) {
-		         		beforeChecked = -1;
-		         		$(this).prop("checked", false);
-		         	}else{
-		         		beforeChecked = index;
-		         		$(".wrk_color").removeClass("colorSelect");
-		         		$(this).prev().addClass("colorSelect");
-		         	}
-		      	});
-		 });
+		
+      		$(".lableColor").on("click", "input[type=radio]", function(e) {
+      			var id = $("#wps_id").val();
+         		var index = $(this).prev().index("label");
+         		$(this).prev().removeClass("colorSelect");
+         		
+         		if(beforeChecked == index) {
+	         		beforeChecked = -1;
+	         		$(this).prop("checked", false);
+	         		wrk_color = $("input:radio[name='wrk_color_cd']:checked").val();
+         		}else{
+	         		beforeChecked = index;
+	         		wrk_color = $("input:radio[name='wrk_color_cd']:checked").val();
+	         		$(".wrk_color").removeClass("colorSelect");
+	         		$(this).prev().addClass("colorSelect");
+         		}
+         		
+         		if(typeof wrk_color == "undefined"){
+    				wrk_color = "";
+    			}else{
+    				wrk_color = $("input:radio[name='wrk_color_cd']:checked").val();
+    			}
+         		
+         		propertyWorkLableColorAjax(id, wrk_color);
+	      	});
+      		
+      		//업무 라벨 색상 변경
+    		function propertyWorkLableColorAjax(id, wrk_color){
+    			$.ajax({
+    				url:"/work/propertyWorkLableColorAjax",
+    				method:"post",
+    				contentType:"application/x-www-form-urlencoded; charset=UTF-8",
+    				data:"wrk_id=" + id + "&wrk_color_cd=" + wrk_color,
+    				success:function(data){
+    				}
+    			});
+    		}
 		
 		//날짜 선택
 		$(".flatpickr").flatpickr({
@@ -731,28 +764,77 @@
 			workLinkPagination(1, 10,wrk_id);
 		})
 		
-		$("#workFile").on('click','#uploadFile', function(){
-			alert("등록");
-			var locker = $("#locker input[type=radio]:checked").val();
-	 		$('#box').val(locker);
-	 		var wrk_id = $('#wps_wrk_id').val();
-	 		$('#work').val(wrk_id);
-			$('#frm').submit();
-		;})
+		
 		
 		$("#workLink").on('click','#uploadLink', function(){
-			var locker = $("#locker input[type=radio]:checked").val();
+			alert("link가즈아!!");
 			var link = $('.link').val();
+			console.log(link);
+			var locker = $("#locker input[type=radio]:checked").val();
+			console.log(locker);
+			var wrk_id = $('#wps_wrk_id').val();
+			console.log(wrk_id);
+			
+			$('#box').val(locker);
+			$('#work').val(wrk_id);
+			
+			$.ajax({
+	 		    url: "/workLinkUpload",
+	 		    type: "POST",
+	 		    data: "link=" + link + "&locker=" + locker + "&wrk_id="+ wrk_id,
+	 		    contentType:"application/x-www-form-urlencoded; charset=UTF-8",
+	 		    success: function(data){
+	 		    	workLinkPagination(1, 10, wrk_id);
+	 		    },
+	 		    error: function(e){
+	 		        alert(e.reponseText);
+	 		    }
+	 		});
+			
+			
 		})
 		
 		
+		
+		$("#workFile").on('click','#uploadFile', function(){
+
+			var form = document.getElementById("frm");
+			console.log(form);
+			form.method = "POST";
+			form.enctype = "multipart/form-data";
+// 			formData.append("uploadfile",$("input[name=uploadfile]")[0].files[0]);
+			
+			var locker = $("#locker input[type=radio]:checked").val();
+			var wrk_id = $('#wps_wrk_id').val();
+			$('#box').val(locker);
+			$('#work').val(wrk_id);
+			var formData  = new FormData(form);
+			console.log(formData);
+			console.log($(formData).serialize());
+			alert(formData);
+			$.ajax({
+	 		    url: "/workFileUpload",
+	 		    type: "POST",
+	 		    data: formData,
+				cache : false,		
+	 		    contentType: false,
+	 		    processData: false,
+	 		    success: function(data){
+	 		    	workFilePagination(1, 10, wrk_id);
+	 		    },
+	 		    error: function(e){
+	 		        alert(e.reponseText);
+	 		    }
+	 		});
+		});
+		
 	});
+	
 	function workFilePagination(page, pageSize, wrk_id) {
 		$.ajax({
 			url : "/workFilePagination",
 			method : "post",
-			data : "page=" + page + "&pageSize=" + pageSize + "&wrk_id="
-					+ wrk_id,
+			data : "page=" + page + "&pageSize=" + pageSize + "&wrk_id="+ wrk_id,
 			success : function(data) {
 				//사용자 리스트
 				var hhtml = "";
@@ -1358,7 +1440,7 @@
 					<li id="linkList">LinkList</li>
 				</ul>
 			</div>
-
+			
 			<div id="locker">
 				<input value="public" name="box" type="radio">공유함 긔긔
 				<input value="individual" name="box" type="radio">개인함 긔긔
@@ -1381,7 +1463,6 @@
 				<button type="button" id="uploadLink">등록</button>
 			</div>
 			
-				
 			<div class="tab_con">
 	
 				<div class="tab-content current">

@@ -590,7 +590,6 @@ public class File_AttchController {
 			return hashmap;
 	}
 
-	
 	//workFilePagination
 	@RequestMapping("/workFilePagination")
 	public  @ResponseBody HashMap<String, Object> workFilePagination(HttpSession session, Model model, PageVo pageVo, int wrk_id) {
@@ -707,31 +706,95 @@ public class File_AttchController {
 	
 	//workFileUpload
 	@RequestMapping("/workFileUpload")
-	public  @ResponseBody HashMap<String, Object> workFileUpload(
-			HttpSession session, Model model, PageVo pageVo, String locker,
-			@RequestPart MultipartFile[] profile, int wrk_id) {
+	public @ResponseBody HashMap<String, Object> workFileUpload(HttpSession session, Model model, PageVo pageVo, String locker,
+			@RequestPart MultipartFile profile, int wrk_id) {
 		
 		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
 		int prj_id = projectVo.getPrj_id();
 		
-		if(locker.equals("public")) {
-			
-			
-		}else if(locker.equals("individual")) {
-			
-			
-		}else if(locker.equals("both")) {
-			
+		logger.debug("♬♩♪  wrk_id: {}", wrk_id);
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = userVo.getUser_email();
+		
+		logger.debug("♬♩♪  locker: {}", locker);
+		int cnt = 0;
+		// 올릴 파일수....
+		int count = 0;
+		
+		String db_file_nm = UUID.randomUUID().toString();
+			if (profile.getSize() > 0) {
+				count++;
+				String original_file_nm = profile.getOriginalFilename();
+				String file_exts = PartUtil.getExt(original_file_nm);
+				String uploadPath = PartUtil.getUploadPath();
+				String path = uploadPath + File.separator + db_file_nm + file_exts;
+
+				long file_size = profile.getSize();
+				File uploadFile = new File(path);
+				// 해당 위치에 업로드
+				try {
+					// 해당 파일 지정된 경로에 업로드...
+					profile.transferTo(uploadFile);
+				} catch (IllegalStateException | IOException e) {
+					e.printStackTrace();
+				}
+				
+				File_AttchVo file_attchVo = new File_AttchVo(
+						prj_id, 
+						user_email,
+						wrk_id,
+						original_file_nm,
+						db_file_nm,
+						file_size, 
+						file_exts
+						);
+				
+				if(locker.equals("public")) {
+					cnt += file_AttchService.insertFilePublic(file_attchVo);
+					
+				}else if(locker.equals("individual")) {
+					cnt += file_AttchService.insertFileindividual(file_attchVo);
+					
+				}else if(locker.equals("both")) {
+					cnt += file_AttchService.insertFileboth(file_attchVo);
+				}
+			}
+		if (cnt == count) {
+			logger.debug("♬♩♪  업로드 완료!!!!!");
 		}
 		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("page", pageVo.getPage());
+		map.put("pageSize", pageVo.getPageSize());
+		map.put("wrk_id", wrk_id);
 		
-		return null;
+		Map<String, Object> resultMap = file_AttchService.workFilePagination(map);
+		List<File_AttchVo> workFileList = (List<File_AttchVo>) resultMap.get("workFileList");
+		int paginationSize = (Integer) resultMap.get("paginationSize");
+		
+		model.addAttribute("paginationSize", paginationSize);
+		model.addAttribute("pageVo", pageVo);
+		model.addAttribute("workFileList", workFileList);
+		
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		hashmap.put("paginationSize", paginationSize);
+		hashmap.put("pageVo", pageVo);
+		hashmap.put("workFileList", workFileList);
+		
+		return hashmap;
 		
 	}
 	
-	
-	
-	
+	//workLinkUpload
+	@RequestMapping("/workLinkUpload")
+	public @ResponseBody HashMap<String, Object> workLinkUpload(HttpSession session, Model model, 
+			PageVo pageVo, String locker, int wrk_id, String link) {
+				logger.debug("♬♩♪  link: {}", link);
+				logger.debug("♬♩♪  locker: {}", locker);
+				logger.debug("♬♩♪  wrk_id: {}", wrk_id);
+		
+		return null;
+	}
 	
 	
 	
