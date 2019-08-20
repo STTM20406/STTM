@@ -396,7 +396,7 @@ function connectNotify(){
 	         $(".socketAlram").animate({right:"-350px"}, 500);
 	         
 	      },3000);
-      }
+      } 
    };
 
    socket.onclose = function(event) {
