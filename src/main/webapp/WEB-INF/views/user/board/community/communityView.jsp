@@ -44,11 +44,16 @@ $(document).ready(function(){
 			
 	})
 
-	$("#likeBtnPush").on("click",function(){
+	$(".contents").on("click", "#likeBtnPush", function(){
 		
 		var write_id = $("#write_id").val();
 		var board_id = $("#board_id").val();
-		DownLikeAjax(write_id,board_id);
+		
+		$(this).attr("value", "좋아요 취소");
+		$(this).attr("id", "likeBtnNotPush");
+		
+		AddlikeAjax(write_id, board_id);
+		
 		
 	})
 	
@@ -63,8 +68,7 @@ $(document).ready(function(){
 				console.log(text);
 				var html = "";
 				html += "<label>좋아요 수 : " + data.data + "</label>";
-				html += "<input type='button' id='likeBtnNotPush' value='좋아요안누름'>";
-				$("#likeCnt").html(html);
+				$("#likeCnt label").html(html);
 			}
 			
 		});
@@ -72,12 +76,14 @@ $(document).ready(function(){
 	}
 	
 	
-	
-	$("#likeBtnNotPush").on("click",function(){
-		
+	$(".contents").on("click", "#likeBtnNotPush", function(){
 		var write_id = $("#write_id").val();
 		var board_id = $("#board_id").val();
-		AddlikeAjax(write_id,board_id);
+
+		$(this).attr("value", "좋아요 누름");
+		$(this).attr("id", "likeBtnPush");
+		
+		DownLikeAjax(write_id,board_id);
 		
 	})
 	
@@ -93,8 +99,7 @@ $(document).ready(function(){
 				console.log(text);
 				var html = "";
 				html += "<label>좋아요 수 : " + data.data + "</label>";
-				html += "<input type='button' id='likeBtnPush' value='좋아요누름'>";
-				$("#likeCnt").html(html);
+				$("#likeCnt label").html(html);
 			}
 			
 		});
@@ -116,12 +121,7 @@ $(document).ready(function(){
 			<label>댓글수 : ${replyCnt }</label>
 			<div id="likeCnt">
 				<label>좋아요 수 : ${writeInfo.like_cnt }</label>
-				<c:if test="${likeCheck == 1}">
-					<input type="button" id="likeBtnPush" value="좋아요누름">
-				</c:if>
-				<c:if test="${likeCheck == 0}">
-					<input type="button" id="likeBtnNotPush" value="좋아요안누름">
-				</c:if>
+				<input type="button" id="likeBtnPush" value="좋아요누름" name="${likeCheck}">
 			</div>
 		</div>
 		<div>
