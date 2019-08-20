@@ -543,7 +543,7 @@ window.onclick = function(event) {
                      <option value="2">업무명</option>
                      <option value="3">프로젝트 멤버명</option>
                   </select> <input type="text" name="headerSearchText" id="headerSearchText" maxlength="20"
-                     placeholder="검색어를 입력해주세요">
+                     placeholder="프로젝트 검색">
                   <button type="submit" id="sch_submit" value="검색">검색</button>
                </form>
             </fieldset>
