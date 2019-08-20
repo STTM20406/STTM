@@ -106,7 +106,7 @@
 	</section>
 
 	<link rel="stylesheet" href="./dev/getHTMLMediaElement.css">
-	<script src="http://192.168.0.62:9001/dev/getHTMLMediaElement.js"></script>
+	<script src="http://localhost/dev/getHTMLMediaElement.js"></script>
 	<script src="http://192.168.0.62:9001/dist/RTCMultiConnection.js"></script>
 	<script src="http://192.168.0.62:9001/dist/RTCMultiConnection.min.js"></script>
 	<script src="http://192.168.0.62:9001/socket.io/socket.io.js"></script>
@@ -216,8 +216,8 @@
 		var connection = new RTCMultiConnection();
 
 		// by default, socket.io server is assumed to be deployed on your own URL
-		// 		connection.socketURL = 'http://192.168.0.62:9001/';
-		connection.socketURL = 'http://192.168.219.102:9001/';
+		connection.socketURL = 'http://192.168.0.62:9001/';
+// 		connection.socketURL = 'http://192.168.219.102:9001/';
 
 		// comment-out below line if you do not have your own socket.io server
 		// connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
@@ -499,8 +499,8 @@
 		var connection1 = new RTCMultiConnection();
 
 		// by default, socket.io server is assumed to be deployed on your own URL
-		connection1.socketURL = 'http://192.168.219.102:9001/';
-		// 		connection1.socketURL = 'http://192.168.0.62:9001/';
+// 		connection1.socketURL = 'http://192.168.219.102:9001/';
+		connection1.socketURL = 'http://192.168.0.62:9001/';
 
 		// comment-out below line if you do not have your own socket.io server
 		// connection1.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
