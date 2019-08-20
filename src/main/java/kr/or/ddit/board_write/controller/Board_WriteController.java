@@ -1,5 +1,6 @@
 package kr.or.ddit.board_write.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,6 +67,13 @@ public class Board_WriteController {
 		List<Board_WriteVo> boardList = (List<Board_WriteVo>) resultMap.get("boardPostList");
 		logger.debug("!@# boardList : {}",boardList);
 		
+		Map<Integer, Object> mapAnswerCnt = new HashMap<Integer, Object>();
+		
+		for(int i = 0;i<boardList.size();i++) {
+			mapAnswerCnt.put(boardList.get(i).getWrite_id(),answerService.replyCnt(boardList.get(i).getWrite_id()));
+		}
+		
+		logger.debug("!@# mapAnswerCnt@@@@@@@@@@@@@@@@ : {}",mapAnswerCnt);
 		int paginationSize = (Integer) resultMap.get("paginationSize");
 		
 		//나의 게시판 리스트
@@ -74,14 +82,53 @@ public class Board_WriteController {
 		int myaginationSize = (Integer) myResultMap.get("myPaginationSize");
 		
 		
+		
 		model.addAttribute("board_id",board_id);
 		model.addAttribute("paginationSize",paginationSize);
 		model.addAttribute("boardList", boardList);
+		model.addAttribute("pageVo", pageVo);
+		model.addAttribute("mapAnswerCnt", mapAnswerCnt);
+		
+		return "/board/community/communityList.user.tiles";
+	}
+	@RequestMapping("/myCommunity")
+	public String boardMyPostList(Model model,String page, String pageSize,int board_id,HttpSession session) {
+		
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		int pageStr = page == null ? 1 : Integer.parseInt(page);
+		int pageSizeStr =  pageSize == null ? 10 : Integer.parseInt(pageSize);
+		
+		PageVo pageVo = new PageVo(pageStr,pageSizeStr);
+		pageVo.setBoard_id(board_id);
+		pageVo.setUser_email(userVo.getUser_email());
+		Map<String, Object> resultMap =  writeService.boardPostList(pageVo);
+		
+		List<Board_WriteVo> boardList = (List<Board_WriteVo>) resultMap.get("boardPostList");
+		logger.debug("!@# boardList : {}",boardList);
+		
+		Map<Integer, Object> mapAnswerCnt = new HashMap<Integer, Object>();
+		
+		for(int i = 0;i<boardList.size();i++) {
+			mapAnswerCnt.put(boardList.get(i).getWrite_id(),answerService.replyCnt(boardList.get(i).getWrite_id()));
+		}
+		
+		logger.debug("!@# mapAnswerCnt@@@@@@@@@@@@@@@@ : {}",mapAnswerCnt);
+		int paginationSize = (Integer) resultMap.get("paginationSize");
+		
+		//나의 게시판 리스트
+		Map<String, Object> myResultMap =  writeService.myBoardPostList(pageVo);
+		List<Board_WriteVo> myBoardList = (List<Board_WriteVo>) myResultMap.get("myBoardPostList");
+		int myaginationSize = (Integer) myResultMap.get("myPaginationSize");
+		
+		
+		
+		model.addAttribute("board_id",board_id);
 		model.addAttribute("myaginationSize",myaginationSize);
 		model.addAttribute("myBoardList", myBoardList);
 		model.addAttribute("pageVo", pageVo);
+		model.addAttribute("mapAnswerCnt", mapAnswerCnt);
 		
-		return "/board/community/communityList.user.tiles";
+		return "/board/community/myCommunityList.user.tiles";
 	}
 	
 	@RequestMapping("/communityAjax")
@@ -106,6 +153,12 @@ public class Board_WriteController {
 		
 		int paginationSize = (Integer) resultMap.get("paginationSize");
 		
+		Map<Integer, Object> mapAnswerCnt = new HashMap<Integer, Object>();
+		
+		for(int i = 0;i<boardList.size();i++) {
+			mapAnswerCnt.put(boardList.get(i).getWrite_id(),answerService.replyCnt(boardList.get(i).getWrite_id()));
+		}
+		
 		//나의 게시판 리스트
 		Map<String, Object> myResultMap =  writeService.myBoardPostList(pageVo);
 		List<Board_WriteVo> myBoardList = (List<Board_WriteVo>) myResultMap.get("myBoardPostList");
@@ -119,6 +172,7 @@ public class Board_WriteController {
 		resultMap2.put("myaginationSize",myaginationSize);
 		resultMap2.put("myBoardList", myBoardList);
 		resultMap2.put("pageVo", pageVo);
+		resultMap2.put("mapAnswerCnt", mapAnswerCnt);
 //		model.addAttribute("board_id",board_id);
 //		model.addAttribute("paginationSize",paginationSize);
 //		model.addAttribute("boardList", boardList);

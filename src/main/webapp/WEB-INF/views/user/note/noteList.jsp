@@ -17,7 +17,7 @@ ul.tabs {
 }
 
 ul.tabs li {
-	background: none;
+	background: none;e
 	color: #222;
 	display: inline-block;
 	padding: 10px 15px;
