@@ -307,14 +307,23 @@ public class UserController {
 				
 				UserVo uservo1 = userService.getUser(acceptEmail);
 				String frd_email = uservo1.getUser_email();	
+				req_email = uservo1.getUser_email();	
 				
-				FriendsVo friendsVo = new FriendsVo(user_email, frd_email);
-				Friend_ReqVo friendReqVo = new Friend_ReqVo(user_email, frd_email);
+				Friend_ReqVo friendReqVo = new Friend_ReqVo(req_email, user_email);
+				
+				logger.debug("friendReqVo : 업데이트 테스트 {}",friendReqVo);
+				
+//				friendReqVo.setUser_email(user_email); // 문제 - 셋팅을 두번 해줘서
+//				friendReqVo.setReq_email(req_email);   // 문제 - 셋팅을 두번 해줘서
 				
 				int updateReqAccept = friend_ReqService.updateReqAccept(friendReqVo);
 				
+				logger.debug("updateReqAccept : 업데이트 테스트1 {}",updateReqAccept);
+				
+				FriendsVo friendsVo = new FriendsVo(user_email, frd_email);
 				int acceptRequest = friendsService.accerptFriendRequest(friendsVo);
 				
+				int denyRequest = friend_ReqService.deleteFriendRequest(acceptEmail);
 				
 				
 			} else if(denyEmail != null) {
