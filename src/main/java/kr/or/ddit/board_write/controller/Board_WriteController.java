@@ -131,58 +131,6 @@ public class Board_WriteController {
 		return "/board/community/myCommunityList.user.tiles";
 	}
 	
-	@RequestMapping("/communityAjax")
-	public @ResponseBody Map<String, Object> boardPostListAjax(Model model,String page, String pageSize,String board_id,HttpSession session) {
-		logger.debug("!@# communityAjax@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-		logger.debug("!@# board_id : {}",board_id);
-		logger.debug("!@# page : {}",page);
-		logger.debug("!@# pageSize : {}",pageSize);
-		
-		int board_idNm = Integer.parseInt(board_id);
-		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
-		int pageStr = page == null ? 1 : Integer.parseInt(page);
-		int pageSizeStr =  pageSize == null ? 10 : Integer.parseInt(pageSize);
-		
-		PageVo pageVo = new PageVo(pageStr,pageSizeStr);
-		pageVo.setBoard_id(board_idNm);
-		pageVo.setUser_email(userVo.getUser_email());
-		Map<String, Object> resultMap =  writeService.boardPostList(pageVo);
-		
-		List<Board_WriteVo> boardList = (List<Board_WriteVo>) resultMap.get("boardPostList");
-		logger.debug("!@# boardListAjax : {}",boardList);
-		
-		int paginationSize = (Integer) resultMap.get("paginationSize");
-		
-		Map<Integer, Object> mapAnswerCnt = new HashMap<Integer, Object>();
-		
-		for(int i = 0;i<boardList.size();i++) {
-			mapAnswerCnt.put(boardList.get(i).getWrite_id(),answerService.replyCnt(boardList.get(i).getWrite_id()));
-		}
-		
-		//나의 게시판 리스트
-		Map<String, Object> myResultMap =  writeService.myBoardPostList(pageVo);
-		List<Board_WriteVo> myBoardList = (List<Board_WriteVo>) myResultMap.get("myBoardPostList");
-		int myaginationSize = (Integer) myResultMap.get("myPaginationSize");
-		
-		Map<String, Object> resultMap2 = new HashMap<String, Object>();
-		
-		resultMap2.put("board_id",board_id);
-		resultMap2.put("paginationSize",paginationSize);
-		resultMap2.put("boardList", boardList);
-		resultMap2.put("myaginationSize",myaginationSize);
-		resultMap2.put("myBoardList", myBoardList);
-		resultMap2.put("pageVo", pageVo);
-		resultMap2.put("mapAnswerCnt", mapAnswerCnt);
-//		model.addAttribute("board_id",board_id);
-//		model.addAttribute("paginationSize",paginationSize);
-//		model.addAttribute("boardList", boardList);
-//		model.addAttribute("myaginationSize",myaginationSize);
-//		model.addAttribute("myBoardList", myBoardList);
-//		model.addAttribute("pageVo", pageVo);
-		
-		return resultMap2;
-	}
-	
 	/**
 	 * Method 		: boardWrite
 	 * 작성자 			: 양한솔 
@@ -357,13 +305,15 @@ public class Board_WriteController {
 	}
 	
 	@RequestMapping(path="/boardSearch",method=RequestMethod.POST)
-	public String select(String search, String searchText, String boardnum02,String page, String pageSize, Model model) {
+	public String search(String search, String searchText, String boardnum02,String page, String pageSize, Model model) {
 		
 		int pageStr = page == null ? 1 : Integer.parseInt(page);
 		int pageSizeStr =  pageSize == null ? 10 : Integer.parseInt(pageSize);
 		
 		PageVo pageVo = new PageVo(pageStr,pageSizeStr);
 		pageVo.setBoard_id(Integer.parseInt(boardnum02));
+		Map<Integer, Object> mapAnswerCnt = new HashMap<Integer, Object>();
+		
 		
 		logger.debug("log search : {}, serchText : {}",search,searchText);
 		if(search.equals("title")) {
@@ -371,33 +321,69 @@ public class Board_WriteController {
 			Map<String, Object> resultMap =  writeService.selectTitle(pageVo);
 			
 			List<Board_WriteVo> titleList = (List<Board_WriteVo>) resultMap.get("titleList");
-			model.addAttribute("searchList",titleList);
 			
+			for(int i = 0;i<titleList.size();i++) {
+				mapAnswerCnt.put(titleList.get(i).getWrite_id(),answerService.replyCnt(titleList.get(i).getWrite_id()));
+			}
+			
+			model.addAttribute("searchList",titleList);
 			model.addAttribute("board_id",boardnum02);
 			model.addAttribute("boardList", titleList);
+			model.addAttribute("mapAnswerCnt", mapAnswerCnt);
 			
 		}else if(search.equals("content")) {
 			pageVo.setContent(searchText);
 			Map<String, Object> resultMap =  writeService.selectContent(pageVo);
 			
 			List<Board_WriteVo> contentList = (List<Board_WriteVo>) resultMap.get("contentList");
+			for(int i = 0;i<contentList.size();i++) {
+				mapAnswerCnt.put(contentList.get(i).getWrite_id(),answerService.replyCnt(contentList.get(i).getWrite_id()));
+			}
 			
 			model.addAttribute("board_id",boardnum02);
 			model.addAttribute("boardList", contentList);
+			model.addAttribute("mapAnswerCnt", mapAnswerCnt);
 		}
-		
-		
-		
-		
-		
-		
-		
-		//int paginationSize = (Integer) resultMap.get("paginationSize");
-		
 		
 		return "/board/community/communityList.user.tiles";
 		
+	}
+	@RequestMapping(path="/boardMySearch",method=RequestMethod.POST)
+	public String mySearch(String search, String searchText, String boardnum02,String page, String pageSize, Model model,HttpSession session) {
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
 		
+		
+		int pageStr = page == null ? 1 : Integer.parseInt(page);
+		int pageSizeStr =  pageSize == null ? 10 : Integer.parseInt(pageSize);
+		
+		PageVo pageVo = new PageVo(pageStr,pageSizeStr);
+		pageVo.setBoard_id(Integer.parseInt(boardnum02));
+		pageVo.setUser_email(userVo.getUser_email());
+		
+		logger.debug("log search : {}, serchText : {}",search,searchText);
+		if(search.equals("title")) {
+			pageVo.setSubject(searchText);
+			Map<String, Object> resultMap =  writeService.mySelectTitle(pageVo);
+			
+			List<Board_WriteVo> titleList = (List<Board_WriteVo>) resultMap.get("myTitleList");
+			logger.debug("!@# titleList@@@@@@@ : {}",titleList);
+			model.addAttribute("searchList",titleList);
+			
+			model.addAttribute("board_id",boardnum02);
+			model.addAttribute("myBoardList", titleList);
+			
+		}else if(search.equals("content")) {
+			pageVo.setContent(searchText);
+			Map<String, Object> resultMap =  writeService.mySelectContent(pageVo);
+			
+			List<Board_WriteVo> contentList = (List<Board_WriteVo>) resultMap.get("myContentList");
+			logger.debug("!@# contentList@@@@@@@ : {}",contentList);
+			
+			model.addAttribute("board_id",boardnum02);
+			model.addAttribute("myBoardList", contentList);
+		}
+		
+		return "/board/community/myCommunityList.user.tiles";
 		
 	}
 }

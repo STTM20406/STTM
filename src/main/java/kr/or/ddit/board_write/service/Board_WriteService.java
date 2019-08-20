@@ -199,6 +199,33 @@ public class Board_WriteService implements IBoard_WriteService{
 		return board_wirteDao.selectContentCnt(content);
 	}
 
+	@Override
+	public Map<String, Object> mySelectTitle(PageVo pageVo) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("myTitleList", board_wirteDao.mySelectTitle(pageVo));
+		logger.debug("!@# userEmailpageVo.getSubject() : {}",pageVo.getSubject() );
+		logger.debug("!@# userEmailpageVo.getUser_email() : {}",pageVo.getUser_email() );
+		
+		int titleCnt = board_wirteDao.mySelectTitleCnt(pageVo);
+		int paginationSize = (int) Math.ceil((double)titleCnt/pageVo.getPageSize());
+		resultMap.put("paginationSize", paginationSize);
+		
+		return resultMap;
+	}
+
+	@Override
+	public Map<String, Object> mySelectContent(PageVo pageVo) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("myContentList", board_wirteDao.mySelectContent(pageVo));
+		
+		int contentCnt = board_wirteDao.mySelectContentCnt(pageVo);
+		int paginationSize = (int) Math.ceil((double)contentCnt/pageVo.getPageSize());
+		resultMap.put("paginationSize", paginationSize);
+		
+		return resultMap;
+	}
+
+
 
 
 }

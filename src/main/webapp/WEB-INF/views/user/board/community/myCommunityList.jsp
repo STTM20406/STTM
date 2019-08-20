@@ -89,7 +89,7 @@ ul.tabs li.current {
 
 		<div class="tab_con">
 			<div id="tab-1" class="tab-content current">
-			<form id="searchFrm" action="/boardSearch" method="post">
+			<form id="searchFrm" action="/boardMySearch" method="post">
 			<input type="hidden" name="boardnum02" id="boardnum02" value="${board_id }"> 
 				<div class="searchBox">
                   <div class="tb_sch_wr">

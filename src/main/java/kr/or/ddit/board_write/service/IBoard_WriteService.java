@@ -140,4 +140,28 @@ public interface IBoard_WriteService {
 	 * Method 설명 	: 검색한 내용의 글 개수
 	 */
 	int selectContentCnt(String content);
+	
+	
+	/**
+	 * 
+	 * Method 		: selectTitle
+	 * 작성자 			: 양한솔
+	 * 변경이력 		: 2019-08-20 최초 생성
+	 * @param a
+	 * @return
+	 * Method 설명 	: 게시글 제목 검색
+	 */
+	Map<String, Object> mySelectTitle(PageVo pageVo);
+	
+	/**
+	 * 
+	 * Method 		: selectContent
+	 * 작성자 			: 양한솔
+	 * 변경이력 		: 2019-08-20 최초 생성
+	 * @param a
+	 * @return
+	 * Method 설명 	: 게시글 내용 검색
+	 */
+	Map<String, Object> mySelectContent(PageVo pageVo);
+	
 }
