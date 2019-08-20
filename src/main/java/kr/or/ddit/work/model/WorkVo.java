@@ -115,13 +115,13 @@ public class WorkVo extends Work_ListVo{
 	}
 	
 	/**
+	 * @author 박서경 : 해당 프로젝트 업데이트 생성자
 	 * @param wrk_id
 	 * @param wrk_lst_id
 	 * @param wrk_nm
 	 * @param wrk_color_cd
 	 * @param wrk_start_dt
 	 * @param wrk_end_dt
-	 * 설명 : 해당 프로젝트 업데이트
 	 */
 	public WorkVo( int wrk_lst_id, String wrk_nm, String wrk_color_cd, Date wrk_start_dt, Date wrk_end_dt,int wrk_id) {
 		this.wrk_lst_id = wrk_lst_id;
@@ -132,6 +132,21 @@ public class WorkVo extends Work_ListVo{
 		this.wrk_id = wrk_id;
 	}
 	
+	
+	/**
+	 * @author 박서경 : 업무 업데이트 생성자
+	 * @param wrk_id
+	 * @param wrk_nm
+	 * @param wrk_grade
+	 * @param wrk_color_cd
+	 */
+	public WorkVo(int wrk_id, String wrk_nm, String wrk_grade, String wrk_color_cd) {
+		super();
+		this.wrk_id = wrk_id;
+		this.wrk_nm = wrk_nm;
+		this.wrk_grade = wrk_grade;
+		this.wrk_color_cd = wrk_color_cd;
+	}
 
 	@Override
 	public String toString() {

@@ -109,6 +109,21 @@ public class WorkDao implements IWorkDao{
 	public int updateWorkCmp(WorkVo workVo) {
 		return sqlSession.update("work.updateWorkCmp", workVo);
 	}
+
+	
+	/**
+	 * 
+	 * Method 			: updateAllWork
+	 * 작성자 				: 박서경 
+	 * 변경이력 			: 2019-08-19 최초 생성
+	 * @param workVo
+	 * @return
+	 * Method 설명 		: 해당 업무 정보 전체 업데이트
+	 */
+	@Override
+	public int updateAllWork(WorkVo workVo) {
+		return sqlSession.update("work.updateAllWork", workVo);
+	}
 	
 
 }
