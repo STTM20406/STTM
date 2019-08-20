@@ -1,6 +1,8 @@
 package kr.or.ddit.util;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -110,6 +112,18 @@ public class WebSocket extends TextWebSocketHandler {
 				Chat_ContentVo contentVo = new Chat_ContentVo(Integer.parseInt(ct_id), senderId1, content);
 				contentService.insertChatContent(contentVo);
 				
+				//입력한 메시지의 정보 가져오기
+				int maxContentId = contentService.maxChatContentId(Integer.parseInt(ct_id));
+				Chat_ContentVo maxContentVo = contentService.getContent(maxContentId);
+				
+				Date from = new Date();
+				SimpleDateFormat transFormat = new SimpleDateFormat("yy/MM/dd HH:mm");
+
+				String to = transFormat.format(from);
+
+
+				
+				
 				// 각 채팅방 멤버들 리스트 아이디
 				List<String> chatMemList = memService.roomFriendListEmail(Integer.parseInt(ct_id));
 
@@ -132,7 +146,7 @@ public class WebSocket extends TextWebSocketHandler {
 				if ("chatting".equals(chatting) && nowLoginList != null) { // 채팅메시지를 보냈고 채팅방에 해당하는 멤버가 로그인 되어있을 때
 					
 					for(String key : nowLoginList.keySet()) { // 지금 로그인한 멤버들의 사이즈만큼 돌려서
-						TextMessage tmpMsg = new TextMessage(senderId1 + "," + senderNm + "," + content);
+						TextMessage tmpMsg = new TextMessage(senderId1 + "," + senderNm + "," + content + "," + to);
 						System.out.println("tmpMsg : " + tmpMsg);
 						
 						//if() { // 나에게는 보내지 않음.

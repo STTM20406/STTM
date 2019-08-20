@@ -292,7 +292,7 @@
 					printHTML += "<div class='received_withd_msg'>";
 					printHTML += "<p>" + strArray[1] + "</p>";
 					printHTML += "<p>" + strArray[2] + "</p>";
-					printHTML += "<span class='time_date'> 11:01 AM | June 9</span></div></div></div>";
+					printHTML += "<span class='time_date'>" + strArray[3] + "</span></div></div></div>";
 				$("#chatData").append(printHTML);
 				$("#chatData").scrollTop($("#chatData")[0].scrollHeight);			
 				
@@ -301,7 +301,7 @@
 				printHTML += "<div class='sent_msg'>";
 				printHTML += "<p>" + strArray[1] + "</p>";
 				printHTML += "<p>" + strArray[2] + "</p>";
-				printHTML += "<span class='time_date'> 11:01 AM | June 9</span></div></div>";
+				printHTML += "<span class='time_date'>" + strArray[3] + "</span></div></div></div>";
 				$("#chatData").append(printHTML);
 				$("#chatData").scrollTop($("#chatData")[0].scrollHeight);
 			}

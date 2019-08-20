@@ -240,5 +240,18 @@
 			    where prj_id = #{prj_id})
 	</delete>
 	
+	<!-- 채팅방의 최댓값 대화 아이디 -->
+	<select id="maxChatContentId" parameterType="int" resultType="int">
+		select max(ct_con_id)
+		from chat_content
+		where ct_id = #{ct_id}
+	</select>
+	
+	<!-- 대화아이디에 맞는 대화내용 검색 -->
+	<select id="getContent" parameterType="int" resultType="chat_contentVo">
+		select *
+		from chat_content
+		where ct_con_id = #{ct_con_id}
+	</select>
 
 </mapper>
