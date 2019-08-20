@@ -41,7 +41,7 @@ ul.tabs li.current {
 			$("#frm").submit();
 		})
 
-		$(".boardTr").on("click", function() {
+		$(".tb_style_01").on("click", ".boardTr",function() {
 			console.log("boardTr click");
 			var boardNum = $(this).find(".boardNum").text();
 			$("#write_id").val(boardNum);
@@ -71,134 +71,6 @@ ul.tabs li.current {
 		
 	})
 	
-	function CommunityListPagination(board_id,page,pageSize){
-		$.ajax({
-				url:"/communityAjax",
-				method:"post",
-				data:"board_id=" + board_id + "&page="+page+"&pageSize="+pageSize ,
-				success : function(data){
-					console.log("lllllllllllllllll")
-					console.log(data);
-					//사용자 리스트
-					var hhtml = "";
-					var html = "";
-					
-					//hhtml생성
-					hhtml += "<tr>";
-					hhtml += "<th>번호</th>";
-					hhtml += "<th>제목</th>";
-					hhtml += "<th>작성자</th>";
-					hhtml += "<th>작성일</th>";
-					hhtml += "<th>댓글</th>";
-					hhtml += "<th>좋아요</th>";
-					hhtml += "<th>조회수</th>";
-					hhtml += "</tr>";
-					
-					data.boardList.forEach(function(boardList, index){
-							//html생성
-							html += "<tr class='boardTr' >";
-							html += "<td class='boardNum' style= 'display:none;''>"+ boardList.write_id + "</td>";
-							html += "<td>"+ boardList.rn + "</td>";
-							html += "<td>"+boardList.subject+"</td>";	
-							html += "<td>"+ boardList.user_email + "</td>";
-							html += "<td>"+boardList.writedate+"</td>";
-							html += "<td>댓글수 들어갈거야</td>";
-							html += "<td>"+boardList.like_cnt+"</td>";
-							html += "<td>"+boardList.view_cnt+"</td>";
-							html += "</tr>";
-					});
-					var pHtml = "";
-					var pageVo = data.pageVo;
-					console.log(pageVo);
-					
-					if(pageVo.page==1)
-						pHtml += "<li class='disabled'><span>«<span></li>";
-					else
-						pHtml += "<li><a onclick='CommunityListPagination("+board_id+","+(pageVo.page-1)+", "+pageVo.pageSize+");' href='javascript:void(0);'>«</a></li>";
-					
-					for(var i =1; i <=data.paginationSize; i++){
-						if(pageVo.page==i)
-							pHtml += "<li class='active'><span>" + i + "</span></li>";
-						else
-							pHtml += "<li><a href='javascript:void(0);' onclick='CommunityListPagination("+board_id+","+ i + ", " + pageVo.pageSize+");'>"+i+"</a></li>";
-					}
-					if(pageVo.page == data.paginationSize)
-						pHtml += "<li class='disabled'><span>»<span></li>";
-					else
-						pHtml += "<li><a href='javascript:void(0);' onclick='CommunityListPagination("+board_id+","+(pageVo.page+1)+", "+pageVo.pageSize+");'>»</a></li>";
-					
-					$(".pagination").html(pHtml);
-					$("#communityHeader").html(hhtml);
-					$("#communityList").html(html);
-				}
-		
-			});	
-	}
-	
-	function MyCommunityListPagination(board_id,page,pageSize){
-		$.ajax({
-				url:"/communityAjax",
-				method:"post",
-				data:"board_id=" + board_id + "&page="+page+"&pageSize="+pageSize ,
-				success : function(data){
-					console.log("lllllllllllllllll")
-					console.log(data);
-					//사용자 리스트
-					var hhtml = "";
-					var html = "";
-					
-					//hhtml생성
-					hhtml += "<tr>";
-					hhtml += "<th>번호</th>";
-					hhtml += "<th>제목</th>";
-					hhtml += "<th>작성자</th>";
-					hhtml += "<th>작성일</th>";
-					hhtml += "<th>댓글</th>";
-					hhtml += "<th>좋아요</th>";
-					hhtml += "<th>조회수</th>";
-					hhtml += "</tr>";
-					
-					data.myBoardList.forEach(function(boardList, index){
-							//html생성
-							html += "<tr class='boardTr' >";
-							html += "<td class='boardNum' style= 'display:none;''>"+ boardList.write_id + "</td>";
-							html += "<td>"+ boardList.rn + "</td>";
-							html += "<td>"+boardList.subject+"</td>";	
-							html += "<td>"+ boardList.user_email + "</td>";
-							html += "<td>"+boardList.writedate+"</td>";
-							html += "<td>댓글수 들어갈거야</td>";
-							html += "<td>"+boardList.like_cnt+"</td>";
-							html += "<td>"+boardList.view_cnt+"</td>";
-							html += "</tr>";
-					});
-					var pHtml = "";
-					var pageVo = data.pageVo;
-					console.log(html);
-					console.log(pageVo);
-					
-					if(pageVo.page==1)
-						pHtml += "<li class='disabled'><span>«<span></li>";
-					else
-						pHtml += "<li><a onclick='MyCommunityListPagination("+board_id+","+(pageVo.page-1)+", "+pageVo.pageSize+");' href='javascript:void(0);'>«</a></li>";
-					
-					for(var i =1; i <=data.myaginationSize; i++){
-						if(pageVo.page==i)
-							pHtml += "<li class='active'><span>" + i + "</span></li>";
-						else
-							pHtml += "<li><a href='javascript:void(0);' onclick='MyCommunityListPagination("+board_id+","+ i + ", " + pageVo.pageSize+");'>"+i+"</a></li>";
-					}
-					if(pageVo.page == data.myaginationSize)
-						pHtml += "<li class='disabled'><span>»<span></li>";
-					else
-						pHtml += "<li><a href='javascript:void(0);' onclick='MyCommunityListPagination("+board_id+","+(pageVo.page+1)+", "+pageVo.pageSize+");'>»</a></li>";
-					
-					$(".pagination").html(pHtml);
-					$("#communityHeader").html(hhtml);
-					$("#communityList").html(html);
-				}
-		
-			});	
-	}
 </script>
 
 
@@ -206,9 +78,13 @@ ul.tabs li.current {
 	<div id="container">
 
 		<div class="sub_menu">
-			<ul class="tabs">
-				<li id="postList">게시글</li>
-				<li id="myPostList">내가 작성한 글</li>
+			<ul class="sub_menu_item">
+				<li>
+					<a href="/community?board_id=${board_id }">게시글</a>
+				</li>
+				<li>
+					<a href="/myCommunity?board_id=${board_id }">내가 작성한 글</a>
+				</li>
 			</ul>
 		</div>
 
@@ -252,7 +128,11 @@ ul.tabs li.current {
 											<td>${board.subject }</td>
 											<td>${board.user_email }</td>
 											<td><fmt:formatDate value="${board.writedate }" pattern="yyyy-MM-dd" /></td>
-											<td>댓글수 들어갈거야</td>
+											<c:forEach items="${mapAnswerCnt}" var="cnt">
+												<c:if test="${cnt.key == board.write_id }">
+													<td>${cnt.value }</td>
+												</c:if>
+											</c:forEach>
 											<td>${board.like_cnt }</td>
 											<td>${board.view_cnt }</td>
 										</tr>

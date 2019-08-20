@@ -385,16 +385,18 @@ function connectNotify(){
 
    socket.onmessage = function(event) {
       console.log("ReceiveMessage: ", event.data + "\n");
-      var $socketAlert = $('#socketAlert p');
-      $socketAlert.text(event.data);
-      $(".socketAlram").fadeIn(300);
-      $(".socketAlram").animate({right:"0px"}, 500);
-      setTimeout(function(){
-         $(".socketAlram").fadeOut(300);
-         $(".socketAlram").animate({right:"-350px"}, 500);
-         
-      },3000);
-
+      var data = event.data;
+      if(!data.startsWith("lst:")) {
+	      var $socketAlert = $('#socketAlert p');
+	      $socketAlert.text(event.data);
+	      $(".socketAlram").fadeIn(300);
+	      $(".socketAlram").animate({right:"0px"}, 500);
+	      setTimeout(function(){
+	         $(".socketAlram").fadeOut(300);
+	         $(".socketAlram").animate({right:"-350px"}, 500);
+	          
+	      },3000);
+      } 
    };
 
    socket.onclose = function(event) {

@@ -63,8 +63,9 @@
 	<!-- 게시글별 댓글 개수 -->
 	<select id="replyCnt" resultType="int" parameterType="int">
 		select count(*)
-		from board_answer
-		where write_id = #{write_id}
+			from board_write a, board_answer b
+			where a.write_id = b.write_id
+			and a.write_id = #{write_id}
 	</select>
 	
 	<!-- 내가 작성한 댓글 리스트 -->
@@ -221,6 +222,63 @@
 		from board_write
 		where content like '%' || #{content} || '%'
 		and del_yn='N'
+	</select>
+	
+	<!-- *****************내가 작성한 게시글 검색 ****************************** -->
+	
+	<!-- 게시글 제목 검색 -->
+	<select id="mySelectTitle" parameterType="pageVo" resultType="board_writeVo">
+		<![CDATA[
+			select *
+		    from
+			(select a.*, ROW_NUMBER() OVER(order by write_id desc) rn
+		    from
+		    (select a.*
+		    from board_write a 
+		    where board_id = #{board_id}
+		    and del_yn='N'
+		    and subject like '%' || #{subject} || '%'
+		    and user_email = #{user_email}
+		    order by write_id desc) a)
+		    where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
+	    ]]>
+	</select>
+	
+	<!-- 게시글 내용 검색 -->
+	<select id="mySelectContent" parameterType="pageVo" resultType="board_writeVo">
+		<![CDATA[
+			select *
+		    from
+			(select a.*, ROW_NUMBER() OVER(order by write_id desc) rn
+		    from
+		    (select a.*
+		    from board_write a 
+		    where board_id = #{board_id}
+		    and del_yn='N'
+		    and content like '%' || #{content} || '%'
+		    and user_email = #{user_email}
+		    order by write_id desc) a)
+		    where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
+	    ]]>
+	</select>
+	
+	<!-- 검색한 제목의 글 개수 -->
+	<select id="mySelectTitleCnt" parameterType="pageVo"  resultType="int">
+		select count(*) 
+		from board_write
+		where subject like '%' || #{subject} || '%'
+		and del_yn='N'
+		and user_email = #{user_email}
+	</select>
+	
+	
+	<!-- 검색한 내용의 글 개수 -->
+	<select id="mySelectContentCnt" parameterType="pageVo"  resultType="int">
+		select count(*) 
+		from board_write
+		where content like '%' || #{content} || '%'
+		and del_yn='N'
+		and user_email = #{user_email}
 	</select>
 	
 <!-- **********************likes*************************** -->

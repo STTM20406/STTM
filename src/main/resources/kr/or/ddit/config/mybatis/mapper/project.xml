@@ -153,7 +153,7 @@
 		    and m.user_email =   
 		        (select user_email
 		        from users
-		        where user_nm = #{user_nm}))
+		        where user_nm like '%' || #{user_nm} || '%'))
 	</select>
 
 	<!-- *********************project_mem******************** -->
@@ -245,8 +245,14 @@
 	<!-- 프로젝트 멤버 전체수 조회 -->
 	<select id="projectMemCnt" parameterType="map" resultType="int">
 		select count(*)
-		from project_mem
-		where prj_id like '%'||#{prj_id}||'%'
+     	from
+        (select distinct b.user_email
+                       , c.user_nm from
+            (select * 
+             from project_mem 
+             where user_email = #{user_email}) a, project_mem b, users c
+	     where b.prj_id in (a.prj_id)
+	     and c.user_email = b.user_email) a 
 	</select>
 	
 	
@@ -268,6 +274,67 @@
 
 
 	<!-- *********************file_attch********************* -->
+	
+	<!-- file 등록 -->
+	<insert id="insertFilePublic" parameterType="file_attchVo">
+		insert into 
+			FILE_ATTCH 
+		values(
+			FILE_SEQ.nextVal,
+			#{prj_id},
+			#{user_email},
+			#{wrk_id},
+			#{original_file_nm},
+			#{db_file_nm},
+			#{file_size},
+			#{file_exts},
+			sysdate,
+			'Y',
+			'N',
+			'N'
+			)
+	</insert>
+	
+	<insert id="insertFileindividual" parameterType="file_attchVo">
+		insert into 
+			FILE_ATTCH 
+		values(
+			FILE_SEQ.nextVal,
+			#{prj_id},
+			#{user_email},
+			#{wrk_id},
+			#{original_file_nm},
+			#{db_file_nm},
+			#{file_size},
+			#{file_exts},
+			sysdate,
+			'N',
+			'N',
+			'Y'
+			)
+	</insert>
+	
+	<insert id="insertFileboth" parameterType="file_attchVo">
+		insert into 
+			FILE_ATTCH 
+		values(
+			FILE_SEQ.nextVal,
+			#{prj_id},
+			#{user_email},
+			#{wrk_id},
+			#{original_file_nm},
+			#{db_file_nm},
+			#{file_size},
+			#{file_exts},
+			sysdate,
+			'Y',
+			'N',
+			'Y'
+			)
+	</insert>
+	
+	<!-- file 등록 -->
+	
 	
 	<!-- public filePagination 공용 파일 링크 보관함!!!! -->
 	<select id="publicFilePagination" parameterType="map" resultType="file_attchVo">
@@ -499,6 +566,7 @@
 	      from file_attch
 	      WHERE wrk_id = #{wrk_id}
 	      and del_fl='N'
+	      and FILE_SAVE_FL = 'Y'
 	      order by file_id desc) a)a, work b, USERS C
 	      where rn>=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
 	      and b.wrk_id = a.wrk_id

@@ -156,4 +156,24 @@ public class Board_WriteDao implements IBoard_WriteDao{
 		return sqlSession.selectOne("board.selectContentCnt", content);
 	}
 
+	@Override
+	public List<Board_WriteVo> mySelectTitle(PageVo pageVo) {
+		return sqlSession.selectList("board.mySelectTitle", pageVo);
+	}
+
+	@Override
+	public List<Board_WriteVo> mySelectContent(PageVo pageVo) {
+		return sqlSession.selectList("board.mySelectContent", pageVo);
+	}
+
+	@Override
+	public int mySelectTitleCnt(PageVo pageVo) {
+		return sqlSession.selectOne("board.mySelectTitleCnt",pageVo);
+	}
+
+	@Override
+	public int mySelectContentCnt(PageVo pageVo) {
+		return sqlSession.selectOne("board.mySelectContentCnt", pageVo);
+	}
+
 }

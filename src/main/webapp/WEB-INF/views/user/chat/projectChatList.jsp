@@ -51,10 +51,6 @@ ul.tabs li.current {
 			$("#frm").submit();
 		});
 
-		$("#faceBtn").on("click",function(){
-			window.open('http://localhost/RTCMulticonnection/index.html', '_blank')
-
-		});
 
 		$('ul.tabs li').click(function() {
 	         var tab_id = $(this).attr('data-tab');

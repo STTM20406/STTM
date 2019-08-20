@@ -234,7 +234,11 @@ public class UserController {
 	* 
 	 */
 	@RequestMapping(path = "/projectMemberList", method = RequestMethod.GET)
-	public String projectMemberListView(PageVo pageVo, Model model, HttpSession session) {
+	public String projectMemberListView(PageVo pageVo, Model model, HttpSession session,
+										String acceptEmail, String denyEmail, String prjMemView, String frdRequEmail) {
+		
+		logger.debug("prjMemView : ruichi {}",prjMemView);
+		logger.debug("frdRequEmail : tae {}",frdRequEmail);
 		
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
 		Project_MemVo prjVo = new Project_MemVo();
@@ -296,37 +300,69 @@ public class UserController {
 			
 //			}
 			
+			logger.debug("acceptEmail : 모닝로거1 {}",acceptEmail);
+			logger.debug("denyEmail : 모닝로거2 {}",denyEmail);
 			
-		
+			// 친구 요청 수락
+			if(acceptEmail != null) {
+				
+				String user_email = userVo.getUser_email();
+				logger.debug("user_email : 이거 가져오나 {}", user_email);
+				
+				UserVo uservo1 = userService.getUser(acceptEmail);
+				String frd_email = uservo1.getUser_email();	
+				req_email = uservo1.getUser_email();	
+				
+				Friend_ReqVo friendReqVo = new Friend_ReqVo(req_email, user_email);
+				
+				logger.debug("friendReqVo : 업데이트 테스트 {}",friendReqVo);
+				
+//				friendReqVo.setUser_email(user_email); // 문제 - 셋팅을 두번 해줘서
+//				friendReqVo.setReq_email(req_email);   // 문제 - 셋팅을 두번 해줘서
+				
+				int updateReqAccept = friend_ReqService.updateReqAccept(friendReqVo);
+				
+				logger.debug("updateReqAccept : 업데이트 테스트1 {}",updateReqAccept);
+				
+				FriendsVo friendsVo = new FriendsVo(user_email, frd_email);
+				int acceptRequest = friendsService.accerptFriendRequest(friendsVo);
+				
+				int denyRequest = friend_ReqService.deleteFriendRequest(acceptEmail);
+				
+			// 친구 요청 거절	
+			} else if(denyEmail != null) {
+				
+				UserVo userVo2 = userService.getUser(denyEmail);
+				String user_email = userVo2.getUser_email();
+				
+				logger.debug("userVo1 : 거절 Vo {}",userVo2);
+				logger.debug("user_email : 거절 이메일 {}",user_email);
+				
+				UserVo uservo3 = (UserVo) session.getAttribute("USER_INFO");
+				String frd_email = uservo3.getUser_email();	
+				
+				Friend_ReqVo friendReqVo = new Friend_ReqVo(user_email, frd_email);
+				
+				int updateReqDeny = friend_ReqService.updateReqDeny(friendReqVo);
+				
+				int denyRequest = friend_ReqService.deleteFriendRequest(user_email);
+			
+			// 프로젝트 멤버 리스트 중에서 친구 요청하기
+			} else if (frdRequEmail != null) {
+				
+				String req_email1 = userVo.getUser_email();
+				
+				UserVo userVo3 = userService.getUser(frdRequEmail);
+				String user_email = userVo3.getUser_email();
+
+				Friend_ReqVo friendsReqVo = new Friend_ReqVo(user_email,req_email1); 
+
+				int firendsRequest = friend_ReqService.firendsRequest(friendsReqVo);
+			}
+			
+			
 		return "/member/projectMember.user.tiles";
 	}
-	
-	/**
-	 * 
-	* Method : projectMemberListProcess
-	* 작성자 : 김경호
-	* 변경이력 : 2019-08-19
-	* @param user_nm
-	* @return
-	* Method 설명 : 친구 수락 버튼 클릭하여 친구 등록 
-	* 			     친구 거절 버튼 클릭하여 요청 받은 친구 리스트에서 친구 요청 제거 
-	 */
-	@RequestMapping(path = "/projectMemberList", method = RequestMethod.POST)
-	public String projectMemberListProcess(String user_nm) {
-		
-		if(user_nm != null) {
-			
-			FriendsVo friendsVo = new FriendsVo();
-			int acceptRequest = friendsService.insertFriends(friendsVo);
-			
-//		} else if() {
-			
-		}
-		
-		
-		return "/member/projectMember.user.tiles";
-	}
-	
 	
 	/**
 	 * 
