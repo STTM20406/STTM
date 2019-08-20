@@ -1,5 +1,7 @@
 package kr.or.ddit.work_list.contoller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -386,10 +388,20 @@ public class Work_ListController {
 		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
 		int prj_id = projectVo.getPrj_id();
 		
+		
 		int wrkID = Integer.parseInt(wrk_id);
+		WorkVo workInfo = workService.getWorkInfo(wrkID);
+		
 		WorkVo workVo = new  WorkVo();
 		workVo.setWrk_id(wrkID);
 		workVo.setWrk_cmp_fl(wrk_cmp_fl);
+		
+		if(wrk_cmp_fl.equals("N")) {
+			workVo.setWrk_cmp_dt(workInfo.getWrk_dt());
+		}else {
+			workInfo.setWrk_cmp_dt(null);
+		}
+		
 		int updateCnt = workService.updateWorkCmp(workVo);
 		List<Work_ListVo> workList = workListService.workList(prj_id);
 		
@@ -416,6 +428,50 @@ public class Work_ListController {
 		}
 		
 		return hashmap;
+	}
+	
+	
+	// 프로젝트 설정 업데이트
+	@RequestMapping("/propertyWorkSetItemAjax")
+	public String propertyWorkSetItemAjax(String wrk_id, String wrk_nm, String wrk_grade, String wrk_color_cd, String wrk_start_dt, String wrk_end_dt, 
+									   Model model, HttpSession session) throws ParseException {
+		
+		int wrkID = Integer.parseInt(wrk_id);
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm");
+
+		WorkVo workVo = new WorkVo(wrkID, wrk_nm, wrk_grade, wrk_color_cd);
+		
+
+		if (wrk_nm.contentEquals("")) {
+			workVo.setWrk_nm(workVo.getWrk_nm());
+		}
+		
+		if (!wrk_grade.contentEquals("")) {
+			workVo.setWrk_grade(wrk_grade);
+		}
+		
+		if (!wrk_color_cd.contentEquals("")) {
+			workVo.setWrk_color_cd(wrk_color_cd);
+		}else {
+			workVo.setWrk_color_cd("");
+		}
+		
+		if (!wrk_start_dt.contentEquals("")) {
+			workVo.setWrk_start_dt(sdf.parse(wrk_start_dt));
+		}
+		
+		if (!wrk_end_dt.contentEquals("")) {
+			workVo.setWrk_end_dt(sdf.parse(wrk_end_dt));
+		}
+		
+		int updateCnt = workService .updateAllWork(workVo);
+
+		if (updateCnt != 0) {
+			model.addAttribute("data", workService.getWorkInfo(wrkID));
+		}
+		
+		return "jsonView";
 	}
 	
 }

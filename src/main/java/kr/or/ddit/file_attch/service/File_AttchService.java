@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import kr.or.ddit.file_attch.dao.IFile_AttchDao;
 import kr.or.ddit.file_attch.model.File_AttchVo;
-import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.project_mem.model.Project_MemVo;
 
 @Service
@@ -126,12 +125,37 @@ public class File_AttchService implements IFile_AttchService{
 		int paginationSize = (int)Math.ceil((double) cnt/ (int) map.get("pageSize"));
 		resultMap.put("paginationSize", paginationSize);
 		return resultMap;
-		
 	}
 
 	@Override
 	public Project_MemVo selectLV(Project_MemVo project_MemVo) {
 		return file_AttchDao.selectLV(project_MemVo);
+	}
+
+	@Override
+	public Map<String, Object> workFilePagination(Map<String, Object> map) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("workFileList", file_AttchDao.workFilePagination(map));
+		
+		int cnt = file_AttchDao.workFileCnt((int)map.get("wrk_id"));
+		
+		logger.debug("♬♩♪  workFilePagination cnt: {}", cnt);
+		int paginationSize = (int)Math.ceil((double) cnt/ (int) map.get("pageSize"));
+		resultMap.put("paginationSize", paginationSize);
+		
+		return resultMap;
+	}
+
+	@Override
+	public Map<String, Object> workLinkPagination(Map<String, Object> map) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("workLinkList", file_AttchDao.workLinkPagination(map));
+		
+		int cnt = file_AttchDao.workLinkCnt((int)map.get("wrk_id"));
+		int paginationSize = (int)Math.ceil((double) cnt/ (int) map.get("pageSize"));
+		resultMap.put("paginationSize", paginationSize);
+		
+		return resultMap;
 	}
 
 

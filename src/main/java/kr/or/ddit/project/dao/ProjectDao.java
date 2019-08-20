@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import kr.or.ddit.project.model.ProjectVo;
+import kr.or.ddit.users.model.UserVo;
 import kr.or.ddit.work.model.WorkVo;
 import kr.or.ddit.work_list.model.Work_ListVo;
 
@@ -149,6 +150,11 @@ public class ProjectDao implements IProjectDao{
 	@Override
 	public List<ProjectVo> searchWorkNm(WorkVo vo) {
 		return sqlSession.selectList("project.searchWorkNm",vo);
+	}
+
+	@Override
+	public List<ProjectVo> searchProjectMem(UserVo vo) {
+		return sqlSession.selectList("project.searchProjectMem",vo);
 	}
 
 	

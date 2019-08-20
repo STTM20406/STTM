@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 
 import kr.or.ddit.file_attch.model.File_AttchVo;
 import kr.or.ddit.link_attch.model.Link_attchVo;
-import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.project_mem.model.Project_MemVo;
 
 @Repository
@@ -108,6 +107,28 @@ public class File_AttchDao implements IFile_AttchDao{
 	@Override
 	public Project_MemVo selectLV(Project_MemVo project_MemVo) {
 		return sqlSession.selectOne("project.selectLV",project_MemVo);
+	}
+
+	//work 업무 file, link pagination
+	
+	@Override
+	public List<File_AttchVo> workFilePagination(Map<String, Object> map) {
+		return sqlSession.selectList("project.workFilePagination",map);
+	}
+
+	@Override
+	public List<Link_attchVo> workLinkPagination(Map<String, Object> map) {
+		return sqlSession.selectList("project.workLinkPagination",map);
+	}
+
+	@Override
+	public int workFileCnt(int wrk_id) {
+		return sqlSession.selectOne("project.workFileCnt",wrk_id);
+	}
+
+	@Override
+	public int workLinkCnt(int wrk_id) {
+		return sqlSession.selectOne("project.workLinkCnt",wrk_id);
 	}
 
 
