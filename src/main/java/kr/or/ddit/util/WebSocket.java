@@ -196,18 +196,22 @@ public class WebSocket extends TextWebSocketHandler {
 					wrtSession.sendMessage(memMsg);
 				} else if ("fnd".equals(strs[0])) {
 					List<ChatFriendsVo> fndList = fndService.friendList(user_email);
+					logger.debug("friendList : {}", fndList);
 					String fnd_str = "";
 					
 					Set<String> keys = userList.keySet();
 					for(String key : keys) {
 						if(user_email.equals(key))
 							continue;
-						for(ChatFriendsVo fndVo : fndList) {
-							if(fndVo.getUser_email().equals(key)) {
-								if(!"".equals(fnd_str)) {
-									fnd_str += ",";
+						
+						if(!fndList.isEmpty()) {
+							for(ChatFriendsVo fndVo : fndList) {
+								if(fndVo.getFrd_email().equals(key)) {
+									if(!"".equals(fnd_str)) {
+										fnd_str += ",";
+									}
+									fnd_str += key;
 								}
-								fnd_str += key;
 							}
 						}
 					}

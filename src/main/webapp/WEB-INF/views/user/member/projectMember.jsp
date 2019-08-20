@@ -42,6 +42,13 @@
 		display: inherit;
 	}
 	
+	.logout {
+		color: #e1e1e1;
+	}
+	
+	.logon {
+		color: #0ceb47;
+	}
 </style>
 
 <script>
@@ -54,6 +61,48 @@ $(document).ready(function(){
 // 		$('#prjMemView').submit();
 // 	});
 	
+	socket.onmessage = function(event) {
+      console.log("ReceiveMessage: ", event.data + "\n");
+      var data = event.data;
+      if(!data.startsWith("lst:")) {
+	      var $socketAlert = $('#socketAlert p');
+	      $socketAlert.text(event.data);
+	      $(".socketAlram").fadeIn(300);
+	      $(".socketAlram").animate({right:"0px"}, 500);
+	      setTimeout(function(){
+	         $(".socketAlram").fadeOut(300);
+	         $(".socketAlram").animate({right:"-350px"}, 500);
+	         
+	      },3000);
+      } else {
+    	  var ids = data.split("lst:")[1].split(",");
+    	  console.log(ids);
+    	  var prjTable = document.getElementById("prjMemTable");
+    	  var fndTable = document.getElementById("friendTable");
+    	  if(prjTable && fndTable) {
+    		  var prjTr = $(prjTable).find("tr");
+    		  var fndTr = $(fndTable).find(".userTr");
+    		  ids.forEach(function(id) {
+    			  $(prjTr).each(function(){
+    				 if($(this).data("user_email") == id) {
+    					 $(this).find("span").prop("class", "logon");
+    				  }
+    			  });
+    			  $(fndTr).each(function() {
+    				 if($(this).data("user_email") == id) {
+    					 $(this).find("span").prop("class", "logon");
+    				 }
+    			  });
+    		  });
+    	  } else {
+    		  console.log("테이블 없음");
+    	  }
+      }
+   };
+   	socket.onopen = function(event) {
+		socket.send("prjMem,${USER_INFO.user_email}");
+   	}
+		
 	// 프로젝트 멤버 tr클릭시 레이어창 띄우기
 	$('.prjMember').on("click", function(){
 	        var $href = $(this).attr('href');
@@ -95,6 +144,21 @@ $(document).ready(function(){
 
 		$(this).addClass('current');
 		$("#" + tab_id).addClass('current');
+		var tabname = $(this).data("tab");
+		console.log(tabname);
+		if(socket.readyState==1) {
+			if(tabname == "tab-2") {
+				var prjTable = document.getElementById("prjMemTable");
+				$(prjTable).find("span").prop("class","logout");
+				socket.send("fnd,${USER_INFO.user_email}");
+			} else if (tabname == "tab-1") {
+		    	var fndTable = document.getElementById("friendTable");
+				$(fndTable).find("span").prop("class","logout");
+				socket.send("prjMem,${USER_INFO.user_email}");								
+			}
+		}
+		
+		
 	});
 	
 	// ------- 설정 버튼 -------
@@ -212,7 +276,7 @@ function requestedFriendsList() {
 								<tr class="prjMemTr" data-user_email="${prjVo.user_email}">
 									<td class="user_email" id="${prjVo.user_email}">
 <%-- 										<a href="#layer2" class="trPrjMemAdd">${prjVo.user_email}</a> --%>
-										<a href="#layer2" class="prjMember">${prjVo.user_email}</a>
+										<a href="#layer2" class="prjMember">${prjVo.user_email}</a><span id="log_${prjVo.user_email }" class="logout"> ●</span>
 									</td>
 									
 									<td>${prjVo.user_nm}</td>
@@ -311,7 +375,7 @@ function requestedFriendsList() {
 		           	</div>
 	          	</div>
 				
-				<table class="tb_style_01">
+				<table class="tb_style_01" id="friendTable">
 					<colgroup>
 						<col width="10%">
 						<col width="40%">
@@ -329,10 +393,10 @@ function requestedFriendsList() {
 		
 							<c:forEach items="${friendsList}" var="prjVo">
 							
-								<tr class="userTr" data-user_email="${prjVo.user_email}">
+								<tr class="userTr" data-user_email="${prjVo.frd_email}">
 <%-- 									<td class="user_email">${prjVo.user_email}</td> --%>
 									<td>${prjVo.user_nm}</td>
-									<td>${prjVo.frd_email}</td>
+									<td>${prjVo.frd_email}<span class="logout"> ●</span></td>
 									<td class="delFriends">
 										<a href="/deleteFriends?frd_email=${prjVo.frd_email}" class="frdDel">삭제하기</a>
 <!-- 										<input type="button" id="btnDeleteFriends" class="btn_style_04" onclick="deleteFriends()" value="친구삭제"> -->
