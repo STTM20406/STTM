@@ -86,7 +86,9 @@
 			<br>
 			<br>
 			<br>
-			<a href="#layer1" class="btn-example btn_style_01">친구 추가</a>
+			<c:if test="${what != 'project'}">
+				<a href="#layer1" class="btn-example btn_style_01">친구 추가</a>
+			</c:if>
 			<br>
 			<br> <br>
 			<br>

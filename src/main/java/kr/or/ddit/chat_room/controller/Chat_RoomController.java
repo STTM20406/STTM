@@ -29,6 +29,8 @@ import kr.or.ddit.friends.model.ChatFriendsVo;
 import kr.or.ddit.friends.model.FriendsVo;
 import kr.or.ddit.friends.service.IFriendsService;
 import kr.or.ddit.paging.model.PageVo;
+import kr.or.ddit.project.model.ProjectVo;
+import kr.or.ddit.project.service.IProjectService;
 import kr.or.ddit.project_mem.model.Project_MemVo;
 import kr.or.ddit.project_mem.service.IProject_MemService;
 import kr.or.ddit.users.model.UserVo;
@@ -51,7 +53,10 @@ public class Chat_RoomController {
 	private IFriendsService friendsService;
 	
 	@Resource(name="project_MemService")
-	private IProject_MemService projectService;
+	private IProject_MemService projectMemService;
+	
+	@Resource(name="projectService")
+	private IProjectService projectService;
 	
 	
 	@RequestMapping(path="/projectChatList")
@@ -88,31 +93,7 @@ public class Chat_RoomController {
 	}
 	
 	
-	
-	//프로젝트 채팅방
-	@RequestMapping(path="/projectChat")
-	public String projectChat(HttpServletRequest req, Model model, int prj_id) {
-//		UserVo user = (UserVo) req.getSession().getAttribute("USER_INFO");
-//		String user_email = user.getUser_email();
-		//프로젝트 멤버리스트.
-		List<Project_MemVo> projectMemList =projectService.getMyProjectMemList(prj_id);
-		
-		//채팅방 대화 내용 리스트
-		List<ChatParticipateUserVo> chatroomContentList = contentService.chatroomContentList(0);
-		
-		//프로젝트 이름
-		String roomNm = null; //= projectService.projectName(prj_id);
-		
-		
-		model.addAttribute("ct_id",0);
-		model.addAttribute("roomNm",roomNm);
-		model.addAttribute("chatroomContentList",chatroomContentList);
-		model.addAttribute("friendList", projectMemList);
-		
-		return "/chat/projectChat.user.tiles";
-	}
-	
-	
+
 	
 	
 	//채팅방 리스트 화면으로 이동, 페이징 처리
@@ -169,16 +150,6 @@ public class Chat_RoomController {
 		
 		// 채팅방 대화 내용 리스트 (채팅방별 대화 리스트)
 		List<ChatParticipateUserVo> chatroomContentList = contentService.chatroomContentList(Ict_id);
-		
-//		Date msgDate=null;
-//		for(int i=0;i<chatroomContentList.size();i++) {
-//			msgDate = chatroomContentList.get(i).getCh_msg_dt();
-//			SimpleDateFormat transFormat = new SimpleDateFormat("yy/MM/dd HH:mm");
-//
-//			chatroomContentList.get(i).setCh_msg_dtString(transFormat.format(msgDate));
-//
-//
-//		}
 		
 		
 		//채팅방에 참여한 친구 리스트
