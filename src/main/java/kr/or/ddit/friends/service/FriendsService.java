@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import kr.or.ddit.friend_req.model.Friend_ReqVo;
 import kr.or.ddit.friends.dao.IFriendsDao;
 import kr.or.ddit.friends.model.ChatFriendsVo;
 import kr.or.ddit.friends.model.FriendsVo;
@@ -43,6 +44,22 @@ public class FriendsService implements IFriendsService{
 		int insertFriends = 0;
 		insertFriends += friendsDao.insertFriends(friendsVo);
 		return insertFriends;
+	}
+	
+	/**
+	 * 
+	* Method : accerptFriendRequest
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-20
+	* @param friendsVo
+	* @return
+	* Method 설명 : 친구 요청 수락
+	 */
+	@Override
+	public int accerptFriendRequest(FriendsVo friendsVo) {
+		int accerptFriendRequest = 0;
+		accerptFriendRequest += friendsDao.accerptFriendRequest(friendsVo);
+		return accerptFriendRequest;
 	}
 	
 	/**
@@ -110,5 +127,19 @@ public class FriendsService implements IFriendsService{
 	public int deleteFriends(String frd_email) {
 		return friendsDao.deleteFriends(frd_email);
 	}
-
+	
+	/**
+	 * 
+	* Method : getFriend
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-20
+	* @param user_email
+	* @return
+	* Method 설명 : 친구 정보 조회
+	 */
+	@Override
+	public FriendsVo getFriend(String user_email) {
+		return friendsDao.getFriend(user_email);
+	}
+	
 }
