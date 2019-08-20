@@ -41,7 +41,7 @@ ul.tabs li.current {
 			$("#frm").submit();
 		})
 
-		$(".boardTr").on("click", function() {
+		$(".tb_style_01").on("click", ".boardTr",function() {
 			console.log("boardTr click");
 			var boardNum = $(this).find(".boardNum").text();
 			$("#write_id").val(boardNum);
@@ -206,9 +206,13 @@ ul.tabs li.current {
 	<div id="container">
 
 		<div class="sub_menu">
-			<ul class="tabs">
-				<li id="postList">게시글</li>
-				<li id="myPostList">내가 작성한 글</li>
+			<ul class="sub_menu_item">
+				<li>
+					<a href="/community?board_id=${board_id }">게시글</a>
+				</li>
+				<li>
+					<a href="/myCommunity?board_id=${board_id }">내가 작성한 글</a>
+				</li>
 			</ul>
 		</div>
 
@@ -252,7 +256,11 @@ ul.tabs li.current {
 											<td>${board.subject }</td>
 											<td>${board.user_email }</td>
 											<td><fmt:formatDate value="${board.writedate }" pattern="yyyy-MM-dd" /></td>
-											<td>댓글수 들어갈거야</td>
+											<c:forEach items="${mapAnswerCnt}" var="cnt">
+												<c:if test="${cnt.key == board.write_id }">
+													<td>${cnt.value }</td>
+												</c:if>
+											</c:forEach>
 											<td>${board.like_cnt }</td>
 											<td>${board.view_cnt }</td>
 										</tr>
