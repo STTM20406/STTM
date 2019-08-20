@@ -394,7 +394,7 @@ function connectNotify(){
 	      setTimeout(function(){
 	         $(".socketAlram").fadeOut(300);
 	         $(".socketAlram").animate({right:"-350px"}, 500);
-	         
+	          
 	      },3000);
       } 
    };
