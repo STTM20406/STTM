@@ -690,5 +690,6 @@ public class UserController {
 //		}
 		return "/member/memberList.adm.tiles";
 	}
+
 	
 }

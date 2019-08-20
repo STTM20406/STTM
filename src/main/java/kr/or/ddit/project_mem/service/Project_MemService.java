@@ -75,6 +75,11 @@ public class Project_MemService implements IProject_MemService{
 		return projectMemDao.getMyProjectMemList(user_email);
 	}
 	
+	@Override
+	public List<Project_MemVo> getMyProjectMemList(int prj_id) {
+		return projectMemDao.getMyProjectMemList(prj_id);
+	}
+	
 	/**
 	 * 
 	* Method : projectMemPagingList
@@ -145,5 +150,5 @@ public class Project_MemService implements IProject_MemService{
 	public List<Project_MemVo> headerChatFriendList(String user_email) {
 		return projectMemDao.headerChatFriendList(user_email);
 	}
-	
+
 }

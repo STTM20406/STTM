@@ -75,6 +75,11 @@ public class Project_MemDao implements IProject_MemDao{
 		return sqlSession.selectList("project.getMyProjectMemList",user_email);
 	}
 	
+	@Override
+	public List<Project_MemVo> getMyProjectMemList(int prj_id) {
+		return sqlSession.selectList("project.getMyProjectMemList",prj_id);
+	}
+	
 	/**
 	 * 
 	* Method : projectMemPagingList
@@ -153,7 +158,5 @@ public class Project_MemDao implements IProject_MemDao{
 	public List<Project_MemVo> headerChatFriendList(String user_email) {
 		return sqlSession.selectList("project.headerChatFriendList",user_email);
 	}
-
-
 
 }
