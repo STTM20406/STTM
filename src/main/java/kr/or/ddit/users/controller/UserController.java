@@ -264,8 +264,6 @@ public class UserController {
 			model.addAttribute("paginationSize", paginationSize);
 			model.addAttribute("pageVo", pageVo);
 			
-			
-			
 //		}else if (frd_email != null){
 		
 			// 회원의 친구 목록을 회원 자신의 이메일로 조회하여 페이징 리스트로 보여준다
@@ -305,6 +303,7 @@ public class UserController {
 			logger.debug("acceptEmail : 모닝로거1 {}",acceptEmail);
 			logger.debug("denyEmail : 모닝로거2 {}",denyEmail);
 			
+			// 친구 요청 수락
 			if(acceptEmail != null) {
 				
 				String user_email = userVo.getUser_email();
@@ -330,7 +329,7 @@ public class UserController {
 				
 				int denyRequest = friend_ReqService.deleteFriendRequest(acceptEmail);
 				
-				
+			// 친구 요청 거절	
 			} else if(denyEmail != null) {
 				
 				UserVo userVo2 = userService.getUser(denyEmail);
@@ -347,7 +346,8 @@ public class UserController {
 				int updateReqDeny = friend_ReqService.updateReqDeny(friendReqVo);
 				
 				int denyRequest = friend_ReqService.deleteFriendRequest(user_email);
-				
+			
+			// 프로젝트 멤버 리스트 중에서 친구 요청하기
 			} else if (frdRequEmail != null) {
 				
 				String req_email1 = userVo.getUser_email();

@@ -401,7 +401,8 @@ function requestedFriendsList() {
 									<td>${prjVo.user_nm}</td>
 									<td>${prjVo.frd_email}<span class="logout"> ●</span></td>
 									<td class="delFriends">
-										<a href="/deleteFriends?frd_email=${prjVo.frd_email}" class="frdDel">삭제하기</a>
+<%-- 										<a href="/deleteFriends?frd_email=${prjVo.frd_email}" class="frdDel">삭제하기</a> --%>
+										<a href="/deleteFriends?frd_email=${prjVo.frd_email}" class="a_style_04">삭제하기</a>
 <!-- 										<input type="button" id="btnDeleteFriends" class="btn_style_04" onclick="deleteFriends()" value="친구삭제"> -->
 <%-- 										${prjVo.frd_email} --%>
 									</td>
@@ -426,7 +427,8 @@ function requestedFriendsList() {
 							<a href class="btn_first"></a>
 						</c:when>
 						<c:otherwise>
-							<a href="${cp}/friendsSearchList?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a>
+<%-- 							<a href="${cp}/friendsSearchList?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a> --%>
+							<a href="${cp}/projectMemberList?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a>
 						
 						</c:otherwise>
 					</c:choose>
@@ -437,7 +439,8 @@ function requestedFriendsList() {
 								<span>${i}</span>
 							</c:when>
 							<c:otherwise>
-							<a href="${cp}/friendsSearchList?page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
+<%-- 								<a href="${cp}/friendsSearchList?page=${i}&pageSize=${pageVo.pageSize}">${i}</a> --%>
+								<a href="${cp}/projectMemberList?page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
 							</c:otherwise>
 						</c:choose>
 		
@@ -449,7 +452,8 @@ function requestedFriendsList() {
 						</c:when>
 						
 						<c:otherwise>
-							<a href="${cp}/friendsSearchList?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
+<%-- 							<a href="${cp}/friendsSearchList?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a> --%>
+							<a href="${cp}/projectMemberList?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
 						</c:otherwise>
 					</c:choose>
 			
