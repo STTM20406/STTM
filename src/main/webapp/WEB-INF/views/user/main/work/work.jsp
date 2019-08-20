@@ -1,8 +1,15 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
+<!-- date picker resource-->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<!-- Sortable resource-->
 <script src="/js/Sortable.js"></script>
+
 <script>
 	$(document).ready(function() {
 		
@@ -89,9 +96,9 @@
 		 						if(work.wrk_lst_id == workList.wrk_lst_id && work.wrk_cmp_fl == 'N'){
 		 							html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work.wrk_id+"' class='workListItem'>";
 		 							html +=	"<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl'>";
-									html +=	"<h2><span>"+work.wrk_grade+"</span>"+work.wrk_nm+"</h2>";
+									html +=	"<h2 class='wrk_title'><span>"+work.wrk_grade+"</span>"+work.wrk_nm+"</h2>";
 									html +=	"<ul>";
-									html +=	"<li>"+work.wrkStartDtStr+" ~ "+work.wrkEndDtStr+"</li>";
+									html +=	"<li class='wrk_data'>"+work.wrkStartDtStr+" ~ "+work.wrkEndDtStr+"</li>";
 									html +=	"<li><span>코멘트 개수</span><span>업무 파일 개수</span></li>";
 									html +=	"</ul>";
 									html +=	"<div class='wrk_mem_flw'><dl class='wrk_mem'>";
@@ -114,7 +121,7 @@
 		 						if(work1.wrk_lst_id == workList.wrk_lst_id && work1.wrk_cmp_fl == 'Y'){
 									html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work1.wrk_id+"' class='workListItem'>";
 		 							html +=	"<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl' checked>";
-									html +=	"<h2><span>"+work1.wrk_grade+"</span>"+work1.wrk_nm+"</h2>";
+									html +=	"<h2 class='wrk_title'><span>"+work1.wrk_grade+"</span>"+work1.wrk_nm+"</h2>";
 									html +=	"<ul>";
 									html +=	"<li>"+work1.wrkStartDtStr+" ~ "+work1.wrkEndDtStr+"</li>";
 									html +=	"<li><span>코멘트 개수</span><span>업무 파일 개수</span></li>";
@@ -185,9 +192,9 @@
 			 						if(work.wrk_lst_id == workList.wrk_lst_id && work.wrk_cmp_fl == 'N'){
 			 							html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work.wrk_id+"' class='workListItem'>";
 			 							html +=	"<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl'>";
-										html +=	"<h2><span>"+work.wrk_grade+"</span>"+work.wrk_nm+"</h2>";
+										html +=	"<h2 class='wrk_title'><span>"+work.wrk_grade+"</span>"+work.wrk_nm+"</h2>";
 										html +=	"<ul>";
-										html +=	"<li>"+work.wrkStartDtStr+" ~ "+work.wrkEndDtStr+"</li>";
+										html +=	"<li class='wrk_data'>"+work.wrkStartDtStr+" ~ "+work.wrkEndDtStr+"</li>";
 										html +=	"<li><span>코멘트 개수</span><span>업무 파일 개수</span></li>";
 										html +=	"</ul>";
 										html +=	"<div class='wrk_mem_flw'><dl class='wrk_mem'>";
@@ -210,9 +217,9 @@
 			 						if(work1.wrk_lst_id == workList.wrk_lst_id && work1.wrk_cmp_fl == 'Y'){
 										html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work1.wrk_id+"' class='workListItem'>";
 			 							html +=	"<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl' checked>";
-										html +=	"<h2><span>"+work1.wrk_grade+"</span>"+work1.wrk_nm+"</h2>";
+										html +=	"<h2 class='wrk_title'><span>"+work1.wrk_grade+"</span>"+work1.wrk_nm+"</h2>";
 										html +=	"<ul>";
-										html +=	"<li>"+work1.wrkStartDtStr+" ~ "+work1.wrkEndDtStr+"</li>";
+										html +=	"<li class='wrk_data'>"+work1.wrkStartDtStr+" ~ "+work1.wrkEndDtStr+"</li>";
 										html +=	"<li><span>코멘트 개수</span><span>업무 파일 개수</span></li>";
 										html +=	"</ul>";
 										html +=	"<div class='wrk_mem_flw'><dl class='wrk_mem'>";
@@ -323,9 +330,9 @@
 		 						if(work.wrk_lst_id == workList.wrk_lst_id && work.wrk_cmp_fl == 'N'){
 		 							html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work.wrk_id+"' class='workListItem'>";
 		 							html +=	"<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl'>";
-									html +=	"<h2><span>"+work.wrk_grade+"</span>"+work.wrk_nm+"</h2>";
+									html +=	"<h2 class='wrk_title'><span>"+work.wrk_grade+"</span>"+work.wrk_nm+"</h2>";
 									html +=	"<ul>";
-									html +=	"<li>"+work.wrkStartDtStr+" ~ "+work.wrkEndDtStr+"</li>";
+									html +=	"<li class='wrk_data'>"+work.wrkStartDtStr+" ~ "+work.wrkEndDtStr+"</li>";
 									html +=	"<li><span>코멘트 개수</span><span>업무 파일 개수</span></li>";
 									html +=	"</ul>";
 									html +=	"<div class='wrk_mem_flw'><dl class='wrk_mem'>";
@@ -348,9 +355,9 @@
 		 						if(work1.wrk_lst_id == workList.wrk_lst_id && work1.wrk_cmp_fl == 'Y'){
 									html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work1.wrk_id+"' class='workListItem'>";
 		 							html +=	"<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl' checked>";
-									html +=	"<h2><span>"+work1.wrk_grade+"</span>"+work1.wrk_nm+"</h2>";
+									html +=	"<h2 class='wrk_title'><span>"+work1.wrk_grade+"</span>"+work1.wrk_nm+"</h2>";
 									html +=	"<ul>";
-									html +=	"<li>"+work1.wrkStartDtStr+" ~ "+work1.wrkEndDtStr+"</li>";
+									html +=	"<li class='wrk_data'>"+work1.wrkStartDtStr+" ~ "+work1.wrkEndDtStr+"</li>";
 									html +=	"<li><span>코멘트 개수</span><span>업무 파일 개수</span></li>";
 									html +=	"</ul>";
 									html +=	"<div class='wrk_mem_flw'><dl class='wrk_mem'>";
@@ -435,8 +442,8 @@
 		
 		
 		//업무 클릭시 업무 설정 레이어 열기
-		$("#workListBox").on("click", ".wrokListItem h2", function(){
-			$("#propertySet").animate({right:'0'}, 500);
+		$("#workListBox").on("click", ".workListItem h2", function(){
+			$("#propertyWorkSet").animate({right:'0'}, 500);
 			
 			//업무 아이디를 변수에 담음
 			var wrk_id = $(this).parent().attr("data-wrkid");
@@ -447,7 +454,7 @@
 		
 		//프로젝트 닫기 버튼을 클릭했을 때
 		$(".btnSetClose").on("click", function(){
-			$("#propertySet").animate({right:'-700px'}, 500);
+			$("#propertyWorkSet").animate({right:'-700px'}, 500);
 		});
 		
 		function propertyWorkSetAjax(wrk_id){
@@ -456,13 +463,14 @@
 				method:"post",
 				data:"wrk_id=" + wrk_id,
 				success:function(data){
-// 					console.log(data);
 					$("#wps_id").val(data.workVo.wrk_id);
 					$("#wps_nm").val(data.workVo.wrk_nm);
 					$("#wps_write_nm").text(data.workVo.user_nm);
 					$("#wps_write_date").text(data.workVo.wrkDtStr);
+					$("#wps_start_date").val(data.workVo.wrkStartDtStr + " ~ " + data.workVo.wrkEndDtStr);
 					$("#wrk_gd").val(data.workVo.wrk_grade);
-					
+					$(".wrk_color").removeClass("colorSelect");
+					$("#"+data.workVo.wrk_color_cd).prev().addClass("colorSelect");
 				}
 			});
 		}
@@ -499,6 +507,7 @@
 		});
 		
 		
+		//업무 완료 체크 했을 떄
 		$("#workListBox").on("click", "#wrk_cmp_fl", function(){
 			var wrkID = $(this).parent().attr("data-wrkid");
 			var wrkCMP = "";
@@ -542,9 +551,9 @@
 		 						if(work.wrk_lst_id == workList.wrk_lst_id && work.wrk_cmp_fl == 'N'){
 		 							html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work.wrk_id+"' class='workListItem'>";
 		 							html +=	"<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl'>";
-									html +=	"<h2><span>"+work.wrk_grade+"</span>"+work.wrk_nm+"</h2>";
+									html +=	"<h2 class='wrk_title'><span>"+work.wrk_grade+"</span>"+work.wrk_nm+"</h2>";
 									html +=	"<ul>";
-									html +=	"<li>"+work.wrkStartDtStr+" ~ "+work.wrkEndDtStr+"</li>";
+									html +=	"<li class='wrk_data'>"+work.wrkStartDtStr+" ~ "+work.wrkEndDtStr+"</li>";
 									html +=	"<li><span>코멘트 개수</span><span>업무 파일 개수</span></li>";
 									html +=	"</ul>";
 									html +=	"<div class='wrk_mem_flw'><dl class='wrk_mem'>";
@@ -567,9 +576,9 @@
 		 						if(work1.wrk_lst_id == workList.wrk_lst_id && work1.wrk_cmp_fl == 'Y'){
 									html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work1.wrk_id+"' class='workListItem'>";
 		 							html +=	"<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl' checked>";
-									html +=	"<h2><span>"+work1.wrk_grade+"</span>"+work1.wrk_nm+"</h2>";
+									html +=	"<h2 class='wrk_title'><span>"+work1.wrk_grade+"</span>"+work1.wrk_nm+"</h2>";
 									html +=	"<ul>";
-									html +=	"<li>"+work1.wrkStartDtStr+" ~ "+work1.wrkEndDtStr+"</li>";
+									html +=	"<li class='wrk_data'>"+work1.wrkStartDtStr+" ~ "+work1.wrkEndDtStr+"</li>";
 									html +=	"<li><span>코멘트 개수</span><span>업무 파일 개수</span></li>";
 									html +=	"</ul>";
 									html +=	"<div class='wrk_mem_flw'><dl class='wrk_mem'>";
@@ -599,69 +608,411 @@
 		
 		
 		/* 여기서부터 업무 셋팅 업데이트를 위한 이벤트 핸들러 입니다. */
-		$("#propertySet input, select").on("change", function(){
+		$("#propertyWorkSet input, select").on("propertychange change keyup", function(){
 			
 			//프로젝트 셋팅 값 가져오기
 			var id = $("#wps_id").val();
 			var name = $("#wps_nm").val();
-			var auth = $("#ppt_asc").val();
-			var date = $("#wps_start_date").val();
+			var work_date = $("#wps_start_date").val();
+			var res_date = $("#wps_res_date").val();
 			var wrk_gd = $("#wrk_gd").val();
-			var wrk_color = $("input[name='wrk_color_cd']:checked").val();
+// 			var wrk_color = $("input[name='wrk_color_cd']:checked").val();
+			var wrk_color = $("input:radio[name='wrk_color_cd']").is(":checked");
+// 			if(wrk_color == true){
+// 				alert(wrk_color);
+// 			}else{
+// 				alert("체크안됨 ");
+// 			}
 			
-			console.log(name);
-			console.log(id);
-			console.log(wrk_gd);
+			var workSplit = work_date.split(" to ");
+			var resSplit = res_date.split(" to ");
+			
+			var work_start_dt = workSplit[0];
+			var work_end_dt = workSplit[1];
+			
+			if(!name){
+				$(".ctxt").text("업무 이름을 작성해 주세요.");
+ 				layer_popup("#layer2");
+				return false;
+			}
+			
+			if(typeof work_start_dt == "undefined" || typeof work_end_dt == "undefined"){
+				work_start_dt = "";
+				work_end_dt = "";
+			}
+			
+			if(typeof wrk_color == "undefined"){
+				wrk_color = "";
+			}
+			
 			console.log(wrk_color);
 			
+			var projectWorkSet = {
+							  id : id
+						  	, name : name
+						  	, work_start_dt : work_start_dt
+						 	, work_end_dt : work_end_dt
+						  	, wrk_gd : wrk_gd
+						  	, wrk_color : wrk_color
+			}
 			
-// 			//프로젝트 이름이 없으면 return false
-// 			if(!name){
-// 				return false;
-// 			}
-			
-// 			//프로젝트 종료일을 시작일 보다 작을 수 없음.
-// 		        var startDateArr = start_date.split('-');
-// 		        var endDateArr = end_date.split('-');
-		        
-// 		        var startDateCompare = new Date(startDateArr[0], parseInt(startDateArr[1])-1, startDateArr[2]);
-// 		        var endDateCompare = new Date(endDateArr[0], parseInt(endDateArr[1])-1, endDateArr[2]);
-		         
-// 		        if(startDateCompare.getTime() > endDateCompare.getTime()) {
-// 		        	$(".ctxt").text("프로젝트 마감일은 시작일 이전이여야 합니다. 다시 선택해 주세요.");
-// 		        	layer_popup("#layer2");
-// 		            return false;
-// 		        }
-			
-// 			var projectSet = {
-// 							  id : id
-// 						  	, name : name
-// 						  	, exp : exp
-// 						 	, auth : auth
-// 						  	, status : status
-// 						  	, start_date : start_date
-// 						  	, end_date : end_date
-// 						  	, cmp_date : cmp_date
-// 			}
-			
-// 			propertySetItemAjax(projectSet);
+// 			propertyWorkSetItemAjax(projectWorkSet);
 		});
 		
+		//업무 설정 업데이트 ajax
+		function propertyWorkSetItemAjax(projectWorkSet){
+			$.ajax({
+				url:"/work/propertyWorkSetItemAjax",
+				method:"post",
+				contentType:"application/x-www-form-urlencoded; charset=UTF-8",
+				data:"wrk_id=" + projectWorkSet.id +
+					"&wrk_nm=" + projectWorkSet.name +
+					"&wrk_grade=" + projectWorkSet.wrk_gd +
+					"&wrk_color_cd=" + projectWorkSet.wrk_color +
+					"&wrk_start_dt=" + projectWorkSet.work_start_dt +
+					"&wrk_end_dt=" + projectWorkSet.work_end_dt,
+				success:function(data){
+					$(".workListItem").each(function() {
+						var wrkID = $(this).attr("data-wrkid");
+						if(wrkID == projectWorkSet.id){
+							$(this).find(".wrk_title").html("<span>"+data.data.wrk_grade+"</span>" + data.data.wrk_nm);
+							$(this).find(".wrk_data").text(data.data.prj_st);
+						}
+					});
+				}
+			});
+		}
 		//레이블 색상 선택 (라디오버튼 선택 / 선택해제)
 		var beforeChecked = -1;
 			$(function(){
 		      		$(".lableColor").on("click", "input[type=radio]", function(e) {
 		         		var index = $(this).prev().index("label");
+		         		$(this).prev().removeClass("colorSelect");
 		         		if(beforeChecked == index) {
 		         		beforeChecked = -1;
 		         		$(this).prop("checked", false);
 		         	}else{
 		         		beforeChecked = index;
+		         		$(".wrk_color").removeClass("colorSelect");
+		         		$(this).prev().addClass("colorSelect");
 		         	}
 		      	});
 		 });
 		
+		//날짜 선택
+		$(".flatpickr").flatpickr({
+		    mode: "range",
+		    minDate: "today",
+		    enableTime: true,
+		    minTime: "09:00"
+		});
+		
+		
+		// file, link 등록 부분 구현중
+		
+		$('#workLink').hide(0);
+		
+		$(".workTab").on("click", "#FL", function(){
+			var wrk_id = $('#wps_wrk_id').val();
+			workFilePagination(1, 10, wrk_id);
+		})
+	
+		$(".sub_menu").on("click", "#fileList",function(){
+			var wrk_id = $('#wps_wrk_id').val();
+			$('#workLink').fadeOut(0);
+			$('#workFile').fadeIn(0);
+			workFilePagination(1, 10, wrk_id);
+		})
+		
+		$(".sub_menu").on("click", "#linkList",function(){
+			var wrk_id = $('#wps_wrk_id').val();
+			$('#workFile').fadeOut(0);
+			$('#workLink').fadeIn(0);
+			workLinkPagination(1, 10,wrk_id);
+		})
+		
+		$("#workFile").on('click','#uploadFile', function(){
+			alert("등록");
+			var locker = $("#locker input[type=radio]:checked").val();
+	 		$('#box').val(locker);
+	 		var wrk_id = $('#wps_wrk_id').val();
+	 		$('#work').val(wrk_id);
+			$('#frm').submit();
+		;})
+		
+		$("#workLink").on('click','#uploadLink', function(){
+			var locker = $("#locker input[type=radio]:checked").val();
+			var link = $('.link').val();
+		})
+		
+		
 	});
+	function workFilePagination(page, pageSize, wrk_id) {
+		$.ajax({
+			url : "/workFilePagination",
+			method : "post",
+			data : "page=" + page + "&pageSize=" + pageSize + "&wrk_id="
+					+ wrk_id,
+			success : function(data) {
+				//사용자 리스트
+				var hhtml = "";
+				var html = "";
+
+				//hhtml생성
+				hhtml += "<tr>";
+				hhtml += "<th>파일명</th>";
+				hhtml += "<th>공유한 멤버 이름</th>";
+				hhtml += "<th>등록한 날짜</th>";
+				hhtml += "<th>삭제</th>";
+				hhtml += "</tr>";
+
+				data.workFileList.forEach(function(file, index) {
+					//html생성
+					html += "<tr id='filetr'>";
+					html += "<td><a href='#'>" + file.original_file_nm
+							+ "</a></td>";
+					html += "<td>" + file.user_nm + "</td>";
+					html += "<td>" + file.prjStartDtStr + "</td>";
+					html += "<td><a href='javascript:workDelFile("
+							+ file.file_id + "," + file.wrk_id
+							+ ")'>삭제</a></td>";
+					html += "</tr>";
+				});
+				var pHtml = "";
+				var pageVo = data.pageVo;
+				console.log(data);
+				console.log(pageVo);
+
+				if (pageVo.page == 1)
+					pHtml += "<li class='disabled'><span>«<span></li>";
+				else
+					pHtml += "<li><a href='javascript:workFilePagination("
+							+ (pageVo.page - 1) + ", " + pageVo.pageSize + ","
+							+ wrk_id + ");'>«</a></li>";
+				for (var i = 1; i <= data.paginationSize; i++) {
+					if (pageVo.page == i)
+						pHtml += "<li class='active'><span>" + i
+								+ "</span></li>";
+					else
+						pHtml += "<li><a href='javascript:workFilePagination("
+								+ i + ", " + pageVo.pageSize + "," + wrk_id
+								+ ");'>" + i + "</a></li>";
+				}
+				if (pageVo.page == data.paginationSize)
+					pHtml += "<li class='disabled'><span>»<span></li>";
+				else
+					pHtml += "<li><a href='javascript:workFilePagination("
+							+ (pageVo.page + 1) + ", " + pageVo.pageSize + ","
+							+ wrk_id + ");'>»</a></li>";
+				$(".pagination").html(pHtml);
+				$("#publicHeader").html(hhtml);
+				$("#publicList").html(html);
+			}
+		});
+	}
+
+	function workLinkPagination(page, pageSize, wrk_id) {
+		$.ajax({
+			url : "/workLinkPagination",
+			method : "post",
+			data : "page=" + page + "&pageSize=" + pageSize + "&wrk_id="
+					+ wrk_id,
+			success : function(data) {
+				//사용자 리스트
+				var hhtml = "";
+				var html = "";
+
+				//hhtml생성
+				hhtml += "<tr>";
+				hhtml += "<th>링크명</th>";
+				hhtml += "<th>공유한 멤버 이름</th>";
+				hhtml += "<th>등록한 날짜</th>";
+				hhtml += "<th>삭제</th>";
+				hhtml += "</tr>";
+
+				console.log(data.workLinkList);
+				data.workLinkList.forEach(function(link, index) {
+					//html생성
+					html += "<tr>";
+					html += "<td><a href='https://"+link.attch_url+"'>"
+							+ link.attch_url + "</a></td>";
+					html += "<td>" + link.user_nm + "</td>";
+					html += "<td>" + link.prjStartDtStr + "</td>";
+					html += "<td><a href='javascript:workDelLink("
+							+ link.link_id + "," + link.wrk_id
+							+ ")'>삭제</a></td>";
+					html += "</tr>";
+				});
+				var pHtml = "";
+				var pageVo = data.pageVo;
+				console.log(data);
+				console.log(pageVo);
+
+				if (pageVo.page == 1)
+					pHtml += "<li class='disabled'><span>«<span></li>";
+				else
+					pHtml += "<li><a href='javascript:workLinkPagination("
+							+ (pageVo.page - 1) + ", " + pageVo.pageSize + ","
+							+ wrk_id + ");'>«</a></li>";
+
+				for (var i = 1; i <= data.paginationSize; i++) {
+					if (pageVo.page == i)
+						pHtml += "<li class='active'><span>" + i
+								+ "</span></li>";
+					else
+						pHtml += "<li><a href='javascript:workLinkPagination("
+								+ i + ", " + pageVo.pageSize + "," + wrk_id
+								+ ");'>" + i + "</a></li>";
+				}
+				if (pageVo.page == data.paginationSize)
+					pHtml += "<li class='disabled'><span>»<span></li>";
+				else
+					pHtml += "<li><a href='javascript:workLinkPagination("
+							+ (pageVo.page + 1) + ", " + pageVo.pageSize + ","
+							+ wrk_id + ");'>»</a></li>";
+				$(".pagination").html(pHtml);
+				$("#publicHeader").html(hhtml);
+				$("#publicList").html(html);
+			}
+		});
+	}
+
+	function workDelFile(fileID, wrk_id) {
+		alert("삭제긔긔");
+
+		$.ajax({
+			url : "/workDelFile",
+			method : "post",
+			data : "file_id=" + fileID + "&wrk_id=" + wrk_id,
+			success : function(data) {
+				//사용자 리스트
+				var hhtml = "";
+				var html = "";
+
+				//hhtml생성
+				hhtml += "<tr>";
+				hhtml += "<th>파일명</th>";
+				hhtml += "<th>공유한 멤버 이름</th>";
+				hhtml += "<th>등록한 날짜</th>";
+				hhtml += "<th>삭제</th>";
+				hhtml += "</tr>";
+
+				data.workFileList.forEach(function(file, index) {
+					//html생성
+					html += "<tr id='filetr'>";
+					html += "<td><a href='#'>" + file.original_file_nm
+							+ "</a></td>";
+					html += "<td>" + file.user_nm + "</td>";
+					html += "<td>" + file.prjStartDtStr + "</td>";
+					html += "<td><a href='javascript:workDelFile("
+							+ file.file_id + "," + file.wrk_id
+							+ ")'>삭제</a></td>";
+					html += "</tr>";
+				});
+				var pHtml = "";
+				var pageVo = data.pageVo;
+				console.log(data);
+				console.log(pageVo);
+
+				if (pageVo.page == 1)
+					pHtml += "<li class='disabled'><span>«<span></li>";
+				else
+					pHtml += "<li><a href='javascript:workFilePagination("
+							+ (pageVo.page - 1) + ", " + pageVo.pageSize + ","
+							+ wrk_id + ");'>«</a></li>";
+				for (var i = 1; i <= data.paginationSize; i++) {
+					if (pageVo.page == i)
+						pHtml += "<li class='active'><span>" + i
+								+ "</span></li>";
+					else
+						pHtml += "<li><a href='javascript:workFilePagination("
+								+ i + ", " + pageVo.pageSize + "," + wrk_id
+								+ ");'>" + i + "</a></li>";
+				}
+				if (pageVo.page == data.paginationSize)
+					pHtml += "<li class='disabled'><span>»<span></li>";
+				else
+					pHtml += "<li><a href='javascript:workFilePagination("
+							+ (pageVo.page + 1) + ", " + pageVo.pageSize + ","
+							+ wrk_id + ");'>»</a></li>";
+				$(".pagination").html(pHtml);
+				$("#publicHeader").html(hhtml);
+				$("#publicList").html(html);
+			}
+		});
+	}
+
+	function workDelLink(linkID, wrk_id) {
+		alert("삭제긔긔");
+
+		$.ajax({
+			url : "/workDelLink",
+			method : "post",
+			data : "link_id=" + linkID + "&wrk_id=" + wrk_id,
+			success : function(data) {
+				//사용자 리스트
+				var hhtml = "";
+				var html = "";
+
+				//hhtml생성
+				hhtml += "<tr>";
+				hhtml += "<th>링크명</th>";
+				hhtml += "<th>공유한 멤버 이름</th>";
+				hhtml += "<th>등록한 날짜</th>";
+				hhtml += "<th>삭제</th>";
+				hhtml += "</tr>";
+
+				console.log(data.workLinkList);
+				data.workLinkList.forEach(function(link, index) {
+					//html생성
+					html += "<tr>";
+					html += "<td><a href='https://"+link.attch_url+"'>"
+							+ link.attch_url + "</a></td>";
+					html += "<td>" + link.user_nm + "</td>";
+					html += "<td>" + link.prjStartDtStr + "</td>";
+					html += "<td><a href='javascript:workDelLink("
+							+ link.link_id + "," + link.wrk_id
+							+ ")'>삭제</a></td>";
+					html += "</tr>";
+				});
+				var pHtml = "";
+				var pageVo = data.pageVo;
+				console.log(data);
+				console.log(pageVo);
+
+				if (pageVo.page == 1)
+					pHtml += "<li class='disabled'><span>«<span></li>";
+				else
+					pHtml += "<li><a href='javascript:workLinkPagination("
+							+ (pageVo.page - 1) + ", " + pageVo.pageSize + ","
+							+ wrk_id + ");'>«</a></li>";
+
+				for (var i = 1; i <= data.paginationSize; i++) {
+					if (pageVo.page == i)
+						pHtml += "<li class='active'><span>" + i
+								+ "</span></li>";
+					else
+						pHtml += "<li><a href='javascript:workLinkPagination("
+								+ i + ", " + pageVo.pageSize + "," + wrk_id
+								+ ");'>" + i + "</a></li>";
+				}
+				if (pageVo.page == data.paginationSize)
+					pHtml += "<li class='disabled'><span>»<span></li>";
+				else
+					pHtml += "<li><a href='javascript:workLinkPagination("
+							+ (pageVo.page + 1) + ", " + pageVo.pageSize + ","
+							+ wrk_id + ");'>»</a></li>";
+				$(".pagination").html(pHtml);
+				$("#publicHeader").html(hhtml);
+				$("#publicList").html(html);
+			}
+		});
+	}
+
+	// file, link 등록 부분 구현중
+	
+	
+	
 </script>
 
 
@@ -674,14 +1025,18 @@
 		<li><a href="">Meeting</a></li>
 		<li><a href="/vote">Vote</a></li>
 	</ul>
+	
+	<!-- 영하가 수정함 여기서부터ㅎ -->
 	<div class="sub_btn">
 		<ul>
-			<li><input type="button" value="4"></li>
-			<li><input type="button" value="프로젝트 회의록"></li>
-			<li><input type="button" value="프로젝트 대화"></li>
-			<li><input type="button" value="프로젝트 설정"></li>
+			<li><a href="#">4</a></li>
+			<li><a href="/publicFilePagination">회의록</a></li>
+			<li><a href="#">프로젝트 대화</a></li>
+			<li><a href="#">프로젝트 설정</a></li>
 		</ul>
 	</div>
+	<!-- 영하가 수정함 여기까지ㅎ -->
+	
 </div>
 
 <style>
@@ -720,10 +1075,24 @@
 						</dl>
 						<ul>
 							<li>
-								<p>진행중 업무 <span>4</span></p>
+							
+								<c:set var="yCnt" value="0"/>
+								<c:set var="nCnt" value="0"/>
+								<c:forEach items="${works}" var="work">
+									<c:choose>
+										<c:when test="${workList.wrk_lst_id == work.wrk_lst_id && work.wrk_cmp_fl == 'N'}">
+											<c:set var="nCnt" value="${nCnt + 1 }"/>
+										</c:when>
+										<c:when test="${workList.wrk_lst_id == work.wrk_lst_id && work.wrk_cmp_fl == 'Y'}">
+											<c:set var="yCnt" value="${yCnt + 1 }"/>
+										</c:when>
+									</c:choose>
+								</c:forEach>	
+							
+								<p>진행중 업무 <span>${nCnt }</span></p>
 								<p>
 									<a href="javascript:;" class="btnComplete" id="${workList.wrk_lst_id}">완료된업무보기</a>
-									<span>2</span>
+									<span>${yCnt }</span>
 								</p>
 							</li>
 							<li class="graph"></li>
@@ -741,11 +1110,11 @@
 						<c:forEach items="${works}" var="work">
 							<c:choose>
 								<c:when test="${workList.wrk_lst_id == work.wrk_lst_id && work.wrk_cmp_fl == 'N'}">
-									<div id="${work.wrk_lst_id}" data-wrkid="${work.wrk_id}" class="wrokListItem">
+									<div id="${work.wrk_lst_id}" data-wrkid="${work.wrk_id}" class="workListItem">
 										<input type="checkbox" name="wrk_cmp_fl" id="wrk_cmp_fl">
-										<h2><span>${work.wrk_grade}</span>${work.wrk_nm}</h2>
+										<h2 class="wrk_title"><span>${work.wrk_grade}</span>${work.wrk_nm}</h2>
 										<ul>
-											<li>${work.wrkStartDtStr} ~ ${work.wrkEndDtStr}</li>
+											<li class="wrk_date">${work.wrkStartDtStr} ~ ${work.wrkEndDtStr}</li>
 											<li>
 												<span>코멘트 개수</span>
 												<span>업무 파일 개수</span>
@@ -823,11 +1192,12 @@
 
 
 <!-- work setting layer -->
-<div id="propertySet">
+<div id="propertyWorkSet" class="propertySet">
 	<div class="propertySetWrap">
 		<div class="setHd">
 			<div class="setHdTitle">
-				<input type="hidden" id="wps_id" name="wps_id" value="">
+				<input type="hidden"  id="wps_id" name="wps_id" value="">
+				<input type="hidden"  id="wps_wrk_id" name="wps_wrk_id" value="">
 				<h2>
 					<input type="text" id="wps_nm" name="wps_nm" value="">
 				</h2>
@@ -840,7 +1210,7 @@
 			<ul class="tabs">
 				<li class="active" data-tab="tab1">설정</li>
 				<li data-tab="tab2">업무 코멘트</li>
-				<li data-tab="tab3">파일&amp;링크</li>
+				<li id="FL" data-tab="tab3">파일&amp;링크</li>
 			</ul>
 		</div>
 		
@@ -851,13 +1221,13 @@
 			<dl class="setItem">
 				<dt>날짜 설정</dt>
 				<dd>
-					<input type="text" data-language="en" class="datepicker-here datePick" id="wps_start_date">
+					<input class="flatpickr flatpickr-input" type="text" placeholder="Select Date.." data-id="rangeDisable" id="wps_start_date" readonly="readonly">
 				</dd>
 			</dl>
 			<dl class="setItem">
 				<dt>예약 알림</dt>
 				<dd>
-					<input type="text" data-language="en" class="datepicker-here datePick" id="wps_start_date">
+					<input class="flatpickr flatpickr-input" type="text" placeholder="Select Date.." data-id="rangeDisable" id="wps_res_date" readonly="readonly">
 				</dd>
 			</dl>
 			<dl class="setItem">
@@ -929,44 +1299,44 @@
 					<div class="lableColor">
 						<ul>
 							<li>
-								<label for="wrk_color01" class="wrk_color wrk_color01"></label>
-								<input type="radio" value="CR01" name="wrk_color_cd" id="wrk_color01">
+								<label for="CR01" class="wrk_color wrk_color01"></label>
+								<input type="radio" value="CR01" name="wrk_color_cd" id="CR01">
 							</li>
 							<li>
-								<label for="wrk_color02" class="wrk_color wrk_color02"></label>
-								<input type="radio" value="CR02" name="wrk_color_cd" id="wrk_color02">
+								<label for="CR02" class="wrk_color wrk_color02"></label>
+								<input type="radio" value="CR02" name="wrk_color_cd" id="CR02">
 							</li>
 							<li>
-								<label for="wrk_color03" class="wrk_color wrk_color03"></label>
-								<input type="radio" value="CR03" name="wrk_color_cd" id="wrk_color03">
+								<label for="CR03" class="wrk_color wrk_color03"></label>
+								<input type="radio" value="CR03" name="wrk_color_cd" id="CR03">
 							</li>
 							<li>
-								<label for="wrk_color04" class="wrk_color wrk_color04"></label>
-								<input type="radio" value="CR04" name="wrk_color_cd" id="wrk_color04">
+								<label for="CR04" class="wrk_color wrk_color04"></label>
+								<input type="radio" value="CR04" name="wrk_color_cd" id="CR04">
 							</li>
 							<li>
-								<label for="wrk_color05" class="wrk_color wrk_color05"></label>
-								<input type="radio" value="CR05" name="wrk_color_cd" id="wrk_color05">
+								<label for="CR05" class="wrk_color wrk_color05"></label>
+								<input type="radio" value="CR05" name="wrk_color_cd" id="CR05">
 							</li>
 							<li>
-								<label for="wrk_color06" class="wrk_color wrk_color06"></label>
-								<input type="radio" value="CR06" name="wrk_color_cd" id="wrk_color06">
+								<label for="CR06" class="wrk_color wrk_color06"></label>
+								<input type="radio" value="CR06" name="wrk_color_cd" id="CR06">
 							</li>
 							<li>
-								<label for="wrk_color07" class="wrk_color wrk_color07"></label>
-								<input type="radio" value="CR07" name="wrk_color_cd" id="wrk_color07">
+								<label for="CR07" class="wrk_color wrk_color07"></label>
+								<input type="radio" value="CR07" name="wrk_color_cd" id="CR07">
 							</li>
 							<li>
-								<label for="wrk_color08" class="wrk_color wrk_color08"></label>
-								<input type="radio" value="CR08" name="wrk_color_cd" id="wrk_color08">
+								<label for="CR08" class="wrk_color wrk_color08"></label>
+								<input type="radio" value="CR08" name="wrk_color_cd" id="CR08">
 							</li>
 							<li>
-								<label for="wrk_color09" class="wrk_color wrk_color09"></label>
-								<input type="radio" value="CR09" name="wrk_color_cd" id="wrk_color09">
+								<label for="CR09" class="wrk_color wrk_color09"></label>
+								<input type="radio" value="CR09" name="wrk_color_cd" id="CR09">
 							</li>
 							<li>
-								<label for="wrk_color10" class="wrk_color wrk_color10"></label>
-								<input type="radio" value="CR10" name="wrk_color_cd" id="wrk_color10">
+								<label for="CR10" class="wrk_color wrk_color10"></label>
+								<input type="radio" value="CR10" name="wrk_color_cd" id="CR10">
 							</li>
 						</ul>
 					</div>
@@ -980,9 +1350,67 @@
 		</div>
 		
 		<!--  여기서부터 work file&link-->
+		<!-- 영하가 수정함 여기부터 ㅎ-->
 		<div id="tab3" class="tab_content">
-			여기는 업무 파일 링크 입니다.
+			<div class="sub_menu">
+				<ul class="tabs">
+					<li id="fileList">FileList</li>
+					<li id="linkList">LinkList</li>
+				</ul>
+			</div>
+
+			<div id="locker">
+				<input value="public" name="box" type="radio">공유함 긔긔
+				<input value="individual" name="box" type="radio">개인함 긔긔
+				<input value="both" name="box" type="radio">둘다 긔긔
+			</div>
+
+			<form id="frm" action="/workFileUpload" method="post" enctype="multipart/form-data">
+				<div id="workFile">
+					<input type="hidden" id="work" value="" name="wrk_id">
+					<input type="hidden" id="box" value="" name="locker">
+					<label class="col-sm-2 control-label">공유할 첨부파일:</label>
+					<input type="file" class="file" name="profile"/>
+					<button type="button" id="uploadFile">등록</button>
+				</div>
+			</form>
+			
+			<div id="workLink">
+				<label class="col-sm-2 control-label">공유할 링크주소:</label>
+				<input type="text" class="link" name="attch_url"/>
+				<button type="button" id="uploadLink">등록</button>
+			</div>
+			
+				
+			<div class="tab_con">
+	
+				<div class="tab-content current">
+					<div>
+						<table class="tb_style_01">
+							<colgroup>
+								<col width="30%">
+								<col width="20%">
+								<col width="30%">
+								<col width="20%">
+							</colgroup>
+							
+								<thead id="publicHeader">
+								<thead>
+								
+								<tbody id="publicList">
+							</tbody>
+							
+						</table>
+					</div>
+	
+				<div class="pagination">
+					</div>
+					
+				</div>
+			</div>
+			
 		</div>
+		<!-- 영하가 수정함 여기까지ㅎ -->
 		
 	</div>
 	<div class="btnSetClose">닫기</div>

@@ -80,8 +80,8 @@ public class ApplicationContext extends WebMvcConfigurerAdapter implements WebSo
 	@Bean
 	public CommonsMultipartResolver multipartResolver() {
 		CommonsMultipartResolver cmr = new CommonsMultipartResolver();
-		cmr.setMaxUploadSize(1024*1024*3*5);
-		cmr.setMaxUploadSizePerFile(1024*1024*3);
+		cmr.setMaxUploadSize(1024*1024*3*10);
+		cmr.setMaxUploadSizePerFile(1024*1024*10);
 		return cmr;
 	}
 
