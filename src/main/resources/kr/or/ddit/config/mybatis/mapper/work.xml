@@ -93,17 +93,14 @@
 	</update>
 	
 	
-	<!-- 프로젝트 전체 업데이트 -->
+	<!-- 업무 전체 업데이트 -->
 	<update id="updateAllWork" parameterType="workVo">
 		UPDATE WORK SET 
 				<if test="wrk_nm != null">
-				  WRK_NM = #{wrk_nm}
+				 WRK_NM = #{wrk_nm}
 				</if>
 				<if test="wrk_grade != null">
 		                , WRK_GRADE = #{wrk_grade}
-		                </if>
-		                <if test="wrk_color_cd != null">
-		                , WRK_COLOR_CD = #{wrk_color_cd}
 		                </if>
 		                <if test="wrk_start_dt != null">
 		                , WRK_START_DT = #{wrk_start_dt}
@@ -112,6 +109,21 @@
 		                , WRK_END_DT = #{wrk_end_dt}
 		                </if>
 		WHERE WRK_ID = #{wrk_id}
+	</update>
+	
+	
+	<!-- 업무 라벨 컬러 업데이트 -->
+	<update id="updateWorkColor" parameterType="workVo">
+		UPDATE WORK SET 
+						<choose>
+							<when test="wrk_color_cd != null">
+								WRK_COLOR_CD = #{wrk_color_cd}
+							</when>
+							<otherwise>
+								WRK_COLOR_CD = NULL
+							</otherwise>
+						</choose>
+	 	WHERE WRK_ID = #{wrk_id}
 	</update>
 
 

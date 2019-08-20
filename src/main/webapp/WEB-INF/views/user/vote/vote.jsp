@@ -139,11 +139,11 @@
 			</table>
 			<button onclick="newItem()" id="addItemBtn" type="button">투표 항목 추가</button>
 			<br><br>
-			<h2 class='voteItems'>기타 설정</h2>
+			<h2 class='voteItems'>투표 마감일</h2>
 			<input type="hidden" name="prj_id" value="${PROJECT_INFO.prj_id }">
 			<input type="hidden" name="vote_email" value="${USER_INFO.user_email }">
-			<input type="checkbox" name="vote_ano" value="Y"> 익명 투표<br>
-			투표 마감일 : <input type="text" id="end_dt" name="vote_end_date"> <br>
+			<input type="hidden" name="vote_ano" value="Y">
+			<input type="text" id="end_dt" name="vote_end_date"> <br>
 			<br>
 			<input type="button" id="newVoteSubmit" onclick="newVote()" class="btn_style_02" value="투표 등록">
 			</form>
@@ -598,6 +598,8 @@ var cal = flatpickr("#end_dt", {"locale" : "ko", enableTime: true});
 		var modalMdf = document.getElementById("voteMdfModal");
 		modalMdf.style.display = "none";
 	}
+	
+	
 	function cmpVote() {
 		var serial = $("#voteDetailFrm").serialize();
 		console.log(serial);

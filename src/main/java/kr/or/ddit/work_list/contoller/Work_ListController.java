@@ -433,15 +433,14 @@ public class Work_ListController {
 	
 	// 프로젝트 설정 업데이트
 	@RequestMapping("/propertyWorkSetItemAjax")
-	public String propertyWorkSetItemAjax(String wrk_id, String wrk_nm, String wrk_grade, String wrk_color_cd, String wrk_start_dt, String wrk_end_dt, 
+	public String propertyWorkSetItemAjax(String wrk_id, String wrk_nm, String wrk_grade, String wrk_start_dt, String wrk_end_dt, 
 									   Model model, HttpSession session) throws ParseException {
 		
 		int wrkID = Integer.parseInt(wrk_id);
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm");
 
-		WorkVo workVo = new WorkVo(wrkID, wrk_nm, wrk_grade, wrk_color_cd);
-		
+		WorkVo workVo = new WorkVo(wrkID, wrk_nm, wrk_grade);
 
 		if (wrk_nm.contentEquals("")) {
 			workVo.setWrk_nm(workVo.getWrk_nm());
@@ -449,12 +448,6 @@ public class Work_ListController {
 		
 		if (!wrk_grade.contentEquals("")) {
 			workVo.setWrk_grade(wrk_grade);
-		}
-		
-		if (!wrk_color_cd.contentEquals("")) {
-			workVo.setWrk_color_cd(wrk_color_cd);
-		}else {
-			workVo.setWrk_color_cd("");
 		}
 		
 		if (!wrk_start_dt.contentEquals("")) {
@@ -467,6 +460,25 @@ public class Work_ListController {
 		
 		int updateCnt = workService .updateAllWork(workVo);
 
+		if (updateCnt != 0) {
+			model.addAttribute("data", workService.getWorkInfo(wrkID));
+		}
+		
+		return "jsonView";
+	}
+	
+	// 프로젝트 설정 업데이트
+	@RequestMapping("/propertyWorkLableColorAjax")
+	public String propertyWorkLableColorAjax(WorkVo workVo, String wrk_id, String wrk_color_cd, Model model) throws ParseException {
+		
+		int wrkID = Integer.parseInt(wrk_id);
+		workVo.setWrk_id(wrkID);
+
+		if (!wrk_color_cd.contentEquals("")) {
+			workVo.setWrk_color_cd(wrk_color_cd);
+		}
+
+		int updateCnt = workService.updateWorkColor(workVo);
 		if (updateCnt != 0) {
 			model.addAttribute("data", workService.getWorkInfo(wrkID));
 		}

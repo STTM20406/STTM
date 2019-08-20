@@ -140,12 +140,11 @@ public class WorkVo extends Work_ListVo{
 	 * @param wrk_grade
 	 * @param wrk_color_cd
 	 */
-	public WorkVo(int wrk_id, String wrk_nm, String wrk_grade, String wrk_color_cd) {
+	public WorkVo(int wrk_id, String wrk_nm, String wrk_grade) {
 		super();
 		this.wrk_id = wrk_id;
 		this.wrk_nm = wrk_nm;
 		this.wrk_grade = wrk_grade;
-		this.wrk_color_cd = wrk_color_cd;
 	}
 
 	@Override
