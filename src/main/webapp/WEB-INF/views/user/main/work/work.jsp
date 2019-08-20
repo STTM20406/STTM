@@ -619,7 +619,7 @@
 // 			var wrk_color = $("input[name='wrk_color_cd']:checked").val();
 			var wrk_color = $("input:radio[name='wrk_color_cd']").is(":checked");
 // 			if(wrk_color == true){
-				alert(wrk_color);
+// 				alert(wrk_color);
 // 			}else{
 // 				alert("체크안됨 ");
 // 			}
@@ -707,7 +707,312 @@
 		    minTime: "09:00"
 		});
 		
+		
+		// file, link 등록 부분 구현중
+		
+		$('#workLink').hide(0);
+		
+		$(".workTab").on("click", "#FL", function(){
+			var wrk_id = $('#wps_wrk_id').val();
+			workFilePagination(1, 10, wrk_id);
+		})
+	
+		$(".sub_menu").on("click", "#fileList",function(){
+			var wrk_id = $('#wps_wrk_id').val();
+			$('#workLink').fadeOut(0);
+			$('#workFile').fadeIn(0);
+			workFilePagination(1, 10, wrk_id);
+		})
+		
+		$(".sub_menu").on("click", "#linkList",function(){
+			var wrk_id = $('#wps_wrk_id').val();
+			$('#workFile').fadeOut(0);
+			$('#workLink').fadeIn(0);
+			workLinkPagination(1, 10,wrk_id);
+		})
+		
+		$("#workFile").on('click','#uploadFile', function(){
+			alert("등록");
+			var locker = $("#locker input[type=radio]:checked").val();
+	 		$('#box').val(locker);
+	 		var wrk_id = $('#wps_wrk_id').val();
+	 		$('#work').val(wrk_id);
+			$('#frm').submit();
+		;})
+		
+		$("#workLink").on('click','#uploadLink', function(){
+			var locker = $("#locker input[type=radio]:checked").val();
+			var link = $('.link').val();
+		})
+		
+		
 	});
+	function workFilePagination(page, pageSize, wrk_id) {
+		$.ajax({
+			url : "/workFilePagination",
+			method : "post",
+			data : "page=" + page + "&pageSize=" + pageSize + "&wrk_id="
+					+ wrk_id,
+			success : function(data) {
+				//사용자 리스트
+				var hhtml = "";
+				var html = "";
+
+				//hhtml생성
+				hhtml += "<tr>";
+				hhtml += "<th>파일명</th>";
+				hhtml += "<th>공유한 멤버 이름</th>";
+				hhtml += "<th>등록한 날짜</th>";
+				hhtml += "<th>삭제</th>";
+				hhtml += "</tr>";
+
+				data.workFileList.forEach(function(file, index) {
+					//html생성
+					html += "<tr id='filetr'>";
+					html += "<td><a href='#'>" + file.original_file_nm
+							+ "</a></td>";
+					html += "<td>" + file.user_nm + "</td>";
+					html += "<td>" + file.prjStartDtStr + "</td>";
+					html += "<td><a href='javascript:workDelFile("
+							+ file.file_id + "," + file.wrk_id
+							+ ")'>삭제</a></td>";
+					html += "</tr>";
+				});
+				var pHtml = "";
+				var pageVo = data.pageVo;
+				console.log(data);
+				console.log(pageVo);
+
+				if (pageVo.page == 1)
+					pHtml += "<li class='disabled'><span>«<span></li>";
+				else
+					pHtml += "<li><a href='javascript:workFilePagination("
+							+ (pageVo.page - 1) + ", " + pageVo.pageSize + ","
+							+ wrk_id + ");'>«</a></li>";
+				for (var i = 1; i <= data.paginationSize; i++) {
+					if (pageVo.page == i)
+						pHtml += "<li class='active'><span>" + i
+								+ "</span></li>";
+					else
+						pHtml += "<li><a href='javascript:workFilePagination("
+								+ i + ", " + pageVo.pageSize + "," + wrk_id
+								+ ");'>" + i + "</a></li>";
+				}
+				if (pageVo.page == data.paginationSize)
+					pHtml += "<li class='disabled'><span>»<span></li>";
+				else
+					pHtml += "<li><a href='javascript:workFilePagination("
+							+ (pageVo.page + 1) + ", " + pageVo.pageSize + ","
+							+ wrk_id + ");'>»</a></li>";
+				$(".pagination").html(pHtml);
+				$("#publicHeader").html(hhtml);
+				$("#publicList").html(html);
+			}
+		});
+	}
+
+	function workLinkPagination(page, pageSize, wrk_id) {
+		$.ajax({
+			url : "/workLinkPagination",
+			method : "post",
+			data : "page=" + page + "&pageSize=" + pageSize + "&wrk_id="
+					+ wrk_id,
+			success : function(data) {
+				//사용자 리스트
+				var hhtml = "";
+				var html = "";
+
+				//hhtml생성
+				hhtml += "<tr>";
+				hhtml += "<th>링크명</th>";
+				hhtml += "<th>공유한 멤버 이름</th>";
+				hhtml += "<th>등록한 날짜</th>";
+				hhtml += "<th>삭제</th>";
+				hhtml += "</tr>";
+
+				console.log(data.workLinkList);
+				data.workLinkList.forEach(function(link, index) {
+					//html생성
+					html += "<tr>";
+					html += "<td><a href='https://"+link.attch_url+"'>"
+							+ link.attch_url + "</a></td>";
+					html += "<td>" + link.user_nm + "</td>";
+					html += "<td>" + link.prjStartDtStr + "</td>";
+					html += "<td><a href='javascript:workDelLink("
+							+ link.link_id + "," + link.wrk_id
+							+ ")'>삭제</a></td>";
+					html += "</tr>";
+				});
+				var pHtml = "";
+				var pageVo = data.pageVo;
+				console.log(data);
+				console.log(pageVo);
+
+				if (pageVo.page == 1)
+					pHtml += "<li class='disabled'><span>«<span></li>";
+				else
+					pHtml += "<li><a href='javascript:workLinkPagination("
+							+ (pageVo.page - 1) + ", " + pageVo.pageSize + ","
+							+ wrk_id + ");'>«</a></li>";
+
+				for (var i = 1; i <= data.paginationSize; i++) {
+					if (pageVo.page == i)
+						pHtml += "<li class='active'><span>" + i
+								+ "</span></li>";
+					else
+						pHtml += "<li><a href='javascript:workLinkPagination("
+								+ i + ", " + pageVo.pageSize + "," + wrk_id
+								+ ");'>" + i + "</a></li>";
+				}
+				if (pageVo.page == data.paginationSize)
+					pHtml += "<li class='disabled'><span>»<span></li>";
+				else
+					pHtml += "<li><a href='javascript:workLinkPagination("
+							+ (pageVo.page + 1) + ", " + pageVo.pageSize + ","
+							+ wrk_id + ");'>»</a></li>";
+				$(".pagination").html(pHtml);
+				$("#publicHeader").html(hhtml);
+				$("#publicList").html(html);
+			}
+		});
+	}
+
+	function workDelFile(fileID, wrk_id) {
+		alert("삭제긔긔");
+
+		$.ajax({
+			url : "/workDelFile",
+			method : "post",
+			data : "file_id=" + fileID + "&wrk_id=" + wrk_id,
+			success : function(data) {
+				//사용자 리스트
+				var hhtml = "";
+				var html = "";
+
+				//hhtml생성
+				hhtml += "<tr>";
+				hhtml += "<th>파일명</th>";
+				hhtml += "<th>공유한 멤버 이름</th>";
+				hhtml += "<th>등록한 날짜</th>";
+				hhtml += "<th>삭제</th>";
+				hhtml += "</tr>";
+
+				data.workFileList.forEach(function(file, index) {
+					//html생성
+					html += "<tr id='filetr'>";
+					html += "<td><a href='#'>" + file.original_file_nm
+							+ "</a></td>";
+					html += "<td>" + file.user_nm + "</td>";
+					html += "<td>" + file.prjStartDtStr + "</td>";
+					html += "<td><a href='javascript:workDelFile("
+							+ file.file_id + "," + file.wrk_id
+							+ ")'>삭제</a></td>";
+					html += "</tr>";
+				});
+				var pHtml = "";
+				var pageVo = data.pageVo;
+				console.log(data);
+				console.log(pageVo);
+
+				if (pageVo.page == 1)
+					pHtml += "<li class='disabled'><span>«<span></li>";
+				else
+					pHtml += "<li><a href='javascript:workFilePagination("
+							+ (pageVo.page - 1) + ", " + pageVo.pageSize + ","
+							+ wrk_id + ");'>«</a></li>";
+				for (var i = 1; i <= data.paginationSize; i++) {
+					if (pageVo.page == i)
+						pHtml += "<li class='active'><span>" + i
+								+ "</span></li>";
+					else
+						pHtml += "<li><a href='javascript:workFilePagination("
+								+ i + ", " + pageVo.pageSize + "," + wrk_id
+								+ ");'>" + i + "</a></li>";
+				}
+				if (pageVo.page == data.paginationSize)
+					pHtml += "<li class='disabled'><span>»<span></li>";
+				else
+					pHtml += "<li><a href='javascript:workFilePagination("
+							+ (pageVo.page + 1) + ", " + pageVo.pageSize + ","
+							+ wrk_id + ");'>»</a></li>";
+				$(".pagination").html(pHtml);
+				$("#publicHeader").html(hhtml);
+				$("#publicList").html(html);
+			}
+		});
+	}
+
+	function workDelLink(linkID, wrk_id) {
+		alert("삭제긔긔");
+
+		$.ajax({
+			url : "/workDelLink",
+			method : "post",
+			data : "link_id=" + linkID + "&wrk_id=" + wrk_id,
+			success : function(data) {
+				//사용자 리스트
+				var hhtml = "";
+				var html = "";
+
+				//hhtml생성
+				hhtml += "<tr>";
+				hhtml += "<th>링크명</th>";
+				hhtml += "<th>공유한 멤버 이름</th>";
+				hhtml += "<th>등록한 날짜</th>";
+				hhtml += "<th>삭제</th>";
+				hhtml += "</tr>";
+
+				console.log(data.workLinkList);
+				data.workLinkList.forEach(function(link, index) {
+					//html생성
+					html += "<tr>";
+					html += "<td><a href='https://"+link.attch_url+"'>"
+							+ link.attch_url + "</a></td>";
+					html += "<td>" + link.user_nm + "</td>";
+					html += "<td>" + link.prjStartDtStr + "</td>";
+					html += "<td><a href='javascript:workDelLink("
+							+ link.link_id + "," + link.wrk_id
+							+ ")'>삭제</a></td>";
+					html += "</tr>";
+				});
+				var pHtml = "";
+				var pageVo = data.pageVo;
+				console.log(data);
+				console.log(pageVo);
+
+				if (pageVo.page == 1)
+					pHtml += "<li class='disabled'><span>«<span></li>";
+				else
+					pHtml += "<li><a href='javascript:workLinkPagination("
+							+ (pageVo.page - 1) + ", " + pageVo.pageSize + ","
+							+ wrk_id + ");'>«</a></li>";
+
+				for (var i = 1; i <= data.paginationSize; i++) {
+					if (pageVo.page == i)
+						pHtml += "<li class='active'><span>" + i
+								+ "</span></li>";
+					else
+						pHtml += "<li><a href='javascript:workLinkPagination("
+								+ i + ", " + pageVo.pageSize + "," + wrk_id
+								+ ");'>" + i + "</a></li>";
+				}
+				if (pageVo.page == data.paginationSize)
+					pHtml += "<li class='disabled'><span>»<span></li>";
+				else
+					pHtml += "<li><a href='javascript:workLinkPagination("
+							+ (pageVo.page + 1) + ", " + pageVo.pageSize + ","
+							+ wrk_id + ");'>»</a></li>";
+				$(".pagination").html(pHtml);
+				$("#publicHeader").html(hhtml);
+				$("#publicList").html(html);
+			}
+		});
+	}
+
+	// file, link 등록 부분 구현중
+	
+	
+	
 </script>
 
 
@@ -720,14 +1025,18 @@
 		<li><a href="">Meeting</a></li>
 		<li><a href="/vote">Vote</a></li>
 	</ul>
+	
+	<!-- 영하가 수정함 여기서부터ㅎ -->
 	<div class="sub_btn">
 		<ul>
-			<li><input type="button" value="4"></li>
-			<li><input type="button" value="프로젝트 회의록"></li>
-			<li><input type="button" value="프로젝트 대화"></li>
-			<li><input type="button" value="프로젝트 설정"></li>
+			<li><a href="#">4</a></li>
+			<li><a href="/publicFilePagination">회의록</a></li>
+			<li><a href="#">프로젝트 대화</a></li>
+			<li><a href="#">프로젝트 설정</a></li>
 		</ul>
 	</div>
+	<!-- 영하가 수정함 여기까지ㅎ -->
+	
 </div>
 
 <style>
@@ -887,7 +1196,8 @@
 	<div class="propertySetWrap">
 		<div class="setHd">
 			<div class="setHdTitle">
-				<input type="hidden" id="wps_id" name="wps_id" value="">
+				<input type="hidden"  id="wps_id" name="wps_id" value="">
+				<input type="hidden"  id="wps_wrk_id" name="wps_wrk_id" value="">
 				<h2>
 					<input type="text" id="wps_nm" name="wps_nm" value="">
 				</h2>
@@ -900,7 +1210,7 @@
 			<ul class="tabs">
 				<li class="active" data-tab="tab1">설정</li>
 				<li data-tab="tab2">업무 코멘트</li>
-				<li data-tab="tab3">파일&amp;링크</li>
+				<li id="FL" data-tab="tab3">파일&amp;링크</li>
 			</ul>
 		</div>
 		
@@ -1040,9 +1350,67 @@
 		</div>
 		
 		<!--  여기서부터 work file&link-->
+		<!-- 영하가 수정함 여기부터 ㅎ-->
 		<div id="tab3" class="tab_content">
-			여기는 업무 파일 링크 입니다.
+			<div class="sub_menu">
+				<ul class="tabs">
+					<li id="fileList">FileList</li>
+					<li id="linkList">LinkList</li>
+				</ul>
+			</div>
+
+			<div id="locker">
+				<input value="public" name="box" type="radio">공유함 긔긔
+				<input value="individual" name="box" type="radio">개인함 긔긔
+				<input value="both" name="box" type="radio">둘다 긔긔
+			</div>
+
+			<form id="frm" action="/workFileUpload" method="post" enctype="multipart/form-data">
+				<div id="workFile">
+					<input type="hidden" id="work" value="" name="wrk_id">
+					<input type="hidden" id="box" value="" name="locker">
+					<label class="col-sm-2 control-label">공유할 첨부파일:</label>
+					<input type="file" class="file" name="profile"/>
+					<button type="button" id="uploadFile">등록</button>
+				</div>
+			</form>
+			
+			<div id="workLink">
+				<label class="col-sm-2 control-label">공유할 링크주소:</label>
+				<input type="text" class="link" name="attch_url"/>
+				<button type="button" id="uploadLink">등록</button>
+			</div>
+			
+				
+			<div class="tab_con">
+	
+				<div class="tab-content current">
+					<div>
+						<table class="tb_style_01">
+							<colgroup>
+								<col width="30%">
+								<col width="20%">
+								<col width="30%">
+								<col width="20%">
+							</colgroup>
+							
+								<thead id="publicHeader">
+								<thead>
+								
+								<tbody id="publicList">
+							</tbody>
+							
+						</table>
+					</div>
+	
+				<div class="pagination">
+					</div>
+					
+				</div>
+			</div>
+			
 		</div>
+		<!-- 영하가 수정함 여기까지ㅎ -->
 		
 	</div>
 	<div class="btnSetClose">닫기</div>
