@@ -719,12 +719,14 @@
 	
 		$(".sub_menu").on("click", "#fileList",function(){
 			var wrk_id = $('#wps_wrk_id').val();
+			$('#locker').fadeIn(0);
 			$('#workLink').fadeOut(0);
 			$('#workFile').fadeIn(0);
 			workFilePagination(1, 10, wrk_id);
 		})
 		
 		$(".sub_menu").on("click", "#linkList",function(){
+			$('#locker').hide(0);
 			var wrk_id = $('#wps_wrk_id').val();
 			$('#workFile').fadeOut(0);
 			$('#workLink').fadeIn(0);
@@ -735,12 +737,9 @@
 		
 		$("#workLink").on('click','#uploadLink', function(){
 			alert("link가즈아!!");
-			var link = $('.link').val();
-			console.log(link);
+			var attch_url = $('.link').val();
 			var locker = $("#locker input[type=radio]:checked").val();
-			console.log(locker);
 			var wrk_id = $('#wps_wrk_id').val();
-			console.log(wrk_id);
 			
 			$('#box').val(locker);
 			$('#work').val(wrk_id);
@@ -748,7 +747,7 @@
 			$.ajax({
 	 		    url: "/workLinkUpload",
 	 		    type: "POST",
-	 		    data: "link=" + link + "&locker=" + locker + "&wrk_id="+ wrk_id,
+	 		    data: "attch_url=" + attch_url + "&locker=" + locker + "&wrk_id="+ wrk_id,
 	 		    contentType:"application/x-www-form-urlencoded; charset=UTF-8",
 	 		    success: function(data){
 	 		    	workLinkPagination(1, 10, wrk_id);
