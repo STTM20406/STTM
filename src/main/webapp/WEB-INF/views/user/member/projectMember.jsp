@@ -227,7 +227,7 @@ function requestedFriendsList() {
 			<div class="pagination">
 					<c:choose>
 						<c:when test="${pageVo.page == 1 }">
-							<a href class="btn_first"></a>
+							<a class="btn_first"></a>
 						</c:when>
 						<c:otherwise>
 							<a href="${cp}/projectMemberList?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a>
