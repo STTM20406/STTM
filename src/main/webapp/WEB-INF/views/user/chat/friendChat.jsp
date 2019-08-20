@@ -98,7 +98,12 @@
 			<br>
 			<br>
 			<br>
-			<br> <input type="button" value="채팅방 리스트로 가기">
+			<c:if test="${what != 'project'}">
+				<a href="/friendChatList">채팅방 리스트 이동</a>
+			</c:if>
+			<c:if test="${what == 'project'}">
+				<a href="/projectChatList">채팅방 리스트 이동</a>
+			</c:if>
 	       </div>
 		</div>
 	</div>
