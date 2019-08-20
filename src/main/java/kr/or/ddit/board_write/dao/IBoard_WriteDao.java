@@ -143,5 +143,50 @@ public interface IBoard_WriteDao {
 	 * Method 설명 	: 검색한 내용의 글 개수
 	 */
 	int selectContentCnt(String content);
+
+	
+	
+	/**
+	 * Method 		: mySelectTitle
+	 * 작성자 			: 양한솔 
+	 * 변경이력 		: 2019-08-20 최초 생성
+	 * @param pageVo
+	 * @return
+	 * Method 설명 	: 내가 작성한 게시글 제목 검색
+	 */
+	List<Board_WriteVo> mySelectTitle(PageVo pageVo);
+	
+	
+	/**
+	 * Method 		: mySelectContent
+	 * 작성자 			: 양한솔 
+	 * 변경이력 		: 2019-08-20 최초 생성
+	 * @param pageVo
+	 * @return
+	 * Method 설명 	: 내가 작성한 게시글 내용 검색
+	 */
+	List<Board_WriteVo> mySelectContent(PageVo pageVo);
+	
+	
+	/**
+	 * Method 		: mySelectTitleCnt
+	 * 작성자 			: 양한솔 
+	 * 변경이력 		: 2019-08-20 최초 생성
+	 * @param writeVo
+	 * @return
+	 * Method 설명 	:내가 작성한 게시글 제목 검색의 개수
+	 */
+	int mySelectTitleCnt(PageVo pageVo);
+	
+	
+	/**
+	 * Method 		: mySelectContentCnt
+	 * 작성자 			: 양한솔 
+	 * 변경이력 		: 2019-08-20 최초 생성
+	 * @param writeVo
+	 * @return
+	 * Method 설명 	:내가 작성한 게시글 내용 검색의 개수
+	 */
+	int mySelectContentCnt(PageVo pageVo);
 	
 }

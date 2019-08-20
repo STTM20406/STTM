@@ -3,6 +3,7 @@ package kr.or.ddit.friends.dao;
 import java.util.List;
 import java.util.Map;
 
+import kr.or.ddit.friend_req.model.Friend_ReqVo;
 import kr.or.ddit.friends.model.ChatFriendsVo;
 import kr.or.ddit.friends.model.FriendsVo;
 
@@ -29,6 +30,17 @@ public interface IFriendsDao {
 	 * Method 설명 : 친구 등록
 	 */
 	int insertFriends(FriendsVo friendsVo);
+	
+	/**
+	 * 
+	* Method : accerptFriendRequest
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-20
+	* @param friendsVo
+	* @return
+	* Method 설명 : 친구 요청 수락
+	 */
+	int accerptFriendRequest(FriendsVo friendsVo);
 	
 	/**
 	 * 
@@ -84,5 +96,16 @@ public interface IFriendsDao {
 	* Method 설명 : 일반 사용자가 친구 삭제
 	 */
 	int deleteFriends(String frd_email);
-
+	
+	/**
+	 * 
+	* Method : getFriend
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-20
+	* @param user_email
+	* @return
+	* Method 설명 : 친구 정보 조회
+	 */
+	FriendsVo getFriend(String user_email);
+	
 }

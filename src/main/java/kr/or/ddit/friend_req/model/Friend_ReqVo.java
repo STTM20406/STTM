@@ -36,7 +36,6 @@ public class Friend_ReqVo {
 	public Friend_ReqVo() {
 	}
 	
-	
     //생성자
 	public Friend_ReqVo(String user_email, String req_email) {
 		super();
@@ -44,6 +43,16 @@ public class Friend_ReqVo {
 		this.req_email = req_email;
 	}
 	
+	public Friend_ReqVo(int req_id, String user_email, String req_email, Date req_dt, String req_st, Date prc_dt) {
+		super();
+		this.req_id = req_id;
+		this.user_email = user_email;
+		this.req_email = req_email;
+		this.req_dt = req_dt;
+		this.req_st = req_st;
+		this.prc_dt = prc_dt;
+	}
+
 	//toString
 	@Override
 	public String toString() {

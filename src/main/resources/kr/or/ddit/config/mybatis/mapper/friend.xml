@@ -13,15 +13,50 @@
 	
 	<!-- 친구 요청 리스트 -->
 	<select id="friendsRequestList" parameterType="string" resultType="friend_reqVo">
-	select a.req_email, b.user_nm
-	from
-	(select a.req_email
-	from friend_req a
-	where a.user_email = #{user_email}) a, users b
-	where a.req_email = b.user_email
+		  SELECT DISTINCT A.REQ_EMAIL
+		    ,  A.USER_EMAIL
+		    ,  C.USER_NM
+		  FROM    FRIEND_REQ A, USERS C
+		  WHERE   A.REQ_EMAIL = #{REQ_EMAIL}
+		  AND     A.USER_EMAIL = C.USER_EMAIL
+		  AND     C.USER_EMAIL = A.USER_EMAIL
+		  AND     A.REQ_ST = 'FR01'
 	</select>
 	
-	<!-- 친구 요청 수락 & 거절 -->
+	<!-- 친구 요청 수락 -->
+	<insert id="accerptFriendRequest" parameterType="friendsVo">
+		insert into friends
+		values (#{user_email}, #{frd_email}, sysdate)	
+	</insert>
+	
+	<!-- 친구 요청 상태를 수락으로 바꿔줌 -->
+	<update id="updateReqAccept" parameterType="friend_reqVo">
+		update friend_req
+		set req_st = 'FR02'
+		where user_email = #{user_email}
+		and req_email = #{req_email}
+	</update>
+	
+	<!-- 친구 요청 거절 -->
+	<delete id="deleteFriendRequest" parameterType="string">
+		delete friend_req 
+		where user_email = #{user_email}
+	</delete>
+	
+	<!-- 친구 요청 상태를 거절로 바꿔줌 -->
+	<update id="updateReqDeny" parameterType="friend_reqVo">
+		update friend_req
+		set req_st = 'FR03'
+		where user_email = #{user_email}
+		and req_email = #{req_email}
+	</update>
+	
+	<!-- 친구 정보 조회 -->
+	<select id="getFriend" parameterType="string" resultType="friendsVo">
+		select *
+		from friends
+		where user_email = #{user_email}
+	</select>
 	
 <!-- *************friends**************** -->
 	<!-- 전체 친구 리스트 조회(채팅에서 사용)-->

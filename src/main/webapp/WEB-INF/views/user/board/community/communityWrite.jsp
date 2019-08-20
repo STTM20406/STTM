@@ -29,6 +29,16 @@
 			});
 
 	$("#postRegBtn").on("click", function() {
+				var test = $("#subject").val();
+				console.log(test);
+				test.replace("<","&lt;",test);
+				test.replace(">","&gt;",test);
+				console.log(test);
+				var test1 = $("#subject").val().replace(/</gi,"&lt;");
+				var test2 = test1.replace(/>/gi,"&gt;");
+				
+				$("#subject").val(test2);
+				
 				if (confirm("저장하시겠습니까?")) {
 					// id가 smarteditor인 textarea에 에디터에서 대입
 					oEditors.getById["smarteditor"].exec(
@@ -36,6 +46,7 @@
 
 					// 이부분에 에디터 validation 검증
 					if (validation()) {
+						
 						$("#frm").submit();
 					}
 				}
@@ -70,7 +81,7 @@
 								<div>
 									<label for="post_title" >제목</label>
 									<div class="col-sm-10">
-										<input type="text"id="subject" name="subject" placeholder="제목"
+										<input type="text" id="subject" name="subject" placeholder="제목"
 											value="${param.subject }">
 									</div>
 								</div>

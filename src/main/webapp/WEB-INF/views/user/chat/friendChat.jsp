@@ -86,7 +86,9 @@
 			<br>
 			<br>
 			<br>
-			<a href="#layer1" class="btn-example btn_style_01">친구 추가</a>
+			<c:if test="${what != 'project'}">
+				<a href="#layer1" class="btn-example btn_style_01">친구 추가</a>
+			</c:if>
 			<br>
 			<br> <br>
 			<br>
@@ -96,7 +98,12 @@
 			<br>
 			<br>
 			<br>
-			<br> <input type="button" value="채팅방 리스트로 가기">
+			<c:if test="${what != 'project'}">
+				<a href="/friendChatList">채팅방 리스트 이동</a>
+			</c:if>
+			<c:if test="${what == 'project'}">
+				<a href="/projectChatList">채팅방 리스트 이동</a>
+			</c:if>
 	       </div>
 		</div>
 	</div>
@@ -285,7 +292,7 @@
 					printHTML += "<div class='received_withd_msg'>";
 					printHTML += "<p>" + strArray[1] + "</p>";
 					printHTML += "<p>" + strArray[2] + "</p>";
-					printHTML += "<span class='time_date'> 11:01 AM | June 9</span></div></div></div>";
+					printHTML += "<span class='time_date'>" + strArray[3] + "</span></div></div></div>";
 				$("#chatData").append(printHTML);
 				$("#chatData").scrollTop($("#chatData")[0].scrollHeight);			
 				
@@ -294,7 +301,7 @@
 				printHTML += "<div class='sent_msg'>";
 				printHTML += "<p>" + strArray[1] + "</p>";
 				printHTML += "<p>" + strArray[2] + "</p>";
-				printHTML += "<span class='time_date'> 11:01 AM | June 9</span></div></div>";
+				printHTML += "<span class='time_date'>" + strArray[3] + "</span></div></div></div>";
 				$("#chatData").append(printHTML);
 				$("#chatData").scrollTop($("#chatData")[0].scrollHeight);
 			}

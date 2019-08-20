@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import kr.or.ddit.friend_req.model.Friend_ReqVo;
 import kr.or.ddit.friends.model.ChatFriendsVo;
 import kr.or.ddit.friends.model.FriendsVo;
 
@@ -34,6 +35,20 @@ public class FriendsDao implements IFriendsDao{
 	@Override
 	public int insertFriends(FriendsVo friendsVo) {
 		return sqlSession.insert("friend.insertFriends", friendsVo);
+	}
+	
+	/**
+	 * 
+	* Method : accerptFriendRequest
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-20
+	* @param friendsVo
+	* @return
+	* Method 설명 : 친구 요청 수락
+	 */
+	@Override
+	public int accerptFriendRequest(FriendsVo friendsVo) {
+		return sqlSession.insert("friend.accerptFriendRequest",friendsVo);
 	}
 	
 	/**
@@ -105,5 +120,19 @@ public class FriendsDao implements IFriendsDao{
 	public int deleteFriends(String frd_email) {
 		return sqlSession.delete("friend.deleteFriends",frd_email);
 	}
-
+	
+	/**
+	 * 
+	* Method : getFriend
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-20
+	* @param user_email
+	* @return
+	* Method 설명 : 친구 정보 조회
+	 */
+	@Override
+	public FriendsVo getFriend(String user_email) {
+		return sqlSession.selectOne("friend.getFriend",user_email);
+	}
+	
 }

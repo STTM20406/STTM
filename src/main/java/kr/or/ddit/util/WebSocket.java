@@ -1,6 +1,8 @@
 package kr.or.ddit.util;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -21,7 +23,11 @@ import kr.or.ddit.chat_content.model.Chat_ContentVo;
 import kr.or.ddit.chat_content.service.Chat_ContentService;
 import kr.or.ddit.chat_mem.service.Chat_MemService;
 import kr.or.ddit.chat_room.service.Chat_RoomService;
+import kr.or.ddit.friends.model.ChatFriendsVo;
+import kr.or.ddit.friends.service.FriendsService;
 import kr.or.ddit.notification.model.NotificationVo;
+import kr.or.ddit.project_mem.model.Project_MemVo;
+import kr.or.ddit.project_mem.service.Project_MemService;
 import kr.or.ddit.users.model.UserVo;
 
 //작성순서 : afterConnectionEstablished(서버 접속 시) -> afterConnectionClosed(서버연결끊을 시)
@@ -42,7 +48,13 @@ public class WebSocket extends TextWebSocketHandler {
 
 	@Resource(name = "chat_ContentService")
 	private Chat_ContentService contentService;
-
+	
+	@Resource(name = "project_MemService")
+	Project_MemService prjMemService;
+	
+	@Resource(name = "friendsService")
+	FriendsService fndService;
+	
 	// 서버에 연결된 사용자들을 저장하기 위해 선언
 	private List<WebSocketSession> sessionList = new ArrayList<WebSocketSession>();// 메시지를 날려주기 위한 웹소켓전용 세션
 	private Map<String, WebSocketSession> userList = new HashMap<String, WebSocketSession>();// 세션에 로그인한 모든 로그인 정보가 담김
@@ -100,6 +112,18 @@ public class WebSocket extends TextWebSocketHandler {
 				Chat_ContentVo contentVo = new Chat_ContentVo(Integer.parseInt(ct_id), senderId1, content);
 				contentService.insertChatContent(contentVo);
 				
+				//입력한 메시지의 정보 가져오기
+				int maxContentId = contentService.maxChatContentId(Integer.parseInt(ct_id));
+				Chat_ContentVo maxContentVo = contentService.getContent(maxContentId);
+				
+				Date from = new Date();
+				SimpleDateFormat transFormat = new SimpleDateFormat("yy/MM/dd HH:mm");
+
+				String to = transFormat.format(from);
+
+
+				
+				
 				// 각 채팅방 멤버들 리스트 아이디
 				List<String> chatMemList = memService.roomFriendListEmail(Integer.parseInt(ct_id));
 
@@ -122,7 +146,7 @@ public class WebSocket extends TextWebSocketHandler {
 				if ("chatting".equals(chatting) && nowLoginList != null) { // 채팅메시지를 보냈고 채팅방에 해당하는 멤버가 로그인 되어있을 때
 					
 					for(String key : nowLoginList.keySet()) { // 지금 로그인한 멤버들의 사이즈만큼 돌려서
-						TextMessage tmpMsg = new TextMessage(senderId1 + "," + senderNm + "," + content);
+						TextMessage tmpMsg = new TextMessage(senderId1 + "," + senderNm + "," + content + "," + to);
 						System.out.println("tmpMsg : " + tmpMsg);
 						
 						//if() { // 나에게는 보내지 않음.
@@ -162,6 +186,53 @@ public class WebSocket extends TextWebSocketHandler {
 					
 				}
 
+			} else if (strs != null && strs.length == 2 ) { // 접속체크
+				String user_email = strs[1];
+				if("prjMem".equals(strs[0])) {
+					List<Project_MemVo> memList = prjMemService.getMyProjectMemList(user_email);
+					String mem_str = "";
+					
+					Set<String> keys = userList.keySet();
+					for(String key : keys) {
+						if(user_email.equals(key))
+							continue;
+						for(Project_MemVo memVo : memList) {
+							if(memVo.getUser_email().equals(key)) {
+								if(!"".equals(mem_str)) {
+									mem_str += ",";
+								}
+								mem_str += key;
+							}
+						}
+					}
+					WebSocketSession wrtSession = userList.get(user_email);
+					TextMessage memMsg = new TextMessage("lst:"+mem_str);
+					wrtSession.sendMessage(memMsg);
+				} else if ("fnd".equals(strs[0])) {
+					List<ChatFriendsVo> fndList = fndService.friendList(user_email);
+					logger.debug("friendList : {}", fndList);
+					String fnd_str = "";
+					
+					Set<String> keys = userList.keySet();
+					for(String key : keys) {
+						if(user_email.equals(key))
+							continue;
+						
+						if(!fndList.isEmpty()) {
+							for(ChatFriendsVo fndVo : fndList) {
+								if(fndVo.getFrd_email().equals(key)) {
+									if(!"".equals(fnd_str)) {
+										fnd_str += ",";
+									}
+									fnd_str += key;
+								}
+							}
+						}
+					}
+					WebSocketSession wrtSession = userList.get(user_email);
+					TextMessage fndMsg = new TextMessage("lst:"+fnd_str);
+					wrtSession.sendMessage(fndMsg);
+				}
 			}
 
 		}
@@ -175,8 +246,7 @@ public class WebSocket extends TextWebSocketHandler {
 
 		String senderId = getId(session); // 유저의 이메일(아이디) 가져옴
 		System.out.println("afterConnectionClosed senderId : " + senderId);
-		userList.remove(session); // 연결 끊김
-
+		userList.remove(getId(session)); // 연결 끊김
 	}
 
 

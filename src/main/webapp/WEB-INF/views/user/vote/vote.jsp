@@ -313,7 +313,13 @@ var cal = flatpickr("#end_dt", {"locale" : "ko", enableTime: true});
 		});
 	}
 	function newVote() { // 새 투표 생성하는 함수
+		var vals = $("#newVoteFrm").find("input");
+		$(vals).each(function() {
+			var val = $(this).val().replace(/</gi,"&lt;");
+			$(this).val(val);
+		});
 		var serial = $("#newVoteFrm").serialize();
+		
 		console.log(serial);
 		var valid = voteDtValidate(serial);
 		if(valid) {
@@ -518,6 +524,12 @@ var cal = flatpickr("#end_dt", {"locale" : "ko", enableTime: true});
 	}
 	
 	function voteMdf() {
+		var vals = $("#voteMdfFrm").find("input");
+		$(vals).each(function() {
+			var val = $(this).val().replace(/</gi,"&lt;");
+			$(this).val(val);
+		});
+		
 		var item_del = $("#delItems").serialize();
 		
 		var mdfFrm = $("#voteMdfFrm");
