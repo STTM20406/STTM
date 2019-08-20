@@ -152,7 +152,7 @@ ul.tabs li.current {
 		                     </c:otherwise>
 		                  </c:choose>
 		
-		                  <c:forEach begin="1" end="${myaginationSize}" var="i">
+		                  <c:forEach begin="1" end="${myPaginationSize}" var="i">
 		                     <c:choose>
 		                        <c:when test="${pageVo.page == i}">
 		                           <span>${i}</span>
@@ -165,7 +165,7 @@ ul.tabs li.current {
 		                  </c:forEach>
 		
 		                  <c:choose>
-		                     <c:when test="${pageVo.page == myaginationSize}">
+		                     <c:when test="${pageVo.page == myPaginationSize}">
 		                        <a href class="btn_last"></a>
 		                     </c:when>
 		                     <c:otherwise>

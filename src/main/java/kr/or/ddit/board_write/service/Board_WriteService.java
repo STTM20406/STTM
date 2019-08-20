@@ -208,7 +208,7 @@ public class Board_WriteService implements IBoard_WriteService{
 		
 		int titleCnt = board_wirteDao.mySelectTitleCnt(pageVo);
 		int paginationSize = (int) Math.ceil((double)titleCnt/pageVo.getPageSize());
-		resultMap.put("paginationSize", paginationSize);
+		resultMap.put("myTitlePaginationSize", paginationSize);
 		
 		return resultMap;
 	}
@@ -220,7 +220,7 @@ public class Board_WriteService implements IBoard_WriteService{
 		
 		int contentCnt = board_wirteDao.mySelectContentCnt(pageVo);
 		int paginationSize = (int) Math.ceil((double)contentCnt/pageVo.getPageSize());
-		resultMap.put("paginationSize", paginationSize);
+		resultMap.put("myContentPaginationSize", paginationSize);
 		
 		return resultMap;
 	}
