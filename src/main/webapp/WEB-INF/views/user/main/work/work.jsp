@@ -629,17 +629,7 @@
 			var work_date = $("#wps_start_date").val();
 			var res_date = $("#wps_res_date").val();
 			var wrk_gd = $("#wrk_gd").val();
-<<<<<<< HEAD
-=======
-// 			var wrk_color = $("input[name='wrk_color_cd']:checked").val();
-			var wrk_color = $("input:radio[name='wrk_color_cd']").is(":checked");
-// 			if(wrk_color == true){
-// 				alert(wrk_color);
-// 			}else{
-// 				alert("체크안됨 ");
-// 			}
-			
->>>>>>> branch 'master' of https://github.com/STTM20406/STTM
+
 				
 			var workSplit = work_date.split(" to ");
 			var resSplit = res_date.split(" to ");
