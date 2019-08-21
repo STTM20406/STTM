@@ -1,5 +1,6 @@
 package kr.or.ddit.board_write.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -37,7 +38,13 @@ public class Board_WriteVo {
 
 	}
 	
-	
+	 public String getWritedateStr() {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			if(writedate == null) {
+				return "";
+			}
+			return sdf.format(writedate);
+		}
 
 	public Board_WriteVo(String subject, String content) {
 		super();

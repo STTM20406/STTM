@@ -65,11 +65,52 @@ ul.tabs li.current {
 		})
 
 		$("#searchBtn").on("click", function() {
-			$("#searchFrm").submit();
-		
+			var content = $("#searchText").val();
+			var board_id = $("#boardnum02").val();
+			var search = $("#search").val();
+			console.log(content);
+			console.log(board_id);
+			console.log(search);
+			
+// 			$("#searchFrm").submit();
+			communitySearch(board_id,search,content,1,10);
 		});
 		
 	})
+	
+	function communitySearch(board_id,search,content,page,pageSize){
+		$.ajax({
+			url:"/boardSearch",
+			method:"post",
+			data:"boardnum02="+board_id+"&search="+search+"&searchText="+content+"&page="+page+"&pageSize="+pageSize,
+			success:function(data){
+				console.log(data);
+				var html = "";
+				var map = data.mapAnswerCnt;
+				var num = "1";
+				console.log(map.num);
+				var cnt1 = data.mapAnswerCnt.num;
+				
+// 				data.mapAnswerCnt.forEach(function(item, index){
+// 					console.log(item);
+// 				});
+				
+				data.boardList.forEach(function(board,index){
+					html += "<tr class='boardTr'>";
+					html += "<td class='boardNum' style= 'display:none;'>"+board.write_id +"</td>";
+					html += "<td>"+board.rn+"</td>";
+					html += "<td>"+board.subject+"</td>";
+					html += "<td>"+board.user_email+"</td>";
+					html += "<td>"+board.WritedateStr+"</td>";
+					html+="<td>"+data.mapAnswerCnt[board.write_id]+"</td>";
+					html += "<td>"+board.like_cnt+"</td>";
+					html += "<td>"+board.view_cnt+"</td>";
+					html += "</tr>";
+				});
+				$("#communityList").html(html);
+			}
+		})
+	}
 	
 </script>
 
@@ -100,7 +141,7 @@ ul.tabs li.current {
                               <option value="content">내용</option>
                            </select>
                            <input type="text" name="searchText" id="searchText" maxlength="20" placeholder="검색어를 입력해주세요">
-                           <button type="submit" id="searchBtn" value="검색">검색</button>
+                           <button type="button" id="searchBtn" value="검색">검색</button>
                         </fieldset>
                      </div>
                   </div>
