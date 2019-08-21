@@ -93,4 +93,14 @@ public class Board_AnswerService implements IBoard_AnswerService{
 		return board_AnswerDao.myReplyList(user_email);
 	}
 
+	@Override
+	public int maxAnswerId(int write_id) {
+		return board_AnswerDao.maxAnswerId(write_id);
+	}
+
+	@Override
+	public Board_AnswerVo getBoardAnswer(int comm_id) {
+		return board_AnswerDao.getBoardAnswer(comm_id);
+	}
+
 }

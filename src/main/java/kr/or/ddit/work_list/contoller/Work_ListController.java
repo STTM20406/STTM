@@ -467,7 +467,7 @@ public class Work_ListController {
 		return "jsonView";
 	}
 	
-	// 프로젝트 설정 업데이트
+	// 프로젝트 설정 업데이트 (라벨 컬러 업데이트)
 	@RequestMapping("/propertyWorkLableColorAjax")
 	public String propertyWorkLableColorAjax(WorkVo workVo, String wrk_id, String wrk_color_cd, Model model) throws ParseException {
 		
@@ -482,8 +482,57 @@ public class Work_ListController {
 		if (updateCnt != 0) {
 			model.addAttribute("data", workService.getWorkInfo(wrkID));
 		}
-		
 		return "jsonView";
 	}
+	
+	// 프로젝트 멤버 리스트 불러오기(관리자 추가)
+	@RequestMapping("/workMemListAjax")
+	public String workMemListAjax(Model model, HttpSession session) {
+
+		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
+		
+		// 세션에 저장된 user 정보를 가져옴
+		UserVo user = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = user.getUser_email();
+
+		Project_MemVo projectMemVo = new Project_MemVo();
+		projectMemVo.setPrj_id(projectVo.getPrj_id());
+		projectMemVo.setUser_email(user_email);
+
+		model.addAttribute("data", projectMemService.projectMemList(projectMemVo));
+
+		return "jsonView";
+	}
+	
+	// 프로젝트 멤버 관리자로 update
+		@RequestMapping("/workMemAddAjax")
+		public String workMemAddAjax(String user_email, String prj_id, Model model) {
+
+			int prjId = Integer.parseInt(prj_id);
+
+			Project_MemVo projectMemVo = new Project_MemVo();
+			projectMemVo.setUser_email(user_email);
+			projectMemVo.setPrj_id(prjId);
+			projectMemVo.setPrj_mem_lv("LV0");
+
+			int updateCnt = projectMemService.updateProjectMem(projectMemVo);
+
+			Project_MemVo projectMemListVo = new Project_MemVo();
+			projectMemListVo.setPrj_id(prjId);
+			projectMemListVo.setUser_email(user_email);
+
+			List<Project_MemVo> admList = new ArrayList<Project_MemVo>();
+
+			if (updateCnt != 0) {
+				List<Project_MemVo> project_adm_list = projectMemService.projectMemList(projectMemVo);
+				for (int i = 0; i < project_adm_list.size(); i++) {
+					if (project_adm_list.get(i).getPrj_mem_lv().equals("LV0")) {
+						admList.add(project_adm_list.get(i));
+					}
+				}
+				model.addAttribute("data", admList);
+			}
+			return "jsonView";
+		}
 	
 }

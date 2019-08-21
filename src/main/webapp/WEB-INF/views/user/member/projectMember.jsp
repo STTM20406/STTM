@@ -54,6 +54,7 @@
 <script>
 $(document).ready(function(){
 	
+	
 	// 프로젝트 멤버 리스트중 한개의 멤버를 클릭시
 // 	$(".prjMemTr").on("click", function(){
 // 		var user_email = $(this).find(".user_email").attr("id");
@@ -119,6 +120,11 @@ $(document).ready(function(){
 	$('.friendsBtn').on("click", function(){
 	        var $href = $(this).attr('href');
 	        layer_popup($href);
+	});
+
+	// 친구 요청 a태그 클릭시
+	$('.prjMemTr').on("click","#friendReqAtag", function(){
+		alert("친구 요청이 전송 되었습니다.");	
 	});
 
 	// 친구 수락 버튼 클릭시
@@ -280,7 +286,7 @@ function requestedFriendsList() {
 									
 									<td>${prjVo.user_nm}</td>
 									<td>
-										<a href="/projectMemberList?frdRequEmail=${prjVo.user_email}" id="" class="inp_style_01">친구요청</a>
+										<a href="/projectMemberList?frdRequEmail=${prjVo.user_email}" id="friendReqAtag" class="inp_style_01">친구요청</a>
 									</td>
 									
 								</tr>

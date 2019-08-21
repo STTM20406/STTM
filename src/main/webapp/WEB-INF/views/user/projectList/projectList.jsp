@@ -371,13 +371,11 @@
 				contentType:"application/x-www-form-urlencoded; charset=UTF-8",
 				data:	"prj_id=" + id,
 				success:function(data){
-
 					var html = "";
 					data.data.forEach(function(item, index){
 						//html 생성
 						html += "<li id='"+ item.user_email +"'><span>"+ item.user_nm +"</span>"+ item.user_email + "</li>";
 					});	
-					
 					$(".prj_mem_item").html(html);
 				}
 			});

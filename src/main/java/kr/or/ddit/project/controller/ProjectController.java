@@ -30,7 +30,6 @@ import kr.or.ddit.project_mem.model.Project_MemVo;
 import kr.or.ddit.project_mem.service.IProject_MemService;
 import kr.or.ddit.users.model.UserVo;
 import kr.or.ddit.work.model.WorkVo;
-import kr.or.ddit.work_list.model.Work_ListVo;
 
 @Controller
 @RequestMapping("/project")
