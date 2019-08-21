@@ -65,5 +65,6 @@ public interface IBoard_AnswerService {
 	 * Method 설명 	: 내가 작성한 댓글 리스트
 	 */
 	List<Board_AnswerVo> myReplyList(String user_email);
+	
 		
 }

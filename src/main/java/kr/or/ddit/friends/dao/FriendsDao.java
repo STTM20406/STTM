@@ -117,8 +117,22 @@ public class FriendsDao implements IFriendsDao{
 	* Method 설명 : 일반 사용자가 친구 삭제
 	 */
 	@Override
-	public int deleteFriends(String frd_email) {
-		return sqlSession.delete("friend.deleteFriends",frd_email);
+	public int deleteFriends(FriendsVo friendsVo) {
+		return sqlSession.delete("friend.deleteFriends",friendsVo);
+	}
+	
+	/**
+	 * 
+	* Method : deleteFriends2
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-21
+	* @param friendsVo
+	* @return
+	* Method 설명 : 일반 사용자가 자신의 친구를 삭제하면 상대 방도 친구 삭제
+	 */
+	@Override
+	public int deleteFriends2(FriendsVo friendsVo) {
+		return sqlSession.delete("friend.deleteFriends",friendsVo);
 	}
 	
 	/**
@@ -133,6 +147,21 @@ public class FriendsDao implements IFriendsDao{
 	@Override
 	public FriendsVo getFriend(String user_email) {
 		return sqlSession.selectOne("friend.getFriend",user_email);
+	}
+	
+	/**
+	 * 
+	* Method : friendsList
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-21
+	* @param user_email
+	* @return
+	* Method 설명 : 프로젝트 멤버에서 이미 친구인 사람의 친구 요청 버튼을 비활성화 시키기 위해서
+	* 			     친구 목록을 조회하여 이미 친구 이면 비활성화
+	 */
+	@Override
+	public List<FriendsVo> friendsList(String user_email) {
+		return sqlSession.selectList("friend.friendsList",user_email);
 	}
 	
 }

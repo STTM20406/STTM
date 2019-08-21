@@ -54,6 +54,7 @@
 <script>
 $(document).ready(function(){
 	
+	
 	// 프로젝트 멤버 리스트중 한개의 멤버를 클릭시
 // 	$(".prjMemTr").on("click", function(){
 // 		var user_email = $(this).find(".user_email").attr("id");
@@ -119,6 +120,11 @@ $(document).ready(function(){
 	$('.friendsBtn').on("click", function(){
 	        var $href = $(this).attr('href');
 	        layer_popup($href);
+	});
+
+	// 친구 요청 a태그 클릭시
+	$('.prjMemTr').on("click","#friendReqAtag", function(){
+		alert("친구 요청이 전송 되었습니다.");	
 	});
 
 	// 친구 수락 버튼 클릭시
@@ -271,16 +277,44 @@ function requestedFriendsList() {
 							<th></th>
 		
 							<c:forEach items="${projectMemList}" var="prjVo">
-							
+								<input type="hidden" value="${prjMemFriList}">
 								<tr class="prjMemTr" data-user_email="${prjVo.user_email}">
 									<td class="user_email" id="${prjVo.user_email}">
-<%-- 										<a href="#layer2" class="trPrjMemAdd">${prjVo.user_email}</a> --%>
 										<a href="#layer2" class="prjMember">${prjVo.user_email}</a><span id="log_${prjVo.user_email }" class="logout"> ●</span>
 									</td>
 									
 									<td>${prjVo.user_nm}</td>
+									
 									<td>
-										<a href="/projectMemberList?frdRequEmail=${prjVo.user_email}" id="" class="inp_style_01">친구요청</a>
+										
+<%-- 										<c:forEach items="${prjMemFriList}" var="friVo"> --%>
+												
+<%-- 											<c:if test="${prjVo.user_email != friVo.frd_email}"> --%>
+<%-- 												<a href="/projectMemberList?frdRequEmail=${prjVo.user_email}" id="friendReqAtag" class="inp_style_01">친구요청</a>  --%>
+<%-- 											</c:if>	 --%>
+
+<%-- 										</c:forEach>										 --%>
+
+										<c:forEach items="${prjMemFriList}" var="friVo">
+												
+											<c:choose>
+
+												<c:when test="${prjVo.user_email == friVo.user_email}">
+												
+												</c:when>
+
+												<c:when test="${prjVo.user_email == friVo.frd_email}">
+												
+												</c:when>
+												
+												<c:otherwise>
+													<a href="/projectMemberList?frdRequEmail=${prjVo.user_email}" id="friendReqAtag" class="inp_style_01">친구요청</a>
+												</c:otherwise>
+												
+											</c:choose>	
+												
+										</c:forEach>										
+											
 									</td>
 									
 								</tr>
@@ -397,14 +431,12 @@ function requestedFriendsList() {
 							<c:forEach items="${friendsList}" var="prjVo">
 							
 								<tr class="userTr" data-user_email="${prjVo.frd_email}">
-<%-- 									<td class="user_email">${prjVo.user_email}</td> --%>
 									<td>${prjVo.user_nm}</td>
 									<td>${prjVo.frd_email}<span class="logout"> ●</span></td>
 									<td class="delFriends">
-<%-- 										<a href="/deleteFriends?frd_email=${prjVo.frd_email}" class="frdDel">삭제하기</a> --%>
+										
 										<a href="/deleteFriends?frd_email=${prjVo.frd_email}" class="a_style_04">삭제하기</a>
-<!-- 										<input type="button" id="btnDeleteFriends" class="btn_style_04" onclick="deleteFriends()" value="친구삭제"> -->
-<%-- 										${prjVo.frd_email} --%>
+										
 									</td>
 								</tr>
 								

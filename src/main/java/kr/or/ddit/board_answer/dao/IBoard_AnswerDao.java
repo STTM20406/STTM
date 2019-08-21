@@ -67,5 +67,4 @@ public interface IBoard_AnswerDao {
 	List<Board_AnswerVo> myReplyList(String user_email);
 	
 	
-	
 }

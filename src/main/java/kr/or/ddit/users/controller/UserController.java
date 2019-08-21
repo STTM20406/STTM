@@ -2,6 +2,7 @@ package kr.or.ddit.users.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -186,7 +187,7 @@ public class UserController {
 //		logger.debug("prj_id : {} 이제 찍히나요?",prj_id);
 		
 		List<Project_MemVo> getMyPrjMemList = project_MemService.getMyProjectMemList(user_email);
-		logger.debug("getMyPrjMemList : {} 이거 가져오나요?",getMyPrjMemList);
+		logger.debug("getMyPrjMemList : {} 이거 getMyPrjMemList?",getMyPrjMemList);
 
 		model.addAttribute("user_email", user_email);
 		model.addAttribute("user_st", user_st);
@@ -263,6 +264,13 @@ public class UserController {
 			
 			int paginationSize = (Integer) resultMap.get("paginationSize");
 			
+			String user_email0 = userVo.getUser_email();
+			logger.debug("user_email : notInGame {}",user_email0);
+			
+			List<FriendsVo> prjMemFriList = friendsService.friendsList(user_email0);
+			logger.debug("prjMemFriList : notInGame2 {}",prjMemFriList);
+			
+			model.addAttribute("prjMemFriList",prjMemFriList);
 			model.addAttribute("projectMemList", projectMemList);
 			model.addAttribute("paginationSize", paginationSize);
 			model.addAttribute("pageVo", pageVo);
@@ -327,8 +335,13 @@ public class UserController {
 				
 				logger.debug("updateReqAccept : 업데이트 테스트1 {}",updateReqAccept);
 				
+				// 친구 요청 수락하면 보낸 사람을 내 친구로 등록
 				FriendsVo friendsVo = new FriendsVo(user_email, frd_email);
 				int acceptRequest = friendsService.accerptFriendRequest(friendsVo);
+				
+				// 친구 요청 수락하면 보낸 사람에 나를 친구로 등록
+				FriendsVo friendsVo1 = new FriendsVo(frd_email, user_email);
+				int acceptRequest1 = friendsService.insertFriends(friendsVo1);
 				
 				int denyRequest = friend_ReqService.deleteFriendRequest(acceptEmail);
 				
@@ -353,12 +366,15 @@ public class UserController {
 			// 프로젝트 멤버 리스트 중에서 친구 요청하기
 			} else if (frdRequEmail != null) {
 				
-				String req_email1 = userVo.getUser_email();
+				String user_email = userVo.getUser_email();
 				
 				UserVo userVo3 = userService.getUser(frdRequEmail);
-				String user_email = userVo3.getUser_email();
+				req_email = userVo3.getUser_email();
 
-				Friend_ReqVo friendsReqVo = new Friend_ReqVo(user_email,req_email1); 
+				Friend_ReqVo friendsReqVo = new Friend_ReqVo(user_email, req_email); 
+
+				logger.debug("user_email : 보낸사람 {}",user_email);
+				logger.debug("req_email : 받는사람 {}",req_email);
 
 				int firendsRequest = friend_ReqService.firendsRequest(friendsReqVo);
 			}
@@ -403,18 +419,21 @@ public class UserController {
 	* Method 설명 : 일반 사용자가 친구 리스트에서 자신의 친구를 삭제
 	 */
 	@RequestMapping(path = "/deleteFriends", method = RequestMethod.GET)
-	public String deleteFriends(String frd_email,PageVo pageVo, Model model, 
-			HttpSession session
-			,String prjMemPaging, String friendsPaging, Map<String, Object> user_email) {
+	public String deleteFriends(String frd_email, HttpSession session) {
 		
 		logger.debug("frd_email : 또굥 {}", frd_email);
 
-		int deleteFriends = friendsService.deleteFriends(frd_email);
-		
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
-		Project_MemVo prjVo = new Project_MemVo();
+		String user_email = userVo.getUser_email();
 		
-		logger.debug("userVo : 점심쯤 로거 확인1 {} ",userVo);
+		// 일반 사용자가 자신의 친구를 삭제
+		FriendsVo friendsVo = new FriendsVo(user_email, frd_email);
+		int deleteFriends = friendsService.deleteFriends(friendsVo);
+		
+		// 일반 사용자가 자신의 친구를 삭제하면 동시에 상대방에 친구 목록에서 사라짐 - 친구 삭제
+		FriendsVo friendsVo2 = new FriendsVo(frd_email, user_email);
+		int deleteFriends2 = friendsService.deleteFriends2(friendsVo2);
+		
 		
 		return "/member/projectMember.user.tiles";
 	}

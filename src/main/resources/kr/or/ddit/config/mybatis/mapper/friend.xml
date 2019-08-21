@@ -121,8 +121,26 @@
 		where frd_email like '%'||#{frd_email}||'%'
 	</select>
 	
-	<!-- 일반 사용자가 자신의 친구를 삭제 삭제 -->
+	<!-- 일반 사용자가 자신의 친구를 삭제 -->
 	<delete id="deleteFriends" parameterType="string">
-		delete friends where frd_email = #{frd_email}
+		delete friends 
+		where frd_email = #{frd_email}
+		and user_email = #{user_email}
 	</delete>
+	
+	<!-- 일반 사용자가 자신의 친구를 삭제하면 상대 방도 친구 삭제  -->
+	<delete id="deleteFriends2" parameterType="string">
+		delete friends 
+		where frd_email = #{frd_email}
+		and user_email = #{user_email}
+	</delete>
+	
+	<!-- 프로젝트 멤버에서 이미 친구인 사람의 친구 요청 버튼을 비활성화 시키기 위해서
+		 친구 목록을 조회하여 이미 친구 이면 비활성화 -->
+	<select id="friendsList" parameterType="string" resultType="friendsVo">
+		select *
+		from friends
+		where user_email = #{user_email}
+	</select>
+	
 </mapper>

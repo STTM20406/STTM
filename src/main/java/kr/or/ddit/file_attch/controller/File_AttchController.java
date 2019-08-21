@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.or.ddit.file_attch.model.File_AttchVo;
+import kr.or.ddit.file_attch.service.File_AttchService;
 import kr.or.ddit.file_attch.service.IFile_AttchService;
 import kr.or.ddit.link_attch.model.Link_attchVo;
 import kr.or.ddit.link_attch.service.ILink_attchService;
@@ -269,34 +270,23 @@ public class File_AttchController {
 		return "/propertySet/setWorkFile.user.tiles";
 	}
 
-
-	/**
-	* Method : fileDownload
-	* 작성자 : PC13
-	* 변경이력 :
-	* @param fileVo
-	* @param profile
-	* @throws IOException
-	* Method 설명 : fileDownLoad
-	*/
-	@RequestMapping(path = "/fileDownload", method = RequestMethod.GET)
-	public void fileDownload(int file_id, HttpServletRequest request, HttpServletResponse response) throws IOException {
-		
-		logger.debug("♬♩♪  file_id: {}", file_id);
+	@RequestMapping(path = "/fileDownLoad", method = RequestMethod.GET)
+	public void fileDownLoad(int file_id, HttpServletRequest request, HttpServletResponse response) {
 
 		file_id = Integer.parseInt(request.getParameter("file_id"));
 
-		File_AttchVo fileVo = file_AttchService.getFile(file_id);
-		logger.debug("♬♩♪  fileVo: {}", fileVo);
-		
+		File_AttchVo file_AttchVo = file_AttchService.getFile(file_id);
+		logger.debug("♬♩♪  fileDownLoad file_id: {}", file_id);
 		// 파일 업로드된 경로
-		String savePath = "c:\\images\\";
-		logger.debug("♬♩♪  savePath: {}", savePath);
-		
-		// 실제 내보낼 파일명
-		String orgfilename = fileVo.getOriginal_file_nm();
-		logger.debug("♬♩♪  orgfilename: {}", orgfilename);
+//		String savePath = "C:/images/";
+//		String savePath = "C:/images/2019/";
+		String savePath = "C:\\Users\\손영하\\Desktop\\중요한거\\W_윈도우초반설정\\A_TeachingMaterial\\7.LastProject\\workspace\\STTM\\src\\main\\webapp\\uploadFile\\2019\\08";
 
+		logger.debug("♬♩♪  file_AttchVo: {}", file_AttchVo);
+		// 실제 내보낼 파일명
+		String original_file_nm = file_AttchVo.getOriginal_file_nm();
+		logger.debug("♬♩♪  original_file_nm: {}", original_file_nm);
+		savePath += File.separator + file_AttchVo.getDb_file_nm() + file_AttchVo.getFile_exts();
 		InputStream in = null;
 		OutputStream os = null;
 		File file = null;
@@ -308,10 +298,13 @@ public class File_AttchController {
 			try {
 				file = new File(savePath);
 				in = new FileInputStream(file);
+				logger.debug("♬♩♪  file: {}", file);
+				logger.debug("♬♩♪  in: {}", in);
 			} catch (FileNotFoundException fe) {
 				skip = true;
 			}
-
+			
+			logger.debug("♬♩♪  skip: {}", skip);
 			client = request.getHeader("User-Agent");
 
 			// 파일 다운로드 헤더 지정
@@ -323,13 +316,13 @@ public class File_AttchController {
 				// IE
 				if (client.indexOf("MSIE") != -1) {
 					response.setHeader("Content-Disposition",
-							"attachment; filename=" + new String(orgfilename.getBytes("KSC5601"), "ISO8859_1"));
+							"attachment; filename=" + new String(original_file_nm.getBytes("KSC5601"), "ISO8859_1"));
 
 				} else {
 					// 한글 파일명 처리
-					orgfilename = new String(orgfilename.getBytes("utf-8"), "iso-8859-1");
+					original_file_nm = new String(original_file_nm.getBytes("utf-8"), "iso-8859-1");
 
-					response.setHeader("Content-Disposition", "attachment; filename=\"" + orgfilename + "\"");
+					response.setHeader("Content-Disposition", "attachment; filename=\"" + original_file_nm + "\"");
 					response.setHeader("Content-Type", "application/octet-stream; charset=utf-8");
 				}
 
@@ -343,6 +336,7 @@ public class File_AttchController {
 					os.write(b, 0, leng);
 				}
 			}
+			logger.debug("♬♩♪  in:{}",in);
 			in.close();
 			os.close();
 
@@ -735,6 +729,7 @@ public class File_AttchController {
 				try {
 					// 해당 파일 지정된 경로에 업로드...
 					profile.transferTo(uploadFile);
+					logger.debug("♬♩♪  생성완료");
 				} catch (IllegalStateException | IOException e) {
 					e.printStackTrace();
 				}
