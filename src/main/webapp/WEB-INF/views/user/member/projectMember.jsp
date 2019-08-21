@@ -277,16 +277,24 @@ function requestedFriendsList() {
 							<th></th>
 		
 							<c:forEach items="${projectMemList}" var="prjVo">
-							
+								<input type="hidden" value="${prjMemFriList}">
 								<tr class="prjMemTr" data-user_email="${prjVo.user_email}">
 									<td class="user_email" id="${prjVo.user_email}">
-<%-- 										<a href="#layer2" class="trPrjMemAdd">${prjVo.user_email}</a> --%>
 										<a href="#layer2" class="prjMember">${prjVo.user_email}</a><span id="log_${prjVo.user_email }" class="logout"> ●</span>
 									</td>
 									
 									<td>${prjVo.user_nm}</td>
+									
 									<td>
-										<a href="/projectMemberList?frdRequEmail=${prjVo.user_email}" id="friendReqAtag" class="inp_style_01">친구요청</a>
+										
+										<c:forEach items="${prjMemFriList}" var="friVo">
+												
+											<c:if test="${prjVo.user_email != friVo.frd_email}">
+												<a href="/projectMemberList?frdRequEmail=${prjVo.user_email}" id="friendReqAtag" class="inp_style_01">친구요청</a> 
+											</c:if>	
+
+										</c:forEach>										
+											
 									</td>
 									
 								</tr>
@@ -403,14 +411,12 @@ function requestedFriendsList() {
 							<c:forEach items="${friendsList}" var="prjVo">
 							
 								<tr class="userTr" data-user_email="${prjVo.frd_email}">
-<%-- 									<td class="user_email">${prjVo.user_email}</td> --%>
 									<td>${prjVo.user_nm}</td>
 									<td>${prjVo.frd_email}<span class="logout"> ●</span></td>
 									<td class="delFriends">
-<%-- 										<a href="/deleteFriends?frd_email=${prjVo.frd_email}" class="frdDel">삭제하기</a> --%>
+										
 										<a href="/deleteFriends?frd_email=${prjVo.frd_email}" class="a_style_04">삭제하기</a>
-<!-- 										<input type="button" id="btnDeleteFriends" class="btn_style_04" onclick="deleteFriends()" value="친구삭제"> -->
-<%-- 										${prjVo.frd_email} --%>
+										
 									</td>
 								</tr>
 								

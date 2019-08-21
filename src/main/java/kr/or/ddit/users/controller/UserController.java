@@ -2,6 +2,7 @@ package kr.or.ddit.users.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -263,6 +264,13 @@ public class UserController {
 			
 			int paginationSize = (Integer) resultMap.get("paginationSize");
 			
+			String user_email0 = userVo.getUser_email();
+			logger.debug("user_email : notInGame {}",user_email0);
+			
+			List<FriendsVo> prjMemFriList = friendsService.friendsList(user_email0);
+			logger.debug("prjMemFriList : notInGame2 {}",prjMemFriList);
+			
+			model.addAttribute("prjMemFriList",prjMemFriList);
 			model.addAttribute("projectMemList", projectMemList);
 			model.addAttribute("paginationSize", paginationSize);
 			model.addAttribute("pageVo", pageVo);
