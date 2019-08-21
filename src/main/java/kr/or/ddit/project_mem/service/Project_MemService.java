@@ -150,5 +150,38 @@ public class Project_MemService implements IProject_MemService{
 	public List<Project_MemVo> headerChatFriendList(String user_email) {
 		return projectMemDao.headerChatFriendList(user_email);
 	}
-
+	
+	/**
+	 * 
+	* Method : prjMemListForInactive
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-21
+	* @param user_email
+	* @return
+	* Method 설명 : 휴면 계정을 하기 위해 session에서 가져온 user_email에서 나의 프로젝트 멤버를 리스트로 조회
+	 */
+	@Override
+	public Map<String, Object> prjMemListForInactive(Map<String, Object> map) {
+		
+//		Map<String, Object> resultMap = new HashMap<String, Object>();
+//		List<Project_MemVo> inactiveMemList = projectMemDao.prjMemListForInactive(map);
+//		
+//		int pageSize = (int) map.get("pageSize");
+//		int InactiveMemCnt = projectMemDao.prjMemListForInactiveCnt(map);
+//		int paginationSize = (int) Math.ceil((double)InactiveMemCnt/(int)map.get("pageSize"));
+//
+//		resultMap.put("inactiveMemList", inactiveMemList);
+//		resultMap.put("paginationSize", paginationSize);
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("inactiveMemList", projectMemDao.prjMemListForInactive(map));
+		
+		int projectMemCnt = projectMemDao.projectMemCnt(map);
+		
+		int paginationSize = (int)Math.ceil((double)projectMemCnt/(int)map.get("pageSize"));
+		resultMap.put("paginationSize", paginationSize);
+		
+		return resultMap;
+	}
+	
 }

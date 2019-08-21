@@ -3,6 +3,8 @@ package kr.or.ddit.project_mem.dao;
 import java.util.List;
 import java.util.Map;
 
+import kr.or.ddit.friends.model.FriendsVo;
+import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.project_mem.model.Project_MemVo;
 
 public interface IProject_MemDao {
@@ -96,5 +98,27 @@ public interface IProject_MemDao {
 	 * @return Method 설명 : 헤더에 화상회의 친구목록 리스트
 	 */
 	List<Project_MemVo> headerChatFriendList(String user_email);
-
+	
+	/**
+	 * 
+	* Method : prjMemListForInactive
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-21
+	* @param map
+	* @return
+	* Method 설명 : 휴면 계정을 하기 위해 session에서 가져온 user_email에서 나의 프로젝트 멤버를 리스트로 조회
+	 */
+	List<Project_MemVo> prjMemListForInactive(Map<String, Object> map);
+	
+	/**
+	 * 
+	* Method : prjMemListForInactiveCnt
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-21
+	* @param map
+	* @return
+	* Method 설명 : 휴면 계정을 하기 위해 session에서 가져온 user_email에서 나의 프로젝트 멤버를 리스트로 조회한 갯수
+	 */
+	int prjMemListForInactiveCnt(Map<String, Object> map);
+	
 }

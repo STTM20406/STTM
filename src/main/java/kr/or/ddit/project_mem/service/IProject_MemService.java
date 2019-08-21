@@ -112,4 +112,15 @@ public interface IProject_MemService {
 	 */
 	List<Project_MemVo> headerChatFriendList(String user_email);
 	
+	/**
+	 * 
+	* Method : prjMemListForInactive
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-21
+	* @param map
+	* @return
+	* Method 설명 : 휴면 계정을 하기 위해 session에서 가져온 user_email에서 나의 프로젝트 멤버를 리스트로 조회
+	 */
+	Map<String, Object> prjMemListForInactive(Map<String, Object> map);
+	
 }
