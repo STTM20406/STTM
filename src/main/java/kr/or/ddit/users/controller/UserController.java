@@ -90,7 +90,7 @@ public class UserController {
 
 		logger.debug("user_pass : {}", userVo.getUser_pass());
 		
-		// ------------------------ 휴면 계정 전화 페이징 리스트 ------------------------
+		// ------------------------ 휴면 계정 전환 페이징 리스트 ------------------------
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("page", pageVo.getPage());
@@ -110,7 +110,9 @@ public class UserController {
 		model.addAttribute("paginationSize", paginationSize);
 		model.addAttribute("pageVo", pageVo);
 		
-		// ------------------------ End 휴면 계정 전화 페이징 리스트 ---------------------
+		// ------------------------ 휴면 계정 전환 업데이트------------------------
+		
+		
 		
 		return "/account/accountSet.user.tiles";
 	}
@@ -125,14 +127,19 @@ public class UserController {
 		logger.debug("user_nm : {}",user_nm);
 		logger.debug("user_hp : {}",user_hp);
 		
-		if(user_nm == null) {
+		// 비밀번호 업데이트
+		if(user_pass != null) {
+//		if(user_nm == null) {
 		
 			UserVo userVo = new UserVo();
 			userVo.setUser_email(user_email);
 			userVo.setUser_pass(ARIAUtil.ariaEncrypt(user_pass));
 			
 			int updateUserPass = userService.updateUserPass(userVo);
-		}else{
+
+		// 프로필 업데이트
+		} else if(user_nm != null || user_nm != null) {
+//		} else {
 			
 			UserVo userVo = new UserVo();
 			userVo.setUser_email(user_email);
@@ -141,7 +148,12 @@ public class UserController {
 			userVo.setUser_hp(user_hp);
 			
 			int updateUserProfile = userService.updateUserProfile(userVo);
+		
+		// 휴면 계정 업데이트
+		//		} else if() {
+			
 		}
+		
 		return "/account/accountSet.user.tiles";
 		
 	}
@@ -219,7 +231,6 @@ public class UserController {
 		
 		return "/account/accountSet.user.tiles";
 	}
-	
 	
 	/**
 	 * 
@@ -378,7 +389,6 @@ public class UserController {
 
 				int firendsRequest = friend_ReqService.firendsRequest(friendsReqVo);
 			}
-			
 			
 		return "/member/projectMember.user.tiles";
 	}
