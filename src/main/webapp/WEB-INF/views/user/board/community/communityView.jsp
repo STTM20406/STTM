@@ -95,6 +95,8 @@ $(document).ready(function(){
 			increaseReplyCntAjax(write_id);
 		}, 600);
 		
+		$("#r_content").val('');
+		
 	});
 	
 	// 댓글삭제하기 버튼
