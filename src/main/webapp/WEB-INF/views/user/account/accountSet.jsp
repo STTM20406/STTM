@@ -278,12 +278,10 @@
 			
 							<table class="tb_style_01">
 								<colgroup>
-									<col width="20%">
-									<col width="20%">
-									<col width="20%">
-									<col width="20%">
-									<col width="20%">
-									<col width="20%">
+									<col width="25%">
+									<col width="25%">
+									<col width="25%">
+									<col width="25%">
 								</colgroup>
 								<tbody>
 									<tr>
@@ -291,8 +289,6 @@
 										<th>프로젝트 아이디</th>
 										<th>프로젝트 이름</th>
 										<th>프로젝트 멤버 이름</th>
-										<th>멤버 레벨</th>
-										<th>소유 유무</th>
 										<th></th>
 					
 										<c:forEach items="${inactiveMemList}" var="inactive">
@@ -301,10 +297,9 @@
 												<td>${inactive.prj_id}</td>
 												<td>${inactive.prj_nm}</td>
 												<td>${inactive.user_nm}</td>
-												<td>${inactive.prj_mem_lv}</td>
-												<td>${inactive.prj_own_fl}</td>
 												<td>
-<%-- 													<a href="/projectMemberList?frdRequEmail=${prjVo.user_email}" id="friendReqAtag" class="inp_style_01">친구요청</a> --%>
+<!-- 												transferOwnership -->
+													<a href="/projectMemberList?frdRequEmail=${prjVo.user_email}" id="transferBtn" class="inp_style_01">소유권이전</a>
 												</td>
 												
 											</tr>

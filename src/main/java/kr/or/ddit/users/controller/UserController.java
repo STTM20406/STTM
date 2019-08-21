@@ -62,7 +62,7 @@ public class UserController {
 	 * @throws InvalidKeyException 
 	 */
 	@RequestMapping(path = "/setUserPass", method = RequestMethod.GET)
-	public String setPassView(HttpSession session, Model model) throws InvalidKeyException, UnsupportedEncodingException {
+	public String setPassView(HttpSession session, Model model, PageVo pageVo) throws InvalidKeyException, UnsupportedEncodingException {
 		
 		// 세션에 저장된 user 정보를 가져옴
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
@@ -87,6 +87,29 @@ public class UserController {
 		model.addAttribute("user_hp", user_hp);
 
 		logger.debug("user_pass : {}", userVo.getUser_pass());
+		
+		// ------------------------ 휴면 계정 전화 페이징 리스트 ------------------------
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("page", pageVo.getPage());
+		map.put("pageSize", pageVo.getPageSize());
+		map.put("user_email", userVo.getUser_email());
+		
+		Map<String, Object> resultMap = project_MemService.prjMemListForInactive(map);
+		
+		logger.debug("resultMap : 이거 찍자 {}",resultMap);
+		
+		List<Project_MemVo> inactiveMemList = (List<Project_MemVo>) resultMap.get("inactiveMemList");
+		logger.debug("inactiveMemList : 찍고 만다 {}",inactiveMemList);
+		
+		int paginationSize = (Integer) resultMap.get("paginationSize");
+		
+		model.addAttribute("inactiveMemList", inactiveMemList);
+		model.addAttribute("paginationSize", paginationSize);
+		model.addAttribute("pageVo", pageVo);
+		
+		// ------------------------ End 휴면 계정 전화 페이징 리스트 ---------------------
+		
 		return "/account/accountSet.user.tiles";
 	}
 	
@@ -96,8 +119,6 @@ public class UserController {
 		
 		UserVo getUserSession = (UserVo) session.getAttribute("USER_INFO"); 
 		String user_email = getUserSession.getUser_email();
-//		String user_nm = getUserSession.getUser_nm();
-//		String user_hp = getUserSession.getUser_hp();
 		
 		logger.debug("user_nm : {}",user_nm);
 		logger.debug("user_hp : {}",user_hp);
@@ -174,53 +195,29 @@ public class UserController {
 	public String setInactiveAccountView(HttpSession session, Model model,
 										 PageVo pageVo) {
 		
-		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("page", pageVo.getPage());
-		map.put("pageSize", pageVo.getPageSize());
-		map.put("user_email", userVo.getUser_email());
-		
-		Map<String, Object> resultMap = project_MemService.prjMemListForInactive(map);
-		
-		logger.debug("resultMap : 이거 찍자 {}",resultMap);
-		
-		List<Project_MemVo> inactiveMemList = (List<Project_MemVo>) resultMap.get("inactiveMemList");
-		logger.debug("inactiveMemList : 찍고 만다 {}",inactiveMemList);
-		
-		int paginationSize = (Integer) resultMap.get("paginationSize");
-		
-		model.addAttribute("inactiveMemList", inactiveMemList);
-		model.addAttribute("paginationSize", paginationSize);
-		model.addAttribute("pageVo", pageVo);
+//		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+//		
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		map.put("page", pageVo.getPage());
+//		map.put("pageSize", pageVo.getPageSize());
+//		map.put("user_email", userVo.getUser_email());
+//		
+//		Map<String, Object> resultMap = project_MemService.prjMemListForInactive(map);
+//		
+//		logger.debug("resultMap : 이거 찍자 {}",resultMap);
+//		
+//		List<Project_MemVo> inactiveMemList = (List<Project_MemVo>) resultMap.get("inactiveMemList");
+//		logger.debug("inactiveMemList : 찍고 만다 {}",inactiveMemList);
+//		
+//		int paginationSize = (Integer) resultMap.get("paginationSize");
+//		
+//		model.addAttribute("inactiveMemList", inactiveMemList);
+//		model.addAttribute("paginationSize", paginationSize);
+//		model.addAttribute("pageVo", pageVo);
 		
 		return "/account/accountSet.user.tiles";
 	}
 	
-	@RequestMapping(path = "/setUserStatus", method = RequestMethod.POST)
-	public String setInactiveAccountProcess(HttpSession session, String user_st) {
-		
-		String viewName = "";
-		
-		UserVo userSession = (UserVo) session.getAttribute("USER_INFO");
-		String user_email = userSession.getUser_email();
-		
-		UserVo userVo = new UserVo();
-		userVo.setUser_email(user_email);
-		userVo.setUser_st(user_st);
-		
-		int updateUserStatus = userService.updateUserStatus(userVo);
-		
-		logger.debug("updateUserStatus : {} 휴면계정 전환 로거", updateUserStatus);
-		
-		if(updateUserStatus != 0) {
-			viewName = "/account/accountSet.user.tiles"; 
-		}
-		
-		
-		
-		return viewName;
-	}
 	
 	/**
 	 * 
