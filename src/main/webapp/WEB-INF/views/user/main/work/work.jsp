@@ -629,8 +629,6 @@
 			var work_date = $("#wps_start_date").val();
 			var res_date = $("#wps_res_date").val();
 			var wrk_gd = $("#wrk_gd").val();
-<<<<<<< HEAD
-=======
 // 			var wrk_color = $("input[name='wrk_color_cd']:checked").val();
 			var wrk_color = $("input:radio[name='wrk_color_cd']").is(":checked");
 // 			if(wrk_color == true){
@@ -638,7 +636,6 @@
 // 			}else{
 // 				alert("체크안됨 ");
 // 			}
->>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 			
 				
 			var workSplit = work_date.split(" to ");
@@ -850,13 +847,10 @@
 				data.workFileList.forEach(function(file, index) {
 					//html생성
 					html += "<tr id='filetr'>";
-					html += "<td><a href='#'>" + file.original_file_nm
-							+ "</a></td>";
+					html += "<td><a href='/fileDownload?file_id="+file.file_id+"'>" + file.original_file_nm+ "</a></td>";
 					html += "<td>" + file.user_nm + "</td>";
 					html += "<td>" + file.prjStartDtStr + "</td>";
-					html += "<td><a href='javascript:workDelFile("
-							+ file.file_id + "," + file.wrk_id
-							+ ")'>삭제</a></td>";
+					html += "<td><a href='javascript:workDelFile("+ file.file_id + "," + file.wrk_id+ ")'>삭제</a></td>";
 					html += "</tr>";
 				});
 				var pHtml = "";
@@ -915,13 +909,10 @@
 				data.workLinkList.forEach(function(link, index) {
 					//html생성
 					html += "<tr>";
-					html += "<td><a href='https://"+link.attch_url+"'>"
-							+ link.attch_url + "</a></td>";
+					html += "<td><a href='https://"+link.attch_url+"'>"+ link.attch_url + "</a></td>";
 					html += "<td>" + link.user_nm + "</td>";
 					html += "<td>" + link.prjStartDtStr + "</td>";
-					html += "<td><a href='javascript:workDelLink("
-							+ link.link_id + "," + link.wrk_id
-							+ ")'>삭제</a></td>";
+					html += "<td><a href='javascript:workDelLink("+ link.link_id + "," + link.wrk_id+ ")'>삭제</a></td>";
 					html += "</tr>";
 				});
 				var pHtml = "";
