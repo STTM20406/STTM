@@ -277,5 +277,14 @@ public interface IFile_AttchDao {
 	 */
 	int insertFileboth(File_AttchVo file_attchVo);
 	
+	/**
+	 * Method 		: insertLink
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-20 최초 생성
+	 * @param link_attchVo
+	 * @return
+	 * Method 설명 	: work창에서 링크 insert
+	 */
+	int insertLink(Link_attchVo link_attchVo);
 	
 }

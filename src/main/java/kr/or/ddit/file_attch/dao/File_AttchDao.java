@@ -146,5 +146,10 @@ public class File_AttchDao implements IFile_AttchDao{
 		return sqlSession.insert("project.insertFileboth",file_attchVo);
 	}
 
+	@Override
+	public int insertLink(Link_attchVo link_attchVo) {
+		return sqlSession.insert("project.insertLink",link_attchVo);
+	}
+
 
 }

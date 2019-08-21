@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import kr.or.ddit.file_attch.model.File_AttchVo;
+import kr.or.ddit.link_attch.model.Link_attchVo;
 import kr.or.ddit.project_mem.model.Project_MemVo;
 
 public interface IFile_AttchService {
@@ -187,5 +188,15 @@ public interface IFile_AttchService {
 		* Method 설명 	: work창에서 파일 둘다 insert
 		*/
 		int insertFileboth(File_AttchVo file_attchVo);
+		
+		/**
+		 * Method 		: insertLink
+		 * 작성자 			: 손영하
+		 * 변경이력 		: 2019-08-20 최초 생성
+		 * @param link_attchVo
+		 * @return
+		 * Method 설명 	: work창에서 링크 insert
+		 */
+		int insertLink(Link_attchVo link_attchVo);
 	   
 }

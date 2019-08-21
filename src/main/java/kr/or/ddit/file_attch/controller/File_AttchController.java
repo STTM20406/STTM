@@ -788,12 +788,42 @@ public class File_AttchController {
 	//workLinkUpload
 	@RequestMapping("/workLinkUpload")
 	public @ResponseBody HashMap<String, Object> workLinkUpload(HttpSession session, Model model, 
-			PageVo pageVo, String locker, int wrk_id, String link) {
-				logger.debug("♬♩♪  link: {}", link);
-				logger.debug("♬♩♪  locker: {}", locker);
-				logger.debug("♬♩♪  wrk_id: {}", wrk_id);
+			PageVo pageVo, String locker, int wrk_id, String attch_url) {
 		
-		return null;
+		logger.debug("♬♩♪  여기는 workLinkUpload insert하는곳");
+		
+		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
+		int prj_id = projectVo.getPrj_id();
+		
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = userVo.getUser_email();
+			
+		Link_attchVo link_attchVo = new Link_attchVo(prj_id, user_email, wrk_id, attch_url);	
+			
+		int cnt = file_AttchService.insertLink(link_attchVo);
+		if(cnt==1) {
+			logger.debug("♬♩♪  link 등록완료!");
+		}
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("page", pageVo.getPage());
+		map.put("pageSize", pageVo.getPageSize());
+		map.put("wrk_id", wrk_id);
+		
+		Map<String, Object> resultMap = file_AttchService.workLinkPagination(map);
+		List<Link_attchVo> workLinkList = (List<Link_attchVo>) resultMap.get("workLinkList");
+		int paginationSize = (Integer) resultMap.get("paginationSize");
+		
+		model.addAttribute("paginationSize", paginationSize);
+		model.addAttribute("pageVo", pageVo);
+		model.addAttribute("workLinkList", workLinkList);
+		
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		hashmap.put("paginationSize", paginationSize);
+		hashmap.put("pageVo", pageVo);
+		hashmap.put("workLinkList", workLinkList);
+		
+		return hashmap;
 	}
 	
 	

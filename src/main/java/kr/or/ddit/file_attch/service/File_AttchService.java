@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import kr.or.ddit.file_attch.dao.IFile_AttchDao;
 import kr.or.ddit.file_attch.model.File_AttchVo;
+import kr.or.ddit.link_attch.model.Link_attchVo;
 import kr.or.ddit.project_mem.model.Project_MemVo;
 
 @Service
@@ -171,6 +172,11 @@ public class File_AttchService implements IFile_AttchService{
 	@Override
 	public int insertFileboth(File_AttchVo file_attchVo) {
 		return file_AttchDao.insertFileboth(file_attchVo);
+	}
+
+	@Override
+	public int insertLink(Link_attchVo link_attchVo) {
+		return file_AttchDao.insertLink(link_attchVo);
 	}
 
 

@@ -258,6 +258,9 @@ public class UserController {
 			logger.debug("map : 로거를 찍어보자 {}",map);
 			
 			List<UserVo> projectMemList = (List<UserVo>) resultMap.get("projectMemList");
+			
+			logger.debug("projectMemList : 프로젝트멤버에담긴거 {}",projectMemList);
+			
 			int paginationSize = (Integer) resultMap.get("paginationSize");
 			
 			model.addAttribute("projectMemList", projectMemList);
@@ -727,5 +730,4 @@ public class UserController {
 		return "/member/memberList.adm.tiles";
 	}
 
-	
 }

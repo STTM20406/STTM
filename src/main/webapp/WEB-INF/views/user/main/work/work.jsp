@@ -629,6 +629,17 @@
 			var work_date = $("#wps_start_date").val();
 			var res_date = $("#wps_res_date").val();
 			var wrk_gd = $("#wrk_gd").val();
+<<<<<<< HEAD
+=======
+// 			var wrk_color = $("input[name='wrk_color_cd']:checked").val();
+			var wrk_color = $("input:radio[name='wrk_color_cd']").is(":checked");
+// 			if(wrk_color == true){
+// 				alert(wrk_color);
+// 			}else{
+// 				alert("체크안됨 ");
+// 			}
+			
+>>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 				
 			var workSplit = work_date.split(" to ");
 			var resSplit = res_date.split(" to ");
@@ -741,12 +752,14 @@
 	
 		$(".sub_menu").on("click", "#fileList",function(){
 			var wrk_id = $('#wps_wrk_id').val();
+			$('#locker').fadeIn(0);
 			$('#workLink').fadeOut(0);
 			$('#workFile').fadeIn(0);
 			workFilePagination(1, 10, wrk_id);
 		})
 		
 		$(".sub_menu").on("click", "#linkList",function(){
+			$('#locker').hide(0);
 			var wrk_id = $('#wps_wrk_id').val();
 			$('#workFile').fadeOut(0);
 			$('#workLink').fadeIn(0);
@@ -757,12 +770,9 @@
 		
 		$("#workLink").on('click','#uploadLink', function(){
 			alert("link가즈아!!");
-			var link = $('.link').val();
-			console.log(link);
+			var attch_url = $('.link').val();
 			var locker = $("#locker input[type=radio]:checked").val();
-			console.log(locker);
 			var wrk_id = $('#wps_wrk_id').val();
-			console.log(wrk_id);
 			
 			$('#box').val(locker);
 			$('#work').val(wrk_id);
@@ -770,7 +780,7 @@
 			$.ajax({
 	 		    url: "/workLinkUpload",
 	 		    type: "POST",
-	 		    data: "link=" + link + "&locker=" + locker + "&wrk_id="+ wrk_id,
+	 		    data: "attch_url=" + attch_url + "&locker=" + locker + "&wrk_id="+ wrk_id,
 	 		    contentType:"application/x-www-form-urlencoded; charset=UTF-8",
 	 		    success: function(data){
 	 		    	workLinkPagination(1, 10, wrk_id);
@@ -888,13 +898,10 @@
 				data.workFileList.forEach(function(file, index) {
 					//html생성
 					html += "<tr id='filetr'>";
-					html += "<td><a href='#'>" + file.original_file_nm
-							+ "</a></td>";
+					html += "<td><a href='/fileDownload?file_id="+file.file_id+"'>" + file.original_file_nm+ "</a></td>";
 					html += "<td>" + file.user_nm + "</td>";
 					html += "<td>" + file.prjStartDtStr + "</td>";
-					html += "<td><a href='javascript:workDelFile("
-							+ file.file_id + "," + file.wrk_id
-							+ ")'>삭제</a></td>";
+					html += "<td><a href='javascript:workDelFile("+ file.file_id + "," + file.wrk_id+ ")'>삭제</a></td>";
 					html += "</tr>";
 				});
 				var pHtml = "";
@@ -953,13 +960,10 @@
 				data.workLinkList.forEach(function(link, index) {
 					//html생성
 					html += "<tr>";
-					html += "<td><a href='https://"+link.attch_url+"'>"
-							+ link.attch_url + "</a></td>";
+					html += "<td><a href='https://"+link.attch_url+"'>"+ link.attch_url + "</a></td>";
 					html += "<td>" + link.user_nm + "</td>";
 					html += "<td>" + link.prjStartDtStr + "</td>";
-					html += "<td><a href='javascript:workDelLink("
-							+ link.link_id + "," + link.wrk_id
-							+ ")'>삭제</a></td>";
+					html += "<td><a href='javascript:workDelLink("+ link.link_id + "," + link.wrk_id+ ")'>삭제</a></td>";
 					html += "</tr>";
 				});
 				var pHtml = "";
