@@ -66,26 +66,5 @@ public interface IBoard_AnswerDao {
 	 */
 	List<Board_AnswerVo> myReplyList(String user_email);
 	
-	/**
-	 * 
-	 * Method 		: maxAnswerId
-	 * 작성자 			: 유다연
-	 * 변경이력 		: 2019-08-20 최초 생성
-	 * @param write_id
-	 * @return
-	 * Method 설명 	: 게시글의 댓글 max값
-	 */
-	int maxAnswerId(int write_id);
-	
-	/**
-	 * 
-	 * Method 		: getBoardAnswer
-	 * 작성자 			: 유다연
-	 * 변경이력 		: 2019-08-20 최초 생성
-	 * @param comm_id
-	 * @return
-	 * Method 설명 	: 댓글 아이디 넣으면 댓글 정보 가져오기
-	 */
-	Board_AnswerVo getBoardAnswer(int comm_id);
 	
 }

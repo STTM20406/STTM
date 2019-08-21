@@ -166,6 +166,7 @@
 						"click",
 						function(evt) {
 							evt.preventDefault();
+							
 							if (socket.readyState !== 1)
 								return;
 
@@ -184,7 +185,9 @@
 								console.log("sssssssmsg>>", socketMsg);
 								socket.send(socketMsg);
 							}
-
+							
+							$("#msg").val('');
+							$("#msg").focus();
 						});
 
 				$("#addFriend").on('click', function() {

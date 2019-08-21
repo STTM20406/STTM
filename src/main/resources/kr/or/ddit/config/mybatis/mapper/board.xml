@@ -72,15 +72,6 @@
 		where user_email=#{user_email}
 	</select>
 	
-	<!-- 게시글의 댓글 max값 -->
-	<select id="maxAnswerId" parameterType="int" resultType="int">
-		select max(comm_id) from board_answer where write_id = #{write_id}
-	</select>
-	
-	<!-- 댓글 아이디 넣으면 댓글 정보 가져오기 -->
-	<select id="getBoardAnswer" parameterType="int" resultType="board_answerVo">
-		select * from board_answer where comm_id = #{comm_id}
-	</select>
 	
 <!-- **********************board_file********************* -->
 
