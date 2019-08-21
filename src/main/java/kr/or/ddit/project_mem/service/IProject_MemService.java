@@ -12,7 +12,7 @@ public interface IProject_MemService {
 	/**
 	 * 
 	 * Method 		: projectMemList
-	 * 작성자 		: 박서경 
+	 * 작성자 			: 박서경 
 	 * 변경이력 		: 2019-07-21 최초 생성
 	 * @return
 	 * Method 설명 	: 프로젝트 멤버 리스트 조회

@@ -42,8 +42,20 @@ public class Work_Mem_FlwVo {
 		this.wrk_id = wrk_id;
 		this.jn_fl = jn_fl;
 	}
-
 	
+	/**
+	 * 업무 멤버/팔로워 삭제
+	 * @author 박서경
+	 * @param user_email
+	 * @param wrk_id
+	 */
+	public Work_Mem_FlwVo(String user_email, int wrk_id) {
+		super();
+		this.user_email = user_email;
+		this.wrk_id = wrk_id;
+	}
+
+
 	@Override
 	public String toString() {
 		return "Work_Mem_FlwVo [user_email=" + user_email + ", prj_id=" + prj_id + ", wrk_id=" + wrk_id
