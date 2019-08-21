@@ -23,12 +23,71 @@ $(document).ready(function(){
 		$("#frm").submit();
 	})
 	
+
+	
+	//댓글 등록하면 리스트 다시 가져오기
+	function replyList(r_content, write_id){
+		$.ajax({
+			url:"/postViewAjax",
+			method:"get",
+			contentType: "application/x-www-form-urlencoded; charset=UTF-8",  
+			data: "r_content=" + r_content + "&write_id=" + write_id,
+			success:function(data){
+				
+				var html = "";
+				
+				
+				data.data.forEach(function(item, index){
+					
+					html += "<tr class='replyTr'>";
+					html +=	"<td class='replynum' style='display:none;'>" + item.comm_id + "</td>";
+					html +=	"<td>" + item.rn  + "</td>";
+					html +=	"<td>" + item.content + "</td>";
+					html +=	"<td>" + item.user_email + "</td>";
+					html +=	"<td>" + item.writedateString + "</td>";
+					html +=	"<td id='replyBUT'><button type='button' id='deleteReplyBtn' name='" + item.comm_id  + "'>댓글삭제</button></td>";
+					html += "</tr>";
+					
+				});
+				
+				
+				$("#inputAnswer").html(html);
+			}
+			
+		});
+		
+	};
+	
+	//댓글 등록하면 댓글 수 증가
+	function increaseReplyCntAjax(write_id){
+		$.ajax({
+			url:"/increaseReplyCntAjax",
+			method:"get",
+			contentType: "application/x-www-form-urlencoded; charset=UTF-8",  
+			data: "write_id=" + write_id,
+			success:function(data){
+				console.log("댓글수 : " + data.data)
+				var html = "";
+				html += "<label>댓글수 : " +  data.data + "</label>";
+				$("#replyCntAjax").html(html);
+				
+			}
+		});
+	};
+	
 	// 댓글등록하기 버튼
-	$("#replyBtn").on("click",function(){
-		$("#frm").attr("action","/postView");
-		$("#frm").attr("method","post");
-		$("#frm").submit();
-	})
+	$("#replyBtn").on("click", function(){
+// 		$("#frm").attr("action","/postView");
+// 		$("#frm").attr("method","post");
+// 		$("#frm").submit();
+
+		var write_id = $("#write_id").val();
+		var r_content = $("#r_content").val();
+		console.log("댓글 등록" + write_id + r_content);
+		replyList(r_content, write_id);
+		increaseReplyCntAjax(write_id);
+		
+	});
 	
 	// 댓글삭제하기 버튼
 	$(".replyTr #replyBUT").on("click",function(){
@@ -49,11 +108,11 @@ $(document).ready(function(){
 		var write_id = $("#write_id").val();
 		var board_id = $("#board_id").val();
 		
-		$(this).attr("value", "좋아요 취소");
+		$(this).attr("value", "좋아요 안누름");
 		$(this).attr("id", "likeBtnNotPush");
 		
-		AddlikeAjax(write_id, board_id);
 		
+		DownLikeAjax(write_id,board_id);
 		
 	})
 	
@@ -82,8 +141,8 @@ $(document).ready(function(){
 
 		$(this).attr("value", "좋아요 누름");
 		$(this).attr("id", "likeBtnPush");
-		
-		DownLikeAjax(write_id,board_id);
+
+		AddlikeAjax(write_id, board_id);
 		
 	})
 	
@@ -118,10 +177,17 @@ $(document).ready(function(){
 		<div>
 			<label>제목</label>
 			<label>${writeInfo.subject }</label>
-			<label>댓글수 : ${replyCnt }</label>
+			<div id="replyCntAjax">
+				<label>댓글수 : ${replyCnt }</label>
+			</div>
 			<div id="likeCnt">
 				<label>좋아요 수 : ${writeInfo.like_cnt }</label>
-				<input type="button" id="likeBtnPush" value="좋아요누름" name="${likeCheck}">
+				<c:if test="${likeCheck == 1}">
+					<input type="button" id="likeBtnPush" value="좋아요누름" name="${likeCheck}">
+				</c:if>
+				<c:if test="${likeCheck == 0}">
+					<input type="button" id="likeBtnNotPush" value="좋아요안누름" name="${likeCheck}">
+				</c:if>
 			</div>
 		</div>
 		<div>
@@ -137,7 +203,7 @@ $(document).ready(function(){
 		
 			<label>댓글 목록</label><br>
 			<table class="tb_style_01">
-				<tbody>
+				<tbody id="inputAnswer">
 					<tr>
 						<th>번호</th>
 						<th>내용</th>
@@ -169,8 +235,8 @@ $(document).ready(function(){
 				</tbody>
 			</table>
 				<label>댓글 작성</label><br>
-				<textarea rows="1" cols="60" name="r_content"></textarea>
-				<button type="button" name="replyBtn" id="replyBtn"> 댓글등록 </button>
+				<textarea rows="1" cols="60" id="r_content" name="r_content"></textarea>
+				<input type="button" name="replyBtn" id="replyBtn" value="댓글등록">
 			
 		</div>
 		
