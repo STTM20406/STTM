@@ -28,6 +28,8 @@ import kr.or.ddit.work.model.WorkVo;
 import kr.or.ddit.work.service.IWorkService;
 import kr.or.ddit.work_list.model.Work_ListVo;
 import kr.or.ddit.work_list.service.IWork_ListService;
+import kr.or.ddit.work_mem_flw.model.Work_Mem_FlwVo;
+import kr.or.ddit.work_mem_flw.service.IWork_Mem_FlwService;
 
 @Controller
 @RequestMapping("/work")
@@ -46,6 +48,9 @@ public class Work_ListController {
 	
 	@Resource(name = "project_MemService")
 	private IProject_MemService projectMemService;
+	
+	@Resource(name = "")
+	private IWork_Mem_FlwService workMemFlwService;
 	
 	
 	//GET방식으로 업무리스트 및 업무 조회
@@ -375,12 +380,23 @@ public class Work_ListController {
 		int wrkID = Integer.parseInt(wrk_id);
 		WorkVo workVo = workService.getWorkInfo(wrkID);
 		
+		//배정된 업무 멤버 가져오기
+		Work_Mem_FlwVo work_memVo = new Work_Mem_FlwVo(wrkID, "M");
+		List<Work_Mem_FlwVo> wrkMemList = workMemFlwService.workMemFlwList(work_memVo); 
+		
+		//업무 팔로워 멤버 가져오기
+		Work_Mem_FlwVo work_flwVo = new Work_Mem_FlwVo(wrkID, "F");
+		List<Work_Mem_FlwVo> wrkFlwList = workMemFlwService.workMemFlwList(work_flwVo); 
+		
 		HashMap<String, Object> hashmap = new HashMap<String, Object>();
 		hashmap.put("workVo", workVo);
+		hashmap.put("wrkMemList", wrkMemList);
+		hashmap.put("wrkFlwList", wrkFlwList);
 
 		return hashmap;
 	}
 	
+	//완료 체크 했을 때
 	@RequestMapping("/completeCheckAjax")
 	public @ResponseBody HashMap<String, Object> completeCheckAjax(String wrk_id, String wrk_cmp_fl, HttpSession session) {
 		
@@ -431,7 +447,7 @@ public class Work_ListController {
 	}
 	
 	
-	// 프로젝트 설정 업데이트
+	// 업무 설정 업데이트
 	@RequestMapping("/propertyWorkSetItemAjax")
 	public String propertyWorkSetItemAjax(String wrk_id, String wrk_nm, String wrk_grade, String wrk_start_dt, String wrk_end_dt, 
 									   Model model, HttpSession session) throws ParseException {
@@ -467,7 +483,7 @@ public class Work_ListController {
 		return "jsonView";
 	}
 	
-	// 프로젝트 설정 업데이트 (라벨 컬러 업데이트)
+	//업무 설정 업데이트 (라벨 컬러 업데이트)
 	@RequestMapping("/propertyWorkLableColorAjax")
 	public String propertyWorkLableColorAjax(WorkVo workVo, String wrk_id, String wrk_color_cd, Model model) throws ParseException {
 		
@@ -485,7 +501,7 @@ public class Work_ListController {
 		return "jsonView";
 	}
 	
-	// 프로젝트 멤버 리스트 불러오기(관리자 추가)
+	// 업무 멤버 리스트 불러오기(관리자 추가)
 	@RequestMapping("/workMemListAjax")
 	public String workMemListAjax(Model model, HttpSession session) {
 
@@ -504,35 +520,28 @@ public class Work_ListController {
 		return "jsonView";
 	}
 	
-	// 프로젝트 멤버 관리자로 update
-		@RequestMapping("/workMemAddAjax")
-		public String workMemAddAjax(String user_email, String prj_id, Model model) {
+	// 업무 멤버 추가 
+	@RequestMapping("/workMemAddAjax")
+	public String workMemAddAjax(ProjectVo projectVo, Work_Mem_FlwVo work_Mem_FlwVo, String wrk_id, String user_email, Model model, HttpSession session) {
 
-			int prjId = Integer.parseInt(prj_id);
+		projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
+		int wrkID = Integer.parseInt(wrk_id);
+		
+		work_Mem_FlwVo.setUser_email(user_email);
+		work_Mem_FlwVo.setPrj_id(projectVo.getPrj_id());
+		work_Mem_FlwVo.setWrk_id(wrkID);
+		work_Mem_FlwVo.setJn_fl("M");
+		
+		int insertCnt = workMemFlwService.insertWorkMemFlw(work_Mem_FlwVo);
+		
+		Work_Mem_FlwVo work_mem_flwVo = new Work_Mem_FlwVo(wrkID, "M");
+		List<Work_Mem_FlwVo> wrkMemList = workMemFlwService.workMemFlwList(work_mem_flwVo); 
 
-			Project_MemVo projectMemVo = new Project_MemVo();
-			projectMemVo.setUser_email(user_email);
-			projectMemVo.setPrj_id(prjId);
-			projectMemVo.setPrj_mem_lv("LV0");
-
-			int updateCnt = projectMemService.updateProjectMem(projectMemVo);
-
-			Project_MemVo projectMemListVo = new Project_MemVo();
-			projectMemListVo.setPrj_id(prjId);
-			projectMemListVo.setUser_email(user_email);
-
-			List<Project_MemVo> admList = new ArrayList<Project_MemVo>();
-
-			if (updateCnt != 0) {
-				List<Project_MemVo> project_adm_list = projectMemService.projectMemList(projectMemVo);
-				for (int i = 0; i < project_adm_list.size(); i++) {
-					if (project_adm_list.get(i).getPrj_mem_lv().equals("LV0")) {
-						admList.add(project_adm_list.get(i));
-					}
-				}
-				model.addAttribute("data", admList);
-			}
-			return "jsonView";
+		if (insertCnt != 0) {
+			model.addAttribute("data", wrkMemList);
 		}
+		
+		return "jsonView";
+	}
 	
 }

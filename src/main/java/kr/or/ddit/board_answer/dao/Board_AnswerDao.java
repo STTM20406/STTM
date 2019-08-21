@@ -94,15 +94,6 @@ public class Board_AnswerDao implements IBoard_AnswerDao{
 		return sqlSession.selectList("board.myReplyList",user_email);
 	}
 
-	@Override
-	public int maxAnswerId(int write_id) {
-		return sqlSession.selectOne("board.maxAnswerId",write_id);
-	}
-
-	@Override
-	public Board_AnswerVo getBoardAnswer(int comm_id) {
-		return sqlSession.selectOne("board.getBoardAnswer",comm_id);
-	}
 
 
 }
