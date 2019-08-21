@@ -327,8 +327,13 @@ public class UserController {
 				
 				logger.debug("updateReqAccept : 업데이트 테스트1 {}",updateReqAccept);
 				
+				// 친구 요청 수락하면 보낸 사람을 내 친구로 등록
 				FriendsVo friendsVo = new FriendsVo(user_email, frd_email);
 				int acceptRequest = friendsService.accerptFriendRequest(friendsVo);
+				
+				// 친구 요청 수락하면 보낸 사람에 나를 친구로 등록
+				FriendsVo friendsVo1 = new FriendsVo(frd_email, user_email);
+				int acceptRequest1 = friendsService.insertFriends(friendsVo1);
 				
 				int denyRequest = friend_ReqService.deleteFriendRequest(acceptEmail);
 				
