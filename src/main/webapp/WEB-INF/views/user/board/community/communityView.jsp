@@ -96,6 +96,7 @@ $(document).ready(function(){
 		}, 600);
 		
 		$("#r_content").val('');
+		$("#r_content").focus();
 		
 	});
 	
