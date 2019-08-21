@@ -125,6 +125,7 @@
 						</choose>
 	 	WHERE WRK_ID = #{wrk_id}
 	</update>
+	
 
 
 
@@ -160,13 +161,28 @@
 	</update>
 	
 	<!-- 업무코멘트 조회 -->
-	<select id="commList" parameterType="work_commentVo" resultType="work_commentVo">
-		select * 
+	<select id="commList" parameterType="pageVo" resultType="work_commentVo">
+		<![CDATA[
+	select *
+    from
+	(select a.*, ROW_NUMBER() OVER(order by comm_id desc) rn
+    from
+    (select * 
+		from work_comment 
+		where wrk_id = #{wrk_id}
+		and prj_id = #{prj_id}
+		and del_fl = 'N'
+		order by comm_id desc) a)
+		where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
+	]]>
+	</select>
+
+	<select id="commCnt" parameterType="pageVo" resultType="int">
+		select count(*) 
 		from work_comment 
 		where wrk_id = #{wrk_id}
 		and prj_id = #{prj_id}
 	</select>
-
 <!-- ******************work_list**************** -->
 	
 	<!-- 프로젝트 아이디로  업무 리스트만 조회 -->
@@ -267,7 +283,15 @@
 
 <!-- ******************work_mem_flw**************** -->
 
+	<!-- 업무 배정된멤버 / 팔로워 조회 -->
+	<select id="workMemFlwList" resultType="work_mem_flwVo" parameterType="work_mem_flwVo">
+		SELECT A.*, B.USER_NM FROM WORK_MEM_FLW A, USERS B WHERE A.USER_EMAIL = B.USER_EMAIL AND A.WRK_ID = #{wrk_id} AND A.JN_FL = #{jn_fl}
+	</select>
 
+	<!--  업무 멤버 / 팔로워 등록  -->
+	<insert id="insertWorkMemFlw" parameterType="work_mem_flwVo">
+		INSERT INTO WORK_MEM_FLW VALUES(#{user_email}, #{wrk_id}, #{prj_id}, #{jn_fl})
+	</insert>
 
 
 

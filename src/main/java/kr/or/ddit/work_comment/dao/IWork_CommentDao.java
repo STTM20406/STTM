@@ -2,6 +2,7 @@ package kr.or.ddit.work_comment.dao;
 
 import java.util.List;
 
+import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.work_comment.model.Work_CommentVo;
 
 public interface IWork_CommentDao {
@@ -23,7 +24,7 @@ public interface IWork_CommentDao {
 	 * @return
 	 * Method 설명 	: 업무코멘트 리스트
 	 */
-	List<Work_CommentVo> commentList(Work_CommentVo commentVo);
+	List<Work_CommentVo> commentList(PageVo pageVo);
 	
 	/**
 	 * Method 		: commUpdate
@@ -44,5 +45,7 @@ public interface IWork_CommentDao {
 	 * Method 설명 	: 업무코멘트 삭제(실제 데이터는 존재하고 컬럼 값만 변경된다.)
 	 */
 	int commDelete(Work_CommentVo commentVo);
+	
+	int commCnt(PageVo pageVo);
 	
 }

@@ -16,7 +16,16 @@ public class PageVo {
    
    private int prj_id;
    private String memo_email;
+   private int wrk_id;
    
+   public int getWrk_id() {
+	return wrk_id;
+}
+
+public void setWrk_id(int wrk_id) {
+	this.wrk_id = wrk_id;
+}
+
    
    public int getPrj_id() {
 	return prj_id;
@@ -133,10 +142,14 @@ public int getInq_id() {
    public void setPageSize(int pageSize) {
       this.pageSize = pageSize;
    }
+
+@Override
+public String toString() {
+	return "PageVo [page=" + page + ", pageSize=" + pageSize + ", inq_id=" + inq_id + ", inq_cate=" + inq_cate
+			+ ", user_email=" + user_email + ", board_id=" + board_id + ", content=" + content + ", subject=" + subject
+			+ ", send_email=" + send_email + ", rcv_email=" + rcv_email + ", prj_id=" + prj_id + ", memo_email="
+			+ memo_email + ", wrk_id=" + wrk_id + "]";
+}
    
-   @Override
-   public String toString() {
-      return "PageVo [page=" + page + ", pageSize=" + pageSize + "]";
-   }
    
 }

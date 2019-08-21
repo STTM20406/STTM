@@ -127,10 +127,11 @@ public class LoginController {
 				//세션에 저장된 user 정보를 가져옴
 				UserVo user = (UserVo) session.getAttribute("USER_INFO");    
 				user_email = user.getUser_email();
+				String user_nm = user.getUser_nm();
 				
 				//프로젝트 리스트를 불러옴
 				model.addAttribute("projectList", projectService.projectList(user_email));
-				
+				model.addAttribute("user_nm", user_nm);
 				
 				ServletContext sc = request.getServletContext();
 				
