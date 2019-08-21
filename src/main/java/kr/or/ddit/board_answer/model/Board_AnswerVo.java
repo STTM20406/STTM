@@ -29,6 +29,7 @@ public class Board_AnswerVo {
 	private Date writedate; // 작성 일시
 	private String del_fl; // 글 삭제 여부
 	private int rn;
+	private String writedateString;
 	public Board_AnswerVo() {
 
 	}
@@ -61,6 +62,19 @@ public class Board_AnswerVo {
 	}
 
 	
+	
+	public String getWritedateString() {
+		return writedateString;
+	}
+
+
+
+	public void setWritedateString(String writedateString) {
+		this.writedateString = writedateString;
+	}
+
+
+
 	public int getRn() {
 		return rn;
 	}

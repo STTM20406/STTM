@@ -1,6 +1,8 @@
 package kr.or.ddit.board_write.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -221,25 +223,50 @@ public class Board_WriteController {
 		return "/board/community/communityView.user.tiles";
 	}
 	
-	@RequestMapping(path="/postView",method=RequestMethod.POST)
-	public String boardPost(String r_content,int write_id, int board_id, String user_email) {
+	//댓글 입력
+	@RequestMapping(path="/postViewAjax",method=RequestMethod.GET)
+	public String boardPost(String r_content,String write_id, HttpSession session, Model model) {
+		
+		logger.debug("log postViewAjax 들어오나");
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = userVo.getUser_email();
 		
 		String viewName ="";
+		int writeId = Integer.parseInt(write_id);
 		
-		Board_AnswerVo replyVo = new Board_AnswerVo(write_id, user_email, r_content);
+		
+		Board_AnswerVo replyVo = new Board_AnswerVo(writeId, user_email, r_content);
 		
 		int replyCnt = answerService.insertReply(replyVo);
 		logger.debug("!@# replyVo : {}",replyVo);
 		
-		if(replyCnt == 1) {
-			viewName ="redirect:/postView?write_id="+ write_id;
-		}else {
-			viewName ="redirect:/postView?write_id="+ write_id;
+		List<Board_AnswerVo> answerList = answerService.replyList(writeId);
+		
+		
+		Date from = new Date();
+		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+		for(int i=0; i< answerList.size();i++) {
+			from = answerList.get(i).getWritedate();
+			String to = transFormat.format(from);
+			answerList.get(i).setWritedateString(to);
+			
 		}
+		
+		model.addAttribute("data",answerList );
 		 
-		return viewName;
+		return "jsonView";
 	}
 	
+	//댓글 수 세기
+	@RequestMapping(path="/increaseReplyCntAjax",method=RequestMethod.GET)
+	public String increaseReplyCnt(String write_id, Model model) {
+		int writeId = Integer.parseInt(write_id);
+		int replyCnt = answerService.replyCnt(writeId);
+		logger.debug("log replyCnt : {}",replyCnt);
+		
+		model.addAttribute("data",replyCnt);
+		return "jsonView";
+	}
 	
 	@RequestMapping(path="/postModify",method=RequestMethod.GET)
 	public String postModify(Model model, int board_id, int write_id) {
