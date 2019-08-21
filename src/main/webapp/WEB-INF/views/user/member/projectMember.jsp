@@ -54,6 +54,7 @@
 <script>
 $(document).ready(function(){
 	
+	
 	// 프로젝트 멤버 리스트중 한개의 멤버를 클릭시
 // 	$(".prjMemTr").on("click", function(){
 // 		var user_email = $(this).find(".user_email").attr("id");
@@ -122,7 +123,7 @@ $(document).ready(function(){
 	});
 
 	// 친구 요청 a태그 클릭시
-	$('#friendReqAtag').on("click", function(){
+	$('.prjMemTr').on("click","#friendReqAtag", function(){
 		alert("친구 요청이 전송 되었습니다.");	
 	});
 
