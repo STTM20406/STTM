@@ -12,13 +12,6 @@
 	#question{width:490px; resize: none;}
 </style>
 
-// 문자열 제일 앞의 화이트스페이스(공백, 엔터, 탭) 을 제거함으로써 원하는 정리가 됨.
-		text1.value = frm.text1.value.replace(/^\s/gm, '');
-
-		// 위의 정규식으로 없앨수 없는 제일 마지막줄 빈엔터를 제거함.
-		frm.text1.value = frm.text1.value.replace(/\r\n$/g, '');
-
-
 <script>
 	$(document).ready(function(){
 		$('.chatBot').hide();
@@ -34,7 +27,6 @@
 					alert("20자 이내로 입력해주세요~");
 				}else if($('#question').val().trim().length == 0){
 					alert("질문 하실 사항을 입력해주세요~");
-					$('#question').selectRange(0,0);
 					return;
 				}else{
 					var question = $('#question').val();
