@@ -823,10 +823,13 @@ public class File_AttchController {
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////chatBotApi
 	@RequestMapping("/chatBotApi")
-	String chatBotApi() {
+	String chatBotApi(Model model, String question) {
+		logger.debug("♬♩♪  chatBotApi");
+		logger.debug("♬♩♪  question:{}",question);
 		
+		model.addAttribute("data", "음하하하");
 		
-		return null;
+		return "jsonView";
 	}
 	
 	

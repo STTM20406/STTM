@@ -7,8 +7,9 @@
  	.chatContent:after {content:""; clear:both; display:block; zoom:1}
 	.chatContent .bot {display:block; width:100%}
 	.chatContent .me {display:block; width:100%; text-align:right}
-	
 	.chatInput {position:absolute; bottom:0; left:0; width:100%; height:100px}
+	
+	#question{width:490px; resize: none;}
 </style>
 
 <script>
@@ -18,8 +19,95 @@
 			$('.chatBot').show(250);
 		})
 		
+		//업무리스트 이름 입력 후 엔터 또는 다른곳 클릭시 업무리스트 추가하는 ajax실행 
+		$(".chatInput").on("keydown change", "#question", function(key) {
+			if (key.keyCode == 13) {
+				if($('#question').val().length > 20){
+					$('#question').val($('#question').val().substring(0, 20));		
+					alert("20자 이내로 입력해주세요~");
+				}else if($('#question').val().trim().length == 0){
+					alert("질문 하실 사항을 입력해주세요~");
+					return;
+				}else{
+					var question = $('#question').val();
+					var name = "${user_nm}";
+					
+					var me = "";
+					
+					me += "<dl class='me'>";
+					me += "<dt>" + name + "님</dt>";
+					me += "<dd>Q : " + question + "</dd>";
+					me += "<dl>";
+					
+					$('.chatContent').append(me);
+					$('#question').val('');
+					
+					$.ajax({
+						url:"/chatBotApi",
+						method:"post",
+						data : "question=" + question,
+						success:function(data){
+							console.log(data);
+							var answer = data.data;
+							alert(answer);
+							var bot = "";
+							//html 생성
+							bot += "<dl class='bot'>";
+							bot += "<dt> 챗봇잉 </dt>";
+							bot += "<dd>A :" + answer +"</dd>";
+							bot += "<dl>";
+							$('.chatContent').append(bot);
+						}
+						
+					});
+				}
+			}
+		});
+		
+		$('#gigi').on('click',function(){
+			if($('#question').val().length > 20){
+				$('#question').val($('#question').val().substring(0, 20));		
+				alert("20자 이내로 입력해주세요~");
+			}else if($('#question').val().length == 0){
+				alert("질문 하실 사항을 입력해주세요~");
+			}else{
+				var question = $('#question').val();
+				var name = "${user_nm}";
+				
+				var me = "";
+				
+				me += "<dl class='me'>";
+				me += "<dt>" + name + "님</dt>";
+				me += "<dd>Q : " + question + "</dd>";
+				me += "<dl>";
+				
+				$('.chatContent').append(me);
+				$('#question').val('');
+				
+				$.ajax({
+					url:"/chatBotApi",
+					method:"post",
+					data : "question=" + question,
+					success:function(data){
+						console.log(data);
+						var answer = data.data;
+						alert(answer);
+						var bot = "";
+						//html 생성
+						bot += "<dl class='bot'>";
+						bot += "<dt> 챗봇잉 </dt>";
+						bot += "<dd>A :" + answer +"</dd>";
+						bot += "<dl>";
+						$('.chatContent').append(bot);
+					}
+					
+				});
+			}
+		})
 	});
+		
 </script>
+
 <!-- side bar -->
 <div class="sidebar">
 	<div class="logo">
@@ -59,65 +147,15 @@
 	<div class="chatContent">
 		<dl class="bot">
 			<dt>챗봇잉</dt>
-			<dd>뭘도와드려유?</dd>
-		</dl>
-		<dl class="me">
-			<dt>나미꼬</dt>
-			<dd>여러가지...뒤돌아요</dd>
-		</dl>
-		<dl class="bot">
-			<dt>챗봇잉</dt>
-			<dd>뭘도와드려유?</dd>
-		</dl>
-		<dl class="me">
-			<dt>나미꼬</dt>
-			<dd>여러가지...뒤돌아요</dd>
-		</dl>
-		<dl class="bot">
-			<dt>챗봇잉</dt>
-			<dd>뭘도와드려유?</dd>
-		</dl>
-		<dl class="me">
-			<dt>나미꼬</dt>
-			<dd>여러가지...뒤돌아요</dd>
-		</dl>
-		<dl class="bot">
-			<dt>챗봇잉</dt>
-			<dd>뭘도와드려유?</dd>
-		</dl>
-		<dl class="me">
-			<dt>나미꼬</dt>
-			<dd>여러가지...뒤돌아요</dd>
-		</dl>
-		<dl class="bot">
-			<dt>챗봇잉</dt>
-			<dd>뭘도와드려유?</dd>
-		</dl>
-		<dl class="me">
-			<dt>나미꼬</dt>
-			<dd>여러가지...뒤돌아요</dd>
-		</dl>
-		<dl class="bot">
-			<dt>챗봇잉</dt>
-			<dd>뭘도와드려유?</dd>
-		</dl>
-		<dl class="me">
-			<dt>나미꼬</dt>
-			<dd>여러가지...뒤돌아요</dd>
-		</dl>
-		<dl class="bot">
-			<dt>챗봇잉</dt>
-			<dd>뭘도와드려유?</dd>
-		</dl>
-		<dl class="me">
-			<dt>나미꼬</dt>
-			<dd>여러가지...뒤돌아요</dd>
+			<dd>A : 안녕하세유~ 저는 챗봇잉이예유~ 무엇을 도와 드려유?</dd>
 		</dl>
 		
+		
 	</div>
+	
 	<div class="chatInput">
-		<textarea name="" id="" placeholder="입력해 주세요."></textarea>
-		<input type="button" id="" name="" value="모내기">
+		<textarea name="question" id="question" placeholder=" 입력해 주세요." rows="3" cols="40"></textarea>
+		<input type="button" id="gigi" value="모내기">
 	</div>
 </div>
 

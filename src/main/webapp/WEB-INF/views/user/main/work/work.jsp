@@ -960,8 +960,6 @@ function commentInsert(wps_wrk_id,content,page, pageSize){
 			
 		})
 		
-		
-		
 		$("#workFile").on('click','#uploadFile', function(){
 
 			var form = document.getElementById("frm");
