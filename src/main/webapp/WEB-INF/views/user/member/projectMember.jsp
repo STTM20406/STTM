@@ -287,12 +287,32 @@ function requestedFriendsList() {
 									
 									<td>
 										
+<%-- 										<c:forEach items="${prjMemFriList}" var="friVo"> --%>
+												
+<%-- 											<c:if test="${prjVo.user_email != friVo.frd_email}"> --%>
+<%-- 												<a href="/projectMemberList?frdRequEmail=${prjVo.user_email}" id="friendReqAtag" class="inp_style_01">친구요청</a>  --%>
+<%-- 											</c:if>	 --%>
+
+<%-- 										</c:forEach>										 --%>
+
 										<c:forEach items="${prjMemFriList}" var="friVo">
 												
-											<c:if test="${prjVo.user_email != friVo.frd_email}">
-												<a href="/projectMemberList?frdRequEmail=${prjVo.user_email}" id="friendReqAtag" class="inp_style_01">친구요청</a> 
-											</c:if>	
+											<c:choose>
 
+												<c:when test="${prjVo.user_email == friVo.user_email}">
+												
+												</c:when>
+
+												<c:when test="${prjVo.user_email == friVo.frd_email}">
+												
+												</c:when>
+												
+												<c:otherwise>
+													<a href="/projectMemberList?frdRequEmail=${prjVo.user_email}" id="friendReqAtag" class="inp_style_01">친구요청</a>
+												</c:otherwise>
+												
+											</c:choose>	
+												
 										</c:forEach>										
 											
 									</td>
