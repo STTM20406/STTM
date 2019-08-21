@@ -23,16 +23,33 @@ public class Work_Mem_FlwVo {
 	private int wrk_id;			// 업무 ID
 	private String jn_fl;		// 참여구분
 	
+	private String user_nm;		//업무멤버 이름
+	
 	
 	public Work_Mem_FlwVo() {
 		
 	}
 	
+	
+	/**
+	 * 업무 멤버/팔로워 리스트 조회
+	 * @author 박서경
+	 * @param wrk_id
+	 * @param jn_fl
+	 */
+	public Work_Mem_FlwVo(int wrk_id, String jn_fl) {
+		super();
+		this.wrk_id = wrk_id;
+		this.jn_fl = jn_fl;
+	}
+
+	
 	@Override
 	public String toString() {
-		return "Work_Mem_FlwVo [user_email=" + user_email + ", prj_id=" + prj_id + ", wrk_id=" + wrk_id + ", jn_fl="
-				+ jn_fl + "]";
+		return "Work_Mem_FlwVo [user_email=" + user_email + ", prj_id=" + prj_id + ", wrk_id=" + wrk_id
+				+ ", jn_fl=" + jn_fl + ", user_nm=" + user_nm + "]";
 	}
+
 	public String getUser_email() {
 		return user_email;
 	}
@@ -56,6 +73,12 @@ public class Work_Mem_FlwVo {
 	}
 	public void setJn_fl(String jn_fl) {
 		this.jn_fl = jn_fl;
+	}
+	public String getUser_nm() {
+		return user_nm;
+	}
+	public void setUser_nm(String user_nm) {
+		this.user_nm = user_nm;
 	}
 	
 	

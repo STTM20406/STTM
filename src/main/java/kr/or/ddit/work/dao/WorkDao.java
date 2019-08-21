@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.or.ddit.work.model.WorkVo;
 import kr.or.ddit.work_list.model.Work_ListVo;
+import kr.or.ddit.work_mem_flw.model.Work_Mem_FlwVo;
 
 @Repository
 public class WorkDao implements IWorkDao{
@@ -139,9 +140,7 @@ public class WorkDao implements IWorkDao{
 	public int updateWorkColor(WorkVo workVo) {
 		return sqlSession.update("work.updateWorkColor", workVo);
 	}
-	
-	
-	
+
 	
 
 }

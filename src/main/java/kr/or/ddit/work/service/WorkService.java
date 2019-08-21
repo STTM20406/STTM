@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import kr.or.ddit.work.dao.IWorkDao;
 import kr.or.ddit.work.model.WorkVo;
+import kr.or.ddit.work_mem_flw.model.Work_Mem_FlwVo;
 
 @Service
 public class WorkService implements IWorkService{
