@@ -35,7 +35,12 @@ $(document).ready(function(){
 			success:function(data){
 				
 				var html = "";
-				
+				html += "<tr>";
+				html += "<th>번호</th>";
+				html += "<th>내용</th>";
+				html += "<th>작성자</th>";
+				html += "<th>작성일</th>";
+				html += "</tr>";
 				
 				data.data.forEach(function(item, index){
 					
@@ -88,7 +93,7 @@ $(document).ready(function(){
 		
 		setTimeout(function() {
 			increaseReplyCntAjax(write_id);
-		}, 1000);
+		}, 600);
 		
 	});
 	
