@@ -171,27 +171,28 @@ public class UserController {
 	* Method 설명 : 휴명 계정 설정 화면 요청 밒 프로세스
 	 */
 	@RequestMapping(path = "/setUserStatus", method = RequestMethod.GET)
-	public String setInactiveAccountView(HttpSession session, Model model) {
+	public String setInactiveAccountView(HttpSession session, Model model,
+										 PageVo pageVo) {
 		
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
-		logger.debug("userVo : {} 가져오나!", userVo);
 		
-		String user_email = userVo.getUser_email();
-		String user_st = userVo.getUser_st();
-		logger.debug("user_email : {} 가져오나?", user_email);
-		logger.debug("user_st : {} 가져오니?", user_st);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("page", pageVo.getPage());
+		map.put("pageSize", pageVo.getPageSize());
+		map.put("user_email", userVo.getUser_email());
 		
-//		Project_MemVo prjMemVo = new Project_MemVo();
-//		int prj_id = prjMemVo.getPrj_id();
-//		model.addAttribute("prj_id", prj_id);
-//		logger.debug("prj_id : {} 이제 찍히나요?",prj_id);
+		Map<String, Object> resultMap = project_MemService.prjMemListForInactive(map);
 		
-		List<Project_MemVo> getMyPrjMemList = project_MemService.getMyProjectMemList(user_email);
-		logger.debug("getMyPrjMemList : {} 이거 getMyPrjMemList?",getMyPrjMemList);
-
-		model.addAttribute("user_email", user_email);
-		model.addAttribute("user_st", user_st);
-		model.addAttribute("getMyPrjMemList", getMyPrjMemList);
+		logger.debug("resultMap : 이거 찍자 {}",resultMap);
+		
+		List<Project_MemVo> inactiveMemList = (List<Project_MemVo>) resultMap.get("inactiveMemList");
+		logger.debug("inactiveMemList : 찍고 만다 {}",inactiveMemList);
+		
+		int paginationSize = (Integer) resultMap.get("paginationSize");
+		
+		model.addAttribute("inactiveMemList", inactiveMemList);
+		model.addAttribute("paginationSize", paginationSize);
+		model.addAttribute("pageVo", pageVo);
 		
 		return "/account/accountSet.user.tiles";
 	}

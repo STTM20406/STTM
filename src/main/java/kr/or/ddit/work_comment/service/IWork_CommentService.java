@@ -1,7 +1,9 @@
 package kr.or.ddit.work_comment.service;
 
 import java.util.List;
+import java.util.Map;
 
+import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.work_comment.model.Work_CommentVo;
 
 public interface IWork_CommentService {
@@ -23,7 +25,7 @@ public interface IWork_CommentService {
 	 * @return
 	 * Method 설명 	: 업무코멘트 리스트
 	 */
-	List<Work_CommentVo> commentList(Work_CommentVo commentVo);
+	Map<String, Object> commentList(PageVo pageVo);
 	
 	/**
 	 * Method 		: commUpdate

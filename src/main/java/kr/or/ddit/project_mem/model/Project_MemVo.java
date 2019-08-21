@@ -25,8 +25,8 @@ public class Project_MemVo {
 	private String prj_mem_nik;	// 프로젝트 멤버 닉네임
 	private String prj_own_fl;	// 프로젝트 소유 유무
 	
-	private String user_nm;		//프로젝트 멤버 이메일에 해당하는 이름
-	
+	private String user_nm;		// 프로젝트 멤버 이메일에 해당하는 이름
+	private String prj_nm;      // 프로젝트 이름
 	
 	public Project_MemVo() {
 		
@@ -56,45 +56,77 @@ public class Project_MemVo {
 	public int getPrj_id() {
 		return prj_id;
 	}
+
+
 	public void setPrj_id(int prj_id) {
 		this.prj_id = prj_id;
 	}
+
+
 	public String getUser_email() {
 		return user_email;
 	}
+
+
 	public void setUser_email(String user_email) {
 		this.user_email = user_email;
 	}
+
+
 	public String getPrj_mem_lv() {
 		return prj_mem_lv;
 	}
+
+
 	public void setPrj_mem_lv(String prj_mem_lv) {
 		this.prj_mem_lv = prj_mem_lv;
 	}
+
+
 	public String getPrj_mem_nik() {
 		return prj_mem_nik;
 	}
+
+
 	public void setPrj_mem_nik(String prj_mem_nik) {
 		this.prj_mem_nik = prj_mem_nik;
 	}
+
+
 	public String getPrj_own_fl() {
 		return prj_own_fl;
 	}
+
+
 	public void setPrj_own_fl(String prj_own_fl) {
 		this.prj_own_fl = prj_own_fl;
 	}
+
+
 	public String getUser_nm() {
 		return user_nm;
 	}
+
 
 	public void setUser_nm(String user_nm) {
 		this.user_nm = user_nm;
 	}
 
+
+	public String getPrj_nm() {
+		return prj_nm;
+	}
+
+
+	public void setPrj_nm(String prj_nm) {
+		this.prj_nm = prj_nm;
+	}
+
 	@Override
 	public String toString() {
 		return "Project_MemVo [prj_id=" + prj_id + ", user_email=" + user_email + ", prj_mem_lv=" + prj_mem_lv
-				+ ", prj_mem_nik=" + prj_mem_nik + ", prj_own_fl=" + prj_own_fl + ", user_nm=" + user_nm + "]";
+				+ ", prj_mem_nik=" + prj_mem_nik + ", prj_own_fl=" + prj_own_fl + ", user_nm=" + user_nm + ", prj_nm="
+				+ prj_nm + "]";
 	}
-	
+
 }

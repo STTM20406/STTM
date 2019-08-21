@@ -50,15 +50,6 @@ ul.tabs li.current {
 			$("#frmSearch").submit();
 		})
 		
-		$(".sub_menu").on("click", "#rcvNoteList",function(){
-			alert("rcvNoteList입니다.");
-			rcvNoteListPagination(1, 10);
-		})
-		
-		$(".sub_menu").on("click", "#sendNoteList",function(){
-			alert("sendNoteList입니다.");
-			sendNoteListPagination(1, 10);
-		})
 		
 		$(".tb_style_01").on("click", ".rcvTr #rcvCon", function(){
 			console.log("rcvTr click :::::::::::::::::::::::");
@@ -282,128 +273,7 @@ ul.tabs li.current {
 			}
 		});
 	}
-	function rcvNoteListPagination(page, pageSize) {
-		$.ajax({
-			url : "/rcvNoteList",
-			method : "post",
-			data : "page=" + page + "&pageSize="+ pageSize,
-			success : function(data) {
-				console.log(data);
-				//사용자 리스트
-				var hhtml = "";
-				var html = "";
-							
-				
-				//hhtml생성
-				hhtml += "<tr>";
-				hhtml += "<th>보낸 사람</th>";
-				hhtml += "<th>내용</th>";
-				hhtml += "<th>받은 날짜</th>";
-				hhtml += "<th>쪽지 읽음 여부</th>";
-				hhtml += "</tr>";
-				
-					
-				data.rcvList.forEach(function(rcv, index){
-					
-				
-					//html생성
-					html += "<tr class='rcvTr' >";
-					html += "<td class='sendEmail' id='sendEmail'>"+ rcv.send_email + "</td>";
-					html += "<td style='display:none;' id='note_id'>"+rcv.note_con_id +"</td>";
-					html += "<td id='rcvCon'>"+ rcv.note_con + "</td>";
-					html += "<td id='rcvDate'>"+rcv.rcvDateStr+"</td>";	
-					html += "<td>"+ rcv.read_fl + "</td>";
-					html += "<td><button type='button' id='rcvDelBtn' name='"+rcv.note_con_id+"'>삭제</button></td>";
-					html += "<td><a id='aTag' href='#layer1' class='btn-example1'></a></td>";
-					html += "</tr>";
-					
-				});
-				var pHtml = "";
-				var pageVo = data.pageVo;
-				console.log(data);
-				console.log(pageVo);
-				
-				if(pageVo.page==1)
-					pHtml += "<li class='disabled'><span>«<span></li>";
-				else
-					pHtml += "<li><a onclick='rcvNoteListPagination("+(pageVo.page-1)+", "+pageVo.pageSize+");' href='javascript:void(0);'>«</a></li>";
-				
-				for(var i =1; i <=data.rcvPaginationSize; i++){
-					if(pageVo.page==i)
-						pHtml += "<li class='active'><span>" + i + "</span></li>";
-					else
-						pHtml += "<li><a href='javascript:void(0);' onclick='rcvNoteListPagination("+ i + ", " + pageVo.pageSize+");'>"+i+"</a></li>";
-				}
-				if(pageVo.page == data.rcvPaginationSize)
-					pHtml += "<li class='disabled'><span>»<span></li>";
-				else
-					pHtml += "<li><a href='javascript:void(0);' onclick='rcvNoteListPagination("+(pageVo.page+1)+", "+pageVo.pageSize+");'>»</a></li>";
-				
-				$(".pagination").html(pHtml);
-				$("#publicHeader").html(hhtml);
-				$("#publicList").html(html);
-			}
-		});
-	}
 	
-	
-	function sendNoteListPagination(page, pageSize) {
-		$.ajax({
-			url : "/sendNoteList",
-			method : "POST",
-			data : "page=" + page + "&pageSize="+ pageSize,
-			success : function(data) {
-				console.log(data.sendList);
-				//사용자 리스트
-				var hhtml = "";
-				var html = "";
-								
-				//hhtml생성
-				hhtml += "<tr>";
-				hhtml += "<th>받는 사람</th>";
-				hhtml += "<th>내용</th>";
-				hhtml += "<th>보낸 날짜</th>";
-				hhtml += "<th>쪽지 읽음 여부</th>";
-				hhtml += "</tr>";
-				
-				data.sendList.forEach(function(send, index){
-				
-					//html생성
-					html += "<tr class='sendTr' >";
-					html += "<td class='sendEmail' id='sendEmail'>"+ send.rcv_email  + "</td>";
-					html += "<td id='sendCon'>"+ send.note_con + "</td>";
-					html += "<td id='sendDate'>"+send.sendDateStr+"</td>";	
-					html += "<td>"+ send.read_fl + "</td>";
-					html += "<td><a id='aTag02' href='#layer2' class='btn-example1'></a></td>";
-					html += "</tr>";
-				});
-				var pHtml = "";
-				var pageVo = data.pageVo;
-				console.log(data);
-				console.log(pageVo);
-				
-				if(pageVo.page==1)
-					pHtml += "<li class='disabled'><span>«<span></li>";
-				else
-					pHtml += "<li><a onclick='sendNoteListPagination("+(pageVo.page-1)+", "+pageVo.pageSize+");' href='javascript:void(0);'>«</a></li>";
-				
-				for(var i =1; i <=data.sendPaginationSize; i++){
-					if(pageVo.page==i)
-						pHtml += "<li class='active'><span>" + i + "</span></li>";
-					else
-						pHtml += "<li><a href='javascript:void(0);' onclick='sendNoteListPagination("+ i + ", " + pageVo.pageSize+");'>"+i+"</a></li>";
-				}
-				if(pageVo.page == data.sendPaginationSize)
-					pHtml += "<li class='disabled'><span>»<span></li>";
-				else
-					pHtml += "<li><a href='javascript:void(0);' onclick='sendNoteListPagination("+(pageVo.page+1)+", "+pageVo.pageSize+");'>»</a></li>";
-				
-				$(".pagination").html(pHtml);
-				$("#publicHeader").html(hhtml);
-				$("#publicList").html(html);
-			}
-		});
-	}
 </script>
 
 <!-- 받은 쪽지 상세내용 팝업 -->
@@ -414,7 +284,6 @@ ul.tabs li.current {
 					<!--content //-->
 						<input type="hidden" id="array" name="array">
 						<div class="new_proejct">
-							<!-- 방 만들기 테이블 -->
 							<ul>
 								<li>
 									<label>보낸사람 : </label>
@@ -436,7 +305,6 @@ ul.tabs li.current {
 						<button type="button" id="rcvBtn" class="rcvbtn-style"> 답장</button>
 						<a href="#" class="btn-layerClose">Close</a>
 					</div>
-					<!--// content-->
 				</div>
 			</div>
 		</div>
@@ -449,7 +317,6 @@ ul.tabs li.current {
 					<!--content //-->
 						<input type="hidden" id="array" name="array">
 						<div class="new_proejct">
-							<!-- 방 만들기 테이블 -->
 							<ul>
 								<li>
 									<label>보낸사람 : </label>
@@ -469,7 +336,6 @@ ul.tabs li.current {
 					<div class="btn-r">
 						<a href="#" class="btn-layerClose">Close</a>
 					</div>
-					<!--// content-->
 				</div>
 			</div>
 		</div>
@@ -479,9 +345,13 @@ ul.tabs li.current {
 	<div id="container">
 
 		<div class="sub_menu">
-			<ul class="tabs">
-				<li id="rcvNoteList">받은 쪽지함</li>
-				<li id="sendNoteList">보낸 쪽지함</li>
+			<ul class="sub_menu_item">
+				<li>
+					<a href="/noteList">받은 쪽지함</a>
+				</li>
+				<li>
+					<a href="/sendNoteList">보낸 쪽지함</a>
+				</li>
 			</ul>
 		</div>
 
