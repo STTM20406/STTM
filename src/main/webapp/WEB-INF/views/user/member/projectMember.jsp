@@ -121,6 +121,11 @@ $(document).ready(function(){
 	        layer_popup($href);
 	});
 
+	// 친구 요청 a태그 클릭시
+	$('#friendReqAtag').on("click", function(){
+		alert("친구 요청이 전송 되었습니다.");	
+	});
+
 	// 친구 수락 버튼 클릭시
 	$('#btnAcceptReq').on("click", function(){
 		
@@ -280,7 +285,7 @@ function requestedFriendsList() {
 									
 									<td>${prjVo.user_nm}</td>
 									<td>
-										<a href="/projectMemberList?frdRequEmail=${prjVo.user_email}" id="" class="inp_style_01">친구요청</a>
+										<a href="/projectMemberList?frdRequEmail=${prjVo.user_email}" id="friendReqAtag" class="inp_style_01">친구요청</a>
 									</td>
 									
 								</tr>

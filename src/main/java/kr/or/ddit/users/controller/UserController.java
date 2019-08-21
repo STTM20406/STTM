@@ -186,7 +186,7 @@ public class UserController {
 //		logger.debug("prj_id : {} 이제 찍히나요?",prj_id);
 		
 		List<Project_MemVo> getMyPrjMemList = project_MemService.getMyProjectMemList(user_email);
-		logger.debug("getMyPrjMemList : {} 이거 가져오나요?",getMyPrjMemList);
+		logger.debug("getMyPrjMemList : {} 이거 getMyPrjMemList?",getMyPrjMemList);
 
 		model.addAttribute("user_email", user_email);
 		model.addAttribute("user_st", user_st);
@@ -353,12 +353,15 @@ public class UserController {
 			// 프로젝트 멤버 리스트 중에서 친구 요청하기
 			} else if (frdRequEmail != null) {
 				
-				String req_email1 = userVo.getUser_email();
+				String user_email = userVo.getUser_email();
 				
 				UserVo userVo3 = userService.getUser(frdRequEmail);
-				String user_email = userVo3.getUser_email();
+				req_email = userVo3.getUser_email();
 
-				Friend_ReqVo friendsReqVo = new Friend_ReqVo(user_email,req_email1); 
+				Friend_ReqVo friendsReqVo = new Friend_ReqVo(user_email, req_email); 
+
+				logger.debug("user_email : 보낸사람 {}",user_email);
+				logger.debug("req_email : 받는사람 {}",req_email);
 
 				int firendsRequest = friend_ReqService.firendsRequest(friendsReqVo);
 			}
