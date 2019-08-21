@@ -1135,7 +1135,6 @@
 		<li><a href="/vote">Vote</a></li>
 	</ul>
 	
-	<!-- 영하가 수정함 여기서부터ㅎ -->
 	<div class="sub_btn">
 		<ul>
 			<li><a href="#">4</a></li>
@@ -1144,7 +1143,6 @@
 			<li><a href="#">프로젝트 설정</a></li>
 		</ul>
 	</div>
-	<!-- 영하가 수정함 여기까지ㅎ -->
 	
 </div>
 

@@ -821,6 +821,15 @@ public class File_AttchController {
 		return hashmap;
 	}
 	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////chatBotApi
+	@RequestMapping("/chatBotApi")
+	String chatBotApi() {
+		
+		
+		return null;
+	}
+	
+	
 	
 	
 	
