@@ -25,7 +25,7 @@
 		})
 		
 		$(".btnSetClose").on("click", function(){
-			$(".chatBot").fadeOut(0);
+			$(".chatBot").fadeOut(250);
 		});
 		
 		//업무리스트 이름 입력 후 엔터 또는 다른곳 클릭시 업무리스트 추가하는 ajax실행 
@@ -33,7 +33,9 @@
 			if (key.keyCode == 13) {
 				if($('#question').val().length > 20){
 					$('#question').val($('#question').val().substring(0, 20));		
-					alert("20자 이내로 입력해주세요~");
+						$(".ctxt").text("20자 이내로 입력해주세요~");
+		 				layer_popup("#layer2");
+						return false;
 				}else{
 					var question = $('#question').val();
 					var name = "${user_nm}";
@@ -53,9 +55,7 @@
 						method:"post",
 						data : "question=" + question,
 						success:function(data){
-							console.log(data);
 							var answer = data.data;
-							alert(answer);
 							var bot = "";
 							//html 생성
 							bot += "<dl class='bot'>";
@@ -73,7 +73,9 @@
 		$('#gigi').on('click',function(){
 			if($('#question').val().length > 20){
 				$('#question').val($('#question').val().substring(0, 20));		
-				alert("20자 이내로 입력해주세요~");
+					$(".ctxt").text("20자 이내로 입력해주세요~");
+	 				layer_popup("#layer2");
+					return false;
 			}else{
 				var question = $('#question').val();
 				var name = "${user_nm}";
@@ -164,7 +166,22 @@
 	
 </div>
 
-
+<!-- 오류 알림창 -->
+<!-- <div class="dim-layer"> -->
+<!-- 	<div class="dimBg"></div> -->
+<div id="layer2" class="pop-layer">
+	<div class="pop-container">
+		<div class="pop-conts">
+			<!--content //-->
+			<p class="ctxt mb20"></p>
+			<div class="btn-r">
+				<a href="#" class="btn-layerClose">Close</a>
+			</div>
+			<!--// content-->
+		</div>
+	</div>
+</div>
+<!-- </div> -->
 
 
 
