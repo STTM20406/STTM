@@ -85,7 +85,10 @@ $(document).ready(function(){
 		var r_content = $("#r_content").val();
 		console.log("댓글 등록" + write_id + r_content);
 		replyList(r_content, write_id);
-		increaseReplyCntAjax(write_id);
+		
+		setTimeout(function() {
+			increaseReplyCntAjax(write_id);
+		}, 1000);
 		
 	});
 	
