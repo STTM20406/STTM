@@ -270,7 +270,8 @@
 				</div>
 				
 				<!-- 휴면 계정 설정 레이어창 -->
-				<form action="/setUserStatus" id="friendsRequestListForm" method="get">
+<!-- 				<form action="/setUserStatus" id="friendsRequestListForm" method="get"> -->
+				<form action="/setUserPass" id="friendsRequestListForm" method="get">
 				<div id="layer0" class="pop-layer">
 				    <div class="pop-container">
 				        <div class="pop-conts">
@@ -299,7 +300,7 @@
 												<td>${inactive.user_nm}</td>
 												<td>
 <!-- 												transferOwnership -->
-													<a href="/projectMemberList?frdRequEmail=${prjVo.user_email}" id="transferBtn" class="inp_style_01">소유권이전</a>
+													<a href="/setUserPass?transferOwership=${inactive.user_email}" id="transferBtn" class="inp_style_01">소유권이전</a>
 												</td>
 												
 											</tr>
@@ -320,6 +321,40 @@
 				            
 				            <!--// content-->
 				        </div>
+				        
+				        <div class="pagination">
+							<c:choose>
+								<c:when test="${pageVo.page == 1 }">
+									<a href class="btn_first"></a>
+								</c:when>
+								<c:otherwise>
+									<a href="${cp}/setUserPass?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a>
+								
+								</c:otherwise>
+							</c:choose>
+				
+							<c:forEach begin="1" end="${paginationSize}" var="i">
+								<c:choose>
+									<c:when test="${pageVo.page == i}">
+										<span>${i}</span>
+									</c:when>
+									<c:otherwise>
+									<a href="${cp}/setUserPass?page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
+									</c:otherwise>
+								</c:choose>
+				
+							</c:forEach>
+				
+							<c:choose>
+								<c:when test="${pageVo.page == paginationSize}">
+									<a href class="btn_last"></a>
+								</c:when>
+								
+								<c:otherwise>
+									<a href="${cp}/setUserPass?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
+								</c:otherwise>
+							</c:choose>
+						</div>
 				    </div>
 				</div>
 			</form>

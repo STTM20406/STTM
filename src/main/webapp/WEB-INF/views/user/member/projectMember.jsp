@@ -406,11 +406,9 @@ function requestedFriendsList() {
 				
 				<table class="tb_style_01" id="friendTable">
 					<colgroup>
-						<col width="10%">
-						<col width="40%">
 						<col width="30%">
-						<col width="10%">
-						<col width="10%">
+						<col width="30%">
+						<col width="30%">
 					</colgroup>
 					<tbody>
 						<tr>

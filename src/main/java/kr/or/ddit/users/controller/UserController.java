@@ -62,7 +62,9 @@ public class UserController {
 	 * @throws InvalidKeyException 
 	 */
 	@RequestMapping(path = "/setUserPass", method = RequestMethod.GET)
-	public String setPassView(HttpSession session, Model model, PageVo pageVo) throws InvalidKeyException, UnsupportedEncodingException {
+	public String setPassView(HttpSession session, Model model, PageVo pageVo, String transferOwership) throws InvalidKeyException, UnsupportedEncodingException {
+		
+		logger.debug("transferOwership : 소유권 이전 aTag {}",transferOwership);
 		
 		// 세션에 저장된 user 정보를 가져옴
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");

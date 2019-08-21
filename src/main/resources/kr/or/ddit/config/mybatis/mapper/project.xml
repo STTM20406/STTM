@@ -274,9 +274,9 @@
 	<select id="prjMemListForInactive" parameterType="map" resultType="project_memVo">
 		<![CDATA[
 			SELECT *
+				FROM
+			(SELECT E.*, ROWNUM RN
 			FROM
-				(SELECT E.*, ROWNUM RN
-				 FROM
 			(SELECT DISTINCT 
 			                D.PRJ_ID
 			              , D.PRJ_NM  
@@ -286,13 +286,12 @@
 			              , B.PRJ_OWN_FL
 			FROM( SELECT * 
 			      FROM PROJECT_MEM 
-			      WHERE USER_EMAIL = #{user_email} ) A, PROJECT_MEM B, USERS C, PROJECT D
+			      WHERE USER_EMAIL = #{user_email}
+			      AND PRJ_OWN_FL = 'Y') A, PROJECT_MEM B, USERS C, PROJECT D
 			WHERE B.PRJ_ID IN (A.PRJ_ID) 
-			AND C.USER_EMAIL NOT IN #{user_email}
-			AND C.USER_EMAIL = B.USER_EMAIL
-			AND D.PRJ_ID = B.PRJ_ID
-			AND B.PRJ_MEM_LV = 'LV0'
-			AND B.PRJ_OWN_FL = 'N'
+			AND B.USER_EMAIL = C.USER_EMAIL 
+			AND B.PRJ_ID = D.PRJ_ID
+			AND B.PRJ_OWN_FL = 'N' 
 			ORDER BY D.PRJ_ID) e)
 			where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
 		]]>
