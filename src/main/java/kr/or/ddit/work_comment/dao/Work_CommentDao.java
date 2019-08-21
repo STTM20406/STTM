@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.work_comment.model.Work_CommentVo;
 
 @Repository
@@ -36,8 +37,8 @@ public class Work_CommentDao implements IWork_CommentDao{
 	 * Method 설명 	: 업무코멘트 리스트
 	 */
 	@Override
-	public List<Work_CommentVo> commentList(Work_CommentVo commentVo) {
-		return sqlSession.selectList("work.commList", commentVo);
+	public List<Work_CommentVo> commentList(PageVo pageVo) {
+		return sqlSession.selectList("work.commList", pageVo);
 	}
 
 	/**
@@ -64,6 +65,11 @@ public class Work_CommentDao implements IWork_CommentDao{
 	@Override
 	public int commDelete(Work_CommentVo commentVo) {
 		return sqlSession.update("work.commDelete",commentVo);
+	}
+
+	@Override
+	public int commCnt(PageVo pageVo) {
+		return sqlSession.selectOne("work.commCnt", pageVo);
 	}
 
 }

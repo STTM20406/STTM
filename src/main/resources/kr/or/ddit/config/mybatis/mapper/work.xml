@@ -160,13 +160,28 @@
 	</update>
 	
 	<!-- 업무코멘트 조회 -->
-	<select id="commList" parameterType="work_commentVo" resultType="work_commentVo">
-		select * 
+	<select id="commList" parameterType="pageVo" resultType="work_commentVo">
+		<![CDATA[
+	select *
+    from
+	(select a.*, ROW_NUMBER() OVER(order by comm_id desc) rn
+    from
+    (select * 
+		from work_comment 
+		where wrk_id = #{wrk_id}
+		and prj_id = #{prj_id}
+		and del_fl = 'N'
+		order by comm_id desc) a)
+		where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
+	]]>
+	</select>
+
+	<select id="commCnt" parameterType="pageVo" resultType="int">
+		select count(*) 
 		from work_comment 
 		where wrk_id = #{wrk_id}
 		and prj_id = #{prj_id}
 	</select>
-
 <!-- ******************work_list**************** -->
 	
 	<!-- 프로젝트 아이디로  업무 리스트만 조회 -->

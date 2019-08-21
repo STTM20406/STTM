@@ -1,5 +1,6 @@
 package kr.or.ddit.work_comment.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -33,6 +34,15 @@ public class Work_CommentVo {
 	public Work_CommentVo() {
 		
 	}
+	
+	public String getCommDateStr() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		if(comm_date == null) {
+			return "";
+		}
+		return sdf.format(comm_date);
+	}
+	
 	
 	@Override
 	public String toString() {

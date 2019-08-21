@@ -2,6 +2,7 @@ package kr.or.ddit.work_comment.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -13,7 +14,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.or.ddit.paging.model.PageVo;
+import kr.or.ddit.project.model.ProjectVo;
 import kr.or.ddit.users.model.UserVo;
 import kr.or.ddit.work_comment.model.Work_CommentVo;
 import kr.or.ddit.work_comment.service.IWork_CommentService;
@@ -26,45 +30,58 @@ public class Work_CommentController {
 	@Resource(name="work_CommentService")
 	private IWork_CommentService commentService;
 	
-	@RequestMapping(path="/comment",method=RequestMethod.GET)
-	public String workComment(Model model) {
-		Work_CommentVo commentListVo = new Work_CommentVo();
-		commentListVo.setWrk_id(110);
-		commentListVo.setPrj_id(1);
-		logger.debug("!@# commentListVo : {}",commentListVo);
+	@RequestMapping("/comment")
+	public @ResponseBody Map<String, Object> workComment(Model model,HttpSession session,String page,String pageSize,String wps_wrk_id) {
+		logger.debug("!@# session : {}",session);
+		logger.debug("!@# wps_wrk_id : {}",wps_wrk_id);
 		
-		List<Work_CommentVo> commentList = commentService.commentList(commentListVo);
+		int wrk_id = Integer.parseInt(wps_wrk_id);
+		int pageStr = page == null ? 1 : Integer.parseInt(page);
+		int pageSizeStr =  pageSize == null ? 10 : Integer.parseInt(pageSize);
+		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
+		
+		PageVo pageVo = new PageVo(pageStr,pageSizeStr);
+		pageVo.setPrj_id(projectVo.getPrj_id());
+		pageVo.setWrk_id(wrk_id);
+		
+		logger.debug("!@# projectVo : {}",projectVo);
+		logger.debug("!@# projectVo.getPrj_id() : {}",projectVo.getPrj_id());
+		logger.debug("!@# pageVo : {}",pageVo);
+		
+		Map<String, Object> resultMap = commentService.commentList(pageVo);
+		List<Work_CommentVo> commentList = (List<Work_CommentVo>) resultMap.get("commentList");
+		int commPageSize = (int) resultMap.get("commPagenationSize");
 		logger.debug("!@# commentList : {}",commentList);
 		
 		model.addAttribute("commentList", commentList);
-		return "/propertySet/setWorkComment.user.tiles";
+		
+		resultMap.put("commentList",commentList);
+		resultMap.put("pageVo",pageVo);
+		resultMap.put("commPageSize",commPageSize);
+		
+		return resultMap;
 	}
 	
-	@RequestMapping(path="/comment",method=RequestMethod.POST)
-	public String workComment(String comm_content,HttpSession session) {
+	@RequestMapping("/commentInsert")
+	public String workComment(String comm_content,HttpSession session,String wps_wrk_id) {
 
 		String viewName ="";
-		
+		int wrk_id = Integer.parseInt(wps_wrk_id);
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
 		
 		Work_CommentVo commentVo = new Work_CommentVo();
 		commentVo.setUser_email(userVo.getUser_email());
 		commentVo.setComm_content(comm_content);
-		commentVo.setPrj_id(1);
-		commentVo.setWrk_id(110);
+		commentVo.setPrj_id(projectVo.getPrj_id());
+		commentVo.setWrk_id(wrk_id);
 		logger.debug("!@#userId : {}",userVo.getUser_email());
 		logger.debug("!@#comm_content : {}",comm_content);
 		logger.debug("!@#commentVo : {}",commentVo);
 		
 		int commCnt = commentService.commentInsert(commentVo);
 		
-		if(commCnt == 1) {
-			viewName="redirect:/comment";
-		}else {
-			viewName="redirect:/comment";
-		}
-		
-		return viewName;
+		return "jsonView";
 	}
 	
 	@RequestMapping("/commUpdate")
@@ -89,34 +106,39 @@ public class Work_CommentController {
 	}
 	
 	
-	@RequestMapping(path="/commDelete",method=RequestMethod.GET)
-	public String commentDelete(String prj_id,String comm_id,Model model) {
-		int prj_idStr = Integer.parseInt(prj_id);
+	@RequestMapping("/commDelete")
+	public String commentDelete(String comm_id,Model model,String page,String pageSize,String wps_wrk_id,HttpSession session) {
+		int pageStr = page == null ? 1 : Integer.parseInt(page);
+		int pageSizeStr =  pageSize == null ? 10 : Integer.parseInt(pageSize);
+		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
+		
+		logger.debug("!@# wps_wrk_id : {}",wps_wrk_id);
+		PageVo pageVo = new PageVo(pageStr,pageSizeStr);
+		
 		int comm_idStr = Integer.parseInt(comm_id);
-		logger.debug("!@# prj_idStr : {}",prj_idStr);
+		int wrk_id = Integer.parseInt(wps_wrk_id);
 		logger.debug("!@# comm_idStr : {}",comm_idStr);
 		
 		Work_CommentVo commentVo = new Work_CommentVo();
-		commentVo.setPrj_id(prj_idStr);
 		commentVo.setComm_id(comm_idStr);
 		
-		Work_CommentVo commentListVo = new Work_CommentVo();
-		commentListVo.setWrk_id(110);
-		commentListVo.setPrj_id(1);
+		commentVo.setWrk_id(wrk_id);
+		commentVo.setPrj_id(projectVo.getPrj_id());
 		
 		int deleteCnt = commentService.commDelete(commentVo);
 		
-		List<Work_CommentVo> commList = new ArrayList<Work_CommentVo>();
-		if(deleteCnt == 1) {
-			List<Work_CommentVo> commListAjax = commentService.commentList(commentListVo);
-			for(int i = 0;i<commListAjax.size();i++) {
-				if(commListAjax.get(i).getDel_fl().equals("N")) {
-					commList.add(commListAjax.get(i));
-				}
-			}
-			logger.debug("!@# commList : {}",commList);
-			model.addAttribute("data", commList);
-		}
+		logger.debug("!@# deleteCnt : {}",deleteCnt);
+//		List<Work_CommentVo> commList = new ArrayList<Work_CommentVo>();
+//		if(deleteCnt == 1) {
+//			List<Work_CommentVo> commListAjax = (List<Work_CommentVo>) commentService.commentList(pageVo);
+//			for(int i = 0;i<commListAjax.size();i++) {
+//				if(commListAjax.get(i).getDel_fl().equals("N")) {
+//					commList.add(commListAjax.get(i));
+//				}
+//			}
+//			logger.debug("!@# commList : {}",commList);
+//			model.addAttribute("data", commList);
+//		}
 		
 		return "jsonView";
 	}
