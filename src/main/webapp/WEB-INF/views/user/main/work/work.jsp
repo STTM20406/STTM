@@ -757,7 +757,6 @@
 		})
 		
 		
-		
 		$("#workLink").on('click','#uploadLink', function(){
 			alert("link가즈아!!");
 			var attch_url = $('.link').val();
@@ -888,7 +887,7 @@
 				data.workFileList.forEach(function(file, index) {
 					//html생성
 					html += "<tr id='filetr'>";
-					html += "<td><a href='/fileDownload?file_id="+file.file_id+"'>" + file.original_file_nm+ "</a></td>";
+					html += "<td><a href='/fileDownLoad?file_id="+file.file_id+"'>" + file.original_file_nm+ "</a></td>";
 					html += "<td>" + file.user_nm + "</td>";
 					html += "<td>" + file.prjStartDtStr + "</td>";
 					html += "<td><a href='javascript:workDelFile("+ file.file_id + "," + file.wrk_id+ ")'>삭제</a></td>";
@@ -1013,8 +1012,7 @@
 				data.workFileList.forEach(function(file, index) {
 					//html생성
 					html += "<tr id='filetr'>";
-					html += "<td><a href='#'>" + file.original_file_nm
-							+ "</a></td>";
+					html += "<td><a href='/fileDownLoad?file_id="+file.file_id+"'>" + file.original_file_nm+ "</a></td>";
 					html += "<td>" + file.user_nm + "</td>";
 					html += "<td>" + file.prjStartDtStr + "</td>";
 					html += "<td><a href='javascript:workDelFile("
@@ -1141,7 +1139,7 @@
 	<div class="sub_btn">
 		<ul>
 			<li><a href="#">4</a></li>
-			<li><a href="/publicFilePagination">회의록</a></li>
+			<li><a href="/conferenceList">회의록</a></li>
 			<li><a href="#">프로젝트 대화</a></li>
 			<li><a href="#">프로젝트 설정</a></li>
 		</ul>

@@ -64,8 +64,6 @@ public class MinutesController {
 		return "jsonView";
 	}			
 	
-	
-	
 	@RequestMapping(path="/conferenceDetail", method = RequestMethod.GET)
 	String conferenceDetail(Model model, int mnu_id, HttpSession session) {
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
@@ -147,7 +145,6 @@ public class MinutesController {
 			model.addAttribute("minutesList", minutesList);
 			model.addAttribute("prj_id", prj_id);
 		}
-		
 		return "/main/conference/conferenceList.user.tiles";
 	}
 	
