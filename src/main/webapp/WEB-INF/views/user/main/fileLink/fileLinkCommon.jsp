@@ -62,7 +62,7 @@ ul.tabs li.current {
 					html += "<tr id='filetr'>";
 					html += "<td>"+ file.num + "</td>";
 					html += "<td>"+ file.wrk_nm + "</td>";
-					html += "<td><a href='#'>"+file.original_file_nm+"</a></td>";	
+					html += "<td><a href='/fileDownLoad?file_id="+file.file_id+"'>" + file.original_file_nm+ "</a></td>";
 					html += "<td>"+ file.user_email + "</td>";
 					html += "<td>"+ file.user_nm + "</td>";
 					html += "<td>"+ file.prjStartDtStr + "</td>";
@@ -337,7 +337,7 @@ ul.tabs li.current {
 					html += "<tr id='filetr'>";
 					html += "<td>"+ file.num + "</td>";
 					html += "<td>"+ file.wrk_nm + "</td>";
-					html += "<td><a href='#'>"+file.original_file_nm+"</a></td>";	
+					html += "<td><a href='/fileDownLoad?file_id="+file.file_id+"'>" + file.original_file_nm+ "</a></td>";
 					html += "<td>"+ file.user_email + "</td>";
 					html += "<td>"+ file.user_nm + "</td>";
 					html += "<td>"+ file.prjStartDtStr + "</td>";
@@ -400,7 +400,7 @@ ul.tabs li.current {
 					html += "<tr id='filetr'>";
 					html += "<td>"+ file.num + "</td>";
 					html += "<td>"+ file.wrk_nm + "</td>";
-					html += "<td><a href='#'>"+file.original_file_nm+"</a></td>";	
+					html += "<td><a href='/fileDownLoad?file_id="+file.file_id+"'>" + file.original_file_nm+ "</a></td>";
 					html += "<td>"+ file.user_email + "</td>";
 					html += "<td>"+ file.user_nm + "</td>";
 					html += "<td>"+ file.prjStartDtStr + "</td>";

@@ -1012,7 +1012,7 @@
 				data.workFileList.forEach(function(file, index) {
 					//html생성
 					html += "<tr id='filetr'>";
-					html += "<td><a href='#'>" + file.original_file_nm+ "</a></td>";
+					html += "<td><a href='/fileDownLoad?file_id="+file.file_id+"'>" + file.original_file_nm+ "</a></td>";
 					html += "<td>" + file.user_nm + "</td>";
 					html += "<td>" + file.prjStartDtStr + "</td>";
 					html += "<td><a href='javascript:workDelFile("
