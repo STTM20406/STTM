@@ -239,6 +239,8 @@ public class Board_WriteController {
 		
 		int replyCnt = answerService.insertReply(replyVo);
 		logger.debug("!@# replyVo : {}",replyVo);
+		logger.debug("log 입력하고 cnt 어쩌나 : {}",answerService.replyCnt(writeId));
+		
 		
 		List<Board_AnswerVo> answerList = answerService.replyList(writeId);
 		

@@ -3,6 +3,7 @@ package kr.or.ddit.work.service;
 import java.util.List;
 
 import kr.or.ddit.work.model.WorkVo;
+import kr.or.ddit.work_mem_flw.model.Work_Mem_FlwVo;
 
 public interface IWorkService {
 	/**
@@ -110,4 +111,5 @@ public interface IWorkService {
 	 * Method 설명 		: 해당 업무 라벨 컬러 업데이트
 	 */
 	int updateWorkColor(WorkVo workVo);
+	
 }

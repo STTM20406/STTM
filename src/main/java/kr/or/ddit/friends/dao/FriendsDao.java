@@ -149,4 +149,19 @@ public class FriendsDao implements IFriendsDao{
 		return sqlSession.selectOne("friend.getFriend",user_email);
 	}
 	
+	/**
+	 * 
+	* Method : friendsList
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-21
+	* @param user_email
+	* @return
+	* Method 설명 : 프로젝트 멤버에서 이미 친구인 사람의 친구 요청 버튼을 비활성화 시키기 위해서
+	* 			     친구 목록을 조회하여 이미 친구 이면 비활성화
+	 */
+	@Override
+	public List<FriendsVo> friendsList(String user_email) {
+		return sqlSession.selectList("friend.friendsList",user_email);
+	}
+	
 }

@@ -35,7 +35,12 @@ $(document).ready(function(){
 			success:function(data){
 				
 				var html = "";
-				
+				html += "<tr>";
+				html += "<th>번호</th>";
+				html += "<th>내용</th>";
+				html += "<th>작성자</th>";
+				html += "<th>작성일</th>";
+				html += "</tr>";
 				
 				data.data.forEach(function(item, index){
 					
@@ -85,7 +90,13 @@ $(document).ready(function(){
 		var r_content = $("#r_content").val();
 		console.log("댓글 등록" + write_id + r_content);
 		replyList(r_content, write_id);
-		increaseReplyCntAjax(write_id);
+		
+		setTimeout(function() {
+			increaseReplyCntAjax(write_id);
+		}, 600);
+		
+		$("#r_content").val('');
+		$("#r_content").focus();
 		
 	});
 	

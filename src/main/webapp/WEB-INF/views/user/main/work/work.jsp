@@ -628,6 +628,16 @@ function commentInsert(wps_wrk_id,content,page, pageSize){
 				method:"post",
 				data:"wrk_id=" + wrk_id,
 				success:function(data){
+					
+					console.log(data);
+				
+					//멤버레벨이 1이면 삭제 버튼 없애기 
+					if(projectMemLevel == "LV1"){
+						$(".setItem:last-child").css({display:"none"});
+					}else{
+						$(".setItem:last-child").css({display:"block"});
+					}
+					
 					$("#wps_id").val(data.workVo.wrk_id);
 					$("#wps_nm").val(data.workVo.wrk_nm);
 					$("#wps_write_nm").text(data.workVo.user_nm);
@@ -637,6 +647,20 @@ function commentInsert(wps_wrk_id,content,page, pageSize){
 					$(".wrk_color").removeClass("colorSelect");
 					$("#"+data.workVo.wrk_color_cd).prev().addClass("colorSelect");
 					$("#"+data.workVo.wrk_color_cd).prop("checked", true);
+					
+					//배정된 업무 멤버 불러오기
+					var html = "";
+					data.wrkMemList.forEach(function(item, index){
+						html += "<li id='"+ item.user_email +"_"+item.wrk_id+"'>"+ item.user_nm +"<input type='button' class='wrkMemDel' value='삭제'></li>";
+					});	
+					$(".wrk_add_box").html(html);
+					
+					//업무 팔로워 멤버 불러오기
+					var html = "";
+					data.wrkFlwList.forEach(function(item, index){
+						html += "<li id='"+ item.user_email +"_"+item.wrk_id+"'>"+ item.user_nm +"<input type='button' class='wrkFlwDel' value='삭제'></li>";
+					});	
+					$(".wrk_mem_flw_box").html(html);
 				}
 			});
 		}
@@ -911,7 +935,6 @@ function commentInsert(wps_wrk_id,content,page, pageSize){
 		})
 		
 		
-		
 		$("#workLink").on('click','#uploadLink', function(){
 			alert("link가즈아!!");
 			var attch_url = $('.link').val();
@@ -998,23 +1021,41 @@ function commentInsert(wps_wrk_id,content,page, pageSize){
 		//업무 멤버 클릭 했을 때
 		$(".wrk_mem_item").on("click", "li", function(){
 			var mem_add_email = $(this).attr("id");
-			workMemAddAjax(mem_add_email);
+			var wrkID = $("#wps_id").val();
+			workMemAddAjax(wrkID, mem_add_email);	
 		});
 		
 		//배정된 멤버로 선택한 멤버 추가
-		function workMemAddAjax(id, mem_add_email){
+		function workMemAddAjax(wrkID, mem_add_email){
 			$.ajax({
 				url:"/work/workMemAddAjax",
 				method:"post",
-				data: "user_email=" + mem_add_email,
+				data: "wrk_id="+ wrkID + "&user_email=" + mem_add_email,
 				success:function(data){
 					console.log(data);
-// 					var html = "";
-// 					data.data.forEach(function(item, index){
-// 						html += "<li id='"+ item.user_email +"_"+item.prj_id+"_"+item.prj_mem_lv+"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
-// 					});	
+					var html = "";
+					data.data.forEach(function(item, index){
+						html += "<li id='"+item.user_email+"_"+item.wrk_id+"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
+					});	
 					
-// 					$(".wrk_add_box").html(html);
+					$(".wrk_add_box").html(html);
+				}
+			});
+		}
+		
+		//프로젝트 관리자로 선택한 멤버 추가
+		function projectAdmAddAjax(id, adm_add_email){
+			$.ajax({
+				url:"/project/projectAdmAddAjax",
+				method:"post",
+				data:"prj_id="+ id + "&user_email=" + adm_add_email,
+				success:function(data){
+					var html = "";
+					data.data.forEach(function(item, index){
+						html += "<li id='"+ item.user_email +"_"+item.prj_id+"_"+item.prj_mem_lv+"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
+					});	
+					
+					$(".prj_add_box").html(html);
 				}
 			});
 		}
@@ -1042,7 +1083,7 @@ function commentInsert(wps_wrk_id,content,page, pageSize){
 				data.workFileList.forEach(function(file, index) {
 					//html생성
 					html += "<tr id='filetr'>";
-					html += "<td><a href='/fileDownload?file_id="+file.file_id+"'>" + file.original_file_nm+ "</a></td>";
+					html += "<td><a href='/fileDownLoad?file_id="+file.file_id+"'>" + file.original_file_nm+ "</a></td>";
 					html += "<td>" + file.user_nm + "</td>";
 					html += "<td>" + file.prjStartDtStr + "</td>";
 					html += "<td><a href='javascript:workDelFile("+ file.file_id + "," + file.wrk_id+ ")'>삭제</a></td>";
@@ -1167,8 +1208,7 @@ function commentInsert(wps_wrk_id,content,page, pageSize){
 				data.workFileList.forEach(function(file, index) {
 					//html생성
 					html += "<tr id='filetr'>";
-					html += "<td><a href='#'>" + file.original_file_nm
-							+ "</a></td>";
+					html += "<td><a href='/fileDownLoad?file_id="+file.file_id+"'>" + file.original_file_nm+ "</a></td>";
 					html += "<td>" + file.user_nm + "</td>";
 					html += "<td>" + file.prjStartDtStr + "</td>";
 					html += "<td><a href='javascript:workDelFile("
@@ -1291,16 +1331,14 @@ function commentInsert(wps_wrk_id,content,page, pageSize){
 		<li><a href="/vote">Vote</a></li>
 	</ul>
 	
-	<!-- 영하가 수정함 여기서부터ㅎ -->
 	<div class="sub_btn">
 		<ul>
 			<li><a href="#">4</a></li>
-			<li><a href="/publicFilePagination">회의록</a></li>
+			<li><a href="/conferenceList">회의록</a></li>
 			<li><a href="#">프로젝트 대화</a></li>
 			<li><a href="#">프로젝트 설정</a></li>
 		</ul>
 	</div>
-	<!-- 영하가 수정함 여기까지ㅎ -->
 	
 </div>
 

@@ -20,9 +20,9 @@
   //-->
 </script>
 
-         <form name="form1">
-               <input type="checkbox" name="cb1" value="1"> C# <br />
-               <input type="checkbox" name="cb2" value="2"> ASP.NET <br />
-               <input type="checkbox" name="cb3" value="3"> XML <br />
-               <input type="button" value="확인" onclick="Check(this.form);">
-          </form>
+<form name="form1">
+      <input type="checkbox" name="cb1" value="1"> C# <br />
+      <input type="checkbox" name="cb2" value="2"> ASP.NET <br />
+      <input type="checkbox" name="cb3" value="3"> XML <br />
+      <input type="button" value="확인" onclick="Check(this.form);">
+</form>
