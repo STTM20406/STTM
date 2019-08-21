@@ -823,10 +823,33 @@ public class File_AttchController {
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////chatBotApi
 	@RequestMapping("/chatBotApi")
-	String chatBotApi() {
+	String chatBotApi(Model model, String question) {
+		logger.debug("♬♩♪  chatBotApi");
+		logger.debug("♬♩♪  question:{}",question);
 		
+		if(question.equals("안녕")) {
+			model.addAttribute("data", "초면에 반말이시네요....허허허");
+		}else if(question.equals("미안")) {
+			model.addAttribute("data", "하....C 참는다..");
+		}else if(question.equals("3")) {
+			model.addAttribute("data", "음하하하");
+		}else if(question.equals("4")) {
+			model.addAttribute("data", "음하하하");
+		}else if(question.equals("5")) {
+			model.addAttribute("data", "음하하하");
+		}else if(question.equals("6")) {
+			model.addAttribute("data", "음하하하");
+		}else if(question.equals("7")) {
+			model.addAttribute("data", "음하하하");
+		}else if(question.equals("8")) {
+			model.addAttribute("data", "음하하하");
+		}else if(question.equals("9")) {
+			model.addAttribute("data", "음하하하");
+		}else {
+			model.addAttribute("data", "궁금하신 점이 없으신가요?");
+		}
 		
-		return null;
+		return "jsonView";
 	}
 	
 	

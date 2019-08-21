@@ -1,11 +1,14 @@
 package kr.or.ddit.work_comment.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.work_comment.dao.IWork_CommentDao;
 import kr.or.ddit.work_comment.model.Work_CommentVo;
 
@@ -36,8 +39,15 @@ public class Work_CommentService implements IWork_CommentService{
 	 * Method 설명 	: 업무코멘트 리스트
 	 */
 	@Override
-	public List<Work_CommentVo> commentList(Work_CommentVo commentVo) {
-		return commentDao.commentList(commentVo);
+	public Map<String, Object> commentList(PageVo pageVo) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("commentList", commentDao.commentList(pageVo));
+		
+		int commCnt = commentDao.commCnt(pageVo);
+		int commPageSize = (int) Math.ceil((double)commCnt/pageVo.getPageSize());
+		resultMap.put("commPagenationSize", commPageSize);
+		
+		return resultMap;
 	}
 
 	/**
@@ -65,5 +75,7 @@ public class Work_CommentService implements IWork_CommentService{
 	public int commDelete(Work_CommentVo commentVo) {
 		return commentDao.commDelete(commentVo);
 	}
+
+	
 
 }

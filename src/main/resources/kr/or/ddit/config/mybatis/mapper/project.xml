@@ -270,6 +270,57 @@
 		order by m.prj_id, u.user_nm
 	</select>
 	
+	<!-- 휴면 계정을 하기 위해 session에서 가져온 user_email에서 나의 프로젝트 멤버를 리스트로 조회 -->	
+	<select id="prjMemListForInactive" parameterType="map" resultType="project_memVo">
+		<![CDATA[
+			SELECT *
+			FROM
+				(SELECT E.*, ROWNUM RN
+				 FROM
+			(SELECT DISTINCT 
+			                D.PRJ_ID
+			              , D.PRJ_NM  
+			              , B.USER_EMAIL
+			              , C.USER_NM 
+			              , B.PRJ_MEM_LV 
+			              , B.PRJ_OWN_FL
+			FROM( SELECT * 
+			      FROM PROJECT_MEM 
+			      WHERE USER_EMAIL = #{user_email} ) A, PROJECT_MEM B, USERS C, PROJECT D
+			WHERE B.PRJ_ID IN (A.PRJ_ID) 
+			AND C.USER_EMAIL NOT IN #{user_email}
+			AND C.USER_EMAIL = B.USER_EMAIL
+			AND D.PRJ_ID = B.PRJ_ID
+			AND B.PRJ_MEM_LV = 'LV0'
+			AND B.PRJ_OWN_FL = 'N'
+			ORDER BY D.PRJ_ID) e)
+			where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
+		]]>
+	</select>
+
+	<!-- 휴면 계정을 하기 위해 session에서 가져온 user_email에서 나의 프로젝트 멤버를 리스트로 조회한 갯수 -->
+	<select id="prjMemListForInactiveCnt" parameterType="map" resultType="int">
+		SELECT COUNT(*)
+		FROM
+		(SELECT DISTINCT 
+		                D.PRJ_ID
+		              , D.PRJ_NM  
+		              , B.USER_EMAIL
+		              , C.USER_NM 
+		              , B.PRJ_MEM_LV 
+		              , B.PRJ_OWN_FL
+		FROM( SELECT * 
+		      FROM PROJECT_MEM 
+		      WHERE USER_EMAIL = #{user_email} ) A, PROJECT_MEM B, USERS C, PROJECT D
+		WHERE B.PRJ_ID IN (A.PRJ_ID) 
+		AND C.USER_EMAIL NOT IN #{user_email}
+		AND C.USER_EMAIL = B.USER_EMAIL
+		AND D.PRJ_ID = B.PRJ_ID
+		AND B.PRJ_MEM_LV = 'LV0'
+		AND B.PRJ_OWN_FL = 'N'
+		ORDER BY D.PRJ_ID) E
+	</select>
+	
 	<!-- *******************project_trnf_hs****************** -->
 
 

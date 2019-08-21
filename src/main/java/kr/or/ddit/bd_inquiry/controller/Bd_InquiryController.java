@@ -98,9 +98,6 @@ public class Bd_InquiryController {
 	@RequestMapping("/admInquiryView1")
 	public String admInquiryView(int inq_id, String iq_content, Model model,HttpSession session) {
 		UserVo userVO = (UserVo) session.getAttribute("USER_INFO");
-
-		
-		
 		
 		logger.debug("!@# inq_id : {} ",inq_id);
 		logger.debug("!@# iq_content : {} ",iq_content);

@@ -145,47 +145,48 @@ public class Note_InfoController {
 		return viewName;
 	}
 ////////////////////////////////////////////////////////////////////////////////////
-	@RequestMapping("/rcvNoteList")
-	public @ResponseBody Map<String, Object> rcvNoteList(Model model,HttpSession session,String page,String pageSize) {
-		
-		logger.debug("!@# rcvNoteList page : {}",page);
-		logger.debug("!@# rcvNoteList pageSize : {}",pageSize);
-		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
-		String userId = userVo.getUser_email();
-		
-		int pageStr = page == null ? 1 : Integer.parseInt(page);
-		int pageSizeStr =  pageSize == null ? 10 : Integer.parseInt(pageSize);
-		
-		PageVo pageVo = new PageVo(pageStr,pageSizeStr);
-		pageVo.setRcv_email(userId);
-		pageVo.setSend_email(userId);
-
-		Note_InfoVo noteVo = new Note_InfoVo();
-		logger.debug("!@# rcvNoteList noteVo@@@@@@@@@@ : {}",noteVo);
-		
-		Map<String, Object> rcvMap = noteService.rcvList(pageVo); 
-		List<Note_InfoVo> rcvList = (List<Note_InfoVo>) rcvMap.get("rcvList");
-				
-		int rcvPaginationSize = (int) rcvMap.get("rcvPaginationSize");
-		
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("rcvList", rcvList);
-		resultMap.put("rcvPaginationSize", rcvPaginationSize);
-		resultMap.put("pageVo", pageVo);
-		
-		logger.debug("!@# rcvNoteList resultMap : {}",resultMap);
+//	@RequestMapping("/rcvNoteList")
+//	public String rcvNoteList(Model model,HttpSession session,String page,String pageSize) {
+//		
+//		logger.debug("!@# rcvNoteList page : {}",page);
+//		logger.debug("!@# rcvNoteList pageSize : {}",pageSize);
+//		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+//		String userId = userVo.getUser_email();
+//		
+//		int pageStr = page == null ? 1 : Integer.parseInt(page);
+//		int pageSizeStr =  pageSize == null ? 10 : Integer.parseInt(pageSize);
+//		
+//		PageVo pageVo = new PageVo(pageStr,pageSizeStr);
+//		pageVo.setRcv_email(userId);
+//		pageVo.setSend_email(userId);
+//
+//		Note_InfoVo noteVo = new Note_InfoVo();
+//		logger.debug("!@# rcvNoteList noteVo@@@@@@@@@@ : {}",noteVo);
+//		
+//		Map<String, Object> rcvMap = noteService.rcvList(pageVo); 
+//		List<Note_InfoVo> rcvList = (List<Note_InfoVo>) rcvMap.get("rcvList");
+//				
+//		int rcvPaginationSize = (int) rcvMap.get("rcvPaginationSize");
+//		
+//		Map<String, Object> resultMap = new HashMap<String, Object>();
+////		resultMap.put("rcvList", rcvList);
+////		resultMap.put("rcvPaginationSize", rcvPaginationSize);
+////		resultMap.put("pageVo", pageVo);
+//		
+//		logger.debug("!@# rcvNoteList resultMap : {}",resultMap);
 //		model.addAttribute("rcvList", rcvList);
 //		model.addAttribute("rcvPaginationSize", rcvPaginationSize);
 //		
 //		model.addAttribute("data", pageVo);
-		
-		
-		return resultMap;
-	}
+//		
+//		
+////		return resultMap;
+//		return "/note/sendNoteList.user.tiles";
+//	}
 	
 	
 	@RequestMapping("/sendNoteList")
-	public @ResponseBody Map<String, Object> sendNoteList(Model model,HttpSession session,String page,String pageSize) {
+	public String sendNoteList(Model model,HttpSession session,String page,String pageSize) {
 		
 		
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
@@ -206,15 +207,18 @@ public class Note_InfoController {
 		int sendPaginationSize = (int) sendMap.get("sendPaginationSize");
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("sendList", sendList);
-		resultMap.put("sendPaginationSize", sendPaginationSize);
-		resultMap.put("pageVo", pageVo);
+//		resultMap.put("sendList", sendList);
+//		resultMap.put("sendPaginationSize", sendPaginationSize);
+//		resultMap.put("pageVo", pageVo);
 		
-//		model.addAttribute("sendList", sendList);
-//		model.addAttribute("sendPaginationSize", sendPaginationSize);
-//		model.addAttribute("data", pageVo);
+		logger.debug("!@# sendList : {}", sendList);
 		
-		return resultMap;
+		model.addAttribute("sendList", sendList);
+		model.addAttribute("sendPaginationSize", sendPaginationSize);
+		model.addAttribute("data", pageVo);
+		
+//		return resultMap;
+		return "/note/sendNoteList.user.tiles";
 	}
 	
 	@RequestMapping("/rcvDel")
@@ -313,6 +317,7 @@ public class Note_InfoController {
 		
 		
 		return resultMap;
+		
 	}
 	
 }

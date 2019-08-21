@@ -54,9 +54,6 @@ ul.tabs li.current {
 			var commprid = $(this).siblings("input").val();
 			console.log(commprid);
 			
-// 			var testT = $(this).parents(".commDeleteTd").children().eq(1).attr('name');
-			
-			
  			var inq_id = $(this).parent().prev().prev().prev().text();
  			var inq_trim = $.trim(inq_id);
  			console.log(inq_id);
@@ -64,8 +61,6 @@ ul.tabs li.current {
  			$(this).parent().prev().prev().prev().replaceWith("<td><input type='text' name='updateComm' id='changeInput' value='"+inq_trim+"'/></td>");
  			$(this).replaceWith("<button type='button' id='commUpdateChgBtn' class='commUpdateChgBtn'>수정완료</button>");
  			
-//  			updateTest(inq_trim,prj_id,comm_id);
-//  			$(this).parent().prev().prev().prev().replaceWith("<td><p id='abc'></p></td>");
 			$(".commTr #commUpdateChgBtn").on("click", function(){
 				console.log("업데이트수정완료버튼 updeteChg click");
 	 			var changVal = $("#changeInput").val();
@@ -82,9 +77,6 @@ ul.tabs li.current {
 				$(this).replaceWith("<button type='button' id='commUpdateBtn' class='commUpdateBtn'>수정</button>");
 			})
 		})
-		
-		
-		
 		
 		function updateTest(inq_trim02,prj_id,comm_id){
 			$.ajax({
@@ -226,8 +218,8 @@ ul.tabs li.current {
 							</tbody>
 						</table>
 						<label>댓글 작성</label><br>
-							<textarea rows="1" cols="60" name="comm_content"></textarea>
-							<button type="button" name="replyBtn" id="replyBtn"> 댓글등록 </button>
+						<textarea rows="1" cols="60" name="comm_content"></textarea>
+						<button type="button" name="replyBtn" id="replyBtn"> 댓글등록 </button>
 					</div>
 				</div>
 			</form>

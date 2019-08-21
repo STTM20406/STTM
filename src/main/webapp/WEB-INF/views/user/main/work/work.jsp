@@ -11,7 +11,161 @@
 <script src="/js/Sortable.js"></script>
 
 <script>
+function commentPagination(wps_wrk_id,page, pageSize){
+	$.ajax({
+		url:"/comment",
+		method:"post",
+		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+		data:"wps_wrk_id="+wps_wrk_id+"&page="+page+"&pageSize="+pageSize,
+		success:function(data){
+			console.log(data);
+			var html = "";
+			
+			data.commentList.forEach(function(comm, index){
+				
+				html += "<tr class='commTr'>";
+				html += "<td>"+comm.comm_id+"</td>";
+				html += "<input type='hidden' name='commContent' value='"+comm.comm_content +"'/>"
+				html += "<input type='hidden' name='commContent' value='"+comm.comm_id +"'/>"
+				html += "<input type='hidden' name='commContent' value='"+comm.prj_id +"'/>"
+				html += "<td>"+comm.comm_content+"</td>";
+				html += "<td>"+comm.user_email+"</td>";
+				html += "<td>"+comm.commDateStr+"</td>";
+				html += "<td>";
+				html += "<input type='hidden' name='commContent' value='"+comm.comm_content +"'/>"
+				html += "<input type='hidden' name='commContent' value='"+comm.comm_id +"'/>"
+				html += "<button type='button' id='commUpdateBtn' class='commUpdateBtn'>수정</button>"
+				html += "</td>";
+				html += "<td class='commDeleteTd'>";
+				html += "<input type='hidden' value='"+comm.prj_id +"'/>"
+				html += "<button type='button' id='commDeleteBtn' class='commDeleteBtn' name='"+comm.comm_id+"'>삭제</button>"
+				html += "</td>";
+				html += "</tr>";
+				
+			});
+			
+			var pHtml = "";
+			var pageVo = data.pageVo;
+			
+			if (pageVo.page == 1)
+				pHtml += "<li class='disabled'><span>«<span></li>";
+			else
+				pHtml += "<li><a href='javascript:commentPagination(" + wps_wrk_id + "," + (pageVo.page - 1) + ", " + pageVo.pageSize + ");'>«</a></li>";
+			for (var i = 1; i <= data.commPageSize; i++) {
+				if (pageVo.page == i)
+					pHtml += "<li class='active'><span>" + i + "</span></li>";
+				else
+					pHtml += "<li><a href='javascript:commentPagination(" + wps_wrk_id + ","+ i + ", " + pageVo.pageSize + ");'>" + i + "</a></li>";
+			}
+			if (pageVo.page == data.commPageSize)
+				pHtml += "<li class='disabled'><span>»<span></li>";
+			else
+				pHtml += "<li><a href='javascript:commentPagination(" + wps_wrk_id + "," + (pageVo.page + 1) + ", " + pageVo.pageSize + ");'>»</a></li>";
+				
+			$(".pagination").html(pHtml);
+			$("#commBody").html(html);
+		}
+	})
+}
+function commentInsert(wps_wrk_id,content,page, pageSize){
+	$.ajax({
+		url:"/commentInsert",
+		method:"post",
+		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+		data:"wps_wrk_id="+wps_wrk_id+"&comm_content="+content+"&page="+page+"&pageSize="+pageSize,
+		success:function(data){
+			commentPagination(wps_wrk_id,1, 10);
+		}
+	})
+}
 	$(document).ready(function() {
+		
+		// 업무 코멘트 시작점
+		// 업무코멘트 수정
+		$(".workTab").on("click", "#commentId", function(){
+			var wps_wrk_id = $('#wps_wrk_id').val();
+			console.log(wps_wrk_id);
+			commentPagination(wps_wrk_id,1, 10);
+		})
+		
+		
+		
+		$("#commBody").on("click",".commUpdateBtn", function() {
+			console.log("updateBtn Clicke");
+			var commprid = $(this).siblings("input").val();
+			console.log(commprid);
+			
+ 			var inq_id = $(this).parent().prev().prev().prev().text();
+ 			var inq_trim = $.trim(inq_id);
+ 			console.log(inq_id);
+ 			console.log(inq_trim);
+ 			$(this).parent().prev().prev().prev().replaceWith("<td><input type='text' name='updateComm' id='changeInput' value='"+inq_trim+"'/></td>");
+ 			$(this).replaceWith("<button type='button' id='commUpdateChgBtn' class='commUpdateChgBtn'>수정완료</button>");
+ 			
+			$("#commBody").on("click","#commUpdateChgBtn", function(){
+				console.log("업데이트수정완료버튼 updeteChg click");
+	 			var changVal = $("#changeInput").val();
+	 			console.log(changVal);
+								
+				var inq_trim02 = $.trim(changVal);
+				var prj_id = $(this).siblings("#prj_id02").val();
+				console.log(prj_id);
+				var comm_id = $(this).siblings("#comm_id02").val();
+				console.log(comm_id);
+				
+				updateTest(inq_trim02,prj_id,comm_id);
+				$(this).parent().prev().prev().prev().replaceWith("<td><p>"+inq_trim02+"</p></td>");
+				$(this).replaceWith("<button type='button' id='commUpdateBtn' class='commUpdateBtn'>수정</button>");
+			})
+		})
+		
+		function updateTest(inq_trim02,prj_id,comm_id){
+			$.ajax({
+				url:"/commUpdate",
+				method:"get",
+				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+				data : "inq_trim="+inq_trim02+"&prj_id="+prj_id+"&comm_id="+comm_id,
+				success:function(data){
+					console.log(data);
+					
+				}
+			})
+		}
+		
+		// 코멘트 삭제하기
+		$("#commBody").on("click", "#commDeleteBtn", function(){
+			console.log("commDeleteBtn click");
+			var wps_wrk_id = $('#wps_wrk_id').val();
+			var commDelete = $(this).attr("name");
+			console.log(commDelete);
+			var comm_id = commDelete;
+			
+			commDeleteAjax(wps_wrk_id,comm_id);
+		})
+		
+		function commDeleteAjax(wps_wrk_id,comm_id){
+			$.ajax({
+				url:"/commDelete",
+				method:"post",
+				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+				data:"wps_wrk_id=" + wps_wrk_id +"&comm_id="+comm_id,
+				success:function(data){
+					console.log(data);
+					commentPagination(wps_wrk_id,1, 10);
+				
+				}
+			})	
+		}
+		
+		// 댓글등록하기 버튼
+		$("#replyBtn").on("click",function(){
+			var wps_wrk_id = $('#wps_wrk_id').val();
+			var content = $('#comm_content').val();
+			commentInsert(wps_wrk_id,content,1,10);
+		})
+		
+		// -------------------------업무코멘트 종료지점 -----------------------------------------
+		
 		
 		var projectAuth= "${PROJECT_INFO.prj_auth}";
 		var projectMemLevel ="${userInfo.prj_mem_lv}";
@@ -799,8 +953,6 @@
 			
 		})
 		
-		
-		
 		$("#workFile").on('click','#uploadFile', function(){
 
 			var form = document.getElementById("frm");
@@ -1381,7 +1533,7 @@
 		<div class="workTab">
 			<ul class="tabs">
 				<li class="active" data-tab="tab1">설정</li>
-				<li data-tab="tab2">업무 코멘트</li>
+				<li id="commentId"data-tab="tab2">업무 코멘트</li>
 				<li id="FL" data-tab="tab3">파일&amp;링크</li>
 			</ul>
 		</div>
@@ -1517,9 +1669,38 @@
 		</div>
 		
 		<!--  여기서부터 work comment -->
+		<form id="frm02">
 		<div id="tab2" class="tab_content">
-			여기는 업무 코멘트 입니다.
+			<div>
+				<table class="tb_style_01">
+					<colgroup>
+						<col width="10%">
+						<col width="20%">
+						<col width="10%">
+						<col width="5%">
+						<col width="2%">
+						<col width="2%">
+					</colgroup>
+					<thead>
+						<tr>
+							<th>번호</th>
+							<th>내용</th>
+							<th>작성자 아이디</th>
+							<th colspan='3'>작성일</th>
+						</tr>
+					</thead>
+					<tbody id="commBody">
+
+					</tbody>
+				</table>
+				<label>댓글 작성</label><br>
+				<textarea rows="1" cols="60" name="comm_content" id="comm_content"></textarea>
+				<button type="button" name="replyBtn" id="replyBtn"> 댓글등록 </button>
+			</div>
+			<div class="pagination">
+			</div>
 		</div>
+		</form>
 		
 		<!--  여기서부터 work file&link-->
 		<!-- 영하가 수정함 여기부터 ㅎ-->

@@ -35,19 +35,6 @@
 		display: inherit;
 	}
 
-	/* 모달 설정 스타일 */
-	.layer {display:none; position:fixed; _position:absolute; top:0; left:0; width:100%; height:100%; z-index:100;}
-		.layer .bg {position:absolute; top:0; left:0; width:100%; height:100%; background:#000; opacity:.5; filter:alpha(opacity=50);}
-		.layer .pop-layer {display:block;}
-	
-	.pop-layer {display:none; position: absolute; top: 50%; left: 50%; width: 410px; height:auto;  background-color:#fff; border: 5px solid #3571B5; z-index: 10;}	
-	.pop-layer .pop-container {padding: 20px 25px;}
-	.pop-layer p.ctxt {color: #666; line-height: 25px;}
-	.pop-layer .btn-r {width: 100%; margin:10px 0 20px; padding-top: 10px; border-top: 1px solid #DDD; text-align:right;}
-	
-	a.cbtn {display:inline-block; height:25px; padding:0 14px 0; border:1px solid #304a8a; background-color:#3f5a9d; font-size:13px; color:#fff; line-height:25px;}	
-	a.cbtn:hover {border: 1px solid #091940; background-color:#1f326a; color:#fff;}
-
 </style>
 
 <script>
@@ -89,12 +76,12 @@
 			$("#" + tab_id).addClass('current');
 		});
 		
+		// 휴면 계정 전환 레이어창
+		$('.inactiveUser').on("click", function(){
+		        var $href = $(this).attr('href');
+		        layer_popup($href);
+		});
 		
-		// ------- 휴면 계정 클릭시 -------
-// 		$('#btnPjrMemList').click(function() {
-// 			$("#userStatusForm").submit();
-// 		});
-
 	});
 
 	function funLoad(){
@@ -162,39 +149,42 @@
 		alert("회원님의 프로필이 업데이트 되었습니다.");			
     }
     
-    // ------- 모달 설정 스크립트 -------
-    function layer_open(el){
+  //------- 모달 설정 스크립트 -------
+  //layer popup - 프로젝트 생성
+  	function layer_popup(el){
+  		console.log(el);
 
-		var temp = $('#' + el);
-		var bg = temp.prev().hasClass('bg');	//dimmed 레이어를 감지하기 위한 boolean 변수
+          var $el = $(el);		//레이어의 id를 $el 변수에 저장
+          var isDim = $el.prev().hasClass('dimBg');	//dimmed 레이어를 감지하기 위한 boolean 변수
 
-		if(bg){
-			$('.layer').fadeIn();	//'bg' 클래스가 존재하면 레이어가 나타나고 배경은 dimmed 된다. 
-		}else{
-			temp.fadeIn();
-		}
+          isDim ? $('.dim-layer').fadeIn() : $el.fadeIn();
 
-		//  -------화면의 중앙에 레이어를 띄운다. -------
-		if (temp.outerHeight() < $(document).height() ) temp.css('margin-top', '-'+temp.outerHeight()/2+'px');
-		else temp.css('top', '0px');
-		if (temp.outerWidth() < $(document).width() ) temp.css('margin-left', '-'+temp.outerWidth()/2+'px');
-		else temp.css('left', '0px');
+          var $elWidth = ~~($el.outerWidth()),
+              $elHeight = ~~($el.outerHeight()),
+              docWidth = $(document).width(),
+              docHeight = $(document).height();
 
-		temp.find('a.cbtn').click(function(e){
-			if(bg){
-				$('.layer').fadeOut(); //'bg' 클래스가 존재하면 레이어를 사라지게 한다. 
-			}else{
-				temp.fadeOut();
-			}
-			e.preventDefault();
-		});
+          // 화면의 중앙에 레이어를 띄운다.
+          if ($elHeight < docHeight || $elWidth < docWidth) {
+              $el.css({
+                  marginTop: -$elHeight /2,
+                  marginLeft: -$elWidth/2
+              })
+          } else {
+              $el.css({top: 0, left: 0});
+          }
 
-		$('.layer .bg').click(function(e){	//배경을 클릭하면 레이어를 사라지게 하는 이벤트 핸들러
-			$('.layer').fadeOut();
-			e.preventDefault();
-		});
+          $el.find('a.btn-layerClose').click(function(){
+              isDim ? $('.dim-layer').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
+              return false;
+          });
 
-	}				
+          $('.layer .dimBg').click(function(){
+              $('.dim-layer').fadeOut();
+              return false;
+          });
+
+      }				
     
 </script>
 
@@ -270,51 +260,71 @@
 				<br><br>
 			
 				<!-- 휴면 계정 설정 -->  
-				<div id="setUserStatus" class="loginWrap" style="background-color:paleturquoise" onclick="setUserStatus"><label>휴면계정 전환</label>
+				<div id="setUserStatus" class="loginWrap" style="background-color:paleturquoise" onclick="setUserStatus"><label>휴면계정</label>
 					<form action="/setUserStatus" method="post" id="userStatusForm">
 						<div class="inputField">
-							<a href="#" class="btn-example" onclick="layer_open('layer2');return false;">
-								<input type="button" id="btnPjrMemList" value="휴면 계정 전환" class="inp_style_04">
-							</a>
-							
-							<div class="layer">
-								<div class="bg"></div>
-								<div id="layer2" class="pop-layer">
-									<div class="pop-container">
-										<div class="pop-conts">
-											
-											<!--content //--><!--content //--><!--content //--><!--content //--><!--content //--><!--content //--><!--content //--><!--content //-->
-											
-<!-- 											<select> -->
-<%-- 												<c:forEach items="${getMyPrjMemList}" var="myPrMemList"> --%>
-<%-- 													<option value="${myPrMemList.user_nm}">${myPrMemList.user_nm}</option> --%>
-<%-- 												</c:forEach> --%>
-<!-- 											</select> -->
-
-											<select>
-												<c:forEach items="${getMyPrjMemList}" var="myPrMemList">
-													<option value="${myPrMemList.user_nm}">${myPrMemList.user_nm}</option>
-												</c:forEach>
-											</select>
-
-<%-- 											${getMyPrjMemList.user_nm} --%>
-											
-											<input type="button" onclick="inactiveUser()" value="소유권 이전 버튼" class="inp_style_04">
-											
-											<div class="btn-r">
-												<a href="#" class="cbtn">Close</a>
-											</div>
-												
-											<!--content //--><!--content //--><!--content //--><!--content //--><!--content //--><!--content //--><!--content //--><!--content //-->
-											
-										</div>
-									</div>
-								</div>
-							</div>	
+							<a href="#layer0" class="inactiveUser a_style_04">휴면 계정 전환</a>
 							
 						</div>
 					</form>
 				</div>
+				
+				<!-- 휴면 계정 설정 레이어창 -->
+				<form action="/setUserStatus" id="friendsRequestListForm" method="get">
+				<div id="layer0" class="pop-layer">
+				    <div class="pop-container">
+				        <div class="pop-conts">
+				            <!--content //-->
+			
+							<table class="tb_style_01">
+								<colgroup>
+									<col width="25%">
+									<col width="25%">
+									<col width="25%">
+									<col width="25%">
+								</colgroup>
+								<tbody>
+									<tr>
+									
+										<th>프로젝트 아이디</th>
+										<th>프로젝트 이름</th>
+										<th>프로젝트 멤버 이름</th>
+										<th></th>
+					
+										<c:forEach items="${inactiveMemList}" var="inactive">
+										
+											<tr class="friReqTr" data-user_email="${inactive.user_email}">
+												<td>${inactive.prj_id}</td>
+												<td>${inactive.prj_nm}</td>
+												<td>${inactive.user_nm}</td>
+												<td>
+<!-- 												transferOwnership -->
+													<a href="/projectMemberList?frdRequEmail=${prjVo.user_email}" id="transferBtn" class="inp_style_01">소유권이전</a>
+												</td>
+												
+											</tr>
+											
+										</c:forEach>
+											
+										<form>
+											
+										</form>
+										
+									</tr>
+								</tbody>
+							</table>
+							
+				            <div class="btn-r">
+				                <a href="#" class="btn-layerClose">Close</a>
+				            </div>
+				            
+				            <!--// content-->
+				        </div>
+				    </div>
+				</div>
+			</form>
+				
+				
 			</div> 
 		
 		</div>

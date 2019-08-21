@@ -159,4 +159,32 @@ public class Project_MemDao implements IProject_MemDao{
 		return sqlSession.selectList("project.headerChatFriendList",user_email);
 	}
 
+	/**
+	 * 
+	* Method : prjMemListForInactive
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-21
+	* @param map
+	* @return
+	* Method 설명 : 휴면 계정을 하기 위해 session에서 가져온 user_email에서 나의 프로젝트 멤버를 리스트로 조회
+	 */
+	@Override
+	public List<Project_MemVo> prjMemListForInactive(Map<String, Object> map) {
+		return sqlSession.selectList("project.prjMemListForInactive",map);
+	}
+
+	/**
+	 * 
+	* Method : prjMemListForInactiveCnt
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-21
+	* @param map
+	* @return
+	* Method 설명 : 휴면 계정을 하기 위해 session에서 가져온 user_email에서 나의 프로젝트 멤버를 리스트로 조회한 갯수
+	 */
+	@Override
+	public int prjMemListForInactiveCnt(Map<String, Object> map) {
+		return sqlSession.selectOne("project.prjMemListForInactiveCnt",map);
+	}
+
 }
