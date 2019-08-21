@@ -806,8 +806,6 @@
 			
 		})
 		
-		
-		
 		$("#workFile").on('click','#uploadFile', function(){
 
 			var form = document.getElementById("frm");
