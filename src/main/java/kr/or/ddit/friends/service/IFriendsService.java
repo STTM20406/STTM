@@ -73,7 +73,18 @@ public interface IFriendsService {
 	* @return
 	* Method 설명 : 일반 사용자가 친구 삭제
 	 */
-	int deleteFriends(String frd_email);
+	int deleteFriends(FriendsVo friendsVo);
+	
+	/**
+	 * 
+	* Method : deleteFriends2
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-21
+	* @param friendsVo
+	* @return
+	* Method 설명 : 일반 사용자가 자신의 친구를 삭제하면 상대 방도 친구 삭제
+	 */
+	int deleteFriends2(FriendsVo friendsVo);
 	
 	/**
 	 * 

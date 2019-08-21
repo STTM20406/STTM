@@ -411,18 +411,21 @@ public class UserController {
 	* Method 설명 : 일반 사용자가 친구 리스트에서 자신의 친구를 삭제
 	 */
 	@RequestMapping(path = "/deleteFriends", method = RequestMethod.GET)
-	public String deleteFriends(String frd_email,PageVo pageVo, Model model, 
-			HttpSession session
-			,String prjMemPaging, String friendsPaging, Map<String, Object> user_email) {
+	public String deleteFriends(String frd_email, HttpSession session) {
 		
 		logger.debug("frd_email : 또굥 {}", frd_email);
 
-		int deleteFriends = friendsService.deleteFriends(frd_email);
-		
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
-		Project_MemVo prjVo = new Project_MemVo();
+		String user_email = userVo.getUser_email();
 		
-		logger.debug("userVo : 점심쯤 로거 확인1 {} ",userVo);
+		// 일반 사용자가 자신의 친구를 삭제
+		FriendsVo friendsVo = new FriendsVo(user_email, frd_email);
+		int deleteFriends = friendsService.deleteFriends(friendsVo);
+		
+		// 일반 사용자가 자신의 친구를 삭제하면 동시에 상대방에 친구 목록에서 사라짐 - 친구 삭제
+		FriendsVo friendsVo2 = new FriendsVo(frd_email, user_email);
+		int deleteFriends2 = friendsService.deleteFriends2(friendsVo2);
+		
 		
 		return "/member/projectMember.user.tiles";
 	}
