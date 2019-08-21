@@ -629,17 +629,6 @@
 			var work_date = $("#wps_start_date").val();
 			var res_date = $("#wps_res_date").val();
 			var wrk_gd = $("#wrk_gd").val();
-<<<<<<< HEAD
-=======
-// 			var wrk_color = $("input[name='wrk_color_cd']:checked").val();
-			var wrk_color = $("input:radio[name='wrk_color_cd']").is(":checked");
-// 			if(wrk_color == true){
-// 				alert(wrk_color);
-// 			}else{
-// 				alert("체크안됨 ");
-// 			}
->>>>>>> branch 'master' of https://github.com/STTM20406/STTM
-			
 				
 			var workSplit = work_date.split(" to ");
 			var resSplit = res_date.split(" to ");
@@ -827,6 +816,54 @@
 	 		    }
 	 		});
 		});
+		
+		
+		//업무 멤버 추가하기 버튼 클릭시 해당 프로젝트 멤버 가져오기
+		$(".wrk_add_mem").fadeOut(0); //멤버리스트 layer 숨기기
+		$("#wps_mem_set").on("click", function(){
+			$(".wrk_add_mem").fadeIn(300);
+			workMemListAjax();
+		});
+		
+		//업무 멤버 가져오는 ajax
+		function workMemListAjax(){
+			$.ajax({
+				url:"/work/workMemListAjax",
+				method:"post",
+				success:function(data){
+					var html = "";
+					data.data.forEach(function(item, index){
+						//html 생성
+						html += "<li id='"+ item.user_email +"'><span>"+ item.user_nm +"</span>"+ item.user_email + "</li>";
+					});	
+					$(".wrk_mem_item").html(html);
+				}
+			});
+		}
+		
+		//업무 멤버 클릭 했을 때
+		$(".wrk_mem_item").on("click", "li", function(){
+			var mem_add_email = $(this).attr("id");
+			workMemAddAjax(mem_add_email);
+		});
+		
+		//배정된 멤버로 선택한 멤버 추가
+		function workMemAddAjax(id, mem_add_email){
+			$.ajax({
+				url:"/work/workMemAddAjax",
+				method:"post",
+				data: "user_email=" + mem_add_email,
+				success:function(data){
+					console.log(data);
+// 					var html = "";
+// 					data.data.forEach(function(item, index){
+// 						html += "<li id='"+ item.user_email +"_"+item.prj_id+"_"+item.prj_mem_lv+"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
+// 					});	
+					
+// 					$(".wrk_add_box").html(html);
+				}
+			});
+		}
 		
 	});
 	
@@ -1093,8 +1130,6 @@
 
 	// file, link 등록 부분 구현중
 	
-	
-	
 </script>
 
 
@@ -1145,13 +1180,15 @@
 							</dt>
 							<dd>
 								<c:choose>
-									<c:when test="${userInfo.prj_mem_lv == 'LV0' && PROJECT_INFO.prj_auth == 'ASC02' || userInfo.prj_mem_lv == 'LV0' && PROJECT_INFO.prj_auth == 'ASC03'}">
+									<c:when test="${userInfo.prj_mem_lv == 'LV1' && PROJECT_INFO.prj_auth == 'ASC02' || userInfo.prj_mem_lv == 'LV1' && PROJECT_INFO.prj_auth == 'ASC03'}">
+									</c:when>
+									<c:otherwise>
 										<input type="button" class="workList_add_i" value="새업무 추가">
 										<a href="javascript:;" class="workList_set_i">업무리스트 설정</a>
 										<div class="workList_set">
 											<input type="button" id="btnWorkListDel_${workList.wrk_lst_id}" value="업무리스트 삭제">
 										</div>
-									</c:when>
+									</c:otherwise>
 								</c:choose>
 							</dd>
 						</dl>
