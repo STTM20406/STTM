@@ -274,9 +274,9 @@
 	<select id="prjMemListForInactive" parameterType="map" resultType="project_memVo">
 		<![CDATA[
 			SELECT *
+				FROM
+			(SELECT E.*, ROWNUM RN
 			FROM
-				(SELECT E.*, ROWNUM RN
-				 FROM
 			(SELECT DISTINCT 
 			                D.PRJ_ID
 			              , D.PRJ_NM  
@@ -286,13 +286,12 @@
 			              , B.PRJ_OWN_FL
 			FROM( SELECT * 
 			      FROM PROJECT_MEM 
-			      WHERE USER_EMAIL = #{user_email} ) A, PROJECT_MEM B, USERS C, PROJECT D
+			      WHERE USER_EMAIL = #{user_email}
+			      AND PRJ_OWN_FL = 'Y') A, PROJECT_MEM B, USERS C, PROJECT D
 			WHERE B.PRJ_ID IN (A.PRJ_ID) 
-			AND C.USER_EMAIL NOT IN #{user_email}
-			AND C.USER_EMAIL = B.USER_EMAIL
-			AND D.PRJ_ID = B.PRJ_ID
-			AND B.PRJ_MEM_LV = 'LV0'
-			AND B.PRJ_OWN_FL = 'N'
+			AND B.USER_EMAIL = C.USER_EMAIL 
+			AND B.PRJ_ID = D.PRJ_ID
+			AND B.PRJ_OWN_FL = 'N' 
 			ORDER BY D.PRJ_ID) e)
 			where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
 		]]>
@@ -303,23 +302,40 @@
 		SELECT COUNT(*)
 		FROM
 		(SELECT DISTINCT 
-		                D.PRJ_ID
-		              , D.PRJ_NM  
-		              , B.USER_EMAIL
-		              , C.USER_NM 
-		              , B.PRJ_MEM_LV 
-		              , B.PRJ_OWN_FL
+                D.PRJ_ID
+              , D.PRJ_NM  
+              , B.USER_EMAIL
+              , C.USER_NM 
+              , B.PRJ_MEM_LV 
+              , B.PRJ_OWN_FL
 		FROM( SELECT * 
 		      FROM PROJECT_MEM 
-		      WHERE USER_EMAIL = #{user_email} ) A, PROJECT_MEM B, USERS C, PROJECT D
+		      WHERE USER_EMAIL = #{user_email}
+		      AND PRJ_OWN_FL = 'Y') A, PROJECT_MEM B, USERS C, PROJECT D
 		WHERE B.PRJ_ID IN (A.PRJ_ID) 
-		AND C.USER_EMAIL NOT IN #{user_email}
-		AND C.USER_EMAIL = B.USER_EMAIL
-		AND D.PRJ_ID = B.PRJ_ID
-		AND B.PRJ_MEM_LV = 'LV0'
-		AND B.PRJ_OWN_FL = 'N'
+		AND B.USER_EMAIL = C.USER_EMAIL 
+		AND B.PRJ_ID = D.PRJ_ID
+		AND B.PRJ_OWN_FL = 'N' 
 		ORDER BY D.PRJ_ID) E
 	</select>
+	
+	<!-- 휴면 계정 설정하기 위해 멤버 레벨(String prj_mem_lv)를 'LV0'으로 업데이트 시키고
+	 	  프로젝트 소유 유무(String prj_own_fl)를 'N'로 업데이트 시켜 준다.  -->
+	<update id="updateInactiveMember" parameterType="project_memVo">
+		UPDATE PROJECT_MEM
+		SET PRJ_MEM_LV = 'LV0', PRJ_OWN_FL = 'N'
+		WHERE USER_EMAIL = #{user_email}
+		AND PRJ_ID = #{prj_id};
+	</update>
+	
+	<!-- 휴면 계정 설정하기 위해 멤버 레벨(String prj_mem_lv)를 'LV1'으로 업데이트 시키고
+	 	  프로젝트 소유 유무(String prj_own_fl)를 'Y'로 업데이트 시켜 준다.  -->
+	<update id="updateTransferOwnership" parameterType="project_memVo">
+		UPDATE PROJECT_MEM
+		SET PRJ_MEM_LV = 'LV1', PRJ_OWN_FL = 'Y'
+		WHERE USER_EMAIL = #{user_email}
+		AND PRJ_ID = #{prj_id};
+	</update>
 	
 	<!-- *******************project_trnf_hs****************** -->
 

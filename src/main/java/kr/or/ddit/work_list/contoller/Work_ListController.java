@@ -49,7 +49,7 @@ public class Work_ListController {
 	@Resource(name = "project_MemService")
 	private IProject_MemService projectMemService;
 	
-	@Resource(name = "")
+	@Resource(name="work_Mem_FlwService")
 	private IWork_Mem_FlwService workMemFlwService;
 	
 	
@@ -501,11 +501,12 @@ public class Work_ListController {
 		return "jsonView";
 	}
 	
-	// 업무 멤버 리스트 불러오기(관리자 추가)
+	// 업무 멤버 리스트 불러오기
 	@RequestMapping("/workMemListAjax")
-	public String workMemListAjax(Model model, HttpSession session) {
+	public String workMemListAjax(String wrk_id, Model model, HttpSession session) {
 
 		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
+		int wrkID = Integer.parseInt(wrk_id);
 		
 		// 세션에 저장된 user 정보를 가져옴
 		UserVo user = (UserVo) session.getAttribute("USER_INFO");
@@ -514,15 +515,27 @@ public class Work_ListController {
 		Project_MemVo projectMemVo = new Project_MemVo();
 		projectMemVo.setPrj_id(projectVo.getPrj_id());
 		projectMemVo.setUser_email(user_email);
-
-		model.addAttribute("data", projectMemService.projectMemList(projectMemVo));
+		List<Project_MemVo> projectMemList = projectMemService.projectMemList(projectMemVo);
+		
+		Work_Mem_FlwVo work_mem_flwVo = new Work_Mem_FlwVo(wrkID, "M");
+		List<Work_Mem_FlwVo> wrkMemList = workMemFlwService.workMemFlwList(work_mem_flwVo); 
+		
+		for (int i = 0; i < wrkMemList.size(); i++) {
+			for (int j = 0; j < projectMemList.size(); j++) {
+				if (projectMemList.get(j).getUser_email().equals(wrkMemList.get(i).getUser_email())) {
+					projectMemList.remove(projectMemList.get(j));
+				}
+			}
+		}
+		
+		model.addAttribute("projectMemList", projectMemList);
 
 		return "jsonView";
 	}
 	
 	// 업무 멤버 추가 
 	@RequestMapping("/workMemAddAjax")
-	public String workMemAddAjax(ProjectVo projectVo, Work_Mem_FlwVo work_Mem_FlwVo, String wrk_id, String user_email, Model model, HttpSession session) {
+	public @ResponseBody HashMap<String, Object> workMemAddAjax(ProjectVo projectVo, Work_Mem_FlwVo work_Mem_FlwVo, String wrk_id, String user_email, Model model, HttpSession session) {
 
 		projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
 		int wrkID = Integer.parseInt(wrk_id);
@@ -531,17 +544,70 @@ public class Work_ListController {
 		work_Mem_FlwVo.setPrj_id(projectVo.getPrj_id());
 		work_Mem_FlwVo.setWrk_id(wrkID);
 		work_Mem_FlwVo.setJn_fl("M");
-		
 		int insertCnt = workMemFlwService.insertWorkMemFlw(work_Mem_FlwVo);
+		
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		
+		Project_MemVo projectMemVo = new Project_MemVo(projectVo.getPrj_id(), user_email);
+		List<Project_MemVo> projectMemList = projectMemService.projectMemList(projectMemVo);
 		
 		Work_Mem_FlwVo work_mem_flwVo = new Work_Mem_FlwVo(wrkID, "M");
 		List<Work_Mem_FlwVo> wrkMemList = workMemFlwService.workMemFlwList(work_mem_flwVo); 
-
-		if (insertCnt != 0) {
-			model.addAttribute("data", wrkMemList);
+		
+		
+		for (int i = 0; i < wrkMemList.size(); i++) {
+			for (int j = 0; j < projectMemList.size(); j++) {
+				if (projectMemList.get(j).getUser_email().equals(wrkMemList.get(i).getUser_email())) {
+					projectMemList.remove(projectMemList.get(j));
+				}
+			}
 		}
 		
-		return "jsonView";
+		if (insertCnt != 0) {
+			hashmap.put("projectMemList", projectMemList);
+			hashmap.put("wrkMemList", wrkMemList);
+		}
+		
+		return hashmap;
+	}
+	
+	// 업무 멤버 삭제
+	@RequestMapping("/workMemDelAjax")
+	public @ResponseBody HashMap<String, Object> workMemDelAjax(ProjectVo projectVo, String user_email, Work_Mem_FlwVo work_mem_flwVo, String wrk_id, Model model, HttpSession session) {
+
+		projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
+		int wrkID = Integer.parseInt(wrk_id);
+
+		work_mem_flwVo= new Work_Mem_FlwVo(user_email, wrkID);
+		int deleteCnt = workMemFlwService.deleteWorkMemFlw(work_mem_flwVo);
+
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		
+		Project_MemVo projectMemVo = new Project_MemVo(projectVo.getPrj_id(), user_email);
+		List<Project_MemVo> projectMemList = projectMemService.projectMemList(projectMemVo);
+		
+		logger.debug("projectMemList  log {}", projectMemList);
+		
+		work_mem_flwVo = new Work_Mem_FlwVo(wrkID, "M");
+		List<Work_Mem_FlwVo> wrkMemList = workMemFlwService.workMemFlwList(work_mem_flwVo); 
+		
+		for (int i = 0; i < wrkMemList.size(); i++) {
+			for (int j = 0; j < projectMemList.size(); j++) {
+				if (projectMemList.get(j).getUser_email().equals(wrkMemList.get(i).getUser_email())) {
+					projectMemList.remove(projectMemList.get(j));
+				}
+			}
+		}
+		
+		logger.debug("projectMemList  log {}", projectMemList);
+		logger.debug("wrkMemList  log {}", wrkMemList);
+		
+		if (deleteCnt != 0) {
+			hashmap.put("projectMemList", projectMemList);
+			hashmap.put("wrkMemList", wrkMemList);
+		}
+		
+		return hashmap;
 	}
 	
 }

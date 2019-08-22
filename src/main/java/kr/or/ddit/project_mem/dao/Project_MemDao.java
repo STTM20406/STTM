@@ -18,7 +18,6 @@ public class Project_MemDao implements IProject_MemDao{
 	@Resource(name = "sqlSession")
 	private SqlSessionTemplate sqlSession;
 	
-	
 	/**
 	 * 
 	 * Method 		: projectMemList
@@ -31,7 +30,6 @@ public class Project_MemDao implements IProject_MemDao{
 	public List<Project_MemVo> projectMemList(Project_MemVo projectMemVo) {
 		return sqlSession.selectList("project.projectMemList", projectMemVo);
 	}
-
 	
 	/**
 	 * 
@@ -45,7 +43,6 @@ public class Project_MemDao implements IProject_MemDao{
 	public int insertProjectMem(Project_MemVo projectMemVo) {
 		return sqlSession.insert("project.insertProjectMem", projectMemVo);
 	}
-
 	
 	/**
 	 * 
@@ -121,9 +118,6 @@ public class Project_MemDao implements IProject_MemDao{
 		return sqlSession.selectList("project.projectAllMemList", user_email);
 	}
 
-
-
-
 	/**
 	 * 
 	 * Method 		: deleteProjectMem
@@ -138,7 +132,6 @@ public class Project_MemDao implements IProject_MemDao{
 		return sqlSession.delete("project.deleteProjectMem", projectMemVo);
 	}
 
-
 	/**
 	 * 
 	 * Method 			: getProjectMemInfo
@@ -152,7 +145,6 @@ public class Project_MemDao implements IProject_MemDao{
 	public Project_MemVo getProjectMemInfo(Project_MemVo projectMemVo) {
 		return sqlSession.selectOne("project.getProjectMemInfo", projectMemVo);
 	}
-
 
 	@Override
 	public List<Project_MemVo> headerChatFriendList(String user_email) {
@@ -185,6 +177,36 @@ public class Project_MemDao implements IProject_MemDao{
 	@Override
 	public int prjMemListForInactiveCnt(Map<String, Object> map) {
 		return sqlSession.selectOne("project.prjMemListForInactiveCnt",map);
+	}
+	
+	/**
+	 * 
+	 * Method : updateInactiveMember
+	 * 작성자 : 김경호
+	 * 변경이력 : 2019-08-22
+	 * @param projectMemVo
+	 * @return
+	 * Method 설명 : 휴면 계정 설정하기 위해 멤버 레벨(String prj_mem_lv)를 'LV0'으로 업데이트 시키고
+	 * 			       프로젝트 소유 유무(String prj_own_fl)를 'N'로 업데이트 시켜 준다. 
+	 */
+	@Override
+	public int updateInactiveMember(Project_MemVo projectMemVo) {
+		return sqlSession.update("project.updateInactiveMember",projectMemVo);
+	}
+
+	/**
+	 * 
+	 * Method : updateTransferOwnership
+	 * 작성자 : 김경호
+	 * 변경이력 : 2019-08-22
+	 * @param projectMemVo
+	 * @return
+	 * Method 설명 : 휴면 계정 설정하기 위해 멤버 레벨(String prj_mem_lv)를 'LV1'으로 업데이트 시키고
+	 * 			       프로젝트 소유 유무(String prj_own_fl)를 'Y'로 업데이트 시켜 준다. 
+	 */
+	@Override
+	public int updateTransferOwnership(Project_MemVo projectMemVo) {
+		return sqlSession.update("project.updateTransferOwnership", projectMemVo);
 	}
 
 }

@@ -12,7 +12,7 @@ public interface IProject_MemService {
 	/**
 	 * 
 	 * Method 		: projectMemList
-	 * 작성자 		: 박서경 
+	 * 작성자 			: 박서경 
 	 * 변경이력 		: 2019-07-21 최초 생성
 	 * @return
 	 * Method 설명 	: 프로젝트 멤버 리스트 조회
@@ -122,5 +122,29 @@ public interface IProject_MemService {
 	* Method 설명 : 휴면 계정을 하기 위해 session에서 가져온 user_email에서 나의 프로젝트 멤버를 리스트로 조회
 	 */
 	Map<String, Object> prjMemListForInactive(Map<String, Object> map);
+	
+	/**
+	 * 
+	 * Method : updateInactiveMember
+	 * 작성자 : 김경호
+	 * 변경이력 : 2019-08-22
+	 * @param projectMemVo
+	 * @return
+	 * Method 설명 : 휴면 계정 설정하기 위해 멤버 레벨(String prj_mem_lv)를 'LV0'으로 업데이트 시키고
+	 * 			       프로젝트 소유 유무(String prj_own_fl)를 'N'로 업데이트 시켜 준다. 
+	 */
+	int updateInactiveMember(Project_MemVo projectMemVo);
+	
+	/**
+	 * 
+	 * Method : updateTransferOwnership
+	 * 작성자 : 김경호
+	 * 변경이력 : 2019-08-22
+	 * @param projectMemVo
+	 * @return
+	 * Method 설명 : 휴면 계정 설정하기 위해 멤버 레벨(String prj_mem_lv)를 'LV1'으로 업데이트 시키고
+	 * 			       프로젝트 소유 유무(String prj_own_fl)를 'Y'로 업데이트 시켜 준다. 
+	 */
+	int updateTransferOwnership(Project_MemVo projectMemVo);
 	
 }
