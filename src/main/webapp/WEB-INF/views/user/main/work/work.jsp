@@ -18,7 +18,7 @@ function commentPagination(wps_wrk_id,page, pageSize){
 		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 		data:"wps_wrk_id="+wps_wrk_id+"&page="+page+"&pageSize="+pageSize,
 		success:function(data){
-			console.log(data);
+			console.log("commentPagination : ",data);
 			var html = "";
 			
 			data.commentList.forEach(function(comm, index){
@@ -66,15 +66,35 @@ function commentPagination(wps_wrk_id,page, pageSize){
 		}
 	})
 }
-function commentInsert(wps_wrk_id,content,page, pageSize){
+function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 	$.ajax({
 		url:"/commentInsert",
 		method:"post",
 		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-		data:"wps_wrk_id="+wps_wrk_id+"&comm_content="+content+"&page="+page+"&pageSize="+pageSize,
+		data:"wps_wrk_id="+wps_wrk_id+"&wps_wrk_nm="+wps_wrk_nm+"&comm_content="+content+"&page="+page+"&pageSize="+pageSize,
 		success:function(data){
-			console.log(data);
 			console.log("소켓연결인지 확인 코멘트 등록",socket);
+			console.log("model로 들어오는가",data);
+			console.log("model로 들어오는가2",data.data[1].user_email);
+			console.log("model로 들어오는가3",data.data2[0].user_email);
+			console.log("model로 들어오는가3",data.data.length);
+			if(socket){
+				var socketMsg = "";
+				
+				console.log(data.data)
+				for(var i=0;i<data.data.length;i++){
+					socketMsg += "comment," + data.data[i].user_email +"," + data.data3.wrk_nm + ":";
+					
+				}
+				
+				for(var i=0;i<data.data2.length;i++){
+					socketMsg += "comment," + data.data2[i].user_email +"," + data.data3.wrk_nm + ":";
+				}
+				// websocket에 보내기!!
+				console.log("메세지이이이이이이이이이",socketMsg);
+				socket.send(socketMsg);
+			}
+			
 			
 			commentPagination(wps_wrk_id,1, 10);
 		}
@@ -162,8 +182,9 @@ function commentInsert(wps_wrk_id,content,page, pageSize){
 		// 댓글등록하기 버튼
 		$("#replyBtn").on("click",function(){
 			var wps_wrk_id = $('#wps_wrk_id').val();
+			var wps_wrk_nm = $('#wps_nm').val();
 			var content = $('#comm_content').val();
-			commentInsert(wps_wrk_id,content,1,10);
+			commentInsert(wps_wrk_id,wps_wrk_nm,content,1,10);
 		})
 		
 		// -------------------------업무코멘트 종료지점 -----------------------------------------
