@@ -24,7 +24,6 @@ function commentPagination(wps_wrk_id,page, pageSize){
 			data.commentList.forEach(function(comm, index){
 				
 				html += "<tr class='commTr'>";
-				html += "<td>"+comm.comm_id+"</td>";
 				html += "<input type='hidden' name='commContent' value='"+comm.comm_content +"'/>"
 				html += "<input type='hidden' name='commContent' value='"+comm.comm_id +"'/>"
 				html += "<input type='hidden' name='commContent' value='"+comm.prj_id +"'/>"
@@ -74,6 +73,9 @@ function commentInsert(wps_wrk_id,content,page, pageSize){
 		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 		data:"wps_wrk_id="+wps_wrk_id+"&comm_content="+content+"&page="+page+"&pageSize="+pageSize,
 		success:function(data){
+			console.log(data);
+			console.log("소켓연결인지 확인 코멘트 등록",socket);
+			
 			commentPagination(wps_wrk_id,1, 10);
 		}
 	})
@@ -1674,8 +1676,7 @@ function commentInsert(wps_wrk_id,content,page, pageSize){
 			<div>
 				<table class="tb_style_01">
 					<colgroup>
-						<col width="10%">
-						<col width="20%">
+						<col width="30%">
 						<col width="10%">
 						<col width="5%">
 						<col width="2%">
@@ -1683,7 +1684,6 @@ function commentInsert(wps_wrk_id,content,page, pageSize){
 					</colgroup>
 					<thead>
 						<tr>
-							<th>번호</th>
 							<th>내용</th>
 							<th>작성자 아이디</th>
 							<th colspan='3'>작성일</th>
