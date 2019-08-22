@@ -85,10 +85,17 @@ function calDateWhenDragnDrop(event) {
 }
 
 
-var calendar = $('#calendar').fullCalendar({
+console.log("before init calendar");
+var calendar;
+
+function initCalendar(){
+	
+ calendar = $('#calendar').fullCalendar({
 
   eventRender: function (event, element, view) {
-
+	  console.log("eventRender");
+	  
+	  
     //일정에 hover시 요약
     element.popover({
       title: $('<div />', {
@@ -158,10 +165,13 @@ var calendar = $('#calendar').fullCalendar({
    *  일정 받아옴 
    * ************** */
   events: function (start, end, timezone, callback) {
+	  
+	  console.log("filterFrm : " + $("#filterFrm").serialize());
     $.ajax({
       method:"get",
       url: "/calendarTest",
       data: $("#filterFrm").serialize(),
+      async: false,
       contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
       success: function (response) {
 
@@ -182,9 +192,13 @@ var calendar = $('#calendar').fullCalendar({
   },
 
   eventAfterAllRender: function (view) {
+	  
+	  console.log("eventAfterAllRender test");
     if (view.name == "month") {
       $(".fc-content").css('height', 'auto');
     }
+    
+    //calAjax();
   },
 
   //일정 리사이즈
@@ -340,3 +354,7 @@ var calendar = $('#calendar').fullCalendar({
   eventLongPressDelay: 0,
   selectLongPressDelay: 0
 });
+ 
+ 
+}
+console.log("before init calendar");
