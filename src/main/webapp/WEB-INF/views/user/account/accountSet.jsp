@@ -82,6 +82,18 @@
 		        layer_popup($href);
 		});
 		
+		// 소유권 이전 버튼 클릭시 이벤트 
+		$(".transOwn").on("click","#subOwership", function(){
+			var user_email = $(this).parent(".transOwn").attr("id");
+			console.log(user_email);
+
+// 			var user_email2 = $(this).siblings("#userEmailInput").val();
+// 			console.log(user_email2);
+			
+			$("#transferOwership").val(user_email);
+			$("#ownEmailForm").submit();
+		});
+		
 	});
 
 	function funLoad(){
@@ -261,7 +273,7 @@
 			
 				<!-- 휴면 계정 설정 -->  
 				<div id="setUserStatus" class="loginWrap" style="background-color:paleturquoise" onclick="setUserStatus"><label>휴면계정</label>
-					<form action="/setUserStatus" method="post" id="userStatusForm">
+					<form action="/setUserStatus" method="get" id="userStatusForm">
 						<div class="inputField">
 							<a href="#layer0" class="inactiveUser a_style_04">휴면 계정 전환</a>
 							
@@ -271,12 +283,17 @@
 				
 				<!-- 휴면 계정 설정 레이어창 -->
 <!-- 				<form action="/setUserStatus" id="friendsRequestListForm" method="get"> -->
-				<form action="/setUserPass" id="friendsRequestListForm" method="get">
+				<form action="/setUserPass" id="ownEmailForm" method="post">
+					<input type="hidden" id="transferOwership" name="transferOwership">
+				</form>
+				
+				<form action="/setUserPass" id="friendsRequestListForm" method="post">
 				<div id="layer0" class="pop-layer">
 				    <div class="pop-container">
 				        <div class="pop-conts">
 				            <!--content //-->
-			
+						
+						
 							<table class="tb_style_01">
 								<colgroup>
 									<col width="25%">
@@ -294,23 +311,23 @@
 					
 										<c:forEach items="${inactiveMemList}" var="inactive">
 										
-											<tr class="friReqTr" data-user_email="${inactive.user_email}">
+											<tr class="ownTr" data-user_email="${inactive.user_email}">
 												<td>${inactive.prj_id}</td>
 												<td>${inactive.prj_nm}</td>
 												<td>${inactive.user_nm}</td>
-												<td>
-<!-- 												transferOwnership -->
-													<a href="/setUserPass?transferOwership=${inactive.user_email}" id="transferBtn" class="inp_style_01">소유권이전</a>
+												<td class="transOwn" id="${inactive}">
+<%-- 												<td class="transOwn" id="${inactive.user_email}"> --%>
+<%-- 													<a href="/setUserPass?transferOwership=${inactive.user_email}" id="transferBtn" class="inp_style_01">소유권이전</a> --%>
+<!-- 													<input type="submit" id="subOwership" class="inp_style_01" value="소유권 이전"> -->
+													<input type="button" id="subOwership" class="inp_style_01" value="소유권 이전">
+													<input type="hidden" id="userEmailInput" value="${inactive.user_email}"/> <!-- sol -->
 												</td>
+												
 												
 											</tr>
 											
 										</c:forEach>
 											
-										<form>
-											
-										</form>
-										
 									</tr>
 								</tbody>
 							</table>

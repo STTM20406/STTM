@@ -83,7 +83,7 @@
 		UPDATE WORK SET 	WRK_CMP_FL = #{wrk_cmp_fl},
 							<choose>
 								<when test="wrk_cmp_dt != null">
-									WRK_CMP_DT = #{wrk_cmp_dt}
+									WRK_CMP_DT = NULL
 								</when>
 								<otherwise>
 									WRK_CMP_DT = SYSDATE
@@ -283,10 +283,18 @@
 
 <!-- ******************work_mem_flw**************** -->
 
-
+	
 	<!-- 업무 배정된멤버 / 팔로워 조회 -->
 	<select id="workMemFlwList" resultType="work_mem_flwVo" parameterType="work_mem_flwVo">
 		SELECT A.*, B.USER_NM FROM WORK_MEM_FLW A, USERS B WHERE A.USER_EMAIL = B.USER_EMAIL AND A.WRK_ID = #{wrk_id} AND A.JN_FL = #{jn_fl}
+	</select>
+	
+	<!-- 멤버 조회 -->
+	<select id="getWorkMemFlw" resultType="work_mem_flwVo" parameterType="work_mem_flwVo">
+		SELECT A.*, B.USER_NM FROM WORK_MEM_FLW A, USERS B 
+		WHERE A.USER_EMAIL = B.USER_EMAIL 
+		AND A.WRK_ID = #{wrk_id}
+		AND A.USER_EMAIL = #{user_email}
 	</select>
 
 	<!--  업무 멤버 / 팔로워 등록  -->
@@ -294,9 +302,17 @@
 		INSERT INTO WORK_MEM_FLW VALUES(#{user_email}, #{wrk_id}, #{prj_id}, #{jn_fl})
 	</insert>
 	
+	<!--  멤버 / 팔로워 삭제  -->
 	<delete id="deleteWorkMemFlw" parameterType="work_mem_flwVo">
 		DELETE FROM WORK_MEM_FLW WHERE USER_EMAIL = #{user_email} AND WRK_ID = #{wrk_id}
 	</delete>
+	
+	<!-- 멤버 / 팔로워 M 또는 F로 업데이트 -->
+	<update id="updateWorkMemFlw" parameterType="work_mem_flwVo">
+		UPDATE WORK_MEM_FLW SET JN_FL = #{jn_fl} WHERE USER_EMAIL = #{user_email} AND WRK_ID = #{wrk_id}
+	</update>
+	
+
 
 
 
