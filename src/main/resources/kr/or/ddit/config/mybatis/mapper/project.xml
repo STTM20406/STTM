@@ -319,22 +319,22 @@
 		ORDER BY D.PRJ_ID) E
 	</select>
 	
-	<!-- 휴면 계정 설정하기 위해 멤버 레벨(String prj_mem_lv)를 'LV0'으로 업데이트 시키고
+	<!-- 휴면 계정 설정하기 위해 프로젝트 소유자의 멤버 레벨(String prj_mem_lv)를 'LV0'으로 업데이트 시키고
 	 	  프로젝트 소유 유무(String prj_own_fl)를 'N'로 업데이트 시켜 준다.  -->
 	<update id="updateInactiveMember" parameterType="project_memVo">
 		UPDATE PROJECT_MEM
 		SET PRJ_MEM_LV = 'LV0', PRJ_OWN_FL = 'N'
 		WHERE USER_EMAIL = #{user_email}
-		AND PRJ_ID = #{prj_id};
+		AND PRJ_ID = #{prj_id}
 	</update>
 	
-	<!-- 휴면 계정 설정하기 위해 멤버 레벨(String prj_mem_lv)를 'LV1'으로 업데이트 시키고
+	<!-- 휴면 계정 설정하기 위해 프로젝트 소유자를 넘겨줄 자의 멤버 레벨(String prj_mem_lv)를 'LV1'으로 업데이트 시키고
 	 	  프로젝트 소유 유무(String prj_own_fl)를 'Y'로 업데이트 시켜 준다.  -->
 	<update id="updateTransferOwnership" parameterType="project_memVo">
 		UPDATE PROJECT_MEM
 		SET PRJ_MEM_LV = 'LV1', PRJ_OWN_FL = 'Y'
 		WHERE USER_EMAIL = #{user_email}
-		AND PRJ_ID = #{prj_id};
+		AND PRJ_ID = #{prj_id}
 	</update>
 	
 	<!-- *******************project_trnf_hs****************** -->
