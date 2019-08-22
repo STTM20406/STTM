@@ -114,6 +114,17 @@
 	
 	
 </script>
+<div class="sub_menu">
+	<ul class="sub_menu_item">
+		<li><a href="/overview/analysis">Work List</a></li>
+		<li><a href="/calendarGet">Calendar</a></li>
+		<li><a href="/gantt/overview">Gantt Chart</a></li>
+	</ul>
+	<div class="sub_btn">
+	</div>
+</div>
+<section class="contents">
+<h2>Calendar</h2>
 <div id="frmContainer" style="height:100%;width:250px;float:left;margin-right:0;">
 	    <form id="filterFrm">
 	    	<label>업무 구분</label><br>
@@ -292,6 +303,7 @@
 			</div>
 		</div>
 	</div>
+	</section>
 	<!-- /.modal -->
 
 <!-- /.container -->
