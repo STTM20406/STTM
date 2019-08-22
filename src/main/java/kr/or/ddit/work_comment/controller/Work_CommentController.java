@@ -1,26 +1,26 @@
 package kr.or.ddit.work_comment.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang.WordUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.project.model.ProjectVo;
+import kr.or.ddit.project_mem.service.IProject_MemService;
 import kr.or.ddit.users.model.UserVo;
 import kr.or.ddit.work_comment.model.Work_CommentVo;
 import kr.or.ddit.work_comment.service.IWork_CommentService;
+import kr.or.ddit.work_mem_flw.model.Work_Mem_FlwVo;
+import kr.or.ddit.work_mem_flw.service.IWork_Mem_FlwService;
 
 @Controller
 public class Work_CommentController {
@@ -30,12 +30,31 @@ public class Work_CommentController {
 	@Resource(name="work_CommentService")
 	private IWork_CommentService commentService;
 	
+	@Resource(name = "project_MemService")
+	private IProject_MemService projectMemService;
+	
+	@Resource(name="work_Mem_FlwService")
+	private IWork_Mem_FlwService workMemFlwService;
+	
+	
 	@RequestMapping("/comment")
 	public @ResponseBody Map<String, Object> workComment(Model model,HttpSession session,String page,String pageSize,String wps_wrk_id) {
 		logger.debug("!@# session : {}",session);
 		logger.debug("!@# wps_wrk_id : {}",wps_wrk_id);
 		
+		
+		
 		int wrk_id = Integer.parseInt(wps_wrk_id);
+		//배정된 업무 멤버 가져오기
+		Work_Mem_FlwVo work_memVo = new Work_Mem_FlwVo(wrk_id, "M");
+		List<Work_Mem_FlwVo> wrkMemList = workMemFlwService.workMemFlwList(work_memVo); 
+		
+		//업무 팔로워 멤버 가져오기
+		Work_Mem_FlwVo work_flwVo = new Work_Mem_FlwVo(wrk_id, "F");
+		List<Work_Mem_FlwVo> wrkFlwList = workMemFlwService.workMemFlwList(work_flwVo); 
+		
+		
+		
 		int pageStr = page == null ? 1 : Integer.parseInt(page);
 		int pageSizeStr =  pageSize == null ? 10 : Integer.parseInt(pageSize);
 		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
@@ -55,6 +74,8 @@ public class Work_CommentController {
 		
 		model.addAttribute("commentList", commentList);
 		
+		resultMap.put("wrkMemList",wrkMemList);
+		resultMap.put("wrkFlwList",wrkFlwList);
 		resultMap.put("commentList",commentList);
 		resultMap.put("pageVo",pageVo);
 		resultMap.put("commPageSize",commPageSize);

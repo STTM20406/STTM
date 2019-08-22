@@ -62,7 +62,7 @@ public class FilterService implements IFilterService{
 	@Override
 	public Map<String, Object> calendarTemplateJSON(FilterVo filterVo) {
 		Map<String, Object> resultMap = new HashMap<>();
-		String filterFrm = listFilterTemplateCalendar();
+		String filterFrm = listFilterTemplateCalendar(filterVo);
 		String makerList = makerListTemplate(filterVo);
 		String prjList = prjListTemplate(filterVo);
 		
@@ -308,7 +308,7 @@ public class FilterService implements IFilterService{
 		sb_prjList.append("<li>");
 		sb_prjList.append("<label>프로젝트</label>");
 		for(ProjectVo prj : prjIdList) {
-			sb_prjList.append("<p><input type='checkbox' class='filter' name='prj_id_list' value='" + prj.getPrj_id() + "'>" );
+			sb_prjList.append("<p class='pp'><input type='checkbox' class='filter' name='prj_id_list' value='" + prj.getPrj_id() + "'>" );
 			sb_prjList.append(prj.getPrj_nm());
 			sb_prjList.append("</p>");
 		}
@@ -333,7 +333,7 @@ public class FilterService implements IFilterService{
 		sb_followerList.append("<li>");
 		sb_followerList.append("<label>팔로워</label>");
 		for(UserVo user : followerIdList) {
-			sb_followerList.append("<p><input type='checkbox' class='filter' name='wrk_follower' value='" + user.getUser_email() +"'>" + user.getUser_nm());
+			sb_followerList.append("<p class='pp'><input type='checkbox' class='filter' name='wrk_follower' value='" + user.getUser_email() +"'>" + user.getUser_nm());
 			sb_followerList.append("</p>");
 		}
 		sb_followerList.append("</li>");
@@ -357,7 +357,7 @@ public class FilterService implements IFilterService{
 		sb_makerList.append("<li>");
 		sb_makerList.append("<label>작성자</label>");
 		for(UserVo user : makerIdList) {
-			sb_makerList.append("<p><input type='checkbox' class='filter' name='wrk_maker' value='"+ user.getUser_email() +"' checked>" + user.getUser_nm());
+			sb_makerList.append("<p class='pp'><input type='checkbox' class='filter' name='wrk_maker' value='"+ user.getUser_email() +"' checked>" + user.getUser_nm());
 			sb_makerList.append("</p>");
 		}
 		sb_makerList.append("</li>");
@@ -415,7 +415,7 @@ public class FilterService implements IFilterService{
 		
 		sb_form.append("<select name='wrk_is_mine' class='filter'>");
 		sb_form.append("<option value='all' selected>전체 업무</option>");
-		sb_form.append("<option value='mine'>내 업무만</option>");
+		sb_form.append("<option value='mine'>내가 맡은 업무만</option>");
 		sb_form.append("</select>");
 		
 		sb_form.append("<br><br>");
@@ -483,7 +483,7 @@ public class FilterService implements IFilterService{
 	 * @return
 	 * Method 설명 : 전체 개요 페이지의 필터를 Html 형식으로 작성해주는 메서드
 	 */
-	public String listFilterTemplateCalendar() {
+	public String listFilterTemplateCalendar(FilterVo filterVo) {
 		StringBuffer sb_form = new StringBuffer();
 		sb_form.append("<form id='filterFrm'>");
 		sb_form.append("<label>업무 구분</label>");
@@ -491,7 +491,7 @@ public class FilterService implements IFilterService{
 		
 		sb_form.append("<select name='wrk_is_mine' class='filter'>");
 		sb_form.append("<option value='all' selected>전체 업무</option>");
-		sb_form.append("<option value='mine'>내 업무만</option>");
+		sb_form.append("<option value='mine'>내가 맡은 업무만</option>");
 		sb_form.append("</select>");
 		
 		sb_form.append("<br><br>");
@@ -516,7 +516,6 @@ public class FilterService implements IFilterService{
 		sb_form.append("<input type='checkbox' class='filter' name='wrk_i_following' value='y'> 내가 팔로우한 업무 <br>");
 		sb_form.append("<br><br>");
 		
-		sb_form.append("<label>프로젝트 구분</label>");
 		sb_form.append("<br>");
 		sb_form.append("<div id='prjList'></div>");
 		
@@ -540,13 +539,12 @@ public class FilterService implements IFilterService{
 		
 		sb_form.append("<br><br>");
 		
-		sb_form.append("<label>업무 작성자 구분</label>");
 		sb_form.append("<br>");
 		sb_form.append("<div id='makerList'></div>");
 		sb_form.append("<br>");
 		sb_form.append("<button type='button' onclick='reset()'> 필터 초기화 </button>");
 		sb_form.append("<br>");
-		sb_form.append("<input type='hidden' name='user_email' value='son@naver.com'>");
+		sb_form.append("<input type='hidden' name='user_email' value='"+ filterVo.getUser_email() + "'>");
 		sb_form.append("<input type='hidden' name='is_cal' value='true'>");
 		sb_form.append("</form>");
 		return sb_form.toString();

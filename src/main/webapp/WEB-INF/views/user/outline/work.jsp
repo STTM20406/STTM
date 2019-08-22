@@ -8,6 +8,15 @@
 	#filterFrm label { font-size:13px; font-weight: 500; }
 	#filterFrm ul li label { cursor: pointer; }
 </style>
+<div class="sub_menu">
+	<ul class="sub_menu_item">
+		<li><a href="/overview/analysis">Work List</a></li>
+		<li><a href="/calendarGet">Calendar</a></li>
+		<li><a href="/gantt/overview">Gantt Chart</a></li>
+	</ul>
+	<div class="sub_btn">
+	</div>
+</div>
 <section class="contents">
 <h2>Work List</h2>
 <div id="frmContainer" style="height:100%;width:200px;float:left;margin-right:0;">
