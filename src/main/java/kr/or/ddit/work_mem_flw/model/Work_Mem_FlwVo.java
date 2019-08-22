@@ -54,7 +54,7 @@ public class Work_Mem_FlwVo {
 		this.user_email = user_email;
 		this.wrk_id = wrk_id;
 	}
-
+	
 
 	@Override
 	public String toString() {

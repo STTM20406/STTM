@@ -39,4 +39,28 @@ public interface IWork_Mem_FlwDao {
 	 * Method 설명 		: 업무에 해당하는 멤버 / 팔로워 삭제
 	 */
 	int deleteWorkMemFlw(Work_Mem_FlwVo work_mem_flwVo);
+	
+	
+	/**
+	 * 
+	 * Method 			: getWorkMemFlw
+	 * 작성자 				: 박서경 
+	 * 변경이력 			: 2019-08-22 최초 생성
+	 * @param work_mem_flwVo
+	 * @return
+	 * Method 설명 		: 업무 팔로워 멤버가 있는지 조회
+	 */
+	Work_Mem_FlwVo getWorkMemFlw(Work_Mem_FlwVo work_mem_flwVo);
+	
+	
+	/**
+	 * 
+	 * Method 			: updateWorkMemFlw
+	 * 작성자 				: 박서경 
+	 * 변경이력 			: 2019-08-22 최초 생성
+	 * @param work_mem_flwVo
+	 * @return
+	 * Method 설명 		: 업무 멤버 / 팔로워 JN_FL 업데이트 (멤버인지 팔로워 인지)
+	 */
+	int updateWorkMemFlw(Work_Mem_FlwVo work_mem_flwVo);
 }
