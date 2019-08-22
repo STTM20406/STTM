@@ -83,16 +83,19 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 				
 				console.log(data.data)
 				for(var i=0;i<data.data.length;i++){
-					socketMsg += "comment," + data.data[i].user_email +"," + data.data3.wrk_nm + ":";
+					socketMsg = "wrk_comment," + data.data[i].user_email +"," + data.data3.wrk_nm;
+					socket.send(socketMsg);
+					console.log("보냈다 배정멤버",socketMsg);
+					
 					
 				}
 				
 				for(var i=0;i<data.data2.length;i++){
-					socketMsg += "comment," + data.data2[i].user_email +"," + data.data3.wrk_nm + ":";
+					socketMsg = "wrk_comment," + data.data2[i].user_email +"," + data.data3.wrk_nm;
+					socket.send(socketMsg);
+					console.log("보냈다 팔로워",socketMsg);
 				}
 				// websocket에 보내기!!
-				console.log("메세지이이이이이이이이이",socketMsg);
-				socket.send(socketMsg);
 			}
 			
 			
