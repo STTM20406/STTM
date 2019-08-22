@@ -33,7 +33,7 @@ function loadPieChart(pieContainer, pieData, width, height) {
 		        grouped: false
 		        ,
 		        template: function(category, item) {
-		        	var ratio = Math.floor(item.ratio*100);
+		        	var ratio = Math.round(item.ratio*100);
 		        	var pieList = pieData.pieData;
 		        	
 		        	var legend = item.legend;
@@ -97,7 +97,7 @@ function loadPriorChart(priorChartContainer, priorData, width, height) {
 		        grouped: false
 		        ,
 		        template: function(category, item) {
-		        	var ratio = Math.floor(item.ratio*100);
+		        	var ratio = Math.round(item.ratio*100);
 		        	var temp = "";
 		        	var data = priorData.priorData;
 		        	var cat = data[category];
@@ -147,7 +147,7 @@ function loadProgressChart(progressChartContainer, progressData, width, height) 
 			tooltip: {
 				grouped: false,
 				template: function(category, item) {
-					var ratio = Math.floor(item.ratio*100);
+					var ratio = Math.round(item.ratio*100);
 					var temp = "";
 					var data = progressData;
 					var legend = item.legend;
@@ -253,7 +253,7 @@ function loadListChart(listChartContainer, listData, width, height) {
 			series: { stackType: 'percent', showLabel: true },
 			tooltip: { grouped: false,
 				template: function(category, item) {
-		        	var ratio = Math.floor(item.ratio*100);
+		        	var ratio = Math.round(item.ratio*100);
 		        	var temp = "";
 		        	
 		        	var cat = workList[category];

@@ -2,7 +2,9 @@ package kr.or.ddit.filter.service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -248,43 +250,73 @@ public class FilterService implements IFilterService{
 	 * Method 설명 : 개인 업무리스트 화면에서 필터링을 거쳐 반환된 업무들을 Html 태그 형식으로 변환하는 메서드
 	 */
 	private String resultListTemplate(List<WorkVo>workList) {
-		SimpleDateFormat sdf = new SimpleDateFormat("M월 d일");
+		SimpleDateFormat sdf = new SimpleDateFormat("MM. dd");
+		SimpleDateFormat sdf_y = new SimpleDateFormat("yyyy. MM. dd");
 		StringBuffer sb_result = new StringBuffer();
 		Date nowDate = new Date();
+		GregorianCalendar cal = new GregorianCalendar();
+		
+		
 		for(WorkVo work : workList) {
 			if("AUTH04".equals(work.getAuth()))
 				continue;
 			
+			String date_str = null;
+			int startInt = 0;
+			int endInt = 0;
+			
+			if(work.getWrk_start_dt() != null) {
+				cal.setTime(work.getWrk_start_dt());
+				startInt = cal.get(Calendar.YEAR);
+			}
+			
+			if(work.getWrk_end_dt() != null) {
+				cal.setTime(work.getWrk_end_dt());
+				endInt = cal.get(Calendar.YEAR);
+			}
+			
+			if(startInt == endInt && startInt != 0 && endInt != 0) {
+				date_str = sdf_y.format(work.getWrk_start_dt()) + " ~ " + sdf.format(work.getWrk_end_dt()); 
+			} else if (startInt != endInt && startInt != 0 && endInt != 0){
+				date_str = sdf_y.format(work.getWrk_start_dt()) + " ~ " + sdf_y.format(work.getWrk_end_dt()); 
+			} else if (endInt == 0 && startInt != 0) {
+				date_str = sdf_y.format(work.getWrk_start_dt()) + " ~ ";
+			} else if (endInt == 0 && startInt == 0) {
+				date_str = "";
+			}
+			
 			sb_result.append("<div class='result' style='border:1px solid black; width:330px; padding:5px 10px; margin: 3px;' data-wrk_id='"+ work.getWrk_id() +"'>");
 			sb_result.append("<span>"+ work.getPrj_nm() + " > " + work.getWrk_lst_nm() +"</span>");
 			sb_result.append("<br>");
-			sb_result.append("<span class='wrk_nm'>"+ work.getWrk_nm() +"</span>");
+			sb_result.append("<span class='wrk_nm'><b>"+ work.getWrk_nm() +"</b></span>");
+			
+			
 			
 			if(work.getWrk_end_dt()==null) 
 				{
 					if("Y".equals(work.getWrk_cmp_fl()))
-						sb_result.append("<span class='cmp' style='color:#32a89b;'>&nbsp;&nbsp;"+ sdf.format(work.getWrk_cmp_dt()) +" 완료</span>");
+						sb_result.append("<span>&nbsp;&nbsp; "+ date_str +" </span><span class='cmp' style='color:#32a89b;'>&nbsp;&nbsp;"+ sdf_y.format(work.getWrk_cmp_dt()) +" <b>완료</b></span>");
 					else if("N".equals(work.getWrk_cmp_fl()))
-						sb_result.append("<span class='no_deadline' style='color:#616161;'>&nbsp;&nbsp; 마감일 없음</span>");
+						sb_result.append("<span class='no_deadline' style='color:#616161;'>&nbsp;&nbsp; " + date_str + " <b>마감일 없음</b></span>");
 				} 
 					else if(nowDate.after(work.getWrk_end_dt()) && "N".equals(work.getWrk_cmp_fl()))
 				{
-					sb_result.append("<span class='overdue' style='color:#a83232;'>&nbsp;&nbsp;"+ sdf.format(work.getWrk_end_dt()) +"까지 마감</span>");
+					sb_result.append("<span>&nbsp;&nbsp;"+ date_str +"</span><span class='overdue' style='color:#a83232;'>&nbsp;&nbsp;<b> "+ "마감일 지남" +"</b></span>");
 				} 
 					else if(nowDate.before(work.getWrk_start_dt()) && "N".equals(work.getWrk_cmp_fl()))
 				{
-					sb_result.append("<span class='planned' style='color:#d8db1f;'>&nbsp;&nbsp;"+ sdf.format(work.getWrk_start_dt()) +"부터 시작</span>");
+					sb_result.append("<span>&nbsp;&nbsp;"+ date_str +"</span><span class='planned' style='color:#7b8500;'>&nbsp;&nbsp; <b>계획됨</b></span>");
 				} 
 					else if("Y".equals(work.getWrk_cmp_fl())) 
 				{
 					if(work.getWrk_cmp_dt().before(work.getWrk_end_dt()))
-						sb_result.append("<span class='cmp' style='color:#32a89b;'>&nbsp;&nbsp;"+ sdf.format(work.getWrk_cmp_dt()) +" 완료</span>");
+						sb_result.append("<span>&nbsp;&nbsp; "+ date_str +" </span><span class='cmp' style='color:#32a89b;'>&nbsp;&nbsp;"+ sdf.format(work.getWrk_cmp_dt()) +" <b>완료</b></span>");
 					else if(work.getWrk_cmp_dt().after(work.getWrk_end_dt()))
-						sb_result.append("<span class='latecmp' style='color:#b71bbf;'>&nbsp;&nbsp;"+ sdf.format(work.getWrk_cmp_dt()) +" 완료</span>");
+						sb_result.append("<span>&nbsp;&nbsp; "+ date_str +" </span><span class='latecmp' style='color:#b71bbf;'>&nbsp;&nbsp;"+ sdf.format(work.getWrk_cmp_dt()) +" <b>완료</b></span>");
 				}
 			
 				if(work.getWrk_start_dt() != null && work.getWrk_end_dt()!=null && nowDate.before(work.getWrk_end_dt()) && nowDate.after(work.getWrk_start_dt())) {
-					sb_result.append("<span class='cmp' style='color:#32a89b;'>&nbsp;&nbsp;"+ sdf.format(work.getWrk_start_dt()) +"부터 " + sdf.format(work.getWrk_end_dt()) +"까지</span>");
+					sb_result.append("<span class='cmp' style='color:#32a89b;'>&nbsp;&nbsp;"+ date_str +"</span>");
 				}
 			
 			sb_result.append("</div>");
@@ -357,7 +389,7 @@ public class FilterService implements IFilterService{
 		sb_makerList.append("<li>");
 		sb_makerList.append("<label>작성자</label>");
 		for(UserVo user : makerIdList) {
-			sb_makerList.append("<p class='pp'><input type='checkbox' class='filter' name='wrk_maker' value='"+ user.getUser_email() +"' checked>" + user.getUser_nm());
+			sb_makerList.append("<p class='pp'><input type='checkbox' class='filter' name='wrk_maker' value='"+ user.getUser_email() +"'>" + user.getUser_nm());
 			sb_makerList.append("</p>");
 		}
 		sb_makerList.append("</li>");
