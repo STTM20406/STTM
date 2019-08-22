@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <style>
-	.chatBot{border:solid 2px black; width:490px; height: 490px; background : #F6CECE; position: fixed; left : 250px; bottom:0; }
+	.chatBot{border:solid 2px black; width:490px; height: 490px; background : #F6CECE; position: fixed; left : 250px; bottom:0; display:none}
 	.chatContent {overflow-y:scroll; height:400px}
  	.chatContent:after {content:""; clear:both; display:block; zoom:1}
 	.chatContent .bot {display:block; width:100%}
@@ -19,7 +19,6 @@
 
 <script>
 	$(document).ready(function(){
-		$('.chatBot').hide();
 		$('#chatBotBtn').on('click',function(){
 			$('.chatBot').show(250);
 		})
