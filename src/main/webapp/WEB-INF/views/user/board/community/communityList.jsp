@@ -65,52 +65,17 @@ ul.tabs li.current {
 		})
 
 		$("#searchBtn").on("click", function() {
-			var content = $("#searchText").val();
-			var board_id = $("#boardnum02").val();
-			var search = $("#search").val();
-			console.log(content);
-			console.log(board_id);
-			console.log(search);
+// 			var content = $("#searchText").val();
+// 			var board_id = $("#boardnum02").val();
+// 			var search = $("#search").val();
+// 			console.log(content);
+// 			console.log(board_id);
+// 			console.log(search);
 			
-// 			$("#searchFrm").submit();
-			communitySearch(board_id,search,content,1,10);
+			$("#searchFrm").submit();
 		});
 		
 	})
-	
-	function communitySearch(board_id,search,content,page,pageSize){
-		$.ajax({
-			url:"/boardSearch",
-			method:"post",
-			data:"boardnum02="+board_id+"&search="+search+"&searchText="+content+"&page="+page+"&pageSize="+pageSize,
-			success:function(data){
-				console.log(data);
-				var html = "";
-				var map = data.mapAnswerCnt;
-				var num = "1";
-				console.log(map.num);
-				var cnt1 = data.mapAnswerCnt.num;
-				
-// 				data.mapAnswerCnt.forEach(function(item, index){
-// 					console.log(item);
-// 				});
-				
-				data.boardList.forEach(function(board,index){
-					html += "<tr class='boardTr'>";
-					html += "<td class='boardNum' style= 'display:none;'>"+board.write_id +"</td>";
-					html += "<td>"+board.rn+"</td>";
-					html += "<td>"+board.subject+"</td>";
-					html += "<td>"+board.user_email+"</td>";
-					html += "<td>"+board.WritedateStr+"</td>";
-					html+="<td>"+data.mapAnswerCnt[board.write_id]+"</td>";
-					html += "<td>"+board.like_cnt+"</td>";
-					html += "<td>"+board.view_cnt+"</td>";
-					html += "</tr>";
-				});
-				$("#communityList").html(html);
-			}
-		})
-	}
 	
 </script>
 

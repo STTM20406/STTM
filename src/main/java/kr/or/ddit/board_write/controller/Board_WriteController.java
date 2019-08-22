@@ -333,7 +333,7 @@ public class Board_WriteController {
 	}
 	
 	@RequestMapping("/boardSearch")
-	public @ResponseBody Map<String, Object> search(String search, String searchText, String boardnum02,String page, String pageSize, Model model) {
+	public String search(String search, String searchText, String boardnum02,String page, String pageSize, Model model) {
 		
 		int pageStr = page == null ? 1 : Integer.parseInt(page);
 		int pageSizeStr =  pageSize == null ? 10 : Integer.parseInt(pageSize);
@@ -354,16 +354,11 @@ public class Board_WriteController {
 				mapAnswerCnt.put(titleList.get(i).getWrite_id(),answerService.replyCnt(titleList.get(i).getWrite_id()));
 			}
 			
-			resultMap2.put("searchList",titleList);
-			resultMap2.put("board_id",boardnum02);
-			resultMap2.put("boardList", titleList);
-			resultMap2.put("mapAnswerCnt", mapAnswerCnt);
-			resultMap2.put("paginationSize", titlePage);
-//			model.addAttribute("searchList",titleList);
-//			model.addAttribute("board_id",boardnum02);
-//			model.addAttribute("boardList", titleList);
-//			model.addAttribute("mapAnswerCnt", mapAnswerCnt);
-//			model.addAttribute("paginationSize", titlePage);
+			model.addAttribute("searchList",titleList);
+			model.addAttribute("board_id",boardnum02);
+			model.addAttribute("boardList", titleList);
+			model.addAttribute("mapAnswerCnt", mapAnswerCnt);
+			model.addAttribute("paginationSize", titlePage);
 			
 		}else if(search.equals("content")) {
 			pageVo.setContent(searchText);
@@ -375,17 +370,17 @@ public class Board_WriteController {
 				mapAnswerCnt.put(contentList.get(i).getWrite_id(),answerService.replyCnt(contentList.get(i).getWrite_id()));
 			}
 			
-			resultMap2.put("board_id",boardnum02);
-			resultMap2.put("boardList", contentList);
-			resultMap2.put("mapAnswerCnt", mapAnswerCnt);
-			resultMap2.put("paginationSize", titlePage);
-//			model.addAttribute("board_id",boardnum02);
-//			model.addAttribute("boardList", contentList);
-//			model.addAttribute("mapAnswerCnt", mapAnswerCnt);
-//			model.addAttribute("paginationSize", titlePage);
+//			resultMap2.put("board_id",boardnum02);
+//			resultMap2.put("boardList", contentList);
+//			resultMap2.put("mapAnswerCnt", mapAnswerCnt);
+//			resultMap2.put("paginationSize", titlePage);
+			model.addAttribute("board_id",boardnum02);
+			model.addAttribute("boardList", contentList);
+			model.addAttribute("mapAnswerCnt", mapAnswerCnt);
+			model.addAttribute("paginationSize", titlePage);
 		}
 		
-		return resultMap2;
+		return "/board/community/communityList.user.tiles";
 		
 	}
 	

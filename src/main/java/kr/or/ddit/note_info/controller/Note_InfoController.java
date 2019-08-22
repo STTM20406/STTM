@@ -215,7 +215,7 @@ public class Note_InfoController {
 		
 		model.addAttribute("sendList", sendList);
 		model.addAttribute("sendPaginationSize", sendPaginationSize);
-		model.addAttribute("data", pageVo);
+		model.addAttribute("pageVo", pageVo);
 		
 //		return resultMap;
 		return "/note/sendNoteList.user.tiles";

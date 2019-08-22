@@ -63,18 +63,10 @@ ul.tabs li.current {
 			$("#lbEmail02").text(email);
 			$("#smarteditor02").val(con);
 			$("#lbDate02").text(date);
-			
-			
-			
+
 			layer_popupup(aTag);
 		})
-	
-	
-		
-		
 	});
-	
-		
 	
 	   function layer_popupup(el){
 	      console.log(el);
@@ -228,7 +220,6 @@ ul.tabs li.current {
 						</tbody>
 					</table>
 				</div>
-
 				<div class="pagination">
 						<c:choose>
 							<c:when test="${pageVo.page == 1 }">
