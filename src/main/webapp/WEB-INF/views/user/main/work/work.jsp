@@ -1001,7 +1001,7 @@ function commentInsert(wps_wrk_id,content,page, pageSize){
 				method:"post",
 				data: "wrk_id="+ wrkID,
 				success:function(data){
-// 					console.log(data);
+					
 					var html = "";
 					data.projectMemList.forEach(function(item, index){
 						//html 생성
@@ -1073,7 +1073,6 @@ function commentInsert(wps_wrk_id,content,page, pageSize){
 				data:"wrk_id="+ id + "&user_email=" + email,
 				success:function(data){
 					
-					
 					var html = "";
 					var html2 = "";
 					
@@ -1107,7 +1106,6 @@ function commentInsert(wps_wrk_id,content,page, pageSize){
 				method:"post",
 				data: "wrk_id="+ wrkID,
 				success:function(data){
-// 					console.log(data);
 					var html = "";
 					data.projectMemList.forEach(function(item, index){
 						//html 생성
