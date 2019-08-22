@@ -235,7 +235,8 @@
 	             			   , c.user_nm from
 	            	(select * 
 					 from project_mem 
-					 where user_email = #{user_email}) a, project_mem b, users c
+					 where user_email = #{user_email}
+					 and prj_mem_lv != 'LV2') a, project_mem b, users c
 			 where b.prj_id in (a.prj_id)
 			 and c.user_email = b.user_email) a )
 		where rn >= (#{page}-1)*#{pageSize} + 1 and rn <= #{page}*#{pageSize}
@@ -250,7 +251,8 @@
                        , c.user_nm from
             (select * 
              from project_mem 
-             where user_email = #{user_email}) a, project_mem b, users c
+             where user_email = #{user_email}
+             and prj_mem_lv != 'LV2') a, project_mem b, users c
 	     where b.prj_id in (a.prj_id)
 	     and c.user_email = b.user_email) a 
 	</select>
@@ -323,7 +325,7 @@
 	 	  프로젝트 소유 유무(String prj_own_fl)를 'N'로 업데이트 시켜 준다.  -->
 	<update id="updateInactiveMember" parameterType="project_memVo">
 		UPDATE PROJECT_MEM
-		SET PRJ_MEM_LV = 'LV0', PRJ_OWN_FL = 'N'
+		SET PRJ_MEM_LV = 'LV2', PRJ_OWN_FL = 'N'
 		WHERE USER_EMAIL = #{user_email}
 		AND PRJ_ID = #{prj_id}
 	</update>
@@ -332,7 +334,7 @@
 	 	  프로젝트 소유 유무(String prj_own_fl)를 'Y'로 업데이트 시켜 준다.  -->
 	<update id="updateTransferOwnership" parameterType="project_memVo">
 		UPDATE PROJECT_MEM
-		SET PRJ_MEM_LV = 'LV1', PRJ_OWN_FL = 'Y'
+		SET PRJ_MEM_LV = 'LV0', PRJ_OWN_FL = 'Y'
 		WHERE USER_EMAIL = #{user_email}
 		AND PRJ_ID = #{prj_id}
 	</update>
