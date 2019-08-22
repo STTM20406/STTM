@@ -1032,17 +1032,30 @@ function commentInsert(wps_wrk_id,content,page, pageSize){
 					
 					var html = "";
 					var html2 = "";
+					var html3 = "";
+					var html4 = "";
 					
-					data.wrkMemList.forEach(function(item, index){
+					data.wrkFlwList.forEach(function(item, index){
 						html += "<li id='"+item.user_email+"_"+item.wrk_id+"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
 					});	
 					
-					data.projectMemList.forEach(function(item, index){
+					data.projectFlwList.forEach(function(item, index){
 						html2 += "<li id='"+ item.user_email +"'><span>"+ item.user_nm +"</span>"+ item.user_email + "</li>";
 					});	
 					
-					$(".wrk_add_box").html(html);
-					$(".wrk_mem_item").html(html2);
+					data.wrkMemList.forEach(function(item, index){
+						html3 += "<li id='"+item.user_email+"_"+item.wrk_id+"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
+					});
+					
+					data.projectMemList.forEach(function(item, index){
+						html4 += "<li id='"+ item.user_email +"'><span>"+ item.user_nm +"</span>"+ item.user_email + "</li>";
+					});	
+					
+					
+					$(".wrk_mem_flw_box").html(html);
+					$(".wrk_flw_item_list").html(html2);
+					$(".wrk_add_box").html(html3);
+					$(".wrk_mem_item").html(html4);
 				}
 			});
 		}
@@ -1081,7 +1094,113 @@ function commentInsert(wps_wrk_id,content,page, pageSize){
 		}
 		
 		
+		//팔로워 멤버 추가하기 버튼 클릭시 해당 프로젝트 멤버 가져오기
+		$(".wrk_add_flw").fadeOut(0); //멤버리스트 layer 숨기기
+		$("#wrk_flw_set").on("click", function(){
+			var wrkID = $("#wps_id").val();
+			$(".wrk_add_flw").fadeIn(300);
+			workFlwListAjax(wrkID);
+		});
+		
+		//팔로워 멤버 가져오는 ajax
+		function workFlwListAjax(wrkID){
+			$.ajax({
+				url:"/work/workFlwListAjax",
+				method:"post",
+				data: "wrk_id="+ wrkID,
+				success:function(data){
+// 					console.log(data);
+					var html = "";
+					data.projectMemList.forEach(function(item, index){
+						//html 생성
+						html += "<li id='"+ item.user_email +"'><span>"+ item.user_nm +"</span>"+ item.user_email + "</li>";
+					});	
+					$(".wrk_flw_item_list").html(html);
+				}
+			});
+		}
+		
+		
+		//팔로워 멤버 클릭 했을 때
+		$(".wrk_flw_item_list").on("click", "li", function(){
+			var mem_add_email = $(this).attr("id");
+			var wrkID = $("#wps_id").val();
+			
+			workFlwAddAjax(wrkID, mem_add_email);	
+		});
+		
+		//팔로우 멤버로 멤버 추가
+		function workFlwAddAjax(wrkID, mem_add_email){
+			$.ajax({
+				url:"/work/workFlwAddAjax",
+				method:"post",
+				data: "wrk_id="+ wrkID + "&user_email=" + mem_add_email,
+				success:function(data){
+					
+					var html = "";
+					var html2 = "";
+					var html3 = "";
+					var html4 = "";
+					
+					data.wrkFlwList.forEach(function(item, index){
+						html += "<li id='"+item.user_email+"_"+item.wrk_id+"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
+					});	
+					
+					data.projectFlwList.forEach(function(item, index){
+						html2 += "<li id='"+ item.user_email +"'><span>"+ item.user_nm +"</span>"+ item.user_email + "</li>";
+					});	
+					
+					data.wrkMemList.forEach(function(item, index){
+						html3 += "<li id='"+item.user_email+"_"+item.wrk_id+"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
+					});
+					
+					data.projectMemList.forEach(function(item, index){
+						html4 += "<li id='"+ item.user_email +"'><span>"+ item.user_nm +"</span>"+ item.user_email + "</li>";
+					});	
+					
+					
+					$(".wrk_mem_flw_box").html(html);
+					$(".wrk_flw_item_list").html(html2);
+					$(".wrk_add_box").html(html3);
+					$(".wrk_mem_item").html(html4);
+				}
+			});
+		}
+		
+		//업무 배정된 멤버 삭제 클릭 했을 때
+		$(".wrk_mem_flw_box").on("click", "li input", function(){
+			var textSplit = $(this).parent().attr("id").split("_");
+			var id = textSplit[1];
+			var email = textSplit[0];
+			workFlwDelAjax(id, email);
+		});
+		
 	});
+	
+	//업무 배정된 멤버 삭제 클릭 했을 때
+	function workFlwDelAjax(id, email){
+		$.ajax({
+			url:"/work/workFlwDelAjax",
+			method:"post",
+			data:"wrk_id="+ id + "&user_email=" + email,
+			success:function(data){
+				
+				var html = "";
+				var html2 = "";
+				
+				data.wrkFlwList.forEach(function(item, index){
+					html += "<li id='"+item.user_email+"_"+item.wrk_id+"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
+				});	
+				
+				data.projectMemList.forEach(function(item, index){
+					html2 += "<li id='"+ item.user_email +"'><span>"+ item.user_nm +"</span>"+ item.user_email + "</li>";
+				});	
+				
+				$(".wrk_mem_flw_box").html(html);
+				$(".wrk_flw_item_list").html(html2);
+			}
+		});
+	}
 	
 	function workFilePagination(page, pageSize, wrk_id) {
 		$.ajax({

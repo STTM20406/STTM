@@ -61,19 +61,11 @@
 				<div class="chat_room_hd">
 					<div class="mesgs">
 						<div class="msg_history" id="chatData">
-							<div class="incoming_msg">
-								<div class="received_msg">
-									<div class="received_withd_msg">
-										<p></p>
-										<p></p>
-									</div>
-								</div>
-							</div>
-
 							<div class="outgoing_msg">
-								<div class="chat-output">
-									<div id="file-container"></div>
-									<!-- <div class="chat-output"></div> -->
+								<div class="sent_msg">
+									<div class="chat-output">
+										<div id="file-container"></div>
+									</div>
 								</div>
 							</div>
 
@@ -81,6 +73,7 @@
 						</div>
 						<div class="type_msg">
 							<div class="type_msg">
+								<input type="text" value="사용자 이름" id="userName" style="width : 100px">
 								<div class="input_msg_write">
 									<input type="text" id="input-text-chat" name="msg" class="write_msg"
 										placeholder="Type a message" />
@@ -129,6 +122,7 @@
 		document.getElementById('open-room').onclick = function() {
 			document.getElementById('open-room').disabled = 'disabled';
 			document.getElementById('join-room').disabled = 'disabled';
+			document.getElementById('join-screenSharing').disabled = 'disabled';
 			document.getElementById('room-id1').value = '!'
 					+ document.getElementById('room-id').value + '!';
 
@@ -152,6 +146,7 @@
 		document.getElementById('join-room').onclick = function() {
 			document.getElementById('open-room').disabled = 'disabled';
 			document.getElementById('join-room').disabled = 'disabled';
+			document.getElementById('open-screenSharing').disabled = 'disabled';
 			document.getElementById('room-id1').value = '!'
 					+ document.getElementById('room-id').value + '!';
 			connection
@@ -192,22 +187,50 @@
 			if (!this.value.length)
 				return;
 
-			connection.send(this.value);
+			var userNm = document.getElementById("userName").value;
+			
+			connection.send(userNm + "," + this.value);
 			appendDIV(this.value);
 			this.value = '';
 		};
-
+	
+		var userName = document.getElementById("userName").value;
 		var chatContainer = document.querySelector('.chat-output');
+// 		var chatContainer = document.getElementsByClassName('chat-output');
 
 		function appendDIV(event) {
+			console.log(event);
+			
+			var userNm = document.getElementById("userName").value;
+			
+			
 			var div = document.createElement('div');
-			div.innerHTML = event.data || event;
-			chatContainer.insertBefore(div, chatContainer.firstChild);
+			
+			if(event.data){ //남에게 보내면 남이 봤을 때 화면
+				
+				var aArray = event.data.split(",");
+				var name = aArray[0];
+				var msg = aArray[1];
+				
+				div.innerHTML = "<p>" + name + "</p><p>" + msg + "</p>";
+			}else{ //내가 보내면 내 화면에 보이는 화면
+				div.innerHTML = "<p>" + userNm + "</p><p>" + event + "</p>";
+			}
+			
+			chatContainer.insertBefore(div, chatContainer.lastChild);
 			div.tabIndex = 0;
 			div.focus();
 
 			document.getElementById('input-text-chat').focus();
 		}
+
+
+
+
+
+
+
+
 
 		// ......................................................
 		// ..................RTCMultiConnection Code.............
@@ -461,6 +484,8 @@
 
 			document.getElementById('room-id1').value = '!'
 					+ document.getElementById('room-id').value + '!';
+			document.getElementById('join-screenSharing').disabled = 'disabled';
+			document.getElementById('join-room').disabled = 'disabled';
 			connection1
 					.open(
 							document.getElementById('room-id1').value,
@@ -483,6 +508,8 @@
 		document.getElementById('join-screenSharing').onclick = function() {
 
 			document.getElementById('open-screenSharing').disabled = 'disabled';
+			document.getElementById('open-room').disabled = 'disabled';
+			
 			document.getElementById('room-id1').value = '!'
 					+ document.getElementById('room-id').value + '!';
 			connection1.sdpConstraints.mandatory = {

@@ -540,20 +540,46 @@ public class Work_ListController {
 		projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
 		int wrkID = Integer.parseInt(wrk_id);
 		
-		work_Mem_FlwVo.setUser_email(user_email);
-		work_Mem_FlwVo.setPrj_id(projectVo.getPrj_id());
-		work_Mem_FlwVo.setWrk_id(wrkID);
-		work_Mem_FlwVo.setJn_fl("M");
-		int insertCnt = workMemFlwService.insertWorkMemFlw(work_Mem_FlwVo);
+		Work_Mem_FlwVo work_mem_flwVo = new Work_Mem_FlwVo(user_email, wrkID);
+		Work_Mem_FlwVo getMemFlw = workMemFlwService.getWorkMemFlw(work_mem_flwVo);
+		
+		int updateCnt = 0;
+		int insertCnt = 0;
+		
+		//테이블에 이미 데이터가 있을 경우 jn_fl 업데이트
+		if(getMemFlw != null) {
+			work_Mem_FlwVo.setUser_email(user_email);
+			work_Mem_FlwVo.setWrk_id(wrkID);
+			work_Mem_FlwVo.setJn_fl("M");
+			updateCnt = workMemFlwService.updateWorkMemFlw(work_Mem_FlwVo);
+		}else {
+			work_Mem_FlwVo.setUser_email(user_email);
+			work_Mem_FlwVo.setPrj_id(projectVo.getPrj_id());
+			work_Mem_FlwVo.setWrk_id(wrkID);
+			work_Mem_FlwVo.setJn_fl("M");
+			insertCnt = workMemFlwService.insertWorkMemFlw(work_Mem_FlwVo);
+		}
+		
 		
 		HashMap<String, Object> hashmap = new HashMap<String, Object>();
 		
 		Project_MemVo projectMemVo = new Project_MemVo(projectVo.getPrj_id(), user_email);
 		List<Project_MemVo> projectMemList = projectMemService.projectMemList(projectMemVo);
+		List<Project_MemVo> projectFlwList = projectMemService.projectMemList(projectMemVo);
 		
-		Work_Mem_FlwVo work_mem_flwVo = new Work_Mem_FlwVo(wrkID, "M");
-		List<Work_Mem_FlwVo> wrkMemList = workMemFlwService.workMemFlwList(work_mem_flwVo); 
+		work_Mem_FlwVo = new Work_Mem_FlwVo(wrkID, "F");
+		List<Work_Mem_FlwVo> wrkFlwList = workMemFlwService.workMemFlwList(work_Mem_FlwVo);
 		
+		work_Mem_FlwVo = new Work_Mem_FlwVo(wrkID, "M");
+		List<Work_Mem_FlwVo> wrkMemList = workMemFlwService.workMemFlwList(work_Mem_FlwVo); 
+		
+		for (int i = 0; i < wrkFlwList.size(); i++) {
+			for (int j = 0; j < projectFlwList.size(); j++) {
+				if (projectFlwList.get(j).getUser_email().equals(wrkFlwList.get(i).getUser_email())) {
+					projectFlwList.remove(projectFlwList.get(j));
+				}
+			}
+		}
 		
 		for (int i = 0; i < wrkMemList.size(); i++) {
 			for (int j = 0; j < projectMemList.size(); j++) {
@@ -563,8 +589,10 @@ public class Work_ListController {
 			}
 		}
 		
-		if (insertCnt != 0) {
+		if (insertCnt != 0 || updateCnt != 0) {
 			hashmap.put("projectMemList", projectMemList);
+			hashmap.put("projectFlwList", projectFlwList);
+			hashmap.put("wrkFlwList", wrkFlwList);
 			hashmap.put("wrkMemList", wrkMemList);
 		}
 		
@@ -605,6 +633,139 @@ public class Work_ListController {
 		if (deleteCnt != 0) {
 			hashmap.put("projectMemList", projectMemList);
 			hashmap.put("wrkMemList", wrkMemList);
+		}
+		
+		return hashmap;
+	}
+	
+	// 업무 멤버 리스트 불러오기
+	@RequestMapping("/workFlwListAjax")
+	public String workFlwListAjax(String wrk_id, Model model, HttpSession session) {
+
+		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
+		int wrkID = Integer.parseInt(wrk_id);
+		
+		// 세션에 저장된 user 정보를 가져옴
+		UserVo user = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = user.getUser_email();
+
+		Project_MemVo projectMemVo = new Project_MemVo();
+		projectMemVo.setPrj_id(projectVo.getPrj_id());
+		projectMemVo.setUser_email(user_email);
+		List<Project_MemVo> projectMemList = projectMemService.projectMemList(projectMemVo);
+		
+		Work_Mem_FlwVo work_mem_flwVo = new Work_Mem_FlwVo(wrkID, "F");
+		List<Work_Mem_FlwVo> wrkMemList = workMemFlwService.workMemFlwList(work_mem_flwVo); 
+		
+		for (int i = 0; i < wrkMemList.size(); i++) {
+			for (int j = 0; j < projectMemList.size(); j++) {
+				if (projectMemList.get(j).getUser_email().equals(wrkMemList.get(i).getUser_email())) {
+					projectMemList.remove(projectMemList.get(j));
+				}
+			}
+		}
+		
+		model.addAttribute("projectMemList", projectMemList);
+
+		return "jsonView";
+	}
+	
+	
+	// 업무 팔로워 멤버 추가 
+	@RequestMapping("/workFlwAddAjax")
+	public @ResponseBody HashMap<String, Object> workFlwAddAjax(ProjectVo projectVo, Work_Mem_FlwVo work_Mem_FlwVo, String wrk_id, String user_email, Model model, HttpSession session) {
+
+		projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
+		int wrkID = Integer.parseInt(wrk_id);
+		
+		Work_Mem_FlwVo work_mem_flwVo = new Work_Mem_FlwVo(user_email, wrkID);
+		Work_Mem_FlwVo getMemFlw = workMemFlwService.getWorkMemFlw(work_mem_flwVo);
+		
+		int updateCnt = 0;
+		int insertCnt = 0;
+		
+		//테이블에 이미 데이터가 있을 경우 jn_fl 업데이트
+		if(getMemFlw != null) {
+			work_Mem_FlwVo.setUser_email(user_email);
+			work_Mem_FlwVo.setWrk_id(wrkID);
+			work_Mem_FlwVo.setJn_fl("F");
+			updateCnt = workMemFlwService.updateWorkMemFlw(work_Mem_FlwVo);
+		}else {
+			work_Mem_FlwVo.setUser_email(user_email);
+			work_Mem_FlwVo.setPrj_id(projectVo.getPrj_id());
+			work_Mem_FlwVo.setWrk_id(wrkID);
+			work_Mem_FlwVo.setJn_fl("F");
+			insertCnt = workMemFlwService.insertWorkMemFlw(work_Mem_FlwVo);
+		}
+		
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		
+		Project_MemVo projectMemVo = new Project_MemVo(projectVo.getPrj_id(), user_email);
+		List<Project_MemVo> projectMemList = projectMemService.projectMemList(projectMemVo);
+		List<Project_MemVo> projectFlwList = projectMemService.projectMemList(projectMemVo);
+		
+		work_Mem_FlwVo = new Work_Mem_FlwVo(wrkID, "F");
+		List<Work_Mem_FlwVo> wrkFlwList = workMemFlwService.workMemFlwList(work_Mem_FlwVo);
+		
+		work_Mem_FlwVo = new Work_Mem_FlwVo(wrkID, "M");
+		List<Work_Mem_FlwVo> wrkMemList = workMemFlwService.workMemFlwList(work_Mem_FlwVo); 
+		
+		for (int i = 0; i < wrkFlwList.size(); i++) {
+			for (int j = 0; j < projectFlwList.size(); j++) {
+				if (projectFlwList.get(j).getUser_email().equals(wrkFlwList.get(i).getUser_email())) {
+					projectFlwList.remove(projectFlwList.get(j));
+				}
+			}
+		}
+		
+		for (int i = 0; i < wrkMemList.size(); i++) {
+			for (int j = 0; j < projectMemList.size(); j++) {
+				if (projectMemList.get(j).getUser_email().equals(wrkMemList.get(i).getUser_email())) {
+					projectMemList.remove(projectMemList.get(j));
+				}
+			}
+		}
+		
+		if (insertCnt != 0 || updateCnt != 0) {
+			hashmap.put("projectMemList", projectMemList);
+			hashmap.put("projectFlwList", projectFlwList);
+			hashmap.put("wrkFlwList", wrkFlwList);
+			hashmap.put("wrkMemList", wrkMemList);
+		}
+		
+		return hashmap;
+	}
+	
+	
+	// 업무 멤버 삭제
+	@RequestMapping("/workFlwDelAjax")
+	public @ResponseBody HashMap<String, Object> workFlwDelAjax(ProjectVo projectVo, String user_email, Work_Mem_FlwVo work_mem_flwVo, String wrk_id, Model model, HttpSession session) {
+
+		projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
+		int wrkID = Integer.parseInt(wrk_id);
+
+		work_mem_flwVo= new Work_Mem_FlwVo(user_email, wrkID);
+		int deleteCnt = workMemFlwService.deleteWorkMemFlw(work_mem_flwVo);
+
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		
+		Project_MemVo projectMemVo = new Project_MemVo(projectVo.getPrj_id(), user_email);
+		List<Project_MemVo> projectMemList = projectMemService.projectMemList(projectMemVo);
+		
+		work_mem_flwVo = new Work_Mem_FlwVo(wrkID, "F");
+		List<Work_Mem_FlwVo> wrkFlwList = workMemFlwService.workMemFlwList(work_mem_flwVo); 
+		
+		for (int i = 0; i < wrkFlwList.size(); i++) {
+			for (int j = 0; j < projectMemList.size(); j++) {
+				if (projectMemList.get(j).getUser_email().equals(wrkFlwList.get(i).getUser_email())) {
+					projectMemList.remove(projectMemList.get(j));
+				}
+			}
+		}
+		
+		if (deleteCnt != 0) {
+			hashmap.put("projectMemList", projectMemList);
+			hashmap.put("wrkFlwList", wrkFlwList);
 		}
 		
 		return hashmap;
