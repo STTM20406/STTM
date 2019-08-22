@@ -4,9 +4,9 @@ $('#edit-color').change(function () {
 });
 
 //필터
-$('.filter').on('change', function () {
-    $('#calendar').fullCalendar('rerenderEvents');
-});
+//$('.filter').on('change', function () {
+//    $('#calendar').fullCalendar('rerenderEvents');
+//});
 
 $("#type_filter").select2({
     placeholder: "선택..",

@@ -35,7 +35,7 @@ function filtering(event) {
     }
   }
 
-  return show_username && show_type;
+  return true;
 }
 
 function calDateWhenResize(event) {
@@ -102,7 +102,7 @@ function initCalendar(){
         class: 'popoverTitleCalendar',
         text: event.title
       }).css({
-        'background': event.backgroundColor,
+        'background': event.backgroundColor == null ? '#3a87ad' : event.backgroundColor,
         'color': event.textColor
       }),
       content: $('<div />', {
@@ -168,7 +168,7 @@ function initCalendar(){
 	  
 	  console.log("filterFrm : " + $("#filterFrm").serialize());
     $.ajax({
-      method:"get",
+      method:"post",
       url: "/calendarTest",
       data: $("#filterFrm").serialize(),
       async: false,
@@ -198,7 +198,6 @@ function initCalendar(){
       $(".fc-content").css('height', 'auto');
     }
     
-    //calAjax();
   },
 
   //일정 리사이즈
