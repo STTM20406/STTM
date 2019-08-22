@@ -13,26 +13,33 @@
 
 <script>
 	function calAjax() {
+		console.log("before calAjax");
 		$.ajax({
 			url: "/calendarTest",
 			type: "post",
 			data: $("#filterFrm").serialize(),
 			success: function(data){
+				console.log("before calAjax success");
+				console.log("calAjax()입니다.");
 				console.log(data.data);
 				var filterFrm = data.filterFrm;
 				var makerList = data.makerList;
 				var prjList = data.prjList;
+				console.log("filterFrm : " + filterFrm);
+				console.log("makerList : " + makerList);
 				console.log("prjList : " + prjList);
-				$("#frmContainer").html(filterFrm);
+// 				$("#frmContainer").html(filterFrm);
 				$("#prjList").html(prjList);
 				$("#makerList").html(makerList);
-				
+				console.log("after calAjax success");
 			}
 		});
 	}
 	$(document).ready(function() {
+		initCalendar();
 		
-		calAjax();
+		
+// 		calAjax();
 		
 		if ("${IW}" == 1) {
 			alert("등록완료!");
@@ -40,9 +47,9 @@
 		
 		$("#edit-prj").on("change",function(){
 			var prj_id = $(this).val();
-			prjStAjax(prj_id);
-			
-		})
+			prjStAjax(prj_id);	
+		});
+		
 		//프로젝트 상태값 변경 ajax
 		function prjStAjax(prj_id){
 			$.ajax({
@@ -51,123 +58,46 @@
 				contentType: "application/x-www-form-urlencoded; charset=UTF-8",  
 				data: "prj_id=" + prj_id,
 				success:function(data){
+					console.log("prjStAjax(prj_id)");
 					console.log(data);
-				
 					//다녀오셨어요
 					var html="";
 					data.data.forEach(function(item, index){
 						html += "<option value='" +item.wrk_lst_id+"'>"+item.wrk_lst_nm+"</option>";
 					});
-					
 					$("#edit-type").html(html);
 				}
 			});
 		}
 		
-		$("#sel").on("change",function(){
-			var value = $(this).val();
-				alert(value);
-			
-			if(value == "all"){
-				all(value);
-			}else if(value=="mine"){
-				mine(value);
-			}
-			
-		})
-		
-		
-		//내가 속한 전체 프로젝트 전체 업무들을 가져와야함
-		function all(value){
-			$.ajax({
-				url:"/allNMine",
-				method:"post",
-				contentType: "application/x-www-form-urlencoded; charset=UTF-8",  
-				data: "value=" + value,
-				success:function(response){
-					console.log(response);
-					var aa = JSON.stringify(response);
-					var ab = aa.replace(/\\/g,'');
-			        var ac = ab.replace(/\"{/g,'{');
-			    	var as = ac.replace(/\}"/g,'}'); 
-			    	var qw = as.substring(13);
-			    	var result = qw.substr(0,qw.length-2);
-			    	console.log(result);
-			    	
-			    	data = JSON.parse(result);
-			    	console.log(data);
-
-			    	response = data;
-			        var fixedDate = response.map(function (array) {
-// 			        	console.log(fixedDate); //안 들어오네..
-			        if (array.allDay && array.start !== array.end) {
-			        	array.end = moment(array.end).add(1, 'days');
-			        }
-			        return array;
-			        })
-			        //여기서 막힘...!!!!!!!
-			        callback(fixedDate);
-					}
-			});
-		}
-		
-		//내가 속한 프로젝트에 내 업무만 다 가져와야함
-		function mine(value){
-			$.ajax({
-				url:"/allNMine",
-				method:"post",
-				contentType: "application/x-www-form-urlencoded; charset=UTF-8",  
-				data: "value=" + value,
-				success:function(response){
-					var aa = JSON.stringify(response);
-
-			    	var ab = aa.replace(/\\/g,'');
-			    	var ac = ab.replace(/\"{/g,'{');
-			    	var as = ac.replace(/\}"/g,'}'); 
-			    	var qw = as.substring(13);
-			    	var result = qw.substr(0,qw.length-2);
-
-			    	data = JSON.parse(result);
-			    	console.log(data);
-
-			    	response = data;
-			        var fixedDate = response.map(function (array) {
-// 			        	console.log(fixedDate); //안 들어오네..
-			        if (array.allDay && array.start !== array.end) {
-			            array.end = moment(array.end).add(1, 'days');
-			        }
-			        return array;
-			        })
-			        calendar.fullCalendar('refetchEvents');
-			        //여기서 막힘...!!!!!!!
-// 			        callback(fixedDate);
-				}
-			});
-		}
-		
 		$("#frmContainer").on("change", ".filter", function(){
-			    $.ajax({
-			      method:"post",
-			      url: "/calendarTest",
-			      data: $("#filterFrm").serialize(),
-			      contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
-			      success: function (response) {
-			    	  response = response.data;
-			    	  console.log(response);
-			    	  calendar.fullCalendar('removeEvents');
-			        var fixedDate = response.map(function (array) {
-			          if (array.allDay && array.start !== array.end) {
-			            // 이틀 이상 AllDay 일정인 경우 달력에 표기시 하루를 더해야 정상출력
-			            array.end = moment(array.end).add(1, 'days');
-			          }
-			          return array;
-			        })
-			        $(fixedDate).each(function(){
-			        	console.log(this);
-			        	calendar.fullCalendar('renderEvent', this);
-			        });
-			      }
-			    });
+			console.log("frm : " + $("#filterFrm").serialize());
+			
+			$("#calendar").fullCalendar( "refetchEvents" );
+			
+// 			    $.ajax({
+// 			      method:"post",
+// 			      url: "/calendarTest",
+// 			      data: $("#filterFrm").serialize(),
+// 			      contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
+// 			      success: function (response) {
+// 			    	  response = response.data;
+// 			    	  console.log(response);
+// 			    	  calendar.fullCalendar('removeEvents');
+// 			        var fixedDate = response.map(function (array) {
+// 			          if (array.allDay && array.start !== array.end) {
+// 			            // 이틀 이상 AllDay 일정인 경우 달력에 표기시 하루를 더해야 정상출력
+// 			            array.end = moment(array.end).add(1, 'days');
+// 			          }
+// 			          return array;
+// 			        });
+// 			        $(fixedDate).each(function(){
+// 			        	console.log("Test");
+// 			        	console.log(this);
+// 			        	calendar.fullCalendar('renderEvent', this);
+// 			        });
+// 			      }
+// 			    });
 		});
 		
 		
@@ -366,7 +296,7 @@
 <script src="/js/ko.js"></script>
 <script src="/js/select2.min.js"></script>
 <script src="/js/bootstrap-datetimepicker.min.js"></script>
-<script src="/js/main.js"></script>
+<script src="/js/main.js?v=2"></script>
 <script src="/js/addEvent.js"></script>
 <script src="/js/editEvent.js"></script>
 <script src="/js/etcSetting.js"></script>
