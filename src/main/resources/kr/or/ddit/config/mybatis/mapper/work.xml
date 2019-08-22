@@ -62,8 +62,11 @@
 
 	<!--  업무 생성 -->
 	<insert id="insertWork" parameterType="workVo">
+		<selectKey resultType="Integer" keyProperty="wrk_id" order="BEFORE">
+			SELECT WRK_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
 		INSERT INTO WORK (WRK_ID, WRK_LST_ID, WRK_PR_ID, USER_EMAIL, WRK_NM, WRK_DT, WRK_GRADE, WRK_CMP_FL, WRK_DEL_FL)
-		VALUES(WRK_SEQ.NEXTVAL, #{wrk_lst_id}, WRK_SEQ.NEXTVAL, #{user_email}, #{wrk_nm}, SYSDATE, 'C', 'N', 'N')
+		VALUES(#{wrk_id}, #{wrk_lst_id}, #{wrk_id}, #{user_email}, #{wrk_nm}, SYSDATE, 'C', 'N', 'N')
 	</insert>
 	
 	

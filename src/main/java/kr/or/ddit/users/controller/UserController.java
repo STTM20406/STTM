@@ -62,9 +62,8 @@ public class UserController {
 	 * @throws InvalidKeyException 
 	 */
 	@RequestMapping(path = "/setUserPass", method = RequestMethod.GET)
-	public String setPassView(HttpSession session, Model model, PageVo pageVo, String transferOwership) throws InvalidKeyException, UnsupportedEncodingException {
-		
-		logger.debug("transferOwership : 소유권 이전 aTag {}",transferOwership);
+	public String setPassView(HttpSession session, Model model, PageVo pageVo
+								/*, String transferOwership*/) throws InvalidKeyException, UnsupportedEncodingException {
 		
 		// 세션에 저장된 user 정보를 가져옴
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
@@ -90,6 +89,8 @@ public class UserController {
 
 		logger.debug("user_pass : {}", userVo.getUser_pass());
 		
+		// ------------------------ 알림 설정 ------------------------
+		
 		// ------------------------ 휴면 계정 전환 페이징 리스트 ------------------------
 		
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -111,6 +112,21 @@ public class UserController {
 		model.addAttribute("pageVo", pageVo);
 		
 		// ------------------------ 휴면 계정 전환 업데이트------------------------
+//			Project_MemVo projectMemVoId = (Project_MemVo) project_MemService.getMyProjectMemList(transferOwership);
+//			logger.debug("projectMemVoId : 가져올거다1 {}",projectMemVoId);
+//			
+//			int prj_id = projectMemVoId.getPrj_id();
+//			String prjmem_email = projectMemVoId.getUser_email();
+//			logger.debug("prj_id : 가져올거다2 {}",prj_id);
+//			logger.debug("prjmem_email : 가져올거다3 {}",prjmem_email);
+//			
+//			Project_MemVo projectMemVo = new Project_MemVo(prj_id, user_email);
+//			logger.debug("projectMemVo : 가져올거다4 {}",projectMemVo);
+//			
+//			int updateInactiveMember = project_MemService.updateInactiveMember(projectMemVo);
+//			
+//			//		int updateTransferOwnership
+			
 		
 		
 		
@@ -118,7 +134,14 @@ public class UserController {
 	}
 	
 	@RequestMapping(path = "/setUserPass", method = RequestMethod.POST)
-	public String setPassProcess(String user_pass, String user_nm, String user_hp, HttpSession session) throws InvalidKeyException, UnsupportedEncodingException {
+	public String setPassProcess(String user_pass, String user_nm, String user_hp, HttpSession session, 
+								 String transferOwership, String transferPrjId, String noticeForm
+								 ) throws InvalidKeyException, UnsupportedEncodingException {
+		
+		logger.debug("transferOwership : 소유권!!! {}",transferOwership);
+		logger.debug("transferPrjId : 프로젝트 아이디!!! {}",transferPrjId);
+		logger.debug("noticeForm : 알림 설정 Submit!!! {}",noticeForm);
+		
 		String viewName = "";
 		
 		UserVo getUserSession = (UserVo) session.getAttribute("USER_INFO"); 
@@ -150,7 +173,28 @@ public class UserController {
 			int updateUserProfile = userService.updateUserProfile(userVo);
 		
 		// 휴면 계정 업데이트
-		//		} else if() {
+		} else if(transferOwership != null ) {
+			
+			int transferPrjIdParse = Integer.parseInt(transferPrjId);
+			
+			Project_MemVo ownerVo = new Project_MemVo();
+			ownerVo.setUser_email(user_email);
+			ownerVo.setPrj_id(transferPrjIdParse);
+			logger.debug("ownerVo : 소유자 {}",ownerVo);
+			
+			// 소유권을 넘겨줄 상대방 Vo
+			Project_MemVo opponentVo = new Project_MemVo();
+			opponentVo.setPrj_id(transferPrjIdParse);
+			opponentVo.setUser_email(transferOwership);
+			logger.debug("opponentVo : 이전권자 {}",opponentVo);
+			
+			// 휴면 계정 설정하기 위해 프로젝트 소유자의 멤버 레벨(String prj_mem_lv)를 'LV0'으로 업데이트 시키고
+			// 프로젝트 소유 유무(String prj_own_fl)를 'N'로 업데이트 시켜 준다. 
+			int updateOwner = project_MemService.updateInactiveMember(ownerVo);
+			
+			// 휴면 계정 설정하기 위해 프로젝트 소유자를 넘겨줄 자의 멤버 레벨(String prj_mem_lv)를 'LV1'으로 업데이트 시키고
+			// 프로젝트 소유 유무(String prj_own_fl)를 'Y'로 업데이트 시켜 준다. 
+			int updateOpponent = project_MemService.updateTransferOwnership(opponentVo);
 			
 		}
 		
@@ -170,28 +214,28 @@ public class UserController {
 	 */
 	@RequestMapping(path = "/setUserNotice", method = RequestMethod.GET)
 	public String setNoticeView(HttpSession session, Model model, String not_set_id) {
-		model.addAttribute("not_set_id", not_set_id);
+//		model.addAttribute("not_set_id", not_set_id);
 		return "/account/accountSet.user.tiles";
 	}
 	
 	@RequestMapping(path = "/setUserNotice", method = RequestMethod.POST)
 	public String setNoticeProcess(HttpSession session, Model model) {
 		
-		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
-		String user_email = userVo.getUser_email();
-		
-		Notification_SetVo notificationSetVo = new Notification_SetVo(); 
-
-		String not_cd = notificationSetVo.getNot_cd();
-		
-		model.addAttribute("not_cd", not_cd);
+//		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+//		String user_email = userVo.getUser_email();
+//		
+//		Notification_SetVo notificationSetVo = new Notification_SetVo(); 
+//
+//		String not_cd = notificationSetVo.getNot_cd();
+//		
+//		model.addAttribute("not_cd", not_cd);
 		
 //		notificationSetVo.setNot_set_id(not_set_id);
 //		notificationSetVo.setUser_email(user_email);
 //		notificationSetVo.setNot_cd(not_cd);
 //		notificationSetVo.setNot_chk_fl(not_chk_fl);t
 		
-		int inseertUserNotice = userService.insertUserNotice(notificationSetVo);
+//		int inseertUserNotice = userService.insertUserNotice(notificationSetVo);
 		return "/account/accountSet.user.tiles";
 	}
 	

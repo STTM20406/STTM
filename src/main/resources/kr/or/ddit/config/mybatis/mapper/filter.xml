@@ -68,13 +68,13 @@
 			AND (
 			<trim prefix="" prefixOverrides="OR">
 				<if test="overdue != null">
-					OR 0 &gt; (A.WRK_END_DT - SYSDATE)
+					OR ((0 &gt; (A.WRK_END_DT - SYSDATE)) AND A.WRK_CMP_FL = 'N')
 				</if>
 				<if test="till_this_week != null">
-					OR #{td_week} = TO_CHAR(A.WRK_END_DT, 'iw')
+					OR #{td_week} = TO_CHAR(A.WRK_END_DT, 'iw') AND (0 &lt; (A.WRK_END_DT - SYSDATE))
 				</if>
 				<if test="till_this_month != null">
-					OR #{td_month} = TO_CHAR(A.WRK_END_DT, 'MM')
+					OR #{td_month} = TO_CHAR(A.WRK_END_DT, 'MM') AND (0 &lt; (A.WRK_END_DT - SYSDATE))
 				</if>
 				<if test="no_deadline != null">
 					OR A.WRK_END_DT IS NULL
@@ -95,7 +95,7 @@
 			</foreach>
 		</if>
 		<if test="wrk_follower != null">
-				AND (A.WRK_ID = (SELECT WRK_ID FROM WORK_MEM_FLW WHERE C.JN_FL = 'F' AND USER_EMAIL IN 
+				AND (A.WRK_ID IN (SELECT WRK_ID FROM WORK_MEM_FLW C WHERE C.JN_FL = 'F' AND USER_EMAIL IN 
 				<foreach collection="wrk_follower" item="follower" open="(" close=")" separator=",">
 					#{follower}
 				</foreach>

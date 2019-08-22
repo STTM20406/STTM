@@ -8,6 +8,17 @@
 	#filterFrm ul li label { cursor: pointer; }
 	
 </style>
+<div class="sub_menu">
+	<ul class="sub_menu_item">
+		<li><a href="/overview/analysis">Work List</a></li>
+		<li><a href="/calendarGet">Calendar</a></li>
+		<li><a href="/gantt/overview">Gantt Chart</a></li>
+	</ul>
+	<div class="sub_btn">
+	</div>
+</div>
+<section class="contents">
+<h2>Gantt Chart</h2>
 <div id="frmContainer" style="height:100%;width:20%;float:left;">
 	    <form id="filterFrm">
 	    	<label>업무 구분</label><br>
@@ -53,7 +64,8 @@
 		    	<input type="hidden" name="user_email" value="${USER_INFO.user_email }">
 	    </form>
 </div>
-<div id="gantt_here" style="width:1200px; height:830px; overflow:hidden; padding:0px; margin:0px; float:left;"></div>
+<div id="gantt_here" style="width:1200px; height:680px; padding:0px; margin:0px; float:left;"></div>
+</section>
 <script>
 function search() {
 	var serial = $("#filterFrm").serialize();
@@ -187,7 +199,7 @@ function workDetail(wrk_id){
 		          {view: "scrollbar", scroll: "y", id:"scrollVer"}
 		        ]
 		       },
-		      {view: "scrollbar", scroll: "x", id:"scrollHor", height:20}
+		      {view: "scrollbar", scroll: "x", id:"scrollHor"}
 		    ]
 		};
 		gantt.config.date_format = "%Y-%n-%j %H:%i";

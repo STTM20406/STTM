@@ -130,7 +130,7 @@ public interface IProject_MemService {
 	 * 변경이력 : 2019-08-22
 	 * @param projectMemVo
 	 * @return
-	 * Method 설명 : 휴면 계정 설정하기 위해 멤버 레벨(String prj_mem_lv)를 'LV0'으로 업데이트 시키고
+	 * Method 설명 : 휴면 계정 설정하기 위해 프로젝트 소유자의 멤버 레벨(String prj_mem_lv)를 'LV0'으로 업데이트 시키고
 	 * 			       프로젝트 소유 유무(String prj_own_fl)를 'N'로 업데이트 시켜 준다. 
 	 */
 	int updateInactiveMember(Project_MemVo projectMemVo);
@@ -142,7 +142,7 @@ public interface IProject_MemService {
 	 * 변경이력 : 2019-08-22
 	 * @param projectMemVo
 	 * @return
-	 * Method 설명 : 휴면 계정 설정하기 위해 멤버 레벨(String prj_mem_lv)를 'LV1'으로 업데이트 시키고
+	 * Method 설명 : 휴면 계정 설정하기 위해 프로젝트 소유자를 넘겨줄 자의 멤버 레벨(String prj_mem_lv)를 'LV1'으로 업데이트 시키고
 	 * 			       프로젝트 소유 유무(String prj_own_fl)를 'Y'로 업데이트 시켜 준다. 
 	 */
 	int updateTransferOwnership(Project_MemVo projectMemVo);

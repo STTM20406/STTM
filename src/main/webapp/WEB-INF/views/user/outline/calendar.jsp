@@ -1,7 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<style>
+	#filterFrm label { font-size:13px; font-weight: 500; }
+	#filterFrm ul li label { cursor: pointer; }
+	.pp {margin: 0;}
+</style>
 <link rel="stylesheet" href="/css/bootstrap-datetimepicker.min.css">
 <link rel="stylesheet" href="/css/bootstrap.min.css">
 <link rel="stylesheet" href='/css/fullcalendar.min.css'>
@@ -13,7 +17,6 @@
 
 <script>
 	function calAjax() {
-		console.log("before calAjax");
 		$.ajax({
 			url: "/calendarTest",
 			type: "post",
@@ -28,7 +31,7 @@
 				console.log("filterFrm : " + filterFrm);
 				console.log("makerList : " + makerList);
 				console.log("prjList : " + prjList);
-// 				$("#frmContainer").html(filterFrm);
+				$("#frmContainer").html(filterFrm);
 				$("#prjList").html(prjList);
 				$("#makerList").html(makerList);
 				console.log("after calAjax success");
@@ -38,8 +41,14 @@
 	$(document).ready(function() {
 		initCalendar();
 		
+		$("#filterFrm p").hide();
+		  // $("ul > li:first-child a").next().show();
+		  $("#frmContainer").on("click", "ul li label", function(){
+		    $(this).siblings().slideToggle(300);
+		  });
 		
-// 		calAjax();
+		
+		calAjax();
 		
 		if ("${IW}" == 1) {
 			alert("등록완료!");
@@ -105,6 +114,17 @@
 	
 	
 </script>
+<div class="sub_menu">
+	<ul class="sub_menu_item">
+		<li><a href="/overview/analysis">Work List</a></li>
+		<li><a href="/calendarGet">Calendar</a></li>
+		<li><a href="/gantt/overview">Gantt Chart</a></li>
+	</ul>
+	<div class="sub_btn">
+	</div>
+</div>
+<section class="contents">
+<h2>Calendar</h2>
 <div id="frmContainer" style="height:100%;width:250px;float:left;margin-right:0;">
 	    <form id="filterFrm">
 	    	<label>업무 구분</label><br>
@@ -127,7 +147,6 @@
 		    	<input type="checkbox" class="filter" name="wrk_i_made" value="y">	내가 작성한 업무 <br>
 		    	<input type="checkbox" class="filter" name="wrk_i_following" value="y"> 내가 팔로우한 업무 <br>
 	    	<br><br><hr>
-	    	<label>프로젝트 구분</label><br>
 	    		<div id="prjList">
 	    		</div>
 	    	<br><br><hr>
@@ -141,11 +160,10 @@
 		    	<input type="checkbox" class="filter" name="is_cmp" value="y"> 완료된 업무 <br>
 		    	<input type="checkbox" class="filter" name="is_del" value="y"> 삭제된 업무 <br>
 	    	<br><br><hr>
-	    	<label>업무 작성자 구분</label><br>
 	    		<div id="makerList">
-						<c:forEach items="${mList}" var="MB">
-							<input class='filter'type="checkbox" value="${MB.user_nm}" checked>${MB.user_nm}<br>
-						</c:forEach>
+<%-- 						<c:forEach items="${mList}" var="MB"> --%>
+<%-- 							<input class='filter'type="checkbox" value="${MB.user_nm}" checked>${MB.user_nm}<br> --%>
+<%-- 						</c:forEach> --%>
 	    		</div>
 		    	<br>
 		    	<button type="button" onclick="reset()">필터 초기화</button>
@@ -285,6 +303,7 @@
 			</div>
 		</div>
 	</div>
+	</section>
 	<!-- /.modal -->
 
 <!-- /.container -->

@@ -314,7 +314,7 @@ public class Work_ListController {
 	
 	//업무 생성 ajax
 	@RequestMapping("/wrkCreateAjax")
-	public @ResponseBody HashMap<String, Object> wrkCreateAjax(WorkVo workVo, String wrk_nm, String wrk_lst_id,  HttpSession session) {
+	public @ResponseBody HashMap<String, Object> wrkCreateAjax(WorkVo workVo, Work_Mem_FlwVo work_Mem_FlwVo, String wrk_nm, String wrk_lst_id,  HttpSession session) {
 		
 		//세션에 저장된 프로젝트 정보를 가져옴
 		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
@@ -323,10 +323,16 @@ public class Work_ListController {
 		//세션에 저장된 현재 접속한 사용자의 정보를 가져옴
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
 		
-		workVo.setWrk_lst_id( Integer.parseInt(wrk_lst_id));
+		workVo.setWrk_lst_id(Integer.parseInt(wrk_lst_id));
 		workVo.setUser_email(userVo.getUser_email());
 		workVo.setWrk_nm(wrk_nm);
 		int insertCnt = workService.insertWork(workVo);
+		
+		work_Mem_FlwVo.setUser_email(userVo.getUser_email());
+		work_Mem_FlwVo.setPrj_id(projectVo.getPrj_id());
+		work_Mem_FlwVo.setWrk_id(workVo.getWrk_id());
+		work_Mem_FlwVo.setJn_fl("F");
+		int insertFlwCnt = workMemFlwService.insertWorkMemFlw(work_Mem_FlwVo);
 		
 		List<Work_ListVo> workList = workListService.workList(prj_id);
 		
@@ -347,7 +353,7 @@ public class Work_ListController {
 			}
 		}
 		
-		if(insertCnt != 0) {
+		if(insertCnt != 0 && insertFlwCnt != 0) {
 			hashmap.put("workList", workList);
 			hashmap.put("works", works);
 		}

@@ -55,7 +55,7 @@
 $(document).ready(function(){
 	
 	
-	// 프로젝트 멤버 리스트중 한개의 멤버를 클릭시
+// 	프로젝트 멤버 리스트중 한개의 멤버를 클릭시
 // 	$(".prjMemTr").on("click", function(){
 // 		var user_email = $(this).find(".user_email").attr("id");
 // 		$('#user_email').val(user_email);
