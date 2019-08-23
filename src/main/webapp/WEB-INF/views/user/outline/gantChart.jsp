@@ -52,7 +52,6 @@
 	    	<br><br><hr>
 	    	<label>업무 상태 구분</label><br>
 		    	<input type="checkbox" class="filter" name="is_cmp" value="y"> 완료된 업무 <br>
-		    	<input type="checkbox" class="filter" name="is_del" value="y"> 삭제된 업무 <br>
 	    	<br><br><hr>
 	    		<div id="makerList">
 	    		</div>
