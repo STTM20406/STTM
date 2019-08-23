@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import kr.or.ddit.calendar.dao.ICalendarDao;
+import kr.or.ddit.calendar.model.CalendarVo;
 import kr.or.ddit.project.model.ProjectVo;
 import kr.or.ddit.project_mem.model.Project_MemVo;
 import kr.or.ddit.work.model.WorkVo;
@@ -160,6 +161,11 @@ public class CalendarService implements ICalendarService {
 	public List<Work_ListVo> workList(int prj_id) {
 		return calendarDao.workList(prj_id);
 	}
+	
+	public CalendarVo searchWorkInfomation(int wrk_id) {
+		return calendarDao.searchWorkInfomation(wrk_id);
+	}
+
 
 	
 }

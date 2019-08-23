@@ -13,6 +13,36 @@ public class CalendarVo {
 	private String textColor = "#ffffff"; 
 	private boolean allDay; 
 	
+	//특정 업무의 프로젝트 리스트와 업무 리스트 명 받아오기 위한 
+	private String prj_id;
+	private String prj_nm;
+	private String wrk_lst_id;
+	private String wrk_lst_nm;
+	
+	public String getPrj_id() {
+		return prj_id;
+	}
+	public void setPrj_id(String prj_id) {
+		this.prj_id = prj_id;
+	}
+	public String getPrj_nm() {
+		return prj_nm;
+	}
+	public void setPrj_nm(String prj_nm) {
+		this.prj_nm = prj_nm;
+	}
+	public String getWrk_lst_id() {
+		return wrk_lst_id;
+	}
+	public void setWrk_lst_id(String wrk_lst_id) {
+		this.wrk_lst_id = wrk_lst_id;
+	}
+	public String getWrk_lst_nm() {
+		return wrk_lst_nm;
+	}
+	public void setWrk_lst_nm(String wrk_lst_nm) {
+		this.wrk_lst_nm = wrk_lst_nm;
+	}
 	public CalendarVo(){
 		
 	}
@@ -76,12 +106,13 @@ public class CalendarVo {
 	public void setAllDay(boolean allDay) {
 		this.allDay = allDay;
 	}
-
 	@Override
 	public String toString() {
-		return " { _id=" + _id + ", title=" + title + ", start=" + start + ", end=" + end + ", description="
+		return "CalendarVo [_id=" + _id + ", title=" + title + ", start=" + start + ", end=" + end + ", description="
 				+ description + ", type=" + type + ", username=" + username + ", backgroundColor=" + backgroundColor
-				+ ", textColor=" + textColor + ", allDay=" + allDay + "}";
+				+ ", textColor=" + textColor + ", allDay=" + allDay + ", prj_id=" + prj_id + ", prj_nm=" + prj_nm
+				+ ", wrk_lst_id=" + wrk_lst_id + ", wrk_lst_nm=" + wrk_lst_nm + "]";
 	}
+
 	
 }

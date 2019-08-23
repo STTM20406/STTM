@@ -182,7 +182,7 @@ public class CalendarController {
 		return "jsonView";
 	}
 	
-	@RequestMapping(path="/upW" , method=RequestMethod.POST)
+	@RequestMapping("/upW")
 	String upW(Model model, String wrk_id, String wrk_nm, String wrk_start_dt,
 			String wrk_end_dt, String wrk_lst_id, String wrk_color_cd) throws ParseException  {
 		
@@ -204,7 +204,7 @@ public class CalendarController {
 		int update = calendarService.upW(workVo);
 		
 		if(update ==1) {
-			logger.debug("♬♩♪  업데이트 완료!!");
+			logger.debug("♬♩♪  업데이트 완료!");
 		}
 		return "jsonView";
 	}
@@ -237,6 +237,14 @@ public class CalendarController {
 	@ResponseBody
 	public Map<String, Object> calendarTestJSON(FilterVo filterVo) {
 		return filterService.calendarTemplateJSON(filterVo); 
+	}
+	
+	@RequestMapping("/searchWorkInfomation")
+	String searchWorkInfomation(Model model, int wrk_id) {
+		logger.debug("♬♩♪  searchWorkInfomation wrk_id: {}", wrk_id);
+		model.addAttribute("CalendarVo", calendarService.searchWorkInfomation(wrk_id));
+		logger.debug("♬♩♪  searchWorkInfomation: {}", calendarService.searchWorkInfomation(wrk_id));
+		return "jsonView";
 	}
 	
 }

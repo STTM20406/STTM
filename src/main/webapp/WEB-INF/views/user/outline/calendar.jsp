@@ -41,10 +41,10 @@
 	$(document).ready(function() {
 		
 		$('.modalBtnContainer-addEvent').on('click', '.btn-default',function(){
-			alert("취소버튼 누르면 프로젝트 리스트 초기화하자!!");
 			document.getElementById("projectForm").reset();
 			document.getElementById("colorForm").reset();
 		});
+		
 		
 		initCalendar();
 		
@@ -56,10 +56,6 @@
 		
 		
 		calAjax();
-		
-		if ("${IW}" == 1) {
-			alert("등록완료!");
-		}
 		
 		$("#edit-prj").on("change",function(){
 			var prj_id = $(this).val();
@@ -176,7 +172,7 @@
 		<ul class="dropdown-menu dropNewEvent" role="menu"
 			aria-labelledby="dropdownMenu"
 			style="display: block; position: static; margin-bottom: 5px;">
-			<li><a tabindex="-1" href="#">일정 등록 긔긔</a></li>
+			<li><a tabindex="-1" href="#">업무 등록</a></li>
 		</ul>
 	</div>
 	
@@ -232,7 +228,7 @@
 						<div class="col-xs-12">
 							<label class="col-xs-4" for="edit-type">프로젝트 리스트</label> 
 							<select	class="inputModal" name="prj_id" id="edit-prj">
-								<option selected>- 선택 - </option>								
+								<option selected id="prj_selected">- 선택 - </option>								
 								<c:forEach items="${projectList}" var="PL">
 									<option value="${PL.prj_id}">${PL.prj_nm}</option>
 								</c:forEach>
@@ -257,7 +253,7 @@
 						<div class="col-xs-12">
 							<label class="col-xs-4" for="edit-color">색상</label> <select
 								class="inputModal" name="wrk_color_cd" id="edit-color">
-								<option selected>- 선택 - </option>
+								<option selected id="col_selected">- 선택 - </option>		
 								<option value="#D25565" style="color: #D25565;">빨간색</option>
 								<option value="#9775fa" style="color: #9775fa;">보라색</option>
 								<option value="#ffa94d" style="color: #ffa94d;">주황색</option>
@@ -267,6 +263,7 @@
 								<option value="#a9e34b" style="color: #a9e34b;">초록색</option>
 								<option value="#4d638c" style="color: #4d638c;">남색</option>
 								<option value="#495057" style="color: #495057;">검정색</option>
+								<option value="#002dff" style="color: #002dff;">이게무슨색?</option>
 							</select>
 						</div>
 					</div>
@@ -286,6 +283,23 @@
 	</div>
 	<!-- /.modal -->
 
+<!-- 오류 알림창 -->
+<!-- <div class="dim-layer"> -->
+<!-- 	<div class="dimBg"></div> -->
+<div id="layer2" class="pop-layer">
+	<div class="pop-container">
+		<div class="pop-conts">
+			<!--content //-->
+			<p class="ctxt mb20"></p>
+			<div class="btn-r">
+				<a href="#" class="btn-layerClose">Close</a>
+			</div>
+			<!--// content-->
+		</div>
+	</div>
+</div>
+<!-- </div> -->
+
 <!-- /.container -->
 
 <script src="/js/jquery.min.js"></script>
@@ -299,4 +313,6 @@
 <script src="/js/addEvent.js"></script>
 <script src="/js/editEvent.js"></script>
 <script src="/js/etcSetting.js"></script>
+
+
 

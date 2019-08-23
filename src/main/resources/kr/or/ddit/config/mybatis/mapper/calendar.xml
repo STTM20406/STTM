@@ -209,4 +209,16 @@
             order by prj_id asc
    </select>
  
+   <select id="searchWorkInfomation" parameterType="int" resultType="calendarVo">
+        SELECT 
+        	A.wrk_nm, B.USER_NM, c.wrk_lst_id, c.wrk_lst_nm, d.prj_id, d.prj_nm 
+        FROM 
+        	WORK A, USERS B, work_list C, project D 
+        WHERE 
+        	WRK_ID = #{wrk_id}
+        AND A.USER_EMAIL = B.USER_EMAIL
+        and a.wrk_lst_id = c.wrk_lst_id
+        and c.prj_id = d.prj_id
+        
+   </select>
 </mapper>

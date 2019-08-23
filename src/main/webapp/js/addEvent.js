@@ -18,7 +18,9 @@ var modifyBtnContainer = $('.modalBtnContainer-modifyEvent');
  * ************** */
 var newEvent = function (start, end, eventType) {
 
-    $("#contextMenu").hide(); //메뉴 숨김
+	$("#prj_selected").prop("selected", true);
+	
+    $("#contextMenu").hide(0); //메뉴 숨김
 
     modalTitle.html('새로운 일정');
     editStart.val(start);
@@ -54,13 +56,13 @@ var newEvent = function (start, end, eventType) {
         };
 
         if (eventData.start > eventData.end) {
-            alert('끝나는 날짜가 앞설 수 없습니다.');
-            return false;
+ 			alert("끝나는 날짜가 앞설 수 없습니다.");
+ 			return false;
         }
 
         if (eventData.title === '') {
-            alert('일정명은 필수입니다.');
-            return false;
+        	alert("일정명은 필수 입력사항입니다.");
+        	return false;
         }
 
         var realEndDay;
@@ -89,8 +91,11 @@ var newEvent = function (start, end, eventType) {
             data: JSON.stringify(eventData), //컨트롤러에서 필요한것만 뽑아쓰면된다 Vo를 하나 만들어서 Vo로 받자!
 //            data: "user_id="+userId, //컨트롤러에서 필요한것만 뽑아쓰면된다 Vo를 하나 만들어서 Vo로 받자!
             success: function (response) {
-            	alert("등록완료!")
-                //DB연동시 중복이벤트 방지를 위한
+            	$(".ctxt").text("등록이 완료 되었습니다.");
+    			layer_popup("#layer2");
+    			return false;
+            	
+            	//DB연동시 중복이벤트 방지를 위한
                 $('#calendar').fullCalendar('removeEvents');
                 $('#calendar').fullCalendar('refetchEvents');
             }
