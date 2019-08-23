@@ -225,4 +225,26 @@ public interface IUserDao {
 	* Method 설명 : 사용자 비밀번호 암호화 적용
 	 */
 	int updateUserEncryptPass(UserVo userVo);
+	
+	/**
+	 * Method 		: plusCount
+	 * 작성자 			: 양한솔 
+	 * 변경이력 		: 2019-08-23 최초 생성
+	 * @param user_email
+	 * @return
+	 * Method 설명 	: 사용자 새로운 알림추가시 카운트 개수 1씩 증가
+	 */
+	int plusCount(String user_email);
+	
+	/**
+	 * Method 		: resetCount
+	 * 작성자 			: 양한솔 
+	 * 변경이력 		: 2019-08-23 최초 생성
+	 * @param user_email
+	 * @return
+	 * Method 설명 	: 사용자가 알림목록을 읽었을 경우 0으로 초기화
+	 */
+	int resetCount(String user_email);
+	
+	
 }
