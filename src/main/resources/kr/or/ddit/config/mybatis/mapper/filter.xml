@@ -36,7 +36,8 @@
 		AND		B.PRJ_ID = D.PRJ_ID
 		AND		D.PRJ_ID = E.PRJ_ID
 		AND		A.USER_EMAIL = F.USER_EMAIL
-		AND		E.DEL_FL = 'N' 
+		AND		E.DEL_FL = 'N'
+		AND		A.WRK_DEL_FL = 'N'
 		<if test="wrk_dt != 0">AND </if>
 		<choose>
 			<when test="wrk_dt eq 30">30 &gt;= SYSDATE - A.WRK_DT </when>
@@ -82,14 +83,8 @@
 			</trim>
 			)
 		</if>
-		<if test="is_cmp == null and is_del == null">
-			AND A.WRK_DEL_FL = 'N'
-		</if>
 		<if test="is_cmp != null">
 			AND A.WRK_CMP_FL = 'Y'
-		</if>
-		<if test="is_del != null">
-			AND A.WRK_DEL_FL = 'Y'
 		</if>
 		<if test="wrk_maker != null">
 			AND	A.USER_EMAIL IN 
