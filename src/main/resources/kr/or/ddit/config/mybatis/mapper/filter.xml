@@ -82,8 +82,11 @@
 			</trim>
 			)
 		</if>
+		<if test="is_cmp == null and is_del == null">
+			AND A.WRK_DEL_FL = 'N'
+		</if>
 		<if test="is_cmp != null">
-			AND A.WRK_CMP_FL = 'Y'
+			AND A.WRK_CMP_FL = 'Y' AND A.WRK_DEL_FL = 'N'
 		</if>
 		<if test="is_del != null">
 			AND A.WRK_DEL_FL = 'Y'
