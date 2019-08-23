@@ -2,7 +2,6 @@ package kr.or.ddit.users.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,9 +22,9 @@ import kr.or.ddit.friend_req.model.Friend_ReqVo;
 import kr.or.ddit.friend_req.service.IFriend_ReqService;
 import kr.or.ddit.friends.model.FriendsVo;
 import kr.or.ddit.friends.service.IFriendsService;
-import kr.or.ddit.notification_set.model.Notification_SetVo;
 import kr.or.ddit.notification_set.service.INotification_SetService;
 import kr.or.ddit.paging.model.PageVo;
+import kr.or.ddit.project.service.IProjectService;
 import kr.or.ddit.project_mem.model.Project_MemVo;
 import kr.or.ddit.project_mem.service.IProject_MemService;
 import kr.or.ddit.users.model.UserVo;
@@ -41,6 +40,9 @@ public class UserController {
 	
 	@Resource(name = "notification_SetService")
 	private INotification_SetService notification_SetService;
+	
+	@Resource(name = "projectService")
+	private IProjectService projectService;
 	
 	@Resource(name = "project_MemService")
 	private IProject_MemService project_MemService;
@@ -307,7 +309,13 @@ public class UserController {
 		map.put("prj_id", prjVo.getPrj_id());
 
 //		if(frd_email == null) {
-		
+			
+			// ----- 프로젝트 리스트 가져오기 -----
+			String user_email1 = userVo.getUser_email();
+			model.addAttribute("projectList", projectService.projectList(user_email1));
+//			return "/projectList/projectList.user.tiles";
+			
+			
 			// 회원이 해당 프로젝트의 멤버 목록을 조회 한다.
 			Map<String, Object> resultMap = project_MemService.projectMemPagingList(map);
 			
@@ -783,23 +791,23 @@ public class UserController {
 			model.addAttribute("pageVo", pageVo);
 			
 		}
-//		else if(selectBoxText.equals("userNm")) {
-//			Map<String, Object> resultMap = userService.userSearchByEmail(search);
-//			List<UserVo> userNmSearchList = (List<UserVo>) resultMap.get("admSearchNameList");
-//			int paginationSize = (Integer) resultMap.get("paginationSize");
-//			
-//			model.addAttribute("userNmSearchList", userNmSearchList);
-//			model.addAttribute("paginationSize", paginationSize);
-//			model.addAttribute("pageVo", pageVo);
-//		}else if(selectBoxText.equals("userHp")) {
-//			Map<String, Object> resultMap = userService.userSearchByEmail(search);
-//			List<UserVo> userHpSearchList = (List<UserVo>) resultMap.get("admSearchHpList");
-//			int paginationSize = (Integer) resultMap.get("paginationSize");
-//			
-//			model.addAttribute("userHpSearchList", userHpSearchList);
-//			model.addAttribute("paginationSize", paginationSize);
-//			model.addAttribute("pageVo", pageVo);
-//		}
+		else if(selectBoxText.equals("userNm")) {
+			Map<String, Object> resultMap = userService.userSearchByName(search);
+			List<UserVo> userNmSearchList = (List<UserVo>) resultMap.get("admSearchNameList");
+			int paginationSize = (Integer) resultMap.get("paginationSize");
+			
+			model.addAttribute("userNmSearchList", userNmSearchList);
+			model.addAttribute("paginationSize", paginationSize);
+			model.addAttribute("pageVo", pageVo);
+		}else if(selectBoxText.equals("userHp")) {
+			Map<String, Object> resultMap = userService.userSearchByHp(search);
+			List<UserVo> userHpSearchList = (List<UserVo>) resultMap.get("admSearchHpList");
+			int paginationSize = (Integer) resultMap.get("paginationSize");
+			
+			model.addAttribute("userHpSearchList", userHpSearchList);
+			model.addAttribute("paginationSize", paginationSize);
+			model.addAttribute("pageVo", pageVo);
+		}
 		return "/member/memberList.adm.tiles";
 	}
 
