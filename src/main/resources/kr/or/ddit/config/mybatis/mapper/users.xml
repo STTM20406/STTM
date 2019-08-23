@@ -127,6 +127,17 @@
 
 </select>
 
+<!-- ******************* count_notify ******************* -->
+	<update id="plusCount" parameterType="String">
+		update users
+		set count_notify = count_notify+1
+		where user_email = #{user_email}
+	</update>
+	<update id="resetCount" parameterType="String">
+		update users
+		set count_notify = 0
+		where user_email = #{user_email}
+	</update>
 
 <!-- ******************* mail_confirm ******************* -->
 
