@@ -26,9 +26,13 @@ import kr.or.ddit.chat_mem.service.Chat_MemService;
 import kr.or.ddit.chat_room.service.Chat_RoomService;
 import kr.or.ddit.friends.model.ChatFriendsVo;
 import kr.or.ddit.friends.service.FriendsService;
+import kr.or.ddit.note_info.service.INote_InfoService;
+import kr.or.ddit.note_info.service.Note_InfoService;
 import kr.or.ddit.notification.model.NotificationVo;
+import kr.or.ddit.notification.service.NotificationService;
 import kr.or.ddit.project_mem.model.Project_MemVo;
 import kr.or.ddit.project_mem.service.Project_MemService;
+import kr.or.ddit.receiver.model.ReceiverVo;
 import kr.or.ddit.users.model.UserVo;
 
 //작성순서 : afterConnectionEstablished(서버 접속 시) -> afterConnectionClosed(서버연결끊을 시)
@@ -49,6 +53,9 @@ public class WebSocket extends TextWebSocketHandler {
 
 	@Resource(name = "chat_ContentService")
 	private Chat_ContentService contentService;
+	
+	@Resource(name ="notificationService")
+	private NotificationService notificationService;
 	
 	@Resource(name = "project_MemService")
 	Project_MemService prjMemService;
@@ -241,13 +248,27 @@ public class WebSocket extends TextWebSocketHandler {
 				logger.debug("!@#업무코멘트 메세지 들어오거라@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 				String wrk_comment = strs[0];	// 업무코멘트알림
 //				String notify_cd = strs[1]; // 알림코드 (N01 : 프로젝트, N02 : 업무알림, N03 : 채팅알림, N04 : 1:1답변)
-				String userNm = strs[1];	// 사용자
+				String rcv_email = strs[1];	// 받는사람
 				String wrk_subject = strs[2]; // 업무 제목
+				
+				String notifiMsg = rcv_email+"님,"+wrk_subject+"에 코멘트가 작성이 되었습니다."; // 알림메세지 내용
 				
 				NotificationVo notifyVo = new NotificationVo();
 				notifyVo.setNot_con(msg); // message.getPayload() => 내가 실제로 받은 메세지 
 				
-				WebSocketSession writerSession = userList.get(userNm); // 게시글작성자
+				NotificationVo notiVo = new NotificationVo();
+				notiVo.setNot_id(notiVo.getNot_id());
+				notiVo.setNot_cd("N02");
+				notiVo.setNot_con(notifiMsg);
+				int insertNoti = notificationService.insertNotifi(notiVo);
+				
+				ReceiverVo receiverVo = new ReceiverVo();
+				receiverVo.setNot_id(notiVo.getNot_id());
+				receiverVo.setRcv_email(rcv_email);
+				
+				int insertRecei = notificationService.insertReceiver(receiverVo);
+				
+				WebSocketSession writerSession = userList.get(rcv_email); // 받는사람
 				if("wrk_comment".equals(wrk_comment) && writerSession != null) {
 					logger.debug("!@# userList : {}",userList);
 					
@@ -260,8 +281,8 @@ public class WebSocket extends TextWebSocketHandler {
 						  String key = (String)iterator.next();
 						  logger.debug("!@# keyset : {}",key);
 						  
-						  if(key.equals(userNm)) {
-							  TextMessage tmpMsg = new TextMessage(userNm+"님,"+wrk_subject+"에 코멘트가 작성이 되었습니다.");
+						  if(key.equals(rcv_email)) {
+							  TextMessage tmpMsg = new TextMessage(rcv_email+"님,"+wrk_subject+"에 코멘트가 작성이 되었습니다.");
 								writerSession.sendMessage(tmpMsg);
 						  }
 					}
