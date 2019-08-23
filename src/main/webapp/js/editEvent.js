@@ -4,6 +4,7 @@
 var editEvent = function (event, element, view) {
 	console.log(event._id);
 
+	//업무 수정 할때 해당 업무가 어떤 프로젝트, 어떤 업무 리스트의 것인지 보여줌!
 	$.ajax({
 		url: "/searchWorkInfomation",
 		type: "post",

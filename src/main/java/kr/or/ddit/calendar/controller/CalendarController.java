@@ -166,7 +166,6 @@ public class CalendarController {
 			logger.debug("♬♩♪  잘 들어가유!!!!!!!!!!!!!!!!!!!");
 		}
 		return "jsonView";
-		
 	}
 	
 	@RequestMapping(path="/delW" , method=RequestMethod.POST)
@@ -239,11 +238,18 @@ public class CalendarController {
 		return filterService.calendarTemplateJSON(filterVo); 
 	}
 	
+	/**
+	 * Method 		: searchWorkInfomation
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-23 최초 생성
+	 * @param model
+	 * @param wrk_id
+	 * @return
+	 * Method 설명 	: calendar에서 해당 업무 눌렀을 때 어떤 프로젝트의 어떤 업무리스트인지 조회!
+	 */
 	@RequestMapping("/searchWorkInfomation")
 	String searchWorkInfomation(Model model, int wrk_id) {
-		logger.debug("♬♩♪  searchWorkInfomation wrk_id: {}", wrk_id);
 		model.addAttribute("CalendarVo", calendarService.searchWorkInfomation(wrk_id));
-		logger.debug("♬♩♪  searchWorkInfomation: {}", calendarService.searchWorkInfomation(wrk_id));
 		return "jsonView";
 	}
 	
