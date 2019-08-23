@@ -295,28 +295,28 @@ public class FilterService implements IFilterService{
 			if(work.getWrk_end_dt()==null) 
 				{
 					if("Y".equals(work.getWrk_cmp_fl()))
-						sb_result.append("<span>&nbsp;&nbsp; "+ date_str +" </span><span class='cmp' style='color:#32a89b;'>&nbsp;&nbsp;"+ sdf_y.format(work.getWrk_cmp_dt()) +" <b>완료</b></span>");
+						sb_result.append("<span>&nbsp;&nbsp; "+ date_str +" </span><span class='cmp' style='color:#32a89b;'>&nbsp;&nbsp;"+ sdf_y.format(work.getWrk_cmp_dt()) +" <b>완료</b></span>" + (work.getWrk_del_fl().equals("Y") ? "<span>&nbsp;&nbsp;<b>삭제됨</b></span>" : ""));
 					else if("N".equals(work.getWrk_cmp_fl()))
-						sb_result.append("<span class='no_deadline' style='color:#616161;'>&nbsp;&nbsp; " + date_str + " <b>마감일 없음</b></span>");
+						sb_result.append("<span class='no_deadline' style='color:#616161;'>&nbsp;&nbsp; " + date_str + " <b>마감일 없음</b></span>" + (work.getWrk_del_fl().equals("Y") ? "<span>&nbsp;&nbsp;<b>삭제됨</b></span>" : ""));
 				} 
 					else if(nowDate.after(work.getWrk_end_dt()) && "N".equals(work.getWrk_cmp_fl()))
 				{
-					sb_result.append("<span>&nbsp;&nbsp;"+ date_str +"</span><span class='overdue' style='color:#a83232;'>&nbsp;&nbsp;<b> "+ "마감일 지남" +"</b></span>");
+					sb_result.append("<span>&nbsp;&nbsp;"+ date_str +"</span><span class='overdue' style='color:#a83232;'>&nbsp;&nbsp;<b> "+ "마감일 지남" +"</b></span>" + (work.getWrk_del_fl().equals("Y") ? "<span>&nbsp;&nbsp;<b>삭제됨</b></span>" : ""));
 				} 
 					else if(nowDate.before(work.getWrk_start_dt()) && "N".equals(work.getWrk_cmp_fl()))
 				{
-					sb_result.append("<span>&nbsp;&nbsp;"+ date_str +"</span><span class='planned' style='color:#7b8500;'>&nbsp;&nbsp; <b>계획됨</b></span>");
+					sb_result.append("<span>&nbsp;&nbsp;"+ date_str +"</span><span class='planned' style='color:#7b8500;'>&nbsp;&nbsp; <b>계획됨</b></span>" + (work.getWrk_del_fl().equals("Y") ? "<span>&nbsp;&nbsp;<b>삭제됨</b></span>" : ""));
 				} 
 					else if("Y".equals(work.getWrk_cmp_fl())) 
 				{
 					if(work.getWrk_cmp_dt().before(work.getWrk_end_dt()))
-						sb_result.append("<span>&nbsp;&nbsp; "+ date_str +" </span><span class='cmp' style='color:#32a89b;'>&nbsp;&nbsp;"+ sdf.format(work.getWrk_cmp_dt()) +" <b>완료</b></span>");
+						sb_result.append("<span>&nbsp;&nbsp; "+ date_str +" </span><span class='cmp' style='color:#32a89b;'>&nbsp;&nbsp;"+ sdf.format(work.getWrk_cmp_dt()) +" <b>완료</b></span>" + (work.getWrk_del_fl().equals("Y") ? "<span>&nbsp;&nbsp;<b>삭제됨</b></span>" : ""));
 					else if(work.getWrk_cmp_dt().after(work.getWrk_end_dt()))
-						sb_result.append("<span>&nbsp;&nbsp; "+ date_str +" </span><span class='latecmp' style='color:#b71bbf;'>&nbsp;&nbsp;"+ sdf.format(work.getWrk_cmp_dt()) +" <b>완료</b></span>");
+						sb_result.append("<span>&nbsp;&nbsp; "+ date_str +" </span><span class='latecmp' style='color:#b71bbf;'>&nbsp;&nbsp;"+ sdf.format(work.getWrk_cmp_dt()) +" <b>완료</b></span>" + (work.getWrk_del_fl().equals("Y") ? "<span>&nbsp;&nbsp;<b>삭제됨</b></span>" : ""));
 				}
 			
 				if(work.getWrk_start_dt() != null && work.getWrk_end_dt()!=null && nowDate.before(work.getWrk_end_dt()) && nowDate.after(work.getWrk_start_dt())) {
-					sb_result.append("<span class='cmp' style='color:#32a89b;'>&nbsp;&nbsp;"+ date_str +"</span>");
+					sb_result.append("<span class='cmp' style='color:#32a89b;'>&nbsp;&nbsp;"+ date_str +"</span>" + (work.getWrk_del_fl().equals("Y") ? "<span>&nbsp;&nbsp;<b>삭제됨</b></span>" : ""));
 				}
 			
 			sb_result.append("</div>");
