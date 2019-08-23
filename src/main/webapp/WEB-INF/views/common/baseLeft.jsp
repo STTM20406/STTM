@@ -134,7 +134,7 @@
 	</div>
 	<nav id="gnb">
 		<ul>
-			<li><a href="/notification">NOTIFY</a></li>
+			<li><a href="/notification">NOTIFY<span id="count">${USER_INFO.count_notify }</span></a></li>
 			<li><a href="/overview/analysis">WORK LIST</a></li>
 			<li><a href="/project/list">PROJECT LIST</a></li>
 			<li><a href="/projectMemberList">MEMBER</a></li>
