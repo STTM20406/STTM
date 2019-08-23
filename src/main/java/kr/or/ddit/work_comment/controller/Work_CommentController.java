@@ -42,18 +42,7 @@ public class Work_CommentController {
 		logger.debug("!@# session : {}",session);
 		logger.debug("!@# wps_wrk_id : {}",wps_wrk_id);
 		
-		
-		
 		int wrk_id = Integer.parseInt(wps_wrk_id);
-		//배정된 업무 멤버 가져오기
-		Work_Mem_FlwVo work_memVo = new Work_Mem_FlwVo(wrk_id, "M");
-		List<Work_Mem_FlwVo> wrkMemList = workMemFlwService.workMemFlwList(work_memVo); 
-		
-		//업무 팔로워 멤버 가져오기
-		Work_Mem_FlwVo work_flwVo = new Work_Mem_FlwVo(wrk_id, "F");
-		List<Work_Mem_FlwVo> wrkFlwList = workMemFlwService.workMemFlwList(work_flwVo); 
-		
-		
 		
 		int pageStr = page == null ? 1 : Integer.parseInt(page);
 		int pageSizeStr =  pageSize == null ? 10 : Integer.parseInt(pageSize);
@@ -74,8 +63,6 @@ public class Work_CommentController {
 		
 		model.addAttribute("commentList", commentList);
 		
-		resultMap.put("wrkMemList",wrkMemList);
-		resultMap.put("wrkFlwList",wrkFlwList);
 		resultMap.put("commentList",commentList);
 		resultMap.put("pageVo",pageVo);
 		resultMap.put("commPageSize",commPageSize);
@@ -84,10 +71,19 @@ public class Work_CommentController {
 	}
 	
 	@RequestMapping("/commentInsert")
-	public String workComment(String comm_content,HttpSession session,String wps_wrk_id) {
+	public String workComment(String comm_content,String wps_wrk_nm,HttpSession session,String wps_wrk_id,Model model) {
 
 		String viewName ="";
 		int wrk_id = Integer.parseInt(wps_wrk_id);
+		
+		//배정된 업무 멤버 가져오기
+		Work_Mem_FlwVo work_memVo = new Work_Mem_FlwVo(wrk_id, "M");
+		List<Work_Mem_FlwVo> wrkMemList = workMemFlwService.workMemFlwList(work_memVo); 
+		
+		//업무 팔로워 멤버 가져오기
+		Work_Mem_FlwVo work_flwVo = new Work_Mem_FlwVo(wrk_id, "F");
+		List<Work_Mem_FlwVo> wrkFlwList = workMemFlwService.workMemFlwList(work_flwVo); 
+		
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
 		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
 		
@@ -96,11 +92,16 @@ public class Work_CommentController {
 		commentVo.setComm_content(comm_content);
 		commentVo.setPrj_id(projectVo.getPrj_id());
 		commentVo.setWrk_id(wrk_id);
+		commentVo.setWrk_nm(wps_wrk_nm);
 		logger.debug("!@#userId : {}",userVo.getUser_email());
 		logger.debug("!@#comm_content : {}",comm_content);
 		logger.debug("!@#commentVo : {}",commentVo);
 		
 		int commCnt = commentService.commentInsert(commentVo);
+		
+		model.addAttribute("data", wrkMemList);
+		model.addAttribute("data2", wrkFlwList);
+		model.addAttribute("data3", commentVo);
 		
 		return "jsonView";
 	}

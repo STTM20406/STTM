@@ -12,6 +12,7 @@ import java.util.Set;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.math3.geometry.spherical.oned.ArcsSet.Split;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.socket.CloseStatus;
@@ -101,6 +102,9 @@ public class WebSocket extends TextWebSocketHandler {
 
 		if (StringUtils.isNotEmpty(msg)) { // 메시지가 들어올 때만 처리
 			String[] strs = msg.split(",");
+			for(int i=0;i<strs.length;i++) {
+				System.out.println(strs[i]);
+			}
 			if (strs != null && strs.length == 5 && strs[0].equals("chatting")) {
 				String chatting = strs[0];
 				String senderNm = strs[1];
@@ -233,7 +237,65 @@ public class WebSocket extends TextWebSocketHandler {
 					TextMessage fndMsg = new TextMessage("lst:"+fnd_str);
 					wrtSession.sendMessage(fndMsg);
 				}
-			}
+			}else if(strs != null && strs.length == 3 && strs[0].equals("wrk_comment")) { // 업무코멘트 알림보내기
+				logger.debug("!@#업무코멘트 메세지 들어오거라@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+				String wrk_comment = strs[0];	// 업무코멘트알림
+//				String notify_cd = strs[1]; // 알림코드 (N01 : 프로젝트, N02 : 업무알림, N03 : 채팅알림, N04 : 1:1답변)
+				String userNm = strs[1];	// 사용자
+				String wrk_subject = strs[2]; // 업무 제목
+				
+				NotificationVo notifyVo = new NotificationVo();
+				notifyVo.setNot_con(msg); // message.getPayload() => 내가 실제로 받은 메세지 
+				
+				WebSocketSession writerSession = userList.get(userNm); // 게시글작성자
+				if("wrk_comment".equals(wrk_comment) && writerSession != null) {
+					logger.debug("!@# userList : {}",userList);
+					
+					Set set = userList.keySet();
+					Iterator iterator = set.iterator();
+					logger.debug("!@#set : {}",set);
+					logger.debug("!@#iterator : {}",iterator);
+					
+					while(iterator.hasNext()){
+						  String key = (String)iterator.next();
+						  logger.debug("!@# keyset : {}",key);
+						  
+						  if(key.equals(userNm)) {
+							  TextMessage tmpMsg = new TextMessage(userNm+"님,"+wrk_subject+"에 코멘트가 작성이 되었습니다.");
+								writerSession.sendMessage(tmpMsg);
+						  }
+					}
+					
+				}
+
+			} 
+			
+//			if (StringUtils.isNotEmpty(msg)) {
+//				String[] commMsg = msg.split(":");
+//				String[] strr = {};
+//				String str ="";
+//					
+//				for(int j=0;j<commMsg.length;j++) {
+//					
+//					for(int i =0;i<commMsg[j].split(",").length;i++) {
+//						strr = commMsg[j].split(",");
+//						str += strr[i];
+//						logger.debug("!@# strr@@@@@@@@@@@@@@#4@#$@ : {}",strr[i]);
+//					}
+//					logger.debug("!@# strr@@@@@@@@@@@@@!!!!!!!!!!!!!!!! : {}",strr[j]);
+//				}
+//				
+//				logger.debug("!@# commcommMsg@@@@@@@@@@@@@ : {}",commMsg[0]);
+//				logger.debug("!@# commcommMsg@@@@@@@@@@@@@ : {}",commMsg[1]);
+//				logger.debug("!@# commcommMsg@@@@@@@@@@@@@ : {}",commMsg[2]);
+//				logger.debug("!@# strr@@@@@@@@@@@@@ : {}",strr);
+//				logger.debug("!@# strr@@@@@@@@@@@@@ : {}",strr[2]);
+//				logger.debug("!@# strr@@@@@@@@@@@@@ : {}",strr[1]);
+//				logger.debug("!@# str@@@@@@@@@@@@@ : {}",str);
+//			}
+			
+				
+			
 
 		}
 
