@@ -28,6 +28,15 @@
 			if ($("#room_nm").val().length == 0)
 				alert("채팅방 이름을 입력하세요");
 
+			var test = $("#room_nm").val();
+			test.replace("<","&lt;",test);
+			test.replace(">","&gt;",test);
+			
+			var test1 = $("#room_nm").val().replace(/</gi,"&lt;");
+			var test2 = test1.replace(/>/gi,"&gt;");
+			
+			$("#room_nm").val(test2);
+			
 			//친구추가 할 때 사용하는 체크박스
 			var sendArray = new Array();
 			var chkbox = $(".checkSelect");
