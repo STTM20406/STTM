@@ -28,17 +28,18 @@ public class UserVo {
 	private String user_st;			// 휴면계정여부
 	private String user_path;		// 사진경로
 	private String user_filename;	// 원본사진파일명
+	private int count_notify;		// 알림 카운트 개수
 	
 	public UserVo() {
 	}
 	
 	public UserVo(String user_email) {
-
 		
 	}
 
 	public UserVo(String user_email, String user_pass, String user_nm, String user_hp, String user_job,
-			String user_token, String user_right, String user_st, String user_path, String user_filename) {
+			String user_token, String user_right, String user_st, String user_path, String user_filename,
+			int count_notify) {
 		super();
 		this.user_email = user_email;
 		this.user_pass = user_pass;
@@ -50,14 +51,24 @@ public class UserVo {
 		this.user_st = user_st;
 		this.user_path = user_path;
 		this.user_filename = user_filename;
+		this.count_notify = count_notify;
 	}
-
 	@Override
 	public String toString() {
 		return "UserVo [user_email=" + user_email + ", user_pass=" + user_pass + ", user_nm=" + user_nm + ", user_hp="
 				+ user_hp + ", user_job=" + user_job + ", user_token=" + user_token + ", user_right=" + user_right
-				+ ", user_st=" + user_st + ", user_path=" + user_path + ", user_filename=" + user_filename + "]";
+				+ ", user_st=" + user_st + ", user_path=" + user_path + ", user_filename=" + user_filename
+				+ ", count_notify=" + count_notify + "]";
 	}
+	
+	public int getCount_notify() {
+		return count_notify;
+	}
+
+	public void setCount_notify(int count_notify) {
+		this.count_notify = count_notify;
+	}
+
 
 	public String getUser_email() {
 		return user_email;
