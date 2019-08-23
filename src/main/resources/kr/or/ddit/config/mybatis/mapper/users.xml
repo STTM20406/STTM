@@ -15,8 +15,8 @@
 
 <!-- 일반 사용자 등록 -->
 <insert id="insertUser" parameterType="userVo">
-	insert into users(user_email,user_pass,user_nm,user_hp,user_right,user_st)
-	values (#{user_email},#{user_pass},#{user_nm},#{user_hp},'U','N')
+	insert into users(user_email,user_pass,user_nm,user_hp,user_right,user_st,count_notify)
+	values (#{user_email},#{user_pass},#{user_nm},#{user_hp},'U','N',0)
 </insert>
 
 <!-- 일반 사용자 삭제 -->
