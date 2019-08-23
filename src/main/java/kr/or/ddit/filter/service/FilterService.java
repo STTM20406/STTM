@@ -119,7 +119,7 @@ public class FilterService implements IFilterService{
 		return resultMap;
 	}
 	/**
-	 * Method : ganttListTemplate
+	 * Method : ganttListJSON
 	 * 작성자 : 유승진
 	 * 변경이력 : 2019-07-30 최초 생성
 	 * @param workList
@@ -197,7 +197,12 @@ public class FilterService implements IFilterService{
 		
 		for(WorkVo work : workList) {
 			String id = "wrk#" + work.getWrk_id();
-			String text = work.getWrk_nm();
+			String tag = "";
+			
+			if(work.getWrk_cmp_fl().equals("Y"))
+				tag += " (완료)";
+			
+			String text = work.getWrk_nm() + tag;
 			String parent = "list#" + work.getWrk_lst_id();
 			Boolean unscheduled = work.getWrk_start_dt() == null || work.getWrk_end_dt() == null ? true : null;
 			String start_date = work.getWrk_start_dt() == null ? null : sdf.format(work.getWrk_start_dt());			
@@ -490,8 +495,6 @@ public class FilterService implements IFilterService{
 		sb_form.append("<br>");
 		
 		sb_form.append("<input type='checkbox' class='filter' name='is_cmp' value='y'> 완료된 업무 <br>");
-		sb_form.append("<input type='checkbox' class='filter' name='is_del' value='y'> 삭제된 업무 <br>");
-		
 		sb_form.append("<br><br>");
 		
 		sb_form.append("<div id='makerList'></div>");
@@ -567,8 +570,6 @@ public class FilterService implements IFilterService{
 		sb_form.append("<br>");
 		
 		sb_form.append("<input type='checkbox' class='filter' name='is_cmp' value='y'> 완료된 업무 <br>");
-		sb_form.append("<input type='checkbox' class='filter' name='is_del' value='y'> 삭제된 업무 <br>");
-		
 		sb_form.append("<br><br>");
 		
 		sb_form.append("<br>");
