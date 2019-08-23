@@ -227,12 +227,12 @@
 								<li>
 									<label for="user_pass1">새 비밀번호</label>
 									<input type="text" id="user_pass1" name="user_pass1" 
-										placeholder="패스워드는 4~12자의 영문 대소문자와 숫자로만 입력" value="${user_pass}">
+										placeholder="패스워드는 4~12자의 영문 대소문자와 숫자로만 입력">
 								</li>
 								<li>
 									<label for="user_pass2">새 비밀번호 확인</label>
 									<input type="text" id="user_pass" name="user_pass" 
-										placeholder="패스워드는 4~12자의 영문 대소문자와 숫자로만 입력" value="${user_pass}">
+										placeholder="패스워드는 4~12자의 영문 대소문자와 숫자로만 입력">
 								</li>
 								<li>
 									<input type="button" class="btn_style_01" onclick="setPass()" value="비밀번호 업데이트">

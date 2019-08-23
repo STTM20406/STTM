@@ -145,4 +145,27 @@ public interface IProject_MemDao {
 	 */
 	int updateTransferOwnership(Project_MemVo projectMemVo);
 	
+	/**
+	 * 
+	* Method : projectMemList
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-23
+	* @param prj_id
+	* @return
+	* Method 설명 : 멤버탭에서 프로젝트 이름을 클릭하여 프로젝트 번호를 받아오고
+	* 			     프로젝트 번호로 나의 프로젝트 멤버를 조회하여 페이징 리스트로 보여준다
+	 */
+	List<Project_MemVo> projectMemListById(Map<String, Object> prj_id);
+	
+	/**
+	 * 
+	* Method : projectMemListCnt
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-23
+	* @param prj_id
+	* @return
+	* Method 설명 : 멤버탭에서 프로젝트 이름을 클릭하여 프로젝트 번호를 받아오고
+	* 			     프로젝트 번호로 나의 프로젝트 멤버를 조회하여 페이징 리스트로 검색한 갯수
+	 */
+	int projectMemListByIdCnt(Map<String, Object> prj_id);
 }
