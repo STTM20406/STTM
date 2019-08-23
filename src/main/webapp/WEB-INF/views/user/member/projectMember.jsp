@@ -258,6 +258,22 @@ function requestedFriendsList() {
 	
 		<div id="tab-1" class="tab-content current">
 			
+			<!-- 프로젝트 리스트 가져오기 시작 -->
+			<div class="project_wrap">
+				<div class="project_list my_project_list">
+					<c:forEach items="${projectList}" var="projectList">
+						<div class="project_item" id="${projectList.prj_id}">
+							<ul class="project_item_hd">
+								<li class="prj_title" id="${projectList.prj_id}">
+									${projectList.prj_nm}
+								</li>
+							</ul>
+						</div>
+					</c:forEach>
+				</div>
+			</div>
+			<!-- 프로젝트 리스트 가져오기 시작 -->
+			
 			<form id="prjMemView" action="/projectMemView" method="get">
 				<input type="hidden" id="user_email" name="user_email">
 			</form>
@@ -291,13 +307,13 @@ function requestedFriendsList() {
 												
 											<c:choose>
 
-												<c:when test="${prjVo.user_email == friVo.user_email}">
-												
+												<c:when test="${prjVo.user_email eq friVo.user_email or prjVo.user_email eq friVo.frd_email}">
+													
 												</c:when>
 
-												<c:when test="${prjVo.user_email == friVo.frd_email}">
-												
-												</c:when>
+<%-- 												<c:when test="${prjVo.user_email eq friVo.frd_email}"> --%>
+
+<%-- 												</c:when> --%>
 												
 												<c:otherwise>
 													<a href="/projectMemberList?frdRequEmail=${prjVo.user_email}" id="friendReqAtag" class="inp_style_01">친구요청</a>
