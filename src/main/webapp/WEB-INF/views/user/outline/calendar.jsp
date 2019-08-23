@@ -39,6 +39,13 @@
 		});
 	}
 	$(document).ready(function() {
+		
+		$('.modalBtnContainer-addEvent').on('click', '.btn-default',function(){
+			alert("취소버튼 누르면 프로젝트 리스트 초기화하자!!");
+			document.getElementById("projectForm").reset();
+			document.getElementById("colorForm").reset();
+		});
+		
 		initCalendar();
 		
 		$("#filterFrm p").hide();
@@ -77,54 +84,22 @@
 					$("#edit-type").html(html);
 				}
 			});
-		}
+		};
 		
 		$("#frmContainer").on("change", ".filter", function(){
 			console.log("frm : " + $("#filterFrm").serialize());
 			
 			$("#calendar").fullCalendar( "refetchEvents" );
 			
-// 			    $.ajax({
-// 			      method:"post",
-// 			      url: "/calendarTest",
-// 			      data: $("#filterFrm").serialize(),
-// 			      contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
-// 			      success: function (response) {
-// 			    	  response = response.data;
-// 			    	  console.log(response);
-// 			    	  calendar.fullCalendar('removeEvents');
-// 			        var fixedDate = response.map(function (array) {
-// 			          if (array.allDay && array.start !== array.end) {
-// 			            // 이틀 이상 AllDay 일정인 경우 달력에 표기시 하루를 더해야 정상출력
-// 			            array.end = moment(array.end).add(1, 'days');
-// 			          }
-// 			          return array;
-// 			        });
-// 			        $(fixedDate).each(function(){
-// 			        	console.log("Test");
-// 			        	console.log(this);
-// 			        	calendar.fullCalendar('renderEvent', this);
-// 			        });
-// 			      }
-// 			    });
 		});
 		
 		
 	});
 	
 	
+	
+	
 </script>
-<div class="sub_menu">
-	<ul class="sub_menu_item">
-		<li><a href="/overview/analysis">Work List</a></li>
-		<li><a href="/calendarGet">Calendar</a></li>
-		<li><a href="/gantt/overview">Gantt Chart</a></li>
-	</ul>
-	<div class="sub_btn">
-	</div>
-</div>
-<section class="contents">
-<h2>Calendar</h2>
 <div id="frmContainer" style="height:100%;width:250px;float:left;margin-right:0;">
 	    <form id="filterFrm">
 	    	<label>업무 구분</label><br>
@@ -252,16 +227,19 @@
 						</div>
 					</div>
 
+					<form id="projectForm">
 					<div class="row">
 						<div class="col-xs-12">
 							<label class="col-xs-4" for="edit-type">프로젝트 리스트</label> 
 							<select	class="inputModal" name="prj_id" id="edit-prj">
+								<option selected>- 선택 - </option>								
 								<c:forEach items="${projectList}" var="PL">
 									<option value="${PL.prj_id}">${PL.prj_nm}</option>
 								</c:forEach>
 							</select>
 						</div>
 					</div>
+					</form>
 
 					<div class="row">
 						<div class="col-xs-12">
@@ -274,10 +252,12 @@
 						</div>
 					</div>
 					
+					<form id="colorForm">
 					<div class="row">
 						<div class="col-xs-12">
 							<label class="col-xs-4" for="edit-color">색상</label> <select
 								class="inputModal" name="wrk_color_cd" id="edit-color">
+								<option selected>- 선택 - </option>
 								<option value="#D25565" style="color: #D25565;">빨간색</option>
 								<option value="#9775fa" style="color: #9775fa;">보라색</option>
 								<option value="#ffa94d" style="color: #ffa94d;">주황색</option>
@@ -290,6 +270,7 @@
 							</select>
 						</div>
 					</div>
+					</form>
 				</div>
 				<div class="modal-footer modalBtnContainer-addEvent">
 					<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
@@ -303,7 +284,6 @@
 			</div>
 		</div>
 	</div>
-	</section>
 	<!-- /.modal -->
 
 <!-- /.container -->

@@ -61,7 +61,7 @@ public class CalendarDao implements ICalendarDao {
 
 	@Override
 	public int delW(int wrk_id) {
-		return sqlSession.delete("calendar.delW",wrk_id);
+		return sqlSession.update("calendar.delW",wrk_id);
 	}
 
 	@Override

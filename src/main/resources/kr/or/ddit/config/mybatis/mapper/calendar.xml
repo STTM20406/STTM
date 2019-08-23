@@ -66,10 +66,14 @@
            wrk_id = #{wrk_id}
    </update>
 
-   <delete id="delW" parameterType="int">
-      delete from work 
-        where wrk_id = #{wrk_id}
-   </delete>
+   <update id="delW" parameterType="int">
+     update 
+            work 
+        set
+            WRK_DEL_FL = 'Y'
+        where 
+            wrk_id = #{wrk_id}
+   </update>
    
    <update id="upW" parameterType="workVo">
       update 
