@@ -161,10 +161,11 @@ public class ProjectController {
 
 	// 프로젝트 설정 업데이트
 	@RequestMapping("/propertySetItemAjax")
-	public String propertySetItemAjax(String prj_id, String prj_nm, String prj_exp, String prj_auth, String prj_st,
-			String prj_start_dt, String prj_end_dt, String prj_cmp_dt, Model model, HttpSession session)
-			throws ParseException {
+	public @ResponseBody HashMap<String, Object> propertySetItemAjax(String prj_id, String prj_nm, String prj_exp, String prj_auth, String prj_st,
+			String prj_start_dt, String prj_end_dt, String prj_cmp_dt, Model model, HttpSession session) throws ParseException {
 
+		// 세션에 저장된 user 정보를 가져옴
+		UserVo user = (UserVo) session.getAttribute("USER_INFO");
 		int prjId = Integer.parseInt(prj_id);
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -186,11 +187,21 @@ public class ProjectController {
 
 		int updateCnt = projectService.updateAllProject(projectVo);
 
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		
+		Project_MemVo projectMemVo = new Project_MemVo();
+		projectMemVo.setPrj_id(prjId);
+		projectMemVo.setUser_email(user.getUser_email());
+
+		// 프로젝트 멤버의 레벨이 0인 멤버만 리스트에 담기
+		List<Project_MemVo> project_mem_list = projectMemService.projectMemList(projectMemVo);
+		
 		if (updateCnt != 0) {
-			model.addAttribute("data", projectService.getProject(projectVo.getPrj_id()));
+			hashmap.put("data", projectService.getProject(projectVo.getPrj_id()));
+			hashmap.put("project_mem_list", project_mem_list);
 		}
 
-		return "jsonView";
+		return hashmap;
 	}
 
 	// 프로젝트 멤버 리스트 불러오기(관리자 추가)
@@ -403,14 +414,12 @@ public class ProjectController {
 
 	// 프로젝트를 생성하는 동시에 프로젝트 멤버에 생성자 insert
 	@RequestMapping(path = "/form", method = RequestMethod.POST)
-	public String porjectForm(Model model, ProjectVo projectVo, String memList, HttpSession session) {
+	public String porjectForm(Model model, ProjectVo projectVo, String memList, String templateType, HttpSession session) {
 
-		logger.debug("memList :::::::::::: log : {}", memList); 
+		logger.debug("templateType :::::::::::: log : {}", templateType); 
 		
 		String viewName = "";
 		List<String> memberList = Arrays.asList(memList.split(","));
-		logger.debug("memberList :::::::::::: log : {}", memberList); 
-		
 
 		// 세션에 저장된 user 정보를 가져옴
 		UserVo user = (UserVo) session.getAttribute("USER_INFO");
