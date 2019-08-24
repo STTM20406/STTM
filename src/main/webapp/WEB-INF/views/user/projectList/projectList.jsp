@@ -118,6 +118,14 @@
 		
 		//프로젝트 생성 다음 버튼 클릭시
 		$(".prj_btn").on("click", "#prj_btn_next", function(){
+			
+			$("#prj_nm").val().replace(/</gi,"&lt;");
+			if($("#prj_nm").val().length ==0){
+				$(".ctxt").text("프로젝트 이름을 입력해주세요.");
+		        	layer_popup("#layer2");
+		           	return false;
+			}
+			
 			$(".new_proejct").animate({left:'-100%'}, 500);
 			$(".select_template").animate({left:'0%'}, 500);
 		});
@@ -615,6 +623,10 @@
 			$("#projectDelFrm").submit();
 		});
 		
+		$(".select_template").on("click", "li", function(){
+			var templateType = $(this).text();
+			$("#templateType").val(templateType);
+		});
 		
 	});
 	
@@ -779,6 +791,7 @@
 				<!--content //-->
 				<form action="/project/form" method="post" id="prj_insert">
 					<input type="hidden" name="memList" id="memList" value="">
+					<input type="hidden" name="templateType" id="templateType" value="">
 					<div class="new_proejct">
 						<h2>새로운 프로젝트 생성하기</h2>
 						<ul>

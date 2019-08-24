@@ -76,13 +76,6 @@
 			<form action="" method="post" id="loginForm">
 				<div class="inputField">
 					<ul>
-						<li>
-							<button id="btnGoogleLogin" class="g-signin2" type="button"
-								data-onsuccess="onSignIn">Google로 로그인</button> <!--  -->
-							<span id="name"></span><input type="button" id="loginBtn"
-							value="checking..." onclick=""> <a href="#"
-							onclick="signOut();">Sign out</a>
-						</li>
 						<li><label for="userId">USER EMAIL</label> 
 						<input type="text" id="userId" name="user_email" placeholder="Please enter your Email." value="galbi@naver.com">
 							<!-- <input type="text" id="userId" name="user_email" placeholder="Please enter your Email." value="admin"> -->
@@ -94,6 +87,11 @@
 						<li>
 							<button type="submit" id="btnLogin">Login</button>
 						</li>
+						<!-- 구글 로그인 버튼 -->
+						<li>
+							<div class="g-signin2" data-onsuccess="onSignIn"></div>
+						</li>
+						<!-- 구글 로그인 버튼 -->
 						<li class="forgot"><a href="resetPassword">Forgot your Password?</a></li>
 					</ul>
 				</div>

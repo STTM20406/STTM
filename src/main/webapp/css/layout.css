@@ -308,21 +308,49 @@ a.btn-layerClose:hover {border: 1px solid #091940; background-color:#1f326a; col
 .lableColor ul li input {visibility:hidden; position:absolute; left:0; top:0}
 
 
-.lableColor ul li label.wrk_color01 {background:#f00;}
-.lableColor ul li label.wrk_color02 {background:#f0f;}
-.lableColor ul li label.wrk_color03 {background:#ff0;}
-.lableColor ul li label.wrk_color04 {background:#ff6;}
-.lableColor ul li label.wrk_color05 {background:#f0f;}
-.lableColor ul li label.wrk_color06 {background:#ff0;}
-.lableColor ul li label.wrk_color07 {background:#f00;}
-.lableColor ul li label.wrk_color08 {background:#00f;}
-.lableColor ul li label.wrk_color09 {background:#0ff;}
-.lableColor ul li label.wrk_color10 {background:#f00;}
+/* .lableColor ul li label.wrk_color01 {background:#f00;} */
+/* .lableColor ul li label.wrk_color02 {background:#f0f;} */
+/* .lableColor ul li label.wrk_color03 {background:#ff0;} */
+/* .lableColor ul li label.wrk_color04 {background:#ff6;} */
+/* .lableColor ul li label.wrk_color05 {background:#f0f;} */
+/* .lableColor ul li label.wrk_color06 {background:#ff0;} */
+/* .lableColor ul li label.wrk_color07 {background:#f00;} */
+/* .lableColor ul li label.wrk_color08 {background:#00f;} */
+/* .lableColor ul li label.wrk_color09 {background:#0ff;} */
+/* .lableColor ul li label.wrk_color10 {background:#f00;} */
 
 .colorSelect {border:5px solid #333} /* 컬러 선택 */
 
 /* work list : work drag and drop css */
 .list {min-height:30px}
+
+
+/* notifyArea */
+.notifyBox {position:relative;}
+.notifyArea {display:none; position:absolute; top: 20px; left:0px; background:#fff; z-index:1}
+.notifyArea .notification {position:absolute; top: 0px; left: 320px; background:#fff}
+.flatpickr1 {display:none}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* memo setting layaer style */
 #memoView {position:fixed; right:-700px; top:100px; width:600px; height:100%; background:#f5f5f5; padding:60px 50px}

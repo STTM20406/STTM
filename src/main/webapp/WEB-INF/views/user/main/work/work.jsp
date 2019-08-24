@@ -219,17 +219,6 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 			}
 		});
 		
-		//업무 라벨 색상 변경 이벤트 핸들러
-// 		$("input:radio[name='wrk_color_cd']").on("change", function(){
-// 			console.log(this);
-// 			/*if($(this).prop("checked", false)){
-// 				alert("체크안됨");
-// 			}
-// 			else{
-// 				alert("체크됨");
-// 			}*/		
-// 		});
-
 		
 		//업무리스트 추가
 		function workListAddAjax(workListNm) {
@@ -260,6 +249,7 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 		 						if(work.wrk_lst_id == workList.wrk_lst_id && work.wrk_cmp_fl == 'N'){
 		 							html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work.wrk_id+"' class='workListItem'>";
 		 							html +=	"<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl'>";
+		 							html +=	"<button type='button' id='workDelBtn' class='workDelBtn'>업무삭제</button>";
 									html +=	"<h2 class='wrk_title'><span>"+work.wrk_grade+"</span>"+work.wrk_nm+"</h2>";
 									html +=	"<ul>";
 									html +=	"<li class='wrk_data'>"+work.wrkStartDtStr+" ~ "+work.wrkEndDtStr+"</li>";
@@ -284,7 +274,8 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 							data.works.forEach(function(work1, index3) {
 		 						if(work1.wrk_lst_id == workList.wrk_lst_id && work1.wrk_cmp_fl == 'Y'){
 									html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work1.wrk_id+"' class='workListItem'>";
-		 							html +=	"<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl' checked>";
+		 							html +=	"<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl' checked>"
+	 								html +=	"<button type='button' id='workDelBtn' class='workDelBtn'>업무삭제</button>";;
 									html +=	"<h2 class='wrk_title'><span>"+work1.wrk_grade+"</span>"+work1.wrk_nm+"</h2>";
 									html +=	"<ul>";
 									html +=	"<li>"+work1.wrkStartDtStr+" ~ "+work1.wrkEndDtStr+"</li>";
@@ -356,6 +347,7 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 			 						if(work.wrk_lst_id == workList.wrk_lst_id && work.wrk_cmp_fl == 'N'){
 			 							html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work.wrk_id+"' class='workListItem'>";
 			 							html +=	"<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl'>";
+			 							html +=	"<button type='button' id='workDelBtn' class='workDelBtn'>업무삭제</button>";
 										html +=	"<h2 class='wrk_title'><span>"+work.wrk_grade+"</span>"+work.wrk_nm+"</h2>";
 										html +=	"<ul>";
 										html +=	"<li class='wrk_data'>"+work.wrkStartDtStr+" ~ "+work.wrkEndDtStr+"</li>";
@@ -381,6 +373,7 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 			 						if(work1.wrk_lst_id == workList.wrk_lst_id && work1.wrk_cmp_fl == 'Y'){
 										html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work1.wrk_id+"' class='workListItem'>";
 			 							html +=	"<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl' checked>";
+			 							html +=	"<button type='button' id='workDelBtn' class='workDelBtn'>업무삭제</button>";
 										html +=	"<h2 class='wrk_title'><span>"+work1.wrk_grade+"</span>"+work1.wrk_nm+"</h2>";
 										html +=	"<ul>";
 										html +=	"<li class='wrk_data'>"+work1.wrkStartDtStr+" ~ "+work1.wrkEndDtStr+"</li>";
@@ -494,6 +487,7 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 		 						if(work.wrk_lst_id == workList.wrk_lst_id && work.wrk_cmp_fl == 'N'){
 		 							html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work.wrk_id+"' class='workListItem'>";
 		 							html +=	"<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl'>";
+		 							html +=	"<button type='button' id='workDelBtn' class='workDelBtn'>업무삭제</button>";
 									html +=	"<h2 class='wrk_title'><span>"+work.wrk_grade+"</span>"+work.wrk_nm+"</h2>";
 									html +=	"<ul>";
 									html +=	"<li class='wrk_data'>"+work.wrkStartDtStr+" ~ "+work.wrkEndDtStr+"</li>";
@@ -519,6 +513,7 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 		 						if(work1.wrk_lst_id == workList.wrk_lst_id && work1.wrk_cmp_fl == 'Y'){
 									html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work1.wrk_id+"' class='workListItem'>";
 		 							html +=	"<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl' checked>";
+		 							html +=	"<button type='button' id='workDelBtn' class='workDelBtn'>업무삭제</button>";
 									html +=	"<h2 class='wrk_title'><span>"+work1.wrk_grade+"</span>"+work1.wrk_nm+"</h2>";
 									html +=	"<ul>";
 									html +=	"<li class='wrk_data'>"+work1.wrkStartDtStr+" ~ "+work1.wrkEndDtStr+"</li>";
@@ -628,8 +623,6 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 				data:"wrk_id=" + wrk_id,
 				success:function(data){
 					
-// 					console.log(data);
-				
 					$("#wps_id").val(data.workVo.wrk_id);
 					$("#wps_nm").val(data.workVo.wrk_nm);
 					$("#wps_write_nm").text(data.workVo.user_nm);
@@ -637,8 +630,20 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 					$("#wps_start_date").val(data.workVo.wrkStartDtStr + " ~ " + data.workVo.wrkEndDtStr);
 					$("#wrk_gd").val(data.workVo.wrk_grade);
 					$(".wrk_color").removeClass("colorSelect");
-					$("#"+data.workVo.wrk_color_cd).prev().addClass("colorSelect");
-					$("#"+data.workVo.wrk_color_cd).prop("checked", true);
+					
+					$(data.workVo.wrk_color_cd).prev().addClass("colorSelect");
+					$(data.workVo.wrk_color_cd).prop("checked", true);
+					
+					var html2 = "";
+					if(data.getWrokPush != null){
+						html2 += "<p class='resDate' id='"+data.workVo.wrk_rv_id+"'>"+data.getWrokPush.wrkDtStr+" | <span class='pushDel'>삭제</span></p>";
+						$(".notifyCon").html(html2);
+						$("#resNotifyBtn").css({display:"none"});
+					}else{
+						html2 = "<input type='button' id='resNotifyBtn' value=예약알림추가'>";
+						$(".notifyCon").html(html2);
+						$(".resDate").css({display:"none"});
+					}
 					
 					//배정된 업무 멤버 불러오기
 					var html = "";
@@ -653,6 +658,127 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 						html += "<li id='"+ item.user_email +"_"+item.wrk_id+"'>"+ item.user_nm +"<input type='button' class='wrkFlwDel' value='삭제'></li>";
 					});	
 					$(".wrk_mem_flw_box").html(html);
+					
+					
+					//멤버레벨이 1인데 권한이 ASC02 또는 ASC03 일때
+					if(projectMemLevel == "LV1" && projectAuth == "ASC02" ){
+						$(".propertySet input").prop('readonly', true); 										//설정창의 모든 input readonly
+						$(".propertySet select").prop('disabled',true);										//설정창의 모든 select disabled
+						$(".propertySet button[name='wps_mem_set']").prop('disabled', true);					//설정창의 모든 button disabled
+						$(".propertySet button[name='wrk_flw_set']").prop('disabled', true);					//설정창의 모든 button disabled
+						$(".propertySet input[type=button]").prop('disabled', true);
+						$(".flatpickr-calendar").css({display:"none"});
+					}else if(projectMemLevel == "LV1" && projectAuth == "ASC03"){
+						$(".propertySet input").prop('readonly', true); 										//설정창의 모든 input readonly
+						$(".propertySet select").prop('disabled',true);										//설정창의 모든 select disabled
+						$(".propertySet button").prop('disabled', true);					//설정창의 모든 button disabled
+						$(".propertySet input[type=button]").prop('disabled', true);
+						$(".propertySet input[type=radio]").prop('disabled', true);
+						$(".flatpickr-calendar").css({display:"none"});
+					}
+// 					else{
+// 						$(".propertySet input").prop('readonly', false);
+// 						$(".propertySet select").prop('disabled',false);
+// 						$(".propertySet button").prop('disabled', false);
+// 						$(".prj_add_box input").css({visibility:"visible"});
+// 						$(".prj_mem_add_box input").css({visibility:"visible"});
+// 						$(".propertySet input[type=button]").prop('disabled', false);
+// 						$(".datepicker").css({display:"block"});
+// 					}
+				}
+			});
+		}
+		
+		//업무 삭제 클릭시
+		$("#workListBox").on("click", "#workDelBtn", function(){
+			var wrkID = $(this).parent().attr("data-wrkid");
+			workDelAjax(wrkID);
+		});
+		
+		function workDelAjax(wrkID){
+			$.ajax({
+				url:"/work/workDelAjax",
+				method:"post",
+				data:"wrk_id=" + wrkID,
+				success:function(data){
+					var html = "";
+					data.workList.forEach(function(workList, index) {
+						html +="<div class='workList' id='"+ workList.wrk_lst_id + "'><span class='handle'>+++</span><div class='workList_hd'><dl>"
+						html +="<dt><input type='text' value='"+ workList.wrk_lst_nm+"' id='"+workList.wrk_lst_id+"' class='wrkListName'></dt><dd>"
+						html +="<input type='button' class='workList_add_i' value='새업무 추가'>"
+						html +="<a href='javascript:;' class='workList_set_i'>업무리스트 설정</a>"
+						html +="<div class='workList_set'><input type='button' id='btnWorkListDel_"+workList.wrk_lst_id+"' value='업무리스트 삭제'></div>"
+						html +="</dd></dl><ul><li>"
+						html +="<p>진행중 업무 <span>4</span></p>";
+						html +="<p><a href='javascript:' class='btnComplete' id='"+workList.wrk_lst_id+"'>완료된업무보기</a><span>2</span></p></li>";
+						html +="<li class='graph'></li></ul><div class='workCreateBox'>";
+						html +="<textarea name='wrk_nm' id='wrk_nm' placeholder='업무 이름을 입력해 주세요. 업무 이름은 70자 이내로 입력해 주세요'></textarea>";
+						html +="<div class='workCreatebtnBox'>";
+						html +="<input type='button' value='취소' id='wrkCreateCancelBtn'>";
+						html +="<input type='button' value='만들기' id='wrkCreateBtn' class='wrkCreateBtn' name='"+workList.wrk_lst_id+"' disabled='disabled'>";
+						html +="</div></div>";
+						html +="</div>";
+						html +="<div class='workWrap'><div class='working list n1' id='"+workList.wrk_lst_id+"'>"
+							data.works.forEach(function(work, index2) {
+		 						if(work.wrk_lst_id == workList.wrk_lst_id && work.wrk_cmp_fl == 'N'){
+		 							html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work.wrk_id+"' class='workListItem'>";
+		 							html +=	"<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl'>";
+		 							html +=	"<button type='button' id='workDelBtn' class='workDelBtn'>업무삭제</button>";
+									html +=	"<h2 class='wrk_title'><span>"+work.wrk_grade+"</span>"+work.wrk_nm+"</h2>";
+									html +=	"<ul>";
+									html +=	"<li class='wrk_data'>"+work.wrkStartDtStr+" ~ "+work.wrkEndDtStr+"</li>";
+									html +=	"<li><span>코멘트 개수</span><span>업무 파일 개수</span></li>";
+									html +=	"</ul>";
+									html +=	"<div class='wrk_mem_flw'><dl class='wrk_mem'>";
+									html +=	"<dt>업무 배정 멤버</dt>";
+									html +=	"<dd>";
+									html +=	"<p>또굥이</p>";
+									html +=	"</dd></dl>";
+									html +=	"<dl class='wrk_mem'>";
+									html +=	"<dt>업무 팔로워</dt>";
+									html +=	"<dd>";
+									html +=	"<p>유돌이</p>";
+									html +=	"</dd>";
+									html +=	"</dl>";
+									html +=	"</div></div>";
+		 						}
+							});
+						html +="</div>";
+						html +="<div class='complete_"+workList.wrk_lst_id+" list n1' id='"+workList.wrk_lst_id+"'>"
+							data.works.forEach(function(work1, index3) {
+		 						if(work1.wrk_lst_id == workList.wrk_lst_id && work1.wrk_cmp_fl == 'Y'){
+									html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work1.wrk_id+"' class='workListItem'>";
+		 							html +=	"<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl' checked>";
+		 							html +=	"<button type='button' id='workDelBtn' class='workDelBtn'>업무삭제</button>";
+									html +=	"<h2 class='wrk_title'><span>"+work1.wrk_grade+"</span>"+work1.wrk_nm+"</h2>";
+									html +=	"<ul>";
+									html +=	"<li class='wrk_data'>"+work1.wrkStartDtStr+" ~ "+work1.wrkEndDtStr+"</li>";
+									html +=	"<li><span>코멘트 개수</span><span>업무 파일 개수</span></li>";
+									html +=	"</ul>";
+									html +=	"<div class='wrk_mem_flw'><dl class='wrk_mem'>";
+									html +=	"<dt>업무 배정 멤버</dt>";
+									html +=	"<dd>";
+									html +=	"<p>또굥이</p>";
+									html +=	"</dd></dl>";
+									html +=	"<dl class='wrk_mem'>";
+									html +=	"<dt>업무 팔로워</dt>";
+									html +=	"<dd>";
+									html +=	"<p>유돌이</p>";
+									html +=	"</dd>";
+									html +=	"</dl>";
+									html +=	"</div></div>";
+		 						}
+		 					});
+						html +="</div></div>";
+						html +="</div>";
+					
+						$("#workListBox").html(html);
+						sortable();
+						
+						$(".ctxt").text("업무가 삭제 되었습니다.");
+		 				layer_popup("#layer2");
+						return false;
+					});
 				}
 			});
 		}
@@ -733,6 +859,7 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 		 						if(work.wrk_lst_id == workList.wrk_lst_id && work.wrk_cmp_fl == 'N'){
 		 							html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work.wrk_id+"' class='workListItem'>";
 		 							html +=	"<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl'>";
+		 							html +=	"<button type='button' id='workDelBtn' class='workDelBtn'>업무삭제</button>";
 									html +=	"<h2 class='wrk_title'><span>"+work.wrk_grade+"</span>"+work.wrk_nm+"</h2>";
 									html +=	"<ul>";
 									html +=	"<li class='wrk_data'>"+work.wrkStartDtStr+" ~ "+work.wrkEndDtStr+"</li>";
@@ -758,6 +885,7 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 		 						if(work1.wrk_lst_id == workList.wrk_lst_id && work1.wrk_cmp_fl == 'Y'){
 									html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work1.wrk_id+"' class='workListItem'>";
 		 							html +=	"<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl' checked>";
+		 							html +=	"<button type='button' id='workDelBtn' class='workDelBtn'>업무삭제</button>";
 									html +=	"<h2 class='wrk_title'><span>"+work1.wrk_grade+"</span>"+work1.wrk_nm+"</h2>";
 									html +=	"<ul>";
 									html +=	"<li class='wrk_data'>"+work1.wrkStartDtStr+" ~ "+work1.wrkEndDtStr+"</li>";
@@ -799,8 +927,7 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 			var work_date = $("#wps_start_date").val();
 			var res_date = $("#wps_res_date").val();
 			var wrk_gd = $("#wrk_gd").val();
-
-				
+			
 			var workSplit = work_date.split(" to ");
 			var resSplit = res_date.split(" to ");
 			
@@ -845,7 +972,7 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 						var wrkID = $(this).attr("data-wrkid");
 						if(wrkID == projectWorkSet.id){
 							$(this).find(".wrk_title").html("<span>"+data.data.wrk_grade+"</span>" + data.data.wrk_nm);
-							$(this).find(".wrk_data").text(data.data.prj_st);
+							$(this).find(".wrk_date").text(data.data.wrkStartDtStr +" ~ "+ data.data.wrkEndDtStr );
 						}
 					});
 				}
@@ -864,9 +991,11 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 	         		beforeChecked = -1;
 	         		$(this).prop("checked", false);
 	         		wrk_color = $("input:radio[name='wrk_color_cd']:checked").val();
+	         		console.log(wrk_color);
          		}else{
 	         		beforeChecked = index;
 	         		wrk_color = $("input:radio[name='wrk_color_cd']:checked").val();
+	         		console.log(wrk_color);
 	         		$(".wrk_color").removeClass("colorSelect");
 	         		$(this).prev().addClass("colorSelect");
          		}
@@ -882,22 +1011,40 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
       		
       		//업무 라벨 색상 변경
     		function propertyWorkLableColorAjax(id, wrk_color){
+      			console.log(wrk_color);
+      			var changeColor = encodeURIComponent(wrk_color);
     			$.ajax({
     				url:"/work/propertyWorkLableColorAjax",
     				method:"post",
     				contentType:"application/x-www-form-urlencoded; charset=UTF-8",
-    				data:"wrk_id=" + id + "&wrk_color_cd=" + wrk_color,
+    				data:"wrk_id=" + id + "&wrk_color_cd=" + changeColor,
     				success:function(data){
     				}
     			});
     		}
 		
-		//날짜 선택
+      		//예약알림 버튼 클릭시
+      		$(".notifyCon").on("click", "#resNotifyBtn", function(){
+      			$(".notifyArea").fadeIn(100);
+      		});
+      		
+      		//예약알림 취소 버튼 클릭시
+      		$("#notificationCancelBtn").on("click", function(){
+      			$(".notifyArea").fadeOut(100);
+      		});
+      		
+		//날짜 선택 - 예약알림
+		$(".flatpickr1").flatpickr({
+			inline: true,
+		    	minDate: "today",
+		    	enableTime: true
+		});
+		
+		//날짜 선택 - 시작일, 종료일
 		$(".flatpickr").flatpickr({
-		    mode: "range",
-		    minDate: "today",
-		    enableTime: true,
-		    minTime: "09:00"
+		    	mode: "range",
+		    	minDate: "today",
+		    	enableTime: true
 		});
 		
 		
@@ -1170,7 +1317,56 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 			workFlwDelAjax(id, email);
 		});
 		
+		
+		//예약알림
+		$("#notificationAddBtn").on("click", function(){
+			var notifyMem = $("#notificationMem option:selected").val();
+			var notifyDate = $("#wps_res_date").val();
+			var wrkID = $("#wps_id").val();
+			
+			notificationAddAjax(notifyMem, notifyDate, wrkID);
+		});
+		
+		//예약알림 삭제 클릭시
+		$(".notifyCon").on("click", ".pushDel", function(){
+			var wrk_rv_id = $(this).parent().attr("id");
+			notificationDelAjax(wrk_rv_id);
+		});
+		
 	});
+	
+	//예약알림
+	function notificationAddAjax(notifyMem, notifyDate, wrkID){
+		$.ajax({
+			url:"/work/notificationAddAjax",
+			method:"post",
+			data:"wrk_id="+ wrkID + "&memType=" + notifyMem + "&wrk_dt=" + notifyDate,
+			success:function(data){
+				
+				$(".notifyArea").fadeOut(100);
+				$("#resNotifyBtn").css({display:"none"});
+				
+				var html = "<p class='resDate' id='"+data.getWrokPush.wrk_rv_id+"'>"+data.getWrokPush.wrkDtStr+" | <span class='pushDel'>삭제</span></p>";
+				
+				$(".notifyCon").html(html)
+			}
+		});
+	};
+	
+	//예약알림삭제
+	function notificationDelAjax(wrk_rv_id){
+		$.ajax({
+			url:"/work/notificationDelAjax",
+			method:"post",
+			data:"wrk_rv_id="+ wrk_rv_id,
+			success:function(data){
+				
+				var html = "<input type='button' id='resNotifyBtn' value=예약알림추가'>";
+				$(".resDate").css({display:"none"});
+				$(".notifyCon").html(html)
+			}
+		});
+	};
 	
 	//업무 배정된 멤버 삭제 클릭 했을 때
 	function workFlwDelAjax(id, email){
@@ -1552,6 +1748,7 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 								<c:when test="${workList.wrk_lst_id == work.wrk_lst_id && work.wrk_cmp_fl == 'N'}">
 									<div id="${work.wrk_lst_id}" data-wrkid="${work.wrk_id}" class="workListItem">
 										<input type="checkbox" name="wrk_cmp_fl" id="wrk_cmp_fl">
+										<button type="button" id="workDelBtn" class="workDelBtn">업무삭제</button>
 										<h2 class="wrk_title"><span>${work.wrk_grade}</span>${work.wrk_nm}</h2>
 										<ul>
 											<li class="wrk_date">${work.wrkStartDtStr} ~ ${work.wrkEndDtStr}</li>
@@ -1664,10 +1861,24 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 					<input class="flatpickr flatpickr-input" type="text" placeholder="Select Date.." data-id="rangeDisable" id="wps_start_date" readonly="readonly">
 				</dd>
 			</dl>
-			<dl class="setItem">
+			<dl class="setItem notifyBox">
 				<dt>예약 알림</dt>
-				<dd>
-					<input class="flatpickr flatpickr-input" type="text" placeholder="Select Date.." data-id="rangeDisable" id="wps_res_date" readonly="readonly">
+				<dd class="notifyCon"><input type="button" id="resNotifyBtn" value="예약알림추가"></dd>
+				<dd class="notifyArea">
+					<input class="flatpickr1 flatpickr-input" type="hidden" placeholder="Select Date.." data-id="rangeDisable" id="wps_res_date" readonly="readonly">
+					<div class="notification" tabindex="-1">
+						<h2>알림 받을 멤버</h2>
+						<select id="notificationMem" name="notificationMem">
+							<option value="나에게">나에게</option>
+							<option value="배정된 멤버">배정된 멤버</option>
+							<option value="팔로워 멤버">팔로워 멤버</option>
+							<option value="모두">배정된 멤버 &amp; 팔로워 멤버</option>
+						</select>
+						<div class="notificationBtnArea">
+							<input type="button" id="notificationCancelBtn" value="취소하기">
+							<input type="button" id="notificationAddBtn" value="추가하기">
+						</div>
+					</div>
 				</dd>
 			</dl>
 			<dl class="setItem">
@@ -1739,44 +1950,44 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 					<div class="lableColor">
 						<ul>
 							<li>
-								<label for="CR01" class="wrk_color wrk_color01"></label>
-								<input type="radio" value="CR01" name="wrk_color_cd" id="CR01">
+								<label for="D25565" class="wrk_color wrk_color01" style="background:#D25565"></label>
+								<input type="radio" value="#D25565" name="wrk_color_cd" id="D25565">
 							</li>
 							<li>
-								<label for="CR02" class="wrk_color wrk_color02"></label>
-								<input type="radio" value="CR02" name="wrk_color_cd" id="CR02">
+								<label for="9775fa" class="wrk_color wrk_color02" style="background:#9775fa"></label>
+								<input type="radio" value="#9775fa" name="wrk_color_cd" id="9775fa">
 							</li>
 							<li>
-								<label for="CR03" class="wrk_color wrk_color03"></label>
-								<input type="radio" value="CR03" name="wrk_color_cd" id="CR03">
+								<label for="ffa94d" class="wrk_color wrk_color03" style="background:#D25565"></label>
+								<input type="radio" value="#ffa94d" name="wrk_color_cd" id="ffa94d">
 							</li>
 							<li>
-								<label for="CR04" class="wrk_color wrk_color04"></label>
-								<input type="radio" value="CR04" name="wrk_color_cd" id="CR04">
+								<label for="ffa94d" class="wrk_color wrk_color04" style="background:#74c0fc"></label>
+								<input type="radio" value="#74c0fc" name="wrk_color_cd" id="74c0fc">
 							</li>
 							<li>
-								<label for="CR05" class="wrk_color wrk_color05"></label>
-								<input type="radio" value="CR05" name="wrk_color_cd" id="CR05">
+								<label for="f06595" class="wrk_color wrk_color05" style="background:#f06595"></label>
+								<input type="radio" value="#f06595" name="wrk_color_cd" id="f06595">
 							</li>
 							<li>
-								<label for="CR06" class="wrk_color wrk_color06"></label>
-								<input type="radio" value="CR06" name="wrk_color_cd" id="CR06">
+								<label for="63e6be" class="wrk_color wrk_color06" style="background:#63e6be"></label>
+								<input type="radio" value="#63e6be" name="wrk_color_cd" id="63e6be">
 							</li>
 							<li>
-								<label for="CR07" class="wrk_color wrk_color07"></label>
-								<input type="radio" value="CR07" name="wrk_color_cd" id="CR07">
+								<label for="a9e34b" class="wrk_color wrk_color07" style="background:#a9e34b"></label>
+								<input type="radio" value="#a9e34b" name="wrk_color_cd" id="a9e34b">
 							</li>
 							<li>
-								<label for="CR08" class="wrk_color wrk_color08"></label>
-								<input type="radio" value="CR08" name="wrk_color_cd" id="CR08">
+								<label for="a9e34b" class="wrk_color wrk_color08" style="background:#4d638c"></label>
+								<input type="radio" value="#4d638c" name="wrk_color_cd" id="a9e34b">
 							</li>
 							<li>
-								<label for="CR09" class="wrk_color wrk_color09"></label>
-								<input type="radio" value="CR09" name="wrk_color_cd" id="CR09">
+								<label for="495057" class="wrk_color wrk_color09" style="background:#495057"></label>
+								<input type="radio" value="#495057" name="wrk_color_cd" id="495057">
 							</li>
 							<li>
-								<label for="CR10" class="wrk_color wrk_color10"></label>
-								<input type="radio" value="CR10" name="wrk_color_cd" id="CR10">
+								<label for="002dff" class="wrk_color wrk_color10" style="background:#002dff"></label>
+								<input type="radio" value="#002dff" name="wrk_color_cd" id="002dff">
 							</li>
 						</ul>
 					</div>
