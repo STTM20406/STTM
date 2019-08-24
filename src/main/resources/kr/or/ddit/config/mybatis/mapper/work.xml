@@ -129,16 +129,17 @@
 	 	WHERE WRK_ID = #{wrk_id}
 	</update>
 	
-
-
-
-
-<!-- ******************work_al_mem**************** -->
-
-
-
-
-
+	
+	<!-- 업무 삭제 (flag update) -->
+	<update id="deleteWork" parameterType="int">
+		UPDATE WORK SET WRK_DEL_FL = 'Y' WHERE WRK_ID = #{wrk_id}
+	</update>	
+	
+	<!-- 예약 알림 아이디 업데이트 -->
+	<update id="updateResID" parameterType="workVo">
+		UPDATE WORK SET WRK_RV_ID = #{wrk_rv_id} WHERE WRK_ID = #{wrk_id}
+	</update>
+	
 
 
 <!-- ******************work_comment**************** -->
@@ -212,8 +213,7 @@
 	
 	<!--  업무리스트 삭제 (하위 업무가 없는것만 삭제) -->
 	<update id="deleteWorkList" parameterType="int">
-		DELETE FROM WORK_LIST WHERE WRK_LST_ID = #{wrk_lst_id}
-<!-- 		UPDATE WORK_LIST SET DEL_FL = 'Y' WHERE WRK_LST_ID = #{wrk_lst_id} -->
+		UPDATE WORK_LIST SET DEL_FL = 'Y' WHERE WRK_LST_ID = #{wrk_lst_id}
 	</update>
 	
 	<!-- 업무 리스트 페이지 리스트 조회 -->
@@ -292,6 +292,11 @@
 		SELECT A.*, B.USER_NM FROM WORK_MEM_FLW A, USERS B WHERE A.USER_EMAIL = B.USER_EMAIL AND A.WRK_ID = #{wrk_id} AND A.JN_FL = #{jn_fl}
 	</select>
 	
+	<!-- 업무 배정된멤버 / 팔로워 전체 조회 -->
+	<select id="workAllMemFlwList" resultType="work_mem_flwVo" parameterType="int">
+		SELECT A.*, B.USER_NM FROM WORK_MEM_FLW A, USERS B WHERE A.USER_EMAIL = B.USER_EMAIL AND A.WRK_ID = #{wrk_id}
+	</select>
+	
 	<!-- 멤버 조회 -->
 	<select id="getWorkMemFlw" resultType="work_mem_flwVo" parameterType="work_mem_flwVo">
 		SELECT A.*, B.USER_NM FROM WORK_MEM_FLW A, USERS B 
@@ -317,12 +322,31 @@
 	
 
 
-
-
-
 <!-- ******************work_push**************** -->
+	<!-- 예약 알림 조회 -->
+	<select id="getWorkReservation" parameterType="work_pushVo" resultType="work_pushVo">
+		SELECT * FROM WORK_PUSH WHERE WRK_RV_ID = #{wrk_rv_id} AND WRK_ID = #{wrk_id} AND PUSH_DEL_FL = 'N'
+	</select>
+	
+	<!-- 예약 알림 생성 -->
+	<insert id="insertWorkReservation" parameterType="work_pushVo">
+		<selectKey resultType="Integer" keyProperty="wrk_rv_id" order="BEFORE">
+			SELECT WRK_RV_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO WORK_PUSH VALUES(#{wrk_rv_id}, #{wrk_id}, #{prj_id}, #{user_email}, #{wrk_dt}, 'N')
+	</insert>
+	
+	<!--  예약알림 삭제 (플래그 업데이트) -->
+	<update id="deleteWorkReservation" parameterType="int">
+		UPDATE WORK_PUSH SET PUSH_DEL_FL = 'Y' WHERE WRK_RV_ID = #{wrk_rv_id}
+	</update>
 
 
-
+<!-- ******************work_al_mem**************** -->
+	
+	<!-- 예약 알림 생성시 알림 보낼 멤버 insert -->
+	<insert id="insertWorkReservationMem" parameterType="work_al_memVo">
+		INSERT INTO WORK_AL_MEM VALUES(WRK_RV_MEM_SEQ.NEXTVAL, #{prj_id}, #{wrk_rv_id}, #{user_email})
+	</insert>
 
 </mapper>

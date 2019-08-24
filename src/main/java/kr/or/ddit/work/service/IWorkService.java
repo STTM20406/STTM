@@ -112,4 +112,26 @@ public interface IWorkService {
 	 */
 	int updateWorkColor(WorkVo workVo);
 	
+	
+	/**
+	 * 
+	 * Method 			: deleteWork
+	 * 작성자 				: 박서경 
+	 * 변경이력 			: 2019-08-22 최초 생성
+	 * @param wrk_id
+	 * @return
+	 * Method 설명 		:  업무 삭제 (플래그 업데이트)
+	 */
+	int deleteWork(int wrk_id);
+	
+	/**
+	 * 
+	 * Method 			: updateResID
+	 * 작성자 				: 박서경 
+	 * 변경이력 			: 2019-08-23 최초 생성
+	 * @param workVo
+	 * @return
+	 * Method 설명 		: 예약 알림 생성시 예약알림 아이디 업데이트
+	 */
+	int updateResID(WorkVo workVo);
 }

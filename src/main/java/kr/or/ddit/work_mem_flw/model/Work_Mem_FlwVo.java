@@ -55,6 +55,17 @@ public class Work_Mem_FlwVo {
 		this.wrk_id = wrk_id;
 	}
 	
+	
+	/**
+	 * 조건없이 업무 팔로워/멤버 조회
+	 * @author 박서경
+	 * @param wrk_id
+	 */
+	public Work_Mem_FlwVo(int wrk_id) {
+		super();
+		this.wrk_id = wrk_id;
+	}
+
 
 	@Override
 	public String toString() {

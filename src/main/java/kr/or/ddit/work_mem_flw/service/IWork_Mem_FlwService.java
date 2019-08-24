@@ -65,4 +65,16 @@ public interface IWork_Mem_FlwService {
 	 */
 	int updateWorkMemFlw(Work_Mem_FlwVo work_mem_flwVo);
 	
+	
+	/**
+	 * 
+	 * Method 			: workAllMemFlwList
+	 * 작성자 				: 박서경 
+	 * 변경이력 			: 2019-08-23 최초 생성
+	 * @param work_mem_flwVo
+	 * @return
+	 * Method 설명 		: 업무 멤버, 팔로워 조건없이 모두 조회
+	 */
+	List<Work_Mem_FlwVo> workAllMemFlwList(int wrk_id);
+	
 }
