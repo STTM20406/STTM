@@ -186,7 +186,7 @@ public class Project_MemDao implements IProject_MemDao{
 	 * 변경이력 : 2019-08-22
 	 * @param projectMemVo
 	 * @return
-	 * Method 설명 : 휴면 계정 설정하기 위해 멤버 레벨(String prj_mem_lv)를 'LV0'으로 업데이트 시키고
+	 * Method 설명 : 휴면 계정 설정하기 위해 프로젝트 소유자의 멤버 레벨(String prj_mem_lv)를 'LV0'으로 업데이트 시키고
 	 * 			       프로젝트 소유 유무(String prj_own_fl)를 'N'로 업데이트 시켜 준다. 
 	 */
 	@Override
@@ -201,12 +201,42 @@ public class Project_MemDao implements IProject_MemDao{
 	 * 변경이력 : 2019-08-22
 	 * @param projectMemVo
 	 * @return
-	 * Method 설명 : 휴면 계정 설정하기 위해 멤버 레벨(String prj_mem_lv)를 'LV1'으로 업데이트 시키고
+	 * Method 설명 : 휴면 계정 설정하기 위해 프로젝트 소유자를 넘겨줄 자의 멤버 레벨(String prj_mem_lv)를 'LV1'으로 업데이트 시키고
 	 * 			       프로젝트 소유 유무(String prj_own_fl)를 'Y'로 업데이트 시켜 준다. 
 	 */
 	@Override
 	public int updateTransferOwnership(Project_MemVo projectMemVo) {
 		return sqlSession.update("project.updateTransferOwnership", projectMemVo);
+	}
+	
+	/**
+	 * 
+	* Method : projectMemList
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-23
+	* @param prj_id
+	* @return
+	* Method 설명 : 멤버탭에서 프로젝트 이름을 클릭하여 프로젝트 번호를 받아오고
+	* 			     프로젝트 번호로 나의 프로젝트 멤버를 조회하여 페이징 리스트로 보여준다
+	 */
+	@Override
+	public List<Project_MemVo> projectMemListById(Map<String, Object> prj_id) {
+		return sqlSession.selectList("project.projectMemList", prj_id);
+	}
+	
+	/**
+	 * 
+	* Method : projectMemListCnt
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-23
+	* @param prj_id
+	* @return
+	* Method 설명 : 멤버탭에서 프로젝트 이름을 클릭하여 프로젝트 번호를 받아오고
+	* 			     프로젝트 번호로 나의 프로젝트 멤버를 조회하여 페이징 리스트로 검색한 갯수
+	 */
+	@Override
+	public int projectMemListByIdCnt(Map<String, Object> prj_id) {
+		return sqlSession.selectOne("project.projectMemListCnt", prj_id);
 	}
 
 }

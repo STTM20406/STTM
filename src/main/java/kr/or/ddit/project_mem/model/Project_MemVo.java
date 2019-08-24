@@ -31,8 +31,7 @@ public class Project_MemVo {
 	public Project_MemVo() {
 		
 	}
-	
-	
+
 	public Project_MemVo(int prj_id, String user_email, String prj_mem_lv, String prj_mem_nik, String prj_own_fl) {
 		super();
 		this.prj_id = prj_id;

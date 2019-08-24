@@ -278,15 +278,15 @@ public class File_AttchController {
 		File_AttchVo file_AttchVo = file_AttchService.getFile(file_id);
 		logger.debug("♬♩♪  fileDownLoad file_id: {}", file_id);
 		// 파일 업로드된 경로
-//		String savePath = "C:/images/";
-//		String savePath = "C:/images/2019/";
-		String savePath = "C:\\Users\\손영하\\Desktop\\중요한거\\W_윈도우초반설정\\A_TeachingMaterial\\7.LastProject\\workspace\\STTM\\src\\main\\webapp\\uploadFile\\2019\\08";
-
-		logger.debug("♬♩♪  file_AttchVo: {}", file_AttchVo);
+//		String savePath = "C:\\Users\\손영하\\Desktop\\중요한거\\W_윈도우초반설정\\A_TeachingMaterial\\7.LastProject\\workspace\\STTM\\src\\main\\webapp\\uploadFile\\2019\\08";
+		String savePath = request.getRealPath("/uploadFile/2019/08/");
+		logger.debug("♬♩♪  savePath1: {}", savePath);
+		
 		// 실제 내보낼 파일명
 		String original_file_nm = file_AttchVo.getOriginal_file_nm();
 		logger.debug("♬♩♪  original_file_nm: {}", original_file_nm);
 		savePath += File.separator + file_AttchVo.getDb_file_nm() + file_AttchVo.getFile_exts();
+		logger.debug("♬♩♪  savePath2: {}", savePath);
 		InputStream in = null;
 		OutputStream os = null;
 		File file = null;

@@ -2,6 +2,7 @@ package kr.or.ddit.calendar.dao;
 
 import java.util.List;
 
+import kr.or.ddit.calendar.model.CalendarVo;
 import kr.or.ddit.project.model.ProjectVo;
 import kr.or.ddit.project_mem.model.Project_MemVo;
 import kr.or.ddit.work.model.WorkVo;
@@ -79,4 +80,18 @@ public interface ICalendarDao {
 	// 해당 프로젝트 업무 리스트 받아오는 메서드
 	List<Work_ListVo> workList(int prj_id);
 
+	
+	//////////////////////////////////////////////////////
+	
+	/**
+	 * Method 		: searchWorkInfomation
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-23 최초 생성
+	 * @param wrk_id
+	 * @return
+	 * Method 설명 	: 수정 버튼 눌렀을때 업무 번호에 맞는 프로젝트, 업무 리스트 이름 불러오기
+	 */
+	CalendarVo searchWorkInfomation(int wrk_id);
+
+	
 }

@@ -28,6 +28,15 @@
 			if ($("#room_nm").val().length == 0)
 				alert("채팅방 이름을 입력하세요");
 
+			var test = $("#room_nm").val();
+			test.replace("<","&lt;",test);
+			test.replace(">","&gt;",test);
+			
+			var test1 = $("#room_nm").val().replace(/</gi,"&lt;");
+			var test2 = test1.replace(/>/gi,"&gt;");
+			
+			$("#room_nm").val(test2);
+			
 			//친구추가 할 때 사용하는 체크박스
 			var sendArray = new Array();
 			var chkbox = $(".checkSelect");
@@ -127,7 +136,7 @@
 	<!-- 팝업 새 채팅방 생성 -->
 	<div class="dim-layer">
 		<div class="dimBg"></div>
-		<div id="layer1" class="pop-layer">
+		<div id="chatlayer1" class="pop-layer">
 			<div class="pop-container">
 				<div class="pop-project">
 					<!--content //-->
@@ -153,7 +162,7 @@
 									</div></li>
 							</ul>
 							<div class="prj_btn">
-								<a href="javascript:;" id="prj_btn_prev">뒤로</a> <input
+								<a href="javascript:;" id="chat_prev">뒤로</a> <input
 									type="submit" id="createBtn" value="채팅방 만들기">
 							</div>
 						</div>
@@ -173,7 +182,7 @@
 	<!-- 팝업 채팅방 수정/나가기 -->
 <!-- 		<div class="dim-layer"> -->
 <!-- 		<div class="dimBg"></div> -->
-		<div id="layer2" class="pop-layer">
+		<div id="chatlayer2" class="pop-layer">
 			<div class="pop-container">
 				<div class="pop-project">
 					<!--content //-->
@@ -219,7 +228,7 @@
 		</ul>
 		<div class="sub_btn">
 			<ul>
-				<li><a href="#layer1" class="btn-example btn_style_01">새 채팅방 생성</a></li>
+				<li><a href="#chatlayer1" class="btn-example btn_style_01">새 채팅방 생성</a></li>
 			</ul>
 		</div>
 	</div>
@@ -246,7 +255,7 @@
 							<label>${friend.value}</label>
 						</c:if>
 					</c:forEach></td>
-				<td><a href="#layer2" class="btn-example1 btn_style_01" id="${room.ct_id}_${room.ct_nm}">채팅방 수정</a></td>
+				<td><a href="#chatlayer2" class="btn-example1 btn_style_01" id="${room.ct_id}_${room.ct_nm}">채팅방 수정</a></td>
 			</tr>
 		</c:forEach>
 

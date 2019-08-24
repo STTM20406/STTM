@@ -8,9 +8,43 @@
 	
 	
 	<!-- *****************notification******************* -->
-
+	<select id="notifiList" parameterType="pageVo" resultType="notificationReciverVo">
+		<![CDATA[
+		select *
+		    from
+		    (select a.*, ROW_NUMBER() OVER(order by not_id desc) rn
+		    from
+		    (select a.not_id,
+		       a.not_cd,
+		       a.not_con,
+		       a.not_dt,
+		       b.rcv_email
+		from notification a, receiver b
+		where a.not_id = b.not_id
+		and b.rcv_email=#{rcv_email}
+	    order by not_id desc) a)
+	    where rn>=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
+	    ]]>
+	</select>
+	
+	<select id="notifiCnt" resultType="int" parameterType="String">
+		select count(*)
+		from notification a, receiver b
+		where a.not_id = b.not_id
+		and b.rcv_email=#{rcv_email}
+	</select>
+	
+	<insert id="insertNotification" parameterType="notificatoinVo">
+		<selectKey resultType="Integer" keyProperty="not_id" order="BEFORE">
+			SELECT not_seq.nextval FROM DUAL
+		</selectKey>
+		insert into notification values(#{not_id},#{not_cd},#{not_con},sysdate)
+	</insert>
 
 	<!-- *****************receiver*********************** -->
+	<insert id="insertReceiver" parameterType="receiverVo">
+		insert into receiver values(#{rcv_email},#{not_id})
+	</insert>
 	
 	
 	

@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import kr.or.ddit.friends.model.FriendsVo;
 import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.project.model.ProjectVo;
 import kr.or.ddit.project_mem.dao.IProject_MemDao;
@@ -191,7 +192,7 @@ public class Project_MemService implements IProject_MemService{
 	 * 변경이력 : 2019-08-22
 	 * @param projectMemVo
 	 * @return
-	 * Method 설명 : 휴면 계정 설정하기 위해 멤버 레벨(String prj_mem_lv)를 'LV0'으로 업데이트 시키고
+	 * Method 설명 : 휴면 계정 설정하기 위해 프로젝트 소유자의 멤버 레벨(String prj_mem_lv)를 'LV0'으로 업데이트 시키고
 	 * 			       프로젝트 소유 유무(String prj_own_fl)를 'N'로 업데이트 시켜 준다. 
 	 */
 	@Override
@@ -206,12 +207,38 @@ public class Project_MemService implements IProject_MemService{
 	 * 변경이력 : 2019-08-22
 	 * @param projectMemVo
 	 * @return
-	 * Method 설명 : 휴면 계정 설정하기 위해 멤버 레벨(String prj_mem_lv)를 'LV1'으로 업데이트 시키고
+	 * Method 설명 : 휴면 계정 설정하기 위해 프로젝트 소유자를 넘겨줄 자의 멤버 레벨(String prj_mem_lv)를 'LV1'으로 업데이트 시키고
 	 * 			       프로젝트 소유 유무(String prj_own_fl)를 'Y'로 업데이트 시켜 준다. 
 	 */
 	@Override
 	public int updateTransferOwnership(Project_MemVo projectMemVo) {
 		return projectMemDao.updateTransferOwnership(projectMemVo);
+	}
+	
+	/**
+	 * 
+	* Method : projectMemList
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-23
+	* @param prj_id
+	* @return
+	* Method 설명 : 멤버탭에서 프로젝트 이름을 클릭하여 프로젝트 번호를 받아오고
+	* 			     프로젝트 번호로 나의 프로젝트 멤버를 조회하여 페이징 리스트로 보여준다
+	 */
+	@Override
+	public Map<String, Object> projectMemListById(Map<String, Object> prj_id) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		
+		List<Project_MemVo> projectMemList = projectMemDao.projectMemListById(prj_id);
+		
+		int pageSize = (int) prj_id.get("pageSize");
+		int projectMemListCnt = projectMemDao.projectMemListByIdCnt(prj_id);
+		int paginationSize = (int) Math.ceil((double)projectMemListCnt/(int)prj_id.get("pageSize"));
+		
+		resultMap.put("projectMemList", projectMemList);
+		resultMap.put("paginationSize", paginationSize);
+		
+		return resultMap;
 	}
 	
 }

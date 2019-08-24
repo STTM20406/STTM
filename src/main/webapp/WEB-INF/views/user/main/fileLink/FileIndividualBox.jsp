@@ -66,7 +66,6 @@ ul.tabs li.current {
 				hhtml += "<th>파일명</th>";
 				hhtml += "<th>등록일</th>";
 				hhtml += "<th>삭제</th>";
-				hhtml += "<th>이동</th>";
 				hhtml += "</tr>";
 				
 				data.individualList.forEach(function(file, index){
@@ -76,7 +75,6 @@ ul.tabs li.current {
 					html += "<td><a href='/fileDownLoad?file_id="+file.file_id+"'>" + file.original_file_nm+ "</a></td>";	
 					html += "<td>"+ file.prjStartDtStr + "</td>";
 					html += "<td><a href='javascript:updateInFile("+file.file_id+")'>삭제</a></td>";
-					html += "<td><a href='javascript:moveInFile("+file.file_id+")'>이동</a></td>";
 					html += "</tr>";
 				});
 				var pHtml = "";
@@ -122,18 +120,16 @@ ul.tabs li.current {
 				hhtml += "<th>파일명</th>";
 				hhtml += "<th>등록일</th>";
 				hhtml += "<th>삭제</th>";
-				hhtml += "<th>이동</th>";
 				hhtml += "</tr>";
 				
 				console.log(data);
 				data.individualList.forEach(function(file, index){
 					//html생성
 					html += "<tr id='filetr'>";
+					html += "<td>"+ file.num + "</td>";
 					html += "<td><a href='/fileDownLoad?file_id="+file.file_id+"'>" + file.original_file_nm+ "</a></td>";
-					html += "<td><a href='#'>"+file.original_file_nm+"</a></td>";	
 					html += "<td>"+ file.prjStartDtStr + "</td>";
 					html += "<td><a href='javascript:updateInFile("+file.file_id+")'>삭제</a></td>";
-					html += "<td><a href='javascript:moveInFile("+file.file_id+")'>이동</a></td>";
 					html += "</tr>";
 				});
 				var pHtml = "";
@@ -178,7 +174,6 @@ ul.tabs li.current {
 				hhtml += "<th>파일명</th>";
 				hhtml += "<th>등록일</th>";
 				hhtml += "<th>삭제</th>";
-				hhtml += "<th>이동</th>";
 				hhtml += "</tr>";
 				
 				data.individualList.forEach(function(file, index){
@@ -188,7 +183,6 @@ ul.tabs li.current {
 					html += "<td><a href='/fileDownLoad?file_id="+file.file_id+"'>" + file.original_file_nm+ "</a></td>";
 					html += "<td>"+ file.prjStartDtStr + "</td>";
 					html += "<td><a href='javascript:updateInFile("+file.file_id+")'>삭제</a></td>";
-					html += "<td><a href='javascript:moveInFile("+file.file_id+")'>이동</a></td>";
 					html += "</tr>";
 				});
 				var pHtml = "";
@@ -235,7 +229,6 @@ ul.tabs li.current {
 				hhtml += "<th>파일명</th>";
 				hhtml += "<th>등록일</th>";
 				hhtml += "<th>삭제</th>";
-				hhtml += "<th>이동</th>";
 				hhtml += "</tr>";
 				
 				console.log(data);
@@ -247,7 +240,6 @@ ul.tabs li.current {
 					html += "<td><a href='/fileDownLoad?file_id="+file.file_id+"'>" + file.original_file_nm+ "</a></td>";
 					html += "<td>"+ file.prjStartDtStr + "</td>";
 					html += "<td><a href='javascript:updateInFile("+file.file_id+")'>삭제</a></td>";
-					html += "<td><a href='javascript:moveInFile("+file.file_id+")'>이동</a></td>";
 					html += "</tr>";
 				});
 				var pHtml = "";
@@ -279,69 +271,6 @@ ul.tabs li.current {
 		});
 	}
 	
-// 	function moveInFile(fileID){
-// 		alert("이동긔긔?");
-
-// 		$.ajax({
-// 			url : "/여기 다시해야함니다",
-// 			method : "post",
-// 			data : "file_id=" + fileID,
-// 			success : function(data) {
-// 				//사용자 리스트
-// 				var hhtml = "";
-// 				var html = "";
-				
-// 				//hhtml생성
-// 				hhtml += "<tr>";
-// 				hhtml += "<th>File_Num</th>";
-// 				hhtml += "<th>파일명</th>";
-// 				hhtml += "<th>등록일</th>";
-// 				hhtml += "<th>삭제</th>";
-// 				hhtml += "<th>이동</th>";
-// 				hhtml += "</tr>";
-				
-// 				console.log(data);
-				
-// 				data.data.individualList.forEach(function(file, index){
-// 					//html생성
-// 					html += "<tr id='filetr'>";
-// 					html += "<td>"+ file.num + "</td>";
-// 					html += "<td><a href='#'>"+file.original_file_nm+"</a></td>";	
-// 					html += "<td>"+ file.prjStartDtStr + "</td>";
-// 					html += "<td><a href='javascript:updateInFile("+file.file_id+")'>삭제</a></td>";
-// 					html += "<td><a href='javascript:moveInFile("+file.file_id+")'>이동</a></td>";
-// 					html += "</tr>";
-// 				});
-// 				var pHtml = "";
-// 				var pageVo = data.pageVo;
-				
-// 				if(pageVo.page==1)
-// 					pHtml += "<li class='disabled'><span>«<span></li>";
-// 				else
-// 					pHtml += "<li><a href='javascript:individualPagination("+(pageVo.page-1)+", "+pageVo.pageSize+");'>«</a></li>";
-				
-// 				for(var i =1; i <=data.data.paginationSize; i++){
-// 					if(pageVo.page==i)
-// 						pHtml += "<li class='active'><span>" + i + "</span></li>";
-// 					else
-// 						pHtml += "<li><a href='javascript:individualPagination("+ i + ", " + pageVo.pageSize+");'>"+i+"</a></li>";
-// 				}
-// 				if(pageVo.page == data.data.paginationSize)
-// 					pHtml += "<li class='disabled'><span>»<span></li>";
-// 				else
-// 					pHtml += "<li><a href='javascript:individualPagination("+(pageVo.page+1)+", "+pageVo.pageSize+");'>»</a></li>";
-		
-// 				$(".pagination").html(pHtml);
-// 				$("#FileIndividualBox").html(hhtml);
-// 				$("#fileList").html(html);
-// 				$(".ctxt").text("해당 게시물이 삭제 되었습니다.");
-// 	        	layer_popup("#layer2");
-// 	            return false;
-// 			}
-// 		});
-// 	}
-	
-	
 	
 
 	
@@ -349,29 +278,6 @@ ul.tabs li.current {
 
 <section class="contents">
 
-
-<div class="sub_menu">
-	<ul class="sub_menu_item">
-		<li><a href="/work/list">Work</a></li>
-		<li><a href="/gantt/project">Gantt Chart</a></li>
-		<li><a href="/analysis">Work Analysis</a></li>
-		<li><a href="/publicFilePagination">File&amp;Link</a></li>
-		<li><a href="">Meeting</a></li>
-		<li><a href="/vote">Vote</a></li>
-	</ul>
-	
-	<!-- 영하가 수정함 여기서부터ㅎ -->
-	<div class="sub_btn">
-		<ul>
-			<li><a href="#">4</a></li>
-			<li><a href="/conferenceList">회의록</a></li>
-			<li><a href="#">프로젝트 대화</a></li>
-			<li><a href="#">프로젝트 설정</a></li>
-		</ul>
-	</div>
-	<!-- 영하가 수정함 여기까지ㅎ -->
-	
-</div>
 	<div id="container">
 		
 		<div class="sub_menu">
@@ -397,10 +303,9 @@ ul.tabs li.current {
 					<table class="tb_style_01">
 						<colgroup>
 							<col width="20%">
-							<col width="25%">
-							<col width="25%">
-							<col width="15%">
-							<col width="15%">
+							<col width="30%">
+							<col width="30%">
+							<col width="20%">
 						</colgroup>
 						
 							<thead id="FileIndividualBox">

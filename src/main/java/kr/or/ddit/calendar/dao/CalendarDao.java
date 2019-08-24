@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import kr.or.ddit.calendar.model.CalendarVo;
 import kr.or.ddit.project.model.ProjectVo;
 import kr.or.ddit.project_mem.model.Project_MemVo;
 import kr.or.ddit.work.model.WorkVo;
@@ -61,7 +62,7 @@ public class CalendarDao implements ICalendarDao {
 
 	@Override
 	public int delW(int wrk_id) {
-		return sqlSession.delete("calendar.delW",wrk_id);
+		return sqlSession.update("calendar.delW",wrk_id);
 	}
 
 	@Override
@@ -117,6 +118,11 @@ public class CalendarDao implements ICalendarDao {
 	@Override
 	public List<Work_ListVo> workList(int prj_id) {
 		return sqlSession.selectList("calendar.workList",prj_id);
+	}
+
+	@Override
+	public CalendarVo searchWorkInfomation(int wrk_id) {
+		return sqlSession.selectOne("calendar.searchWorkInfomation",wrk_id);
 	}
 
 }

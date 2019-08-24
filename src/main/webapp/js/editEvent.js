@@ -2,7 +2,27 @@
  *  일정 편집
  * ************** */
 var editEvent = function (event, element, view) {
+	console.log(event._id);
 
+	//업무 수정 할때 해당 업무가 어떤 프로젝트, 어떤 업무 리스트의 것인지 보여줌!
+	$.ajax({
+		url: "/searchWorkInfomation",
+		type: "post",
+		data: "wrk_id=" + event._id,
+		success: function(data){
+			var html = "";
+			console.log(data.CalendarVo);
+//			editType.val(data.CalendarVo.prj_nm);
+			$("#prj_selected").prop("selected", false);
+			$("select[name='prj_id'] option:contains('"+data.CalendarVo.prj_nm+"')").prop("selected", true);
+			$("select[name='prj_id'] option:contains('"+data.CalendarVo.prj_nm+"')").val(data.CalendarVo.prj_id);
+			
+			html += "<option value='"+data.CalendarVo.wrk_lst_id+"'>"+data.CalendarVo.wrk_lst_nm+"</option>";
+			$("#edit-type").html(html);
+		}
+	});
+	
+	
     $('.popover.fade.top').remove();
     $(element).popover("hide");
     console.log(element);
@@ -40,13 +60,13 @@ var editEvent = function (event, element, view) {
     $('#updateEvent').on('click', function () {
 
         if (editStart.val() > editEnd.val()) {
-            alert('끝나는 날짜가 앞설 수 없습니다.');
-            return false;
+        	alert("끝나는 날짜가 앞설 수 없습니다.");
+        	return false;
         }
 
         if (editTitle.val() === '') {
-            alert('일정명은 필수입니다.')
-            return false;
+        	alert("일정명은 필수 입력사항입니다.");
+        	return false;
         }
 
         var statusAllDay;
@@ -90,7 +110,7 @@ var editEvent = function (event, element, view) {
             	  "&wrk_lst_id=" + event.type + 
             	  "&wrk_color_cd=" + event.backgroundColor,
             success: function (response) {
-                alert('해당 업무가 수정되었습니다.')
+            	alert('해당 업무가 수정 되었습니다.');
             }
         });
 
@@ -110,7 +130,7 @@ var editEvent = function (event, element, view) {
             data: "wrk_id=" +event._id,  
             contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
             success: function (response) {
-                alert('해당 업무가 삭제되었습니다.');
+            	alert('해당 업무가 삭제 되었습니다.');
             }
         });
     });

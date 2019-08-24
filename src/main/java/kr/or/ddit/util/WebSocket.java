@@ -12,6 +12,7 @@ import java.util.Set;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.math3.geometry.spherical.oned.ArcsSet.Split;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.socket.CloseStatus;
@@ -25,9 +26,13 @@ import kr.or.ddit.chat_mem.service.Chat_MemService;
 import kr.or.ddit.chat_room.service.Chat_RoomService;
 import kr.or.ddit.friends.model.ChatFriendsVo;
 import kr.or.ddit.friends.service.FriendsService;
+import kr.or.ddit.note_info.service.INote_InfoService;
+import kr.or.ddit.note_info.service.Note_InfoService;
 import kr.or.ddit.notification.model.NotificationVo;
+import kr.or.ddit.notification.service.NotificationService;
 import kr.or.ddit.project_mem.model.Project_MemVo;
 import kr.or.ddit.project_mem.service.Project_MemService;
+import kr.or.ddit.receiver.model.ReceiverVo;
 import kr.or.ddit.users.model.UserVo;
 
 //작성순서 : afterConnectionEstablished(서버 접속 시) -> afterConnectionClosed(서버연결끊을 시)
@@ -48,6 +53,9 @@ public class WebSocket extends TextWebSocketHandler {
 
 	@Resource(name = "chat_ContentService")
 	private Chat_ContentService contentService;
+	
+	@Resource(name ="notificationService")
+	private NotificationService notificationService;
 	
 	@Resource(name = "project_MemService")
 	Project_MemService prjMemService;
@@ -101,6 +109,9 @@ public class WebSocket extends TextWebSocketHandler {
 
 		if (StringUtils.isNotEmpty(msg)) { // 메시지가 들어올 때만 처리
 			String[] strs = msg.split(",");
+			for(int i=0;i<strs.length;i++) {
+				System.out.println(strs[i]);
+			}
 			if (strs != null && strs.length == 5 && strs[0].equals("chatting")) {
 				String chatting = strs[0];
 				String senderNm = strs[1];
@@ -233,7 +244,79 @@ public class WebSocket extends TextWebSocketHandler {
 					TextMessage fndMsg = new TextMessage("lst:"+fnd_str);
 					wrtSession.sendMessage(fndMsg);
 				}
-			}
+			}else if(strs != null && strs.length == 3 && strs[0].equals("wrk_comment")) { // 업무코멘트 알림보내기
+				logger.debug("!@#업무코멘트 메세지 들어오거라@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+				String wrk_comment = strs[0];	// 업무코멘트알림
+//				String notify_cd = strs[1]; // 알림코드 (N01 : 프로젝트, N02 : 업무알림, N03 : 채팅알림, N04 : 1:1답변)
+				String rcv_email = strs[1];	// 받는사람
+				String wrk_subject = strs[2]; // 업무 제목
+				
+				String notifiMsg = rcv_email+"님,"+wrk_subject+"에 코멘트가 작성이 되었습니다."; // 알림메세지 내용
+				
+				NotificationVo notifyVo = new NotificationVo();
+				notifyVo.setNot_con(msg); // message.getPayload() => 내가 실제로 받은 메세지 
+				
+				NotificationVo notiVo = new NotificationVo();
+				notiVo.setNot_id(notiVo.getNot_id());
+				notiVo.setNot_cd("N02");
+				notiVo.setNot_con(notifiMsg);
+				int insertNoti = notificationService.insertNotifi(notiVo);
+				
+				ReceiverVo receiverVo = new ReceiverVo();
+				receiverVo.setNot_id(notiVo.getNot_id());
+				receiverVo.setRcv_email(rcv_email);
+				
+				int insertRecei = notificationService.insertReceiver(receiverVo);
+				
+				WebSocketSession writerSession = userList.get(rcv_email); // 받는사람
+				if("wrk_comment".equals(wrk_comment) && writerSession != null) {
+					logger.debug("!@# userList : {}",userList);
+					
+					Set set = userList.keySet();
+					Iterator iterator = set.iterator();
+					logger.debug("!@#set : {}",set);
+					logger.debug("!@#iterator : {}",iterator);
+					
+					while(iterator.hasNext()){
+						  String key = (String)iterator.next();
+						  logger.debug("!@# keyset : {}",key);
+						  
+						  if(key.equals(rcv_email)) {
+							  TextMessage tmpMsg = new TextMessage(rcv_email+"님,"+wrk_subject+"에 코멘트가 작성이 되었습니다.");
+								writerSession.sendMessage(tmpMsg);
+						  }
+					}
+					
+				}
+
+			} 
+			
+//			if (StringUtils.isNotEmpty(msg)) {
+//				String[] commMsg = msg.split(":");
+//				String[] strr = {};
+//				String str ="";
+//					
+//				for(int j=0;j<commMsg.length;j++) {
+//					
+//					for(int i =0;i<commMsg[j].split(",").length;i++) {
+//						strr = commMsg[j].split(",");
+//						str += strr[i];
+//						logger.debug("!@# strr@@@@@@@@@@@@@@#4@#$@ : {}",strr[i]);
+//					}
+//					logger.debug("!@# strr@@@@@@@@@@@@@!!!!!!!!!!!!!!!! : {}",strr[j]);
+//				}
+//				
+//				logger.debug("!@# commcommMsg@@@@@@@@@@@@@ : {}",commMsg[0]);
+//				logger.debug("!@# commcommMsg@@@@@@@@@@@@@ : {}",commMsg[1]);
+//				logger.debug("!@# commcommMsg@@@@@@@@@@@@@ : {}",commMsg[2]);
+//				logger.debug("!@# strr@@@@@@@@@@@@@ : {}",strr);
+//				logger.debug("!@# strr@@@@@@@@@@@@@ : {}",strr[2]);
+//				logger.debug("!@# strr@@@@@@@@@@@@@ : {}",strr[1]);
+//				logger.debug("!@# str@@@@@@@@@@@@@ : {}",str);
+//			}
+			
+				
+			
 
 		}
 

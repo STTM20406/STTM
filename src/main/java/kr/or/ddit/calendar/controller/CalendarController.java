@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import kr.or.ddit.calendar.service.ICalendarService;
 import kr.or.ddit.filter.model.FilterVo;
 import kr.or.ddit.filter.service.IFilterService;
+import kr.or.ddit.project.model.ProjectVo;
 import kr.or.ddit.users.model.UserVo;
 import kr.or.ddit.work.model.WorkVo;
 import kr.or.ddit.work_list.model.Work_ListVo;
@@ -63,20 +64,6 @@ public class CalendarController {
 	@RequestMapping(path="/calendarGet" , method=RequestMethod.GET)
 	String calendarGet(Model model, HttpSession session) {
 		logger.debug("♬♩♪   여기 calendarGet");
-		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
-		String user_email =  userVo.getUser_email();
-		
-		model.addAttribute("mList", calendarService.myProjectMBList(user_email));
-		logger.debug("♬♩♪  해당 프로젝트에 속해 있는 멤버 리스트 긔긔: {}", calendarService.myProjectMBList(user_email));
-		
-		//내가 속한 프로젝트 리스트
-		model.addAttribute("projectList", calendarService.myProject(user_email));
-		logger.debug("♬♩♪  projectList: {}", calendarService.myProject(user_email));
-		
-		int prj_id = 1;
-		//프로젝트 리스트
-		model.addAttribute("workList", calendarService.workList(prj_id));
-		logger.debug("♬♩♪  calendarService.workList(): {}", calendarService.workList(prj_id));
 		return "/outline/calendar.user.tiles";
 	}	
 	
@@ -179,7 +166,6 @@ public class CalendarController {
 			logger.debug("♬♩♪  잘 들어가유!!!!!!!!!!!!!!!!!!!");
 		}
 		return "jsonView";
-		
 	}
 	
 	@RequestMapping(path="/delW" , method=RequestMethod.POST)
@@ -192,10 +178,10 @@ public class CalendarController {
 		if(del==1) {
 			logger.debug("♬♩♪  삭제완료!");
 		}
-		return "redirect:/calendarGet";
+		return "jsonView";
 	}
 	
-	@RequestMapping(path="/upW" , method=RequestMethod.POST)
+	@RequestMapping("/upW")
 	String upW(Model model, String wrk_id, String wrk_nm, String wrk_start_dt,
 			String wrk_end_dt, String wrk_lst_id, String wrk_color_cd) throws ParseException  {
 		
@@ -217,7 +203,7 @@ public class CalendarController {
 		int update = calendarService.upW(workVo);
 		
 		if(update ==1) {
-			logger.debug("♬♩♪  업데이트 완료!!");
+			logger.debug("♬♩♪  업데이트 완료!");
 		}
 		return "jsonView";
 	}
@@ -250,6 +236,21 @@ public class CalendarController {
 	@ResponseBody
 	public Map<String, Object> calendarTestJSON(FilterVo filterVo) {
 		return filterService.calendarTemplateJSON(filterVo); 
+	}
+	
+	/**
+	 * Method 		: searchWorkInfomation
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-23 최초 생성
+	 * @param model
+	 * @param wrk_id
+	 * @return
+	 * Method 설명 	: calendar에서 해당 업무 눌렀을 때 어떤 프로젝트의 어떤 업무리스트인지 조회!
+	 */
+	@RequestMapping("/searchWorkInfomation")
+	String searchWorkInfomation(Model model, int wrk_id) {
+		model.addAttribute("CalendarVo", calendarService.searchWorkInfomation(wrk_id));
+		return "jsonView";
 	}
 	
 }

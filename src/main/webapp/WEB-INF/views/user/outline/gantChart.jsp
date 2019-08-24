@@ -52,7 +52,6 @@
 	    	<br><br><hr>
 	    	<label>업무 상태 구분</label><br>
 		    	<input type="checkbox" class="filter" name="is_cmp" value="y"> 완료된 업무 <br>
-		    	<input type="checkbox" class="filter" name="is_del" value="y"> 삭제된 업무 <br>
 	    	<br><br><hr>
 	    		<div id="makerList">
 	    		</div>
@@ -64,7 +63,7 @@
 		    	<input type="hidden" name="user_email" value="${USER_INFO.user_email }">
 	    </form>
 </div>
-<div id="gantt_here" style="width:1200px; height:830px; overflow:hidden; padding:0px; margin:0px; float:left;"></div>
+<div id="gantt_here" style="width:1200px; height:680px; padding:0px; margin:0px; float:left;"></div>
 </section>
 <script>
 function search() {
@@ -199,7 +198,7 @@ function workDetail(wrk_id){
 		          {view: "scrollbar", scroll: "y", id:"scrollVer"}
 		        ]
 		       },
-		      {view: "scrollbar", scroll: "x", id:"scrollHor", height:20}
+		      {view: "scrollbar", scroll: "x", id:"scrollHor"}
 		    ]
 		};
 		gantt.config.date_format = "%Y-%n-%j %H:%i";

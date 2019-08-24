@@ -29,8 +29,18 @@ public class Work_CommentVo {
 	private Date comm_date;		// 코멘트 작성일
 	private String del_fl;			// 삭제 여부
 	
+	private String wrk_nm;
 	
 	
+	
+	public String getWrk_nm() {
+		return wrk_nm;
+	}
+
+	public void setWrk_nm(String wrk_nm) {
+		this.wrk_nm = wrk_nm;
+	}
+
 	public Work_CommentVo() {
 		
 	}
@@ -44,11 +54,14 @@ public class Work_CommentVo {
 	}
 	
 	
+
 	@Override
 	public String toString() {
 		return "Work_CommentVo [comm_id=" + comm_id + ", prj_id=" + prj_id + ", user_email=" + user_email + ", wrk_id="
-				+ wrk_id + ", comm_content=" + comm_content + ", comm_date=" + comm_date + ", del_fl=" + del_fl + "]";
+				+ wrk_id + ", comm_content=" + comm_content + ", comm_date=" + comm_date + ", del_fl=" + del_fl
+				+ ", wrk_nm=" + wrk_nm + "]";
 	}
+
 	public int getComm_id() {
 		return comm_id;
 	}

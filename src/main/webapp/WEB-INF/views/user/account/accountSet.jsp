@@ -87,10 +87,12 @@
 			var user_email = $(this).parent(".transOwn").attr("id");
 			console.log(user_email);
 
-// 			var user_email2 = $(this).siblings("#userEmailInput").val();
-// 			console.log(user_email2);
+ 			var user_email2 = $(this).siblings("#transPrjId").val();
+			console.log(user_email2);
 			
 			$("#transferOwership").val(user_email);
+			$("#transferPrjId").val(user_email2);
+			
 			$("#ownEmailForm").submit();
 		});
 		
@@ -225,12 +227,12 @@
 								<li>
 									<label for="user_pass1">새 비밀번호</label>
 									<input type="text" id="user_pass1" name="user_pass1" 
-										placeholder="패스워드는 4~12자의 영문 대소문자와 숫자로만 입력" value="${user_pass}">
+										placeholder="패스워드는 4~12자의 영문 대소문자와 숫자로만 입력">
 								</li>
 								<li>
 									<label for="user_pass2">새 비밀번호 확인</label>
 									<input type="text" id="user_pass" name="user_pass" 
-										placeholder="패스워드는 4~12자의 영문 대소문자와 숫자로만 입력" value="${user_pass}">
+										placeholder="패스워드는 4~12자의 영문 대소문자와 숫자로만 입력">
 								</li>
 								<li>
 									<input type="button" class="btn_style_01" onclick="setPass()" value="비밀번호 업데이트">
@@ -244,25 +246,25 @@
 			
 				<!-- 알림 설정 -->   
 				<div id="setNotification" class="loginWrap" style="background-color:lightsalmon"><label>알림설정</label><br>
-					<form action="/setUserNotice" method="post" id="noticeForm">
+					<form action="/setUserPass" method="post" id="noticeForm">
 						<div class="inputField">
 							<ul>
 								<!-- 프로젝트에 대한 알림 -->
 								<li>
 									<br><br>
-									<input type="checkbox" id="notice" name="project" value="${not_cd}"> 프로젝트에 대한 알림<br>
+									<input type="checkbox" id="notice" name="project" value="이거보내니?"> 프로젝트에 대한 알림<br>
 								</li>
 								<li>
-									<input type="checkbox" id="notice" name="chat" value="${not_cd}"> 채팅 메세지 알림<br>
+									<input type="checkbox" id="notice1" name="chat" value="이거보내니?"> 채팅 메세지 알림<br>
 								</li>
 								<li>
-									<input type="checkbox" id="notice" name="inquiry" value="${not_cd}"> 1:1문의 답변 알림<br>
+									<input type="checkbox" id="notice2" name="inquiry" value="이거보내니?"> 1:1문의 답변 알림<br>
 								</li>
 								<li>
-									<input type="checkbox" id="notice" name="work" value="${not_cd}"> 업무에 대한 알림<br>
+									<input type="checkbox" id="notice3" name="work" value="${inactiveMemList}"> 업무에 대한 알림<br>
 								</li>
 								<li>
-									<input type="button" onclick="setNotice()" value="알림 설정 업데이트">
+									<input type="button" onclick="setNotice()" value="알림 설정 업데이트" class="btn_style_01">
 								</li>
 							</ul>
 						</div>
@@ -276,7 +278,6 @@
 					<form action="/setUserStatus" method="get" id="userStatusForm">
 						<div class="inputField">
 							<a href="#layer0" class="inactiveUser a_style_04">휴면 계정 전환</a>
-							
 						</div>
 					</form>
 				</div>
@@ -285,6 +286,7 @@
 <!-- 				<form action="/setUserStatus" id="friendsRequestListForm" method="get"> -->
 				<form action="/setUserPass" id="ownEmailForm" method="post">
 					<input type="hidden" id="transferOwership" name="transferOwership">
+					<input type="hidden" id="transferPrjId" name="transferPrjId">
 				</form>
 				
 				<form action="/setUserPass" id="friendsRequestListForm" method="post">
@@ -315,12 +317,12 @@
 												<td>${inactive.prj_id}</td>
 												<td>${inactive.prj_nm}</td>
 												<td>${inactive.user_nm}</td>
-												<td class="transOwn" id="${inactive}">
+												<td class="transOwn" id="${inactive.user_email}">
 <%-- 												<td class="transOwn" id="${inactive.user_email}"> --%>
 <%-- 													<a href="/setUserPass?transferOwership=${inactive.user_email}" id="transferBtn" class="inp_style_01">소유권이전</a> --%>
 <!-- 													<input type="submit" id="subOwership" class="inp_style_01" value="소유권 이전"> -->
 													<input type="button" id="subOwership" class="inp_style_01" value="소유권 이전">
-													<input type="hidden" id="userEmailInput" value="${inactive.user_email}"/> <!-- sol -->
+													<input type="hidden" id="transPrjId" value="${inactive.prj_id}"/> <!-- sol -->
 												</td>
 												
 												

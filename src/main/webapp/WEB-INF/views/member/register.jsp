@@ -16,6 +16,15 @@
 	<meta name="google-signin-client_id" content="1007667076011-rnn1ucbiirf2uqshgan4a62rjthqigbk.apps.googleusercontent.com">
 	
 	<script>
+	$(document).ready(function(){
+		
+		// 중복 체크 버튼 클릭시
+// 		$('#duplCheckBtn').on("click", function(){
+// 			$("#sendEmailForm").submit();
+// 		});
+		
+	});
+	
 		function funLoad(){
 	        var Cheight = $(window).height();
 	        $('#wrap').css({'height':Cheight+'px'});
@@ -36,6 +45,18 @@
 		  console.log('Image URL: ' + profile.getImageUrl());
 		  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 		}
+		// 약관 체크 했는데 검사
+		function termsCheck(join){
+			
+			// 체크 박스 체크여부 확인
+			var check = document.sendEmailForm.infoCheck.checked;
+			
+		    if(!check){
+	            alert('이용약관과 개인정보보호 정책에 동의 해주세요.');
+	            return false;
+	        } 
+			
+		}
 		
 	</script>
 	
@@ -55,21 +76,22 @@
 		</div>
 		
 		<div class="loginWrap">
-			<form action="/register" method="post" id="loginForm">
+			<form action="/register" method="post" id="sendEmailForm" name="sendEmailForm" onsubmit="return termsCheck(this)">
 				<div class="inputField">
 					<ul>
 						
 						<li>
 							<label for="userId">USER EMAIL</label>
 							<input type="text" id="user_email" name="user_email" placeholder="Please enter your Email." value="">
+							<input type="button" id="duplCheckBtn" value="이메일 중복체크"> 
 						</li>
 						<li>
 							<dl class="formList">
 								<dt class="blind">약관동의</dt>
 								<dd>
 									<div class="checkList etrans">
-										<input type="checkbox" id="check-one">
-										<label for="check-one">이용약관과 개인정보보호 정책에 동의 합니다</label>
+										<input type="checkbox" id="infoCheck">
+										<label for="infoCheck">이용약관과 개인정보보호 정책에 동의 합니다</label>
 									</div>
 								</dd>
 							</dl>
