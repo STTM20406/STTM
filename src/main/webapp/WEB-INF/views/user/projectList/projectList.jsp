@@ -324,6 +324,15 @@
 					"&prj_cmp_dt=" + projectSet.cmp_date,
 				success:function(data){
 					console.log("알림메세지 할거에요",data);	// 알림메세지 할거에요@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+					console.log("알림메세지 할거에요",data.project_mem_list);	// 알림메세지 할거에요@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+					if(socket){
+						var socketMsg = "";
+						for(var i=0;i<data.project_mem_list.length;i++){
+							socketMsg = "project_setItem," + data.project_mem_list[i].user_email +"," + data.data.prj_nm;
+							socket.send(socketMsg);
+						}
+					}
+					
 					$(".project_item").each(function() {
 						var prjItemsId = $(this).attr("id");
 						if(prjItemsId == projectSet.id){
