@@ -18,7 +18,6 @@ function commentPagination(wps_wrk_id,page, pageSize){
 		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 		data:"wps_wrk_id="+wps_wrk_id+"&page="+page+"&pageSize="+pageSize,
 		success:function(data){
-			console.log("commentPagination : ",data);
 			var html = "";
 			
 			data.commentList.forEach(function(comm, index){
@@ -73,32 +72,19 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 		data:"wps_wrk_id="+wps_wrk_id+"&wps_wrk_nm="+wps_wrk_nm+"&comm_content="+content+"&page="+page+"&pageSize="+pageSize,
 		success:function(data){
-			console.log("소켓연결인지 확인 코멘트 등록",socket);
-			console.log("model로 들어오는가",data);
-			console.log("model로 들어오는가2",data.data[1].user_email);
-			console.log("model로 들어오는가3",data.data2[0].user_email);
-			console.log("model로 들어오는가3",data.data.length);
 			if(socket){
 				var socketMsg = "";
-				
-				console.log(data.data)
 				for(var i=0;i<data.data.length;i++){
 					socketMsg = "wrk_comment," + data.data[i].user_email +"," + data.data3.wrk_nm;
 					socket.send(socketMsg);
-					console.log("보냈다 배정멤버",socketMsg);
-					
-					
 				}
 				
 				for(var i=0;i<data.data2.length;i++){
 					socketMsg = "wrk_comment," + data.data2[i].user_email +"," + data.data3.wrk_nm;
 					socket.send(socketMsg);
-					console.log("보냈다 팔로워",socketMsg);
 				}
 				// websocket에 보내기!!
 			}
-			
-			
 			commentPagination(wps_wrk_id,1, 10);
 		}
 	})
@@ -109,34 +95,25 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 		// 업무코멘트 수정
 		$(".workTab").on("click", "#commentId", function(){
 			var wps_wrk_id = $('#wps_wrk_id').val();
-			console.log(wps_wrk_id);
 			commentPagination(wps_wrk_id,1, 10);
 		})
 		
 		
 		
 		$("#commBody").on("click",".commUpdateBtn", function() {
-			console.log("updateBtn Clicke");
 			var commprid = $(this).siblings("input").val();
-			console.log(commprid);
 			
  			var inq_id = $(this).parent().prev().prev().prev().text();
  			var inq_trim = $.trim(inq_id);
- 			console.log(inq_id);
- 			console.log(inq_trim);
  			$(this).parent().prev().prev().prev().replaceWith("<td><input type='text' name='updateComm' id='changeInput' value='"+inq_trim+"'/></td>");
  			$(this).replaceWith("<button type='button' id='commUpdateChgBtn' class='commUpdateChgBtn'>수정완료</button>");
  			
 			$("#commBody").on("click","#commUpdateChgBtn", function(){
-				console.log("업데이트수정완료버튼 updeteChg click");
 	 			var changVal = $("#changeInput").val();
-	 			console.log(changVal);
 								
 				var inq_trim02 = $.trim(changVal);
 				var prj_id = $(this).siblings("#prj_id02").val();
-				console.log(prj_id);
 				var comm_id = $(this).siblings("#comm_id02").val();
-				console.log(comm_id);
 				
 				updateTest(inq_trim02,prj_id,comm_id);
 				$(this).parent().prev().prev().prev().replaceWith("<td><p>"+inq_trim02+"</p></td>");
@@ -151,7 +128,6 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 				data : "inq_trim="+inq_trim02+"&prj_id="+prj_id+"&comm_id="+comm_id,
 				success:function(data){
-					console.log(data);
 					
 				}
 			})
@@ -159,10 +135,8 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 		
 		// 코멘트 삭제하기
 		$("#commBody").on("click", "#commDeleteBtn", function(){
-			console.log("commDeleteBtn click");
 			var wps_wrk_id = $('#wps_wrk_id').val();
 			var commDelete = $(this).attr("name");
-			console.log(commDelete);
 			var comm_id = commDelete;
 			
 			commDeleteAjax(wps_wrk_id,comm_id);
@@ -175,7 +149,6 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 				data:"wps_wrk_id=" + wps_wrk_id +"&comm_id="+comm_id,
 				success:function(data){
-					console.log(data);
 					commentPagination(wps_wrk_id,1, 10);
 				
 				}

@@ -328,6 +328,7 @@
 					"&prj_end_dt=" + projectSet.end_date +
 					"&prj_cmp_dt=" + projectSet.cmp_date,
 				success:function(data){
+					console.log("알림메세지 할거에요",data);	// 알림메세지 할거에요@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 					$(".project_item").each(function() {
 						var prjItemsId = $(this).attr("id");
 						if(prjItemsId == projectSet.id){
