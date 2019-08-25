@@ -453,20 +453,22 @@ public class ProjectController {
 		logger.debug("log room : {}, mem : {}",room,mem);
 		
 		//선택한 멤버 리스트를 가져와서 반복해서 insert하기
-		for (int i = 0; i < memberList.size(); i++) {
-			String memEmail = memberList.get(i);
-			
-			Project_MemVo projectMemListVo = new Project_MemVo();
-			projectMemListVo.setPrj_id(projectVo.getPrj_id()); 		// 프로젝트멤버 - 프로젝트 ID 셋팅
-			projectMemListVo.setUser_email(memEmail); 			// 프로젝트멤버 - 멤버 이메일 셋팅
-			projectMemListVo.setPrj_mem_lv("LV1"); 				// 프로젝트멤버 - 멤버 레벨 셋팅
-			projectMemListVo.setPrj_own_fl("N"); 					// 프로젝트멤버 - 멤버 소유 유무 셋팅
-			
-			insertProjectMemCnt = projectMemService.insertProjectMem(projectMemListVo);
-			
-			//프로젝트 채팅방에 멤버 입력
-			memVo.setUser_email(memEmail);
-			memService.insertChatMem(memVo);
+		if(memList != null) {
+			for (int i = 0; i < memberList.size(); i++) {
+				String memEmail = memberList.get(i);
+				
+				Project_MemVo projectMemListVo = new Project_MemVo();
+				projectMemListVo.setPrj_id(projectVo.getPrj_id()); 		// 프로젝트멤버 - 프로젝트 ID 셋팅
+				projectMemListVo.setUser_email(memEmail); 			// 프로젝트멤버 - 멤버 이메일 셋팅
+				projectMemListVo.setPrj_mem_lv("LV1"); 				// 프로젝트멤버 - 멤버 레벨 셋팅
+				projectMemListVo.setPrj_own_fl("N"); 					// 프로젝트멤버 - 멤버 소유 유무 셋팅
+				
+				insertProjectMemCnt = projectMemService.insertProjectMem(projectMemListVo);
+				
+				//프로젝트 채팅방에 멤버 입력
+				memVo.setUser_email(memEmail);
+				memService.insertChatMem(memVo);
+			}
 		}
 
 		// 값이 0이 아닐때
