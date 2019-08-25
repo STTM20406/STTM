@@ -119,10 +119,15 @@
 		//프로젝트 생성 다음 버튼 클릭시
 		$(".prj_btn").on("click", "#prj_btn_next", function(){
 			
-			$("#prj_nm").val().replace(/</gi,"&lt;");
+// 			$("#prj_nm").val().replace(/</gi,"&lt;");
+
+			if(Check_nonTag(document.getElementById('prj_nm').value) == false){
+			  	Check_nonTagReturn('prj_nm');
+			  	return false;
+			 }
+			
 			if($("#prj_nm").val().length ==0){
-				$(".ctxt").text("프로젝트 이름을 입력해주세요.");
-		        	layer_popup("#layer2");
+		           	$("#prj_nm").focus();
 		           	return false;
 			}
 			
@@ -711,6 +716,31 @@
         });
 
     }
+	
+	function Check_nonTag(text){
+		var opentag = '><';
+	 	var i ; 
+	 
+	 	for ( i=0; i < text.length; i++ ){
+	  		if( opentag.indexOf(text.substring(i,i+1)) > 0){
+	   		break ; 
+		}
+	}
+	 
+	if ( i != text.length ){
+		return false;
+	}else{
+		return true ;
+	} 
+		return false;
+	} 
+
+
+	function Check_nonTagReturn(inputId){
+		alert("HTML 태그는 입력하실 수 없습니다");
+	  	document.getElementById(inputId).focus();
+	  	return false;
+	}
 </script>
 
 <form id="projectFrm" action="/work/list" method="post">
