@@ -441,6 +441,8 @@ public class UserController {
 		
 		int memPrjIdParse = Integer.parseInt(memPrjId);
 		
+		logger.debug("memPrjIdParse : 인코딩프로젝트이름 {}",memPrjIdParse);
+		
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
 		ProjectVo prjVo = new ProjectVo(); 
 		prjVo.setPrj_id(memPrjIdParse);
@@ -452,10 +454,14 @@ public class UserController {
 		map.put("user_nm", userVo.getUser_nm());
 		map.put("prj_id", prjVo.getPrj_id());
 		
+		logger.debug("map : 맵프로젝트 {}",map);
+		
 		//
-		Map<String, Object> resultMap = project_MemService.projectMemList(map);
+		Map<String, Object> resultMap = project_MemService.projectMemListById(map);
+		logger.debug("resultMap : 이거 해결하고 자자 {}", resultMap);
 		
 		List<UserVo> projectMemList = (List<UserVo>) resultMap.get("projectMemList");
+		logger.debug("projectMemList : 이거 해결하고 자자 {}", projectMemList);
 		
 		int paginationSize = (Integer) resultMap.get("paginationSize");
 		

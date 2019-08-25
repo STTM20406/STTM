@@ -341,7 +341,7 @@
 	
 	<!-- 멤버탭에서 프로젝트 이름을 클릭하여 프로젝트 번호를 받아오고
 		  프로젝트 번호로 나의 프로젝트 멤버를 조회하여 페이징 리스트로 보여준다 -->
-	<select id="projectMemListById" parameterType="map" resultType="int">
+	<select id="projectMemListById" parameterType="map" resultType="project_memVo">
 		<![CDATA[
 			select *
 				from
@@ -367,7 +367,7 @@
 							(select *
 			                 from project_mem
 			                 where prj_id = #{prj_id}) a )
-			where rn >= ((1-1)*10)+1 and rn <= 1*10) b
+			where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}) b
 		]]>
 	</select>
 	

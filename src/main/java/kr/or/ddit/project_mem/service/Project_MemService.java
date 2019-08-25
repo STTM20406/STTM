@@ -6,6 +6,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import kr.or.ddit.friends.model.FriendsVo;
@@ -227,15 +229,15 @@ public class Project_MemService implements IProject_MemService{
 	 */
 	@Override
 	public Map<String, Object> projectMemListById(Map<String, Object> prj_id) {
+		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		
-		List<Project_MemVo> projectMemList = projectMemDao.projectMemListById(prj_id);
+		resultMap.put("projectMemList", projectMemDao.projectMemListById(prj_id));
 		
-		int pageSize = (int) prj_id.get("pageSize");
 		int projectMemListCnt = projectMemDao.projectMemListByIdCnt(prj_id);
+
 		int paginationSize = (int) Math.ceil((double)projectMemListCnt/(int)prj_id.get("pageSize"));
 		
-		resultMap.put("projectMemList", projectMemList);
 		resultMap.put("paginationSize", paginationSize);
 		
 		return resultMap;

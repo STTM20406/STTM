@@ -236,7 +236,10 @@ public class Project_MemDao implements IProject_MemDao{
 	 */
 	@Override
 	public int projectMemListByIdCnt(Map<String, Object> prj_id) {
-		return sqlSession.selectOne("project.projectMemListCnt", prj_id);
+		return sqlSession.selectOne("project.projectMemListByIdCnt", prj_id);
+		
+		// 2019.08.26 오전 01:12 이름 틀림
+//		return sqlSession.selectOne("project.projectMemListCnt", prj_id);
 	}
 
 }
