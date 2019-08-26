@@ -7,6 +7,8 @@ import java.util.Date;
 public class PartUtil {
 
 	private static final String D_UPLOAD = "C:\\Users\\손영하\\Desktop\\중요한거\\W_윈도우초반설정\\A_TeachingMaterial\\7.LastProject\\workspace\\STTM\\src\\main\\webapp\\uploadFile";
+//	private static final String D_UPLOAD = "\\uploadFile\\2019\\08";
+	
 
 	/**
 	 * Method : getExt 작성자 : PC13 변경이력 :
