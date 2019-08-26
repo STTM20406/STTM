@@ -272,15 +272,14 @@ public class File_AttchController {
 
 	@RequestMapping(path = "/fileDownLoad", method = RequestMethod.GET)
 	public void fileDownLoad(int file_id, HttpServletRequest request, HttpServletResponse response) {
-
 		file_id = Integer.parseInt(request.getParameter("file_id"));
 
 		File_AttchVo file_AttchVo = file_AttchService.getFile(file_id);
 		logger.debug("♬♩♪  fileDownLoad file_id: {}", file_id);
 		// 파일 업로드된 경로
-//		String savePath = "C:\\Users\\손영하\\Desktop\\중요한거\\W_윈도우초반설정\\A_TeachingMaterial\\7.LastProject\\workspace\\STTM\\src\\main\\webapp\\uploadFile\\2019\\08";
-		String savePath = request.getRealPath("/uploadFile/2019/08/");
-		logger.debug("♬♩♪  savePath1: {}", savePath);
+		String savePath = "C:\\Users\\손영하\\Desktop\\중요한거\\W_윈도우초반설정\\A_TeachingMaterial\\7.LastProject\\workspace\\STTM\\src\\main\\webapp\\uploadFile\\2019\\08";
+//		String savePath = request.getRealPath("/uploadFile/2019/08");
+//		logger.debug("♬♩♪  savePath1: {}", savePath);
 		
 		// 실제 내보낼 파일명
 		String original_file_nm = file_AttchVo.getOriginal_file_nm();

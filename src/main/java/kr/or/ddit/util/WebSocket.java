@@ -295,9 +295,9 @@ public class WebSocket extends TextWebSocketHandler {
 					
 				}
 
-			}else if(strs != null && strs.length == 2 && strs[0].equals("project_setItem")) { // 프로젝트 설정 알림보내기
-				logger.debug("!@#업무코멘트 메세지 들어오거라@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-				String wrk_comment = strs[0];	// 업무코멘트알림
+			}else if(strs != null && strs.length == 3 && strs[0].equals("project_setItem")) { // 프로젝트 설정 알림보내기
+				logger.debug("!@#프로젝트 알림 메세지 들어오거라@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+				String project_setItem = strs[0];	// 업무코멘트알림
 //				String notify_cd = strs[1]; // 알림코드 (N01 : 프로젝트, N02 : 업무알림, N03 : 채팅알림, N04 : 1:1답변)
 				String rcv_email = strs[1];	// 받는사람
 				String prj_nm = strs[2]; // 프로젝트 이름
@@ -322,7 +322,7 @@ public class WebSocket extends TextWebSocketHandler {
 				int insertRecei = notificationService.insertReceiver(receiverVo);
 				
 				WebSocketSession writerSession = userList.get(rcv_email); // 받는사람
-				if("wrk_comment".equals(wrk_comment) && writerSession != null) {
+				if("project_setItem".equals(project_setItem) && writerSession != null) {
 					logger.debug("!@# userList : {}",userList);
 					
 					Set set = userList.keySet();
