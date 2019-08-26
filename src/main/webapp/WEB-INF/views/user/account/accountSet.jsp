@@ -235,7 +235,7 @@
 										placeholder="4~12자의 영문 대소문자와 숫자">
 								</li>
 								<li>
-									<input type="button" class="btn_style_01" onclick="setPass()" value="비밀번호 업데이트">
+									<input type="button" class="btn_style_01" onclick="setPass()" value="비밀번호 수정">
 								</li>
 							</ul>
 						</div>
@@ -264,7 +264,7 @@
 									<input type="checkbox" id="notice3" name="work" value="${inactiveMemList}"> 업무에 대한 알림<br>
 								</li>
 								<li>
-									<input type="button" onclick="setNotice()" value="알림 설정 업데이트" class="btn_style_01">
+									<input type="button" onclick="setNotice()" value="알림 설정" class="btn_style_01">
 								</li>
 							</ul>
 						</div>
@@ -277,7 +277,7 @@
 				<div id="setUserStatus" class="loginWrap" style="background-color:paleturquoise" onclick="setUserStatus"><label>휴면계정</label>
 					<form action="/setUserStatus" method="get" id="userStatusForm">
 						<div class="inputField">
-							<a href="#layer0" class="inactiveUser a_style_04">휴면 계정 전환</a>
+							<a href="#layer0" class="inactiveUser a_style_01">휴면 계정 전환</a>
 						</div>
 					</form>
 				</div>
@@ -321,7 +321,7 @@
 <%-- 												<td class="transOwn" id="${inactive.user_email}"> --%>
 <%-- 													<a href="/setUserPass?transferOwership=${inactive.user_email}" id="transferBtn" class="inp_style_01">소유권이전</a> --%>
 <!-- 													<input type="submit" id="subOwership" class="inp_style_01" value="소유권 이전"> -->
-													<input type="button" id="subOwership" class="inp_style_01" value="소유권 이전">
+													<input type="button" id="subOwership" class="inp_style_04" value="소유권 이전">
 													<input type="hidden" id="transPrjId" value="${inactive.prj_id}"/> <!-- sol -->
 												</td>
 												
@@ -412,7 +412,7 @@
 								</li>
 								
 								<li>
-									<input type="button" onclick="setProfile()" value="프로필 업데이트">
+									<input type="button" onclick="setProfile()" class="btn_style_01" value="비밀번호 수정">
 								</li>
 								
 							</ul>
