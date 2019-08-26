@@ -80,9 +80,9 @@
 					 , A.PRJ_EXP = #{prj_exp}
 					 </if>
                      , A.PRJ_AUTH = #{prj_auth}
-					 , A.PRJ_START_DT = #{prj_start_dt}
-					 , A.PRJ_END_DT = #{prj_end_dt}
-					 , A.PRJ_CMP_DT = #{prj_cmp_dt}
+					 , A.PRJ_START_DT = #{prj_start_dt, jdbcType=DATE}
+					 , A.PRJ_END_DT = #{prj_end_dt, jdbcType=DATE}
+					 , A.PRJ_CMP_DT = #{prj_cmp_dt, jdbcType=DATE}
                      , A.PRJ_ST = #{prj_st}
                      , A.PRJ_UPDATE = SYSDATE
                      , A.DEL_FL = 'N'
