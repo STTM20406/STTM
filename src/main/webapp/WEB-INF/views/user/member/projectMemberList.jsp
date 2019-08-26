@@ -100,7 +100,7 @@ $(document).ready(function(){
 							<th>사용자 이름</th>
 							<th></th>
 		
-							<c:forEach items="${projectMemList}" var="prjVo">
+						<c:forEach items="${projectMemList}" var="prjVo">
 								<input type="hidden" value="${prjMemFriList}">
 								<tr class="prjMemTr" data-user_email="${prjVo.user_email}">
 									<td class="user_email" id="${prjVo.user_email}">

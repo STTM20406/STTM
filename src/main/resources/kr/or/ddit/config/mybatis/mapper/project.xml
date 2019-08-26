@@ -349,7 +349,8 @@
 						 from
 							(select *
 			                 from project_mem
-			                 where prj_id = #{prj_id}) a )
+			                 where prj_id = #{prj_id}
+			                 and user_email not in #{user_email}) a )
 			where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
 		]]>
 	</select>
@@ -366,7 +367,8 @@
 						 from
 							(select *
 			                 from project_mem
-			                 where prj_id = #{prj_id}) a )
+			                 where prj_id = #{prj_id}
+			                 and user_email not in #{user_email}) a )
 			where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}) b
 		]]>
 	</select>

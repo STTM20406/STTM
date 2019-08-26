@@ -426,7 +426,7 @@ public class UserController {
 	
 	/**
 	 * 
-	* Method : dsfas
+	* Method : projectMemberList
 	* 작성자 : 김경호
 	* 변경이력 : 2019-08-23
 	* @param session
@@ -435,7 +435,7 @@ public class UserController {
 	* Method 설명 : 멤버 탭에서 프로젝트 이름을 클릭 했을 떄 해당 프로젝트 멤버를 페이징 리스트로 보여준다.
 	 */
 	@RequestMapping(path = "/projectMemberList", method = RequestMethod.GET)
-	public String dsfas(HttpSession session, Model model, PageVo pageVo, String memPrjId) {
+	public String projectMemberList(HttpSession session, Model model, PageVo pageVo, String memPrjId) {
 		
 		logger.debug("memPrjId : 프로젝트이름 {}",memPrjId);
 		
