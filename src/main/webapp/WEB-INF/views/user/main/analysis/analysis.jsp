@@ -421,7 +421,9 @@ function validateDt() {
 	if(prj_st_dt && prj_cmp_dt ) {
 		if(st_dt > cmp_dt ) {
 			valid = false;
-			alert("완료일은 시작일 이전으로 설정할 수 없습니다.");
+// 			alert("완료일은 시작일 이전으로 설정할 수 없습니다.");
+			$(".ctxt").text("완료일은 시작일 이전으로 설정할 수 없습니다");
+			layer_popup("#layer2");
 			cal_st.setDate(currPrjVo.prj_start_dt);
 			cal_cmp.setDate(currPrjVo.prj_cmp_dt);
 		}
@@ -430,7 +432,9 @@ function validateDt() {
 	if(prj_st_dt && prj_ed_dt) {
 		if(st_dt > ed_dt) {
 			valid = false;
-			alert("시작일은 마감일 이전으로 설정할 수 없습니다.");
+// 			alert("시작일은 마감일 이전으로 설정할 수 없습니다.");
+			$(".ctxt").text("시작일은 마감일 이전으로 설정할 수 없습니다.");
+			layer_popup("#layer2");
 			cal_st.setDate(currPrjVo.prj_start_dt);
 			cal_ed.setDate(currPrjVo.prj_end_dt);
 		}

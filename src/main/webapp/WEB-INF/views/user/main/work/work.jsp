@@ -24,14 +24,14 @@ function commentPagination(wps_wrk_id,page, pageSize){
 				
 				html += "<tr class='commTr'>";
 				html += "<input type='hidden' name='commContent' value='"+comm.comm_content +"'/>"
-				html += "<input type='hidden' name='commContent' value='"+comm.comm_id +"'/>"
-				html += "<input type='hidden' name='commContent' value='"+comm.prj_id +"'/>"
+				html += "<input type='hidden' name='commComm_id' value='"+comm.comm_id +"'/>"
+				html += "<input type='hidden' name='commPrj_id' value='"+comm.prj_id +"'/>"
 				html += "<td>"+comm.comm_content+"</td>";
 				html += "<td>"+comm.user_email+"</td>";
 				html += "<td>"+comm.commDateStr+"</td>";
 				html += "<td>";
-				html += "<input type='hidden' name='commContent' value='"+comm.comm_content +"'/>"
-				html += "<input type='hidden' name='commContent' value='"+comm.comm_id +"'/>"
+				html += "<input type='hidden' id='prj_id02' value='"+ comm.prj_id +"'/>"
+				html += "<input type='hidden' id='comm_id02' value='"+comm.comm_id +"'/>"
 				html += "<button type='button' id='commUpdateBtn' class='commUpdateBtn'>수정</button>"
 				html += "</td>";
 				html += "<td class='commDeleteTd'>";
@@ -622,7 +622,7 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 				method:"post",
 				data:"wrk_id=" + wrk_id,
 				success:function(data){
-					
+					var auth = data.workVo.auth;
 					$("#wps_id").val(data.workVo.wrk_id);
 					$("#wps_nm").val(data.workVo.wrk_nm);
 					$("#wps_write_nm").text(data.workVo.user_nm);
@@ -661,14 +661,14 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 					
 					
 					//멤버레벨이 1인데 권한이 ASC02 또는 ASC03 일때
-					if(projectMemLevel == "LV1" && projectAuth == "ASC02" ){
+					if(auth=="AUTH02"){
 						$(".propertySet input").prop('readonly', true); 										//설정창의 모든 input readonly
 						$(".propertySet select").prop('disabled',true);										//설정창의 모든 select disabled
 						$(".propertySet button[name='wps_mem_set']").prop('disabled', true);					//설정창의 모든 button disabled
 						$(".propertySet button[name='wrk_flw_set']").prop('disabled', true);					//설정창의 모든 button disabled
 						$(".propertySet input[type=button]").prop('disabled', true);
 						$(".flatpickr-calendar").css({display:"none"});
-					}else if(projectMemLevel == "LV1" && projectAuth == "ASC03"){
+					}else if(auth=="AUTH03"){
 						$(".propertySet input").prop('readonly', true); 										//설정창의 모든 input readonly
 						$(".propertySet select").prop('disabled',true);										//설정창의 모든 select disabled
 						$(".propertySet button").prop('disabled', true);										//설정창의 모든 button disabled
