@@ -26,10 +26,14 @@ import kr.or.ddit.project_mem.service.IProject_MemService;
 import kr.or.ddit.users.model.UserVo;
 import kr.or.ddit.work.model.WorkVo;
 import kr.or.ddit.work.service.IWorkService;
+import kr.or.ddit.work_al_mem.model.Work_Al_MemVo;
+import kr.or.ddit.work_al_mem.service.IWork_Al_MemService;
 import kr.or.ddit.work_list.model.Work_ListVo;
 import kr.or.ddit.work_list.service.IWork_ListService;
 import kr.or.ddit.work_mem_flw.model.Work_Mem_FlwVo;
 import kr.or.ddit.work_mem_flw.service.IWork_Mem_FlwService;
+import kr.or.ddit.work_push.model.Work_PushVo;
+import kr.or.ddit.work_push.service.IWork_PushService;
 
 @Controller
 @RequestMapping("/work")
@@ -51,6 +55,12 @@ public class Work_ListController {
 	
 	@Resource(name="work_Mem_FlwService")
 	private IWork_Mem_FlwService workMemFlwService;
+	
+	@Resource(name = "work_PushService")
+	private IWork_PushService workPushService;
+	
+	@Resource(name = "work_Al_MemService")
+	private IWork_Al_MemService workAlMemService;
 	
 	
 	//GET방식으로 업무리스트 및 업무 조회
@@ -362,6 +372,42 @@ public class Work_ListController {
 	}
 	
 	
+	@RequestMapping("/workDelAjax")
+	public @ResponseBody HashMap<String, Object> workDelAjax(WorkVo workVo, String wrk_id, HttpSession session) {
+
+		//세션에 저장된 프로젝트 정보를 가져옴
+		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
+		int prj_id = projectVo.getPrj_id();
+		
+		int wrkID = Integer.parseInt(wrk_id);
+		int deleteCnt = workService.deleteWork(wrkID);
+		
+		List<Work_ListVo> workList = workListService.workList(prj_id);
+		
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		List<WorkVo> work = new ArrayList<WorkVo>();
+		List<WorkVo> works = new ArrayList<WorkVo>();
+		
+		/*
+			해당 업무리스트에서 업무리스트 ID 가져서와 업무테이블의
+			테이블의 업무리스트 ID 매칭하여 해당 업무 가져오기
+		*/
+		for(int i=0; i<workList.size(); i++) {
+			int wrkListId = workList.get(i).getWrk_lst_id();
+			work = workService.getWork(wrkListId);
+			for(int j=0; j<work.size(); j++) {
+				//업무리스트 ID가 같으면 해당 업무를 가져와서 담기
+				works.add(work.get(j)); 
+			}
+		}
+		
+		if(deleteCnt != 0) {
+			hashmap.put("workList", workList);
+			hashmap.put("works", works);
+		}
+		return hashmap;
+	}
+	
 	//업무리스트의 업무를 다른 업무리스트로 이동시 ajax
 	@RequestMapping("/wrkTransAjax")
 	public String wrkTransAjax(WorkVo workVo, String wrk_id, String wrk_lst_id, HttpSession session) {
@@ -381,7 +427,7 @@ public class Work_ListController {
 	
 	//업무 클릭시 설정창에 업무 정보 셋팅
 	@RequestMapping("/propertyWorkSetAjax")
-	public @ResponseBody HashMap<String, Object> propertyWorkSetAjax(String wrk_id, HttpSession session) {
+	public @ResponseBody HashMap<String, Object> propertyWorkSetAjax(String wrk_id, Work_PushVo work_pushVo, HttpSession session) {
 		
 		int wrkID = Integer.parseInt(wrk_id);
 		WorkVo workVo = workService.getWorkInfo(wrkID);
@@ -394,10 +440,19 @@ public class Work_ListController {
 		Work_Mem_FlwVo work_flwVo = new Work_Mem_FlwVo(wrkID, "F");
 		List<Work_Mem_FlwVo> wrkFlwList = workMemFlwService.workMemFlwList(work_flwVo); 
 		
+		
+		logger.debug("workVo::::::::: log {}", workVo);
+		logger.debug("workVo.getWrk_rv_id()::::::::: log {}", workVo.getWrk_rv_id());
+		work_pushVo.setWrk_id(wrkID);
+		work_pushVo.setWrk_rv_id(workVo.getWrk_rv_id());
+		Work_PushVo getWrokPush = workPushService.getWorkReservation(work_pushVo);
+		logger.debug("getWrokPush::::::::: log {}", getWrokPush);
+		
 		HashMap<String, Object> hashmap = new HashMap<String, Object>();
 		hashmap.put("workVo", workVo);
 		hashmap.put("wrkMemList", wrkMemList);
 		hashmap.put("wrkFlwList", wrkFlwList);
+		hashmap.put("getWrokPush", getWrokPush);
 
 		return hashmap;
 	}
@@ -493,6 +548,7 @@ public class Work_ListController {
 	@RequestMapping("/propertyWorkLableColorAjax")
 	public String propertyWorkLableColorAjax(WorkVo workVo, String wrk_id, String wrk_color_cd, Model model) throws ParseException {
 		
+		logger.debug("wrk_color_cd :::::::::: log {}", wrk_color_cd);
 		int wrkID = Integer.parseInt(wrk_id);
 		workVo.setWrk_id(wrkID);
 
@@ -777,4 +833,95 @@ public class Work_ListController {
 		return hashmap;
 	}
 	
+	
+	//예약알림
+	@RequestMapping("/notificationAddAjax")
+	public @ResponseBody HashMap<String, Object> notificationAddAjax(Work_PushVo work_pushVo, Work_Al_MemVo work_al_memVo, Work_Mem_FlwVo work_Mem_FlwVo, 
+								ProjectVo projectVo, String wrk_id, String memType, String wrk_dt,  HttpSession session) throws ParseException {
+		
+		UserVo user = (UserVo) session.getAttribute("USER_INFO");
+		projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
+		int wrkID = Integer.parseInt(wrk_id);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm");
+		
+		work_pushVo.setWrk_id(wrkID);
+		work_pushVo.setPrj_id(projectVo.getPrj_id());
+		work_pushVo.setWrk_dt(sdf.parse(wrk_dt));
+		work_pushVo.setUser_eamil(user.getUser_email());
+		int insertCnt = workPushService.insertWorkReservation(work_pushVo);
+		
+		WorkVo workVo = new WorkVo();
+		workVo.setWrk_id(wrkID);
+		workVo.setWrk_rv_id(work_pushVo.getWrk_rv_id());
+		int updateCnt = workService.updateResID(workVo);
+		
+		
+		/* 프로젝트 멤버 검색 */
+		work_Mem_FlwVo = new Work_Mem_FlwVo(wrkID, "F");
+		List<Work_Mem_FlwVo> wrkFlwList = workMemFlwService.workMemFlwList(work_Mem_FlwVo);
+		
+		work_Mem_FlwVo = new Work_Mem_FlwVo(wrkID, "M");
+		List<Work_Mem_FlwVo> wrkMemList = workMemFlwService.workMemFlwList(work_Mem_FlwVo); 
+		
+		List<Work_Mem_FlwVo> wrkAllList = workMemFlwService.workAllMemFlwList(wrkID);
+		
+		int notiMemInsertCnt = 0;
+		
+		if(memType.contentEquals("나에게")) {
+			//나에게 알림 보낼 때
+			work_al_memVo.setPrj_id(projectVo.getPrj_id());
+			work_al_memVo.setUser_email(user.getUser_email());
+			work_al_memVo.setWrk_rv_id(work_pushVo.getWrk_rv_id());
+			notiMemInsertCnt = workAlMemService.insertWorkReservationMem(work_al_memVo);
+			
+		}else if(memType.contentEquals("배정된 멤버")) {
+			//업무 배정된 멤버에게 보낼 때
+			for(Work_Mem_FlwVo memList : wrkMemList) {
+				work_al_memVo.setPrj_id(projectVo.getPrj_id());
+				work_al_memVo.setUser_email(memList.getUser_email());
+				work_al_memVo.setWrk_rv_id(work_pushVo.getWrk_rv_id());
+				notiMemInsertCnt = workAlMemService.insertWorkReservationMem(work_al_memVo);
+			}
+		}else if(memType.contentEquals("팔로워 멤버")) {
+			// 업무 팔로워에게 알림 보낼 때
+			for(Work_Mem_FlwVo flwList : wrkFlwList) {
+				work_al_memVo.setPrj_id(projectVo.getPrj_id());
+				work_al_memVo.setUser_email(flwList.getUser_email());
+				work_al_memVo.setWrk_rv_id(work_pushVo.getWrk_rv_id());
+				notiMemInsertCnt = workAlMemService.insertWorkReservationMem(work_al_memVo);
+			}
+		}else if(memType.contentEquals("모두")) {
+			//모두에게 알림을 보낼 때
+			for(Work_Mem_FlwVo allList : wrkAllList) {
+				work_al_memVo.setPrj_id(projectVo.getPrj_id());
+				work_al_memVo.setUser_email(allList.getUser_email());
+				work_al_memVo.setWrk_rv_id(work_pushVo.getWrk_rv_id());
+				notiMemInsertCnt = workAlMemService.insertWorkReservationMem(work_al_memVo);
+			}
+		}
+		
+		work_pushVo.setWrk_id(wrkID);
+		work_pushVo.setWrk_rv_id(work_pushVo.getWrk_rv_id());
+		
+		Work_PushVo getWrokPush = workPushService.getWorkReservation(work_pushVo);
+		
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		
+		if(insertCnt != 0 && notiMemInsertCnt != 0 && updateCnt != 0) {
+			hashmap.put("getWrokPush", getWrokPush);
+			hashmap.put("memType", memType);
+		}
+
+		return hashmap;
+	}
+	
+	//예약 알림 삭제 
+	@RequestMapping("/notificationDelAjax")
+	public String notificationDelAjax(String wrk_rv_id) throws ParseException {
+		
+		int wrkRvID = Integer.parseInt(wrk_rv_id);
+		workPushService.deleteWorkReservation(wrkRvID);
+		
+		return "jsonView";
+	}
 }

@@ -2,6 +2,7 @@ package kr.or.ddit.register;
 
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
@@ -16,6 +17,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 
 import kr.or.ddit.encrypt.encrypt.kisa.aria.ARIAUtil;
 import kr.or.ddit.encrypt.encrypt.kisa.sha256.KISA_SHA256;
@@ -89,9 +92,10 @@ public class RegisterController {
 	* @param session
 	* @return
 	* Method 설명 : 회원가입을 진행하기 위해 일반 이메일 or google이메일을 선택하는 화면
+	* 			     회원가입을 위해 이메일 인증을 할떄 DB에 있는 이메일이면 경고창을 띄워주고 다시 입력하게 함
 	 */
-	@RequestMapping(path = "register", method = RequestMethod.GET)
-	public String joinView() {
+	@RequestMapping(path = "/register", method = RequestMethod.GET)
+	public String joinView(Model model) {
 		return "member/register";
 	}
 	
@@ -108,9 +112,14 @@ public class RegisterController {
 	 */
 	@RequestMapping(path = "/register", method = RequestMethod.POST)
 	public String sendEmail(String user_email, Model model) throws MessagingException {
-		logger.debug("user_email : {}", user_email);
+		logger.debug("user_email : 이걸 가져온다고? {}", user_email);
+		
+		// 
+		UserVo userVo = userService.getUser(user_email);
+		
 		sendEmailForJoin(user_email);
 		model.addAttribute("user_email", user_email);
+		
 		return "member/sendEmail";
 	}
 	
@@ -134,8 +143,7 @@ public class RegisterController {
 		msgHelper.setSubject("[STTM] 회원 가입을 위해 이메일을 인증해주세요 .");	// 메일 제목 설정
 		
 		String html = "<div>" +
-					  	"<span> STTM에 가입해주셔서 감사합니다! " +
-					  	"아래 버튼을 클릭하여 회원님의 계정을 인증해주세요." +
+					  	"<span> 아래 버튼을 클릭하여 회원님의 계정을 인증해주세요. <br>" +
 //					  	"<a href='http://localhost/registerForm?user_email="+ user_email +"'>" +
 					  	"<a href='http://localhost/registerForm'>" +
 					  	"인증하기" + "</a>" + 

@@ -16,7 +16,7 @@
 <script src="./demos/menu.js"></script>
 </head>
 <body>
-	<style>
+<style>
 #screen-viewer {
 	position: fixed;
 	top: 0;
@@ -39,36 +39,20 @@
 					Recording</button>
 				<br> <br> <input type="hidden" id="room-id1" value="">
 				<input type="text" id="room-id" value="" size=20>
-				<button id="open-room">Open Room</button>
-				<button id="join-room">Join Room</button>
-				<button id="open-screenSharing">Open ScreenSharing</button>
-				<button id="join-screenSharing">Join ScreenSharing</button>
+				<button id="open-room">화상회의 방 생성하기</button>
+				<button id="join-room">화상회의 방 참여하기</button>
+				<button id="open-screenSharing">화면 공유하기</button>
+				<button id="join-screenSharing">화면 공유에 참여하기</button>
 				<div id="screen-container" style="margin: 20px 0;"></div>
 			</div>
-			<!-- <div
-				style="margin-top: 20px; position: absolute; bottom: 0; background: white; padding-bottom: 20px; width: 94%">
-				<input type="text" value="#{USER_INFO.user_nm}"> <input
-					type="text" id="input-text-chat" placeholder="Enter Text Chat"
-					disabled>
-				
-				<div id="chat-container">
-					<div id="file-container"></div>
-					<div class="chat-output"></div>
-				</div>
-			</div> -->
 
 			<div class="chat_room">
 				<div class="chat_room_hd">
 					<div class="mesgs">
 						<div class="msg_history" id="chatData">
-							<div class="outgoing_msg">
-								<div class="sent_msg">
-									<div class="chat-output">
-										<div id="file-container"></div>
-									</div>
-								</div>
+<!-- 							<div id="file-container"></div> -->
+							<div class="chat-output" id="file-container">
 							</div>
-
 
 						</div>
 						<div class="type_msg">
@@ -80,7 +64,7 @@
 									<button class="msg_send_btn" id="buttonMessage" type="button">
 										<i class="fa fa-paper-plane-o" aria-hidden="true"></i>
 									</button>
-									<button id="share-file" disabled>Share File</button>
+									<button id="share-file" disabled>파일 전송</button>
 								</div>
 							</div>
 						</div>
@@ -107,7 +91,6 @@
 	<script src="http://192.168.0.62:9001/node_modules/fbr/FileBufferReader.js"></script>
 
 	<!-- custom layout for HTML5 audio/video elements -->
-<!-- 	<script src="http://192.168.219.102:9001/dev/getHTMLMediaElement.js"></script> -->
 <!-- 	<script src="http://192.168.219.102:9001/dist/RTCMultiConnection.js"></script> -->
 <!-- 	<script src="http://192.168.219.102:9001/dist/RTCMultiConnection.min.js"></script> -->
 <!-- 	<script src="http://192.168.219.102:9001/socket.io/socket.io.js"></script> -->
@@ -178,6 +161,7 @@
 			});
 		};
 
+		var userNm = document.getElementById("userName").value;
 		document.getElementById('input-text-chat').onkeyup = function(e) {
 			if (e.keyCode != 13)
 				return;
@@ -187,21 +171,18 @@
 			if (!this.value.length)
 				return;
 
-			var userNm = document.getElementById("userName").value;
 			
 			connection.send(userNm + "," + this.value);
 			appendDIV(this.value);
 			this.value = '';
 		};
 	
-		var userName = document.getElementById("userName").value;
+		
 		var chatContainer = document.querySelector('.chat-output');
 // 		var chatContainer = document.getElementsByClassName('chat-output');
 
 		function appendDIV(event) {
 			console.log(event);
-			
-			var userNm = document.getElementById("userName").value;
 			
 			
 			var div = document.createElement('div');
@@ -212,9 +193,21 @@
 				var name = aArray[0];
 				var msg = aArray[1];
 				
-				div.innerHTML = "<p>" + name + "</p><p>" + msg + "</p>";
+				var content =  "<div class='incoming_msg'>";
+				content += "<div class='received_msg'>";
+				content += "<div class='received_withd_msg'>";
+				content += "<p>" + name + "</p><p>" + msg + "</p>";
+				content += "</div></div></div>";
+				
+				div.innerHTML = content;
 			}else{ //내가 보내면 내 화면에 보이는 화면
-				div.innerHTML = "<p>" + userNm + "</p><p>" + event + "</p>";
+				
+				var content1 = "<div class='outgoing_msg'>";
+				content1 += "<div class='sent_msg'>";
+				content1 += "<p>" + userNm + "</p><p>" + event + "</p>";
+				content1 += "</div></div>";
+				
+				div.innerHTML = content1;
 			}
 			
 			chatContainer.insertBefore(div, chatContainer.lastChild);
@@ -223,13 +216,6 @@
 
 			document.getElementById('input-text-chat').focus();
 		}
-
-
-
-
-
-
-
 
 
 		// ......................................................
@@ -275,8 +261,7 @@
 			document.getElementById('input-text-chat').disabled = false;
 		};
 
-		connection.videosContainer = document
-				.getElementById('videos-container');
+		connection.videosContainer = doddddcument.getElementById('videos-container');
 		connection.onstream = function(event) {
 			var existing = document.getElementById(event.streamid);
 			if (existing && existing.parentNode) {

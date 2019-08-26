@@ -224,7 +224,7 @@
 		 where b.prj_id in (a.prj_id)
 		 and c.user_email = b.user_email
 	</select>
-	
+
 	<!-- 사용자가 멤버 탭에서 자신과 같은 프로젝트를 진행하는 멤버의 리스트를 페이징으로 조회 -->
 	<select id="projectMemPagingList" parameterType="map" resultType="project_memVo">
 		<![CDATA[
@@ -338,6 +338,38 @@
 		WHERE USER_EMAIL = #{user_email}
 		AND PRJ_ID = #{prj_id}
 	</update>
+	
+	<!-- 멤버탭에서 프로젝트 이름을 클릭하여 프로젝트 번호를 받아오고
+		  프로젝트 번호로 나의 프로젝트 멤버를 조회하여 페이징 리스트로 보여준다 -->
+	<select id="projectMemListById" parameterType="map" resultType="project_memVo">
+		<![CDATA[
+			select *
+				from
+					(select a.*, rownum rn
+						 from
+							(select *
+			                 from project_mem
+			                 where prj_id = #{prj_id}) a )
+			where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
+		]]>
+	</select>
+	
+	<!-- 멤버탭에서 프로젝트 이름을 클릭하여 프로젝트 번호를 받아오고
+		  프로젝트 번호로 나의 프로젝트 멤버를 조회하여 페이징 리스트 갯수 -->
+	<select id="projectMemListByIdCnt" parameterType="map" resultType="int">
+		<![CDATA[
+			select count(*)
+			     from
+			(select *
+				from
+					(select a.*, rownum rn
+						 from
+							(select *
+			                 from project_mem
+			                 where prj_id = #{prj_id}) a )
+			where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}) b
+		]]>
+	</select>
 	
 	<!-- *******************project_trnf_hs****************** -->
 

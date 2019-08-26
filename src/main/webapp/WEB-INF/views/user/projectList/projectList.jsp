@@ -118,6 +118,19 @@
 		
 		//프로젝트 생성 다음 버튼 클릭시
 		$(".prj_btn").on("click", "#prj_btn_next", function(){
+			
+// 			$("#prj_nm").val().replace(/</gi,"&lt;");
+
+			if(Check_nonTag(document.getElementById('prj_nm').value) == false){
+			  	Check_nonTagReturn('prj_nm');
+			  	return false;
+			 }
+			
+			if($("#prj_nm").val().length ==0){
+		           	$("#prj_nm").focus();
+		           	return false;
+			}
+			
 			$(".new_proejct").animate({left:'-100%'}, 500);
 			$(".select_template").animate({left:'0%'}, 500);
 		});
@@ -322,6 +335,18 @@
 							$(this).find(".currnt_prj_st").text(data.data.prj_st);
 						}
 					});
+					
+					console.log("알림메세지 할거에요",data);	// 알림메세지 할거에요@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+					console.log("알림메세지 할거에요",data.project_mem_list);	// 알림메세지 할거에요@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+					if(socket){
+						var socketMsg = "";
+						for(var i=0;i<data.project_mem_list.length;i++){
+							socketMsg = "project_setItem," + data.project_mem_list[i].user_email +"," + data.data.prj_nm;
+							socket.send(socketMsg);
+					console.log("프로젝트설정변경 알림메세지완료@@@@@");	
+						}
+					}
+					
 				}
 			});
 		}
@@ -614,6 +639,10 @@
 			$("#projectDelFrm").submit();
 		});
 		
+		$(".select_template").on("click", "li", function(){
+			var templateType = $(this).text();
+			$("#templateType").val(templateType);
+		});
 		
 	});
 	
@@ -689,6 +718,31 @@
         });
 
     }
+	
+	function Check_nonTag(text){
+		var opentag = '><';
+	 	var i ; 
+	 
+	 	for ( i=0; i < text.length; i++ ){
+	  		if( opentag.indexOf(text.substring(i,i+1)) > 0){
+	   		break ; 
+		}
+	}
+	 
+	if ( i != text.length ){
+		return false;
+	}else{
+		return true ;
+	} 
+		return false;
+	} 
+
+
+	function Check_nonTagReturn(inputId){
+		alert("HTML 태그는 입력하실 수 없습니다");
+	  	document.getElementById(inputId).focus();
+	  	return false;
+	}
 </script>
 
 <form id="projectFrm" action="/work/list" method="post">
@@ -778,6 +832,7 @@
 				<!--content //-->
 				<form action="/project/form" method="post" id="prj_insert">
 					<input type="hidden" name="memList" id="memList" value="">
+					<input type="hidden" name="templateType" id="templateType" value="">
 					<div class="new_proejct">
 						<h2>새로운 프로젝트 생성하기</h2>
 						<ul>

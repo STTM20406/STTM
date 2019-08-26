@@ -24,6 +24,7 @@ import kr.or.ddit.friends.model.FriendsVo;
 import kr.or.ddit.friends.service.IFriendsService;
 import kr.or.ddit.notification_set.service.INotification_SetService;
 import kr.or.ddit.paging.model.PageVo;
+import kr.or.ddit.project.model.ProjectVo;
 import kr.or.ddit.project.service.IProjectService;
 import kr.or.ddit.project_mem.model.Project_MemVo;
 import kr.or.ddit.project_mem.service.IProject_MemService;
@@ -291,7 +292,8 @@ public class UserController {
 	* Method 설명 : 회원의 친구 목록을 회원 자신의 이메일로 조회하여 페이징 리스트로 보여준다
 	* 
 	 */
-	@RequestMapping(path = "/projectMemberList", method = RequestMethod.GET)
+//	@RequestMapping(path = "/projectMemberList", method = RequestMethod.GET)
+	@RequestMapping(path = "/projectMember", method = RequestMethod.GET)
 	public String projectMemberListView(PageVo pageVo, Model model, HttpSession session,
 										String acceptEmail, String denyEmail, String prjMemView, String frdRequEmail) {
 		
@@ -314,29 +316,6 @@ public class UserController {
 			String user_email1 = userVo.getUser_email();
 			model.addAttribute("projectList", projectService.projectList(user_email1));
 //			return "/projectList/projectList.user.tiles";
-			
-			
-			// 회원이 해당 프로젝트의 멤버 목록을 조회 한다.
-			Map<String, Object> resultMap = project_MemService.projectMemPagingList(map);
-			
-			logger.debug("map : 로거를 찍어보자 {}",map);
-			
-			List<UserVo> projectMemList = (List<UserVo>) resultMap.get("projectMemList");
-			
-			logger.debug("projectMemList : 프로젝트멤버에담긴거 {}",projectMemList);
-			
-			int paginationSize = (Integer) resultMap.get("paginationSize");
-			
-			String user_email0 = userVo.getUser_email();
-			logger.debug("user_email : notInGame {}",user_email0);
-			
-			List<FriendsVo> prjMemFriList = friendsService.friendsList(user_email0);
-			logger.debug("prjMemFriList : notInGame2 {}",prjMemFriList);
-			
-			model.addAttribute("prjMemFriList",prjMemFriList);
-			model.addAttribute("projectMemList", projectMemList);
-			model.addAttribute("paginationSize", paginationSize);
-			model.addAttribute("pageVo", pageVo);
 			
 //		}else if (frd_email != null){
 		
@@ -443,6 +422,61 @@ public class UserController {
 			}
 			
 		return "/member/projectMember.user.tiles";
+	}
+	
+	/**
+	 * 
+	* Method : dsfas
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-23
+	* @param session
+	* @param pageVo
+	* @return
+	* Method 설명 : 멤버 탭에서 프로젝트 이름을 클릭 했을 떄 해당 프로젝트 멤버를 페이징 리스트로 보여준다.
+	 */
+	@RequestMapping(path = "/projectMemberList", method = RequestMethod.GET)
+	public String dsfas(HttpSession session, Model model, PageVo pageVo, String memPrjId) {
+		
+		logger.debug("memPrjId : 프로젝트이름 {}",memPrjId);
+		
+		int memPrjIdParse = Integer.parseInt(memPrjId);
+		
+		logger.debug("memPrjIdParse : 인코딩프로젝트이름 {}",memPrjIdParse);
+		
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = userVo.getUser_email();
+		
+		ProjectVo prjVo = new ProjectVo(); 
+		prjVo.setPrj_id(memPrjIdParse);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("page", pageVo.getPage());
+		map.put("pageSize", pageVo.getPageSize());
+		map.put("user_email", user_email);
+		map.put("user_nm", userVo.getUser_nm());
+		map.put("prj_id", prjVo.getPrj_id());
+		
+		logger.debug("map : 맵프로젝트 {}",map);
+		
+		//
+		Map<String, Object> resultMap = project_MemService.projectMemListById(map);
+		logger.debug("resultMap : 이거 해결하고 자자 {}", resultMap);
+		
+		List<UserVo> projectMemList = (List<UserVo>) resultMap.get("projectMemList");
+		logger.debug("projectMemList : 이거 해결하고 자자 {}", projectMemList);
+		
+		int paginationSize = (Integer) resultMap.get("paginationSize");
+		
+		model.addAttribute("projectMemList",projectMemList);
+		model.addAttribute("paginationSize", paginationSize);
+		model.addAttribute("pageVo", pageVo);
+		
+		// 친구 요청 버튼 만들기
+		List<FriendsVo> prjMemFriList = friendsService.friendsList(user_email);
+		logger.debug("prjMemFriList : 아침 로거 {}", prjMemFriList);
+		model.addAttribute("prjMemFriList",prjMemFriList);
+		
+		return "/member/projectMemberList.user.tiles";
 	}
 	
 	/**

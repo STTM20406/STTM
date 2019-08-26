@@ -16,6 +16,15 @@
 	<meta name="google-signin-client_id" content="1007667076011-rnn1ucbiirf2uqshgan4a62rjthqigbk.apps.googleusercontent.com">
 	
 	<script>
+	$(document).ready(function(){
+		
+		// 중복 체크 버튼 클릭시
+// 		$('#duplCheckBtn').on("click", function(){
+// 			$("#sendEmailForm").submit();
+// 		});
+		
+	});
+	
 		function funLoad(){
 	        var Cheight = $(window).height();
 	        $('#wrap').css({'height':Cheight+'px'});
@@ -74,6 +83,7 @@
 						<li>
 							<label for="userId">USER EMAIL</label>
 							<input type="text" id="user_email" name="user_email" placeholder="Please enter your Email." value="">
+							<input type="button" id="duplCheckBtn" value="이메일 중복체크"> 
 						</li>
 						<li>
 							<dl class="formList">

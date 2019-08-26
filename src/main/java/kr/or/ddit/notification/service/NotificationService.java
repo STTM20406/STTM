@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import kr.or.ddit.notification.dao.INotificationDao;
@@ -15,7 +17,7 @@ import kr.or.ddit.receiver.model.ReceiverVo;
 
 @Service
 public class NotificationService implements INotificationService{
-	
+	private static final Logger logger = LoggerFactory.getLogger(NotificationService.class);
 	@Resource(name="notificationDao")
 	private INotificationDao notiDao;
 	
@@ -23,6 +25,8 @@ public class NotificationService implements INotificationService{
 	public Map<String, Object> notifiList(PageVo pageVo) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("notifiList", notiDao.notifiList(pageVo));
+		
+		logger.debug("!@# pageVo.getRcv_email() : {}",pageVo.getRcv_email());
 		
 		int notifiCnt = notiDao.notifiCnt(pageVo.getRcv_email());
 		int notifiPageSize = (int) Math.ceil((double)notifiCnt/pageVo.getPageSize());

@@ -34,6 +34,7 @@ import kr.or.ddit.project_mem.model.Project_MemVo;
 import kr.or.ddit.project_mem.service.Project_MemService;
 import kr.or.ddit.receiver.model.ReceiverVo;
 import kr.or.ddit.users.model.UserVo;
+import kr.or.ddit.users.service.IUserService;
 
 //작성순서 : afterConnectionEstablished(서버 접속 시) -> afterConnectionClosed(서버연결끊을 시)
 //		  -> handleTextMessage(서버가 메세지를 받았을 때)
@@ -62,6 +63,9 @@ public class WebSocket extends TextWebSocketHandler {
 	
 	@Resource(name = "friendsService")
 	FriendsService fndService;
+	
+	@Resource(name="userService")
+	private IUserService userService;
 	
 	// 서버에 연결된 사용자들을 저장하기 위해 선언
 	private List<WebSocketSession> sessionList = new ArrayList<WebSocketSession>();// 메시지를 날려주기 위한 웹소켓전용 세션
@@ -253,6 +257,8 @@ public class WebSocket extends TextWebSocketHandler {
 				
 				String notifiMsg = rcv_email+"님,"+wrk_subject+"에 코멘트가 작성이 되었습니다."; // 알림메세지 내용
 				
+				int plusCount = userService.plusCount(rcv_email);
+				
 				NotificationVo notifyVo = new NotificationVo();
 				notifyVo.setNot_con(msg); // message.getPayload() => 내가 실제로 받은 메세지 
 				
@@ -289,7 +295,54 @@ public class WebSocket extends TextWebSocketHandler {
 					
 				}
 
-			} 
+			}else if(strs != null && strs.length == 3 && strs[0].equals("project_setItem")) { // 프로젝트 설정 알림보내기
+				logger.debug("!@#프로젝트 알림 메세지 들어오거라@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+				String project_setItem = strs[0];	// 업무코멘트알림
+//				String notify_cd = strs[1]; // 알림코드 (N01 : 프로젝트, N02 : 업무알림, N03 : 채팅알림, N04 : 1:1답변)
+				String rcv_email = strs[1];	// 받는사람
+				String prj_nm = strs[2]; // 프로젝트 이름
+				
+				String notifiMsg = rcv_email+"님,"+prj_nm+"의 설정이 변경 되었습니다."; // 알림메세지 내용
+				
+				int plusCount = userService.plusCount(rcv_email);
+				
+				NotificationVo notifyVo = new NotificationVo();
+				notifyVo.setNot_con(msg); // message.getPayload() => 내가 실제로 받은 메세지 
+				
+				NotificationVo notiVo = new NotificationVo();
+				notiVo.setNot_id(notiVo.getNot_id());
+				notiVo.setNot_cd("N01");
+				notiVo.setNot_con(notifiMsg);
+				int insertNoti = notificationService.insertNotifi(notiVo);
+				
+				ReceiverVo receiverVo = new ReceiverVo();
+				receiverVo.setNot_id(notiVo.getNot_id());
+				receiverVo.setRcv_email(rcv_email);
+				
+				int insertRecei = notificationService.insertReceiver(receiverVo);
+				
+				WebSocketSession writerSession = userList.get(rcv_email); // 받는사람
+				if("project_setItem".equals(project_setItem) && writerSession != null) {
+					logger.debug("!@# userList : {}",userList);
+					
+					Set set = userList.keySet();
+					Iterator iterator = set.iterator();
+					logger.debug("!@#set : {}",set);
+					logger.debug("!@#iterator : {}",iterator);
+					
+					while(iterator.hasNext()){
+						  String key = (String)iterator.next();
+						  logger.debug("!@# keyset : {}",key);
+						  
+						  if(key.equals(rcv_email)) {
+							  TextMessage tmpMsg = new TextMessage(rcv_email+"님,"+prj_nm+"의 설정이 변경 되었습니다.");
+								writerSession.sendMessage(tmpMsg);
+						  }
+					}
+					
+				}
+
+			}  
 			
 //			if (StringUtils.isNotEmpty(msg)) {
 //				String[] commMsg = msg.split(":");
