@@ -76,6 +76,16 @@ public interface IWorkService {
 	 */
 	WorkVo getWorkInfo(int wrk_id);
 	
+	/**
+	 * Method : getWorkInfo
+	 * 작성자 : 유승진
+	 * 변경이력 : 2019-08-26 최초 생성
+	 * @param wrk_id
+	 * @param user_email
+	 * @return
+	 * Method 설명 : 업무 아이디와 사용자 이메일로 업무 정보 조회
+	 */
+	WorkVo getWorkInfo(int wrk_id, String user_email);
 	
 	/**
 	 * 

@@ -81,6 +81,44 @@
 		SELECT A.*, B.USER_NM FROM WORK A, USERS B WHERE WRK_ID = #{wrk_id} AND A.USER_EMAIL = B.USER_EMAIL
 	</select>
 	
+	<!-- 업무 아이디와 사용자 이메일로 업무 정보 얻어오기 -->
+	<select id="getWorkInfo2" parameterType="map" resultType="workVo">
+		SELECT  A.WRK_ID
+		     ,  A.USER_EMAIL
+		     ,  C.WRK_LST_NM
+		     ,  C.PRJ_ID
+		     ,  B.USER_NM
+		     ,  D.PRJ_NM
+		     ,  A.WRK_LST_ID
+		     ,  A.WRK_RV_ID
+		     ,  A.WRK_PR_ID
+		     ,  A.WRK_NM
+		     ,  A.WRK_DT
+		     ,  A.WRK_GRADE
+		     ,  A.WRK_COLOR_CD
+		     ,  A.WRK_START_DT
+		     ,  A.WRK_END_DT
+		     ,  A.WRK_CMP_DT
+		     ,  A.WRK_CMP_FL
+		     ,  A.WRK_DEL_FL
+             ,	(CASE
+                 WHEN E.PRJ_MEM_LV = 'LV0' AND E.PRJ_ID = D.PRJ_ID THEN 'AUTH01'
+                 WHEN D.PRJ_AUTH = 'ASC01' AND E.PRJ_MEM_LV = 'LV1' THEN 'AUTH01'
+                 WHEN D.PRJ_AUTH = 'ASC02' AND E.PRJ_MEM_LV = 'LV1' AND (SELECT F.JN_FL FROM WORK_MEM_FLW F WHERE F.WRK_ID = A.WRK_ID AND F.USER_EMAIL = #{user_email}) = 'M' THEN 'AUTH02'
+                 WHEN D.PRJ_AUTH = 'ASC02' AND E.PRJ_MEM_LV = 'LV1' AND (SELECT F.JN_FL FROM WORK_MEM_FLW F WHERE F.WRK_ID = A.WRK_ID AND F.USER_EMAIL = #{user_email}) = 'F' THEN 'AUTH03'
+                 WHEN D.PRJ_AUTH = 'ASC02' AND E.PRJ_MEM_LV = 'LV1' AND (SELECT F.JN_FL FROM WORK_MEM_FLW F WHERE F.WRK_ID = A.WRK_ID AND F.USER_EMAIL = #{user_email}) IS NULL THEN 'AUTH03'
+                 WHEN D.PRJ_AUTH = 'ASC03' AND E.PRJ_MEM_LV = 'LV1' AND (SELECT F.JN_FL FROM WORK_MEM_FLW F WHERE F.WRK_ID = A.WRK_ID AND F.USER_EMAIL = #{user_email} ) = 'M' THEN 'AUTH02'
+                 WHEN D.PRJ_AUTH = 'ASC03' AND E.PRJ_MEM_LV = 'LV1' AND (SELECT F.JN_FL FROM WORK_MEM_FLW F WHERE F.WRK_ID = A.WRK_ID AND F.USER_EMAIL = #{user_email}) IN 'F' THEN 'AUTH03'
+                 WHEN D.PRJ_AUTH = 'ASC03' AND E.PRJ_MEM_LV = 'LV1' AND (SELECT F.JN_FL FROM WORK_MEM_FLW F WHERE F.WRK_ID = A.WRK_ID AND F.USER_EMAIL = #{user_email} ) IS NULL THEN 'AUTH04'
+                 END) AUTH
+		FROM    WORK A, USERS B, WORK_LIST C, PROJECT D, PROJECT_MEM E
+		WHERE   A.WRK_ID = #{wrk_id}
+		AND     A.USER_EMAIL = B.USER_EMAIL
+		AND     A.WRK_LST_ID = C.WRK_LST_ID
+		AND     C.PRJ_ID = D.PRJ_ID
+        AND     D.PRJ_ID = E.PRJ_ID
+        AND     E.USER_EMAIL = #{user_email}
+	</select>
 	<!-- 업무 완료 체크시 완료 플래그 업데이트 -->
 	<update id="updateWorkCmp" parameterType="workVo">
 		UPDATE WORK SET 	WRK_CMP_FL = #{wrk_cmp_fl},
@@ -186,7 +224,6 @@
 		from work_comment 
 		where wrk_id = #{wrk_id}
 		and prj_id = #{prj_id}
-		and del_fl = 'N'
 	</select>
 <!-- ******************work_list**************** -->
 	

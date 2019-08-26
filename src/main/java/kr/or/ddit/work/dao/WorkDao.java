@@ -1,6 +1,7 @@
 package kr.or.ddit.work.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -95,7 +96,11 @@ public class WorkDao implements IWorkDao{
 	public WorkVo getWorkInfo(int wrk_id) {
 		return sqlSession.selectOne("work.getWorkInfo", wrk_id);
 	}
-
+	
+	@Override
+	public WorkVo getWorkInfo(Map<String, Object> params) {
+		return sqlSession.selectOne("work.getWorkInfo2", params);
+	}
 	
 	/**
 	 * 

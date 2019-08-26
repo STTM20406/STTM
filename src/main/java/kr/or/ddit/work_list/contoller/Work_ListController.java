@@ -428,9 +428,9 @@ public class Work_ListController {
 	//업무 클릭시 설정창에 업무 정보 셋팅
 	@RequestMapping("/propertyWorkSetAjax")
 	public @ResponseBody HashMap<String, Object> propertyWorkSetAjax(String wrk_id, Work_PushVo work_pushVo, HttpSession session) {
-		
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
 		int wrkID = Integer.parseInt(wrk_id);
-		WorkVo workVo = workService.getWorkInfo(wrkID);
+		WorkVo workVo = workService.getWorkInfo(wrkID, userVo.getUser_email());
 		
 		//배정된 업무 멤버 가져오기
 		Work_Mem_FlwVo work_memVo = new Work_Mem_FlwVo(wrkID, "M");
@@ -465,9 +465,9 @@ public class Work_ListController {
 		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
 		int prj_id = projectVo.getPrj_id();
 		
-		
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
 		int wrkID = Integer.parseInt(wrk_id);
-		WorkVo workInfo = workService.getWorkInfo(wrkID);
+		WorkVo workInfo = workService.getWorkInfo(wrkID, userVo.getUser_email());
 		
 		WorkVo workVo = new  WorkVo();
 		workVo.setWrk_id(wrkID);
@@ -513,6 +513,7 @@ public class Work_ListController {
 	public String propertyWorkSetItemAjax(String wrk_id, String wrk_nm, String wrk_grade, String wrk_start_dt, String wrk_end_dt, 
 									   Model model, HttpSession session) throws ParseException {
 		
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
 		int wrkID = Integer.parseInt(wrk_id);
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm");
@@ -538,7 +539,7 @@ public class Work_ListController {
 		int updateCnt = workService .updateAllWork(workVo);
 
 		if (updateCnt != 0) {
-			model.addAttribute("data", workService.getWorkInfo(wrkID));
+			model.addAttribute("data", workService.getWorkInfo(wrkID, userVo.getUser_email()));
 		}
 		
 		return "jsonView";
@@ -546,8 +547,8 @@ public class Work_ListController {
 	
 	//업무 설정 업데이트 (라벨 컬러 업데이트)
 	@RequestMapping("/propertyWorkLableColorAjax")
-	public String propertyWorkLableColorAjax(WorkVo workVo, String wrk_id, String wrk_color_cd, Model model) throws ParseException {
-		
+	public String propertyWorkLableColorAjax(WorkVo workVo, String wrk_id, String wrk_color_cd, Model model, HttpSession session) throws ParseException {
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
 		logger.debug("wrk_color_cd :::::::::: log {}", wrk_color_cd);
 		int wrkID = Integer.parseInt(wrk_id);
 		workVo.setWrk_id(wrkID);
@@ -558,7 +559,7 @@ public class Work_ListController {
 
 		int updateCnt = workService.updateWorkColor(workVo);
 		if (updateCnt != 0) {
-			model.addAttribute("data", workService.getWorkInfo(wrkID));
+			model.addAttribute("data", workService.getWorkInfo(wrkID, userVo.getUser_email()));
 		}
 		return "jsonView";
 	}
@@ -567,8 +568,8 @@ public class Work_ListController {
 	@RequestMapping("/workMemListAjax")
 	public String workMemListAjax(String wrk_id, Model model, HttpSession session) {
 
-		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
 		int wrkID = Integer.parseInt(wrk_id);
+		ProjectVo projectVo = projectService.getPrjByWrk(wrkID);
 		
 		// 세션에 저장된 user 정보를 가져옴
 		UserVo user = (UserVo) session.getAttribute("USER_INFO");
@@ -599,8 +600,8 @@ public class Work_ListController {
 	@RequestMapping("/workMemAddAjax")
 	public @ResponseBody HashMap<String, Object> workMemAddAjax(ProjectVo projectVo, Work_Mem_FlwVo work_Mem_FlwVo, String wrk_id, String user_email, Model model, HttpSession session) {
 
-		projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
 		int wrkID = Integer.parseInt(wrk_id);
+		projectVo = projectService.getPrjByWrk(wrkID);
 		
 		Work_Mem_FlwVo work_mem_flwVo = new Work_Mem_FlwVo(user_email, wrkID);
 		Work_Mem_FlwVo getMemFlw = workMemFlwService.getWorkMemFlw(work_mem_flwVo);
@@ -665,8 +666,8 @@ public class Work_ListController {
 	@RequestMapping("/workMemDelAjax")
 	public @ResponseBody HashMap<String, Object> workMemDelAjax(ProjectVo projectVo, String user_email, Work_Mem_FlwVo work_mem_flwVo, String wrk_id, Model model, HttpSession session) {
 
-		projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
 		int wrkID = Integer.parseInt(wrk_id);
+		projectVo = projectService.getPrjByWrk(wrkID);
 
 		work_mem_flwVo= new Work_Mem_FlwVo(user_email, wrkID);
 		int deleteCnt = workMemFlwService.deleteWorkMemFlw(work_mem_flwVo);
@@ -704,8 +705,8 @@ public class Work_ListController {
 	@RequestMapping("/workFlwListAjax")
 	public String workFlwListAjax(String wrk_id, Model model, HttpSession session) {
 
-		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
 		int wrkID = Integer.parseInt(wrk_id);
+		ProjectVo projectVo = projectService.getPrjByWrk(wrkID);
 		
 		// 세션에 저장된 user 정보를 가져옴
 		UserVo user = (UserVo) session.getAttribute("USER_INFO");
@@ -737,8 +738,8 @@ public class Work_ListController {
 	@RequestMapping("/workFlwAddAjax")
 	public @ResponseBody HashMap<String, Object> workFlwAddAjax(ProjectVo projectVo, Work_Mem_FlwVo work_Mem_FlwVo, String wrk_id, String user_email, Model model, HttpSession session) {
 
-		projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
 		int wrkID = Integer.parseInt(wrk_id);
+		projectVo = projectService.getPrjByWrk(wrkID);
 		
 		Work_Mem_FlwVo work_mem_flwVo = new Work_Mem_FlwVo(user_email, wrkID);
 		Work_Mem_FlwVo getMemFlw = workMemFlwService.getWorkMemFlw(work_mem_flwVo);
@@ -803,8 +804,8 @@ public class Work_ListController {
 	@RequestMapping("/workFlwDelAjax")
 	public @ResponseBody HashMap<String, Object> workFlwDelAjax(ProjectVo projectVo, String user_email, Work_Mem_FlwVo work_mem_flwVo, String wrk_id, Model model, HttpSession session) {
 
-		projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
 		int wrkID = Integer.parseInt(wrk_id);
+		projectVo = projectService.getPrjByWrk(wrkID);
 
 		work_mem_flwVo= new Work_Mem_FlwVo(user_email, wrkID);
 		int deleteCnt = workMemFlwService.deleteWorkMemFlw(work_mem_flwVo);
@@ -840,8 +841,8 @@ public class Work_ListController {
 								ProjectVo projectVo, String wrk_id, String memType, String wrk_dt,  HttpSession session) throws ParseException {
 		
 		UserVo user = (UserVo) session.getAttribute("USER_INFO");
-		projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
 		int wrkID = Integer.parseInt(wrk_id);
+		projectVo = projectService.getPrjByWrk(wrkID);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm");
 		
 		work_pushVo.setWrk_id(wrkID);

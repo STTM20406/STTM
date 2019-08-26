@@ -17,7 +17,15 @@
 	<select id="getProject" parameterType="int" resultType="projectVo">
 		SELECT * FROM PROJECT WHERE PRJ_ID = #{prj_id}
 	</select>
-
+	
+	<select id="getPrjByWrk" parameterType="int" resultType="projectVo">
+		SELECT	C.*
+		FROM	WORK A, WORK_LIST B, PROJECT C
+		WHERE	A.WRK_ID = #{wrk_id}
+		AND		A.WRK_LST_ID = B.WRK_LST_ID
+		AND		B.PRJ_ID = C.PRJ_ID
+	</select>
+	
 	<!-- 프로젝트 상태에 따라 프로젝트 리스트 조회 -->
 	<select id="projectStatusList" parameterType="map" resultType="projectVo">
 		SELECT A.PRJ_ID

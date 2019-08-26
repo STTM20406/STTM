@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.project.model.ProjectVo;
+import kr.or.ddit.project.service.IProjectService;
 import kr.or.ddit.project_mem.service.IProject_MemService;
 import kr.or.ddit.users.model.UserVo;
 import kr.or.ddit.work_comment.model.Work_CommentVo;
@@ -36,6 +37,8 @@ public class Work_CommentController {
 	@Resource(name="work_Mem_FlwService")
 	private IWork_Mem_FlwService workMemFlwService;
 	
+	@Resource(name="projectService")
+	private IProjectService projectService;
 	
 	@RequestMapping("/comment")
 	public @ResponseBody Map<String, Object> workComment(Model model,HttpSession session,String page,String pageSize,String wps_wrk_id) {
@@ -46,7 +49,7 @@ public class Work_CommentController {
 		
 		int pageStr = page == null ? 1 : Integer.parseInt(page);
 		int pageSizeStr =  pageSize == null ? 10 : Integer.parseInt(pageSize);
-		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
+		ProjectVo projectVo = projectService.getPrjByWrk(wrk_id);
 		
 		PageVo pageVo = new PageVo(pageStr,pageSizeStr);
 		pageVo.setPrj_id(projectVo.getPrj_id());
@@ -85,7 +88,7 @@ public class Work_CommentController {
 		List<Work_Mem_FlwVo> wrkFlwList = workMemFlwService.workMemFlwList(work_flwVo); 
 		
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
-		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
+		ProjectVo projectVo = projectService.getPrjByWrk(wrk_id);
 		
 		Work_CommentVo commentVo = new Work_CommentVo();
 		commentVo.setUser_email(userVo.getUser_email());
@@ -132,13 +135,13 @@ public class Work_CommentController {
 	public String commentDelete(String comm_id,Model model,String page,String pageSize,String wps_wrk_id,HttpSession session) {
 		int pageStr = page == null ? 1 : Integer.parseInt(page);
 		int pageSizeStr =  pageSize == null ? 10 : Integer.parseInt(pageSize);
-		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
 		
 		logger.debug("!@# wps_wrk_id : {}",wps_wrk_id);
 		PageVo pageVo = new PageVo(pageStr,pageSizeStr);
 		
 		int comm_idStr = Integer.parseInt(comm_id);
 		int wrk_id = Integer.parseInt(wps_wrk_id);
+		ProjectVo projectVo = projectService.getPrjByWrk(wrk_id);
 		logger.debug("!@# comm_idStr : {}",comm_idStr);
 		
 		Work_CommentVo commentVo = new Work_CommentVo();
