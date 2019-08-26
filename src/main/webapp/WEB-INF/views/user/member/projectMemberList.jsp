@@ -171,7 +171,7 @@ $(document).ready(function(){
 <%-- 												</c:when> --%>
 												
 												<c:otherwise>
-													<a href="/projectMemberList?frdRequEmail=${prjVo.user_email}" id="friendReqAtag" class="inp_style_01">친구요청</a>
+													<a href="/projectMember?frdRequEmail=${prjVo.user_email}" id="friendReqAtag" class="inp_style_01">친구요청</a>
 												</c:otherwise>
 												
 											</c:choose>	
