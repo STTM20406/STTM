@@ -11,6 +11,13 @@
 		cursor: pointer;
 	}
 	
+	.logout {
+		color: #e1e1e1;
+	}
+	
+	.logon {
+		color: #0ceb47;
+	}	
 </style>
 
 <script>
@@ -29,6 +36,41 @@ $(document).ready(function(){
 	        layer_popup($href);
 	});
 	
+	
+	socket.onmessage = function(event) {
+	      console.log("ReceiveMessage: ", event.data + "\n");
+	      var data = event.data;
+	      if(!data.startsWith("lst:")) {
+		      var $socketAlert = $('#socketAlert p');
+		      $socketAlert.text(event.data);
+		      $(".socketAlram").fadeIn(300);
+		      $(".socketAlram").animate({right:"0px"}, 500);
+		      setTimeout(function(){
+		         $(".socketAlram").fadeOut(300);
+		         $(".socketAlram").animate({right:"-350px"}, 500);
+		         
+		      },3000);
+	      } else {
+	    	  var ids = data.split("lst:")[1].split(",");
+	    	  console.log(ids);
+	     	  var prjTable = document.getElementById("prjMemTable");
+	    	  if(prjTable) {
+	     		  var prjTr = $(prjTable).find("tr");
+	    		  ids.forEach(function(id) {
+	     			  $(prjTr).each(function(){
+	     				 if($(this).data("user_email") == id) {
+	     					 $(this).find("span").prop("class", "logon");
+	     				  }
+	     			  });
+	    		  });
+	    	  } else {
+	    		  console.log("테이블 없음");
+	    	  }
+	      }
+	   };
+	   	socket.onopen = function(event) {
+			socket.send("prjMem,${USER_INFO.user_email}");
+	   	}
 });	
 
 

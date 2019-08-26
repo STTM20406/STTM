@@ -444,13 +444,15 @@ public class UserController {
 		logger.debug("memPrjIdParse : 인코딩프로젝트이름 {}",memPrjIdParse);
 		
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = userVo.getUser_email();
+		
 		ProjectVo prjVo = new ProjectVo(); 
 		prjVo.setPrj_id(memPrjIdParse);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("page", pageVo.getPage());
 		map.put("pageSize", pageVo.getPageSize());
-		map.put("user_email", userVo.getUser_email());
+		map.put("user_email", user_email);
 		map.put("user_nm", userVo.getUser_nm());
 		map.put("prj_id", prjVo.getPrj_id());
 		
@@ -468,6 +470,11 @@ public class UserController {
 		model.addAttribute("projectMemList",projectMemList);
 		model.addAttribute("paginationSize", paginationSize);
 		model.addAttribute("pageVo", pageVo);
+		
+		// 친구 요청 버튼 만들기
+		List<FriendsVo> prjMemFriList = friendsService.friendsList(user_email);
+		logger.debug("prjMemFriList : 아침 로거 {}", prjMemFriList);
+		model.addAttribute("prjMemFriList",prjMemFriList);
 		
 		return "/member/projectMemberList.user.tiles";
 	}

@@ -77,17 +77,17 @@ $(document).ready(function(){
       } else {
     	  var ids = data.split("lst:")[1].split(",");
     	  console.log(ids);
-    	  var prjTable = document.getElementById("prjMemTable");
+//     	  var prjTable = document.getElementById("prjMemTable");
     	  var fndTable = document.getElementById("friendTable");
-    	  if(prjTable && fndTable) {
-    		  var prjTr = $(prjTable).find("tr");
+    	  if(fndTable) {
+//     		  var prjTr = $(prjTable).find("tr");
     		  var fndTr = $(fndTable).find(".userTr");
     		  ids.forEach(function(id) {
-    			  $(prjTr).each(function(){
-    				 if($(this).data("user_email") == id) {
-    					 $(this).find("span").prop("class", "logon");
-    				  }
-    			  });
+//     			  $(prjTr).each(function(){
+//     				 if($(this).data("user_email") == id) {
+//     					 $(this).find("span").prop("class", "logon");
+//     				  }
+//     			  });
     			  $(fndTr).each(function() {
     				 if($(this).data("user_email") == id) {
     					 $(this).find("span").prop("class", "logon");
@@ -100,7 +100,6 @@ $(document).ready(function(){
       }
    };
    	socket.onopen = function(event) {
-		socket.send("prjMem,${USER_INFO.user_email}");
    	}
 		
 	// 프로젝트 멤버 tr클릭시 레이어창 띄우기
