@@ -238,7 +238,7 @@
 	            	(select * 
 					 from project_mem 
 					 where user_email = #{user_email}
-					 and prj_mem_lv != 'LV2') a, project_mem b, users c
+					 and prj_mem_del_fl not in 'Y') a, project_mem b, users c
 			 where b.prj_id in (a.prj_id)
 			 and c.user_email = b.user_email) a )
 		where rn >= (#{page}-1)*#{pageSize} + 1 and rn <= #{page}*#{pageSize}
@@ -254,7 +254,7 @@
             (select * 
              from project_mem 
              where user_email = #{user_email}
-             and prj_mem_lv != 'LV2') a, project_mem b, users c
+             and prj_mem_del_fl not in 'Y') a, project_mem b, users c
 	     where b.prj_id in (a.prj_id)
 	     and c.user_email = b.user_email) a 
 	</select>

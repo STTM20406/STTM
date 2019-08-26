@@ -446,15 +446,16 @@ public class UserController {
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
 		String user_email = userVo.getUser_email();
 		
-		ProjectVo prjVo = new ProjectVo(); 
-		prjVo.setPrj_id(memPrjIdParse);
+//		ProjectVo prjVo = new ProjectVo(); 
+//		prjVo.setPrj_id(memPrjIdParse);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("page", pageVo.getPage());
 		map.put("pageSize", pageVo.getPageSize());
 		map.put("user_email", user_email);
-		map.put("user_nm", userVo.getUser_nm());
-		map.put("prj_id", prjVo.getPrj_id());
+//		map.put("user_nm", userVo.getUser_nm());
+//		map.put("prj_id", prjVo.getPrj_id());
+		map.put("prj_id", memPrjIdParse);
 		
 		logger.debug("map : 맵프로젝트 {}",map);
 		
