@@ -609,23 +609,23 @@ public class File_AttchController {
 		logger.debug("♬♩♪  chatBotApi");
 		logger.debug("♬♩♪  question:{}",question);
 		
-		if(question.equals("안녕")) {
+		if(question.contains("안녕")) {
 			model.addAttribute("data", "초면에 반말이시네요....허허허");
-		}else if(question.equals("미안")) {
+		}else if(question.contains("미안")) {
 			model.addAttribute("data", "하....C 참는다..");
-		}else if(question.equals("3")) {
+		}else if(question.contains("3")) {
 			model.addAttribute("data", "음하하하");
-		}else if(question.equals("4")) {
+		}else if(question.contains("4")) {
 			model.addAttribute("data", "음하하하");
-		}else if(question.equals("5")) {
+		}else if(question.contains("5")) {
 			model.addAttribute("data", "음하하하");
-		}else if(question.equals("6")) {
+		}else if(question.contains("6")) {
 			model.addAttribute("data", "음하하하");
-		}else if(question.equals("7")) {
+		}else if(question.contains("7")) {
 			model.addAttribute("data", "음하하하");
-		}else if(question.equals("8")) {
+		}else if(question.contains("8")) {
 			model.addAttribute("data", "음하하하");
-		}else if(question.equals("9")) {
+		}else if(question.contains("9")) {
 			model.addAttribute("data", "음하하하");
 		}else {
 			model.addAttribute("data", "궁금하신 점이 없으신가요?");
