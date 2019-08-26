@@ -35,9 +35,7 @@
 <h2>${PROJECT_INFO.prj_nm } > Analysis</h2>
 <div id="prj_list_container">
 	<form id="prj_list_frm">
-		프로젝트 : <select id="prj_list" name='over_prj_id' >
-			<option>${PROJECT_INFO.prj_id }</option> <!-- 나중에 세션에 저장된 값으로 대체 -->
-		</select>
+	<input type="hidden" name="over_prj_id" value="${PROJECT_INFO.prj_id }">
 	<input type="hidden" name="user_email" value="${USER_INFO.user_email }">
 	<input type="hidden" name="wrk_dt" value="0">
 	<input type="hidden" name="wrk_is_mine" value="all">
@@ -370,7 +368,7 @@ var currPrjVo = null;
 	}
 	
 	$(function() {
-		loadPrjList();	
+// 		loadPrjList();	
 	});
 </script>
 <script>
