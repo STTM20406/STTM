@@ -1,6 +1,9 @@
 package kr.or.ddit.notification.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * 
@@ -27,6 +30,14 @@ public class NotificationVo {
 	private String not_con;     //알림 내용
 	private Date not_dt;        //알림 발생 일시
 	
+	
+	public String getNotifyDate() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		if(not_dt == null) {
+			return "";
+		}
+		return sdf.format(not_dt);
+	}
 	//기본생성자
 	public NotificationVo() {
 

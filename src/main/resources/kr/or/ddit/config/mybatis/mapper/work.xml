@@ -186,6 +186,7 @@
 		from work_comment 
 		where wrk_id = #{wrk_id}
 		and prj_id = #{prj_id}
+		and del_fl = 'N'
 	</select>
 <!-- ******************work_list**************** -->
 	

@@ -46,6 +46,14 @@
 		insert into receiver values(#{rcv_email},#{not_id})
 	</insert>
 	
+	<delete id="deleteReceiver" parameterType="int">
+		delete from receiver
+		where not_id = #{not_id}
+	</delete>
 	
+	<delete id="deleteNotification" parameterType="int">
+		delete from notification
+		where not_id = #{not_id}
+	</delete>
 	
 </mapper>
