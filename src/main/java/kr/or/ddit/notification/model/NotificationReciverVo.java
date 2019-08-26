@@ -1,5 +1,6 @@
 package kr.or.ddit.notification.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -28,6 +29,14 @@ public class NotificationReciverVo {
 	private Date not_dt;        //알림 발생 일시
 	
 	private String rcv_email;	// 수신자 이메일
+	
+	public String getNotifyDate() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		if(not_dt == null) {
+			return "";
+		}
+		return sdf.format(not_dt);
+	}
 	
 	//기본생성자
 	public NotificationReciverVo() {

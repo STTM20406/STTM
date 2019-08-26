@@ -39,4 +39,14 @@ public class NotificationDao implements INotificationDao{
 		return sqlSession.insert("notification.insertReceiver", receiverVo);
 	}
 
+	@Override
+	public int deleteReceiver(int not_id) {
+		return sqlSession.delete("notification.deleteReceiver", not_id);
+	}
+
+	@Override
+	public int deleteNotification(int not_id) {
+		return sqlSession.delete("notification.deleteNotification", not_id);
+	}
+
 }

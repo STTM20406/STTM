@@ -50,4 +50,14 @@ public class NotificationService implements INotificationService{
 		return notiDao.insertReceiver(receiverVo);
 	}
 
+	@Override
+	public int deleteReceiver(int not_id) {
+		return notiDao.deleteReceiver(not_id);
+	}
+
+	@Override
+	public int deleteNotification(int not_id) {
+		return notiDao.deleteNotification(not_id);
+	}
+
 }

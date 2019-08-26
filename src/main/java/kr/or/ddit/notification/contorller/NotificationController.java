@@ -59,4 +59,31 @@ public class NotificationController {
 		return "/notification/list.user.tiles";
 	}
 	
+	@RequestMapping("/deleteNotify")
+	public String deleteNotify(String not_id,String page,String pageSize,HttpSession session,Model model) {
+		int not_idNum = Integer.parseInt(not_id);
+		
+		int deleteReceiverCnt = notifiService.deleteReceiver(not_idNum);
+		int pageNm = page == null ? 1 : Integer.parseInt(page);
+//		int pageSizeNm = pageSize == null ? 10 : Integer.parseInt(pageSize);
+		int pageSizeNm = 10;
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		PageVo pageVo = new PageVo(pageNm, pageSizeNm);
+		pageVo.setRcv_email(userVo.getUser_email());
+		
+		Map<String, Object> resultMap = notifiService.notifiList(pageVo);
+		List<NotificationReciverVo> notifiList = (List<NotificationReciverVo>) resultMap.get("notifiList");
+		
+		int notifiPageSize = (int) resultMap.get("notifiPageSize");
+		
+		int deleteNotificationCnt = notifiService.deleteNotification(not_idNum);
+		model.addAttribute("notifiList", notifiList);
+		model.addAttribute("notifiPageSize", notifiPageSize);
+		model.addAttribute("pageVo", pageVo);
+		model.addAttribute("user_email", userVo.getUser_email());
+		
+		
+		return "jsonView";
+	}
+	
 }
