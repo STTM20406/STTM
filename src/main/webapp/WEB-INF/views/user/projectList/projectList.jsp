@@ -250,6 +250,7 @@
 						$(".prj_add_box input").css({visibility:"hidden"});
 						$(".prj_mem_add_box input").css({visibility:"hidden"});
 						$(".datepicker").css({display:"none"});
+						$("#prjLeaveBtn").prop('disabled', false);							
 					}else{
 						$(".propertySet input").prop('readonly', false);
 						$(".propertySet select").prop('disabled',false);
