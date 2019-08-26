@@ -62,6 +62,7 @@
 	.vote_item {width : 88%; height: 28px; vertical-align: middle; }
 	.vote_item span {margin-left: 5%;}
 	#tblItem, #tblItemVoted { width: 100%; border-collapse: collapse;}
+	.input-button {cursor: pointer;}
 </style>
 <!-- Include 할 부분 -->
 <div class="sub_menu">
@@ -143,7 +144,11 @@
 			<input type="hidden" name="prj_id" value="${PROJECT_INFO.prj_id }">
 			<input type="hidden" name="vote_email" value="${USER_INFO.user_email }">
 			<input type="hidden" name="vote_ano" value="Y">
-			<input type="text" id="end_dt" name="vote_end_date"> <br>
+			<div id="end_dt">
+				<input type="text" name="vote_end_date" data-input>
+				<a class="input-button" title="clear" data-clear> X</a>
+				<br>
+			</div>
 			<br>
 			<input type="button" id="newVoteSubmit" onclick="newVote()" class="btn_style_02" value="투표 등록">
 			</form>
@@ -185,7 +190,7 @@
 </section>
 
 <script>
-var cal = flatpickr("#end_dt", {"locale" : "ko", enableTime: true});
+var cal = flatpickr("#end_dt", {"locale" : "ko", enableTime: true, wrap:true});
 	$(function() {
 		var modal = document.getElementById("newVoteModal");
 		var modalMdf = document.getElementById("voteMdfModal");
@@ -398,6 +403,8 @@ var cal = flatpickr("#end_dt", {"locale" : "ko", enableTime: true});
 				
 				console.log(vote_email);
 				console.log(vote_st);
+				$("#btnCmp").css("display", "none");
+				
 				if(user_email==vote_email && "P"==vote_st && isVoted) {
 					$("#btnCmp").css("display", "inline-block");
 				} else if(isEnd){
@@ -501,15 +508,15 @@ var cal = flatpickr("#end_dt", {"locale" : "ko", enableTime: true});
 			type: 'post',
 			data: {'vote_id': vote_id},
 			success: function(data) {
+				console.log(data);
 				$("#VoteMdfContainer").html(data.html);
-				var calMdf = flatpickr("#end_dt_mdf",  {"locale" : "ko", enableTime: true, defaultDate: new Date(data.voteVo.vote_end_date)});
+				var calMdf = flatpickr("#end_dt_mdf",  {"locale" : "ko", enableTime: true, defaultDate: data.voteVo.vote_end_date == null ? null : new Date(data.voteVo.vote_end_date), wrap:true});
 			}
 		});
 	}
 	
 	function voteDtValidateMdf(vote_id, vote_end_date) {
 		var bool = null;
-		var result;
 		$.ajax({
 			url: '/checkDtMdf',
 			type: 'post',
@@ -517,7 +524,6 @@ var cal = flatpickr("#end_dt", {"locale" : "ko", enableTime: true});
 			async: false,
 			success: function(data) {
 				bool = data;
-				
 			}
 		});
 		return bool;
@@ -547,6 +553,15 @@ var cal = flatpickr("#end_dt", {"locale" : "ko", enableTime: true});
 		if(!dt_valid) {
 			alert("마감일시는 작성일시 기준 24시간 이후로만 설정할 수 있습니다.");
 			return;
+		}
+		
+		if(!(vote_end_date == "")) {
+			var end_dt = new Date(vote_end_date);
+			console.log(end_dt);
+			if(end_dt.getTime() < new Date().getTime()) {
+				alert("마감일시는 현재 시간 이후로만 설정할 수 있습니다.");
+				return;
+			}
 		}
 		
 		if(item_del) {

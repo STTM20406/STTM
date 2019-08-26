@@ -66,7 +66,8 @@ public class FilterController {
 		return filterService.ganttListJSON(filterVo);
 	}
 	@RequestMapping("/analysis/updatePrj")
-	public String updatePrj(ProjectVo prjVo) {
+	@ResponseBody
+	public ProjectVo updatePrj(ProjectVo prjVo) {
 		logger.debug("prjVo : {}", prjVo);
 		return filterService.updatePrj(prjVo);
 	}

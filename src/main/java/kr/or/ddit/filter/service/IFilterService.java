@@ -96,7 +96,7 @@ public interface IFilterService {
 	 * @return
 	 * Method 설명 : 프로젝트 개요 화면에서 날짜 변경시 DB 정보를 업데이트 하는 메서드
 	 */
-	String updatePrj(ProjectVo prjVo);
+	ProjectVo updatePrj(ProjectVo prjVo);
 	
 	/**
 	 * Method : prjList
