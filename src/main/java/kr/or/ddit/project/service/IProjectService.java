@@ -146,4 +146,14 @@ public interface IProjectService {
 	 * Method 설명 	: 프로젝트 멤버명으로 프로젝트 검색
 	 */
 	List<ProjectVo> searchProjectMem(UserVo vo);
+	
+	/**
+	 * Method : getPrjByWrk
+	 * 작성자 : 유승진
+	 * 변경이력 : 2019-08-26 최초 생성
+	 * @param wrk_id
+	 * @return
+	 * Method 설명 : 업무 아이디로 해당 업무가 포함된 프로젝트 정보를 조회하는 메서드
+	 */
+	ProjectVo getPrjByWrk(int wrk_id);
 }

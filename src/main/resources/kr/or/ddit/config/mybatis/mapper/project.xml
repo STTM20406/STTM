@@ -17,7 +17,15 @@
 	<select id="getProject" parameterType="int" resultType="projectVo">
 		SELECT * FROM PROJECT WHERE PRJ_ID = #{prj_id}
 	</select>
-
+	
+	<select id="getPrjByWrk" parameterType="int" resultType="projectVo">
+		SELECT	C.*
+		FROM	WORK A, WORK_LIST B, PROJECT C
+		WHERE	A.WRK_ID = #{wrk_id}
+		AND		A.WRK_LST_ID = B.WRK_LST_ID
+		AND		B.PRJ_ID = C.PRJ_ID
+	</select>
+	
 	<!-- 프로젝트 상태에 따라 프로젝트 리스트 조회 -->
 	<select id="projectStatusList" parameterType="map" resultType="projectVo">
 		SELECT A.PRJ_ID
@@ -80,9 +88,9 @@
 					 , A.PRJ_EXP = #{prj_exp}
 					 </if>
                      , A.PRJ_AUTH = #{prj_auth}
-					 , A.PRJ_START_DT = #{prj_start_dt}
-					 , A.PRJ_END_DT = #{prj_end_dt}
-					 , A.PRJ_CMP_DT = #{prj_cmp_dt}
+					 , A.PRJ_START_DT = #{prj_start_dt, jdbcType=DATE}
+					 , A.PRJ_END_DT = #{prj_end_dt, jdbcType=DATE}
+					 , A.PRJ_CMP_DT = #{prj_cmp_dt, jdbcType=DATE}
                      , A.PRJ_ST = #{prj_st}
                      , A.PRJ_UPDATE = SYSDATE
                      , A.DEL_FL = 'N'
@@ -343,7 +351,8 @@
 						 from
 							(select *
 			                 from project_mem
-			                 where prj_id = #{prj_id}) a )
+			                 where prj_id = #{prj_id}
+			                 and user_email not in #{user_email}) a )
 			where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
 		]]>
 	</select>
@@ -360,7 +369,8 @@
 						 from
 							(select *
 			                 from project_mem
-			                 where prj_id = #{prj_id}) a )
+			                 where prj_id = #{prj_id}
+			                 and user_email not in #{user_email}) a )
 			where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}) b
 		]]>
 	</select>

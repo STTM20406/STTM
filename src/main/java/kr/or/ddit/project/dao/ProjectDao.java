@@ -156,6 +156,9 @@ public class ProjectDao implements IProjectDao{
 	public List<ProjectVo> searchProjectMem(UserVo vo) {
 		return sqlSession.selectList("project.searchProjectMem",vo);
 	}
-
 	
+	@Override
+	public ProjectVo getPrjByWrk(int wrk_id) {
+		return sqlSession.selectOne("project.getPrjByWrk", wrk_id);
+	}
 }

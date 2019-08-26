@@ -27,12 +27,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.or.ddit.file_attch.model.File_AttchVo;
-import kr.or.ddit.file_attch.service.File_AttchService;
 import kr.or.ddit.file_attch.service.IFile_AttchService;
 import kr.or.ddit.link_attch.model.Link_attchVo;
 import kr.or.ddit.link_attch.service.ILink_attchService;
 import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.project.model.ProjectVo;
+import kr.or.ddit.project.service.IProjectService;
 import kr.or.ddit.project_mem.model.Project_MemVo;
 import kr.or.ddit.users.model.UserVo;
 import kr.or.ddit.util.PartUtil;
@@ -49,227 +49,18 @@ public class File_AttchController {
 	@Resource(name="link_attchService")
 	private ILink_attchService link_attchService;
 	
-	
-	
-	/**
-	* Method : mainFile
-	* 작성자 : PC13
-	* 변경이력 :
-	* @throws IOException
-	* Method 설명 : fileLink_List 전체 업무에 대한 파일 조회, 삭제 하는곳 pagination
-	*/
-	@RequestMapping(path="/fileList" , method=RequestMethod.GET)
-	public String fileList(Model model, PageVo pageVo) {
-		// prj_id 받아와야함
-		int prj_id = 1;
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("page", pageVo.getPage());
-		map.put("pageSize", pageVo.getPageSize());
-		map.put("prj_id", prj_id);
-
-		Map<String, Object> resultMap = file_AttchService.fPagination(map);
-		List<File_AttchVo> fileList = (List<File_AttchVo>) resultMap.get("fileList");
-		int paginationSize = (Integer) resultMap.get("paginationSize");
-		logger.debug("♬♩♪  paginationSize: {}", paginationSize);
-
-		model.addAttribute("paginationSize", paginationSize);
-		model.addAttribute("pageVo", pageVo);
-
-		model.addAttribute("fileList", fileList);
-		model.addAttribute("prj_id", prj_id);
-		
-		//삭제 구분
-		String del = "FList";
-		model.addAttribute("del", del);
-		
-		return "/main/fileLink.user.tiles";
-	}
-	
-	@RequestMapping(path="/linkList" , method=RequestMethod.GET)
-	public String LinkList(Model model, PageVo pageVo) {
-		// prj_id 받아와야함
-		
-		int prj_id = 1;
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("page", pageVo.getPage());
-		map.put("pageSize", pageVo.getPageSize());
-		map.put("prj_id", prj_id);
-
-		Map<String, Object> resultMap = link_attchService.lPagination(map);
-		List<File_AttchVo> linkList = (List<File_AttchVo>) resultMap.get("linkList");
-		int paginationSize = (Integer) resultMap.get("paginationSize");
-		model.addAttribute("paginationSize", paginationSize);
-		model.addAttribute("pageVo", pageVo);
-
-		model.addAttribute("linkList", linkList);
-		model.addAttribute("prj_id", prj_id);
-		
-		//삭제 구분
-		String del = "LList";
-		model.addAttribute("del", del);
-		
-		return "/main/fileLink.user.tiles";
-	}
-	
-////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/**
-	* Method : insertFLPost
-	* 작성자 : PC13
-	* 변경이력 ://
-	* @param fileVo
-	* @param profile
-	 * @throws IOException
-	* Method 설명 : insertFLPost 파일 추가
-	*/
-	@RequestMapping(path="/insertFilePost", method = RequestMethod.POST)
-	public String insertFLPost(@RequestPart MultipartFile[] profile, Model model, HttpSession session) {
-		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
-		int prj_id = projectVo.getPrj_id();
-
-		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
-		String user_email = userVo.getUser_email();
-		
-		int wrk_id = 110; //나중에 누나꺼랑 합치면 바꿔야합니다~
-		
-		int cnt = 0;
-		// 올릴 파일수....
-		int count = 0;
-		String db_file_nm = UUID.randomUUID().toString();
-		logger.debug("♬♩♪  insertFilePost + db_file_nm: {}", db_file_nm);
-		for (MultipartFile f : profile) {
-			if (f.getSize() > 0) {
-				count++;
-				String original_file_nm = f.getOriginalFilename();
-				String file_exts = PartUtil.getExt(original_file_nm);
-				String uploadPath = PartUtil.getUploadPath();
-				String path = uploadPath + File.separator + db_file_nm + file_exts;
-
-				int file_size = profile.length;
-				File uploadFile = new File(path);
-				// 해당 위치에 업로드
-				try {
-					// 해당 파일 지정된 경로에 업로드...
-					f.transferTo(uploadFile);
-				} catch (IllegalStateException | IOException e) {
-					e.printStackTrace();
-				}
-				File_AttchVo file_attchVo = new File_AttchVo(
-						prj_id, 
-						user_email,
-						wrk_id,
-						original_file_nm,
-						db_file_nm,
-						file_size, 
-						file_exts
-						);
-				
-				cnt += file_AttchService.insertFile(file_attchVo);
-			}
-		}
-		if (cnt == count) {
-			logger.debug("♬♩♪  업로드 완료!!!!!");
-		}
-		model.addAttribute("fileList", file_AttchService.fileList(prj_id));
-
-		return "redirect:/main/filePagingList";
-	}
+	@Resource(name="projectService")
+	private IProjectService projectService;
 	
 	/**
-	* Method : insertLinkPost
-	* 작성자 : PC13
-	* 변경이력 :
-	* @param fileVo
-	* @param profile
-	 * @throws IOException
-	* Method 설명 : insertLinkPost 링크 추가
-	*/
-	@RequestMapping(path="/insertLinkPost", method = RequestMethod.POST)
-	public String insertLinkPost(String attch_url, Model model) {
-		logger.debug("♬♩♪  attch_url: {}", attch_url);
-		int prj_id =1;
-		int wrk_id =1;
-		String user_email = "chew@naver.com";
-		
-		Link_attchVo link_attchVo = new Link_attchVo(prj_id, user_email, wrk_id, attch_url);
-		
-		link_attchService.insertLink(link_attchVo);
-		
-		model.addAttribute("linkList", link_attchService.linkList(1));
-		return "redirect:/main/linkPagingList";
-	}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//등록할때의 Pagination
-	
-	/**
-	* Method : filePagingList
-	* 작성자 : PC13
-	* 변경이력 :
-	* @param PageVo pageVo, int board_id, Model model
-	* @param PageVo pageVo, int board_id, Model model
-	 * @throws IOException
-	* Method 설명 : filePagingList pagination
-	*/
-	@RequestMapping(path = "/filePagingList", method = RequestMethod.GET)
-	public String filePagingList(PageVo pageVo,  Model model) {
-		int wrk_id = 1;
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("page", pageVo.getPage());
-		map.put("pageSize", pageVo.getPageSize());
-		map.put("wrk_id", wrk_id);
-		
-		Map<String, Object> resultMap = file_AttchService.insertFPagination(map);
-		List<File_AttchVo> fileList = (List<File_AttchVo>) resultMap.get("fileList");
-		int paginationSize = (Integer) resultMap.get("paginationSize");
-		logger.debug("♬♩♪  paginationSize: {}", paginationSize);
-
-		model.addAttribute("paginationSize", paginationSize);
-		model.addAttribute("pageVo", pageVo);
-
-		model.addAttribute("fileList", fileList);
-		model.addAttribute("wrk_id", wrk_id);
-		
-		//삭제 구분
-		String del = "FIList";
-		model.addAttribute("del", del);
-		return "/propertySet/setWorkFile.user.tiles";
-	}
-	
-	/**
-	* Method : LinkPagingList
-	* 작성자 : PC13
-	* 변경이력 :
-	* @param PageVo pageVo, int board_id, Model model
-	* @param PageVo pageVo, int board_id, Model model
-	 * @throws IOException
-	* Method 설명 : LinkPagingList pagination
-	*/
-	@RequestMapping(path = "/linkPagingList", method = RequestMethod.GET)
-	public String linkPagingList(PageVo pageVo,  Model model) {
-		int wrk_id = 1;
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("page", pageVo.getPage());
-		map.put("pageSize", pageVo.getPageSize());
-		map.put("wrk_id", wrk_id);
-
-		Map<String, Object> resultMap = link_attchService.insertLPagination(map);
-		List<Link_attchVo> linkList = (List<Link_attchVo>) resultMap.get("linkList");
-		int paginationSize = (Integer) resultMap.get("paginationSize");
-		model.addAttribute("paginationSize", paginationSize);
-		model.addAttribute("pageVo", pageVo);
-
-		model.addAttribute("linkList", linkList);
-		model.addAttribute("wrk_id", wrk_id);
-		
-		String del = "LIList";
-		model.addAttribute("del", del);
-		return "/propertySet/setWorkFile.user.tiles";
-	}
-
+	 * Method 		: fileDownLoad
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-26 최초 생성
+	 * @param file_id
+	 * @param request
+	 * @param response
+	 * Method 설명 	: 파일 다운로드 처리!
+	 */
 	@RequestMapping(path = "/fileDownLoad", method = RequestMethod.GET)
 	public void fileDownLoad(int file_id, HttpServletRequest request, HttpServletResponse response) {
 		file_id = Integer.parseInt(request.getParameter("file_id"));
@@ -402,11 +193,6 @@ public class File_AttchController {
 		
 		int paginationSize = (Integer) resultMap.get("paginationSize");
 		
-//		model.addAttribute("paginationSize", paginationSize);
-//		model.addAttribute("pageVo", pageVo);
-//
-//		model.addAttribute("publicFileList", publicFileList);
-//		model.addAttribute("prj_id", prj_id);
 		//테스트
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
 		String user_email = userVo.getUser_email();
@@ -428,10 +214,7 @@ public class File_AttchController {
 		hashmap.put("LV", file_AttchService.selectLV(project_MemVo));
 		
 		return hashmap;
-		
 	}
-	
-	//file, link 삭제
 	
 	// 파일링크 리스트 보여주는 페이지, 등록하는 페이지에서의 삭제 처리
 	@RequestMapping("/updateFile")
@@ -454,12 +237,6 @@ public class File_AttchController {
 		List<File_AttchVo> publicFileList = (List<File_AttchVo>) resultMap.get("publicFileList");
 		
 		int paginationSize = (Integer) resultMap.get("paginationSize");
-		
-//		model.addAttribute("paginationSize", paginationSize);
-//		model.addAttribute("pageVo", pageVo);
-//
-//		model.addAttribute("publicFileList", publicFileList);
-//		model.addAttribute("prj_id", prj_id);
 		
 		HashMap<String, Object> hashmap = new HashMap<String, Object>();
 		hashmap.put("paginationSize", paginationSize);
@@ -498,6 +275,7 @@ public class File_AttchController {
 		
 		return hashmap;
 	}
+	//공용보관함입니다.//공용보관함입니다.//공용보관함입니다.//공용보관함입니다.//공용보관함입니다.//공용보관함입니다.//공용보관함입니다.//공용보관함입니다.
 	
 	//개인보관함입니다.//개인보관함입니다.//개인보관함입니다.//개인보관함입니다.//개인보관함입니다.//개인보관함입니다.//개인보관함입니다.//개인보관함입니다.//개인보관함입니다.//개인보관함입니다.//개인보관함입니다.//개인보관함입니다.
 	@RequestMapping("/individualBox")
@@ -582,7 +360,11 @@ public class File_AttchController {
 			hashmap.put("individualList", individualList);
 			return hashmap;
 	}
+	//개인보관함입니다.//개인보관함입니다.//개인보관함입니다.//개인보관함입니다.//개인보관함입니다.//개인보관함입니다.//개인보관함입니다.//개인보관함입니다.//개인보관함입니다.//
+	
 
+	
+	//특정업무에서 파일, 링크 등록할때//특정업무에서 파일, 링크 등록할때//특정업무에서 파일, 링크 등록할때//특정업무에서 파일, 링크 등록할때//특정업무에서 파일, 링크 등록할때
 	//workFilePagination
 	@RequestMapping("/workFilePagination")
 	public  @ResponseBody HashMap<String, Object> workFilePagination(HttpSession session, Model model, PageVo pageVo, int wrk_id) {
@@ -702,7 +484,7 @@ public class File_AttchController {
 	public @ResponseBody HashMap<String, Object> workFileUpload(HttpSession session, Model model, PageVo pageVo, String locker,
 			@RequestPart MultipartFile profile, int wrk_id) {
 		
-		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
+		ProjectVo projectVo = projectService.getPrjByWrk(wrk_id);
 		int prj_id = projectVo.getPrj_id();
 		
 		logger.debug("♬♩♪  wrk_id: {}", wrk_id);
@@ -786,7 +568,7 @@ public class File_AttchController {
 		
 		logger.debug("♬♩♪  여기는 workLinkUpload insert하는곳");
 		
-		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
+		ProjectVo projectVo = projectService.getPrjByWrk(wrk_id);
 		int prj_id = projectVo.getPrj_id();
 		
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
@@ -819,30 +601,32 @@ public class File_AttchController {
 		
 		return hashmap;
 	}
+	//특정업무에서 파일, 링크 등록할때//특정업무에서 파일, 링크 등록할때//특정업무에서 파일, 링크 등록할때//특정업무에서 파일, 링크 등록할때//특정업무에서 파일, 링크 등록할때
 	
-	/////////////////////////////////////////////////////////////////////////////////////////////////////chatBotApi
+	
+	//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi
 	@RequestMapping("/chatBotApi")
 	String chatBotApi(Model model, String question) {
 		logger.debug("♬♩♪  chatBotApi");
 		logger.debug("♬♩♪  question:{}",question);
 		
-		if(question.equals("안녕")) {
+		if(question.contains("안녕")) {
 			model.addAttribute("data", "초면에 반말이시네요....허허허");
-		}else if(question.equals("미안")) {
+		}else if(question.contains("미안")) {
 			model.addAttribute("data", "하....C 참는다..");
-		}else if(question.equals("3")) {
+		}else if(question.contains("3")) {
 			model.addAttribute("data", "음하하하");
-		}else if(question.equals("4")) {
+		}else if(question.contains("4")) {
 			model.addAttribute("data", "음하하하");
-		}else if(question.equals("5")) {
+		}else if(question.contains("5")) {
 			model.addAttribute("data", "음하하하");
-		}else if(question.equals("6")) {
+		}else if(question.contains("6")) {
 			model.addAttribute("data", "음하하하");
-		}else if(question.equals("7")) {
+		}else if(question.contains("7")) {
 			model.addAttribute("data", "음하하하");
-		}else if(question.equals("8")) {
+		}else if(question.contains("8")) {
 			model.addAttribute("data", "음하하하");
-		}else if(question.equals("9")) {
+		}else if(question.contains("9")) {
 			model.addAttribute("data", "음하하하");
 		}else {
 			model.addAttribute("data", "궁금하신 점이 없으신가요?");
@@ -851,8 +635,7 @@ public class File_AttchController {
 		return "jsonView";
 	}
 	
-	
-	
+	//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi
 	
 	
 	

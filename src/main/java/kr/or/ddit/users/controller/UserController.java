@@ -426,7 +426,7 @@ public class UserController {
 	
 	/**
 	 * 
-	* Method : dsfas
+	* Method : projectMemberList
 	* 작성자 : 김경호
 	* 변경이력 : 2019-08-23
 	* @param session
@@ -435,7 +435,7 @@ public class UserController {
 	* Method 설명 : 멤버 탭에서 프로젝트 이름을 클릭 했을 떄 해당 프로젝트 멤버를 페이징 리스트로 보여준다.
 	 */
 	@RequestMapping(path = "/projectMemberList", method = RequestMethod.GET)
-	public String dsfas(HttpSession session, Model model, PageVo pageVo, String memPrjId) {
+	public String projectMemberList(HttpSession session, Model model, PageVo pageVo, String memPrjId) {
 		
 		logger.debug("memPrjId : 프로젝트이름 {}",memPrjId);
 		
@@ -669,6 +669,94 @@ public class UserController {
 	
 	/**
 	 * 
+	* Method : admSearchUserInfo
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-05
+	* @param model
+	* @param searchText
+	* @param selectBoxText
+	* @param session
+	* @param page
+	* @param pageSize
+	* @return
+	* Method 설명 : 관리자가 이메일,이름,전화번호로 회원을 검색하여 페이징 리스트로 보여줌
+	 */
+	@RequestMapping(path = "/admUserInfoSearch",method = RequestMethod.GET)
+	public String admSearchUserInfo
+					(Model model, String keyword, String selectBoxText,HttpSession session
+					,@RequestParam(name = "page", defaultValue = "1")int page
+					,@RequestParam(name = "pageSize", defaultValue = "10")int pageSize) {
+		
+		PageVo pageVo = new PageVo(page, pageSize);
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+//		String user_email = userVo.getUser_email();
+//		String user_email = keyword;
+		
+		Map<String, Object> search = new HashMap<String, Object>();
+		
+		search.put("user_email", keyword);
+		
+		search.put("page", page);
+		search.put("pageSize", pageSize);
+		
+		search.put("user_nm", keyword);
+		search.put("user_hp", keyword);
+		
+		logger.debug("search : 이거 찍자 {}",search);
+		
+		logger.debug("searchText : {}",keyword);
+		logger.debug("page : {}",page);
+		logger.debug("pageSize : {}",pageSize);
+		logger.debug("selectBoxText : {}",selectBoxText);
+		
+		if(selectBoxText.equals("userEmail")) {
+			Map<String, Object> resultMap = userService.userSearchByEmail(search);
+			
+			logger.debug("resultMap 오후 로거 테스트 : {}",resultMap);
+			
+			List<UserVo> userEmailSearchList = (List<UserVo>) resultMap.get("admSearchEmailList");
+			
+			logger.debug("userEmailSearchList 오후 로거 테스트 : {}",userEmailSearchList);
+			
+			int paginationSize = (Integer) resultMap.get("paginationSize");
+			
+			logger.debug("paginationSize 오후 로거 테스트 : {}",paginationSize);
+			
+			model.addAttribute("userList" , userEmailSearchList);
+			model.addAttribute("paginationSize", paginationSize);
+			model.addAttribute("pageVo", pageVo);
+			
+		}
+		else if(selectBoxText.equals("userNm")) {
+			
+			Map<String, Object> resultMap = userService.userSearchByName(search);
+			logger.debug("resultMap : 이름로거 {}",resultMap);
+			
+			List<UserVo> userNmSearchList = (List<UserVo>) resultMap.get("admSearchNameList");
+			logger.debug("userNmSearchList : 이름로거2 {}",userNmSearchList);
+			
+			int paginationSize = (Integer) resultMap.get("paginationSize");
+			
+			model.addAttribute("userList", userNmSearchList);
+			model.addAttribute("paginationSize", paginationSize);
+			model.addAttribute("pageVo", pageVo);
+		
+		}else if(selectBoxText.equals("userHp")) {
+			
+			Map<String, Object> resultMap = userService.userSearchByHp(search);
+			List<UserVo> userHpSearchList = (List<UserVo>) resultMap.get("admSearchHpList");
+			int paginationSize = (Integer) resultMap.get("paginationSize");
+			
+			model.addAttribute("userList", userHpSearchList);
+			model.addAttribute("paginationSize", paginationSize);
+			model.addAttribute("pageVo", pageVo);
+			
+		}
+		return "/member/memberList.adm.tiles";
+	}
+	
+	/**
+	 * 
 	* Method : insertUser
 	* 작성자 : 김경호
 	* 변경이력 : 2019-08-01
@@ -765,84 +853,4 @@ public class UserController {
 		return "/member/memberUpdate.adm.tiles";
 	}
 	
-	/**
-	 * 
-	* Method : admSearchUserInfo
-	* 작성자 : 김경호
-	* 변경이력 : 2019-08-05
-	* @param model
-	* @param searchText
-	* @param selectBoxText
-	* @param session
-	* @param page
-	* @param pageSize
-	* @return
-	* Method 설명 : 관리자가 이메일,이름,전화번호로 회원을 검색하여 페이징 리스트로 보여줌
-	 */
-	@RequestMapping(path = "/admUserInfoSearch",method = RequestMethod.GET)
-	public String admSearchUserInfo
-					(Model model, String keyword, String selectBoxText,HttpSession session
-					,@RequestParam(name = "page", defaultValue = "1")int page
-					,@RequestParam(name = "pageSize", defaultValue = "10")int pageSize) {
-		
-		PageVo pageVo = new PageVo(page, pageSize);
-		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
-//		String user_email = userVo.getUser_email();
-//		String user_email = keyword;
-		
-		Map<String, Object> search = new HashMap<String, Object>();
-		
-		search.put("user_email", keyword);
-		
-		search.put("page", page);
-		search.put("pageSize", pageSize);
-		
-//		search.put("user_email", userVo.getUser_email());
-//		search.put("user_email", user_email);
-		
-		logger.debug("searchText : {}",keyword);
-		logger.debug("page : {}",page);
-		logger.debug("pageSize : {}",pageSize);
-//		logger.debug("user_email : {}",user_email);
-		
-		logger.debug("selectBoxText : {}",selectBoxText);
-		
-		if(selectBoxText.equals("userEmail")) {
-			Map<String, Object> resultMap = userService.userSearchByEmail(search);
-			
-			logger.debug("resultMap 오후 로거 테스트 : {}",resultMap);
-			
-			List<UserVo> userEmailSearchList = (List<UserVo>) resultMap.get("admSearchEmailList");
-			
-			logger.debug("userEmailSearchList 오후 로거 테스트 : {}",userEmailSearchList);
-			
-			int paginationSize = (Integer) resultMap.get("paginationSize");
-			
-			logger.debug("paginationSize 오후 로거 테스트 : {}",paginationSize);
-			
-			model.addAttribute("userList" , userEmailSearchList);
-			model.addAttribute("paginationSize", paginationSize);
-			model.addAttribute("pageVo", pageVo);
-			
-		}
-		else if(selectBoxText.equals("userNm")) {
-			Map<String, Object> resultMap = userService.userSearchByName(search);
-			List<UserVo> userNmSearchList = (List<UserVo>) resultMap.get("admSearchNameList");
-			int paginationSize = (Integer) resultMap.get("paginationSize");
-			
-			model.addAttribute("userNmSearchList", userNmSearchList);
-			model.addAttribute("paginationSize", paginationSize);
-			model.addAttribute("pageVo", pageVo);
-		}else if(selectBoxText.equals("userHp")) {
-			Map<String, Object> resultMap = userService.userSearchByHp(search);
-			List<UserVo> userHpSearchList = (List<UserVo>) resultMap.get("admSearchHpList");
-			int paginationSize = (Integer) resultMap.get("paginationSize");
-			
-			model.addAttribute("userHpSearchList", userHpSearchList);
-			model.addAttribute("paginationSize", paginationSize);
-			model.addAttribute("pageVo", pageVo);
-		}
-		return "/member/memberList.adm.tiles";
-	}
-
 }

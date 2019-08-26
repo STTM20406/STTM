@@ -139,6 +139,8 @@ var madeChart = null;
 var followChart = null;
 var listChart = null;
 var progressChart = null;
+var currPrjVo = null;
+
 	function loadPrjList() {
 		var user_email = $("#prj_list_frm input[name=user_email]").val();
 		$.ajax({
@@ -216,6 +218,8 @@ var progressChart = null;
 				
 				var prjVo = data.result.prjVo;
 				setPrjDates(prjVo);
+				
+				currPrjVo = prjVo;
 				var cnt = data.result.cnt;
 				setCnts(cnt);
 				
@@ -360,7 +364,7 @@ var progressChart = null;
 			type: 'post',
 			data: prjVo,
 			success: function(data){
-				console.log(data);
+				currPrjVo = data;
 			}
 		});
 	}
@@ -374,9 +378,16 @@ $(function() {
 	cal = flatpickr(".dt", {"locale" : "ko", wrap: true}); // 한국어 설정
 	
 	$(".dt input").on("change", function() {
-		setElapDay();
-		setRemainDay();
-		updatePrj();
+		// 체크해야할 경우의 수
+		// 1. 시작일이 마감일보다 나중
+		// 2. 완료일이 시작일보다 이전
+		var valid = validateDt();
+		console.log(valid);
+		if(valid) {
+			setElapDay();
+			setRemainDay();
+			updatePrj();
+		}
 	});
 	$("#prj_list_container").on("change", "#prj_list", function() {
 		var serial = $("#prj_list_frm").serialize();
@@ -386,4 +397,45 @@ $(function() {
 	console.log(serial);
 	loadPrjOverview(serial);
 });
+function validateDt() {
+	var valid = true;
+	
+	if(currPrjVo)
+		console.log(currPrjVo);
+		
+	var cal_st = cal[0];
+	var cal_ed = cal[1];
+	var cal_cmp = cal[2];
+	
+	var prj_st_dt = cal_st.selectedDates[0];
+	var prj_ed_dt = cal_ed.selectedDates[0];
+	var prj_cmp_dt = cal_cmp.selectedDates[0];
+	
+	if(prj_st_dt)
+		var st_dt = prj_st_dt.getTime();
+	if(prj_ed_dt)
+		var ed_dt = prj_ed_dt.getTime();
+	if(prj_cmp_dt)
+		var cmp_dt = prj_cmp_dt.getTime();
+	
+	if(prj_st_dt && prj_cmp_dt ) {
+		if(st_dt > cmp_dt ) {
+			valid = false;
+			alert("완료일은 시작일 이전으로 설정할 수 없습니다.");
+			cal_st.setDate(currPrjVo.prj_start_dt);
+			cal_cmp.setDate(currPrjVo.prj_cmp_dt);
+		}
+	}
+	
+	if(prj_st_dt && prj_ed_dt) {
+		if(st_dt > ed_dt) {
+			valid = false;
+			alert("시작일은 마감일 이전으로 설정할 수 없습니다.");
+			cal_st.setDate(currPrjVo.prj_start_dt);
+			cal_ed.setDate(currPrjVo.prj_end_dt);
+		}
+	}
+	
+	return valid;
+}
 </script>

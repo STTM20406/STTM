@@ -163,5 +163,9 @@ public class ProjectService implements IProjectService{
 	public List<ProjectVo> searchProjectMem(UserVo vo) {
 		return projectDao.searchProjectMem(vo);
 	}
-
+	
+	@Override
+	public ProjectVo getPrjByWrk(int wrk_id) {
+		return projectDao.getPrjByWrk(wrk_id);
+	}
 }

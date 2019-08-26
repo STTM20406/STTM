@@ -1,9 +1,9 @@
 package kr.or.ddit.work.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import kr.or.ddit.work.model.WorkVo;
-import kr.or.ddit.work_mem_flw.model.Work_Mem_FlwVo;
 
 public interface IWorkDao {
 	/**
@@ -74,7 +74,15 @@ public interface IWorkDao {
 	 */
 	WorkVo getWorkInfo(int wrk_id);
 	
-	
+	/**
+	 * Method : getWorkInfo
+	 * 작성자 : 유승진
+	 * 변경이력 : 2019-08-26 최초 생성
+	 * @param params
+	 * @return
+	 * Method 설명 : 업무 아이디와 사용자 이메일로 업무 정보 조회
+	 */
+	WorkVo getWorkInfo(Map<String, Object> params);
 	/**
 	 * 
 	 * Method 			: updateWorkCmp

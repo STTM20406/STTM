@@ -314,7 +314,7 @@ $(document).ready(function(){
    });
    
    //화상회의생성 이전 버튼 클릭시
-   $("#prj_btn_prev").on("click", function(){
+   $("#hchat_btn_prev").on("click", function(){
       $(".new_proejct").animate({left:'0%'}, 500);
       $(".select_template").animate({left:'100%'}, 500);
       
@@ -488,13 +488,16 @@ window.onclick = function(event) {
    
    //화상회의값 보내기 - 선택한멤버리스트 함께 넘기기
    function faceBtnSubmit(){
-      var memArray = [];
-      $("input[name=projectRadio]:checked").each(function(){
+      var memArray = new Array();
+      
+      $("input:checkbox[name=hfriend]:checked").each(function(){
          memArray.push($(this).val());
       });
-      var a = $("#memList1").val(memArray);
       
-      $("#prj_insert").submit();
+      console.log("memArray " + memArray);
+      var a = $("#hChatMemList").val(memArray);
+      
+     // $("#headerChatSend").submit();
    }
 </script>
 
@@ -539,7 +542,7 @@ window.onclick = function(event) {
          <div class="hd_sch_wr">
             <fieldset id="hd_sch">
                <legend>사이트 내 전체검색</legend>
-               <form id="searchFrm" action="/project/headerSearch" method="get">
+               <form id="searchFrm" action="#" method="get">
                   <select id="headerSearch" name="headerSearch">
                      <option value="1">업무리스트</option>
                      <option value="2">업무명</option>
@@ -624,6 +627,7 @@ window.onclick = function(event) {
                   </div>
                </div>
                <div class="select_template">
+               	  <input type="hidden" id="hChatMemList">
                   <h2>화상회의방 멤버 선택</h2>
                   <ul>
                      <li><label for="prj_mem">멤버 선택</label>
@@ -633,8 +637,8 @@ window.onclick = function(event) {
                            </div></li>
                   </ul>
                   <div class="prj_btn">
-                     <a href="javascript:;" id="prj_btn_prev">뒤로</a> <input
-                        type="button" onclick="faceBtnSubmit();" value="프로젝트 만들기">
+                     <a href="javascript:;" id="hchat_btn_prev">뒤로</a> <input
+                        type="button" onclick="faceBtnSubmit();" value="알림 보내기">
                   </div>
                </div>
             </form>

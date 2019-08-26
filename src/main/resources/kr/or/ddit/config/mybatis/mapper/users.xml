@@ -117,7 +117,7 @@
 		from
 		(select a.*
 		from users a
-		where user_email like '%'||#{user_nm}||'%') a)
+		where user_nm like '%'||#{user_nm}||'%') a)
 		where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
 	]]>
 </select>
@@ -126,7 +126,7 @@
 <select id="userSearchByNameCnt" parameterType="map" resultType="int">
 	select count(*)
 	from users
-	where user_email like '%'||#{user_nm}||'%'
+	where user_nm like '%'||#{user_nm}||'%'
 </select>
 <!-- 관리자가 회원 리스트를 회원의 전화번호로 검색 후 페이징 리스트 조회 -->
 <select id="userSearchByHp" parameterType="map" resultType="userVo">
@@ -137,7 +137,7 @@
 		from
 		(select a.*
 		from users a
-		where user_email like '%'||#{user_hp}||'%') a)
+		where user_hp like '%'||#{user_hp}||'%') a)
 		where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
 	]]>
 </select>
@@ -145,7 +145,7 @@
 <select id="userSearchByHpCnt" parameterType="map" resultType="int">
 	select count(*)
 	from users
-	where user_email like '%'||#{user_hp}||'%'#{user_hp}||'%'
+		where user_hp like '%'||#{user_hp}||'%'
 </select>
 
 <!-- ******************* count_notify ******************* -->

@@ -291,7 +291,12 @@ public class VoteService implements IVoteService{
 		sb.append("<input type='hidden' name='vote_email' value='"+ voteVo.getVote_email() +"'>");
 		sb.append("<input type='hidden' name='vote_id' value='"+ vote_id +"'>");
 		sb.append("<input type='hidden' name='vote_ano' value='Y'>");
-		sb.append("<input type='text' id='end_dt_mdf' name='vote_end_date'> <br>");
+		
+		sb.append("<div id='end_dt_mdf'>");
+		sb.append("<input type='text' name='vote_end_date' data-input>");
+		sb.append("<a class=\"input-button\" title=\"clear\" data-clear> X</a>");
+		sb.append("<br>");
+		sb.append("</div>");
 		sb.append("<br>");
 		sb.append("<input type='button' id='voteMdfSubmit' onclick='voteMdf()' class='btn_style_02' value='투표 등록'>");
 		sb.append("</form>");

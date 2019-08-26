@@ -347,7 +347,7 @@ function requestedFriendsList() {
 						</c:when>
 						<c:otherwise>
 <%-- 							<a href="${cp}/friendsSearchList?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a> --%>
-							<a href="${cp}/projectMemberList?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a>
+							<a href="${cp}/projectMember?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a>
 						
 						</c:otherwise>
 					</c:choose>
@@ -359,7 +359,7 @@ function requestedFriendsList() {
 							</c:when>
 							<c:otherwise>
 <%-- 								<a href="${cp}/friendsSearchList?page=${i}&pageSize=${pageVo.pageSize}">${i}</a> --%>
-								<a href="${cp}/projectMemberList?page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
+								<a href="${cp}/projectMember?page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
 							</c:otherwise>
 						</c:choose>
 		
@@ -372,7 +372,7 @@ function requestedFriendsList() {
 						
 						<c:otherwise>
 <%-- 							<a href="${cp}/friendsSearchList?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a> --%>
-							<a href="${cp}/projectMemberList?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
+							<a href="${cp}/projectMember?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
 						</c:otherwise>
 					</c:choose>
 			
@@ -405,12 +405,12 @@ function requestedFriendsList() {
 												<td>
 <!-- 													<input id="btnAcceptReq" type="button" class="inp_style_01" value="수락"> -->
 <%-- 													<input type="hidden" id="acceptEmail" value="${friReqList.user_email}"> --%>
-													<a href="/projectMemberList?acceptEmail=${friReqList.user_email}" class="a_style_01">수락</a>
+													<a href="/projectMember?acceptEmail=${friReqList.user_email}" class="a_style_01">수락</a>
 												</td>
 												<td>
 <!-- 													<input id="btnDenyReq" type="button" class="inp_style_04" value="거절"> -->
 <%-- 													<input type="hidden" id="denyEmail" value="${friReqList.user_email}"> --%>
-													<a href="/projectMemberList?denyEmail=${friReqList.user_email}" class="a_style_04">거절</a>
+													<a href="/projectMember?denyEmail=${friReqList.user_email}" class="a_style_04">거절</a>
 												</td>
 											</tr>
 											

@@ -19,6 +19,7 @@ public interface INotificationDao {
 	
 	int insertReceiver(ReceiverVo receiverVo);
 	
+	int deleteReceiver(int not_id);
 	
-	
+	int deleteNotification(int not_id);
 }
