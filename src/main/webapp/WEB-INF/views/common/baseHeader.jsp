@@ -446,7 +446,6 @@ $(document).ready(function(){
 					html += "<tr>";
 					html += "<td>" + item.rn + "</td>";
 					html += "<td id='" + item.ct_id + "' class='hroomNm'" + " onclick='headerChatRoomClick("+item.ct_id+")'>" + item.ct_nm + "</td>";
-					//html += "<td><input type='radio' name='hroom' value='" + item.rn + "'>" + item.user_nm + "</td>";
 					html += "</tr>";
 				});	
 				
@@ -851,7 +850,7 @@ window.onclick = function(event) {
                            <div class="prj_mem_list">
                               <select id="headerSelectProject" name="headerSelectProject">
                                  <c:forEach items="${headerProjectList}" var="hproject" varStatus="status">
-                                    <option class="checkSelect" value="${hproject.prj_id}">${hproject.prj_id} ${ hproject.prj_nm }</option>
+                                    <option class="checkSelect" value="${hproject.prj_id}"> ${ hproject.prj_nm }</option>
                                     
                                  </c:forEach>
                               </select>
@@ -860,9 +859,9 @@ window.onclick = function(event) {
                   </ul>
                   
                   <h2>화상회의방 참여하기</h2>
-                  <li><a href="#" id = "hfaceBtn">화상 회의</a></li>
+                  <a href="#" id = "hfaceBtn">화상 회의</a>
                   <div class="prj_btn">
-                     <a href="javascript:;" id="headerChat_btn_next">다음 : 템플릿 선택</a>
+                     <a href="javascript:;" id="headerChat_btn_next">다음</a>
                   </div>
                </div>
                <div class="select_template">
