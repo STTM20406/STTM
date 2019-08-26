@@ -58,6 +58,81 @@ public class Chat_RoomController {
 	@Resource(name="projectService")
 	private IProjectService projectService;
 	
+	//헤더에 채팅방 리스트 출력
+	@RequestMapping(path="/headerChatRoomAjax")
+	public String headerChatRoom(Model model, HttpSession session, String menu) {
+		
+		UserVo user = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = user.getUser_email();
+		List<Chat_RoomVo> roomList = new ArrayList<Chat_RoomVo>();
+		if(menu.equals("original")) {
+			roomList = roomService.getRoomList(user_email);
+			
+			
+		}else if(menu.equals("project")) {
+			roomList = roomService.getRoomListProject(user_email);
+			
+			
+		}
+		
+		model.addAttribute("data",roomList);
+		return "jsonView";
+	}
+	
+	
+	//헤더에 채티방의  멤버 보이기
+	@RequestMapping(path="/headerChatStartMemAjax")
+	public String headerChatMemStart(Model model, HttpServletRequest req, String ct_id) {
+		
+		UserVo user = (UserVo) req.getSession().getAttribute("USER_INFO");
+		String user_email = user.getUser_email();
+		
+		logger.debug("********friendChat UserVo : {}",user);
+		int Ict_id = Integer.parseInt(ct_id);
+		
+		
+		List<String> friendList = memService.roomFriendList(Ict_id);
+		model.addAttribute("data",friendList);
+		
+		return "jsonView";
+	}
+	
+	//헤더에 채팅방의 내용 보이기
+	@RequestMapping(path="/headerChatStartContentAjax")
+	public String headerChatContentStart(Model model, HttpServletRequest req, String ct_id) {
+		int Ict_id = Integer.parseInt(ct_id);
+		
+		// 채팅방 대화 내용 리스트 (채팅방별 대화 리스트)
+		List<ChatParticipateUserVo> chatroomContentList = contentService.chatroomContentList(Ict_id);
+		
+		Date from = new Date();
+		SimpleDateFormat transFormat = new SimpleDateFormat("yy/MM/dd HH:mm");
+
+		for(int i=0;i<chatroomContentList.size();i++) {
+			
+			from = chatroomContentList.get(i).getCh_msg_dt();
+			chatroomContentList.get(i).setCh_msg_dtString(transFormat.format(from));
+		}
+		
+		
+		model.addAttribute("data",chatroomContentList);
+		
+		return "jsonView";
+	}
+	
+	//헤더에 채팅방의 내용 보이기
+	@RequestMapping(path="/headerChatStartNameAjax")
+	public String headerChatStartNameAjax(Model model, HttpServletRequest req, String ct_id) {
+		
+		int Ict_id = Integer.parseInt(ct_id);
+		Chat_RoomVo nowWhereRoom = roomService.nowWhereRoom(Ict_id);
+		String roomNm = nowWhereRoom.getCt_nm();
+		
+		model.addAttribute("data",roomNm);
+		return "jsonView";
+	}
+	
+	
 	
 	@RequestMapping(path="/projectChatList")
 	public String projectChatList(String page, String pageSize,Model model, HttpSession session) {
