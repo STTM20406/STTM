@@ -139,7 +139,7 @@
 			<li><a href="/notification" id="aTagCountReset">NOTIFY<span id="spanCountReset">${USER_INFO.count_notify }</span></a></li>
 			<li><a href="/overview/analysis">WORK LIST</a></li>
 			<li><a href="/project/list">PROJECT LIST</a></li>
-			<li><a href="/projectMember">MEMBER</a></li>
+			<li><a href="/projectList">MEMBER</a></li>
 			<li><a href="/friendChatList">CHATTING</a></li>
 			<li><a href="/userInquiry">INQUERY</a></li>
 			<c:forEach items="${userBoardListY }" var = "board">
