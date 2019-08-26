@@ -578,7 +578,7 @@ function connectNotify(){
 
    };
 
-   socket.onmessage = function(event) {
+   socket.onmessage = function(event) { //알림메세지 보내기@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	   
 	  //알림인지 채팅인지 구분 
 	  var distinguish = $("#distinguishSocket").val(); 
