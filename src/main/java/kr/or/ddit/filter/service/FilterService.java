@@ -1181,7 +1181,7 @@ public class FilterService implements IFilterService{
 		return resultMap;
 	}
 	@Override
-	public String updatePrj(ProjectVo prjVo) {
+	public ProjectVo updatePrj(ProjectVo prjVo) {
 		ProjectVo projectVo = projectService.getProject(prjVo.getPrj_id());
 		logger.debug("projectVo 변경 전 : {}", projectVo);
 		
@@ -1192,14 +1192,12 @@ public class FilterService implements IFilterService{
 		logger.debug("projectVo 변경 후 : {}", projectVo);
 		
 		int cnt = projectService.updateAllProject(projectVo);
-		String result = "";
 		
+		ProjectVo newPrjVo = projectService.getProject(prjVo.getPrj_id());
 		if(cnt==1)
-			result = "OK";
+			return newPrjVo;
 		else 
-			result = "ERROR";
-		
-		return result;
+			return null;
 	}
 	/**
 	 * Method : getWrkgradePnt
