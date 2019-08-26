@@ -42,7 +42,8 @@ public class NotificationController {
 		logger.debug("!@# USER_INFO : {}@@@@@@@@@@@@@@@@@@@@@@@@@", userVo);
 		
 		int pageNm = page == null ? 1 : Integer.parseInt(page);
-		int pageSizeNm = pageSize == null ? 10 : Integer.parseInt(pageSize);
+//		int pageSizeNm = pageSize == null ? 10 : Integer.parseInt(pageSize);
+		int pageSizeNm = 10;
 		
 		PageVo pageVo = new PageVo(pageNm, pageSizeNm);
 		pageVo.setRcv_email(userVo.getUser_email());

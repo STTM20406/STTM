@@ -19,7 +19,7 @@
 						<td>${noti.not_con }</td>
 						<td><fmt:formatDate value="${noti.not_dt }" pattern="yyyy-MM-dd" /></td>
 						<td><button class="btn_style_01">삭제 </button></td>
-						<td>${USER_INFO.user_email}</td>
+						<td style="display:none;">${USER_INFO.user_email}</td>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -31,7 +31,7 @@
                  <a href class="btn_first"></a>
               </c:when>
               <c:otherwise>
-                 <a href="${cp}/notification?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a>
+                 <a href="/notification?page=${pageVo.page - 1}&pageSize=10">«</a>
               
               </c:otherwise>
            </c:choose>
@@ -42,7 +42,7 @@
                     <span>${i}</span>
                  </c:when>
                  <c:otherwise>
-                 <a href="${cp}/notification?page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
+                 <a href="/notification?page=${i}&pageSize=10">${i}</a>
                  </c:otherwise>
               </c:choose>
 
@@ -53,7 +53,7 @@
                  <a href class="btn_last"></a>
               </c:when>
               <c:otherwise>
-              <a href="${cp}/notification?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
+              <a href="/notification?page=${pageVo.page + 1}&pageSize=10">»</a>
                  
 
               </c:otherwise>
