@@ -1265,77 +1265,77 @@
 	}
 	//업무 상세보기 메서드
 	function propertyWorkSetAjax(wrk_id){
-		$.ajax({
-			url:"/work/propertyWorkSetAjax",
-			method:"post",
-			data:"wrk_id=" + wrk_id,
-			success:function(data){
-				
-				$("#wps_id").val(data.workVo.wrk_id);
-				$("#wps_nm").val(data.workVo.wrk_nm);
-				$("#wps_write_nm").text(data.workVo.user_nm);
-				$("#wps_write_date").text(data.workVo.wrkDtStr);
-				$("#wps_start_date").val(data.workVo.wrkStartDtStr + " ~ " + data.workVo.wrkEndDtStr);
-				$("#wrk_gd").val(data.workVo.wrk_grade);
-				$(".wrk_color").removeClass("colorSelect");
-				
-				$(data.workVo.wrk_color_cd).prev().addClass("colorSelect");
-				$(data.workVo.wrk_color_cd).prop("checked", true);
-				
-				var html2 = "";
-				if(data.getWrokPush != null){
-					html2 += "<p class='resDate' id='"+data.workVo.wrk_rv_id+"'>"+data.getWrokPush.wrkDtStr+" | <span class='pushDel'>삭제</span></p>";
-					$(".notifyCon").html(html2);
-					$("#resNotifyBtn").css({display:"none"});
-				}else{
-					html2 = "<input type='button' id='resNotifyBtn' value=예약알림추가'>";
-					$(".notifyCon").html(html2);
-					$(".resDate").css({display:"none"});
+			$.ajax({
+				url:"/work/propertyWorkSetAjax",
+				method:"post",
+				data:"wrk_id=" + wrk_id,
+				success:function(data){
+					var auth = data.workVo.auth;
+					$("#wps_id").val(data.workVo.wrk_id);
+					$("#wps_nm").val(data.workVo.wrk_nm);
+					$("#wps_write_nm").text(data.workVo.user_nm);
+					$("#wps_write_date").text(data.workVo.wrkDtStr);
+					$("#wps_start_date").val(data.workVo.wrkStartDtStr + " ~ " + data.workVo.wrkEndDtStr);
+					$("#wrk_gd").val(data.workVo.wrk_grade);
+					$(".wrk_color").removeClass("colorSelect");
+					
+					$(data.workVo.wrk_color_cd).prev().addClass("colorSelect");
+					$(data.workVo.wrk_color_cd).prop("checked", true);
+					
+					var html2 = "";
+					if(data.getWrokPush != null){
+						html2 += "<p class='resDate' id='"+data.workVo.wrk_rv_id+"'>"+data.getWrokPush.wrkDtStr+" | <span class='pushDel'>삭제</span></p>";
+						$(".notifyCon").html(html2);
+						$("#resNotifyBtn").css({display:"none"});
+					}else{
+						html2 = "<input type='button' id='resNotifyBtn' value=예약알림추가'>";
+						$(".notifyCon").html(html2);
+						$(".resDate").css({display:"none"});
+					}
+					
+					//배정된 업무 멤버 불러오기
+					var html = "";
+					data.wrkMemList.forEach(function(item, index){
+						html += "<li id='"+ item.user_email +"_"+item.wrk_id+"'>"+ item.user_nm +"<input type='button' class='wrkMemDel' value='삭제'></li>";
+					});	
+					$(".wrk_add_box").html(html);
+					
+					//업무 팔로워 멤버 불러오기
+					var html = "";
+					data.wrkFlwList.forEach(function(item, index){
+						html += "<li id='"+ item.user_email +"_"+item.wrk_id+"'>"+ item.user_nm +"<input type='button' class='wrkFlwDel' value='삭제'></li>";
+					});	
+					$(".wrk_mem_flw_box").html(html);
+					
+					
+					//멤버레벨이 1인데 권한이 ASC02 또는 ASC03 일때
+					if(auth=="AUTH02"){
+						$(".propertySet input").prop('readonly', true); 										//설정창의 모든 input readonly
+						$(".propertySet select").prop('disabled',true);										//설정창의 모든 select disabled
+						$(".propertySet button[name='wps_mem_set']").prop('disabled', true);					//설정창의 모든 button disabled
+						$(".propertySet button[name='wrk_flw_set']").prop('disabled', true);					//설정창의 모든 button disabled
+						$(".propertySet input[type=button]").prop('disabled', true);
+						$(".flatpickr-calendar").css({display:"none"});
+					}else if(auth=="AUTH03"){
+						$(".propertySet input").prop('readonly', true); 										//설정창의 모든 input readonly
+						$(".propertySet select").prop('disabled',true);										//설정창의 모든 select disabled
+						$(".propertySet button").prop('disabled', true);					//설정창의 모든 button disabled
+						$(".propertySet input[type=button]").prop('disabled', true);
+						$(".propertySet input[type=radio]").prop('disabled', true);
+						$(".flatpickr-calendar").css({display:"none"});
+					}
+// 					else{
+// 						$(".propertySet input").prop('readonly', false);
+// 						$(".propertySet select").prop('disabled',false);
+// 						$(".propertySet button").prop('disabled', false);
+// 						$(".prj_add_box input").css({visibility:"visible"});
+// 						$(".prj_mem_add_box input").css({visibility:"visible"});
+// 						$(".propertySet input[type=button]").prop('disabled', false);
+// 						$(".datepicker").css({display:"block"});
+// 					}
 				}
-				
-				//배정된 업무 멤버 불러오기
-				var html = "";
-				data.wrkMemList.forEach(function(item, index){
-					html += "<li id='"+ item.user_email +"_"+item.wrk_id+"'>"+ item.user_nm +"<input type='button' class='wrkMemDel' value='삭제'></li>";
-				});	
-				$(".wrk_add_box").html(html);
-				
-				//업무 팔로워 멤버 불러오기
-				var html = "";
-				data.wrkFlwList.forEach(function(item, index){
-					html += "<li id='"+ item.user_email +"_"+item.wrk_id+"'>"+ item.user_nm +"<input type='button' class='wrkFlwDel' value='삭제'></li>";
-				});	
-				$(".wrk_mem_flw_box").html(html);
-				
-				
-				//멤버레벨이 1인데 권한이 ASC02 또는 ASC03 일때
-				if(projectMemLevel == "LV1" && projectAuth == "ASC02" ){
-					$(".propertySet input").prop('readonly', true); 										//설정창의 모든 input readonly
-					$(".propertySet select").prop('disabled',true);										//설정창의 모든 select disabled
-					$(".propertySet button[name='wps_mem_set']").prop('disabled', true);					//설정창의 모든 button disabled
-					$(".propertySet button[name='wrk_flw_set']").prop('disabled', true);					//설정창의 모든 button disabled
-					$(".propertySet input[type=button]").prop('disabled', true);
-					$(".flatpickr-calendar").css({display:"none"});
-				}else if(projectMemLevel == "LV1" && projectAuth == "ASC03"){
-					$(".propertySet input").prop('readonly', true); 										//설정창의 모든 input readonly
-					$(".propertySet select").prop('disabled',true);										//설정창의 모든 select disabled
-					$(".propertySet button").prop('disabled', true);					//설정창의 모든 button disabled
-					$(".propertySet input[type=button]").prop('disabled', true);
-					$(".propertySet input[type=radio]").prop('disabled', true);
-					$(".flatpickr-calendar").css({display:"none"});
-				}
-//					else{
-//						$(".propertySet input").prop('readonly', false);
-//						$(".propertySet select").prop('disabled',false);
-//						$(".propertySet button").prop('disabled', false);
-//						$(".prj_add_box input").css({visibility:"visible"});
-//						$(".prj_mem_add_box input").css({visibility:"visible"});
-//						$(".propertySet input[type=button]").prop('disabled', false);
-//						$(".datepicker").css({display:"block"});
-//					}
-			}
-		});
-	}
+			});
+		}
 	function commentPagination(wps_wrk_id,page, pageSize){
 		$.ajax({
 			url:"/comment",
@@ -1349,14 +1349,14 @@
 					
 					html += "<tr class='commTr'>";
 					html += "<input type='hidden' name='commContent' value='"+comm.comm_content +"'/>"
-					html += "<input type='hidden' name='commContent' value='"+comm.comm_id +"'/>"
-					html += "<input type='hidden' name='commContent' value='"+comm.prj_id +"'/>"
+					html += "<input type='hidden' name='commComm_id' value='"+comm.comm_id +"'/>"
+					html += "<input type='hidden' name='commPrj_id' value='"+comm.prj_id +"'/>"
 					html += "<td>"+comm.comm_content+"</td>";
 					html += "<td>"+comm.user_email+"</td>";
 					html += "<td>"+comm.commDateStr+"</td>";
 					html += "<td>";
-					html += "<input type='hidden' name='commContent' value='"+comm.comm_content +"'/>"
-					html += "<input type='hidden' name='commContent' value='"+comm.comm_id +"'/>"
+					html += "<input type='hidden' id='prj_id02' value='"+comm.comm_content +"'/>"
+					html += "<input type='hidden' id='comm_id02' value='"+comm.comm_id +"'/>"
 					html += "<button type='button' id='commUpdateBtn' class='commUpdateBtn'>수정</button>"
 					html += "</td>";
 					html += "<td class='commDeleteTd'>";
