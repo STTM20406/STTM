@@ -18,6 +18,45 @@
 	.logon {
 		color: #0ceb47;
 	}	
+	
+	/* 탭 설정 스타일 */
+	.inquiryTr:hover{
+			cursor: pointer;
+	}
+	ul.tabs {
+		margin: 0px;
+		padding: 0px;
+		list-style: none;
+	}
+	
+	ul.tabs li {
+		background: none;
+		color: #222;
+		display: inline-block;
+		padding: 10px 15px;
+		cursor: pointer;
+	}
+	
+	ul.tabs li.current {
+		color: #222;
+	}
+	
+	.tab-content {
+		display: none;
+		padding: 15px;
+	}
+	
+	.tab-content.current {
+		display: inherit;
+	}
+	
+	.logout {
+		color: #e1e1e1;
+	}
+	
+	.logon {
+		color: #0ceb47;
+	}
 </style>
 
 <script>
@@ -77,7 +116,16 @@ $(document).ready(function(){
 </script>
 
 <section class="contents">
-
+	
+	<div class="sub_menu">
+			<ul class="tabs">
+				<li data-tab="tab-1">
+					<a href="/projectMember">프로젝트 멤버</a>
+				</li>
+				<li data-tab="tab-2">친구 리스트</li>
+			</ul>
+	</div>
+	
 	<div class="tab_con">
 	
 		<div id="tab-1" class="tab-content current">
