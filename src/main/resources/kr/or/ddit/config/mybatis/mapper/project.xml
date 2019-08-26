@@ -10,14 +10,22 @@
 	<select id="projectList" parameterType="string" resultType="projectVo">
 		SELECT * FROM (SELECT * FROM PROJECT)A INNER JOIN
 					  				(SELECT * FROM PROJECT_MEM)B ON
-		A.PRJ_ID = B.PRJ_ID AND B.USER_EMAIL = #{user_email} AND A.DEL_FL = 'N'
+		A.PRJ_ID = B.PRJ_ID AND B.USER_EMAIL = #{user_email} AND A.DEL_FL = 'N' AND B.PRJ_MEM_DEL_FL = 'N'
 	</select>
 
 	<!--프로젝트 아이디에 맞는 프로젝트 정보 조회 -->
 	<select id="getProject" parameterType="int" resultType="projectVo">
 		SELECT * FROM PROJECT WHERE PRJ_ID = #{prj_id}
 	</select>
-
+	
+	<select id="getPrjByWrk" parameterType="int" resultType="projectVo">
+		SELECT	C.*
+		FROM	WORK A, WORK_LIST B, PROJECT C
+		WHERE	A.WRK_ID = #{wrk_id}
+		AND		A.WRK_LST_ID = B.WRK_LST_ID
+		AND		B.PRJ_ID = C.PRJ_ID
+	</select>
+	
 	<!-- 프로젝트 상태에 따라 프로젝트 리스트 조회 -->
 	<select id="projectStatusList" parameterType="map" resultType="projectVo">
 		SELECT A.PRJ_ID
@@ -31,7 +39,7 @@
 			 , A.DEL_FL
 			 , B.USER_EMAIL
 		FROM ( SELECT A.* FROM (SELECT * FROM PROJECT WHERE PRJ_ST = #{prj_st}) A) A, PROJECT_MEM B
-		WHERE  A.PRJ_ID = B.PRJ_ID AND B.USER_EMAIL = #{user_email} AND A.DEL_FL = 'N'
+		WHERE  A.PRJ_ID = B.PRJ_ID AND B.USER_EMAIL = #{user_email} AND A.DEL_FL = 'N' AND B.PRJ_MEM_DEL_FL = 'N'
 	</select>
 	
 	
@@ -48,7 +56,7 @@
 			 , A.DEL_FL
 			 , B.USER_EMAIL
 		FROM ( SELECT A.* FROM (SELECT * FROM PROJECT WHERE LOWER(PRJ_NM) LIKE '%'||#{prj_nm}||'%') A) A, PROJECT_MEM B
-		WHERE  A.PRJ_ID = B.PRJ_ID AND B.USER_EMAIL = #{user_email} AND A.DEL_FL = 'N'
+		WHERE  A.PRJ_ID = B.PRJ_ID AND B.USER_EMAIL = #{user_email} AND A.DEL_FL = 'N' AND B.PRJ_MEM_DEL_FL = 'N'
 	</select>
 
 
@@ -128,7 +136,7 @@
 		    select distinct(wl.prj_id)
 		    from work w, work_list wl
 		    where w.wrk_lst_id = wl.wrk_lst_id
-		    and w.wrk_del_fl = 'N'
+		    and w.wrk_del_fl = 'N'pri
 		    and wrk_nm like '%' || #{wrk_nm} || '%')
 	</select>
 	
@@ -162,7 +170,7 @@
 					  , C.USER_NM FROM
 					  ( SELECT * FROM PROJECT_MEM WHERE USER_EMAIL = #{user_email}) A, PROJECT_MEM B, USERS C
 		WHERE B.PRJ_ID IN (A.PRJ_ID)
-		AND C.USER_EMAIL = B.USER_EMAIL AND B.PRJ_ID = #{prj_id}
+		AND C.USER_EMAIL = B.USER_EMAIL AND B.PRJ_ID = #{prj_id} AND B.PRJ_MEM_DEL_FL = 'N'
 	</select>
 	
 	
@@ -172,7 +180,7 @@
               , C.USER_NM FROM
               ( SELECT * FROM PROJECT_MEM WHERE USER_EMAIL = #{user_email}) A, PROJECT_MEM B, USERS C
 		WHERE B.PRJ_ID IN (A.PRJ_ID)
-		AND C.USER_EMAIL = B.USER_EMAIL
+		AND C.USER_EMAIL = B.USER_EMAIL AND B.PRJ_MEM_DEL_FL = 'N'
 	</select>
 	
 	<!-- 현재 접속한 사용자의 아이디로 프로젝트 멤버 정보 가져오기  -->
@@ -191,8 +199,8 @@
 	<!-- 프로젝트 생성시 멤버 테이블에 동시에 인서트 / 프로젝트 멤버 추가할 때 -->
 	<insert id="insertProjectMem" parameterType="project_memVo">
 		INSERT INTO
-		PROJECT_MEM (PRJ_ID, USER_EMAIL, PRJ_MEM_LV, PRJ_OWN_FL)
-		VALUES (#{prj_id}, #{user_email}, #{prj_mem_lv}, #{prj_own_fl})
+		PROJECT_MEM (PRJ_ID, USER_EMAIL, PRJ_MEM_LV, PRJ_OWN_FL, PRJ_MEM_DEL_FL)
+		VALUES (#{prj_id}, #{user_email}, #{prj_mem_lv}, #{prj_own_fl}, 'N')
 	</insert>
 	
 	
@@ -204,7 +212,7 @@
 	
 	<!-- 프로젝트 멤버 삭제할 때 -->
 	<delete id="deleteProjectMem" parameterType="project_memVo">
-		DELETE FROM PROJECT_MEM WHERE PRJ_ID = #{prj_id} AND USER_EMAIL = #{user_email} AND PRJ_MEM_LV = #{prj_mem_lv}
+		UPDATE PROJECT_MEM SET PRJ_MEM_DEL_FL = 'Y' WHERE PRJ_ID = #{prj_id} AND USER_EMAIL = #{user_email} AND PRJ_MEM_LV = #{prj_mem_lv}
 	</delete>
 	
 

@@ -24,14 +24,14 @@ function commentPagination(wps_wrk_id,page, pageSize){
 				
 				html += "<tr class='commTr'>";
 				html += "<input type='hidden' name='commContent' value='"+comm.comm_content +"'/>"
-				html += "<input type='hidden' name='commContent' value='"+comm.comm_id +"'/>"
-				html += "<input type='hidden' name='commContent' value='"+comm.prj_id +"'/>"
+				html += "<input type='hidden' name='commComm_id' value='"+comm.comm_id +"'/>"
+				html += "<input type='hidden' name='commPrj_id' value='"+comm.prj_id +"'/>"
 				html += "<td>"+comm.comm_content+"</td>";
 				html += "<td>"+comm.user_email+"</td>";
 				html += "<td>"+comm.commDateStr+"</td>";
 				html += "<td>";
-				html += "<input type='hidden' name='commContent' value='"+comm.comm_content +"'/>"
-				html += "<input type='hidden' name='commContent' value='"+comm.comm_id +"'/>"
+				html += "<input type='hidden' id='prj_id02' value='"+ comm.prj_id +"'/>"
+				html += "<input type='hidden' id='comm_id02' value='"+comm.comm_id +"'/>"
 				html += "<button type='button' id='commUpdateBtn' class='commUpdateBtn'>수정</button>"
 				html += "</td>";
 				html += "<td class='commDeleteTd'>";
@@ -622,7 +622,7 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 				method:"post",
 				data:"wrk_id=" + wrk_id,
 				success:function(data){
-					
+					var auth = data.workVo.auth;
 					$("#wps_id").val(data.workVo.wrk_id);
 					$("#wps_nm").val(data.workVo.wrk_nm);
 					$("#wps_write_nm").text(data.workVo.user_nm);
@@ -661,17 +661,17 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 					
 					
 					//멤버레벨이 1인데 권한이 ASC02 또는 ASC03 일때
-					if(projectMemLevel == "LV1" && projectAuth == "ASC02" ){
+					if(auth=="AUTH02"){
 						$(".propertySet input").prop('readonly', true); 										//설정창의 모든 input readonly
 						$(".propertySet select").prop('disabled',true);										//설정창의 모든 select disabled
 						$(".propertySet button[name='wps_mem_set']").prop('disabled', true);					//설정창의 모든 button disabled
 						$(".propertySet button[name='wrk_flw_set']").prop('disabled', true);					//설정창의 모든 button disabled
 						$(".propertySet input[type=button]").prop('disabled', true);
 						$(".flatpickr-calendar").css({display:"none"});
-					}else if(projectMemLevel == "LV1" && projectAuth == "ASC03"){
+					}else if(auth=="AUTH03"){
 						$(".propertySet input").prop('readonly', true); 										//설정창의 모든 input readonly
 						$(".propertySet select").prop('disabled',true);										//설정창의 모든 select disabled
-						$(".propertySet button").prop('disabled', true);					//설정창의 모든 button disabled
+						$(".propertySet button").prop('disabled', true);										//설정창의 모든 button disabled
 						$(".propertySet input[type=button]").prop('disabled', true);
 						$(".propertySet input[type=radio]").prop('disabled', true);
 						$(".flatpickr-calendar").css({display:"none"});
@@ -1129,257 +1129,7 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 	 		});
 		});
 		
-		function workFilePagination(page, pageSize, wrk_id) {
-			$.ajax({
-				url : "/workFilePagination",
-				method : "post",
-				data : "page=" + page + "&pageSize=" + pageSize + "&wrk_id="+ wrk_id,
-				success : function(data) {
-					//사용자 리스트
-					var hhtml = "";
-					var html = "";
-
-					//hhtml생성
-					hhtml += "<tr>";
-					hhtml += "<th>파일명</th>";
-					hhtml += "<th>공유한 멤버 이름</th>";
-					hhtml += "<th>등록한 날짜</th>";
-					hhtml += "<th>삭제</th>";
-					hhtml += "</tr>";
-
-					data.workFileList.forEach(function(file, index) {
-						//html생성
-						html += "<tr id='filetr'>";
-						html += "<td><a href='/fileDownLoad?file_id="+file.file_id+"'>" + file.original_file_nm+ "</a></td>";
-						html += "<td>" + file.user_nm + "</td>";
-						html += "<td>" + file.prjStartDtStr + "</td>";
-						html += "<td><a href='javascript:workDelFile("+ file.file_id + "," + file.wrk_id+ ")'>삭제</a></td>";
-						html += "</tr>";
-					});
-					var pHtml = "";
-					var pageVo = data.pageVo;
-
-					if (pageVo.page == 1)
-						pHtml += "<li class='disabled'><span>«<span></li>";
-					else
-						pHtml += "<li><a href='javascript:workFilePagination("
-								+ (pageVo.page - 1) + ", " + pageVo.pageSize + ","
-								+ wrk_id + ");'>«</a></li>";
-					for (var i = 1; i <= data.paginationSize; i++) {
-						if (pageVo.page == i)
-							pHtml += "<li class='active'><span>" + i
-									+ "</span></li>";
-						else
-							pHtml += "<li><a href='javascript:workFilePagination("
-									+ i + ", " + pageVo.pageSize + "," + wrk_id
-									+ ");'>" + i + "</a></li>";
-					}
-					if (pageVo.page == data.paginationSize)
-						pHtml += "<li class='disabled'><span>»<span></li>";
-					else
-						pHtml += "<li><a href='javascript:workFilePagination("
-								+ (pageVo.page + 1) + ", " + pageVo.pageSize + ","
-								+ wrk_id + ");'>»</a></li>";
-					$(".pagination").html(pHtml);
-					$("#publicHeader").html(hhtml);
-					$("#publicList").html(html);
-				}
-			});
-		}
-
-		function workLinkPagination(page, pageSize, wrk_id) {
-			$.ajax({
-				url : "/workLinkPagination",
-				method : "post",
-				data : "page=" + page + "&pageSize=" + pageSize + "&wrk_id="
-						+ wrk_id,
-				success : function(data) {
-					//사용자 리스트
-					var hhtml = "";
-					var html = "";
-
-					//hhtml생성
-					hhtml += "<tr>";
-					hhtml += "<th>링크명</th>";
-					hhtml += "<th>공유한 멤버 이름</th>";
-					hhtml += "<th>등록한 날짜</th>";
-					hhtml += "<th>삭제</th>";
-					hhtml += "</tr>";
-
-					console.log(data.workLinkList);
-					data.workLinkList.forEach(function(link, index) {
-						//html생성
-						html += "<tr>";
-						html += "<td><a href='https://"+link.attch_url+"'>"+ link.attch_url + "</a></td>";
-						html += "<td>" + link.user_nm + "</td>";
-						html += "<td>" + link.prjStartDtStr + "</td>";
-						html += "<td><a href='javascript:workDelLink("+ link.link_id + "," + link.wrk_id+ ")'>삭제</a></td>";
-						html += "</tr>";
-					});
-					var pHtml = "";
-					var pageVo = data.pageVo;
-					console.log(data);
-					console.log(pageVo);
-
-					if (pageVo.page == 1)
-						pHtml += "<li class='disabled'><span>«<span></li>";
-					else
-						pHtml += "<li><a href='javascript:workLinkPagination("
-								+ (pageVo.page - 1) + ", " + pageVo.pageSize + ","
-								+ wrk_id + ");'>«</a></li>";
-
-					for (var i = 1; i <= data.paginationSize; i++) {
-						if (pageVo.page == i)
-							pHtml += "<li class='active'><span>" + i
-									+ "</span></li>";
-						else
-							pHtml += "<li><a href='javascript:workLinkPagination("
-									+ i + ", " + pageVo.pageSize + "," + wrk_id
-									+ ");'>" + i + "</a></li>";
-					}
-					if (pageVo.page == data.paginationSize)
-						pHtml += "<li class='disabled'><span>»<span></li>";
-					else
-						pHtml += "<li><a href='javascript:workLinkPagination("
-								+ (pageVo.page + 1) + ", " + pageVo.pageSize + ","
-								+ wrk_id + ");'>»</a></li>";
-					$(".pagination").html(pHtml);
-					$("#publicHeader").html(hhtml);
-					$("#publicList").html(html);
-				}
-			});
-		}
-
-		function workDelFile(fileID, wrk_id) {
-			alert("삭제긔긔");
-
-			$.ajax({
-				url : "/workDelFile",
-				method : "post",
-				data : "file_id=" + fileID + "&wrk_id=" + wrk_id,
-				success : function(data) {
-					//사용자 리스트
-					var hhtml = "";
-					var html = "";
-
-					//hhtml생성
-					hhtml += "<tr>";
-					hhtml += "<th>파일명</th>";
-					hhtml += "<th>공유한 멤버 이름</th>";
-					hhtml += "<th>등록한 날짜</th>";
-					hhtml += "<th>삭제</th>";
-					hhtml += "</tr>";
-
-					data.workFileList.forEach(function(file, index) {
-						//html생성
-						html += "<tr id='filetr'>";
-						html += "<td><a href='/fileDownLoad?file_id="+file.file_id+"'>" + file.original_file_nm+ "</a></td>";
-						html += "<td>" + file.user_nm + "</td>";
-						html += "<td>" + file.prjStartDtStr + "</td>";
-						html += "<td><a href='javascript:workDelFile("
-								+ file.file_id + "," + file.wrk_id
-								+ ")'>삭제</a></td>";
-						html += "</tr>";
-					});
-					var pHtml = "";
-					var pageVo = data.pageVo;
-					console.log(data);
-					console.log(pageVo);
-
-					if (pageVo.page == 1)
-						pHtml += "<li class='disabled'><span>«<span></li>";
-					else
-						pHtml += "<li><a href='javascript:workFilePagination("
-								+ (pageVo.page - 1) + ", " + pageVo.pageSize + ","
-								+ wrk_id + ");'>«</a></li>";
-					for (var i = 1; i <= data.paginationSize; i++) {
-						if (pageVo.page == i)
-							pHtml += "<li class='active'><span>" + i
-									+ "</span></li>";
-						else
-							pHtml += "<li><a href='javascript:workFilePagination("
-									+ i + ", " + pageVo.pageSize + "," + wrk_id
-									+ ");'>" + i + "</a></li>";
-					}
-					if (pageVo.page == data.paginationSize)
-						pHtml += "<li class='disabled'><span>»<span></li>";
-					else
-						pHtml += "<li><a href='javascript:workFilePagination("
-								+ (pageVo.page + 1) + ", " + pageVo.pageSize + ","
-								+ wrk_id + ");'>»</a></li>";
-					$(".pagination").html(pHtml);
-					$("#publicHeader").html(hhtml);
-					$("#publicList").html(html);
-				}
-			});
-		}
-
-		function workDelLink(linkID, wrk_id) {
-			alert("삭제긔긔");
-
-			$.ajax({
-				url : "/workDelLink",
-				method : "post",
-				data : "link_id=" + linkID + "&wrk_id=" + wrk_id,
-				success : function(data) {
-					//사용자 리스트
-					var hhtml = "";
-					var html = "";
-
-					//hhtml생성
-					hhtml += "<tr>";
-					hhtml += "<th>링크명</th>";
-					hhtml += "<th>공유한 멤버 이름</th>";
-					hhtml += "<th>등록한 날짜</th>";
-					hhtml += "<th>삭제</th>";
-					hhtml += "</tr>";
-
-					console.log(data.workLinkList);
-					data.workLinkList.forEach(function(link, index) {
-						//html생성
-						html += "<tr>";
-						html += "<td><a href='https://"+link.attch_url+"'>"
-								+ link.attch_url + "</a></td>";
-						html += "<td>" + link.user_nm + "</td>";
-						html += "<td>" + link.prjStartDtStr + "</td>";
-						html += "<td><a href='javascript:workDelLink("
-								+ link.link_id + "," + link.wrk_id
-								+ ")'>삭제</a></td>";
-						html += "</tr>";
-					});
-					var pHtml = "";
-					var pageVo = data.pageVo;
-					console.log(data);
-					console.log(pageVo);
-
-					if (pageVo.page == 1)
-						pHtml += "<li class='disabled'><span>«<span></li>";
-					else
-						pHtml += "<li><a href='javascript:workLinkPagination("
-								+ (pageVo.page - 1) + ", " + pageVo.pageSize + ","
-								+ wrk_id + ");'>«</a></li>";
-
-					for (var i = 1; i <= data.paginationSize; i++) {
-						if (pageVo.page == i)
-							pHtml += "<li class='active'><span>" + i
-									+ "</span></li>";
-						else
-							pHtml += "<li><a href='javascript:workLinkPagination("
-									+ i + ", " + pageVo.pageSize + "," + wrk_id
-									+ ");'>" + i + "</a></li>";
-					}
-					if (pageVo.page == data.paginationSize)
-						pHtml += "<li class='disabled'><span>»<span></li>";
-					else
-						pHtml += "<li><a href='javascript:workLinkPagination("
-								+ (pageVo.page + 1) + ", " + pageVo.pageSize + ","
-								+ wrk_id + ");'>»</a></li>";
-					$(".pagination").html(pHtml);
-					$("#publicHeader").html(hhtml);
-					$("#publicList").html(html);
-				}
-			});
-		}
+		
 
 		// file, link 등록 부분 구현중// file, link 등록 부분 구현중// file, link 등록 부분 구현중// file, link 등록 부분 구현중// file, link 등록 부분 구현중// file, link 등록 부분 구현중
 		
@@ -1645,7 +1395,257 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 		});
 	}
 	
-	
+	function workFilePagination(page, pageSize, wrk_id) {
+		$.ajax({
+			url : "/workFilePagination",
+			method : "post",
+			data : "page=" + page + "&pageSize=" + pageSize + "&wrk_id="+ wrk_id,
+			success : function(data) {
+				//사용자 리스트
+				var hhtml = "";
+				var html = "";
+
+				//hhtml생성
+				hhtml += "<tr>";
+				hhtml += "<th>파일명</th>";
+				hhtml += "<th>공유한 멤버 이름</th>";
+				hhtml += "<th>등록한 날짜</th>";
+				hhtml += "<th>삭제</th>";
+				hhtml += "</tr>";
+
+				data.workFileList.forEach(function(file, index) {
+					//html생성
+					html += "<tr id='filetr'>";
+					html += "<td><a href='/fileDownLoad?file_id="+file.file_id+"'>" + file.original_file_nm+ "</a></td>";
+					html += "<td>" + file.user_nm + "</td>";
+					html += "<td>" + file.prjStartDtStr + "</td>";
+					html += "<td><a href='javascript:workDelFile("+ file.file_id + "," + file.wrk_id+ ")'>삭제</a></td>";
+					html += "</tr>";
+				});
+				var pHtml = "";
+				var pageVo = data.pageVo;
+
+				if (pageVo.page == 1)
+					pHtml += "<li class='disabled'><span>«<span></li>";
+				else
+					pHtml += "<li><a href='javascript:workFilePagination("
+							+ (pageVo.page - 1) + ", " + pageVo.pageSize + ","
+							+ wrk_id + ");'>«</a></li>";
+				for (var i = 1; i <= data.paginationSize; i++) {
+					if (pageVo.page == i)
+						pHtml += "<li class='active'><span>" + i
+								+ "</span></li>";
+					else
+						pHtml += "<li><a href='javascript:workFilePagination("
+								+ i + ", " + pageVo.pageSize + "," + wrk_id
+								+ ");'>" + i + "</a></li>";
+				}
+				if (pageVo.page == data.paginationSize)
+					pHtml += "<li class='disabled'><span>»<span></li>";
+				else
+					pHtml += "<li><a href='javascript:workFilePagination("
+							+ (pageVo.page + 1) + ", " + pageVo.pageSize + ","
+							+ wrk_id + ");'>»</a></li>";
+				$(".pagination").html(pHtml);
+				$("#publicHeader").html(hhtml);
+				$("#publicList").html(html);
+			}
+		});
+	}
+
+	function workLinkPagination(page, pageSize, wrk_id) {
+		$.ajax({
+			url : "/workLinkPagination",
+			method : "post",
+			data : "page=" + page + "&pageSize=" + pageSize + "&wrk_id="
+					+ wrk_id,
+			success : function(data) {
+				//사용자 리스트
+				var hhtml = "";
+				var html = "";
+
+				//hhtml생성
+				hhtml += "<tr>";
+				hhtml += "<th>링크명</th>";
+				hhtml += "<th>공유한 멤버 이름</th>";
+				hhtml += "<th>등록한 날짜</th>";
+				hhtml += "<th>삭제</th>";
+				hhtml += "</tr>";
+
+				console.log(data.workLinkList);
+				data.workLinkList.forEach(function(link, index) {
+					//html생성
+					html += "<tr>";
+					html += "<td><a href='https://"+link.attch_url+"'>"+ link.attch_url + "</a></td>";
+					html += "<td>" + link.user_nm + "</td>";
+					html += "<td>" + link.prjStartDtStr + "</td>";
+					html += "<td><a href='javascript:workDelLink("+ link.link_id + "," + link.wrk_id+ ")'>삭제</a></td>";
+					html += "</tr>";
+				});
+				var pHtml = "";
+				var pageVo = data.pageVo;
+				console.log(data);
+				console.log(pageVo);
+
+				if (pageVo.page == 1)
+					pHtml += "<li class='disabled'><span>«<span></li>";
+				else
+					pHtml += "<li><a href='javascript:workLinkPagination("
+							+ (pageVo.page - 1) + ", " + pageVo.pageSize + ","
+							+ wrk_id + ");'>«</a></li>";
+
+				for (var i = 1; i <= data.paginationSize; i++) {
+					if (pageVo.page == i)
+						pHtml += "<li class='active'><span>" + i
+								+ "</span></li>";
+					else
+						pHtml += "<li><a href='javascript:workLinkPagination("
+								+ i + ", " + pageVo.pageSize + "," + wrk_id
+								+ ");'>" + i + "</a></li>";
+				}
+				if (pageVo.page == data.paginationSize)
+					pHtml += "<li class='disabled'><span>»<span></li>";
+				else
+					pHtml += "<li><a href='javascript:workLinkPagination("
+							+ (pageVo.page + 1) + ", " + pageVo.pageSize + ","
+							+ wrk_id + ");'>»</a></li>";
+				$(".pagination").html(pHtml);
+				$("#publicHeader").html(hhtml);
+				$("#publicList").html(html);
+			}
+		});
+	}
+
+	function workDelFile(fileID, wrk_id) {
+		alert("삭제긔긔");
+
+		$.ajax({
+			url : "/workDelFile",
+			method : "post",
+			data : "file_id=" + fileID + "&wrk_id=" + wrk_id,
+			success : function(data) {
+				//사용자 리스트
+				var hhtml = "";
+				var html = "";
+
+				//hhtml생성
+				hhtml += "<tr>";
+				hhtml += "<th>파일명</th>";
+				hhtml += "<th>공유한 멤버 이름</th>";
+				hhtml += "<th>등록한 날짜</th>";
+				hhtml += "<th>삭제</th>";
+				hhtml += "</tr>";
+
+				data.workFileList.forEach(function(file, index) {
+					//html생성
+					html += "<tr id='filetr'>";
+					html += "<td><a href='/fileDownLoad?file_id="+file.file_id+"'>" + file.original_file_nm+ "</a></td>";
+					html += "<td>" + file.user_nm + "</td>";
+					html += "<td>" + file.prjStartDtStr + "</td>";
+					html += "<td><a href='javascript:workDelFile("
+							+ file.file_id + "," + file.wrk_id
+							+ ")'>삭제</a></td>";
+					html += "</tr>";
+				});
+				var pHtml = "";
+				var pageVo = data.pageVo;
+				console.log(data);
+				console.log(pageVo);
+
+				if (pageVo.page == 1)
+					pHtml += "<li class='disabled'><span>«<span></li>";
+				else
+					pHtml += "<li><a href='javascript:workFilePagination("
+							+ (pageVo.page - 1) + ", " + pageVo.pageSize + ","
+							+ wrk_id + ");'>«</a></li>";
+				for (var i = 1; i <= data.paginationSize; i++) {
+					if (pageVo.page == i)
+						pHtml += "<li class='active'><span>" + i
+								+ "</span></li>";
+					else
+						pHtml += "<li><a href='javascript:workFilePagination("
+								+ i + ", " + pageVo.pageSize + "," + wrk_id
+								+ ");'>" + i + "</a></li>";
+				}
+				if (pageVo.page == data.paginationSize)
+					pHtml += "<li class='disabled'><span>»<span></li>";
+				else
+					pHtml += "<li><a href='javascript:workFilePagination("
+							+ (pageVo.page + 1) + ", " + pageVo.pageSize + ","
+							+ wrk_id + ");'>»</a></li>";
+				$(".pagination").html(pHtml);
+				$("#publicHeader").html(hhtml);
+				$("#publicList").html(html);
+			}
+		});
+	}
+
+	function workDelLink(linkID, wrk_id) {
+		alert("삭제긔긔");
+
+		$.ajax({
+			url : "/workDelLink",
+			method : "post",
+			data : "link_id=" + linkID + "&wrk_id=" + wrk_id,
+			success : function(data) {
+				//사용자 리스트
+				var hhtml = "";
+				var html = "";
+
+				//hhtml생성
+				hhtml += "<tr>";
+				hhtml += "<th>링크명</th>";
+				hhtml += "<th>공유한 멤버 이름</th>";
+				hhtml += "<th>등록한 날짜</th>";
+				hhtml += "<th>삭제</th>";
+				hhtml += "</tr>";
+
+				console.log(data.workLinkList);
+				data.workLinkList.forEach(function(link, index) {
+					//html생성
+					html += "<tr>";
+					html += "<td><a href='https://"+link.attch_url+"'>"
+							+ link.attch_url + "</a></td>";
+					html += "<td>" + link.user_nm + "</td>";
+					html += "<td>" + link.prjStartDtStr + "</td>";
+					html += "<td><a href='javascript:workDelLink("
+							+ link.link_id + "," + link.wrk_id
+							+ ")'>삭제</a></td>";
+					html += "</tr>";
+				});
+				var pHtml = "";
+				var pageVo = data.pageVo;
+				console.log(data);
+				console.log(pageVo);
+
+				if (pageVo.page == 1)
+					pHtml += "<li class='disabled'><span>«<span></li>";
+				else
+					pHtml += "<li><a href='javascript:workLinkPagination("
+							+ (pageVo.page - 1) + ", " + pageVo.pageSize + ","
+							+ wrk_id + ");'>«</a></li>";
+
+				for (var i = 1; i <= data.paginationSize; i++) {
+					if (pageVo.page == i)
+						pHtml += "<li class='active'><span>" + i
+								+ "</span></li>";
+					else
+						pHtml += "<li><a href='javascript:workLinkPagination("
+								+ i + ", " + pageVo.pageSize + "," + wrk_id
+								+ ");'>" + i + "</a></li>";
+				}
+				if (pageVo.page == data.paginationSize)
+					pHtml += "<li class='disabled'><span>»<span></li>";
+				else
+					pHtml += "<li><a href='javascript:workLinkPagination("
+							+ (pageVo.page + 1) + ", " + pageVo.pageSize + ","
+							+ wrk_id + ");'>»</a></li>";
+				$(".pagination").html(pHtml);
+				$("#publicHeader").html(hhtml);
+				$("#publicList").html(html);
+			}
+		});
+	}
 	
 </script>
 
@@ -2090,6 +2090,7 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 	</div>
 	<div class="btnSetClose">닫기</div>
 </div>
+
 
 
 <!-- 오류 알림창 -->

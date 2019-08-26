@@ -27,12 +27,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.or.ddit.file_attch.model.File_AttchVo;
-import kr.or.ddit.file_attch.service.File_AttchService;
 import kr.or.ddit.file_attch.service.IFile_AttchService;
 import kr.or.ddit.link_attch.model.Link_attchVo;
 import kr.or.ddit.link_attch.service.ILink_attchService;
 import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.project.model.ProjectVo;
+import kr.or.ddit.project.service.IProjectService;
 import kr.or.ddit.project_mem.model.Project_MemVo;
 import kr.or.ddit.users.model.UserVo;
 import kr.or.ddit.util.PartUtil;
@@ -49,7 +49,8 @@ public class File_AttchController {
 	@Resource(name="link_attchService")
 	private ILink_attchService link_attchService;
 	
-	
+	@Resource(name="projectService")
+	private IProjectService projectService;
 	
 	/**
 	 * Method 		: fileDownLoad
@@ -483,7 +484,7 @@ public class File_AttchController {
 	public @ResponseBody HashMap<String, Object> workFileUpload(HttpSession session, Model model, PageVo pageVo, String locker,
 			@RequestPart MultipartFile profile, int wrk_id) {
 		
-		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
+		ProjectVo projectVo = projectService.getPrjByWrk(wrk_id);
 		int prj_id = projectVo.getPrj_id();
 		
 		logger.debug("♬♩♪  wrk_id: {}", wrk_id);
@@ -567,7 +568,7 @@ public class File_AttchController {
 		
 		logger.debug("♬♩♪  여기는 workLinkUpload insert하는곳");
 		
-		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
+		ProjectVo projectVo = projectService.getPrjByWrk(wrk_id);
 		int prj_id = projectVo.getPrj_id();
 		
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
@@ -609,23 +610,23 @@ public class File_AttchController {
 		logger.debug("♬♩♪  chatBotApi");
 		logger.debug("♬♩♪  question:{}",question);
 		
-		if(question.equals("안녕")) {
+		if(question.contains("안녕")) {
 			model.addAttribute("data", "초면에 반말이시네요....허허허");
-		}else if(question.equals("미안")) {
+		}else if(question.contains("미안")) {
 			model.addAttribute("data", "하....C 참는다..");
-		}else if(question.equals("3")) {
+		}else if(question.contains("3")) {
 			model.addAttribute("data", "음하하하");
-		}else if(question.equals("4")) {
+		}else if(question.contains("4")) {
 			model.addAttribute("data", "음하하하");
-		}else if(question.equals("5")) {
+		}else if(question.contains("5")) {
 			model.addAttribute("data", "음하하하");
-		}else if(question.equals("6")) {
+		}else if(question.contains("6")) {
 			model.addAttribute("data", "음하하하");
-		}else if(question.equals("7")) {
+		}else if(question.contains("7")) {
 			model.addAttribute("data", "음하하하");
-		}else if(question.equals("8")) {
+		}else if(question.contains("8")) {
 			model.addAttribute("data", "음하하하");
-		}else if(question.equals("9")) {
+		}else if(question.contains("9")) {
 			model.addAttribute("data", "음하하하");
 		}else {
 			model.addAttribute("data", "궁금하신 점이 없으신가요?");

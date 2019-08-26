@@ -17,4 +17,8 @@ public interface INotificationService {
 	int insertNotifi(NotificationVo notiVo);
 	
 	int insertReceiver(ReceiverVo receiverVo);
+
+	int deleteReceiver(int not_id);
+	
+	int deleteNotification(int not_id);
 }

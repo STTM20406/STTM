@@ -2,7 +2,6 @@
    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-
 <!DOCTYPE HTML>
 <html lang="ko">
 <head>
@@ -87,6 +86,10 @@ button[data-setter] {
   height: 30px;
   color: #F7958E;
   cursor: pointer;
+}
+
+.hroomNm:hover{
+	cursor: pointer;
 }
 
 button[data-setter]:hover { opacity: 0.5; }
@@ -195,9 +198,41 @@ function copyTask(btn) {
 };
 
 
+
 $(document).ready(function(){
    connectNotify();
 
+   //채팅 대화 보내기
+   $("#hbuttonMessage").on(
+		"click",
+		function(evt) {
+			evt.preventDefault();
+			
+			if (socket.readyState !== 1)
+				return;
+
+			console.debug("socket : ", socket);
+			$("#disinguishSocket").val("chatting");
+			//소켓으로 보낼 정보들
+			let senderNm = $('#huser_nm').val();
+			let content = $('#hmsg').val();
+			let senderId1 = $("#huser_email").val();
+			let ct_id = $("#hct_id").val();
+
+			if (socket) {
+				let socketMsg = "chatting," + senderNm + ","
+						+ content + "," + senderId1 + ","
+						+ ct_id; //소켓으로 이 정보를 보냄
+				console.log("sssssssmsg>>", socketMsg);
+				socket.send(socketMsg);
+			}
+			
+			$("#hmsg").val('');
+			$("#hmsg").focus();
+		});
+
+   
+   
    $(".user_set_list").hide();
    $(".icon_set").on("click", function(){
       $(".user_set_list").fadeIn();
@@ -295,26 +330,51 @@ $(document).ready(function(){
       $("#memoView").animate({right:'0'}, 500);
    })
    
+   
+   
    //프로젝트 닫기 버튼을 클릭했을 때
    $(".btnSetClose").on("click", function(){
       $("#memoView").animate({right:'-700px'}, 500);
    });
    
    //화상회의생성 버튼 클릭시
-   $('#headerchat').on("click", function(){
+   $('#headerFaceChat').on("click", function(){
       
         var $href = $(this).attr('href');
         layer_popup($href);
     });
    
-   //화상회의생성 다음 버튼 클릭시
+   //화상회의방 참여하기 버튼 클릭시
+   $("#hfaceBtn").on("click",function(){
+		window.open('http://localhost/RTCMulticonnection/index.html', '_blank')
+
+	});
+   
+   //채팅리스트 클릭시
+     $('#headerChat').on("click", function(){
+     
+       var $href = $(this).attr('href');
+       layer_popup($href);
+    });
+   
+   
+   
+  //화상회의생성 다음 버튼 클릭시
    $("#headerChat_btn_next").on("click", function(){
       $(".new_proejct").animate({left:'-100%'}, 500);
       $(".select_template").animate({left:'0%'}, 500);
+      
+      var hprj = $("#checkProject").val();
+	  projectAdmListAjax(hprj);
    });
    
    //화상회의생성 이전 버튼 클릭시
    $("#hchat_btn_prev").on("click", function(){
+      $(".new_proejct").animate({left:'0%'}, 500);
+      $(".select_template").animate({left:'100%'}, 500);
+      
+   });
+   $("#hchat_btn_prev2").on("click", function(){
       $(".new_proejct").animate({left:'0%'}, 500);
       $(".select_template").animate({left:'100%'}, 500);
       
@@ -358,19 +418,154 @@ $(document).ready(function(){
 		$("#checkProject").val(hprj);
 		
 	});
-	
-	$("#headerChat_btn_next").on("click",function(){
-		var hprj = $("#checkProject").val();
-		projectAdmListAjax(hprj);
-	});
    
 	
 	$("#sch_submit").on("click",function(){
 		$("#searchFrm").submit();
 	});
 	
+	//프로젝트 채팅할지 일반채팅할지 선택
+	$("input:radio[name=hchatMenu]").on('change',function(){
+		var menu = $("input:radio[name=hchatMenu]:checked").val();
+		headerChatRoomList(menu);
+		
+	});
 	
+	//프로젝트 채팅할지 일반채팅할지 선택 Ajax
+	 function headerChatRoomList(chatMenu){
+		$.ajax({
+			url:"/headerChatRoomAjax",
+			method:"post",
+			contentType:"application/x-www-form-urlencoded; charset=UTF-8",
+			data:	"menu=" + chatMenu,
+			success:function(data){
+
+				var html = "";
+				data.data.forEach(function(item, index){
+					//html 생성
+					html += "<tr>";
+					html += "<td>" + item.rn + "</td>";
+					html += "<td id='" + item.ct_id + "' class='hroomNm'" + " onclick='headerChatRoomClick("+item.ct_id+")'>" + item.ct_nm + "</td>";
+					//html += "<td><input type='radio' name='hroom' value='" + item.rn + "'>" + item.user_nm + "</td>";
+					html += "</tr>";
+				});	
+				
+				$("#hchatRoomList").html(html);		
+			}
+		});
+	};
+	
+	
+	
+	
+	
+	
+	
+
 });
+	
+	
+	//채팅방  멤버 띄우는 Ajax
+	function chatStartMem(ct_id){
+		$.ajax({
+			url:"/headerChatStartMemAjax",
+			method:"post",
+			contentType:"application/x-www-form-urlencoded; charset=UTF-8",
+			data:	"ct_id=" + ct_id,
+			success:function(data){
+	
+				var html = "";
+				data.data.forEach(function(item, index){
+					//html 생성
+					html += "<ul>";
+					html += "<li>" + item + "</li>";
+					html += "</ul>";
+				});	
+				
+				$("#hchatMem").html(html);		
+			}
+		});
+	}
+		
+		
+	
+	
+	
+	//채팅방  내용 띄우는 Ajax
+	function chatStartContent(ct_id){
+		$.ajax({
+			url:"/headerChatStartContentAjax",
+			method:"post",
+			contentType:"application/x-www-form-urlencoded; charset=UTF-8",
+			data:	"ct_id=" + ct_id,
+			success:function(data){
+				var user_email = $("#huser_email").val();
+				var html = "";
+				data.data.forEach(function(item, index){
+					if(item.user_email != user_email){
+						html += "<div class='incoming_msg'>";
+						html += "<div class='received_msg'>";
+						html += "<div class='received_withd_msg'>";
+						html += "<p>" + item.user_nm + "</p>";
+						html += "<p>" + item.ch_msg  + "</p>";
+						html += "<span class='time_date'>" + item.ch_msg_dtString + "</span>";
+						html += "</div>";
+						html += "</div>";
+						html += "</div>";
+					}else{
+						html += "<div class='outgoing_msg'>";
+						html += "<div class='sent_msg'>";
+						html += "<p>" + item.user_nm + "</p>";
+						html += "<p>" + item.ch_msg  + "</p>";
+						html += "<span class='time_date'>" + item.ch_msg_dtString + "</span>";
+						html += "</div>";
+						html += "</div>";
+						
+						
+					}
+					
+					
+					
+					
+				});	
+				
+				$("#hchatData").html(html);		
+			}
+		});
+	};
+
+	//채팅방 이름
+	function chatStartName(ct_id){
+		$.ajax({
+			url:"/headerChatStartNameAjax",
+			method:"post",
+			contentType:"application/x-www-form-urlencoded; charset=UTF-8",
+			data:	"ct_id=" + ct_id,
+			success:function(data){
+				var html = "";
+				html += data.data;
+				
+				$("#hchatName").html(html);		
+			}
+		});
+	};
+
+
+	//채팅방 클릭하면 채팅방으로 넘어가기
+	function headerChatRoomClick(ctID){
+		console.log("onclick해서 id : " + ctID);
+		
+		//채팅하고 알림 구분하기
+		$('#distinguishSocket').val("chatting");
+		$(".new_proejct").animate({left:'-100%'}, 500);
+	    $(".select_template").animate({left:'0%'}, 500);
+		$("#hct_id").val(ctID);
+	    
+		chatStartMem(ctID);
+		chatStartContent(ctID);
+		chatStartName(ctID);
+	};
+
 
 $(".socketAlram").hide();
 
@@ -383,20 +578,58 @@ function connectNotify(){
 
    };
 
-   socket.onmessage = function(event) {
+   socket.onmessage = function(event) { //알림메세지 보내기@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	   
+	  //알림인지 채팅인지 구분 
+	  var distinguish = $("#distinguishSocket").val(); 
       console.log("ReceiveMessage: ", event.data + "\n");
-      var data = event.data;
-      if(!data.startsWith("lst:")) {
-	      var $socketAlert = $('#socketAlert p');
-	      $socketAlert.text(event.data);
-	      $(".socketAlram").fadeIn(300);
-	      $(".socketAlram").animate({right:"0px"}, 500);
-	      setTimeout(function(){
-	         $(".socketAlram").fadeOut(300);
-	         $(".socketAlram").animate({right:"-350px"}, 500);
-	          
-	      },3000);
-      } 
+      
+      if(distinguish == 'ddd'){
+	      var data = event.data;
+	      
+	      if(!data.startsWith("lst:")) {
+		      var $socketAlert = $('#socketAlert p');
+		      $socketAlert.text(event.data);
+		      $(".socketAlram").fadeIn(300);
+		      $(".socketAlram").animate({right:"0px"}, 500);
+		      setTimeout(function(){
+		         $(".socketAlram").fadeOut(300);
+		         $(".socketAlram").animate({right:"-350px"}, 500);
+		          
+		      },3000);
+	      } 
+      
+      }else if(distinguish == 'chatting'){
+    	  var userId = $("#huser_email").val();
+    	  var strArray = event.data.split(",");
+
+			console.log("들어온거니strArray[0] :" + strArray[0] + "strArray[1]"
+					+ strArray[1] + "strArray[2]" + strArray[2] + "userId"+userId);
+
+			if (strArray[0] != userId) {
+					var printHTML = "<div class='incoming_msg'>";
+					printHTML += "<div class='received_msg'>";
+					printHTML += "<div class='received_withd_msg'>";
+					printHTML += "<p>" + strArray[1] + "</p>";
+					printHTML += "<p>" + strArray[2] + "</p>";
+					printHTML += "<span class='time_date'>" + strArray[3] + "</span></div></div></div>";
+				$("#hchatData").append(printHTML);
+				$("#hchatData").scrollTop($("#hchatData")[0].scrollHeight);			
+				
+			} else {
+				var printHTML = "<div class='outgoing_msg'>";
+				printHTML += "<div class='sent_msg'>";
+				printHTML += "<p>" + strArray[1] + "</p>";
+				printHTML += "<p>" + strArray[2] + "</p>";
+				printHTML += "<span class='time_date'>" + strArray[3] + "</span></div></div></div>";
+				$("#hchatData").append(printHTML);
+				$("#hchatData").scrollTop($("#hchatData")[0].scrollHeight);
+			}
+    	  
+      }
+      
+      
+      
    };
 
    socket.onclose = function(event) {
@@ -436,6 +669,8 @@ function myFunctionNote() {
       $(this).fadeOut(300);
    });
 }
+
+
 
 window.onclick = function(event) {
   if (!event.target.matches('.dropNotebtn')) {
@@ -504,6 +739,7 @@ window.onclick = function(event) {
 
 </head>
 <body>
+	<input type="hidden" id="distinguishSocket">
    <div id="socketAlert" class="socketAlram" role="alert">
       <p></p>
    </div>
@@ -577,8 +813,8 @@ window.onclick = function(event) {
                   </div>
                </li>
                <li><a href="/work/timerWorkList" id="timerTimer"><span class="color_style02">타이머</span></a></li>
-               <li><a href="#layerChatHeader" id="headerchat"><span class="color_style01">화상회의</span></a></li>
-               <li><a href="#"><span class="color_style01">채팅</span>리스트</a></li>
+               <li><a href="#layerFaceChatHeader" id="headerFaceChat"><span class="color_style01">화상회의</span></a></li>
+               <li><a href="#layerChatHeader" id="headerChat"><span class="color_style01">채팅</span>리스트</a></li>
                <li><a href="#" class="icon_set"><span class="color_style01">${USER_INFO.user_nm}</span>님 환영합니다</a>
                   <div class="user_set_list">
                      <dl>
@@ -598,7 +834,7 @@ window.onclick = function(event) {
 <!--  화상회의 생성 레이어 팝업창 -->
 <!-- <div class="dim-layer"> -->
 <!--    <div class="dimBg"></div> -->
-   <div id="layerChatHeader" class="pop-layer">
+   <div id="layerFaceChatHeader" class="pop-layer">
       <div class="pop-container">
          <div class="pop-project">
             <!--content //-->
@@ -622,6 +858,9 @@ window.onclick = function(event) {
 
                            </div></li>
                   </ul>
+                  
+                  <h2>화상회의방 참여하기</h2>
+                  <li><a href="#" id = "hfaceBtn">화상 회의</a></li>
                   <div class="prj_btn">
                      <a href="javascript:;" id="headerChat_btn_next">다음 : 템플릿 선택</a>
                   </div>
@@ -650,6 +889,62 @@ window.onclick = function(event) {
       </div>
    </div>
 <!-- </div> -->
+
+
+
+<!-- *************채팅리스트 팝업 창*************** -->
+ <div id="layerChatHeader" class="pop-layer">
+      <div class="pop-container">
+         <div class="pop-project">
+            <!--content //-->
+               
+               <input type="hidden" name="checkProject" id="checkProject">
+               <div class="new_proejct">
+                  <input type="hidden" value="${USER_INFO.user_email }" id="huser_email">
+                  <input type="hidden" value="${USER_INFO.user_nm }" id="huser_nm">
+                  <input type="hidden" value="" id="hct_id">
+                  <h2>채팅방 선택</h2>
+                  <ul>
+                  	<li><input type="radio" name="hchatMenu" value="original">일반 채팅</li>
+                  	<li><input type="radio" name="hchatMenu" value="project">프로젝트 채팅</li>
+                  </ul>
+                  
+                  <div id="hchatRoomList"> </div>
+                  
+               </div>
+               <div class="select_template">
+               	  <input type="hidden" id="hChatMemList">
+                  <h2>채팅방 멤버</h2>
+                  <div id="hchatMem"></div>
+                  
+                  <h2>채팅방 이름</h2>
+                  <div id="hchatName"></div>
+                  <div class="chat_room"> 
+					<div class="chat_room_hd">
+						<div class="mesgs">
+							<div class="msg_history"  id="hchatData">
+                  			</div>
+                  		</div>
+                  	</div>
+                  </div>
+                  
+                  <input type="text" id="hmsg" name="hmsg" class="write_msg" placeholder="Type a message" />
+			      <button class="msg_send_btn" id="hbuttonMessage" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+                  
+                  
+                  <div class="prj_btn">
+                     <a href="javascript:;" id="hchat_btn_prev2">뒤로</a> 
+                  </div>
+               </div>
+            <div class="btn-r">
+               <a href="#" class="btn-layerClose">Close</a>
+            </div>
+            <!--// content-->
+         </div>
+      </div>
+   </div>
+
+
 
 <!-----------------------------------  타이머 레이어 팝업창 ----------------------------------->
 <div id="timer" class="pop-layer">

@@ -1,6 +1,8 @@
 package kr.or.ddit.work.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -8,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import kr.or.ddit.work.dao.IWorkDao;
 import kr.or.ddit.work.model.WorkVo;
-import kr.or.ddit.work_mem_flw.model.Work_Mem_FlwVo;
 
 @Service
 public class WorkService implements IWorkService{
@@ -96,7 +97,22 @@ public class WorkService implements IWorkService{
 		return workDao.getWorkInfo(wrk_id);
 	}
 
-
+	/**
+	 * Method : getWorkInfo
+	 * 작성자 : 유승진
+	 * 변경이력 : 2019-08-26 최초 생성
+	 * @param wrk_id
+	 * @param user_email
+	 * @return
+	 * Method 설명 : 업무 아이디와 사용자 이메일로 업무 정보 조회
+	 */
+	@Override
+	public WorkVo getWorkInfo(int wrk_id, String user_email) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("wrk_id", wrk_id);
+		params.put("user_email", user_email);
+		return workDao.getWorkInfo(params);
+	}
 	/**
 	 * 
 	 * Method 			: updateWorkCmp

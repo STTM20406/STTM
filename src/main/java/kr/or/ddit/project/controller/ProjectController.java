@@ -417,9 +417,18 @@ public class ProjectController {
 	public String porjectForm(Model model, ProjectVo projectVo, String memList, String templateType, HttpSession session) {
 
 		logger.debug("templateType :::::::::::: log : {}", templateType); 
+		logger.debug("memList :::::::::::: log : {}", memList); 
+		logger.debug("memList isEmpty :::::::::::: log : {}", memList.isEmpty()); 
+		logger.debug("memList trim :::::::::::: log : {}", memList.trim()); 
+		logger.debug("memList isEmpty:::::::::::: log : {}", memList.isEmpty()); 
 		
 		String viewName = "";
-		List<String> memberList = Arrays.asList(memList.split(","));
+		ArrayList<String> memberList = new ArrayList<String>();
+		if(!memList.isEmpty()) {
+			memberList = new ArrayList<String>(Arrays.asList(memList.split(",")));
+		}
+		logger.debug("memberList memberList:::::::::::: log : {}", memberList.size()); 
+		logger.debug("memberList memberList:::::::::::: log : {}", memberList); 
 
 		// 세션에 저장된 user 정보를 가져옴
 		UserVo user = (UserVo) session.getAttribute("USER_INFO");
@@ -452,8 +461,8 @@ public class ProjectController {
 		
 		logger.debug("log room : {}, mem : {}",room,mem);
 		
-		//선택한 멤버 리스트를 가져와서 반복해서 insert하기
-		if(memList != null) {
+		if(memberList.size() != 0) {
+			//선택한 멤버 리스트를 가져와서 반복해서 insert하기
 			for (int i = 0; i < memberList.size(); i++) {
 				String memEmail = memberList.get(i);
 				
@@ -470,9 +479,10 @@ public class ProjectController {
 				memService.insertChatMem(memVo);
 			}
 		}
+		
 
 		// 값이 0이 아닐때
-		if (insertProjectCnt != 0 && insertProjectAdmCnt != 0 && insertProjectMemCnt != 0) {
+		if (insertProjectCnt != 0 && insertProjectAdmCnt != 0) {
 			viewName = "/projectList/projectList.user.tiles";
 			model.addAttribute("projectList", projectService.projectList(user_email));
 		}
