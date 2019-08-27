@@ -159,7 +159,6 @@
 		    where p.prj_id = m.prj_id
 		    and p.del_fl='N'
 		    and m.prj_mem_del_fl = 'N'
-		    and m.prj_mem_del_fl = 'N'
 		    and m.user_email in   
 		        (select user_email
 		        from users
