@@ -420,8 +420,8 @@ $(document).ready(function(){
 	});
    
 	
-	$("#sch_submit").on("click",function(){
-		$("#searchFrm").submit();
+	$("#hsch_submit").on("click",function(){
+		$("#hsearchFrm").submit();
 	});
 	
 	//프로젝트 채팅할지 일반채팅할지 선택
@@ -777,14 +777,14 @@ window.onclick = function(event) {
          <div class="hd_sch_wr">
             <fieldset id="hd_sch">
                <legend>사이트 내 전체검색</legend>
-               <form id="searchFrm" action="#" method="get">
+               <form id="hsearchFrm" action="/project/headerSearch" method="get">
                   <select id="headerSearch" name="headerSearch">
                      <option value="1">업무리스트</option>
                      <option value="2">업무명</option>
                      <option value="3">프로젝트 멤버명</option>
                   </select> <input type="text" name="headerSearchText" id="headerSearchText" maxlength="20"
                      placeholder="프로젝트 검색">
-                  <button type="submit" id="sch_submit" value="검색">검색</button>
+                  <button type="submit" id="hsch_submit" value="검색">검색</button>
                </form>
             </fieldset>
          </div>
