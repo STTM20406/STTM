@@ -339,9 +339,10 @@ $(document).ready(function(){
    
    //화상회의생성 버튼 클릭시
    $('#headerFaceChat').on("click", function(){
-      
+	
         var $href = $(this).attr('href');
         layer_popup($href);
+	    $("#headerSelectProject option:eq(0)").prop("selected", true); //첫번째 option 선택
     });
    
    //화상회의방 참여하기 버튼 클릭시
@@ -583,7 +584,6 @@ function connectNotify(){
 	  var distinguish = $("#distinguishSocket").val(); 
       console.log("ReceiveMessage: ", event.data + "\n");
       
-      if(distinguish == 'ddd'){
 	      var data = event.data;
 	      
 	      if(!data.startsWith("lst:")) {
@@ -598,7 +598,7 @@ function connectNotify(){
 		      },3000);
 	      } 
       
-      }else if(distinguish == 'chatting'){
+      if(distinguish == 'chatting'){
     	  var userId = $("#huser_email").val();
     	  var strArray = event.data.split(",");
 
