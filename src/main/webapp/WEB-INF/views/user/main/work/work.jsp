@@ -1659,7 +1659,6 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 		<li><a href="/meeting/view">Meeting</a></li>
 		<li><a href="/vote">Vote</a></li>
 	</ul>
-	
 	<div class="sub_btn">
 		<ul>
 			<li><a href="#">4</a></li>
@@ -1668,7 +1667,6 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 			<li><a href="#">프로젝트 설정</a></li>
 		</ul>
 	</div>
-	
 </div>
 
 <style>
