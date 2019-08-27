@@ -29,7 +29,7 @@ public class File_Dw_HisVo {
 	private int file_id; // 파일 아이디
 	private Date down_date; // 다운로드 일시
 	
-	private int num; //번호
+	private int rn; //번호
 	private String user_nm; //유저 이름
 	private String wrk_nm; //업무이름
 	private String original_file_nm; // 실제 파일이름
@@ -55,10 +55,11 @@ public class File_Dw_HisVo {
 			return sdf.format(down_date);
 	}
 
+
 	@Override
 	public String toString() {
 		return "File_Dw_HisVo [down_id=" + down_id + ", prj_id=" + prj_id + ", user_email=" + user_email + ", file_id="
-				+ file_id + ", down_date=" + down_date + ", num=" + num + ", user_nm=" + user_nm + ", wrk_nm=" + wrk_nm
+				+ file_id + ", down_date=" + down_date + ", rn=" + rn + ", user_nm=" + user_nm + ", wrk_nm=" + wrk_nm
 				+ ", original_file_nm=" + original_file_nm + "]";
 	}
 
@@ -70,12 +71,13 @@ public class File_Dw_HisVo {
 		this.user_nm = user_nm;
 	}
 
-	public int getNum() {
-		return num;
+
+	public int getRn() {
+		return rn;
 	}
 
-	public void setNum(int num) {
-		this.num = num;
+	public void setRn(int rn) {
+		this.rn = rn;
 	}
 
 	public int getDown_id() {

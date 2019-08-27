@@ -37,7 +37,7 @@ public class Link_attchVo {
 	
 	private String wrk_nm; 			//업무명
 	private String user_nm;		//맴버이름
-	private int num;
+	private int rn;
 	
 	//기본생성자
 	public Link_attchVo() {
@@ -61,12 +61,13 @@ public class Link_attchVo {
 		this.attch_url = attch_url;
 	}
 
-	public int getNum() {
-		return num;
+
+	public int getRn() {
+		return rn;
 	}
 
-	public void setNum(int num) {
-		this.num = num;
+	public void setRn(int rn) {
+		this.rn = rn;
 	}
 
 	public String getUser_nm() {
@@ -142,12 +143,13 @@ public class Link_attchVo {
 		this.wrk_nm = wrk_nm;
 	}
 
-	//toString
 	@Override
 	public String toString() {
 		return "Link_attchVo [link_id=" + link_id + ", prj_id=" + prj_id + ", user_email=" + user_email + ", wrk_id="
 				+ wrk_id + ", attch_url=" + attch_url + ", file_link_dt=" + file_link_dt + ", del_fl=" + del_fl
-				+ ", wrk_nm=" + wrk_nm + "]";
+				+ ", wrk_nm=" + wrk_nm + ", user_nm=" + user_nm + ", rn=" + rn + "]";
 	}
+
+	//toString
 
 }
