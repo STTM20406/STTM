@@ -117,8 +117,8 @@ function loadPriorChart(priorChartContainer, priorData, width, height) {
 		        			  '</div>' + '</div>' + '</div>';
 		        	return tem;
 		        },
-		        offsetX: 50,
-		        offsetY: -150
+		        offsetX: 20,
+		        offsetY: -10
 		    },
 		    legend: {
 		    	align: 'top',
@@ -180,7 +180,9 @@ function loadProgressChart(progressChartContainer, progressData, width, height) 
 					temp +
 					'</div>' + '</div>' + '</div>';
 					return tem;
-				}
+				},
+				offsetX: 20,
+		        offsetY: -10
 			},
 			legend: {
 				align: 'top',
@@ -225,8 +227,8 @@ function loadPercentChart(percentChartContainer, percentData, width, height) {
 		        	return tem;
 		        			  
 		        },
-		        offsetX: 50,
-		        offsetY: -150
+		        offsetX: 20,
+		        offsetY: -10
 		    },
 		    legend: {
 		    	align: 'top',
@@ -290,7 +292,7 @@ function loadListChart(listChartContainer, listData, width, height) {
 		        			  '</div>' + '</div>' + '</div>';
 		        	return tem;
 		        },
-		        offsetX: -150,
+		        offsetX: 20,
 		        offsetY: -10
 			},
 			legend: {
@@ -302,3 +304,42 @@ function loadListChart(listChartContainer, listData, width, height) {
 	var listChart = tui.chart.barChart(listChartContainer, listData, options2);
 	return listChart;
 };
+
+$(function() {
+	$("body").on("mouseout", ".tui-chart-tooltip-body", function() {
+		
+		try {
+			if(priorChart != null) {
+				priorChart.hideTooltip();
+			}
+			
+			if(pieChart != null) {
+				pieChart.hideTooltip();
+			}
+			
+			if(percentChart != null) {
+				percentChart.hideTooltip();
+			}
+			if(listChart != null) {
+				listChart.hideTooltip();
+			}
+			
+			if(progressChart != null) {
+				progressChart.hideTooltip();
+			}
+			
+			if(followChart != null) {
+				followChart.hideTooltip();
+			}
+			
+			if(assignChart != null) {
+				assignChart.hideTooltip();
+			}
+			
+			if(madeChart != null) {
+				madeChart.hideTooltip();
+			}
+		} catch (e) { }
+		
+	});
+})

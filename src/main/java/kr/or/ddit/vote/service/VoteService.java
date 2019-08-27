@@ -45,7 +45,7 @@ public class VoteService implements IVoteService{
 		Integer prj_id = (Integer) paramMap.get("prj_id");
 		int voteCnt = voteDao.getVoteCnt(prj_id);
 		int paginationSize = (int)Math.ceil((double) voteCnt / pageSize);
-		
+		logger.debug("paginationSize: {}",paginationSize);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		StringBuffer sb_voteList = new StringBuffer();
 		sb_voteList.append("<table id='voteListTbl'>");
@@ -156,7 +156,7 @@ public class VoteService implements IVoteService{
 					sb_voteList.append("<a href='javascript:void(0);' onclick='voteList("+i+");'>"+i+"</a>");
 				}
 			}
-			if(page==paginationSize) {
+			if(page==paginationSize || paginationSize == 0 ) {
 				sb_voteList.append("<a class='btn_last'></a>");
 			} else {
 				sb_voteList.append("<a href='javascript:void(0);' onclick='voteList("+paginationSize+");'>»</a>");

@@ -118,7 +118,7 @@
 <!-- side bar -->
 <div class="sidebar">
 	<div class="logo">
-		<h2><a href="#">project</a></h2>
+		<h2><a href="/login">project</a></h2>
 		<div class="auth">
 			<p class="auth_txt"><span>제한</span></p>
 			<ul class="auth_list">
