@@ -71,7 +71,7 @@ ul.tabs li.current {
 				data.individualList.forEach(function(file, index){
 					//html생성
 					html += "<tr id='filetr'>";
-					html += "<td>"+ file.num + "</td>";
+					html += "<td>"+ file.rn + "</td>";
 					html += "<td><a href='/fileDownLoad?file_id="+file.file_id+"'>" + file.original_file_nm+ "</a></td>";	
 					html += "<td>"+ file.prjStartDtStr + "</td>";
 					html += "<td><a href='javascript:updateInFile("+file.file_id+")'>삭제</a></td>";
@@ -126,7 +126,7 @@ ul.tabs li.current {
 				data.individualList.forEach(function(file, index){
 					//html생성
 					html += "<tr id='filetr'>";
-					html += "<td>"+ file.num + "</td>";
+					html += "<td>"+ file.rn + "</td>";
 					html += "<td><a href='/fileDownLoad?file_id="+file.file_id+"'>" + file.original_file_nm+ "</a></td>";
 					html += "<td>"+ file.prjStartDtStr + "</td>";
 					html += "<td><a href='javascript:updateInFile("+file.file_id+")'>삭제</a></td>";
@@ -179,7 +179,7 @@ ul.tabs li.current {
 				data.individualList.forEach(function(file, index){
 					//html생성
 					html += "<tr id='filetr'>";
-					html += "<td>"+ file.num + "</td>";
+					html += "<td>"+ file.rn + "</td>";
 					html += "<td><a href='/fileDownLoad?file_id="+file.file_id+"'>" + file.original_file_nm+ "</a></td>";
 					html += "<td>"+ file.prjStartDtStr + "</td>";
 					html += "<td><a href='javascript:updateInFile("+file.file_id+")'>삭제</a></td>";
@@ -234,7 +234,7 @@ ul.tabs li.current {
 				data.individualList.forEach(function(file, index){
 					//html생성
 					html += "<tr id='filetr'>";
-					html += "<td>"+ file.num + "</td>";
+					html += "<td>"+ file.rn + "</td>";
 					html += "<td><a href='/fileDownLoad?file_id="+file.file_id+"'>" + file.original_file_nm+ "</a></td>";
 					html += "<td>"+ file.prjStartDtStr + "</td>";
 					html += "<td><a href='javascript:updateInFile("+file.file_id+")'>삭제</a></td>";

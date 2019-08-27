@@ -452,17 +452,16 @@
 	<!-- public filePagination 공용 파일 링크 보관함!!!! -->
 	<select id="publicFilePagination" parameterType="map" resultType="file_attchVo">
 		<![CDATA[
-			select 
-				rownum num, a.file_id, a.prj_id, a.user_email, a.wrk_id, a.original_file_nm, a.db_file_nm, a.file_size, a.file_exts, a.file_dt, a.del_fl, a.FILE_SAVE_FL,a.FILE_COMM_FL, b.wrk_nm, C.USER_NM
-			from
-				(select a.*, rownum rn 
-			from
+			 select 
+	            rn, a.file_id, a.prj_id, a.user_email, a.wrk_id, a.original_file_nm, a.db_file_nm, a.file_size, a.file_exts, a.file_dt, a.del_fl, a.FILE_SAVE_FL,a.FILE_COMM_FL, b.wrk_nm, C.USER_NM
+	        from
+	            (select a.*, ROW_NUMBER() OVER(order by file_id desc) rn
+	        from
 			(select * 
 			from file_attch
 			WHERE prj_id = #{prj_id}
 			and del_fl='N'
-			and file_save_fl ='Y'
-			order by file_id desc) a)a, work b, USERS C
+			and file_save_fl ='Y') a)a, work b, USERS C
 			where rn >=(#{page}-1)*#{pageSize}+1 and rn <= #{page}*#{pageSize}
 			and b.wrk_id = a.wrk_id
 			AND A.USER_EMAIL = C.USER_EMAIL
@@ -485,15 +484,15 @@
 	<!-- linkList Pagination -->
 	<select id="publicLinkPagination" parameterType="map" resultType="link_attchVo">
    <![CDATA[
-      select rownum num, a.link_id, a.prj_id, a.user_email, a.wrk_id, a.attch_url, a.file_link_dt, a.del_fl, b.wrk_nm, c.user_nm
+      select 
+      	rn, a.link_id, a.prj_id, a.user_email, a.wrk_id, a.attch_url, a.file_link_dt, a.del_fl, b.wrk_nm, c.user_nm
       from
-      (select a.*, rownum rn 
+      	(select a.*, ROW_NUMBER() OVER( order by link_id desc) rn
       from
       (select * 
       from link_attch
       WHERE prj_id = #{prj_id}
-      and del_fl = 'N'
-      order by link_id desc) a)a, work b, USERS c
+      and del_fl = 'N') a)a, work b, USERS c
       where rn >=(#{page}-1)*#{pageSize}+1 and rn <= #{page}*#{pageSize}
       and b.wrk_id = a.wrk_id
       and a.user_email = c.user_email
@@ -564,23 +563,6 @@
 		'N')
 	</insert>
 	
-	<select id="selectFile" parameterType="int" resultType="file_attchVo">
-	<![CDATA[
-	 select a.file_id, a.prj_id, a.user_email, a.wrk_id, a.original_file_nm, a.db_file_nm, a.file_size, a.file_exts, a.file_dt, a.del_fl, a.FILE_SAVE_FL, b.wrk_nm, C.USER_NM
-      from
-      (select a.*, rownum rn 
-      from
-      (select * 
-      from file_attch
-      WHERE file_id = #{file_id}
-      and del_fl='N'
-      and file_save_fl ='PU'
-      order by file_id desc) a)a, work b, USERS C
-      where b.wrk_id = a.wrk_id
-      AND A.USER_EMAIL = C.USER_EMAIL
-      ]]>
-	</select>
-
 	<!--개인보관함 -->
 	
 	<select id="getFile" parameterType="int"
@@ -591,29 +573,27 @@
 	
 	<select id="individualPagination" parameterType="map" resultType="file_attchVo">
 	   <![CDATA[
-		   	select 
-		    rownum num, a.file_id, a.prj_id, a.user_email, a.wrk_id, a.original_file_nm, a.db_file_nm, a.file_size, a.file_exts, a.file_dt, a.del_fl, a.FILE_SAVE_FL,a.FILE_COMM_FL, b.wrk_nm, C.USER_NM
+		    select 
+		    rn, a.file_id, a.prj_id, a.user_email, a.wrk_id, a.original_file_nm, a.db_file_nm, a.file_size, a.file_exts, a.file_dt, a.del_fl, a.FILE_SAVE_FL,a.FILE_COMM_FL, b.wrk_nm, C.USER_NM
 		    from
-		    (select a.*, rownum rn 
+		    (select a.*, ROW_NUMBER() OVER(order by a.file_id desc) rn
 		    from
 		    (select * 
 		    from file_attch
 		    WHERE del_fl='N'
-		    and FILE_COMM_FL ='Y'
-		    order by file_id desc) a)a, work b, USERS C
+		    and FILE_COMM_FL ='Y' and USER_EMAIL = #{user_email}) a)a, work b, USERS C
 		    where rn>=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
 		    and b.wrk_id = a.wrk_id
-		    AND A.USER_EMAIL = C.USER_EMAIL
-		    and c.USER_EMAIL = #{user_email}
+		    AND A.USER_EMAIL = C.USER_EMAIL order by a.file_id desc
 	   ]]>
 	</select>
 	
 	<select id="individualSearchPagination" parameterType="map" resultType="file_attchVo">
 	   <![CDATA[
-		   	select 
-		    rownum num, a.file_id, a.prj_id, a.user_email, a.wrk_id, a.original_file_nm, a.db_file_nm, a.file_size, a.file_exts, a.file_dt, a.del_fl, a.FILE_SAVE_FL,a.FILE_COMM_FL, b.wrk_nm, C.USER_NM
+	    	select 
+		    rn, a.file_id, a.prj_id, a.user_email, a.wrk_id, a.original_file_nm, a.db_file_nm, a.file_size, a.file_exts, a.file_dt, a.del_fl, a.FILE_SAVE_FL,a.FILE_COMM_FL, b.wrk_nm, C.USER_NM
 		    from
-		    (select a.*, rownum rn 
+		    (select a.*, ROW_NUMBER() OVER(order by a.file_id desc) rn
 		    from
 		    (select * 
 		    from file_attch
@@ -666,14 +646,13 @@
 			PRJ_ID = #{prj_id}
 	</select>
 	
-	
 	<!-- 개인보관함 -->
 	<!-- 해당 프로젝트 해당 업무 file, link data에 대한 pagination  -->
 	<select id="workFilePagination" parameterType="map" resultType="file_attchVo">
 	  <![CDATA[
-		  select rownum num, a.file_id, a.prj_id, a.user_email, a.wrk_id, a.original_file_nm, a.db_file_nm, a.file_size, a.file_exts, a.file_dt, a.del_fl, a.FILE_SAVE_FL, b.wrk_nm, C.USER_NM
+		  select rn, a.file_id, a.prj_id, a.user_email, a.wrk_id, a.original_file_nm, a.db_file_nm, a.file_size, a.file_exts, a.file_dt, a.del_fl, a.FILE_SAVE_FL, b.wrk_nm, C.USER_NM
 	      from
-	      (select a.*, rownum rn 
+	      (select a.*, ROW_NUMBER() OVER(order by a.file_id desc) rn
 	      from
 	      (select * 
 	      from file_attch
@@ -696,9 +675,9 @@
 	
 	<select id="workLinkPagination" parameterType="map" resultType="link_attchVo">
 	  <![CDATA[
-		  select rownum num, a.link_id, a.prj_id, a.user_email, a.wrk_id, a.attch_url, a.file_link_dt, a.del_fl, b.wrk_nm, c.user_nm
-     	  from
-	      (select a.*, rownum rn 
+	  	select rn, a.link_id, a.prj_id, a.user_email, a.wrk_id, a.attch_url, a.file_link_dt, a.del_fl, b.wrk_nm, c.user_nm
+	      from
+	      (select a.*, ROW_NUMBER() OVER(order by a.link_id desc) rn
 	      from
 	      (select * 
 	      from link_attch
@@ -718,70 +697,6 @@
 	      and del_fl = 'N'
 	</select>
 	
-	
-	<!-- 해당 프로젝트 해당 업무 file, link data에 대한 pagination  -->
-
-	<!-- 해당 프로젝트 파일 리스트 받아오는 쿼리문 -->
-	<select id="fileList" parameterType="int"
-		resultType="file_attchVo">
-		select
-		a.file_id
-		, a.prj_id
-		, a.user_email
-		, a.wrk_id
-		, a.original_file_nm
-		, a.db_file_nm
-		, a.file_size
-		, a.file_exts
-		, a.file_dt
-		, a.del_fl
-		, b.wrk_nm
-		from
-		file_attch a, work b
-		where
-		a.prj_id = #{prj_id}
-		and
-		a.del_fl = 'N'
-		and a.wrk_id = b.wrk_id
-	</select>
-
-	<!-- 파일 리스트fileList Pagination -->
-	<select id="fPagination" parameterType="map"
-		resultType="file_attchVo">
-   <![CDATA[
-   	  select a.file_id, a.prj_id, a.user_email, a.wrk_id, a.original_file_nm, a.db_file_nm, a.file_size, a.file_exts, a.file_dt, a.del_fl, b.wrk_nm 
-      from
-      (select a.*, rownum rn 
-      from
-      (select * 
-      from file_attch
-      WHERE prj_id = #{prj_id}
-      and del_fl='N'
-      order by file_id desc) a)a, work b
-      where rn >=(#{page}-1)*#{pageSize}+1 and rn <= #{page}*#{pageSize}
-      and b.wrk_id = a.wrk_id
-   ]]>
-	</select>
-
-	
-	<!-- 등록할때 fileList Pagination wrk_id필요 -->
-	<select id="insertFPagination" parameterType="map"
-		resultType="file_attchVo">
-   <![CDATA[
-   	  select a.file_id, a.prj_id, a.user_email, a.wrk_id, a.original_file_nm, a.db_file_nm, a.file_size, a.file_exts, a.file_dt, a.del_fl, b.wrk_nm 
-		from
-		(select a.*, rownum rn 
-		from
-		(select * 
-		from file_attch
-		WHERE wrk_id = #{wrk_id}
-		and del_fl='N'
-		order by file_id desc) a)a, work b
-		where rn >=(#{page}-1)*#{pageSize}+1 and rn <= #{page}*#{pageSize}
-		and b.wrk_id = a.wrk_id
-   ]]>
-	</select>
-	
 	<!-- InsertFPagination파일수 조회 -->
 	<select id="fCnt" resultType="int">
 		select count(*)
@@ -792,8 +707,6 @@
 		and
 		del_fl='N'
 	</select>
-
-	
 
 	<!-- *********************link_attch********************* -->
 	<insert id="insertLink" parameterType="link_attchVo">
@@ -818,7 +731,6 @@
 	<!-- 해당 프로젝트의 linkList 받아오는 쿼리문 -->
 	<select id="linkList" parameterType="int"
 		resultType="link_attchVo">
-
 		select a.LINK_ID, a.PRJ_ID, a.USER_EMAIL, a.WRK_ID, a.ATTCH_URL,
 		a.FILE_LINK_DT, a.DEL_FL, b.wrk_nm
 		from
@@ -830,24 +742,6 @@
 		and a.wrk_id = b.wrk_id
 	</select>
 
-	
-	<!-- InsertLPagination링크수 조회 -->
-	<select id="insertLPagination" parameterType="map"	resultType="link_attchVo">
-   <![CDATA[
-      select a.link_id, a.prj_id, a.user_email, a.wrk_id, a.attch_url, a.file_link_dt, a.del_fl, b.wrk_nm 
-      from
-      (select a.*, rownum rn 
-      from
-      (select * 
-      from link_attch
-      WHERE wrk_id = #{wrk_id}
-      and del_fl = 'N'
-      order by link_id desc) a)a, work b
-      where rn >=(#{page}-1)*#{pageSize}+1 and rn <= #{page}*#{pageSize}
-      and b.wrk_id = a.wrk_id
-   ]]>
-	</select>
-	
 	<!-- insert 파일수 조회 -->
 	<select id="lCnt" resultType="int">
 		select count(*)
@@ -862,9 +756,9 @@
 	<!-- 다운로드 이용 내역 -->
 	<select id="historyPagination" parameterType="map" resultType="file_dw_hisVo">
 	 <![CDATA[
-		 select rownum num, a.DOWN_ID, a.PRJ_ID, a.USER_EMAIL, a.FILE_ID, a.DOWN_DATE, b.wrk_nm, c.ORIGINAL_FILE_NM, d.user_nm
+	 	select rn, a.DOWN_ID, a.PRJ_ID, a.USER_EMAIL, a.FILE_ID, a.DOWN_DATE, b.wrk_nm, c.ORIGINAL_FILE_NM, d.user_nm
 		from
-		(select a.*, rownum rn 
+		(select a.*, ROW_NUMBER() OVER(order by a.down_id desc) rn
 		from
 		(select * from FILE_DW_HIS
 		where prj_id = #{prj_id}
@@ -884,34 +778,6 @@
 			prj_id = #{prj_id}
 	</select>	
 
-
-
-
-	
-	<!-- 개인 보관함!xml -->
-	<!-- 내 보관함에있는 파일 목록 페이지네이션 -->
-	<select id="individualBox" parameterType="map" resultType="file_attchVo">
-	  <![CDATA[
-	  select rownum num, a.file_id, a.prj_id, a.user_email, a.wrk_id, a.original_file_nm, a.db_file_nm, a.file_size, a.file_exts, a.file_dt, a.del_fl,a.FILE_SAVE_FL, b.wrk_nm 
-      from
-      (select a.*, rownum rn 
-      from
-      (select * 
-      from file_attch
-      WHERE prj_id = #{prj_id}
-      and user_email = #{user_email}
-      and del_fl='N'
-      and file_save_fl = 'IN'
-      order by file_id desc) a)a, work b
-      where rn >=(#{page}-1)*#{pageSize}+1 and rn <= #{page}*#{pageSize}
-      and a.WRK_ID = b.WRK_ID
-      ]]>
-	</select>
-	
-	
-	
-	
-	
 	<!-- *********************minutes************************ -->
 	<select id="minutesList" parameterType="int" resultType="minutesVo">
 		select A.*, B.user_nm from minutes A, users B

@@ -1068,7 +1068,7 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 		
 		$(".workTab").on("click", "#FL", function(){
 			var wrk_id = $('#wps_wrk_id').val();
-			workFilePagination(1, 10, wrk_id);
+			workFilePagination(1, 5, wrk_id);
 		})
 	
 		$(".sub_menu").on("click", "#fileList",function(){
@@ -1077,7 +1077,7 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 			$('#workLink').fadeOut(0);
 			$('#workFile').fadeIn(0);
 			alert(wrk_id);
-			workFilePagination(1, 10, wrk_id);
+			workFilePagination(1, 5, wrk_id);
 		})
 		
 		$(".sub_menu").on("click", "#linkList",function(){
@@ -1085,7 +1085,7 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 			var wrk_id = $('#wps_wrk_id').val();
 			$('#workFile').fadeOut(0);
 			$('#workLink').fadeIn(0);
-			workLinkPagination(1, 10,wrk_id);
+			workLinkPagination(1, 5,wrk_id);
 		})
 		
 		
@@ -1104,7 +1104,7 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 	 		    data: "attch_url=" + attch_url + "&locker=" + locker + "&wrk_id="+ wrk_id,
 	 		    contentType:"application/x-www-form-urlencoded; charset=UTF-8",
 	 		    success: function(data){
-	 		    	workLinkPagination(1, 10, wrk_id);
+	 		    	workLinkPagination(1, 5, wrk_id);
 	 		    },
 	 		    error: function(e){
 	 		        alert(e.reponseText);
@@ -1135,7 +1135,7 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 	 		    contentType: false,
 	 		    processData: false,
 	 		    success: function(data){
-	 		    	workFilePagination(1, 10, wrk_id);
+	 		    	workFilePagination(1, 5, wrk_id);
 	 		    },
 	 		    error: function(e){
 	 		        alert(e.reponseText);

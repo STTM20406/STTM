@@ -60,7 +60,7 @@ ul.tabs li.current {
 				
 					//html생성
 					html += "<tr id='filetr'>";
-					html += "<td>"+ file.num + "</td>";
+					html += "<td>"+ file.rn + "</td>";
 					html += "<td>"+ file.wrk_nm + "</td>";
 					html += "<td><a href='/fileDownLoad?file_id="+file.file_id+"'>" + file.original_file_nm+ "</a></td>";
 					html += "<td>"+ file.user_email + "</td>";
@@ -146,7 +146,7 @@ ul.tabs li.current {
 				data.historyList.forEach(function(history, index){
 					//html생성
 					html += "<tr>";
-					html += "<td>"+ history.num + "</td>";
+					html += "<td>"+ history.rn + "</td>";
 					html += "<td>"+ history.original_file_nm + "</td>";
 					html += "<td>"+ history.wrk_nm + "</td>";
 					html += "<td>"+ history.user_email + "</td>";
@@ -208,7 +208,7 @@ ul.tabs li.current {
 				data.publicLinkList.forEach(function(link, index){
 					//html생성
 					html += "<tr>";
-					html += "<td>"+ link.num + "</td>";
+					html += "<td>"+ link.rn + "</td>";
 					html += "<td>"+ link.wrk_nm + "</td>";
 					html += "<td><a href='https://"+link.attch_url+"'>"+link.attch_url+"</a></td>";	
 					html += "<td>"+ link.user_email + "</td>";
@@ -268,7 +268,7 @@ ul.tabs li.current {
 				data.publicLinkList.forEach(function(link, index){
 					//html생성
 					html += "<tr>";
-					html += "<td>"+ link.num + "</td>";
+					html += "<td>"+ link.rn + "</td>";
 					html += "<td>"+ link.wrk_nm + "</td>";
 					html += "<td><a href='https://"+link.attch_url+"'>"+link.attch_url+"</a></td>";	
 					html += "<td>"+ link.user_email + "</td>";
@@ -334,7 +334,7 @@ ul.tabs li.current {
 				
 					//html생성
 					html += "<tr id='filetr'>";
-					html += "<td>"+ file.num + "</td>";
+					html += "<td>"+ file.rn + "</td>";
 					html += "<td>"+ file.wrk_nm + "</td>";
 					html += "<td><a href='/fileDownLoad?file_id="+file.file_id+"'>" + file.original_file_nm+ "</a></td>";
 					html += "<td>"+ file.user_email + "</td>";
@@ -393,7 +393,7 @@ ul.tabs li.current {
 				
 					//html생성
 					html += "<tr id='filetr'>";
-					html += "<td>"+ file.num + "</td>";
+					html += "<td>"+ file.rn + "</td>";
 					html += "<td>"+ file.wrk_nm + "</td>";
 					html += "<td><a href='/fileDownLoad?file_id="+file.file_id+"'>" + file.original_file_nm+ "</a></td>";
 					html += "<td>"+ file.user_email + "</td>";

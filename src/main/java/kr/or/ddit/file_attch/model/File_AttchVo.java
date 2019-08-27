@@ -42,7 +42,7 @@ public class File_AttchVo {
     
     private String wrk_nm; 				//업무명
     private String user_nm;				//작성자 이름
-    private int num;
+    private int rn;
     
     //기본 생성자
     public File_AttchVo() {
@@ -93,13 +93,6 @@ public class File_AttchVo {
 		this.file_comm_fl = file_comm_fl;
 	}
 
-	public int getNum() {
-		return num;
-	}
-
-	public void setNum(int num) {
-		this.num = num;
-	}
 
 	public String getUser_nm() {
 		return user_nm;
@@ -200,6 +193,14 @@ public class File_AttchVo {
 	public void setFile_save_fl(String file_save_fl) {
 		this.file_save_fl = file_save_fl;
 	}
+	
+	public int getRn() {
+		return rn;
+	}
+
+	public void setRn(int rn) {
+		this.rn = rn;
+	}
 
 	@Override
 	public String toString() {
@@ -207,7 +208,8 @@ public class File_AttchVo {
 				+ wrk_id + ", original_file_nm=" + original_file_nm + ", db_file_nm=" + db_file_nm + ", file_size="
 				+ file_size + ", file_exts=" + file_exts + ", file_dt=" + file_dt + ", file_save_fl=" + file_save_fl
 				+ ", del_fl=" + del_fl + ", file_comm_fl=" + file_comm_fl + ", wrk_nm=" + wrk_nm + ", user_nm="
-				+ user_nm + ", num=" + num + "]";
+				+ user_nm + ", rn=" + rn + "]";
 	}
+
 	
 } 

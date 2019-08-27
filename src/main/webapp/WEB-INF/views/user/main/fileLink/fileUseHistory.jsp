@@ -16,7 +16,7 @@
 			</tr>
 			<c:forEach items="${historyList}" var="history">
 				<tr>
-					<td>${history.num}</td>
+					<td>${history.rn}</td>
 					<td>${history.original_file_nm }</td>
 					<td>${history.wrk_nm}</td>
 					<td>${history.user_email}</td>
