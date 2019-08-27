@@ -51,7 +51,7 @@ $(document).ready(function(){
 					 	<form id="frmSearch" action="/admUserInfoSearch" method="get">
 <!-- 							<input type="text" id="inq_cate" name="inq_cate" value="INQ01"/> -->
 <!-- 							<input type="text" id="selectBoxText" name="selectBoxText"/> -->
-							<input type="text" id="selectBoxText" name="selectBoxText" value="userEmail"/>
+							<input type="hidden" id="selectBoxText" name="selectBoxText" value="userEmail"/>
 			                <legend>사이트 내 전체검색</legend>
 				                <select id="search">
 				                	<option value="userEmail">이메일</option>

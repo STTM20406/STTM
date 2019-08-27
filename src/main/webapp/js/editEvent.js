@@ -60,13 +60,20 @@ var editEvent = function (event, element, view) {
     $('#updateEvent').on('click', function () {
 
         if (editStart.val() > editEnd.val()) {
-        	alert("끝나는 날짜가 앞설 수 없습니다.");
-        	return false;
+        	$(".ctxt").text("끝나는 날짜가 앞설 수 없습니다.");
+				layer_popup("#layer2");
+			return false;
+        	
+//			alert("끝나는 날짜가 앞설 수 없습니다.");
+//        	return false;
         }
 
         if (editTitle.val() === '') {
-        	alert("일정명은 필수 입력사항입니다.");
-        	return false;
+        	$(".ctxt").text("일정명은 필수 입력사항입니다.");
+				layer_popup("#layer2");
+			return false;
+//        	alert("일정명은 필수 입력사항입니다.");
+//        	return false;
         }
 
         var statusAllDay;
@@ -110,7 +117,10 @@ var editEvent = function (event, element, view) {
             	  "&wrk_lst_id=" + event.type + 
             	  "&wrk_color_cd=" + event.backgroundColor,
             success: function (response) {
-            	alert('해당 업무가 수정 되었습니다.');
+            	//수정 후  알림창뜨게!
+                $(".ctxt").text("해당 업무가 수정 되었습니다.");
+        			layer_popup("#layer2");
+        		return false;
             }
         });
 
@@ -130,7 +140,9 @@ var editEvent = function (event, element, view) {
             data: "wrk_id=" +event._id,  
             contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
             success: function (response) {
-            	alert('해당 업무가 삭제 되었습니다.');
+            	 $(".ctxt").text("해당 업무가 삭제 되었습니다.");
+     			layer_popup("#layer2");
+     			return false;
             }
         });
     });

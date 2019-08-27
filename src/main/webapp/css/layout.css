@@ -432,9 +432,9 @@ a.btn-layerClose:hover {border: 1px solid #091940; background-color:#1f326a; col
   width: 92%;
  }
  .received_withd_msg p {
-  background: #ebebeb none repeat scroll 0 0;
+  background: #1e90ff none repeat scroll 0 0;
   border-radius: 3px;
-  color: #646464;
+  color: #000000;
   font-size: 14px;
   margin: 0;
   padding: 5px 10px 5px 12px;
@@ -454,7 +454,7 @@ a.btn-layerClose:hover {border: 1px solid #091940; background-color:#1f326a; col
 }
 
  .sent_msg p {
-  background: #05728f none repeat scroll 0 0;
+  background: #0000CD none repeat scroll 0 0;
   border-radius: 3px;
   font-size: 14px;
   margin: 0; color:#fff;
@@ -477,7 +477,7 @@ a.btn-layerClose:hover {border: 1px solid #091940; background-color:#1f326a; col
 
 .type_msg {border-top: 1px solid #c4c4c4;position: relative;}
 .msg_send_btn {
-  background: #05728f none repeat scroll 0 0;
+  background: #0000CD none repeat scroll 0 0;
   border: medium none;
   border-radius: 50%;
   color: #fff;
