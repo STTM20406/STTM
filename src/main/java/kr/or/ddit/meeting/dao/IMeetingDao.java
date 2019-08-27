@@ -1,5 +1,13 @@
 package kr.or.ddit.meeting.dao;
 
-public interface IMeetingDao {
+import java.util.List;
 
+import kr.or.ddit.meeting.model.MeetingVo;
+
+public interface IMeetingDao {
+	List<MeetingVo> meetingList();
+	
+	int deleteMeeting(String mt_id);
+	
+	int insertMeeting(MeetingVo meetingVo);
 }

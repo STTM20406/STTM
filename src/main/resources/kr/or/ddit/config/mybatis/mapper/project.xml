@@ -1030,4 +1030,38 @@
 	</update>
 	
 	<!-- *********************meeting************************ -->
+	
+	<insert id="insertMeeting" parameterType="MeetingVo">
+		INSERT INTO MEETING
+			(
+				MT_ID
+				,USER_EMAIL
+				,PRJ_ID
+				,MT_LC
+				,MT_EXP
+				,MT_DATE
+				,MT_LAT
+				,MT_LNG
+			)
+		VALUES
+			(
+				MT_SEQ.NEXTVAL
+				,#{user_email}
+				,1
+				,#{mt_lc}
+				,#{mt_exp}
+				,#{mt_date}
+				,#{mt_lat}
+				,#{mt_lng}
+			)
+	</insert>
+	<delete id="deleteMeeting" parameterType="String">
+		DELETE FROM MEETING
+		WHERE		MT_ID = #{mt_id}
+	</delete>
+	<select id="meetingList" resultType="MeetingVo">
+		SELECT	*
+		FROM	MEETING
+		ORDER BY MT_ID
+	</select>
 </mapper>
