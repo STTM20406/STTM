@@ -91,6 +91,20 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 }
 	$(document).ready(function() {
 		
+		$("#selectProject option[id='${PROJECT_INFO.prj_id}']").attr("selected", "selected");
+		
+		var authText = "";
+		
+		if("${PROJECT_INFO.prj_auth}" == "ASC01"){
+			authText = "전체";
+		}else if("${PROJECT_INFO.prj_auth}" == "ASC02"){
+				authText = "제한";
+		}else if("${PROJECT_INFO.prj_auth}" == "ASC03"){
+				authText = "통제";
+		}
+		
+		$(".auth_txt span").text(authText);
+		
 		// 업무 코멘트 시작점
 		// 업무코멘트 수정
 		$(".workTab").on("click", "#commentId", function(){
@@ -919,7 +933,7 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 		
 		
 		/* 여기서부터 업무 셋팅 업데이트를 위한 이벤트 핸들러 입니다. */
-		$("#propertyWorkSet input, select").on("propertychange keyup change click", function(){
+		$("#propertyWorkSet input, #propertyWorkSet select").on("propertychange keyup change click", function(){
 			
 			//프로젝트 셋팅 값 가져오기
 			var id = $("#wps_id").val();
@@ -1680,7 +1694,17 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 </style>
 
 <section class="contents">
-	<h2>${PROJECT_INFO.prj_nm}</h2>
+	<div class="projectTitle">
+		<h2>${PROJECT_INFO.prj_nm}</h2> 
+		<div class="auth">
+			<p class="auth_txt"><span>제한</span></p>
+			<ul class="auth_list">
+				<li>전체 액세스</li>
+				<li>제한 액세스</li>
+				<li>통제 액세스</li>
+			</ul>
+		</div>
+	</div>
 	<div class="workListWrap">
 		<div id="workListBox">
 			<c:forEach items="${workList}" var="workList">
