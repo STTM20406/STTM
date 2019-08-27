@@ -83,7 +83,7 @@
 						<li>
 							<label for="userId">USER EMAIL</label>
 							<input type="text" id="user_email" name="user_email" placeholder="Please enter your Email." value="">
-							<input type="button" id="duplCheckBtn" value="이메일 중복체크"> 
+<!-- 							<input type="button" id="duplCheckBtn" value="이메일 중복체크">  -->
 						</li>
 						<li>
 							<dl class="formList">

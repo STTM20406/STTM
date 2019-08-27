@@ -1,6 +1,9 @@
 package kr.or.ddit.meeting.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * 
@@ -17,6 +20,7 @@ import java.util.Date;
  *  수정자  수정내용
  * ------ ------------------------
  *  박서경  최초 생성 2019-07-19
+ *  박서경  수정 이력 2019-08-27
  *
  * </pre>
  */
@@ -27,11 +31,20 @@ public class MeetingVo {
 	private int prj_id;             		//프로젝트 ID
 	private String mt_lc;           		//미팅 장소
 	private String mt_exp;         	 	//미팅 설명
+	@DateTimeFormat(pattern = "yyyy-MM-dd kk:mm")
 	private Date mt_date;          	 	//미팅 일시
 	private String mt_lat;          		//위치 위도
 	private String mt_lng;          		//위치 경도
 	
 	public MeetingVo() {}
+	
+	public String getMtDtStr() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm");
+		if(mt_date == null) {
+			return "";
+		}
+		return sdf.format(mt_date);
+	}
 	
 	public MeetingVo(String user_email, int prj_id, String mt_lc, String mt_exp, Date mt_date, String mt_lat,
 			String mt_lng) {

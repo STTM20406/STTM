@@ -226,12 +226,12 @@
 							<ul>
 								<li>
 									<label for="user_pass1">새 비밀번호</label>
-									<input type="text" id="user_pass1" name="user_pass1" 
+									<input type="password" id="user_pass1" name="user_pass1" 
 										placeholder="4~12자의 영문 대소문자와 숫자">
 								</li>
 								<li>
 									<label for="user_pass2">새 비밀번호 확인</label>
-									<input type="text" id="user_pass" name="user_pass" 
+									<input type="password" id="user_pass" name="user_pass" 
 										placeholder="4~12자의 영문 대소문자와 숫자">
 								</li>
 								<li>
@@ -347,7 +347,8 @@
 									<a href class="btn_first"></a>
 								</c:when>
 								<c:otherwise>
-									<a href="${cp}/setUserPass?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a>
+<%-- 									<a href="${cp}/setUserPass?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a> --%>
+									<a href="${cp}/setUserPass#layer0?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a>
 								
 								</c:otherwise>
 							</c:choose>
@@ -358,7 +359,8 @@
 										<span>${i}</span>
 									</c:when>
 									<c:otherwise>
-									<a href="${cp}/setUserPass?page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
+<%-- 									<a href="${cp}/setUserPass?page=${i}&pageSize=${pageVo.pageSize}">${i}</a> --%>
+									<a href="${cp}/setUserPass#layer0?page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
 									</c:otherwise>
 								</c:choose>
 				
@@ -370,7 +372,8 @@
 								</c:when>
 								
 								<c:otherwise>
-									<a href="${cp}/setUserPass?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
+<%-- 									<a href="${cp}/setUserPass?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a> --%>
+									<a href="${cp}/setUserPass#layer0?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
 								</c:otherwise>
 							</c:choose>
 						</div>
@@ -392,17 +395,9 @@
 							<ul>
 							
 								<li>
-									<input type="hidden" id="user_email" name="user_email" value="${user_email}">
-								</li>
-
-								<li>
-									<input type="hidden" id="user_pass" name="user_pass" value="${user_pass}">
-								</li>
-
-								<li>
 									<label for="user_nm">이름</label>
 									<input type="text" id="user_nm" name="user_nm" 
-										placeholder="" value="${user_nm}">
+										placeholder="5자(성은 제외)이내" value="${user_nm}">
 								</li>
 								
 								<li>

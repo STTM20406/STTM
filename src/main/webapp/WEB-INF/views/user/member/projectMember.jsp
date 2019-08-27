@@ -346,7 +346,6 @@ function requestedFriendsList() {
 							<a href class="btn_first"></a>
 						</c:when>
 						<c:otherwise>
-<%-- 							<a href="${cp}/friendsSearchList?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a> --%>
 							<a href="${cp}/projectMember?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a>
 						
 						</c:otherwise>
@@ -358,7 +357,6 @@ function requestedFriendsList() {
 								<span>${i}</span>
 							</c:when>
 							<c:otherwise>
-<%-- 								<a href="${cp}/friendsSearchList?page=${i}&pageSize=${pageVo.pageSize}">${i}</a> --%>
 								<a href="${cp}/projectMember?page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
 							</c:otherwise>
 						</c:choose>
@@ -371,7 +369,6 @@ function requestedFriendsList() {
 						</c:when>
 						
 						<c:otherwise>
-<%-- 							<a href="${cp}/friendsSearchList?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a> --%>
 							<a href="${cp}/projectMember?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
 						</c:otherwise>
 					</c:choose>

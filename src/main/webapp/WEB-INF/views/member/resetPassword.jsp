@@ -61,7 +61,6 @@
 			<form action="/resetPassword" method="post" id="loginForm" name="resetPw">
 				<div class="inputField">
 					<ul>
-						<span>테스트입니다</span>
 						<li>
 							<label for="userId">비밀번호 재설정</label>
 							<input type="text" id="user_email" name="user_email" placeholder="Please enter your Email." value="">

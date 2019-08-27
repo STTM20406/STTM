@@ -111,6 +111,7 @@
 	<!-- !!!!!!!!!!1  검색 집합  !!!!!!!!1! -->
 	<!-- 업무리스트명으로 프로젝트 검색 -->
 	<select id="searchWorkList" parameterType="map" resultType="projectVo">
+	
 		select distinct(p.prj_id), p.prj_nm, p.prj_exp, p.prj_auth,p.prj_start_dt,
 				p.prj_end_dt, p.prj_cmp_dt, p.prj_st, p.prj_update, p.del_fl
 		from work_list w, project p
@@ -118,11 +119,13 @@
 		    select p.prj_id
 		    from project p, project_mem m
 		    where p.prj_id = m.prj_id
+             and m.prj_mem_del_fl = 'N'
 		    and p.del_fl = 'N'
 		    and m.user_email = #{user_email})
 		and w.prj_id = p.prj_id
 		and w.del_fl = 'N'
 		and wrk_lst_nm like '%' || #{wrk_lst_nm} || '%'
+		order by p.prj_id desc
 	</select>
 	
 	<!-- 업무명으로 프로젝트 검색-->
@@ -131,13 +134,15 @@
 		from project p, project_mem m
 		where p.prj_id = m.prj_id
 		and p.del_fl='N'
+		and m.prj_mem_del_fl = 'N'
 		and m.user_email = #{user_email}
 		and m.prj_id in(
 		    select distinct(wl.prj_id)
 		    from work w, work_list wl
 		    where w.wrk_lst_id = wl.wrk_lst_id
-		    and w.wrk_del_fl = 'N'pri
+		    and w.wrk_del_fl = 'N'
 		    and wrk_nm like '%' || #{wrk_nm} || '%')
+		order by p.prj_id desc    
 	</select>
 	
 	<!-- 프로젝트 멤버명으로 프로젝트 검색 -->
@@ -147,15 +152,18 @@
 		where p.prj_id = m.prj_id
 		and m.user_email = #{user_email}
 		and p.del_fl = 'N'
+		and m.prj_mem_del_fl = 'N'
 		and p.prj_id in
 		    (select p.prj_id
 		    from project p, project_mem m
 		    where p.prj_id = m.prj_id
 		    and p.del_fl='N'
+		    and m.prj_mem_del_fl = 'N'
 		    and m.user_email in   
 		        (select user_email
 		        from users
 		        where user_nm like '%' || #{user_nm} || '%'))
+		order by p.prj_id desc	        
 	</select>
 
 	<!-- *********************project_mem******************** -->
