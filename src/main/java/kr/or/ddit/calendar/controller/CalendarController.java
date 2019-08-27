@@ -106,8 +106,8 @@ public class CalendarController {
 	
 	
 	//Drag and Drop 
-	@RequestMapping(path="/dragAndDrop",method=RequestMethod.POST)
-	String dragAndDrop(Model model, int wrk_id, long wrk_start_dt, long wrk_end_dt) throws ParseException {
+	@RequestMapping("/dragAndDrop")
+	String dragAndDrop(Model model, Integer wrk_id, Long wrk_start_dt, Long wrk_end_dt) throws ParseException {
 		logger.debug("♬♩♪  dragAndDrop: {}", wrk_id);
 		
 		logger.debug("♬♩♪  start: {}", wrk_start_dt);
@@ -142,7 +142,7 @@ public class CalendarController {
 	 * Method 설명 	: ajax로 등록 처리 하려했지만 잘안되서 후퇴..............!!
 	 * @throws ParseException 
 	 */
-	@RequestMapping(path="/addEvent" , method=RequestMethod.POST)
+	@RequestMapping("/addEvent" )
 	String addEvent(Model model, @RequestBody Map<String, Object> map, HttpSession session) throws ParseException {
 		String wrk = (String) map.get("type");
 		int wrk_lst_id = Integer.parseInt(wrk);
@@ -164,6 +164,7 @@ public class CalendarController {
 		if(cnt ==1){
 			logger.debug("♬♩♪  잘 들어가유!!!!!!!!!!!!!!!!!!!");
 		}
+		
 		return "jsonView";
 	}
 	

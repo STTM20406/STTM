@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /**
  * 미팅 내용 클릭시 좌측 지도에 장소를 표시해주는 js 파일입니다.
  */
@@ -12,7 +11,6 @@ mapOption2 = {
 var map2 = new kakao.maps.Map(mapContainer2, mapOption2); // 지도를 생성합니다
 /* Map2(오른쪽 맵) 부분 끝*/
 
-=======
 /**
  * 미팅 내용 클릭시 좌측 지도에 장소를 표시해주는 js 파일입니다.
  */
@@ -26,4 +24,3 @@ mapOption2 = {
 var map2 = new kakao.maps.Map(mapContainer2, mapOption2); // 지도를 생성합니다
 /* Map2(오른쪽 맵) 부분 끝*/
 
->>>>>>> 7e257be8645343a52a61c2a86c2e433686716761

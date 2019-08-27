@@ -245,7 +245,6 @@ ul.tabs li.current {
 	}
 	
 	function updateLink(linkID){
-		alert("삭제긔긔");
 		$.ajax({
 			url : "/updateLink",
 			method : "post",
@@ -346,8 +345,6 @@ ul.tabs li.current {
 				});
 				var pHtml = "";
 				var pageVo = data.pageVo;
-				console.log(data);
-				console.log(pageVo);
 				
 				if(pageVo.page==1)
 					pHtml += "<li class='disabled'><span>«<span></li>";
@@ -372,8 +369,6 @@ ul.tabs li.current {
 	}
 	
 	function updateFile(fileID, wrk_id){
-		alert("삭제긔긔");
-
 		$.ajax({
 			url : "/updateFile",
 			method : "post",

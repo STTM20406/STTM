@@ -212,8 +212,6 @@ ul.tabs li.current {
 	}
 	
 	function updateInFile(fileID){
-		alert("삭제긔긔");
-
 		$.ajax({
 			url : "/updateInFile",
 			method : "post",

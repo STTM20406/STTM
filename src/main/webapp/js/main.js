@@ -239,23 +239,19 @@ function initCalendar(){
         return false;
       }
     }
-    //event 요기에 calendarService wList메서드의 ajax처리 후 데이터가 다 있따!!!! 
-    console.log(event.start + ":::::::::::::::");
     
     // 드랍시 수정된 날짜반영
     var newDates = calDateWhenDragnDrop(event);
 
-    
-    
     //드롭한 일정 업데이트
     $.ajax({
-	  method:"post",
       url: "/dragAndDrop", 
+	  method:"post",
       contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
       data: "wrk_id=" + event._id+ "&wrk_start_dt=" + event.start+"&wrk_end_dt=" + event.end,
       success: function (response) {
-    	  
-        alert('수정: ' + newDates.startDate + ' ~ ' + newDates.endDate);
+    	  console.log("이거다!!! "+event._id);
+    	  alert('수정: ' + newDates.startDate + ' ~ ' + newDates.endDate);
       }
     });
 

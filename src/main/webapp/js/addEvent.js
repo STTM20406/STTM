@@ -81,7 +81,7 @@ var newEvent = function (start, end, eventType) {
         eventModal.find('input, textarea').val('');
         editAllDay.prop('checked', false);
         eventModal.modal('hide');
-
+        
         //새로운 일정 저장
         $.ajax({
         	method:"post",
@@ -91,13 +91,14 @@ var newEvent = function (start, end, eventType) {
             data: JSON.stringify(eventData), //컨트롤러에서 필요한것만 뽑아쓰면된다 Vo를 하나 만들어서 Vo로 받자!
 //            data: "user_id="+userId, //컨트롤러에서 필요한것만 뽑아쓰면된다 Vo를 하나 만들어서 Vo로 받자!
             success: function (response) {
-            	$(".ctxt").text("등록이 완료 되었습니다.");
-    			layer_popup("#layer2");
-    			return false;
-            	
+            	//등록후 알림창뜨게!
+                $(".ctxt").text("해당 업무가 Calendar에 등록이 되었습니다.");
+        			layer_popup("#layer2");
+        			
             	//DB연동시 중복이벤트 방지를 위한
                 $('#calendar').fullCalendar('removeEvents');
                 $('#calendar').fullCalendar('refetchEvents');
+
             }
         });
     });
