@@ -31,6 +31,9 @@
     	// 핸드폰 번호 정규식
     	var re3 = /^\d{3}-\d{4}-\d{4}$/;
     	
+    	// 이름 정규식
+    	var re4 = /^[가-힣]{2,4}$/;
+    	
     	var user_email = document.getElementById("user_email");
     	var user_nm = document.getElementById("user_nm");
     	var user_pass = document.getElementById("user_pass");
@@ -52,6 +55,10 @@
 		    alert("이름을 입력해 주세요");
 		    join.user_nm.focus();
 		    return false;
+		}
+		
+		if(!check(re4, user_nm, "이름은 이름은 한글 2~4자 이내로 입력해주세요.")) {
+			return false;
 		}
 		
 		// 비밀번호
