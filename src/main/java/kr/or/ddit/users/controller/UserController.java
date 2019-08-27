@@ -159,15 +159,16 @@ public class UserController {
 			int updateUserPass = userService.updateUserPass(userVo);
 
 			// 프로필 업데이트
-		} else if (user_nm != null || user_nm != null) {
+		} else if (user_hp != null ) {
 //		} else {
 
 			UserVo userVo = new UserVo();
 			userVo.setUser_email(user_email);
-
 			userVo.setUser_nm(user_nm);
 			userVo.setUser_hp(user_hp);
-
+			
+			logger.debug("userVo : 로거를찍자 {}",userVo);
+			
 			int updateUserProfile = userService.updateUserProfile(userVo);
 
 			// 휴면 계정 업데이트
