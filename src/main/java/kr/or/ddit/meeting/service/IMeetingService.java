@@ -4,7 +4,7 @@ import kr.or.ddit.meeting.model.MeetingVo;
 
 public interface IMeetingService {
 	
-	String meetingList();
+	String meetingList(int prj_id);
 	
 	int deleteMeeting(String mt_id);
 	

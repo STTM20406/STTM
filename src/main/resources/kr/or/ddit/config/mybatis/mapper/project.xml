@@ -1055,7 +1055,7 @@
 			(
 				MT_SEQ.NEXTVAL
 				,#{user_email}
-				,1
+				,#{prj_id}
 				,#{mt_lc}
 				,#{mt_exp}
 				,#{mt_date}
@@ -1069,7 +1069,7 @@
 	</delete>
 	<select id="meetingList" resultType="MeetingVo">
 		SELECT	*
-		FROM	MEETING
-		ORDER BY MT_ID
+		FROM 	MEETING WHERE PRJ_ID = #{prj_id}
+		ORDER 	BY MT_DATE
 	</select>
 </mapper>
