@@ -19,6 +19,13 @@
 
 <script>
 	$(document).ready(function(){
+		
+		$("#selectProject").on("change", function(){
+			var projectID = $(this).children("option:selected").attr("id");
+			$("#projectId").val(projectID);
+			$("#projectFrm").submit();
+		});
+		
 		$('#chatBotBtn').on('click',function(){
 			$('.chatBot').show(250);
 		})
@@ -108,30 +115,35 @@
 					
 				});
 			}
-		})
-		
+		});
 	});
-	
 		
+	
 </script>
+
+<form id="projectFrm" action="/work/list" method="post">
+	<input type="hidden" name="prj_id" id="projectId" value="">
+</form>
 
 <!-- side bar -->
 <div class="sidebar">
 	<div class="logo">
 		<h2><a href="/login">project</a></h2>
-		<div class="auth">
-			<p class="auth_txt"><span>제한</span></p>
-			<ul class="auth_list">
-				<li>전체 액세스</li>
-				<li>제한 액세스</li>
-				<li>통제 액세스</li>
-			</ul>
-		</div>
+<!-- 		<div class="auth"> -->
+<!-- 			<p class="auth_txt"><span>제한</span></p> -->
+<!-- 			<ul class="auth_list"> -->
+<!-- 				<li>전체 액세스</li> -->
+<!-- 				<li>제한 액세스</li> -->
+<!-- 				<li>통제 액세스</li> -->
+<!-- 			</ul> -->
+<!-- 		</div> -->
 	</div>
 	<div class="project_list_option">
-		<select>
-			<option>병원 사이트 리뉴얼</option>
-			<option>창업지원플랫폼 구축</option>
+		<select id="selectProject" name="selectProject">
+			<option>프로젝트를 선택해 주세요</option>
+			<c:forEach items="${projectList}" var="projectList">
+			<option id="${projectList.prj_id}">${projectList.prj_nm}</option>
+			</c:forEach>
 		</select>
 	</div>
 	<nav id="gnb">
