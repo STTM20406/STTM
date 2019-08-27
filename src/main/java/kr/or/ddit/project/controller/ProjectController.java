@@ -1,5 +1,6 @@
 package kr.or.ddit.project.controller;
 
+import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,6 +31,8 @@ import kr.or.ddit.project_mem.model.Project_MemVo;
 import kr.or.ddit.project_mem.service.IProject_MemService;
 import kr.or.ddit.users.model.UserVo;
 import kr.or.ddit.work.model.WorkVo;
+import kr.or.ddit.work_list.model.Work_ListVo;
+import kr.or.ddit.work_list.service.IWork_ListService;
 
 @Controller
 @RequestMapping("/project")
@@ -51,6 +54,9 @@ public class ProjectController {
 	
 	@Resource(name="chat_ContentService")
 	private IChat_ContentService contentService;
+	
+	@Resource(name = "work_ListService")
+	private IWork_ListService workListService;
 
 	// 프로젝트 리스트 조회
 	@RequestMapping(path = "/list", method = RequestMethod.GET)
@@ -417,18 +423,12 @@ public class ProjectController {
 	public String porjectForm(Model model, ProjectVo projectVo, String memList, String templateType, HttpSession session) {
 
 		logger.debug("templateType :::::::::::: log : {}", templateType); 
-		logger.debug("memList :::::::::::: log : {}", memList); 
-		logger.debug("memList isEmpty :::::::::::: log : {}", memList.isEmpty()); 
-		logger.debug("memList trim :::::::::::: log : {}", memList.trim()); 
-		logger.debug("memList isEmpty:::::::::::: log : {}", memList.isEmpty()); 
 		
 		String viewName = "";
 		ArrayList<String> memberList = new ArrayList<String>();
 		if(!memList.isEmpty()) {
 			memberList = new ArrayList<String>(Arrays.asList(memList.split(",")));
 		}
-		logger.debug("memberList memberList:::::::::::: log : {}", memberList.size()); 
-		logger.debug("memberList memberList:::::::::::: log : {}", memberList); 
 
 		// 세션에 저장된 user 정보를 가져옴
 		UserVo user = (UserVo) session.getAttribute("USER_INFO");
@@ -452,7 +452,6 @@ public class ProjectController {
 		projectMemVo.setPrj_own_fl("Y"); 				// 프로젝트관리자 - 멤버 소유 유무 셋팅
 
 		int insertProjectAdmCnt = projectMemService.insertProjectMem(projectMemVo);
-		int insertProjectMemCnt = 0;
 		
 		//프로젝트 채팅방멤버에 관리자 입력
 		int chatRoomMax = roomService.maxRoomId();
@@ -461,6 +460,7 @@ public class ProjectController {
 		
 		logger.debug("log room : {}, mem : {}",room,mem);
 		
+		//선택한 멤버가 있을 때
 		if(memberList.size() != 0) {
 			//선택한 멤버 리스트를 가져와서 반복해서 insert하기
 			for (int i = 0; i < memberList.size(); i++) {
@@ -472,7 +472,7 @@ public class ProjectController {
 				projectMemListVo.setPrj_mem_lv("LV1"); 				// 프로젝트멤버 - 멤버 레벨 셋팅
 				projectMemListVo.setPrj_own_fl("N"); 					// 프로젝트멤버 - 멤버 소유 유무 셋팅
 				
-				insertProjectMemCnt = projectMemService.insertProjectMem(projectMemListVo);
+				projectMemService.insertProjectMem(projectMemListVo);
 				
 				//프로젝트 채팅방에 멤버 입력
 				memVo.setUser_email(memEmail);
@@ -480,6 +480,31 @@ public class ProjectController {
 			}
 		}
 		
+		//요일 구하기
+		DateFormatSymbols symbols = new DateFormatSymbols();
+		String[] dayNames = symbols.getShortWeekdays();
+		
+		//인서트한 멤버 리스트 가져오기
+		projectMemVo.setPrj_id(projectVo.getPrj_id());
+		projectMemVo.setUser_email(user_email);
+		List<Project_MemVo> projectMemList = projectMemService.projectMemList(projectMemVo);
+		
+		//템플릿 선택 했을 때
+		if(templateType.equals("개인별")) {
+			for(Project_MemVo list : projectMemList) {
+				Work_ListVo workListVo = new Work_ListVo();
+				workListVo.setPrj_id(projectVo.getPrj_id());
+				workListVo.setWrk_lst_nm(list.getUser_nm());
+				workListService.insertWorkList(workListVo);
+			}
+		}else if(templateType.equals("요일별")) {
+			for(int i=2; i<7; i++) {
+				Work_ListVo workListVo = new Work_ListVo();
+				workListVo.setPrj_id(projectVo.getPrj_id());
+				workListVo.setWrk_lst_nm(dayNames[i]+"요일");
+				workListService.insertWorkList(workListVo);
+			}
+		}
 
 		// 값이 0이 아닐때
 		if (insertProjectCnt != 0 && insertProjectAdmCnt != 0) {

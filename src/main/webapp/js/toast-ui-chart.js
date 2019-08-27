@@ -124,6 +124,9 @@ function loadPriorChart(priorChartContainer, priorData, width, height) {
 		    	align: 'top',
 		    	showCheckbox: false
 		    },
+		    chartExportMenu: {
+				visible:false
+			},
 		    theme: 'customTheme'
 	};
 	var priorChart = tui.chart.barChart(priorChartContainer, priorData, options);
@@ -188,6 +191,9 @@ function loadProgressChart(progressChartContainer, progressData, width, height) 
 				align: 'top',
 				showCheckbox: false
 			},
+			chartExportMenu: {
+				visible:false
+			},
 		    theme: 'customTheme'
 	};
 	var progressChart = tui.chart.barChart(progressChartContainer, progressData, options);
@@ -234,6 +240,9 @@ function loadPercentChart(percentChartContainer, percentData, width, height) {
 		    	align: 'top',
 		    	showCheckbox: false
 		    },
+		    chartExportMenu: {
+				visible:false
+			},
 		    theme: 'customTheme'
 	};
 	var percentChart = tui.chart.barChart(percentChartContainer, percentData, options2);
@@ -298,6 +307,9 @@ function loadListChart(listChartContainer, listData, width, height) {
 			legend: {
 				align: 'top',
 				showCheckbox: false
+			},
+			chartExportMenu: {
+				visible:false
 			},
 		    theme: 'customTheme'
 	};
