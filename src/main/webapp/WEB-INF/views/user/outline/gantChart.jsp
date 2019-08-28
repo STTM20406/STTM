@@ -3,6 +3,9 @@
 <!-- 사용자 별 전체 프로젝트 업무 간트차트 -->
 <script src="/js/dhtmlxgantt.js"></script>
 <link rel="stylesheet" href="/css/dhtmlxgantt.css" type="text/css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
 <style>
 	#filterFrm label { font-size:13px; font-weight: 500; }
 	#filterFrm ul li label { cursor: pointer; }
@@ -579,7 +582,7 @@ function workDetail(wrk_id){
 			});
 			
 			/* 여기서부터 업무 셋팅 업데이트를 위한 이벤트 핸들러 입니다. */
-			$("#propertyWorkSet input, select").on("propertychange keyup change click", function(){
+			$("#propertyWorkSet input, #propertyWorkSet select").on("propertychange keyup change click", function(){
 				
 				//프로젝트 셋팅 값 가져오기
 				var id = $("#wps_id").val();
@@ -1320,6 +1323,8 @@ function workDetail(wrk_id){
 					$("#wrk_gd").val(data.workVo.wrk_grade);
 					$(".wrk_color").removeClass("colorSelect");
 					
+					var auth = data.workVo.auth;
+					
 					$(data.workVo.wrk_color_cd).prev().addClass("colorSelect");
 					$(data.workVo.wrk_color_cd).prop("checked", true);
 					
@@ -1350,14 +1355,14 @@ function workDetail(wrk_id){
 					
 					
 					//멤버레벨이 1인데 권한이 ASC02 또는 ASC03 일때
-					if(projectMemLevel == "LV1" && projectAuth == "ASC02" ){
+					if(auth == "AUTH02"){
 						$(".propertySet input").prop('readonly', true); 										//설정창의 모든 input readonly
 						$(".propertySet select").prop('disabled',true);										//설정창의 모든 select disabled
 						$(".propertySet button[name='wps_mem_set']").prop('disabled', true);					//설정창의 모든 button disabled
 						$(".propertySet button[name='wrk_flw_set']").prop('disabled', true);					//설정창의 모든 button disabled
 						$(".propertySet input[type=button]").prop('disabled', true);
 						$(".flatpickr-calendar").css({display:"none"});
-					}else if(projectMemLevel == "LV1" && projectAuth == "ASC03"){
+					}else if(auth == "AUTH03"){
 						$(".propertySet input").prop('readonly', true); 										//설정창의 모든 input readonly
 						$(".propertySet select").prop('disabled',true);										//설정창의 모든 select disabled
 						$(".propertySet button").prop('disabled', true);					//설정창의 모든 button disabled
