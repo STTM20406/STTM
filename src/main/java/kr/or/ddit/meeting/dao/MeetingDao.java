@@ -15,8 +15,8 @@ public class MeetingDao implements IMeetingDao{
 	SqlSessionTemplate sqlSession;
 
 	@Override
-	public List<MeetingVo> meetingList() {
-		return sqlSession.selectList("project.meetingList");
+	public List<MeetingVo> meetingList(int prj_id) {
+		return sqlSession.selectList("project.meetingList", prj_id);
 	}
 
 	@Override

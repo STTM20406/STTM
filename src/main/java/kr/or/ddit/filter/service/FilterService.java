@@ -314,9 +314,7 @@ public class FilterService implements IFilterService{
 				} 
 					else if("Y".equals(work.getWrk_cmp_fl())) 
 				{
-					if(work.getWrk_cmp_dt().before(work.getWrk_end_dt()))
-						sb_result.append("<span>&nbsp;&nbsp; "+ date_str +" </span><span class='cmp' style='color:#32a89b;'>&nbsp;&nbsp;"+ sdf.format(work.getWrk_cmp_dt()) +" <b>완료</b></span>");
-					else if(work.getWrk_cmp_dt().after(work.getWrk_end_dt()))
+					if(work.getWrk_cmp_dt().after(work.getWrk_end_dt()))
 						sb_result.append("<span>&nbsp;&nbsp; "+ date_str +" </span><span class='latecmp' style='color:#b71bbf;'>&nbsp;&nbsp;"+ sdf.format(work.getWrk_cmp_dt()) +" <b>완료</b></span>");
 				}
 			

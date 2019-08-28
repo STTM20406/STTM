@@ -36,6 +36,8 @@ import kr.or.ddit.project.service.IProjectService;
 import kr.or.ddit.project_mem.model.Project_MemVo;
 import kr.or.ddit.users.model.UserVo;
 import kr.or.ddit.util.PartUtil;
+import kr.or.ddit.work_mem_flw.model.Work_Mem_FlwVo;
+import kr.or.ddit.work_mem_flw.service.IWork_Mem_FlwService;
 
 //link Controller랑 합침!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 @Controller
@@ -51,6 +53,9 @@ public class File_AttchController {
 	
 	@Resource(name="projectService")
 	private IProjectService projectService;
+	
+	@Resource(name="work_Mem_FlwService")
+	private IWork_Mem_FlwService workMemFlwService;
 	
 	/**
 	 * Method 		: fileDownLoad
@@ -484,8 +489,18 @@ public class File_AttchController {
 	public @ResponseBody HashMap<String, Object> workFileUpload(HttpSession session, Model model, PageVo pageVo, String locker,
 			@RequestPart MultipartFile profile, int wrk_id) {
 		
+		
+		
 		ProjectVo projectVo = projectService.getPrjByWrk(wrk_id);
 		int prj_id = projectVo.getPrj_id();
+		
+		//배정된 업무 멤버 가져오기
+		Work_Mem_FlwVo work_memVo = new Work_Mem_FlwVo(wrk_id, "M");
+		List<Work_Mem_FlwVo> wrkMemList = workMemFlwService.workMemFlwList(work_memVo); 
+		
+		//업무 팔로워 멤버 가져오기
+		Work_Mem_FlwVo work_flwVo = new Work_Mem_FlwVo(wrk_id, "F");
+		List<Work_Mem_FlwVo> wrkFlwList = workMemFlwService.workMemFlwList(work_flwVo); 
 		
 		logger.debug("♬♩♪  wrk_id: {}", wrk_id);
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
@@ -556,6 +571,9 @@ public class File_AttchController {
 		hashmap.put("paginationSize", paginationSize);
 		hashmap.put("pageVo", pageVo);
 		hashmap.put("workFileList", workFileList);
+		hashmap.put("wrkMemList", wrkMemList);
+		hashmap.put("wrkFlwList", wrkFlwList);
+		hashmap.put("user_email", user_email);
 		
 		return hashmap;
 		

@@ -35,8 +35,12 @@ public class MeetingController {
 	}
 	
 	@RequestMapping("/ajax")
-	public String meetingAjax(Model model) {
-		model.addAttribute("data", meetingService.meetingList());
+	public String meetingAjax(Model model, HttpSession session) {
+		
+		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
+		logger.debug("projectVo::::::::::: log {}", projectVo.getPrj_id());
+		
+		model.addAttribute("data", meetingService.meetingList(projectVo.getPrj_id()));
 		return "jsonView";
 	}
 	

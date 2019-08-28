@@ -29,15 +29,17 @@
 			});
 
 	$("#postRegBtn").on("click", function() {
-				var test = $("#subject").val();
-				console.log(test);
-				test.replace("<","&lt;",test);
-				test.replace(">","&gt;",test);
-				console.log(test);
-				var test1 = $("#subject").val().replace(/</gi,"&lt;");
-				var test2 = test1.replace(/>/gi,"&gt;");
+				var subject = $("#subject").val();
+				var subject1 = $("#subject").val().replace(/</gi,"&lt;");
+				var subject2 = subject1.replace(/>/gi,"&gt;");
 				
-				$("#subject").val(test2);
+// 				var content = $("#smarteditor").val();
+// 				var content1 = $("#smarteditor").val().replace(/</gi,"&lt;");
+// 				var content2 = content1.replace(/>/gi,"&gt;");
+				
+				
+				$("#subject").val(subject2);
+// 				$("#smarteditor").val(content2);
 				
 				if (confirm("저장하시겠습니까?")) {
 					// id가 smarteditor인 textarea에 에디터에서 대입

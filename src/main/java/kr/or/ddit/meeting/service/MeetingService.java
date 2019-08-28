@@ -17,20 +17,18 @@ public class MeetingService implements IMeetingService{
 	IMeetingDao meetingDao;
 	
 	@Override
-	public String meetingList() {
+	public String meetingList(int prj_id) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-		List<MeetingVo> meetingList = meetingDao.meetingList();
+		List<MeetingVo> meetingList = meetingDao.meetingList(prj_id);
 		String htmlCode = "";
 		for(MeetingVo meet : meetingList) {
 			htmlCode += "<div class='meetingItem'>"
 					+ "<b>"
 					+ meet.getMt_exp()
 					+ "</b>"
-					+ "<br>"
 					+ "<span>"
 					+ meet.getMt_lc() + "&nbsp;" + meet.getUser_email()
 					+ "</span>"
-					+ "<br>"
 					+ "<span>"
 					+ sdf.format(meet.getMt_date())
 					+ "<input type='hidden' id='mt_id' value='" + meet.getMt_id() + "'/>"

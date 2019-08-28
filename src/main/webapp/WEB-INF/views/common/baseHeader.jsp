@@ -201,7 +201,7 @@ function copyTask(btn) {
 
 $(document).ready(function(){
    connectNotify();
-
+  
    //채팅 대화 보내기
    $("#hbuttonMessage").on(
 		"click",
@@ -342,8 +342,13 @@ $(document).ready(function(){
 	
         var $href = $(this).attr('href');
         layer_popup($href);
-	    $("#headerSelectProject option:eq(0)").prop("selected", true); //첫번째 option 선택
-    });
+        console.log()
+        $("#headerSelectProject option:eq(0)").prop("selected", true); //첫번째 option 선택
+        var select = $("#headerSelectProject option:selected").val();
+        
+        $("#checkProject").val(select);
+        
+   });
    
    //화상회의방 참여하기 버튼 클릭시
    $("#hfaceBtn").on("click",function(){
@@ -581,7 +586,6 @@ function connectNotify(){
    socket.onmessage = function(event) { //알림메세지 보내기@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	   
 	  //알림인지 채팅인지 구분 
-	  var distinguish = $("#distinguishSocket").val(); 
       console.log("ReceiveMessage: ", event.data + "\n");
       
 	      var data = event.data;
@@ -598,7 +602,6 @@ function connectNotify(){
 		      },3000);
 	      } 
       
-      if(distinguish == 'chatting'){
     	  var userId = $("#huser_email").val();
     	  var strArray = event.data.split(",");
 
@@ -625,7 +628,6 @@ function connectNotify(){
 				$("#hchatData").scrollTop($("#hchatData")[0].scrollHeight);
 			}
     	  
-      }
       
       
       
@@ -727,9 +729,20 @@ window.onclick = function(event) {
       $("input:checkbox[name=hfriend]:checked").each(function(){
          memArray.push($(this).val());
       });
-      
-      console.log("memArray " + memArray);
+      var text = $("#hChatText").val();
+      console.log("memArray " + memArray[0]);
+      console.log("text : ", text);
+      console.log("socke : ",socket);
       var a = $("#hChatMemList").val(memArray);
+      
+      if(socket){
+			var socketMsg = "";
+			for(var i=0;i<memArray.length;i++){
+				socketMsg = "videoNotify," + text +","+ memArray[i];
+				socket.send(socketMsg);
+			}
+			// websocket에 보내기!!
+		}
       
      // $("#headerChatSend").submit();
    }
@@ -738,7 +751,6 @@ window.onclick = function(event) {
 
 </head>
 <body>
-	<input type="hidden" id="distinguishSocket">
    <div id="socketAlert" class="socketAlram" role="alert">
       <p></p>
    </div>

@@ -222,8 +222,18 @@ var currPrjVo = null;
 				setCnts(cnt);
 				
 				var auth = data.result.auth;
-				if(auth=="NO")
-					console.log("NO!");
+				if(auth=="NO") {
+					$(cal[0].input).attr("disabled", "true");
+					$(cal[0].input).css("margin-left", "45px");
+					$(cal[0].input).next().remove();
+					$(cal[1].input).attr("disabled", "true");
+					$(cal[1].input).next().remove();
+					$(cal[1].input).css("margin-left", "45px");
+					$(cal[2].input).attr("disabled", "true");
+					$(cal[2].input).css("margin-left", "45px");
+					$(cal[2].input).next().remove();
+				}
+					
 				
 			}
 		});
@@ -351,7 +361,7 @@ var currPrjVo = null;
 		var prj_cmp_dt = cal_cmp.selectedDates[0];
 		
 		var prjVo = {
-				'prj_id': $("#prj_list").val(),
+				'prj_id': $("input[name='over_prj_id']").val(),
 				'prj_start_dt': prj_st_dt,
 				'prj_end_dt': prj_ed_dt,
 				'prj_cmp_dt': prj_cmp_dt
