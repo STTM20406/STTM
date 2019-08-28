@@ -342,7 +342,7 @@ public class WebSocket extends TextWebSocketHandler {
 					
 				}
 
-			} else if(strs != null && strs.length == 3 && strs[0].equals("file&link")) { // 프로젝트 설정 알림보내기
+			} else if(strs != null && strs.length == 3 && strs[0].equals("file&link")) { // 파일&링크  알림보내기
 				logger.debug("!@#파일업로드 알림 메세지 들어오거라@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 				String filelink = strs[0];	// 업무코멘트알림
 //				String notify_cd = strs[1]; // 알림코드 (N01 : 프로젝트, N02 : 업무알림, N03 : 채팅알림, N04 : 1:1답변)
@@ -389,7 +389,54 @@ public class WebSocket extends TextWebSocketHandler {
 					
 				}
 
-			}   
+			} else if(strs != null && strs.length == 3 && strs[0].equals("videoNotify")) { // 화상회의  알림보내기
+				logger.debug("!@#화상회의 알림 메세지 들어오거라@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+				String videoNotify = strs[0];	// 업무코멘트알림
+//				String notify_cd = strs[1]; // 알림코드 (N01 : 프로젝트, N02 : 업무알림, N03 : 채팅알림, N04 : 1:1답변)
+				String text = strs[1]; // 화상회의 알림 내용
+				String rcv_email = strs[2];	// 받는사람
+				
+				String notifiMsg = rcv_email+"님,"+text; // 알림메세지 내용
+				
+				int plusCount = userService.plusCount(rcv_email);
+				
+				NotificationVo notifyVo = new NotificationVo();
+				notifyVo.setNot_con(msg); // message.getPayload() => 내가 실제로 받은 메세지 
+				
+				NotificationVo notiVo = new NotificationVo();
+				notiVo.setNot_id(notiVo.getNot_id());
+				notiVo.setNot_cd("N03");
+				notiVo.setNot_con(notifiMsg);
+				int insertNoti = notificationService.insertNotifi(notiVo);
+				
+				ReceiverVo receiverVo = new ReceiverVo();
+				receiverVo.setNot_id(notiVo.getNot_id());
+				receiverVo.setRcv_email(rcv_email);
+				
+				int insertRecei = notificationService.insertReceiver(receiverVo);
+				
+				WebSocketSession writerSession = userList.get(rcv_email); // 받는사람
+				if("videoNotify".equals(videoNotify) && writerSession != null) {
+					logger.debug("!@# userList : {}",userList);
+					
+					Set set = userList.keySet();
+					Iterator iterator = set.iterator();
+					logger.debug("!@#set : {}",set);
+					logger.debug("!@#iterator : {}",iterator);
+					
+					while(iterator.hasNext()){
+						  String key = (String)iterator.next();
+						  logger.debug("!@# keyset : {}",key);
+						  
+						  if(key.equals(rcv_email)) {
+							  TextMessage tmpMsg = new TextMessage(rcv_email+"님,"+text);
+								writerSession.sendMessage(tmpMsg);
+						  }
+					}
+					
+				}
+
+			}    
 			
 			
 				

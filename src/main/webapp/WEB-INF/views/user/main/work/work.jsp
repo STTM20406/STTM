@@ -1142,7 +1142,7 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 	 		    	
 	 		    	if(socket){
 	 					var socketMsg = "";
-	 					for(var i=0;i<data.wrkFlwList.length;i++){
+	 					for(i=0;i<data.wrkFlwList.length;i++){
 	 						socketMsg = "file&link," + data.wrkMemList[i].user_email +"," + data.workFileList.wrk_nm;
 	 						socket.send(socketMsg);
 	 					}

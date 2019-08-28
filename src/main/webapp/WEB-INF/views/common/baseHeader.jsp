@@ -727,9 +727,23 @@ window.onclick = function(event) {
       $("input:checkbox[name=hfriend]:checked").each(function(){
          memArray.push($(this).val());
       });
-      
-      console.log("memArray " + memArray);
+      var text = $("#hChatText").val();
+      console.log("memArray " + memArray[0]);
+      console.log("text : ", text);
+      console.log("socke : ",socket);
       var a = $("#hChatMemList").val(memArray);
+      
+      if(socket){
+			var socketMsg = "";
+			for(var i=0;i<memArray.length;i++){
+				socketMsg = "videoNotify," + text +","+ memArray[i];
+				socket.send(socketMsg);
+			}
+			
+			
+			// websocket에 보내기!!
+		}
+      
       
      // $("#headerChatSend").submit();
    }
