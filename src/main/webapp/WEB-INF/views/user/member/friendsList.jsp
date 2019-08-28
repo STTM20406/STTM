@@ -270,7 +270,6 @@ function requestedFriendsList() {
 					<tbody>
 						<tr>
 						
-<!-- 							<th>사용자 이메일 - 추후 삭제</th> -->
 							<th>친구 이름</th>
 							<th>친구 이메일</th>
 							<th>친구삭제</th>
