@@ -739,11 +739,8 @@ window.onclick = function(event) {
 				socketMsg = "videoNotify," + text +","+ memArray[i];
 				socket.send(socketMsg);
 			}
-			
-			
 			// websocket에 보내기!!
 		}
-      
       
      // $("#headerChatSend").submit();
    }
