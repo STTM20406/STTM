@@ -97,16 +97,16 @@
 							//html 생성
 			 				html += "<div class='project_item'><ul class='project_item_hd'>";
 			 				html += "<li>" + item.prj_nm + "</li>";
-			 				html += "<li><a href=''>설정</a></li></ul>"
-			 				html += "<ul class='project_item_con'><li>"
-			 				html += "<p class='currnt_prj_st'>" + item.prj_st + "</p>"
-			 				html += "<div class='prj_item_st'>"
-			 				html += "<input type='button' value='계획' id='prj_st_"+ item.prj_id + "'>"
-			 				html += "<input type='button' value='진행중' id='prj_st_"+ item.prj_id + "'>"
-			 				html += "<input type='button' value='완료' id='prj_st_"+ item.prj_id + "'>"
-			 				html += "<input type='button' value='보류' id='prj_st_"+ item.prj_id + "'>"
-			 				html += "<input type='button' value='취소' id='prj_st_"+ item.prj_id + "'>"
-			 				html += "<input type='button' value='상태없음' id='prj_st_"+ item.prj_id + "'>"
+			 				html += "<li><a href=''>설정</a></li></ul>";
+			 				html += "<ul class='project_item_con'><li>";
+			 				html += "<p class='currnt_prj_st'>" + item.prj_st + "</p>";
+			 				html += "<div class='prj_item_st'>";
+			 				html += "<input type='button' value='계획' id='prj_st_"+ item.prj_id + "'>";
+			 				html += "<input type='button' value='진행중' id='prj_st_"+ item.prj_id + "'>";
+			 				html += "<input type='button' value='완료' id='prj_st_"+ item.prj_id + "'>";
+			 				html += "<input type='button' value='보류' id='prj_st_"+ item.prj_id + "'>";
+			 				html += "<input type='button' value='취소' id='prj_st_"+ item.prj_id + "'>";
+			 				html += "<input type='button' value='상태없음' id='prj_st_"+ item.prj_id + "'>";
 							html += "</div></li></ul></div>"	
 						});	
 					}
@@ -425,7 +425,7 @@
 					data.data.forEach(function(item, index){
 						html += "<li id='"+ item.user_email +"_"+item.prj_id+"_"+item.prj_mem_lv+"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
 					});	
-					
+					propertySetAjax(id);
 					$(".prj_add_box").html(html);
 				}
 			});
@@ -460,6 +460,7 @@
 						html += "<li id='"+ item.user_email +"_"+item.prj_id+"_"+item.prj_mem_lv+"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
 					});	
 					
+					propertySetAjax(id);
 					$(".prj_add_box").html(html);
 				}
 			});
@@ -614,7 +615,6 @@
 			$("#projectLeaveFrm").submit();
 		});
 		
-		
 		//프로젝트 삭제
 		$("#prjDelBtn").on("click", function(){
 			
@@ -638,6 +638,7 @@
 			$(".btn-r").show(0);
 			
 			$("#projectDelFrm").submit();
+			
 		});
 		
 		$(".select_template").on("click", "li", function(){
@@ -671,7 +672,7 @@
 			sec = Math.floor(sec%3600/60) + '분 ' + sec%60 + '초';
        	}else if(sec < 86400){
        	 	sec = Math.floor(sec/3600) + '시간 ' + Math.floor(sec%3600/60) + '분 ' + sec%60 + '초';
-       	}else{
+       	}else{  
        		sec = Math.floor(sec/3600/24) + '일 ' + Math.floor(sec/3600%24) + '시간 ' + Math.floor(sec%3600/60) + '분 ' + sec%60 + '초';
        	}
         
