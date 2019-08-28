@@ -32,7 +32,7 @@ public class MinutesVo {
 	private String del_fl;          //삭제여부
 	
 	private String user_nm; //사용자 이름
-	private int num; //레벨
+	private int rn; //레벨
 	
 	//기본생성자
 	public MinutesVo() {
@@ -128,19 +128,19 @@ public class MinutesVo {
 		this.user_nm = user_nm;
 	}
 
-	public int getNum() {
-		return num;
+	public int getRn() {
+		return rn;
 	}
 
-	public void setNum(int num) {
-		this.num = num;
+	public void setRn(int rn) {
+		this.rn = rn;
 	}
 
 	@Override
 	public String toString() {
 		return "MinutesVo [mnu_id=" + mnu_id + ", prj_id=" + prj_id + ", user_email=" + user_email + ", subject="
 				+ subject + ", special=" + special + ", write_date=" + write_date + ", del_fl=" + del_fl + ", user_nm="
-				+ user_nm + ", num=" + num + "]";
+				+ user_nm + ", rn=" + rn + "]";
 	}
 	
 }

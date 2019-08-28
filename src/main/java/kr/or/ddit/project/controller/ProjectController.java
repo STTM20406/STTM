@@ -231,7 +231,7 @@ public class ProjectController {
 
 	// 프로젝트 멤버 관리자로 update
 	@RequestMapping("/projectAdmAddAjax")
-	public String projectAdmAddAjax(String user_email, String prj_id, Model model) {
+	public String projectAdmAddAjax(String user_email, String prj_id, Model model, HttpSession session) {
 
 		int prjId = Integer.parseInt(prj_id);
 
@@ -242,19 +242,23 @@ public class ProjectController {
 
 		int updateCnt = projectMemService.updateProjectMem(projectMemVo);
 
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String email = userVo.getUser_email();
+		
 		Project_MemVo projectMemListVo = new Project_MemVo();
 		projectMemListVo.setPrj_id(prjId);
-		projectMemListVo.setUser_email(user_email);
-
+		projectMemListVo.setUser_email(email);
+		
 		List<Project_MemVo> admList = new ArrayList<Project_MemVo>();
-
+		
 		if (updateCnt != 0) {
-			List<Project_MemVo> project_adm_list = projectMemService.projectMemList(projectMemVo);
+			List<Project_MemVo> project_adm_list = projectMemService.projectMemList(projectMemListVo);
 			for (int i = 0; i < project_adm_list.size(); i++) {
 				if (project_adm_list.get(i).getPrj_mem_lv().equals("LV0")) {
 					admList.add(project_adm_list.get(i));
 				}
 			}
+			logger.debug("♬♩♪  admList아래: {}", admList);
 			model.addAttribute("data", admList);
 		}
 		return "jsonView";

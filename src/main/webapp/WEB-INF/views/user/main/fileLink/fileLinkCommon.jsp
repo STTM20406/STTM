@@ -210,7 +210,7 @@ ul.tabs li.current {
 					html += "<tr>";
 					html += "<td>"+ link.rn + "</td>";
 					html += "<td>"+ link.wrk_nm + "</td>";
-					html += "<td><a href='https://"+link.attch_url+"'>"+link.attch_url+"</a></td>";	
+					html += "<td><a href='https://"+link.attch_url+"' target='_blank'>"+link.attch_url+"</a></td>";	
 					html += "<td>"+ link.user_email + "</td>";
 					html += "<td>"+ link.user_nm + "</td>";
 					html += "<td>"+ link.prjStartDtStr + "</td>";
@@ -270,7 +270,7 @@ ul.tabs li.current {
 					html += "<tr>";
 					html += "<td>"+ link.rn + "</td>";
 					html += "<td>"+ link.wrk_nm + "</td>";
-					html += "<td><a href='https://"+link.attch_url+"'>"+link.attch_url+"</a></td>";	
+					html += "<td><a href='https://"+link.attch_url+"' target='_blank'>"+link.attch_url+"</a></td>";	
 					html += "<td>"+ link.user_email + "</td>";
 					html += "<td>"+ link.user_nm + "</td>";
 					html += "<td>"+ link.prjStartDtStr + "</td>";

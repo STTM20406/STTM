@@ -281,138 +281,22 @@ public class UserController {
 	 *         조회하여 페이징 리스트로 보여준다
 	 * 
 	 */
-//	@RequestMapping(path = "/projectMemberList", method = RequestMethod.GET)
 	@RequestMapping(path = "/projectMember", method = RequestMethod.GET)
-	public String projectMemberListView(PageVo pageVo, Model model, HttpSession session, String acceptEmail,
-			String denyEmail, String prjMemView, String frdRequEmail) {
-
-		logger.debug("prjMemView : ruichi {}", prjMemView);
-		logger.debug("frdRequEmail : tae {}", frdRequEmail);
+	public String projectMemberListView(PageVo pageVo, Model model, HttpSession session, String prjMemView) {
 
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
-		Project_MemVo prjVo = new Project_MemVo();
-
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("page", pageVo.getPage());
-		map.put("pageSize", pageVo.getPageSize());
-		map.put("user_email", userVo.getUser_email());
-		map.put("user_nm", userVo.getUser_nm());
-		map.put("prj_id", prjVo.getPrj_id());
-
-//		if(frd_email == null) {
 
 		// ----- 프로젝트 리스트 가져오기 -----
-		String user_email1 = userVo.getUser_email();
-		model.addAttribute("projectList", projectService.projectList(user_email1));
-//			return "/projectList/projectList.user.tiles";
-
-//		}else if (frd_email != null){
-
-		// 회원의 친구 목록을 회원 자신의 이메일로 조회하여 페이징 리스트로 보여준다
-		logger.debug("pageVo.getPage() ::::::::::: {}", pageVo.getPage());
-		logger.debug("pageVo.getPageSize() ::::::::::: {}", pageVo.getPageSize());
-		logger.debug("userVo.getUser_email() ::::::::::: {}", userVo.getUser_email());
-
-		Map<String, Object> rstMap = friendsService.friendPagingList(map);
-		logger.debug("map : 밥먹기 전에 {}", rstMap);
-
-		List<FriendsVo> friendsList = (List<FriendsVo>) rstMap.get("userFriendsList");
-		logger.debug("friendsList : 로거를 {}", friendsList);
-
-		int paginationSize1 = (Integer) rstMap.get("paginationSize");
-		logger.debug("paginationSize : 찍어 봅시다 {}", paginationSize1);
-
-		model.addAttribute("friendsList", friendsList);
-		model.addAttribute("paginationSize", paginationSize1);
-		model.addAttribute("pageVo", pageVo);
-
-//			} else {
-
-		// 친구 요청 받은 리스트
-
-		String req_email = userVo.getUser_email();
-
-		logger.debug("user_email : {}", req_email);
-
-		List<Friend_ReqVo> friendsRequestList = friend_ReqService.friendsRequestList(req_email);
-
-		logger.debug("friendsRequestList : 이거 가져오나  볼까? {}", friendsRequestList);
-
-		model.addAttribute("friendsRequestList", friendsRequestList);
-
-//			}
-
-		logger.debug("acceptEmail : 모닝로거1 {}", acceptEmail);
-		logger.debug("denyEmail : 모닝로거2 {}", denyEmail);
-
-		// 친구 요청 수락
-		if (acceptEmail != null) {
-
-			String user_email = userVo.getUser_email();
-			logger.debug("user_email : 이거 가져오나 {}", user_email);
-
-			UserVo uservo1 = userService.getUser(acceptEmail);
-			String frd_email = uservo1.getUser_email();
-			req_email = uservo1.getUser_email();
-
-			Friend_ReqVo friendReqVo = new Friend_ReqVo(req_email, user_email);
-
-			logger.debug("friendReqVo : 업데이트 테스트 {}", friendReqVo);
-
-//				friendReqVo.setUser_email(user_email); // 문제 - 셋팅을 두번 해줘서
-//				friendReqVo.setReq_email(req_email);   // 문제 - 셋팅을 두번 해줘서
-
-			int updateReqAccept = friend_ReqService.updateReqAccept(friendReqVo);
-
-			logger.debug("updateReqAccept : 업데이트 테스트1 {}", updateReqAccept);
-
-			// 친구 요청 수락하면 보낸 사람을 내 친구로 등록
-			FriendsVo friendsVo = new FriendsVo(user_email, frd_email);
-			int acceptRequest = friendsService.accerptFriendRequest(friendsVo);
-
-			// 친구 요청 수락하면 보낸 사람에 나를 친구로 등록
-			FriendsVo friendsVo1 = new FriendsVo(frd_email, user_email);
-			int acceptRequest1 = friendsService.insertFriends(friendsVo1);
-
-			int denyRequest = friend_ReqService.deleteFriendRequest(acceptEmail);
-
-			// 친구 요청 거절
-		} else if (denyEmail != null) {
-
-			UserVo userVo2 = userService.getUser(denyEmail);
-			String user_email = userVo2.getUser_email();
-
-			logger.debug("userVo1 : 거절 Vo {}", userVo2);
-			logger.debug("user_email : 거절 이메일 {}", user_email);
-
-			UserVo uservo3 = (UserVo) session.getAttribute("USER_INFO");
-			String frd_email = uservo3.getUser_email();
-
-			Friend_ReqVo friendReqVo = new Friend_ReqVo(user_email, frd_email);
-
-			int updateReqDeny = friend_ReqService.updateReqDeny(friendReqVo);
-
-			int denyRequest = friend_ReqService.deleteFriendRequest(user_email);
-
-			// 프로젝트 멤버 리스트 중에서 친구 요청하기
-		} else if (frdRequEmail != null) {
-
-			String user_email = userVo.getUser_email();
-
-			UserVo userVo3 = userService.getUser(frdRequEmail);
-			req_email = userVo3.getUser_email();
-
-			Friend_ReqVo friendsReqVo = new Friend_ReqVo(user_email, req_email);
-
-			logger.debug("user_email : 보낸사람 {}", user_email);
-			logger.debug("req_email : 받는사람 {}", req_email);
-
-			int firendsRequest = friend_ReqService.firendsRequest(friendsReqVo);
-		}
-
+		String user_email = userVo.getUser_email();
+		
+		List<ProjectVo> projectList = projectService.projectList(user_email);
+		logger.debug("projectList : 프로젝트리스트 {}",projectList);
+		
+		model.addAttribute("projectList", projectList);
+		
 		return "/member/projectMember.user.tiles";
 	}
-
+	
 	/**
 	 * 
 	 * Method : projectMemberList 작성자 : 김경호 변경이력 : 2019-08-23
@@ -466,6 +350,126 @@ public class UserController {
 
 		return "/member/projectMemberList.user.tiles";
 	}
+	
+	/**
+	 * 
+	* Method : friendsList
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-28
+	* @return
+	* Method 설명 : 멤버 - 친구 목록
+	 */
+	@RequestMapping(path = "/friendsList", method = RequestMethod.GET)
+	public String friendsList(PageVo pageVo, HttpSession session, Model model, 
+								String acceptEmail, String denyEmail, String frdRequEmail) {
+		
+		logger.debug("acceptEmail : esens {}", acceptEmail);
+		logger.debug("denyEmail : essay {}", denyEmail);
+		logger.debug("frdRequEmail : sens {}", frdRequEmail);
+		
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("page", pageVo.getPage());
+		map.put("pageSize", pageVo.getPageSize());
+		map.put("user_email", userVo.getUser_email());
+		map.put("user_nm", userVo.getUser_nm());
+		
+		// 회원의 친구 목록을 회원 자신의 이메일로 조회하여 페이징 리스트로 보여준다
+		Map<String, Object> rstMap = friendsService.friendPagingList(map);
+		logger.debug("map : 밥먹기 전에 {}", rstMap);
+
+		List<FriendsVo> friendsList = (List<FriendsVo>) rstMap.get("userFriendsList");
+		logger.debug("friendsList : 로거를 {}", friendsList);
+
+		int paginationSize1 = (Integer) rstMap.get("paginationSize");
+		logger.debug("paginationSize : 찍어 봅시다 {}", paginationSize1);
+
+		model.addAttribute("friendsList", friendsList);
+		model.addAttribute("paginationSize", paginationSize1);
+		model.addAttribute("pageVo", pageVo);
+
+		// 친구 요청 받은 리스트
+		String req_email = userVo.getUser_email();
+		logger.debug("user_email : {}", req_email);
+
+		List<Friend_ReqVo> friendsRequestList = friend_ReqService.friendsRequestList(req_email);
+
+		logger.debug("friendsRequestList : 이거 가져오나  볼까? {}", friendsRequestList);
+
+		model.addAttribute("friendsRequestList", friendsRequestList);
+
+		logger.debug("acceptEmail : 모닝로거1 {}", acceptEmail);
+		logger.debug("denyEmail : 모닝로거2 {}", denyEmail);
+
+		// 친구 요청 수락
+		if (acceptEmail != null) {
+
+			String user_email = userVo.getUser_email();
+			logger.debug("user_email : 이거 가져오나 {}", user_email);
+
+			UserVo uservo1 = userService.getUser(acceptEmail);
+			String frd_email = uservo1.getUser_email();
+			req_email = uservo1.getUser_email();
+
+			Friend_ReqVo friendReqVo = new Friend_ReqVo(req_email, user_email);
+
+			logger.debug("friendReqVo : 업데이트 테스트 {}", friendReqVo);
+
+//						friendReqVo.setUser_email(user_email); // 문제 - 셋팅을 두번 해줘서
+//						friendReqVo.setReq_email(req_email);   // 문제 - 셋팅을 두번 해줘서
+
+			int updateReqAccept = friend_ReqService.updateReqAccept(friendReqVo);
+
+			logger.debug("updateReqAccept : 업데이트 테스트1 {}", updateReqAccept);
+
+			// 친구 요청 수락하면 보낸 사람을 내 친구로 등록
+			FriendsVo friendsVo = new FriendsVo(user_email, frd_email);
+			int acceptRequest = friendsService.accerptFriendRequest(friendsVo);
+
+			// 친구 요청 수락하면 보낸 사람에 나를 친구로 등록
+			FriendsVo friendsVo1 = new FriendsVo(frd_email, user_email);
+			int acceptRequest1 = friendsService.insertFriends(friendsVo1);
+
+			int denyRequest = friend_ReqService.deleteFriendRequest(acceptEmail);
+			
+		// 친구 요청 거절
+		} else if (denyEmail != null) {
+
+			UserVo userVo2 = userService.getUser(denyEmail);
+			String user_email = userVo2.getUser_email();
+
+			logger.debug("userVo1 : 거절 Vo {}", userVo2);
+			logger.debug("user_email : 거절 이메일 {}", user_email);
+
+			UserVo uservo3 = (UserVo) session.getAttribute("USER_INFO");
+			String frd_email = uservo3.getUser_email();
+
+			Friend_ReqVo friendReqVo = new Friend_ReqVo(user_email, frd_email);
+
+			int updateReqDeny = friend_ReqService.updateReqDeny(friendReqVo);
+
+			int denyRequest = friend_ReqService.deleteFriendRequest(user_email);
+
+		// 프로젝트 멤버 리스트 중에서 친구 요청하기
+		} else if (frdRequEmail != null) {
+
+			String user_email = userVo.getUser_email();
+
+			UserVo userVo3 = userService.getUser(frdRequEmail);
+			req_email = userVo3.getUser_email();
+
+			Friend_ReqVo friendsReqVo = new Friend_ReqVo(user_email, req_email);
+
+			logger.debug("user_email : 보낸사람 {}", user_email);
+			logger.debug("req_email : 받는사람 {}", req_email);
+
+			int firendsRequest = friend_ReqService.firendsRequest(friendsReqVo);
+		}
+
+		
+			return "/member/friendsList.user.tiles";
+	}
 
 	/**
 	 * 
@@ -481,7 +485,7 @@ public class UserController {
 		UserVo userVo = new UserVo(user_email);
 
 		model.addAttribute("userVo", userVo);
-
+		
 		return "/member/projectMember.user.tiles";
 	}
 
@@ -565,7 +569,7 @@ public class UserController {
 		model.addAttribute("paginationSize", paginationSize1);
 		model.addAttribute("pageVo", pageVo);
 
-		return "/member/projectMember.user.tiles";
+		return "/member/friendsList.user.tiles";
 	}
 
 	/**
@@ -811,13 +815,14 @@ public class UserController {
 
 		logger.debug("admUpdate 이거 뭐였지? : {}", admUpdate);
 		logger.debug("memViewForm 이거 뭐였지? : {}", memViewForm);
-
+		
+		String viewName = "";
+		
 		UserVo userVo = new UserVo();
 		userVo.setUser_email(user_email);
 		userVo.setUser_nm(user_nm);
 		userVo.setUser_hp(user_hp);
 		userVo.setUser_st(user_st);
-		
 
 		logger.debug("user_email 아침 테스트 : {}", user_email);
 		logger.debug("user_nm 아침 테스트 : {}", user_nm);
@@ -825,8 +830,13 @@ public class UserController {
 		logger.debug("user_st 아침 테스트 : {}", user_st);
 
 		int admUpdateUser = userService.updateUserAdm(userVo);
+		logger.debug("admUpdateUser 수정이안됨 : {}", admUpdateUser);
 
-		return "/member/memberUpdate.adm.tiles";
+		if(admUpdateUser != 0) {
+			viewName = "/member/memberUpdate.adm.tiles";
+		}
+		
+		return viewName;
 	}
 
 }

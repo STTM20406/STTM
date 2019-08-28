@@ -452,7 +452,7 @@
 	<!-- public filePagination 공용 파일 링크 보관함!!!! -->
 	<select id="publicFilePagination" parameterType="map" resultType="file_attchVo">
 		<![CDATA[
-			 select 
+			select 
 	            rn, a.file_id, a.prj_id, a.user_email, a.wrk_id, a.original_file_nm, a.db_file_nm, a.file_size, a.file_exts, a.file_dt, a.del_fl, a.FILE_SAVE_FL,a.FILE_COMM_FL, b.wrk_nm, C.USER_NM
 	        from
 	            (select a.*, ROW_NUMBER() OVER(order by file_id desc) rn
@@ -465,6 +465,7 @@
 			where rn >=(#{page}-1)*#{pageSize}+1 and rn <= #{page}*#{pageSize}
 			and b.wrk_id = a.wrk_id
 			AND A.USER_EMAIL = C.USER_EMAIL
+			order by file_id desc
 		]]>
 	</select>
 
@@ -496,6 +497,7 @@
       where rn >=(#{page}-1)*#{pageSize}+1 and rn <= #{page}*#{pageSize}
       and b.wrk_id = a.wrk_id
       and a.user_email = c.user_email
+      order by link_id desc
    ]]>
 	</select>
 
@@ -604,6 +606,7 @@
 		    where rn>=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
 		    and b.wrk_id = a.wrk_id
 		    AND A.USER_EMAIL = C.USER_EMAIL
+		   order by a.file_id desc
 	   ]]>
 	</select>
 	
@@ -663,6 +666,7 @@
 	      where rn>=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
 	      and b.wrk_id = a.wrk_id
 	      AND A.USER_EMAIL = C.USER_EMAIL
+	      order by a.file_id desc
       ]]>
 	</select>
 	
@@ -687,6 +691,7 @@
 	      where rn>=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
 	      and b.wrk_id = a.wrk_id
 	      and a.user_email = c.user_email
+	      order by a.link_id desc
       ]]>
 	</select>
 	
@@ -767,6 +772,7 @@
 		and a.file_id = c.file_id
 		and b.wrk_id = c.wrk_id
         and a.user_email=d.user_email
+        order by a.down_id desc
 	]]>
 	</select>
 	
@@ -788,16 +794,16 @@
 
 	<select id="minutesPagination" parameterType="map" resultType="minutesVo">
 		<![CDATA[
-		select rownum num, a.mnu_id, a.prj_id, a.user_email, a.subject, a.special, a.write_date, a.del_fl, a.user_nm 
+		select rn, a.mnu_id, a.prj_id, a.user_email, a.subject, a.special, a.write_date, a.del_fl, a.user_nm 
 		from
-		(select a.*, rownum rn 
+		(select a.*, ROW_NUMBER() OVER(order by A.mnu_id desc) rn
 		from
 		(select A.*, B.user_nm from minutes A, users B
 		where prj_id = #{prj_id}
 		and A.user_email = B.user_email
-		and A.del_fl ='N'
-		order by A.mnu_id desc) a)a
+		and A.del_fl ='N') a)a
 		where rn >=(#{page}-1)*#{pageSize}+1 and rn <= #{page}*#{pageSize}
+        order by A.mnu_id desc
 	 	]]>
 	</select>
 	
@@ -821,17 +827,17 @@
 	<!-- 검색 -->
 	<select id="searchPagination" parameterType="map" resultType="minutesVo">
 		<![CDATA[
-		select rownum num, a.mnu_id, a.prj_id, a.user_email, a.subject, a.special, a.write_date, a.del_fl, a.user_nm 
+		select rn, a.mnu_id, a.prj_id, a.user_email, a.subject, a.special, a.write_date, a.del_fl, a.user_nm 
 	    from
-	    (select a.*, rownum rn 
+	    (select a.*, ROW_NUMBER() OVER(order by A.prj_id desc) rn
 	    from
 	    (select A.*, B.user_nm from minutes A, users B
 	    where B.user_nm like '%'||#{user_nm}||'%'
-	    and A.prj_id=#{prj_id}
+	    and A.prj_id= #{prj_id}
 	    and A.del_fl ='N'
-	    and A.user_email = B.user_email
-	    order by A.prj_id asc) a)a
+	    and A.user_email = B.user_email) a)a
 	    where rn >=(#{page}-1)*#{pageSize}+1 and rn <= #{page}*#{pageSize}
+	    order by A.prj_id desc
 	    ]]>
 	</select>
 	
