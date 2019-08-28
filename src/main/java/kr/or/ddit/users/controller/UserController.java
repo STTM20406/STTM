@@ -363,6 +363,8 @@ public class UserController {
 	public String friendsList(PageVo pageVo, HttpSession session, Model model, 
 								String acceptEmail, String denyEmail, String frdRequEmail) {
 		
+		String viewName = "";
+		
 		logger.debug("acceptEmail : esens {}", acceptEmail);
 		logger.debug("denyEmail : essay {}", denyEmail);
 		logger.debug("frdRequEmail : sens {}", frdRequEmail);
@@ -433,6 +435,11 @@ public class UserController {
 
 			int denyRequest = friend_ReqService.deleteFriendRequest(acceptEmail);
 			
+			if(denyRequest != 0 ) {
+				
+				return "/member/friendsList.user.tiles";
+			}
+			
 		// 친구 요청 거절
 		} else if (denyEmail != null) {
 
@@ -465,10 +472,14 @@ public class UserController {
 			logger.debug("req_email : 받는사람 {}", req_email);
 
 			int firendsRequest = friend_ReqService.firendsRequest(friendsReqVo);
+			
+			if(firendsRequest != 0 ) {
+				
+				return "/member/projectMember.user.tiles";
+			}
 		}
 
-		
-			return "/member/friendsList.user.tiles";
+		return "/member/friendsList.user.tiles";
 	}
 
 	/**
@@ -518,7 +529,7 @@ public class UserController {
 		FriendsVo friendsVo2 = new FriendsVo(frd_email, user_email);
 		int deleteFriends2 = friendsService.deleteFriends2(friendsVo2);
 
-		return "/member/projectMember.user.tiles";
+		return "/member/friendsList.user.tiles";
 	}
 
 	/**
@@ -739,14 +750,14 @@ public class UserController {
 	 * @param model
 	 * @return Method 설명 : 관리자가 회원을 등록
 	 */
-	@RequestMapping(path = "admInsertUser", method = RequestMethod.GET)
+	@RequestMapping(path = "/admInsertUser", method = RequestMethod.GET)
 	public String admInsertUser(String user_email, Model model) {
 		model.addAttribute("user_email", user_email);
 		logger.debug("user_email", user_email);
 		return "/member/memberForm.adm.tiles";
 	}
 
-	@RequestMapping(path = "admInsertUser", method = RequestMethod.POST)
+	@RequestMapping(path = "/admInsertUser", method = RequestMethod.POST)
 	public String admInsertUserProcess(UserVo userVo, String user_email, String user_pass, Model model)
 			throws InvalidKeyException, UnsupportedEncodingException {
 
@@ -758,8 +769,7 @@ public class UserController {
 
 		int admInsertUser = userService.insertUser(userVo);
 
-		// return "redirect:/login";
-		return "/member/memberForm.adm.tiles";
+		return "/member/memberList.adm.tiles";
 	}
 
 	/**
