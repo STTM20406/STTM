@@ -811,13 +811,14 @@ public class UserController {
 
 		logger.debug("admUpdate 이거 뭐였지? : {}", admUpdate);
 		logger.debug("memViewForm 이거 뭐였지? : {}", memViewForm);
-
+		
+		String viewName = "";
+		
 		UserVo userVo = new UserVo();
 		userVo.setUser_email(user_email);
 		userVo.setUser_nm(user_nm);
 		userVo.setUser_hp(user_hp);
 		userVo.setUser_st(user_st);
-		
 
 		logger.debug("user_email 아침 테스트 : {}", user_email);
 		logger.debug("user_nm 아침 테스트 : {}", user_nm);
@@ -825,8 +826,13 @@ public class UserController {
 		logger.debug("user_st 아침 테스트 : {}", user_st);
 
 		int admUpdateUser = userService.updateUserAdm(userVo);
+		logger.debug("admUpdateUser 수정이안됨 : {}", admUpdateUser);
 
-		return "/member/memberUpdate.adm.tiles";
+		if(admUpdateUser != 0) {
+			viewName = "/member/memberUpdate.adm.tiles";
+		}
+		
+		return viewName;
 	}
 
 }
