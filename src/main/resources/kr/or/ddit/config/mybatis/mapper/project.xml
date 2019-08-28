@@ -383,6 +383,15 @@
 		]]>
 	</select>
 	
+	<select id="searchName" parameterType="project_memVo" resultType="project_memVo">
+		SELECT DISTINCT B.USER_EMAIL
+              , C.USER_NM FROM
+              ( SELECT * FROM PROJECT_MEM WHERE USER_EMAIL = #{user_email}) A, PROJECT_MEM B, USERS C
+		WHERE B.PRJ_ID IN (A.PRJ_ID)
+		AND C.USER_EMAIL = B.USER_EMAIL AND B.PRJ_MEM_DEL_FL = 'N' AND C.USER_NM LIKE '%'||#{user_nm}||'%'
+	
+	</select>
+	
 	<!-- *******************project_trnf_hs****************** -->
 
 

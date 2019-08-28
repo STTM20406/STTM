@@ -652,6 +652,24 @@ public class ProjectController {
 		return "/projectList/projectList.user.tiles";
 	}
 	
+	@RequestMapping("/searchName")
+	String searchName(HttpSession session, Model model, String user_nm) {
+		logger.debug("♬♩♪  searchName user_nm: {}", user_nm);
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = userVo.getUser_email();
+		
+		Project_MemVo project_memVo = new Project_MemVo();
+		project_memVo.setUser_email(user_email);
+		project_memVo.setUser_nm(user_nm);
+		
+		List<Project_MemVo> project_memList = projectService.searchName(project_memVo);
+		logger.debug("♬♩♪  누굴까요?: {}", project_memList);
+		
+		model.addAttribute("data", project_memList);
+		
+		return "jsonView";
+	}
+	
 	
 	
 
