@@ -39,7 +39,7 @@
 				
 				
 				$("#subject").val(subject2);
-				$("#smarteditor").val(content2);
+// 				$("#smarteditor").val(content2);
 				
 				if (confirm("저장하시겠습니까?")) {
 					// id가 smarteditor인 textarea에 에디터에서 대입
