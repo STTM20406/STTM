@@ -1490,7 +1490,7 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 				data.workLinkList.forEach(function(link, index) {
 					//html생성
 					html += "<tr>";
-					html += "<td><a href='https://"+link.attch_url+"'>"+ link.attch_url + "</a></td>";
+					html += "<td><a href='https://"+link.attch_url+"' target='_blank'>"+ link.attch_url + "</a></td>";
 					html += "<td>" + link.user_nm + "</td>";
 					html += "<td>" + link.prjStartDtStr + "</td>";
 					html += "<td><a href='javascript:workDelLink("+ link.link_id + "," + link.wrk_id+ ")'>삭제</a></td>";
@@ -1618,7 +1618,7 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 				data.workLinkList.forEach(function(link, index) {
 					//html생성
 					html += "<tr>";
-					html += "<td><a href='https://"+link.attch_url+"'>"
+					html += "<td><a href='https://"+link.attch_url+"' target='_blank'>"
 							+ link.attch_url + "</a></td>";
 					html += "<td>" + link.user_nm + "</td>";
 					html += "<td>" + link.prjStartDtStr + "</td>";
@@ -1810,8 +1810,8 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 										<ul>
 											<li>${work.wrkStartDtStr} ~ ${work.wrkEndDtStr}</li>
 											<li>
-												<span>코멘트 개수</span>
-												<span>업무 파일 개수</span>
+												<p>코멘트 개수<span>1</span></p>
+												<p>업무 파일 개수<span>2</span></p>
 											</li>
 										</ul>
 										<div class="wrk_mem_flw">

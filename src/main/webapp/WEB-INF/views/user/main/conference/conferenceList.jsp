@@ -77,7 +77,7 @@ ul.tabs li.current {
 					data.minutesList.forEach(function(minutesList, index){
 						//html생성
 						html += "<tr class='minutes'>";
-						html += "<td class='mnu_id' id='"+ minutesList.mnu_id +"'>"+ minutesList.num + "</td>";
+						html += "<td class='mnu_id' id='"+ minutesList.mnu_id +"'>"+ minutesList.rn + "</td>";
 						html += "<td>"+ minutesList.user_email + "</td>";
 						html += "<td>"+ minutesList.user_nm + "</td>";
 						html += "<td>"+ minutesList.prjStartDtStr + "</td>";
@@ -132,7 +132,7 @@ ul.tabs li.current {
 						//html생성
 						
 						html += "<tr class='minutes'>";
-						html += "<td class='mnu_id' id='"+ searchList.mnu_id +"'>"+ searchList.num + "</td>";
+						html += "<td class='mnu_id' id='"+ searchList.mnu_id +"'>"+ searchList.rn + "</td>";
 						html += "<td>"+ searchList.user_email + "</td>";
 						html += "<td>"+ searchList.user_nm + "</td>";
 						html += "<td>"+ searchList.prjStartDtStr + "</td>";
@@ -195,7 +195,7 @@ ul.tabs li.current {
 					//html생성
 					
 					html += "<tr class='minutes'>";
-					html += "<td class='mnu_id' id='"+ minutesList.mnu_id +"'>"+ minutesList.num + "</td>";
+					html += "<td class='mnu_id' id='"+ minutesList.mnu_id +"'>"+ minutesList.rn+ "</td>";
 					html += "<td>"+ minutesList.user_email + "</td>";
 					html += "<td>"+ minutesList.user_nm + "</td>";
 					html += "<td>"+ minutesList.prjStartDtStr + "</td>";
@@ -274,9 +274,9 @@ ul.tabs li.current {
 	<div class="searchBox">
 		<div class="tb_sch_wr">
 	 		 <select class="search" name="selectFile">
-              	<option value="fileName">파일명</option>
+              	<option value="fileName">작성자</option>
              </select>
-             <input type="text" value="" name="original_file_nm" id="searchText" maxlength="20" placeholder="검색어를 입력해주세요">
+             <input type="text" value="" name="original_file_nm" id="searchText" maxlength="20" placeholder="검색하실 이름을 입력해 주세요">
              <button type="button" id ="searchBtn" value="검색">검색</button>
     	</div>
     </div>
