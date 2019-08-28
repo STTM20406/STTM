@@ -14,6 +14,12 @@
 	
 	$(document).ready(function(){
 		
+		$('.prj_mem_sch').on('keyup',"#prj_mem",function(){
+			var user_nm = $('#prj_mem').val();
+			
+			searchName(user_nm);
+		});
+		
 		//프로젝트 리스트 클릭시 업무 페이지로 이동
 		$(".prj_title").on("click", function(){
 			var prj_id = $(this).attr("id");
@@ -648,6 +654,25 @@
 		
 	});
 	
+	//프로젝트 생성시 멤버 검색프로젝트 생성시 멤버 검색프로젝트 생성시 멤버 검색
+	function searchName(user_nm){
+		$.ajax({
+			url:"/project/searchName",
+			method:"post",
+			data: "&user_nm=" + user_nm,
+			success:function(data){
+				console.log(data);
+				var html = "";
+				data.data.forEach(function(item, index){
+					//html 생성
+					html += "<li><input type='checkbox' name='memItem' value='"+item.user_email+"'><span>"+ item.user_nm +"</span>"+ item.user_email + "</li>";
+				});	
+				$(".prj_crt_mem_item").html(html);
+			}
+		});
+	}
+	//프로젝트 생성시 멤버 검색프로젝트 생성시 멤버 검색
+	
 	//프로젝트 생성 - 선택한멤버리스트 함께 넘기기
 	function prjBtnSubmit(){
 		var memArray = [];
@@ -664,7 +689,7 @@
         
         var secGap = new Date().getTime() - updateTime;
         var sec = Math.floor(secGap/1000); //초
-        
+         
         //시분초일로 표현
         if(sec < 60) {
 			sec = sec + '초';
@@ -987,8 +1012,7 @@
 							<div class="prj_mem_sch">
 								<fieldset id="hd_sch">
 									<legend>사이트 내 프로젝트 검색</legend>
-									<input type="text" name="prj_mem" id="prj_mem" maxlength="20"
-										placeholder="검색어를 입력해주세요">
+									<input type="text" name="prj_mem" id="prj_mem" maxlength="20" placeholder="검색어를 입력해주세요" value="">
 								</fieldset>
 							</div>
 
