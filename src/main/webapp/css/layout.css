@@ -293,7 +293,7 @@ a.btn-layerClose:hover {border: 1px solid #091940; background-color:#1f326a; col
 
 
 #frmContainer {width:20%; float:left}
-.cal_wrapper {width:80%; float:left; height:600px}
+.cal_wrapper {width:78%; float:left; height:600px}
 .cal_wrapper table {width:100%}
 
 .workCreateBox {display:none}

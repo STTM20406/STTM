@@ -96,6 +96,29 @@
 	
 	
 </script>
+<div class="sub_menu">
+	<ul class="sub_menu_item">
+		<li><a href="/work/list">Work</a></li>
+		<li><a href="/gantt/project">Gantt Chart</a></li>
+		<li><a href="/analysis">Work Analysis</a></li>
+		<li><a href="/publicFilePagination">File&amp;Link</a></li>
+		<li><a href="">Meeting</a></li>
+		<li><a href="/vote">Vote</a></li>
+	</ul>
+	
+	<!-- 영하가 수정함 여기서부터ㅎ -->
+	<div class="sub_btn">
+		<ul>
+			<li><a href="#">4</a></li>
+			<li><a href="/conferenceList">회의록</a></li>
+			<li><a href="#">프로젝트 대화</a></li>
+			<li><a href="#">프로젝트 설정</a></li>
+		</ul>
+	</div>
+	<!-- 영하가 수정함 여기까지ㅎ -->
+	
+</div>
+
 <div id="frmContainer" style="height:100%;width:250px;float:left;margin-right:0;">
 	    <form id="filterFrm">
 	    	<label>업무 구분</label><br>
