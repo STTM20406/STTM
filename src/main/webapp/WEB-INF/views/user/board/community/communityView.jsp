@@ -14,7 +14,14 @@ $(document).ready(function(){
 		}else{
 			return false;
 		}
-	})
+	});
+	
+	window.onkeyup = function(e) {
+	    var code = e.keyCode || e.which;
+	    if (code == 13) {
+	        $('#replyBtn').click();
+	    }
+	};
 	
 	// 수정하기 버튼
 	$("#modifyBtn").on("click",function(){
@@ -23,7 +30,14 @@ $(document).ready(function(){
 		$("#frm").submit();
 	})
 	
-
+	
+	//채팅방 이름 범위넘으면 출력
+	$('#r_content').keyup(function(){
+        if ($(this).val().length > $(this).attr('maxlength')) {
+            alert('입력할 수 있는 제목 범위를 넘었습니다');
+            $(this).val($(this).val().substr(0, $(this).attr('maxlength')));
+        }
+	});
 	
 	//댓글 등록하면 리스트 다시 가져오기
 	function replyList(r_content, write_id){
@@ -51,7 +65,8 @@ $(document).ready(function(){
 					html +=	"<td>" + item.user_email + "</td>";
 					html +=	"<td>" + item.writedateString + "</td>";
 					if(item.user_email == data.user_email){
-						html +=	"<td id='replyBUT'><button type='button' id='deleteReplyBtn' name='" + item.comm_id  + "'>댓글삭제</button></td>";
+						html += "<td id='replyBUT'><input type='button' id='deleteReplyBtn' name='" + item.comm_id + "' value='댓글삭제'></td>";
+					
 					}
 					html += "</tr>";
 					
@@ -88,6 +103,11 @@ $(document).ready(function(){
 // 		$("#frm").attr("method","post");
 // 		$("#frm").submit();
 
+		if($("#r_content").val().length == 0){
+			alert("등록할 댓글을 입력하세요");
+			return false;
+		}
+
 		var write_id = $("#write_id").val();
 		var r_content = $("#r_content").val();
 		console.log("댓글 등록" + write_id + r_content);
@@ -103,7 +123,7 @@ $(document).ready(function(){
 	});
 	
 	// 댓글삭제하기 버튼
-	$(".replyTr #replyBUT").on("click",function(){
+	$("#inputAnswer").on("click", "#replyBUT", function(){
 			console.log("replyTr click");
 			console.log($(this));
 			var replyNum = $(this).children().attr("name");
@@ -208,12 +228,11 @@ $(document).ready(function(){
 			<label>${writeInfo.content }</label>
 		</div>
 	<div>
-	<form id="frm" action="/post" method="get">
+	<form action="#" id="frm">
 		<input type="hidden" id="write_id" name="write_id" value="${writeInfo.write_id }"/>
 		<input type="hidden" id="board_id" name="board_id" value="${writeInfo.board_id }"/>
 		<input type="hidden" id="user_email" name="user_email" value="${USER_INFO.user_email }"/>
 		<input type="hidden" id="replynum1" name="replynum1" value=""/>
-		
 			<label>댓글 목록</label><br>
 			<table class="tb_style_01">
 				<tbody id="inputAnswer">
@@ -234,7 +253,7 @@ $(document).ready(function(){
 									<td><fmt:formatDate value="${reply.writedate }" pattern="yyyy-MM-dd"/></td>
 									<c:choose>
 										<c:when test="${reply.user_email == USER_INFO.user_email}">
-											<td id="replyBUT"><button type="button" id="deleteReplyBtn" name="${reply.comm_id }">댓글삭제</button></td>
+											<td id="replyBUT"><input type="button" id="deleteReplyBtn" name="${reply.comm_id }" value="댓글삭제"></td>
 										</c:when>
 									</c:choose>
 								</tr>
@@ -251,8 +270,9 @@ $(document).ready(function(){
 					</c:forEach>
 				</tbody>
 			</table>
+		</form>
 				<label>댓글 작성</label><br>
-				<textarea rows="1" cols="60" id="r_content" name="r_content"></textarea>
+				<input type="text" id="r_content" name="r_content" maxlength="70" style="width : 82%">
 				<input type="button" name="replyBtn" id="replyBtn" value="댓글등록">
 			
 		</div>
@@ -263,6 +283,5 @@ $(document).ready(function(){
 			</c:when>
 		</c:choose>
 
-	</form>
 </section>
 
