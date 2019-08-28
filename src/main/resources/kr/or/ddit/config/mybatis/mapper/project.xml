@@ -10,7 +10,7 @@
 	<select id="projectList" parameterType="string" resultType="projectVo">
 		SELECT * FROM (SELECT * FROM PROJECT)A INNER JOIN
 					  				(SELECT * FROM PROJECT_MEM)B ON
-		A.PRJ_ID = B.PRJ_ID AND B.USER_EMAIL = #{user_email} AND A.DEL_FL = 'N' AND B.PRJ_MEM_DEL_FL = 'N'
+		A.PRJ_ID = B.PRJ_ID AND B.USER_EMAIL = #{user_email} AND A.DEL_FL = 'N' AND B.PRJ_MEM_DEL_FL = 'N' ORDER BY PRJ_UPDATE DESC
 	</select>
 
 	<!--프로젝트 아이디에 맞는 프로젝트 정보 조회 -->
@@ -39,7 +39,7 @@
 			 , A.DEL_FL
 			 , B.USER_EMAIL
 		FROM ( SELECT A.* FROM (SELECT * FROM PROJECT WHERE PRJ_ST = #{prj_st}) A) A, PROJECT_MEM B
-		WHERE  A.PRJ_ID = B.PRJ_ID AND B.USER_EMAIL = #{user_email} AND A.DEL_FL = 'N' AND B.PRJ_MEM_DEL_FL = 'N'
+		WHERE  A.PRJ_ID = B.PRJ_ID AND B.USER_EMAIL = #{user_email} AND A.DEL_FL = 'N' AND B.PRJ_MEM_DEL_FL = 'N' 
 	</select>
 	
 	
