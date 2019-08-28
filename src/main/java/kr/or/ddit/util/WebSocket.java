@@ -288,8 +288,9 @@ public class WebSocket extends TextWebSocketHandler {
 						  logger.debug("!@# keyset : {}",key);
 						  
 						  if(key.equals(rcv_email)) {
-							  TextMessage tmpMsg = new TextMessage(rcv_email+"님,"+wrk_subject+"에 코멘트가 작성이 되었습니다.");
+							  TextMessage tmpMsg = new TextMessage(rcv_email+"님,"+wrk_subject+"에 코멘트가 작성이 되었습니다. *" + userService.countCnt(rcv_email));
 								writerSession.sendMessage(tmpMsg);
+								
 						  }
 					}
 					
@@ -335,7 +336,7 @@ public class WebSocket extends TextWebSocketHandler {
 						  logger.debug("!@# keyset : {}",key);
 						  
 						  if(key.equals(rcv_email)) {
-							  TextMessage tmpMsg = new TextMessage(rcv_email+"님,"+prj_nm+"의 설정이 변경 되었습니다.");
+							  TextMessage tmpMsg = new TextMessage(rcv_email+"님,"+prj_nm+"의 설정이 변경 되었습니다. *" + userService.countCnt(rcv_email));
 								writerSession.sendMessage(tmpMsg);
 						  }
 					}

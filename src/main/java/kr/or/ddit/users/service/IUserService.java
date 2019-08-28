@@ -196,5 +196,15 @@ public interface IUserService {
 	 * Method 설명 	: 사용자가 알림목록을 읽었을 경우 0으로 초기화
 	 */
 	int resetCount(String user_email);
+	
+	/**
+	 * Method 		: countCnt
+	 * 작성자 			: 양한솔 
+	 * 변경이력 		: 2019-08-28 최초 생성
+	 * @param user_email
+	 * @return
+	 * Method 설명 	: 사용자 알림 쌓인 개수
+	 */
+	int countCnt(String user_email);
 
 }

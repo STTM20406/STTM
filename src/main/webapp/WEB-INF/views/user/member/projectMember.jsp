@@ -247,8 +247,12 @@ function requestedFriendsList() {
 
 	<div class="sub_menu">
 			<ul class="tabs">
-				<li data-tab="tab-1">프로젝트 멤버</li>
-				<li data-tab="tab-2">친구 리스트</li>
+				<li data-tab="tab-1">
+					<a href="/projectMember">프로젝트 멤버</a>
+				</li>
+				<li data-tab="tab-2">
+					<a href="/friendsList">친구 리스트</a>
+				</li>
 			</ul>
 	</div>
 
@@ -278,180 +282,6 @@ function requestedFriendsList() {
 			
 		</div>
 		
-		<div id="tab-2" class="tab-content">
-			
-<!-- 			<form id="frdEmailFrom" action="/projectMemberList" method="get"> -->
-<%-- 				<input type="text" id="frd_email" name="frd_email" value="${friendsList.frd_email}"> --%>
-<!-- 			</form> -->
-			
-			<div>
-				<div class="searchBox">
-					<div class="tb_sch_wr">
-						<fieldset id="hd_sch">
-						 	<form id="frmSearch" action="/friendsSearchList" method="get">
-			<input type="hidden" id="inq_cate" name="inq_cate" value="INQ01"/>
-								<input type="hidden" id="selectBoxText" name="selectBoxText" value="userEmail"/>
-				                <legend>사이트 내 전체검색</legend>
-					                <select id="search">
-					                	<option value="userEmail">이메일</option>
-					                </select>
-				                <input type="text" name="keyword" id="keyword" maxlength="20" placeholder="검색어를 입력해주세요">
-			                </form>
-		            	</fieldset>
-		           	</div>
-	          	</div>
-				
-				<table class="tb_style_01" id="friendTable">
-					<colgroup>
-						<col width="30%">
-						<col width="30%">
-						<col width="30%">
-					</colgroup>
-					<tbody>
-						<tr>
-						
-<!-- 							<th>사용자 이메일 - 추후 삭제</th> -->
-							<th>친구 이름</th>
-							<th>친구 이메일</th>
-							<th>친구삭제</th>
-		
-							<c:forEach items="${friendsList}" var="prjVo">
-							
-								<tr class="userTr" data-user_email="${prjVo.frd_email}">
-									<td>${prjVo.user_nm}</td>
-									<td>${prjVo.frd_email}<span class="logout"> ●</span></td>
-									<td class="delFriends">
-										
-										<a href="/deleteFriends?frd_email=${prjVo.frd_email}" class="a_style_04">삭제하기</a>
-										
-									</td>
-								</tr>
-								
-							</c:forEach>
-							
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			
-<!-- 			<input type="button" id="btnFriendsReqList" class="inp_style_04" onclick="layer_open('layer3');return false;" value="친구 요청 목록"> -->
-<!-- 			<input type="button"  onclick="layer_open('layer4');return false;" value="친구 요청"> -->
-			
-			<a href="#layer3" class="requestedFriendsList a_style_01">요청 받은 친구 목록</a>
-			<a href="#layer4" class="friendsBtn a_style_01">친구 요청</a>
-			
-			<div class="pagination">
-					<c:choose>
-						<c:when test="${pageVo.page == 1 }">
-							<a href class="btn_first"></a>
-						</c:when>
-						<c:otherwise>
-							<a href="${cp}/projectMember?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a>
-						
-						</c:otherwise>
-					</c:choose>
-		
-					<c:forEach begin="1" end="${paginationSize}" var="i">
-						<c:choose>
-							<c:when test="${pageVo.page == i}">
-								<span>${i}</span>
-							</c:when>
-							<c:otherwise>
-								<a href="${cp}/projectMember?page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
-							</c:otherwise>
-						</c:choose>
-		
-					</c:forEach>
-		
-					<c:choose>
-						<c:when test="${pageVo.page == paginationSize}">
-							<a href class="btn_last"></a>
-						</c:when>
-						
-						<c:otherwise>
-							<a href="${cp}/projectMember?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
-						</c:otherwise>
-					</c:choose>
-			
-			</div>
-		
-<!-- 			<form action="/friendsRequestList" id="friendsRequestListForm" method="get"> -->
-			<form action="/projectMemberList" id="friendsRequestListForm" method="post">
-				<div id="layer3" class="pop-layer">
-				    <div class="pop-container">
-				        <div class="pop-conts">
-				            <!--content //-->
-			
-							<table class="tb_style_01">
-								<colgroup>
-									<col width="30%">
-									<col width="30%">
-									<col width="30%">
-								</colgroup>
-								<tbody>
-									<tr>
-									
-										<th>친구 이름</th>
-										<th>수락</th>
-										<th>거절</th>
-					
-										<c:forEach items="${friendsRequestList}" var="friReqList">
-										
-											<tr class="friReqTr" data-user_email="${friReqList.user_email}">
-												<td>${friReqList.user_nm}</td>
-												<td>
-<!-- 													<input id="btnAcceptReq" type="button" class="inp_style_01" value="수락"> -->
-<%-- 													<input type="hidden" id="acceptEmail" value="${friReqList.user_email}"> --%>
-													<a href="/projectMember?acceptEmail=${friReqList.user_email}" class="a_style_01">수락</a>
-												</td>
-												<td>
-<!-- 													<input id="btnDenyReq" type="button" class="inp_style_04" value="거절"> -->
-<%-- 													<input type="hidden" id="denyEmail" value="${friReqList.user_email}"> --%>
-													<a href="/projectMember?denyEmail=${friReqList.user_email}" class="a_style_04">거절</a>
-												</td>
-											</tr>
-											
-										</c:forEach>
-											
-										<form>
-											
-										</form>
-										
-									</tr>
-								</tbody>
-							</table>
-							
-				            <div class="btn-r">
-				                <a href="#" class="btn-layerClose">Close</a>
-				            </div>
-				            
-				            <!--// content-->
-				        </div>
-				    </div>
-				</div>
-			</form>
-
-			<form action="/friendsRquest" id="friendsRequestForm" method="post">
-				<div id="layer4" class="pop-layer">
-				    <div class="pop-container">
-				        <div class="pop-conts">
-				            <!--content //-->
-			
-							<input type="text" id="req_email" name="req_email" value="${req_email}"
-							placeholder="친구 아이디를 입력 해주세요">
-							<input type="button" class="inp_style_01" id="" onclick="requestFriends()" value="친구 요청">
-							
-				            <div class="btn-r">
-				                <a href="#" class="btn-layerClose">Close</a>
-				            </div>
-				            
-				            <!--// content-->
-				        </div>
-				    </div>
-				</div>
-			</form>
-			
-		</div>
 		
 	</div>
 	

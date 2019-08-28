@@ -139,7 +139,7 @@ ul.tabs li.current {
 						</tbody>
 					</table>
 
-					<button id="addBtn" type="button" class="btn_style_01">게시글 작성</button>
+<!-- 					<button id="addBtn" type="button" class="btn_style_01">게시글 작성</button> -->
 					
 					<div class="pagination">
 		                  <c:choose>

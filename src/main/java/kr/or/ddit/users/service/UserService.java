@@ -315,4 +315,17 @@ public class UserService implements IUserService{
 		return userDao.resetCount(user_email);
 	}
 
+	/**
+	 * Method 		: countCnt
+	 * 작성자 			: 양한솔 
+	 * 변경이력 		: 2019-08-28 최초 생성
+	 * @param user_email
+	 * @return
+	 * Method 설명 	: 사용자 알림 쌓인 개수
+	 */
+	@Override
+	public int countCnt(String user_email) {
+		return userDao.countCnt(user_email);
+	}
+
 }
