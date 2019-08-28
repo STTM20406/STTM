@@ -197,7 +197,8 @@ function copyTask(btn) {
    console.log("Copied!");
 };
 
-
+//소켓 채팅인지 알림인지 구분하기
+var socketDistinguish = null;
 
 $(document).ready(function(){
    connectNotify();
@@ -220,12 +221,15 @@ $(document).ready(function(){
 			let ct_id = $("#hct_id").val();
 
 			if (socket) {
+				
+				socketDistinguish = "chatting";
 				let socketMsg = "chatting," + senderNm + ","
 						+ content + "," + senderId1 + ","
 						+ ct_id; //소켓으로 이 정보를 보냄
 				console.log("sssssssmsg>>", socketMsg);
 				socket.send(socketMsg);
 			}
+			
 			
 			$("#hmsg").val('');
 			$("#hmsg").focus();
@@ -585,50 +589,53 @@ function connectNotify(){
 
    socket.onmessage = function(event) { //알림메세지 보내기@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	   
-	  //알림인지 채팅인지 구분 
-      console.log("ReceiveMessage: ", event.data + "\n");
-      
-	      var data = event.data;
-	      
-	      if(!data.startsWith("lst:")) {
-		      var $socketAlert = $('#socketAlert p');
-		      $socketAlert.text(event.data);
-		      $(".socketAlram").fadeIn(300);
-		      $(".socketAlram").animate({right:"0px"}, 500);
-		      setTimeout(function(){
-		         $(".socketAlram").fadeOut(300);
-		         $(".socketAlram").animate({right:"-350px"}, 500);
-		          
-		      },3000);
-	      } 
-      
-    	  var userId = $("#huser_email").val();
-    	  var strArray = event.data.split(",");
-
-			console.log("들어온거니strArray[0] :" + strArray[0] + "strArray[1]"
-					+ strArray[1] + "strArray[2]" + strArray[2] + "userId"+userId);
-
-			if (strArray[0] != userId) {
-					var printHTML = "<div class='incoming_msg'>";
-					printHTML += "<div class='received_msg'>";
-					printHTML += "<div class='received_withd_msg'>";
+	  
+	      console.log("ReceiveMessage: ", event.data + "\n");
+	   	  //채팅아닐때
+	      if(socketDistinguish != "chatting"){
+		      var data = event.data;
+		      
+		      if(!data.startsWith("lst:")) {
+			      var $socketAlert = $('#socketAlert p');
+			      $socketAlert.text(event.data);
+			      $(".socketAlram").fadeIn(300);
+			      $(".socketAlram").animate({right:"0px"}, 500);
+			      setTimeout(function(){
+			         $(".socketAlram").fadeOut(300);
+			         $(".socketAlram").animate({right:"-350px"}, 500);
+			          
+			      },3000);
+		      } 
+	      }
+	      //채팅부분
+	      if(socketDistinguish == "chatting"){
+	    	  var userId = $("#huser_email").val();
+	    	  var strArray = event.data.split(",");
+	
+				console.log("들어온거니strArray[0] :" + strArray[0] + "strArray[1]"
+						+ strArray[1] + "strArray[2]" + strArray[2] + "userId"+userId);
+	
+				if (strArray[0] != userId) {
+						var printHTML = "<div class='incoming_msg'>";
+						printHTML += "<div class='received_msg'>";
+						printHTML += "<div class='received_withd_msg'>";
+						printHTML += "<p>" + strArray[1] + "</p>";
+						printHTML += "<p>" + strArray[2] + "</p>";
+						printHTML += "<span class='time_date'>" + strArray[3] + "</span></div></div></div>";
+					$("#hchatData").append(printHTML);
+					$("#hchatData").scrollTop($("#hchatData")[0].scrollHeight);			
+					
+				} else {
+					var printHTML = "<div class='outgoing_msg'>";
+					printHTML += "<div class='sent_msg'>";
 					printHTML += "<p>" + strArray[1] + "</p>";
 					printHTML += "<p>" + strArray[2] + "</p>";
 					printHTML += "<span class='time_date'>" + strArray[3] + "</span></div></div></div>";
-				$("#hchatData").append(printHTML);
-				$("#hchatData").scrollTop($("#hchatData")[0].scrollHeight);			
-				
-			} else {
-				var printHTML = "<div class='outgoing_msg'>";
-				printHTML += "<div class='sent_msg'>";
-				printHTML += "<p>" + strArray[1] + "</p>";
-				printHTML += "<p>" + strArray[2] + "</p>";
-				printHTML += "<span class='time_date'>" + strArray[3] + "</span></div></div></div>";
-				$("#hchatData").append(printHTML);
-				$("#hchatData").scrollTop($("#hchatData")[0].scrollHeight);
-			}
-    	  
-      
+					$("#hchatData").append(printHTML);
+					$("#hchatData").scrollTop($("#hchatData")[0].scrollHeight);
+				}
+				socketDistinguish = null;	
+	      }
       
       
    };
