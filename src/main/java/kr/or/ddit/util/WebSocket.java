@@ -194,7 +194,7 @@ public class WebSocket extends TextWebSocketHandler {
 						  logger.debug("!@# keyset : {}",key);
 						  
 						  if(key.equals(userNm)) {
-							  TextMessage tmpMsg = new TextMessage(userNm+"님에게"+not_con+"가 배정되었습니다.");
+							  TextMessage tmpMsg = new TextMessage(userNm+"님에게"+not_con+"가 배정되었습니다.*" + userService.countCnt(userNm));
 								writerSession.sendMessage(tmpMsg);
 						  }
 					}
@@ -383,7 +383,7 @@ public class WebSocket extends TextWebSocketHandler {
 						  logger.debug("!@# keyset : {}",key);
 						  
 						  if(key.equals(rcv_email)) {
-							  TextMessage tmpMsg = new TextMessage(rcv_email+"님,"+work_nm+"에 파일&링크가 등록 되었습니다.");
+							  TextMessage tmpMsg = new TextMessage(rcv_email+"님,"+work_nm+"에 파일&링크가 등록 되었습니다.*" + userService.countCnt(rcv_email));
 								writerSession.sendMessage(tmpMsg);
 						  }
 					}
@@ -430,7 +430,7 @@ public class WebSocket extends TextWebSocketHandler {
 						  logger.debug("!@# keyset : {}",key);
 						  
 						  if(key.equals(rcv_email)) {
-							  TextMessage tmpMsg = new TextMessage(rcv_email+"님,"+text);
+							  TextMessage tmpMsg = new TextMessage(rcv_email+"님,"+text+"*" + userService.countCnt(rcv_email));
 								writerSession.sendMessage(tmpMsg);
 						  }
 					}
