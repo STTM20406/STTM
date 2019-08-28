@@ -1135,10 +1135,7 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 	 		    contentType: false,
 	 		    processData: false,
 	 		    success: function(data){
-	 		    	console.log("파일업로드 알림메세지",data);
 	 		    	workFilePagination(1, 5, wrk_id);
-	 		    	console.log("파일업로드 알림메세지",data.wrkFlwList[0].user_email);
-	 		    	console.log("파일업로드 알림메세지",data.wrkMemList[0].user_email);
 	 		    	
 	 		    	if(socket){
 	 					var socketMsg = "";

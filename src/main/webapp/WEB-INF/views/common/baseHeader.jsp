@@ -589,17 +589,23 @@ function connectNotify(){
       console.log("ReceiveMessage: ", event.data + "\n");
       
 	      var data = event.data;
+	      console.log(data);
+	      
 	      
 	      if(!data.startsWith("lst:")) {
-		      var $socketAlert = $('#socketAlert p');
-		      $socketAlert.text(event.data);
+	    	  var textSplit = data.split("*");
+			    console.log(textSplit);
+	    	  var $socketAlert = $('#socketAlert p');
+		      $socketAlert.text(textSplit[0]);
 		      $(".socketAlram").fadeIn(300);
 		      $(".socketAlram").animate({right:"0px"}, 500);
+	    	  $("#spanCountReset").text(textSplit[1]);
 		      setTimeout(function(){
 		         $(".socketAlram").fadeOut(300);
 		         $(".socketAlram").animate({right:"-350px"}, 500);
 		          
 		      },3000);
+		      
 	      } 
       
     	  var userId = $("#huser_email").val();

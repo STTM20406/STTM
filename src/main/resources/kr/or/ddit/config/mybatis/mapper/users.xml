@@ -14,8 +14,8 @@
 
 <!-- 일반 사용자 등록 -->
 <insert id="insertUser" parameterType="userVo">
-	insert into users(user_email,user_pass,user_nm,user_hp,user_right,user_st,count_notify)
-	values (#{user_email},#{user_pass},#{user_nm},#{user_hp},'U','N',0)
+	insert into users(user_email,user_pass,user_nm,user_hp,user_right,user_st,count_notify,count_message)
+	values (#{user_email},#{user_pass},#{user_nm},#{user_hp},'U','N',0,0)
 </insert>
 
 <!-- 일반 사용자 삭제 -->
@@ -159,7 +159,12 @@
 		set count_notify = 0
 		where user_email = #{user_email}
 	</update>
-
+	
+	<select id="countCnt" parameterType="String" resultType="int">
+		select count_notify
+		from users
+		where user_email=#{user_email}
+	</select>
 <!-- ******************* mail_confirm ******************* -->
 
 
