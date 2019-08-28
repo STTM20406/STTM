@@ -50,7 +50,9 @@ $(document).ready(function(){
 					html +=	"<td>" + item.content + "</td>";
 					html +=	"<td>" + item.user_email + "</td>";
 					html +=	"<td>" + item.writedateString + "</td>";
-					html +=	"<td id='replyBUT'><button type='button' id='deleteReplyBtn' name='" + item.comm_id  + "'>댓글삭제</button></td>";
+					if(item.user_email == data.user_email){
+						html +=	"<td id='replyBUT'><button type='button' id='deleteReplyBtn' name='" + item.comm_id  + "'>댓글삭제</button></td>";
+					}
 					html += "</tr>";
 					
 				});
@@ -230,7 +232,11 @@ $(document).ready(function(){
 									<td>${reply.content }</td>
 									<td>${reply.user_email }</td>
 									<td><fmt:formatDate value="${reply.writedate }" pattern="yyyy-MM-dd"/></td>
-									<td id="replyBUT"><button type="button" id="deleteReplyBtn" name="${reply.comm_id }">댓글삭제</button></td>
+									<c:choose>
+										<c:when test="${reply.user_email == USER_INFO.user_email}">
+											<td id="replyBUT"><button type="button" id="deleteReplyBtn" name="${reply.comm_id }">댓글삭제</button></td>
+										</c:when>
+									</c:choose>
 								</tr>
 							</c:when>
 							<c:otherwise>
@@ -250,9 +256,12 @@ $(document).ready(function(){
 				<input type="button" name="replyBtn" id="replyBtn" value="댓글등록">
 			
 		</div>
-		
-		<button type="button" class="btn_style_04" name="modifyBtn" id="modifyBtn"> 수정 </button>
-		<button type="button" class="btn_style_02" name="deleteBtn" id="deleteBtn"> 삭제 </button>
+		<c:choose>
+			<c:when test="${writeInfo.user_email == USER_INFO.user_email}">
+				<button type="button" class="btn_style_04" name="modifyBtn" id="modifyBtn"> 수정 </button>
+				<button type="button" class="btn_style_02" name="deleteBtn" id="deleteBtn"> 삭제 </button>
+			</c:when>
+		</c:choose>
 
 	</form>
 </section>
