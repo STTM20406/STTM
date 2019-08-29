@@ -182,16 +182,8 @@
 	</select>
 	
 	<!-- 프로젝트 멤버 조건없이 조회  -->
-	<select id="projectMemYNList" resultType="project_memVo" parameterType="project_memVo">
-		SELECT DISTINCT B.PRJ_ID
-					  , B.USER_EMAIL
-					  , B.PRJ_MEM_LV
-					  , B.PRJ_MEM_NIK
-					  , B.PRJ_OWN_FL
-					  , C.USER_NM FROM
-					  ( SELECT * FROM PROJECT_MEM WHERE USER_EMAIL = #{user_email}) A, PROJECT_MEM B, USERS C
-		WHERE B.PRJ_ID IN (A.PRJ_ID)
-		AND C.USER_EMAIL = B.USER_EMAIL AND B.PRJ_ID = #{prj_id}
+	<select id="projectMemYNList" resultType="project_memVo" parameterType="int">
+		select * from project_mem where prj_id = #{prj_id}
 	</select>
 	
 	
@@ -223,7 +215,6 @@
 		PROJECT_MEM (PRJ_ID, USER_EMAIL, PRJ_MEM_LV, PRJ_OWN_FL, PRJ_MEM_DEL_FL)
 		VALUES (#{prj_id}, #{user_email}, #{prj_mem_lv}, #{prj_own_fl}, 'N')
 	</insert>
-	
 	
 	<!-- 프로젝트 멤버 관리자로 추가시 lv0으로 값 업데이트 / 프로젝트 관리자 삭제시 lv1로 값 업데이트 -->
 	<update id="updateProjectMem" parameterType="project_memVo">

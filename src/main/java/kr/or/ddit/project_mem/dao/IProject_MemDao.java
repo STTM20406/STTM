@@ -178,7 +178,7 @@ public interface IProject_MemDao {
 	 * @return
 	 * Method 설명 	: 
 	 */
-	List<Project_MemVo> projectMemYNList(Project_MemVo projectMemVo);
+	List<Project_MemVo> projectMemYNList(int prj_id);
 	/**
 	 * 
 	* Method : getprjListForInactive

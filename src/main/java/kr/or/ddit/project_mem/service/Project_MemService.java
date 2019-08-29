@@ -253,8 +253,8 @@ public class Project_MemService implements IProject_MemService{
 	* Method 설명 :
 	 */
 	@Override
-	public List<Project_MemVo> projectMemYNList(Project_MemVo projectMemVo) {
-		return projectMemDao.projectMemYNList(projectMemVo);
+	public List<Project_MemVo> projectMemYNList(int prj_id) {
+		return projectMemDao.projectMemYNList(prj_id);
 	}
 	
 	/**

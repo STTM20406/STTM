@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import org.apache.poi.hpsf.Array;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -326,37 +327,34 @@ public class ProjectController {
 	@RequestMapping("/projectMemAddAjax")
 	public @ResponseBody HashMap<String, Object> projectMemAddAjax(String user_email, String prj_id, Model model, HttpSession session) {
 		
-		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
-		String login_user_email = userVo.getUser_email();
-		
 		int prjId = Integer.parseInt(prj_id);
 
 		Project_MemVo projectMemVo = new Project_MemVo();
-		projectMemVo.setUser_email(login_user_email);
-		projectMemVo.setPrj_id(prjId);
 
-		//생성할 때 체크한 멤버리스트
-		
-		logger.debug("♬♩♪  user_email: {}", user_email);
-		
 		int insertCnt = 0;
-		List<Project_MemVo> project_MemList = projectMemService.projectMemYNList(projectMemVo);
-		logger.debug("♬♩♪  projectMemAddAjax 멤버리스트: {}", project_MemList);
-		logger.debug("♬♩♪  Here: {}", project_MemList.size());
 		
-		for (int i=0; i < project_MemList.size(); i++) {
-			if(project_MemList.get(i).getUser_email().contentEquals(user_email)) {
+		//생성할 때 체크한 멤버리스트
+		List<Project_MemVo> project_MemList = projectMemService.projectMemYNList(prjId);
+		logger.debug("♬♩♪  섕성할 때 체크한 멤버 리스트: {}", project_MemList.get(0));
+		
+		ArrayList<String> user_emailList = new ArrayList<String>();
+		
+		for (int i = 0; i < project_MemList.size(); i++) {
+			user_emailList.add(project_MemList.get(i).getUser_email());
+		}
+		logger.debug("♬♩♪  user_emailList: {}", user_emailList);
+		
+		for (int i=0; i < user_emailList.size(); i++) {
+			if(user_emailList.get(i)==(user_email)) {
 				logger.debug("♬♩♪  update");
-				logger.debug(project_MemList.get(i).getUser_email());
-				projectMemVo.setUser_email(user_email);
-				projectMemVo.setPrj_id(prjId);
 				projectMemVo.setPrj_own_fl("N");
+				projectMemVo.setPrj_id(prjId);
+				projectMemVo.setUser_email(user_email);
 				projectMemService.updateProjectMem(projectMemVo);
 			}else {
 				logger.debug("♬♩♪  insert");
-				logger.debug(project_MemList.get(i).getUser_email());
-				projectMemVo.setUser_email(user_email);
 				projectMemVo.setPrj_id(prjId);
+				projectMemVo.setUser_email(user_email);
 				projectMemVo.setPrj_mem_lv("LV1");
 				projectMemVo.setPrj_own_fl("N");
 				insertCnt = projectMemService.insertProjectMem(projectMemVo);
@@ -388,7 +386,6 @@ public class ProjectController {
 				}
 			}
 		}
-
 		hashmap.put("projectAdmList", project_adm_list);
 		hashmap.put("projectMemList", project_mem_list);
 
