@@ -624,20 +624,25 @@ function connectNotify(){
 					printHTML += "<div class='received_withd_msg'>";
 	  
 	      console.log("ReceiveMessage: ", event.data + "\n");
+    	
 	   	  //채팅아닐때
 	      if(socketDistinguish != "chatting"){
 		      var data = event.data;
 		      
 		      if(!data.startsWith("lst:")) {
-			      var $socketAlert = $('#socketAlert p');
-			      $socketAlert.text(event.data);
+		    	  var textSplit = data.split("*");
+				    console.log(textSplit);
+		    	  var $socketAlert = $('#socketAlert p');
+			      $socketAlert.text(textSplit[0]);
 			      $(".socketAlram").fadeIn(300);
 			      $(".socketAlram").animate({right:"0px"}, 500);
+		    	  $("#spanCountReset").text(textSplit[1]);
 			      setTimeout(function(){
 			         $(".socketAlram").fadeOut(300);
 			         $(".socketAlram").animate({right:"-350px"}, 500);
 			          
 			      },3000);
+			      
 		      } 
 	      }
 	      //채팅부분
@@ -1159,6 +1164,8 @@ pauseBtn.addEventListener('click',pauseTimer);
   ga('create', 'UA-46156385-1', 'cssscript.com');
   ga('send', 'pageview'); 
 
+  ga('send', 'pageview');
+}
 </script>
 
 

@@ -45,6 +45,9 @@ public class Work_CommentController {
 		logger.debug("!@# session : {}",session);
 		logger.debug("!@# wps_wrk_id : {}",wps_wrk_id);
 		
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		
+		
 		int wrk_id = Integer.parseInt(wps_wrk_id);
 		
 		int pageStr = page == null ? 1 : Integer.parseInt(page);
@@ -69,6 +72,7 @@ public class Work_CommentController {
 		resultMap.put("commentList",commentList);
 		resultMap.put("pageVo",pageVo);
 		resultMap.put("commPageSize",commPageSize);
+		resultMap.put("user_email",userVo.getUser_email());
 		
 		return resultMap;
 	}

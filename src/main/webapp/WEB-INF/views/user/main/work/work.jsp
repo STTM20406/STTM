@@ -32,11 +32,15 @@ function commentPagination(wps_wrk_id,page, pageSize){
 				html += "<td>";
 				html += "<input type='hidden' id='prj_id02' value='"+ comm.prj_id +"'/>"
 				html += "<input type='hidden' id='comm_id02' value='"+comm.comm_id +"'/>"
+				if(comm.user_email == data.user_email){
 				html += "<button type='button' id='commUpdateBtn' class='commUpdateBtn'>수정</button>"
+				}
 				html += "</td>";
 				html += "<td class='commDeleteTd'>";
 				html += "<input type='hidden' value='"+comm.prj_id +"'/>"
-				html += "<button type='button' id='commDeleteBtn' class='commDeleteBtn' name='"+comm.comm_id+"'>삭제</button>"
+				if(comm.user_email == data.user_email){
+					html += "<button type='button' id='commDeleteBtn' class='commDeleteBtn' name='"+comm.comm_id+"'>삭제</button>"
+				}
 				html += "</td>";
 				html += "</tr>";
 				
