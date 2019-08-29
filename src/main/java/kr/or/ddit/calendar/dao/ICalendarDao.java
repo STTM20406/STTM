@@ -93,5 +93,14 @@ public interface ICalendarDao {
 	 */
 	CalendarVo searchWorkInfomation(int wrk_id);
 
+	/**
+	 * Method 		: search_userEmail
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-29 최초 생성
+	 * @param workVo
+	 * @return
+	 * Method 설명 	: 업무 번호로 workvo정보 하나
+	 */
+	WorkVo search_userEmail(int wrk_id);
 	
 }
