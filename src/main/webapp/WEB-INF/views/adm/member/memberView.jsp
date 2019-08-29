@@ -51,7 +51,7 @@ function admUpdateUserView() {
 			</table>
 		</form>	
 			
-		<input type="button" id="btnMemUpdateView" onclick="admUpdateUserView()" value="수정">
+		<input type="button" id="btnMemUpdateView" onclick="admUpdateUserView()" class="inp_style_01" value="수정">
 		
 	</div>
 

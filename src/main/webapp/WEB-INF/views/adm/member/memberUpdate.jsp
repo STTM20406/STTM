@@ -101,7 +101,7 @@
 			</table>
 		</form>	
 			
-		<input type="button" id="btnMemUpdate" onclick="admUpdateUser()" value="업데이트">
+		<input type="button" id="btnMemUpdate" onclick="admUpdateUser()" class="inp_style_01" value="업데이트">
 		
 	</div>
 

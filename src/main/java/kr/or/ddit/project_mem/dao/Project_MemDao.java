@@ -242,4 +242,9 @@ public class Project_MemDao implements IProject_MemDao{
 //		return sqlSession.selectOne("project.projectMemListCnt", prj_id);
 	}
 
+	@Override
+	public List<Project_MemVo> getprjListForInactive(String user_email) {
+		return sqlSession.selectList("project.getprjListForInactive", user_email);
+	}
+
 }

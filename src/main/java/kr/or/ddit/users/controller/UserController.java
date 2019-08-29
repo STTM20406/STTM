@@ -82,7 +82,7 @@ public class UserController {
 		String user_nm = userVo.getUser_nm();
 		String user_hp = userVo.getUser_hp();
 
-		model.addAttribute("user_email", user_email);
+		model.addAttribute("user_email : 찍히니? {}", user_email);
 		model.addAttribute("user_pass", decodePass);
 
 		model.addAttribute("user_nm", user_nm);
@@ -111,6 +111,12 @@ public class UserController {
 		model.addAttribute("inactiveMemList", inactiveMemList);
 		model.addAttribute("paginationSize", paginationSize);
 		model.addAttribute("pageVo", pageVo);
+		
+		// 휴면 계정 전환 하기 위해 자신의 이메일로 
+		List<Project_MemVo> inactiveList = project_MemService.getprjListForInactive(user_email);
+		logger.debug("inactiveList 리스트찍기 : {}", inactiveList);
+		
+		model.addAttribute("inactiveList", inactiveList);
 
 		// ------------------------ 휴면 계정 전환 업데이트------------------------
 //			Project_MemVo projectMemVoId = (Project_MemVo) project_MemService.getMyProjectMemList(transferOwership);
@@ -200,7 +206,20 @@ public class UserController {
 		return "/account/accountSet.user.tiles";
 
 	}
-
+	
+	/**
+	 * 
+	* Method : inactiveUser
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-29
+	* @return
+	* Method 설명 :
+	 */
+	@RequestMapping(path = "/inactiveUser", method = RequestMethod.GET)
+	public String inactiveUser(String inactiveEmail) {
+		return "/account/accountSet.user.tiles";
+	}
+	
 	/**
 	 * 
 	 * Method : setNoticeView 작성자 : 김경호 변경이력 : 2019-07-30

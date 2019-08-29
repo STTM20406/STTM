@@ -306,10 +306,11 @@
 				<br><br>
 			
 				<!-- 휴면 계정 설정 -->  
-				<div id="setUserStatus" class="loginWrap" style="background-color:paleturquoise" onclick="setUserStatus"><label>휴면계정</label>
+				<div id="setUserStatus" class="loginWrap" style="background-color:paleturquoise" onclick="setUserStatus"><label>휴면 계정</label>
 					<form action="/setUserStatus" method="get" id="userStatusForm">
 						<div class="inputField">
-							<a href="#layer0" class="inactiveUser a_style_01">휴면 계정 전환</a>
+							<a href="#layer0" class="inactiveUser a_style_02">휴면계정전환</a>
+<!-- 							<a href="#layer0" class="inactiveUser a_style_03">휴면 계정 전환</a> -->
 						</div>
 					</form>
 				</div>
@@ -339,7 +340,7 @@
 									
 										<th>프로젝트 아이디</th>
 										<th>프로젝트 이름</th>
-										<th>프로젝트 멤버 이름</th>
+										<th>멤버 이름</th>
 										<th></th>
 					
 										<c:forEach items="${inactiveMemList}" var="inactive">
@@ -352,10 +353,9 @@
 <%-- 												<td class="transOwn" id="${inactive.user_email}"> --%>
 <%-- 													<a href="/setUserPass?transferOwership=${inactive.user_email}" id="transferBtn" class="inp_style_01">소유권이전</a> --%>
 <!-- 													<input type="submit" id="subOwership" class="inp_style_01" value="소유권 이전"> -->
-													<input type="button" id="subOwership" class="inp_style_04" value="소유권 이전">
+													<input type="button" id="subOwership" class="inp_style_02" value="소유권 이전">
 													<input type="hidden" id="transPrjId" value="${inactive.prj_id}"/> <!-- sol -->
 												</td>
-												
 												
 											</tr>
 											
@@ -364,6 +364,20 @@
 									</tr>
 								</tbody>
 							</table>
+
+							<!-- 휴면 계정 전환 -->
+							
+							<c:set var="inactive" value="${inactiveMemList}"/>
+							<input type="text" value="${inactive}">	
+							<input type="text" value="${inactiveMemList}">	
+							
+							<input type="text" value="${inactive_email}">	
+							<input type="text" value="${inactiveList}">	
+													
+							<c:if test="${inactiveList eq null}">
+<!-- 								<input type="button" id="inactiveBtn" value="휴면 계정 전환" class="inp_style_04" style="float: right;"> -->
+								<a href="/inactiveUser?inactiveEmail=${inactiveMemList.user_email}" style="float: right;">휴면계정전환</a>
+							</c:if>
 							
 				            <div class="btn-r">
 				                <a href="#" class="btn-layerClose">Close</a>
