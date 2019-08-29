@@ -471,8 +471,8 @@ public class UserController {
 			int denyRequest = friend_ReqService.deleteFriendRequest(acceptEmail);
 			
 			if(denyRequest != 0 ) {
-				
-				return "/member/friendsList.user.tiles";
+//				return "/member/friendsList.user.tiles";
+				return "redirect:/friendsList";
 			}
 			
 		// 친구 요청 거절
@@ -602,7 +602,9 @@ public class UserController {
 		frd_email.put("user_email", userVo.getUser_email());
 //		frd_email.put("frd_email", friendsVo.getFrd_email());
 		frd_email.put("frd_email", keyword);
-
+		
+		logger.debug("frd_email 이거머찍냐 : {}", frd_email);
+		
 		Map<String, Object> resultMap1 = friendsService.friendSearchByEmail(frd_email);
 
 		List<FriendsVo> friendsList = (List<FriendsVo>) resultMap1.get("userFriendsList");
