@@ -51,18 +51,18 @@ ul.tabs li.current {
 		})
 		
 		
-		$(".tb_style_01").on("click",".sendTr #sendCon",function(){
+		$(".tb_style_01").on("click",".rcvTr #rcvCon",function(){
 			console.log("sendTr click :::::::::::::::::::::::");
 			console.log("sendTr click");
-			var aTag = $('#aTag02').attr('href');
+			var aTag = $('#aTag').attr('href');
 			var email = $(this).siblings('#sendEmail').text();
 			var con = $(this).text();
-			var date = $(this).siblings('#sendDate').text();
+			var date = $(this).siblings('#rcvDate').text();
 			
 			console.log(aTag);
-			$("#lbEmail02").text(email);
-			$("#smarteditor02").val(con);
-			$("#lbDate02").text(date);
+			$("#lbEmail").text(email);
+			$("#smarteditor").val(con);
+			$("#lbDate").text(date);
 
 			layer_popupup(aTag);
 		})
@@ -115,7 +115,7 @@ ul.tabs li.current {
 						<div class="new_proejct">
 							<ul>
 								<li>
-									<label>보낸사람 : </label>
+									<label>받는사람 : </label>
 									<label id="lbEmail"></label>
 									<input type="hidden" name="rcvEmail" id="rcvEmaildInput" value=""/>
 								</li>
@@ -131,7 +131,6 @@ ul.tabs li.current {
 							</ul>
 						</div>
 					<div class="btn-r">
-						<button type="button" id="rcvBtn" class="rcvbtn-style"> 답장</button>
 						<a href="#" class="btn-layerClose">Close</a>
 					</div>
 				</div>
@@ -211,7 +210,6 @@ ul.tabs li.current {
 												<td style="display:none;" id="note_id">${send.note_con_id }</td>
 												<td id="rcvDate"><fmt:formatDate value="${send.send_date }" pattern="yyyy-MM-dd HH:mm"/></td>
 												<td>${send.read_fl }</td>
-												<td><button type="button" id="rcvDelBtn" name="${send.note_con_id }">삭제</button></td>
 												<td><a id="aTag" href="#layer1" class="btn-example1"></a></td>
 												
 											</tr>

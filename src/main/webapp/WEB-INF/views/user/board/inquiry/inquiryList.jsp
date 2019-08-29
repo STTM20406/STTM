@@ -172,7 +172,7 @@ ul.tabs li.current {
             <div class="pagination">
                   <c:choose>
                      <c:when test="${pageVo.page == 1 }">
-                        <a href class="btn_first"></a>
+                        <a class="btn_first"></a>
                      </c:when>
                      <c:otherwise>
                         <a href="${cp}/userInquiry?inq_cate=${pageVo.inq_cate }&page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a>
@@ -194,7 +194,7 @@ ul.tabs li.current {
 
                   <c:choose>
                      <c:when test="${pageVo.page == paginationSizeOrigin}">
-                        <a href class="btn_last"></a>
+                        <a class="btn_last"></a>
                      </c:when>
                      <c:otherwise>
                      <a href="${cp}/userInquiry?inq_cate=${pageVo.inq_cate }&page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
@@ -270,7 +270,7 @@ ul.tabs li.current {
                <div class="pagination">
                      <c:choose>
                         <c:when test="${pageVo.page == 1 }">
-                           <a href class="btn_first"></a>
+                           <a class="btn_first"></a>
                         </c:when>
                         <c:otherwise>
                            <a href="${cp}/userInquiry?inq_cate=${pageVo.inq_cate }&page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a>
@@ -292,7 +292,7 @@ ul.tabs li.current {
    
                      <c:choose>
                         <c:when test="${pageVo.page == paginationSizeAd}">
-                           <a href class="btn_last"></a>
+                           <a class="btn_last"></a>
                         </c:when>
                         <c:otherwise>
                         <a href="${cp}/userInquiry?inq_cate=${pageVo.inq_cate }&page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
