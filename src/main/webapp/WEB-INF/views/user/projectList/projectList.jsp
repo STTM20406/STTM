@@ -20,6 +20,18 @@
 			searchName(user_nm);
 		});
 		
+		$('.searchPL').on('keyup',"#searchPL",function(){
+			var user_nm = $('#searchPL').val();
+			
+			searchPL(user_nm);
+		});
+		
+		$('.searchMem').on('keyup',"#searchMem",function(){
+			var user_nm = $('#searchMem').val();
+			
+			searchMem(user_nm);
+		});
+		
 		//프로젝트 리스트 클릭시 업무 페이지로 이동
 		$(".prj_title").on("click", function(){
 			var prj_id = $(this).attr("id");
@@ -404,17 +416,18 @@
 				data:	"prj_id=" + id,
 				success:function(data){
 					var html = "";
+					console.log(data.data);
 					data.data.forEach(function(item, index){
 						//html 생성
 						html += "<li id='"+ item.user_email +"'><span>"+ item.user_nm +"</span>"+ item.user_email + "</li>";
 					});	
-					$(".prj_mem_item").html(html);
+					$(".searchPL_item").html(html);
 				}
 			});
 		}
 		
 		//프로젝트 멤버리스트를 클릭 했을 때
-		$(".prj_mem_item").on("click", "li", function(){
+		$(".searchPL_item").on("click", "li", function(){
 			var adm_add_email = $(this).attr("id");
 			var id = $("#ppt_id").val();
 			projectAdmAddAjax(id, adm_add_email);
@@ -672,6 +685,25 @@
 		});
 	}
 	//프로젝트 생성시 멤버 검색프로젝트 생성시 멤버 검색
+	//프로젝트 생성 후 설정에서 프로젝트 관리자 검색
+	function searchPL(user_nm){
+		$.ajax({
+			url:"/project/searchPL",
+			method:"post",
+			data: "&user_nm=" + user_nm,
+			success:function(data){
+				console.log(data);
+				var html = "";
+				data.data.forEach(function(item, index){
+					//html 생성
+					html += "<li><input type='checkbox' name='memItem' value='"+item.user_email+"'><span>"+ item.user_nm +"</span>"+ item.user_email + "</li>";
+				});	
+				$(".searchPL_item").html(html);
+			}
+		});
+	}
+	//프로젝트 생성 후 설정에서 프로젝트 관리자 검색
+	
 	
 	//프로젝트 생성 - 선택한멤버리스트 함께 넘기기
 	function prjBtnSubmit(){
@@ -984,16 +1016,15 @@
 					<div class="prj_add_adm">
 						<label for="prj_mem">프로젝트 관리자 추가</label>
 						<div class="prj_mem_list">
-							<div class="prj_mem_sch">
+							<div class="searchPL">
 								<fieldset id="hd_sch">
 									<legend>사이트 내 프로젝트 검색</legend>
-									<input type="text" name="prj_mem" id="prj_mem" maxlength="20"
-										placeholder="검색어를 입력해주세요">
+									<input type="text" name="user_nm" id="searchPL" maxlength="20" placeholder="검색어를 입력해주세요">
 								</fieldset>
 							</div>
 
 							<!-- 추가된 프로젝트 관리자 리스트 box -->
-							<ul class="prj_mem_item"></ul>
+							<ul class="searchPL_item"></ul>
 						</div>
 					</div>
 				</dd>
@@ -1009,10 +1040,10 @@
 					<div class="prj_add_mem">
 						<label for="prj_mem">프로젝트 멤버 추가</label>
 						<div class="prj_mem_list">
-							<div class="prj_mem_sch">
+							<div class="searchMem">
 								<fieldset id="hd_sch">
 									<legend>사이트 내 프로젝트 검색</legend>
-									<input type="text" name="prj_mem" id="prj_mem" maxlength="20" placeholder="검색어를 입력해주세요" value="">
+									<input type="text" name="user_nm" id="searchMem" maxlength="20" placeholder="검색어를 입력해주세요" value="">
 								</fieldset>
 							</div>
 

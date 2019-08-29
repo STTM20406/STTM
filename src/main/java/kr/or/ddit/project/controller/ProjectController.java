@@ -225,6 +225,7 @@ public class ProjectController {
 		projectMemVo.setUser_email(user_email);
 
 		model.addAttribute("data", projectMemService.projectMemList(projectMemVo));
+		logger.debug("♬♩♪  얼추 다했다고? 시발?:{}",projectMemService.projectMemList(projectMemVo) );
 
 		return "jsonView";
 	}
@@ -652,6 +653,17 @@ public class ProjectController {
 		return "/projectList/projectList.user.tiles";
 	}
 	
+	
+	/**
+	 * Method 		: searchName
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-28 최초 생성
+	 * @param session
+	 * @param model
+	 * @param user_nm
+	 * @return
+	 * Method 설명 	: 프로젝트 생성시 멤버 검색
+	 */
 	@RequestMapping("/searchName")
 	String searchName(HttpSession session, Model model, String user_nm) {
 		logger.debug("♬♩♪  searchName user_nm: {}", user_nm);
@@ -669,6 +681,35 @@ public class ProjectController {
 		
 		return "jsonView";
 	}
+	
+	/**
+	 * Method 		: searchPL
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-28 최초 생성
+	 * @param session
+	 * @param model
+	 * @param user_nm
+	 * @return
+	 * Method 설명 	: 프로젝트 생성후 설정에서 관리자 검색
+	 */
+	@RequestMapping("/searchPL")
+	String searchPL(HttpSession session, Model model, String user_nm) {
+		logger.debug("♬♩♪  searchPL user_nm: {}", user_nm);
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = userVo.getUser_email();
+		
+		Project_MemVo project_memVo = new Project_MemVo();
+		project_memVo.setUser_email(user_email);
+		project_memVo.setUser_nm(user_nm);
+		
+		List<Project_MemVo> project_memList = projectService.searchPL(project_memVo);
+		logger.debug("♬♩♪  누굴까요?: {}", project_memList);
+		
+		model.addAttribute("data", project_memList);
+		
+		return "jsonView";
+	}
+	
 	
 	
 	

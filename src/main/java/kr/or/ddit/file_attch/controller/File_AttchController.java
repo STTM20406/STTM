@@ -142,17 +142,21 @@ public class File_AttchController {
 	
 	//공용보관함입니다.//공용보관함입니다.//공용보관함입니다.//공용보관함입니다.//공용보관함입니다.//공용보관함입니다.//공용보관함입니다.//공용보관함입니다.
 	@RequestMapping(path = "/publicFilePagination", method = RequestMethod.GET)
-	String publicFilePagination() {
-		logger.debug("♬♩♪  여기는 공용 보관함입니다");
+	String publicFilePagination(HttpSession session, Model model) {
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = userVo.getUser_email();
+		model.addAttribute("user_email", user_email);
 		
 		return "/main/fileLink/fileLinkCommon.user.tiles";
 	}
 	
 	@RequestMapping(path = "/update", method = RequestMethod.GET)
-	String update(int file_id) {
+	String update(int file_id,HttpSession session, Model model) {
 		logger.debug("♬♩♪  file_id: {}", file_id);
 		file_AttchService.updateFile(file_id);
-		
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = userVo.getUser_email();
+		model.addAttribute("user_email", user_email);
 		return "redirect:/publicFilePagination";
 	}
 	
@@ -174,9 +178,14 @@ public class File_AttchController {
 		
 		int paginationSize = (Integer) resultMap.get("paginationSize");
 		
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = userVo.getUser_email();
+		
+		model.addAttribute("user_email", user_email);
+		
 		model.addAttribute("paginationSize", paginationSize);
 		model.addAttribute("pageVo", pageVo);
-
+		
 		model.addAttribute("publicLinkList", publicLinkList);
 		return "jsonView";
 	}
@@ -218,6 +227,9 @@ public class File_AttchController {
 		hashmap.put("prj_id", prj_id);
 		hashmap.put("LV", file_AttchService.selectLV(project_MemVo));
 		
+		model.addAttribute("user_email", user_email);
+		hashmap.put("user_email", user_email);
+		
 		return hashmap;
 	}
 	
@@ -243,11 +255,16 @@ public class File_AttchController {
 		
 		int paginationSize = (Integer) resultMap.get("paginationSize");
 		
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = userVo.getUser_email();
+		
 		HashMap<String, Object> hashmap = new HashMap<String, Object>();
 		hashmap.put("paginationSize", paginationSize);
 		hashmap.put("pageVo", pageVo);
 		hashmap.put("publicFileList", publicFileList);
 		hashmap.put("prj_id", prj_id);
+		hashmap.put("user_email", user_email);
+		
 		logger.debug("♬♩♪  hashmap: {}", hashmap);
 		
 		return hashmap;
@@ -273,10 +290,14 @@ public class File_AttchController {
 		
 		int paginationSize = (Integer) resultMap.get("paginationSize");
 		
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = userVo.getUser_email();
+		
 		HashMap<String, Object> hashmap = new HashMap<String, Object>();
 		hashmap.put("paginationSize", paginationSize);
 		hashmap.put("pageVo", pageVo);
 		hashmap.put("publicLinkList", publicLinkList);
+		hashmap.put("user_email", user_email);
 		
 		return hashmap;
 	}
@@ -386,10 +407,14 @@ public class File_AttchController {
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("workFileList", workFileList);
 		
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = userVo.getUser_email();
+		
 		HashMap<String, Object> hashmap = new HashMap<String, Object>();
 		hashmap.put("paginationSize", paginationSize);
 		hashmap.put("pageVo", pageVo);
 		hashmap.put("workFileList", workFileList);
+		hashmap.put("user_email", user_email);
 		
 		return hashmap;
 	}
@@ -410,10 +435,14 @@ public class File_AttchController {
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("workLinkList", workLinkList);
 		
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = userVo.getUser_email();
+		
 		HashMap<String, Object> hashmap = new HashMap<String, Object>();
 		hashmap.put("paginationSize", paginationSize);
 		hashmap.put("pageVo", pageVo);
 		hashmap.put("workLinkList", workLinkList);
+		hashmap.put("user_email", user_email);
 		
 		return hashmap;
 	}
@@ -443,10 +472,14 @@ public class File_AttchController {
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("workFileList", workFileList);
 		
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = userVo.getUser_email();
+		
 		HashMap<String, Object> hashmap = new HashMap<String, Object>();
 		hashmap.put("paginationSize", paginationSize);
 		hashmap.put("pageVo", pageVo);
 		hashmap.put("workFileList", workFileList);
+		hashmap.put("user_email", user_email);
 		
 		return hashmap;
 	}
@@ -476,10 +509,14 @@ public class File_AttchController {
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("workLinkList", workLinkList);
 		
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = userVo.getUser_email();
+		
 		HashMap<String, Object> hashmap = new HashMap<String, Object>();
 		hashmap.put("paginationSize", paginationSize);
 		hashmap.put("pageVo", pageVo);
 		hashmap.put("workLinkList", workLinkList);
+		hashmap.put("user_email", user_email);
 		
 		return hashmap;
 	}
@@ -616,6 +653,7 @@ public class File_AttchController {
 		hashmap.put("paginationSize", paginationSize);
 		hashmap.put("pageVo", pageVo);
 		hashmap.put("workLinkList", workLinkList);
+		hashmap.put("user_email", user_email);
 		
 		return hashmap;
 	}

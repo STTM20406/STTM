@@ -174,4 +174,9 @@ public class ProjectService implements IProjectService{
 	public List<Project_MemVo> searchName(Project_MemVo project_MemVo) {
 		return projectDao.searchName(project_MemVo);
 	}
+
+	@Override
+	public List<Project_MemVo> searchPL(Project_MemVo project_MemVo) {
+		return projectDao.searchPL(project_MemVo);
+	}
 }

@@ -166,4 +166,14 @@ public interface IProjectDao {
 	 * Method 설명 	: 프로젝스 생성 시 프로젝트 멤버 검색
 	 */
 	List<Project_MemVo> searchName(Project_MemVo project_MemVo);
+	
+	/**
+	 * Method 		: searchPL
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-28 최초 생성
+	 * @param project_MemVo
+	 * @return
+	 * Method 설명 	: 프로젝트 생성후 설정 메뉴에서 관리자 목록 가져오는!
+	 */
+	List<Project_MemVo> searchPL(Project_MemVo project_MemVo);
 }

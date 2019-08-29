@@ -166,4 +166,9 @@ public class ProjectDao implements IProjectDao{
 	public List<Project_MemVo> searchName(Project_MemVo project_MemVo) {
 		return sqlSession.selectList("project.searchName",project_MemVo);
 	}
+
+	@Override
+	public List<Project_MemVo> searchPL(Project_MemVo project_MemVo) {
+		return sqlSession.selectList("project.searchPL",project_MemVo);
+	}
 }

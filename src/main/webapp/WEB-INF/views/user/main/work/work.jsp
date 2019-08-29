@@ -1441,14 +1441,19 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 				hhtml += "<th>삭제</th>";
 				hhtml += "</tr>";
 
+				var user_email = data.user_email;
 				data.workFileList.forEach(function(file, index) {
 					//html생성
 					html += "<tr id='filetr'>";
 					html += "<td><a href='/fileDownLoad?file_id="+file.file_id+"'>" + file.original_file_nm+ "</a></td>";
 					html += "<td>" + file.user_nm + "</td>";
 					html += "<td>" + file.prjStartDtStr + "</td>";
-					html += "<td><a href='javascript:workDelFile("+ file.file_id + "," + file.wrk_id+ ")'>삭제</a></td>";
-					html += "</tr>";
+					if(file.user_email == user_email){
+						html += "<td><a href='javascript:workDelFile("+ file.file_id + "," + file.wrk_id+ ")'>삭제</a></td>";
+					}else{
+						html += "<td>삭제</td>";
+					}
+					html += "</tr>";	
 				});
 				var pHtml = "";
 				var pageVo = data.pageVo;
@@ -1500,14 +1505,18 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 				hhtml += "<th>삭제</th>";
 				hhtml += "</tr>";
 
-				console.log(data.workLinkList);
+				var user_email = data.user_email;
 				data.workLinkList.forEach(function(link, index) {
 					//html생성
 					html += "<tr>";
 					html += "<td><a href='https://"+link.attch_url+"' target='_blank'>"+ link.attch_url + "</a></td>";
 					html += "<td>" + link.user_nm + "</td>";
 					html += "<td>" + link.prjStartDtStr + "</td>";
-					html += "<td><a href='javascript:workDelLink("+ link.link_id + "," + link.wrk_id+ ")'>삭제</a></td>";
+					if(link.user_email==data.user_email){
+						html += "<td><a href='javascript:workDelLink("+ link.link_id + "," + link.wrk_id+ ")'>삭제</a></td>";
+					}else{
+						html += "<td>삭제</td>";
+					}
 					html += "</tr>";
 				});
 				var pHtml = "";
@@ -1545,8 +1554,6 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 	}
 
 	function workDelFile(fileID, wrk_id) {
-		alert("삭제긔긔");
-
 		$.ajax({
 			url : "/workDelFile",
 			method : "post",
@@ -1564,15 +1571,18 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 				hhtml += "<th>삭제</th>";
 				hhtml += "</tr>";
 
+				var user_email = data.user_email;
 				data.workFileList.forEach(function(file, index) {
 					//html생성
 					html += "<tr id='filetr'>";
 					html += "<td><a href='/fileDownLoad?file_id="+file.file_id+"'>" + file.original_file_nm+ "</a></td>";
 					html += "<td>" + file.user_nm + "</td>";
 					html += "<td>" + file.prjStartDtStr + "</td>";
-					html += "<td><a href='javascript:workDelFile("
-							+ file.file_id + "," + file.wrk_id
-							+ ")'>삭제</a></td>";
+					if(file.user_email == user_email){
+						html += "<td><a href='javascript:workDelFile("+ file.file_id + "," + file.wrk_id+ ")'>삭제</a></td>";
+					}else{
+						html += "<td>삭제</td>";
+					}
 					html += "</tr>";
 				});
 				var pHtml = "";
@@ -1609,8 +1619,6 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 	}
 
 	function workDelLink(linkID, wrk_id) {
-		alert("삭제긔긔");
-
 		$.ajax({
 			url : "/workDelLink",
 			method : "post",
@@ -1628,7 +1636,7 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 				hhtml += "<th>삭제</th>";
 				hhtml += "</tr>";
 
-				console.log(data.workLinkList);
+				var user_email = data.user_email;
 				data.workLinkList.forEach(function(link, index) {
 					//html생성
 					html += "<tr>";
@@ -1636,9 +1644,11 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 							+ link.attch_url + "</a></td>";
 					html += "<td>" + link.user_nm + "</td>";
 					html += "<td>" + link.prjStartDtStr + "</td>";
-					html += "<td><a href='javascript:workDelLink("
-							+ link.link_id + "," + link.wrk_id
-							+ ")'>삭제</a></td>";
+					if(link.user_email==data.user_email){
+						html += "<td><a href='javascript:workDelLink("+ link.link_id + "," + link.wrk_id+ ")'>삭제</a></td>";
+					}else{
+						html += "<td>삭제</td>";
+					}
 					html += "</tr>";
 				});
 				var pHtml = "";

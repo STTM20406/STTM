@@ -56,8 +56,8 @@ ul.tabs li.current {
 				hhtml += "<th>삭제</th>";
 				hhtml += "</tr>";
 				
+				var user_email = data.user_email
 				data.publicFileList.forEach(function(file, index){
-				
 					//html생성
 					html += "<tr id='filetr'>";
 					html += "<td>"+ file.rn + "</td>";
@@ -66,8 +66,12 @@ ul.tabs li.current {
 					html += "<td>"+ file.user_email + "</td>";
 					html += "<td>"+ file.user_nm + "</td>";
 					html += "<td>"+ file.prjStartDtStr + "</td>";
-					html += "<td><a href='javascript:updateFile("+file.file_id+")'>삭제</a></td>";
-					html += "</tr>";
+					if(file.user_email==user_email){
+						html += "<td><a href='javascript:updateFile("+file.file_id+")'>삭제</a></td>";
+					}else{
+						html += "<td>삭제</td>";
+					}
+					html += "</tr>";				
 				});
 				
 				
@@ -205,6 +209,7 @@ ul.tabs li.current {
 				hhtml += "<th>삭제</th>";
 				hhtml += "</tr>";
 				
+				var user_email = data.user_email
 				data.publicLinkList.forEach(function(link, index){
 					//html생성
 					html += "<tr>";
@@ -214,7 +219,11 @@ ul.tabs li.current {
 					html += "<td>"+ link.user_email + "</td>";
 					html += "<td>"+ link.user_nm + "</td>";
 					html += "<td>"+ link.prjStartDtStr + "</td>";
-					html += "<td><a href='javascript:updateLink("+link.link_id+")'>삭제</a></td>";
+					if(link.user_email==data.user_email){
+						html += "<td><a href='javascript:updateLink("+link.link_id+")'>삭제</a></td>";
+					}else{
+						html += "<td>삭제</td>";
+					}
 					html += "</tr>";
 				});
 				
@@ -265,6 +274,7 @@ ul.tabs li.current {
 				hhtml += "<th>삭제</th>";
 				hhtml += "</tr>";
 				
+				var user_email = data.user_email
 				data.publicLinkList.forEach(function(link, index){
 					//html생성
 					html += "<tr>";
@@ -274,7 +284,11 @@ ul.tabs li.current {
 					html += "<td>"+ link.user_email + "</td>";
 					html += "<td>"+ link.user_nm + "</td>";
 					html += "<td>"+ link.prjStartDtStr + "</td>";
-					html += "<td><a href='javascript:updateLink("+link.link_id+")'>삭제</a></td>";
+					if(link.user_email==data.user_email){
+						html += "<td><a href='javascript:updateLink("+link.link_id+")'>삭제</a></td>";
+					}else{
+						html += "<td>삭제</td>";
+					}
 					html += "</tr>";
 				});
 				
@@ -329,7 +343,8 @@ ul.tabs li.current {
 				hhtml += "<th>등록일</th>";
 				hhtml += "<th>삭제</th>";
 				hhtml += "</tr>";
-				console.log(data.publicFileList);
+
+				var user_email = data.user_email
 				data.publicFileList.forEach(function(file, index){
 				
 					//html생성
@@ -340,8 +355,12 @@ ul.tabs li.current {
 					html += "<td>"+ file.user_email + "</td>";
 					html += "<td>"+ file.user_nm + "</td>";
 					html += "<td>"+ file.prjStartDtStr + "</td>";
-					html += "<td><a href='javascript:updateFile("+file.file_id+")'>삭제</a></td>";
-					html += "</tr>";
+					if(file.user_email==user_email){
+						html += "<td><a href='javascript:updateFile("+file.file_id+")'>삭제</a></td>";
+					}else{
+						html += "<td>삭제</td>";
+					}
+					html += "</tr>";	
 				});
 				var pHtml = "";
 				var pageVo = data.pageVo;
@@ -388,7 +407,8 @@ ul.tabs li.current {
 				hhtml += "<th>등록일</th>";
 				hhtml += "<th>삭제</th>";
 				hhtml += "</tr>";
-				console.log(data.publicFileList);
+				
+				var user_email = data.user_email
 				data.publicFileList.forEach(function(file, index){
 				
 					//html생성
@@ -399,8 +419,12 @@ ul.tabs li.current {
 					html += "<td>"+ file.user_email + "</td>";
 					html += "<td>"+ file.user_nm + "</td>";
 					html += "<td>"+ file.prjStartDtStr + "</td>";
-					html += "<td><a href='javascript:updateFile("+file.file_id+")'>삭제</a></td>";
-					html += "</tr>";
+					if(file.user_email==user_email){
+						html += "<td><a href='javascript:updateFile("+file.file_id+")'>삭제</a></td>";
+					}else{
+						html += "<td>삭제</td>";
+					}
+					html += "</tr>";	
 				});
 				var pHtml = "";
 				var pageVo = data.pageVo;
