@@ -564,7 +564,8 @@ public class UserController {
 		FriendsVo friendsVo2 = new FriendsVo(frd_email, user_email);
 		int deleteFriends2 = friendsService.deleteFriends2(friendsVo2);
 
-		return "/member/friendsList.user.tiles";
+//		return "/member/friendsList.user.tiles";
+		return "redirect:/friendsList";
 	}
 
 	/**
