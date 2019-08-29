@@ -115,7 +115,6 @@ public class UserController {
 		// 휴면 계정 전환 하기 위해 자신의 이메일로 
 		List<Project_MemVo> inactiveList = project_MemService.getprjListForInactive(user_email);
 		logger.debug("inactiveList 리스트찍기 : {}", inactiveList);
-		
 		model.addAttribute("inactiveList", inactiveList);
 
 		// ------------------------ 휴면 계정 전환 업데이트------------------------
