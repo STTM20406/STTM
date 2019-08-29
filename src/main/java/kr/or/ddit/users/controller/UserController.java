@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.or.ddit.encrypt.encrypt.kisa.aria.ARIAUtil;
 import kr.or.ddit.friend_req.model.Friend_ReqVo;
@@ -839,7 +840,7 @@ public class UserController {
 
 	@RequestMapping(path = "/admUpdateUser", method = RequestMethod.POST)
 	public String admUpdateUserProcess(String admUpdate, String user_email, String user_nm, String user_hp,
-			String user_st, String memViewForm) {
+			String user_st, String memViewForm, RedirectAttributes redirectAttr) {
 
 		logger.debug("admUpdate 이거 뭐였지? : {}", admUpdate);
 		logger.debug("memViewForm 이거 뭐였지? : {}", memViewForm);
@@ -861,7 +862,9 @@ public class UserController {
 		logger.debug("admUpdateUser 수정이안됨 : {}", admUpdateUser);
 
 		if(admUpdateUser != 0) {
-			viewName = "/member/memberUpdate.adm.tiles";
+			viewName = "redirect:/admUserView";
+			redirectAttr.addAttribute("getMemInfo", user_email);
+			
 		}
 		
 		return viewName;

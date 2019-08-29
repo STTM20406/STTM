@@ -68,6 +68,9 @@
     	// return false;
     }
     
+    $(function() {
+    	$("#user_st").val("${user_st}");
+    });
 </script>  
     
 <section class="contents">
@@ -80,12 +83,12 @@
 					<li>
 						<label for="userEmail">이메일</label>
 						<input type="text" id="user_email" name="user_email" 
-							   value="${user_email}" placeholder="ex) sttm@ddit.com">
+							   value="${user_email}" placeholder="ex) sttm@ddit.com" readonly>
 					</li>
 					<li>
 						<label for="userName">이름</label>
 						<input type="text" id="user_nm" name="user_nm" 
-						value="${user_nm}" placeholder="5자(성은 제외)이내">
+						value="${user_nm}" placeholder="2-4자 이내의 한글">
 					</li>
 					<li>
 						<label for="userPh">핸드폰번호</label>
@@ -94,8 +97,10 @@
 					</li>
 					<li>
 						<label for="userSt">회원 상태</label>
-						<input type="text" id="user_st" name="user_st" 
-						value="${user_st}">
+						<select id="user_st" name="user_st">
+							<option value="N">정상</option>
+							<option value="D">휴면계정</option>
+						</select>
 					</li>
 				</ul>
 			</table>
