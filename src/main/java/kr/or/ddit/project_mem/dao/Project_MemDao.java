@@ -8,8 +8,6 @@ import javax.annotation.Resource;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
-import kr.or.ddit.paging.model.PageVo;
-import kr.or.ddit.project.model.ProjectVo;
 import kr.or.ddit.project_mem.model.Project_MemVo;
 
 @Repository
@@ -254,6 +252,11 @@ public class Project_MemDao implements IProject_MemDao{
 	@Override
 	public List<Project_MemVo> projectMemYNList(Project_MemVo projectMemVo) {
 		return sqlSession.selectList("project.projectMemYNList", projectMemVo);
+	}
+		
+	@Override
+	public List<Project_MemVo> getprjListForInactive(String user_email) {
+		return sqlSession.selectList("project.getprjListForInactive", user_email);
 	}
 
 }

@@ -257,4 +257,19 @@ public class Project_MemService implements IProject_MemService{
 		return projectMemDao.projectMemYNList(projectMemVo);
 	}
 	
+	/**
+	 * 
+	* Method : getprjListForInactive
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-29
+	* @param user_email
+	* @return
+	* Method 설명 : 휴면 계정으로 전환 하기 위하여 prj_own_fl = 'Y' 인 리스트를 가져온다
+	* 			     리스트가 null이면 휴면계정 버튼이 보이고 휴면 계정 전환 할수 있다.
+	 */
+	@Override
+	public List<Project_MemVo> getprjListForInactive(String user_email) {
+		return projectMemDao.getprjListForInactive(user_email);
+	}
+	
 }

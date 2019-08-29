@@ -416,6 +416,14 @@
 		AND C.USER_EMAIL = B.USER_EMAIL AND B.PRJ_ID = #{prj_id} AND B.PRJ_MEM_DEL_FL = 'N' AND C.USER_NM LIKE '%'||#{user_nm}||'%'
 	</select>
 	
+	<!-- 휴면 계정으로 전환 하기 위하여 prj_own_fl = 'Y' 인 리스트를 가져온다
+		  리스트가 null이면 휴면계정 버튼이 보이고 휴면 계정 전환 할수 있다 -->
+	<select id="getprjListForInactive" parameterType="string" resultType="project_memVo">
+		select * from project_mem
+		where prj_own_fl = 'Y'
+		and user_email = #{user_email}
+	</select>
+	
 	<!-- *******************project_trnf_hs****************** -->
 
 

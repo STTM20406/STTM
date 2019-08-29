@@ -86,16 +86,16 @@ function connectNotify(){
 			<nav id="gnb">
 				<ul>
 					<li><a href="/boardAdd">BOARDMANAGER</a></li>
-					<li><a href="#">NOTIFY</a></li>
-					<li><a href="#">WORK LIST</a></li>
-					<li><a href="/project/list">PROJECT LIST</a></li>
+<!-- 					<li><a href="#">NOTIFY</a></li> -->
+<!-- 					<li><a href="#">WORK LIST</a></li> -->
+<!-- 					<li><a href="/project/list">PROJECT LIST</a></li> -->
 					<li><a href="/admUserList">MEMBER</a></li>
 					<li><a href="/friendChatList">CHATTING</a></li>
 					<li><a href="/admInquiry">INQUERY</a></li>
 					<c:forEach items="${admBoardListY }" var = "board">
-						<li><a href="#">${board.name }</a></li>
+						<li><a href="/community?board_id=${board.board_id }">${board.name }</a></li>
 					</c:forEach>
-				</ul>
+ 				</ul>
 			</nav>
 		</div>
 
