@@ -246,5 +246,19 @@ public class Project_MemDao implements IProject_MemDao{
 	public List<Project_MemVo> getprjListForInactive(String user_email) {
 		return sqlSession.selectList("project.getprjListForInactive", user_email);
 	}
+	
+	/**
+	 * 
+	* Method : getFriendsBtn
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-29
+	* @param prj_id
+	* @return
+	* Method 설명 : 프로젝트 멤버 리스트에서 친구가 아닌 사람만 친구 요청 버튼 생기도록 리스트를 가져옴
+	 */
+	@Override
+	public List<Project_MemVo> getFriendsBtn(int prj_id) {
+		return sqlSession.selectList("project.getFriendsBtn", prj_id);
+	}
 
 }
