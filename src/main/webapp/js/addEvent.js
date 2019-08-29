@@ -56,12 +56,14 @@ var newEvent = function (start, end, eventType) {
         };
 
         if (eventData.start > eventData.end) {
- 			alert("끝나는 날짜가 앞설 수 없습니다.");
+ 			$(".ctxt").text("끝나는 날짜가 앞설 수 없습니다.");
+			layer_popup("#layer2");
  			return false;
         }
 
         if (eventData.title === '') {
-        	alert("일정명은 필수 입력사항입니다.");
+        	$(".ctxt").text("일정명은 필수 입력사항입니다.");
+			layer_popup("#layer2");
         	return false;
         }
 

@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.or.ddit.encrypt.encrypt.kisa.aria.ARIAUtil;
 import kr.or.ddit.friend_req.model.Friend_ReqVo;
@@ -63,9 +64,9 @@ public class UserController {
 	 * @throws InvalidKeyException
 	 */
 	@RequestMapping(path = "/setUserPass", method = RequestMethod.GET)
-	public String setPassView(HttpSession session, Model model, PageVo pageVo
-	/* , String transferOwership */) throws InvalidKeyException, UnsupportedEncodingException {
-
+	public String setPassView(HttpSession session, Model model, PageVo pageVo) 
+					throws InvalidKeyException, UnsupportedEncodingException {
+		
 		// 세션에 저장된 user 정보를 가져옴
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
 
@@ -82,7 +83,7 @@ public class UserController {
 		String user_nm = userVo.getUser_nm();
 		String user_hp = userVo.getUser_hp();
 
-		model.addAttribute("user_email", user_email);
+		model.addAttribute("user_email : 찍히니? {}", user_email);
 		model.addAttribute("user_pass", decodePass);
 
 		model.addAttribute("user_nm", user_nm);
@@ -111,22 +112,29 @@ public class UserController {
 		model.addAttribute("inactiveMemList", inactiveMemList);
 		model.addAttribute("paginationSize", paginationSize);
 		model.addAttribute("pageVo", pageVo);
-
+		
+		// 휴면 계정 전환 하기 위해 자신의 이메일로 prj_own_fl = 'Y'인것을 조회
+		List<Project_MemVo> inactiveList = project_MemService.getprjListForInactive(user_email);
+		logger.debug("inactiveList 리스트찍기 : {}", inactiveList);
+		model.addAttribute("inactiveList", inactiveList);
+		model.addAttribute("sessionEmail", userVo.getUser_email());
+		
 		// ------------------------ 휴면 계정 전환 업데이트------------------------
-//			Project_MemVo projectMemVoId = (Project_MemVo) project_MemService.getMyProjectMemList(transferOwership);
-//			logger.debug("projectMemVoId : 가져올거다1 {}",projectMemVoId);
+		
+//		Project_MemVo projectMemVoId = (Project_MemVo) project_MemService.getMyProjectMemList(transferOwership);
+//		logger.debug("projectMemVoId : 가져올거다1 {}",projectMemVoId);
+//		
+//		int prj_id = projectMemVoId.getPrj_id();
+//		String prjmem_email = projectMemVoId.getUser_email();
+//		logger.debug("prj_id : 가져올거다2 {}",prj_id);
+//		logger.debug("prjmem_email : 가져올거다3 {}",prjmem_email);
+//		
+//		Project_MemVo projectMemVo = new Project_MemVo(prj_id, user_email);
+//		logger.debug("projectMemVo : 가져올거다4 {}",projectMemVo);
+//		
+//		int updateInactiveMember = project_MemService.updateInactiveMember(projectMemVo);
 //			
-//			int prj_id = projectMemVoId.getPrj_id();
-//			String prjmem_email = projectMemVoId.getUser_email();
-//			logger.debug("prj_id : 가져올거다2 {}",prj_id);
-//			logger.debug("prjmem_email : 가져올거다3 {}",prjmem_email);
-//			
-//			Project_MemVo projectMemVo = new Project_MemVo(prj_id, user_email);
-//			logger.debug("projectMemVo : 가져올거다4 {}",projectMemVo);
-//			
-//			int updateInactiveMember = project_MemService.updateInactiveMember(projectMemVo);
-//			
-//			//		int updateTransferOwnership
+//		int updateTransferOwnership
 
 		return "/account/accountSet.user.tiles";
 	}
@@ -200,7 +208,34 @@ public class UserController {
 		return "/account/accountSet.user.tiles";
 
 	}
-
+	
+	/**
+	 * 
+	* Method : inactiveUser
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-29
+	 * @param user_st 
+	* @return
+	* Method 설명 :
+	 */
+	@RequestMapping(path = "/inactiveUser", method = RequestMethod.GET)
+	public String inactiveUser(String inactiveEmail, String user_st) {
+		
+		logger.debug("inactiveEmail 접속자 : {}",inactiveEmail);
+		logger.debug("user_st 뭐가찍히나 : {}",user_st);
+		
+		UserVo inactiveVo = new UserVo();
+		inactiveVo.setUser_email(inactiveEmail);
+		logger.debug("inactiveVo 이거를찍자 : {}",inactiveVo);
+		
+//		inactiveVo.getUser_email(inactiveEmail);
+				
+		// 휴면 계정으로 전환 - updateUserStatus()
+		int updateUserStatus = userService.updateUserStatus(inactiveVo);
+		
+		return "/account/accountSet.user.tiles";
+	}
+	
 	/**
 	 * 
 	 * Method : setNoticeView 작성자 : 김경호 변경이력 : 2019-07-30
@@ -283,7 +318,9 @@ public class UserController {
 	 */
 	@RequestMapping(path = "/projectMember", method = RequestMethod.GET)
 	public String projectMemberListView(PageVo pageVo, Model model, HttpSession session, String prjMemView) {
-
+		
+		logger.debug("prjMemView 로거슈 : {}",prjMemView);
+		
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
 
 		// ----- 프로젝트 리스트 가져오기 -----
@@ -344,10 +381,15 @@ public class UserController {
 		model.addAttribute("pageVo", pageVo);
 
 		// 친구 요청 버튼 만들기
-		List<FriendsVo> prjMemFriList = friendsService.friendsList(user_email);
-		logger.debug("prjMemFriList : 아침 로거 {}", prjMemFriList);
-		model.addAttribute("prjMemFriList", prjMemFriList);
+//		List<FriendsVo> prjMemFriList = friendsService.friendsList(user_email);
+//		logger.debug("prjMemFriList : 아침 로거 {}", prjMemFriList);
+//		model.addAttribute("prjMemFriList", prjMemFriList);
 
+		// 친구 요청 버튼 만들기
+		List<Project_MemVo> prjMemFriList = project_MemService.getFriendsBtn(memPrjIdParse);
+		model.addAttribute("prjMemFriList", prjMemFriList);
+		logger.debug("prjMemFriList 친구요청버튼 : {}",prjMemFriList);
+		
 		return "/member/projectMemberList.user.tiles";
 	}
 	
@@ -436,8 +478,8 @@ public class UserController {
 			int denyRequest = friend_ReqService.deleteFriendRequest(acceptEmail);
 			
 			if(denyRequest != 0 ) {
-				
-				return "/member/friendsList.user.tiles";
+//				return "/member/friendsList.user.tiles";
+				return "redirect:/friendsList";
 			}
 			
 		// 친구 요청 거절
@@ -529,7 +571,8 @@ public class UserController {
 		FriendsVo friendsVo2 = new FriendsVo(frd_email, user_email);
 		int deleteFriends2 = friendsService.deleteFriends2(friendsVo2);
 
-		return "/member/friendsList.user.tiles";
+//		return "/member/friendsList.user.tiles";
+		return "redirect:/friendsList";
 	}
 
 	/**
@@ -567,7 +610,9 @@ public class UserController {
 		frd_email.put("user_email", userVo.getUser_email());
 //		frd_email.put("frd_email", friendsVo.getFrd_email());
 		frd_email.put("frd_email", keyword);
-
+		
+		logger.debug("frd_email 이거머찍냐 : {}", frd_email);
+		
 		Map<String, Object> resultMap1 = friendsService.friendSearchByEmail(frd_email);
 
 		List<FriendsVo> friendsList = (List<FriendsVo>) resultMap1.get("userFriendsList");
@@ -821,7 +866,7 @@ public class UserController {
 
 	@RequestMapping(path = "/admUpdateUser", method = RequestMethod.POST)
 	public String admUpdateUserProcess(String admUpdate, String user_email, String user_nm, String user_hp,
-			String user_st, String memViewForm) {
+			String user_st, String memViewForm, RedirectAttributes redirectAttr) {
 
 		logger.debug("admUpdate 이거 뭐였지? : {}", admUpdate);
 		logger.debug("memViewForm 이거 뭐였지? : {}", memViewForm);
@@ -843,7 +888,9 @@ public class UserController {
 		logger.debug("admUpdateUser 수정이안됨 : {}", admUpdateUser);
 
 		if(admUpdateUser != 0) {
-			viewName = "/member/memberUpdate.adm.tiles";
+			viewName = "redirect:/admUserView";
+			redirectAttr.addAttribute("getMemInfo", user_email);
+			
 		}
 		
 		return viewName;

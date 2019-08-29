@@ -244,7 +244,7 @@ function requestedFriendsList() {
 	
 <!-- 		<div id="tab-2" class="tab-content"> -->
 			
-<!-- 			<div> -->
+			<div>
 				<div class="searchBox">
 					<div class="tb_sch_wr">
 						<fieldset id="hd_sch">
@@ -296,42 +296,43 @@ function requestedFriendsList() {
 			<a href="#layer3" class="requestedFriendsList a_style_01">요청 받은 친구 목록</a>
 			<a href="#layer4" class="friendsBtn a_style_01">친구 요청</a>
 			
-			<div class="pagination">
+		<div class="pagination">
+				<c:choose>
+					<c:when test="${pageVo.page == 1 }">
+						<a href class="btn_first"></a>
+					</c:when>
+					<c:otherwise>
+						<a href="${cp}/friendsList?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a>
+					
+					</c:otherwise>
+				</c:choose>
+	
+				<c:forEach begin="1" end="${paginationSize}" var="i">
 					<c:choose>
-						<c:when test="${pageVo.page == 1 }">
-							<a href class="btn_first"></a>
+						<c:when test="${pageVo.page == i}">
+							<span>${i}</span>
 						</c:when>
 						<c:otherwise>
-							<a href="${cp}/friendsList?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a>
-						
+						<a href="${cp}/friendsList?page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
 						</c:otherwise>
 					</c:choose>
+	
+				</c:forEach>
+	
+				<c:choose>
+					<c:when test="${pageVo.page == paginationSize}">
+						<a href class="btn_last"></a>
+					</c:when>
+					
+					<c:otherwise>
+						<a href="${cp}/friendsList?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
+					</c:otherwise>
+				</c:choose>
 		
-					<c:forEach begin="1" end="${paginationSize}" var="i">
-						<c:choose>
-							<c:when test="${pageVo.page == i}">
-								<span>${i}</span>
-							</c:when>
-							<c:otherwise>
-								<a href="${cp}/friendsList?page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
-							</c:otherwise>
-						</c:choose>
+		</div>
 		
-					</c:forEach>
+		</div>
 		
-					<c:choose>
-						<c:when test="${pageVo.page == paginationSize}">
-							<a href class="btn_last"></a>
-						</c:when>
-						
-						<c:otherwise>
-							<a href="${cp}/friendsList?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
-						</c:otherwise>
-					</c:choose>
-			
-			</div>
-		
-<!-- 			<form action="/friendsRequestList" id="friendsRequestListForm" method="get"> -->
 			<form action="/friendsList" id="friendsRequestListForm" method="post">
 				<div id="layer3" class="pop-layer">
 				    <div class="pop-container">

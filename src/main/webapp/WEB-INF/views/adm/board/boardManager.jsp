@@ -19,7 +19,7 @@ $(document).ready(function(){
 		$("#boardNM").val(c);
 	
 		$("#frm").attr("action","/boardModify");
-		$("#frm").attr("method","post")		
+		$("#frm").attr("method","post");		
 		$("#frm").submit();
 	})
 })

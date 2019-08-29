@@ -2,6 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<!-- https://huskdoll.tistory.com/529 -->
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
+
 <style>
 
 	/* 탭 설정 스타일 */
@@ -119,7 +122,7 @@
 		    return false;
 		}else if(passForm.user_pass.value==""){
 			 alert("새 비밀번호를 다시 입력하여 확인해 주세요");
-				 passForm.user_pass2.focus();
+				 passForm.user_pass.focus();
 				 return false;
 		}
 		
@@ -281,7 +284,6 @@
 					<form action="/setUserPass" method="post" id="noticeForm">
 						<div class="inputField">
 							<ul>
-								<!-- 프로젝트에 대한 알림 -->
 								<li>
 									<br><br>
 									<input type="checkbox" id="notice" name="project" value="이거보내니?"> 프로젝트에 대한 알림<br>
@@ -306,16 +308,16 @@
 				<br><br>
 			
 				<!-- 휴면 계정 설정 -->  
-				<div id="setUserStatus" class="loginWrap" style="background-color:paleturquoise" onclick="setUserStatus"><label>휴면계정</label>
+				<div id="setUserStatus" class="loginWrap" style="background-color:paleturquoise" onclick="setUserStatus"><label>휴면 계정</label>
 					<form action="/setUserStatus" method="get" id="userStatusForm">
 						<div class="inputField">
-							<a href="#layer0" class="inactiveUser a_style_01">휴면 계정 전환</a>
+							<a href="#layer0" class="inactiveUser a_style_02">휴면계정전환</a>
+<!-- 							<a href="#layer0" class="inactiveUser a_style_03">휴면 계정 전환</a> -->
 						</div>
 					</form>
 				</div>
 				
 				<!-- 휴면 계정 설정 레이어창 -->
-<!-- 				<form action="/setUserStatus" id="friendsRequestListForm" method="get"> -->
 				<form action="/setUserPass" id="ownEmailForm" method="post">
 					<input type="hidden" id="transferOwership" name="transferOwership">
 					<input type="hidden" id="transferPrjId" name="transferPrjId">
@@ -339,7 +341,7 @@
 									
 										<th>프로젝트 아이디</th>
 										<th>프로젝트 이름</th>
-										<th>프로젝트 멤버 이름</th>
+										<th>멤버 이름</th>
 										<th></th>
 					
 										<c:forEach items="${inactiveMemList}" var="inactive">
@@ -349,21 +351,34 @@
 												<td>${inactive.prj_nm}</td>
 												<td>${inactive.user_nm}</td>
 												<td class="transOwn" id="${inactive.user_email}">
-<%-- 												<td class="transOwn" id="${inactive.user_email}"> --%>
-<%-- 													<a href="/setUserPass?transferOwership=${inactive.user_email}" id="transferBtn" class="inp_style_01">소유권이전</a> --%>
-<!-- 													<input type="submit" id="subOwership" class="inp_style_01" value="소유권 이전"> -->
-													<input type="button" id="subOwership" class="inp_style_04" value="소유권 이전">
+													<input type="button" id="subOwership" class="inp_style_02" value="소유권 이전">
 													<input type="hidden" id="transPrjId" value="${inactive.prj_id}"/> <!-- sol -->
 												</td>
-												
 												
 											</tr>
 											
 										</c:forEach>
 											
 									</tr>
+
+							<!-- 휴면 계정 전환 -->
+							<c:if test="${fn:length(inactiveList)==0}">
+<!-- 								<input type="button" id="inactiveBtn" value="휴면 계정 전환" class="inp_style_04" style="float: right;"> -->
+
+<%-- C								<a href="/inactiveUser?inactiveEmail=${inactiveMemList}" class="inp_style_04" style="float: right;">휴면계정전환</a> --%>
+								<a href="/inactiveUser?inactiveEmail=${user_email}" class="inp_style_04" style="float: right;">휴면계정전환</a>
+							</c:if>
+							
 								</tbody>
 							</table>
+
+							<!-- 휴면 계정 전환 -->
+							<c:if test="${fn:length(inactiveList)==0}">
+<!-- 								<input type="button" id="inactiveBtn" value="휴면 계정 전환" class="inp_style_04" style="float: right;"> -->
+
+<%-- C								<a href="/inactiveUser?inactiveEmail=${inactiveMemList}" class="inp_style_04" style="float: right;">휴면계정전환</a> --%>
+								<a href="/inactiveUser?inactiveEmail=${sessionEmail}" class="inp_style_04" style="float: right;">휴면계정전환</a>
+							</c:if>
 							
 				            <div class="btn-r">
 				                <a href="#" class="btn-layerClose">Close</a>
@@ -378,8 +393,8 @@
 									<a href class="btn_first"></a>
 								</c:when>
 								<c:otherwise>
-									<a href="${cp}/setUserPass#layer0?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a>
-								
+<%-- 									<a href="${cp}/setUserPass#layer0?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">≪</a> --%>
+									<a href="${cp}/setUserPass?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">≪</a>
 								</c:otherwise>
 							</c:choose>
 				
@@ -389,7 +404,8 @@
 										<span>${i}</span>
 									</c:when>
 									<c:otherwise>
-									<a href="${cp}/setUserPass#layer0?page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
+<%-- 										<a href="${cp}/setUserPass#layer0?page=${i}&pageSize=${pageVo.pageSize}">${i}</a> --%>
+										<a href="${cp}/setUserPass?page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
 									</c:otherwise>
 								</c:choose>
 				
@@ -401,14 +417,14 @@
 								</c:when>
 								
 								<c:otherwise>
-									<a href="${cp}/setUserPass#layer0?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
+<%-- 									<a href="${cp}/setUserPass#layer0?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">≫</a> --%>
+									<a href="${cp}/setUserPass?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">≫</a>
 								</c:otherwise>
 							</c:choose>
 						</div>
 				    </div>
 				</div>
 			</form>
-				
 				
 			</div> 
 		

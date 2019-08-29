@@ -217,7 +217,8 @@ function initCalendar(){
         //....
       },
       success: function (response) {
-        alert('수정: ' + newDates.startDate + ' ~ ' + newDates.endDate);
+    	  $(".ctxt").text(newDates.startDate + ' ~ ' + newDates.endDate + '로 일정이 변경 되었습니다.');
+		  layer_popup("#layer2");
       }
     });
 
@@ -251,7 +252,8 @@ function initCalendar(){
       data: "wrk_id=" + event._id+ "&wrk_start_dt=" + event.start+"&wrk_end_dt=" + event.end,
       success: function (response) {
     	  console.log("이거다!!! "+event._id);
-    	  alert('수정: ' + newDates.startDate + ' ~ ' + newDates.endDate);
+    	  $(".ctxt").text('해당업무 일정이 ' + newDates.startDate + ' ~ ' + newDates.endDate + '로 일정이 변경 되었습니다.');
+		  layer_popup("#layer2");
       }
     });
 

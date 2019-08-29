@@ -109,7 +109,8 @@
 			FROM
 			(SELECT *
 			FROM FRIENDS 
-			WHERE FRD_EMAIL like '%'||#{frd_email}||'%') A, USERS B
+			WHERE FRD_EMAIL like '%'||#{frd_email}||'%'
+			AND USER_EMAIL = #{user_email}) A, USERS B
 			WHERE A.FRD_EMAIL = B.USER_EMAIL)
 			where rn >= (#{page}-1)*#{pageSize} + 1 and rn <= #{page}*#{pageSize}
 		]]>
@@ -125,7 +126,8 @@
 			FROM
 			(SELECT *
 			FROM FRIENDS 
-			WHERE FRD_EMAIL like '%'||#{frd_email}||'%') A, USERS B
+			WHERE FRD_EMAIL like '%'||#{frd_email}||'%'
+			AND USER_EMAIL = #{user_email}) A, USERS B
 			WHERE A.FRD_EMAIL = B.USER_EMAIL)
 			where rn >= (#{page}-1)*#{pageSize} + 1 and rn <= #{page}*#{pageSize})c
 		]]>
