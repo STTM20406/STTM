@@ -362,12 +362,21 @@
 							<!-- 휴면 계정 전환 -->
 							<c:if test="${fn:length(inactiveList)==0}">
 <!-- 								<input type="button" id="inactiveBtn" value="휴면 계정 전환" class="inp_style_04" style="float: right;"> -->
-								<a href="/inactiveUser?inactiveEmail=${inactiveMemList}" class="inp_style_04" style="float: right;">휴면계정전환</a>
+
+<%-- C								<a href="/inactiveUser?inactiveEmail=${inactiveMemList}" class="inp_style_04" style="float: right;">휴면계정전환</a> --%>
+								<a href="/inactiveUser?inactiveEmail=${user_email}" class="inp_style_04" style="float: right;">휴면계정전환</a>
 							</c:if>
 							
 								</tbody>
 							</table>
 
+							<!-- 휴면 계정 전환 -->
+							<c:if test="${fn:length(inactiveList)==0}">
+<!-- 								<input type="button" id="inactiveBtn" value="휴면 계정 전환" class="inp_style_04" style="float: right;"> -->
+
+<%-- C								<a href="/inactiveUser?inactiveEmail=${inactiveMemList}" class="inp_style_04" style="float: right;">휴면계정전환</a> --%>
+								<a href="/inactiveUser?inactiveEmail=${sessionEmail}" class="inp_style_04" style="float: right;">휴면계정전환</a>
+							</c:if>
 							
 				            <div class="btn-r">
 				                <a href="#" class="btn-layerClose">Close</a>

@@ -64,9 +64,9 @@ public class UserController {
 	 * @throws InvalidKeyException
 	 */
 	@RequestMapping(path = "/setUserPass", method = RequestMethod.GET)
-	public String setPassView(HttpSession session, Model model, PageVo pageVo
-	/* , String transferOwership */) throws InvalidKeyException, UnsupportedEncodingException {
-
+	public String setPassView(HttpSession session, Model model, PageVo pageVo) 
+					throws InvalidKeyException, UnsupportedEncodingException {
+		
 		// 세션에 저장된 user 정보를 가져옴
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
 
@@ -113,26 +113,28 @@ public class UserController {
 		model.addAttribute("paginationSize", paginationSize);
 		model.addAttribute("pageVo", pageVo);
 		
-		// 휴면 계정 전환 하기 위해 자신의 이메일로 
+		// 휴면 계정 전환 하기 위해 자신의 이메일로 prj_own_fl = 'Y'인것을 조회
 		List<Project_MemVo> inactiveList = project_MemService.getprjListForInactive(user_email);
 		logger.debug("inactiveList 리스트찍기 : {}", inactiveList);
 		model.addAttribute("inactiveList", inactiveList);
-
+		model.addAttribute("sessionEmail", userVo.getUser_email());
+		
 		// ------------------------ 휴면 계정 전환 업데이트------------------------
-//			Project_MemVo projectMemVoId = (Project_MemVo) project_MemService.getMyProjectMemList(transferOwership);
-//			logger.debug("projectMemVoId : 가져올거다1 {}",projectMemVoId);
+		
+//		Project_MemVo projectMemVoId = (Project_MemVo) project_MemService.getMyProjectMemList(transferOwership);
+//		logger.debug("projectMemVoId : 가져올거다1 {}",projectMemVoId);
+//		
+//		int prj_id = projectMemVoId.getPrj_id();
+//		String prjmem_email = projectMemVoId.getUser_email();
+//		logger.debug("prj_id : 가져올거다2 {}",prj_id);
+//		logger.debug("prjmem_email : 가져올거다3 {}",prjmem_email);
+//		
+//		Project_MemVo projectMemVo = new Project_MemVo(prj_id, user_email);
+//		logger.debug("projectMemVo : 가져올거다4 {}",projectMemVo);
+//		
+//		int updateInactiveMember = project_MemService.updateInactiveMember(projectMemVo);
 //			
-//			int prj_id = projectMemVoId.getPrj_id();
-//			String prjmem_email = projectMemVoId.getUser_email();
-//			logger.debug("prj_id : 가져올거다2 {}",prj_id);
-//			logger.debug("prjmem_email : 가져올거다3 {}",prjmem_email);
-//			
-//			Project_MemVo projectMemVo = new Project_MemVo(prj_id, user_email);
-//			logger.debug("projectMemVo : 가져올거다4 {}",projectMemVo);
-//			
-//			int updateInactiveMember = project_MemService.updateInactiveMember(projectMemVo);
-//			
-//			//		int updateTransferOwnership
+//		int updateTransferOwnership
 
 		return "/account/accountSet.user.tiles";
 	}
@@ -212,11 +214,25 @@ public class UserController {
 	* Method : inactiveUser
 	* 작성자 : 김경호
 	* 변경이력 : 2019-08-29
+	 * @param user_st 
 	* @return
 	* Method 설명 :
 	 */
 	@RequestMapping(path = "/inactiveUser", method = RequestMethod.GET)
-	public String inactiveUser(String inactiveEmail) {
+	public String inactiveUser(String inactiveEmail, String user_st) {
+		
+		logger.debug("inactiveEmail 접속자 : {}",inactiveEmail);
+		logger.debug("user_st 뭐가찍히나 : {}",user_st);
+		
+		UserVo inactiveVo = new UserVo();
+		inactiveVo.setUser_email(inactiveEmail);
+		logger.debug("inactiveVo 이거를찍자 : {}",inactiveVo);
+		
+//		inactiveVo.getUser_email(inactiveEmail);
+				
+		// 휴면 계정으로 전환 - updateUserStatus()
+		int updateUserStatus = userService.updateUserStatus(inactiveVo);
+		
 		return "/account/accountSet.user.tiles";
 	}
 	
