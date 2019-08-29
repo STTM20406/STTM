@@ -147,6 +147,44 @@
 		alert("회원님의 계정이 휴면 상태로 전환 되었습니다.");			
 	}
     
+    // ------- 일반 사용자 프로필 업데이트 -------
+    function setProfile(){
+    	
+    	// 핸드폰 번호 정규식
+    	var re3 = /^\d{3}-\d{4}-\d{4}$/;
+    	
+    	// 이름 정규식
+    	var re4 = /^[가-힣]{2,4}$/;
+    	
+    	var user_nm = document.getElementById("user_nm");
+    	var user_hp = document.getElementById("user_hp");
+    	
+    	// 이름
+		if(profileForm.user_nm.value=="") {
+		    alert("이름을 입력해 주세요");
+		    join.user_nm.focus();
+		    return false;
+		}
+		
+		if(!check(re4, user_nm, "이름은 이름은 한글 2~4자 이내로 입력해주세요.")) {
+			return false;
+		}
+		
+		// 핸드폰 번호
+		if(profileForm.user_hp.value=="") {
+		    alert("핸드폰 번호를 입력해 주세요");
+		    join.user_hp.focus();
+		    return false;
+		}
+		
+		if(!check(re3, user_hp, "010-0000-0000 형식에 맞는 핸드폰 번호를 입력해주세요.")) {
+		    return false;
+		}
+    	
+		$("#profileForm").submit();
+		alert("회원님의 프로필이 업데이트 되었습니다.");			
+    }
+    
     function check(re,what,message){
     	if(re.test(what.value)){
     		return true;
@@ -155,12 +193,6 @@
     	what.value = "";
     	what.focus();
     	// return false;
-    }
-    
-    // ------- 일반 사용자 프로필 업데이트 -------
-    function setProfile(){
-		$("#profileForm").submit();
-		alert("회원님의 프로필이 업데이트 되었습니다.");			
     }
     
   //------- 모달 설정 스크립트 -------
@@ -295,7 +327,6 @@
 				        <div class="pop-conts">
 				            <!--content //-->
 						
-						
 							<table class="tb_style_01">
 								<colgroup>
 									<col width="25%">
@@ -347,7 +378,6 @@
 									<a href class="btn_first"></a>
 								</c:when>
 								<c:otherwise>
-<%-- 									<a href="${cp}/setUserPass?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a> --%>
 									<a href="${cp}/setUserPass#layer0?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a>
 								
 								</c:otherwise>
@@ -359,7 +389,6 @@
 										<span>${i}</span>
 									</c:when>
 									<c:otherwise>
-<%-- 									<a href="${cp}/setUserPass?page=${i}&pageSize=${pageVo.pageSize}">${i}</a> --%>
 									<a href="${cp}/setUserPass#layer0?page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
 									</c:otherwise>
 								</c:choose>
@@ -372,7 +401,6 @@
 								</c:when>
 								
 								<c:otherwise>
-<%-- 									<a href="${cp}/setUserPass?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a> --%>
 									<a href="${cp}/setUserPass#layer0?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
 								</c:otherwise>
 							</c:choose>
@@ -407,7 +435,7 @@
 								</li>
 								
 								<li>
-									<input type="button" onclick="setProfile()" class="btn_style_01" value="비밀번호 수정">
+									<input type="button" onclick="setProfile()" class="btn_style_01" value="프로필 수정">
 								</li>
 								
 							</ul>
