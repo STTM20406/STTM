@@ -3,8 +3,6 @@ package kr.or.ddit.project_mem.dao;
 import java.util.List;
 import java.util.Map;
 
-import kr.or.ddit.friends.model.FriendsVo;
-import kr.or.ddit.paging.model.PageVo;
 import kr.or.ddit.project_mem.model.Project_MemVo;
 
 public interface IProject_MemDao {
@@ -169,6 +167,18 @@ public interface IProject_MemDao {
 	 */
 	int projectMemListByIdCnt(Map<String, Object> prj_id);
 	
+	
+	
+	/**
+	 * 
+	 * Method 		: projectMemYNList
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-29 최초 생성
+	 * @param projectMemVo
+	 * @return
+	 * Method 설명 	: 
+	 */
+	List<Project_MemVo> projectMemYNList(Project_MemVo projectMemVo);
 	/**
 	 * 
 	* Method : getprjListForInactive

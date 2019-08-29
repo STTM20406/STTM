@@ -3,8 +3,6 @@ package kr.or.ddit.project_mem.service;
 import java.util.List;
 import java.util.Map;
 
-import kr.or.ddit.paging.model.PageVo;
-import kr.or.ddit.project.model.ProjectVo;
 import kr.or.ddit.project_mem.model.Project_MemVo;
 
 public interface IProject_MemService {
@@ -161,6 +159,16 @@ public interface IProject_MemService {
 	
 	/**
 	 * 
+	 * Method 		: projectMemYNList
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-29 최초 생성
+	 * @param projectMemVo
+	 * @return
+	 * Method 설명 	: 
+	 */
+	List<Project_MemVo> projectMemYNList(Project_MemVo projectMemVo);
+	
+	/*
 	* Method : getprjListForInactive
 	* 작성자 : 김경호
 	* 변경이력 : 2019-08-29
@@ -168,7 +176,7 @@ public interface IProject_MemService {
 	* @return
 	* Method 설명 : 휴면 계정으로 전환 하기 위하여 prj_own_fl = 'Y' 인 리스트를 가져온다
 	* 			     리스트가 null이면 휴면계정 버튼이 보이고 휴면 계정 전환 할수 있다.
-	 */
+	*/
 	List<Project_MemVo> getprjListForInactive(String user_email);
 	
 	/**

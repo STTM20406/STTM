@@ -242,6 +242,20 @@ public class Project_MemService implements IProject_MemService{
 		
 		return resultMap;
 	}
+
+	/**
+	 * 
+	* Method : projectMemYNList
+	* 작성자 : melong2
+	* 변경이력 :
+	* @param projectMemVo
+	* @return
+	* Method 설명 :
+	 */
+	@Override
+	public List<Project_MemVo> projectMemYNList(Project_MemVo projectMemVo) {
+		return projectMemDao.projectMemYNList(projectMemVo);
+	}
 	
 	/**
 	 * 

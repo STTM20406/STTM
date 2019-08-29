@@ -181,6 +181,19 @@
 		AND C.USER_EMAIL = B.USER_EMAIL AND B.PRJ_ID = #{prj_id} AND B.PRJ_MEM_DEL_FL = 'N'
 	</select>
 	
+	<!-- 프로젝트 멤버 조건없이 조회  -->
+	<select id="projectMemYNList" resultType="project_memVo" parameterType="project_memVo">
+		SELECT DISTINCT B.PRJ_ID
+					  , B.USER_EMAIL
+					  , B.PRJ_MEM_LV
+					  , B.PRJ_MEM_NIK
+					  , B.PRJ_OWN_FL
+					  , C.USER_NM FROM
+					  ( SELECT * FROM PROJECT_MEM WHERE USER_EMAIL = #{user_email}) A, PROJECT_MEM B, USERS C
+		WHERE B.PRJ_ID IN (A.PRJ_ID)
+		AND C.USER_EMAIL = B.USER_EMAIL AND B.PRJ_ID = #{prj_id}
+	</select>
+	
 	
 	<!-- 프로젝트 멤버로 추가 할 프로젝트 멤버 리스트 조회 -->
 	<select id="projectAllMemList" resultType="project_memVo" parameterType="string">
@@ -214,14 +227,14 @@
 	
 	<!-- 프로젝트 멤버 관리자로 추가시 lv0으로 값 업데이트 / 프로젝트 관리자 삭제시 lv1로 값 업데이트 -->
 	<update id="updateProjectMem" parameterType="project_memVo">
-		UPDATE PROJECT_MEM A SET PRJ_MEM_LV = #{prj_mem_lv} WHERE PRJ_ID = #{prj_id} AND USER_EMAIL = #{user_email}
+		UPDATE PROJECT_MEM A SET PRJ_MEM_LV = #{prj_mem_lv}, PRJ_MEM_DEL_FL = 'N' WHERE PRJ_ID = #{prj_id} AND USER_EMAIL = #{user_email}
 	</update>
 	
 	
 	<!-- 프로젝트 멤버 삭제할 때 -->
-	<delete id="deleteProjectMem" parameterType="project_memVo">
+	<update id="deleteProjectMem" parameterType="project_memVo">
 		UPDATE PROJECT_MEM SET PRJ_MEM_DEL_FL = 'Y' WHERE PRJ_ID = #{prj_id} AND USER_EMAIL = #{user_email} AND PRJ_MEM_LV = #{prj_mem_lv}
-	</delete>
+	</update>
 	
 
 	<!-- 휴면 계정으로 전환하기 위하여 나와 프로젝트 아이디가 같은 멤버 조회 -->
@@ -400,7 +413,7 @@
 					  , C.USER_NM FROM
 					  ( SELECT * FROM PROJECT_MEM WHERE USER_EMAIL = #{user_email}) A, PROJECT_MEM B, USERS C
 		WHERE B.PRJ_ID IN (A.PRJ_ID)
-		AND C.USER_EMAIL = B.USER_EMAIL AND B.PRJ_ID = 3 AND B.PRJ_MEM_DEL_FL = 'N' AND C.USER_NM LIKE '%'||#{user_nm}||'%'
+		AND C.USER_EMAIL = B.USER_EMAIL AND B.PRJ_ID = #{prj_id} AND B.PRJ_MEM_DEL_FL = 'N' AND C.USER_NM LIKE '%'||#{user_nm}||'%'
 	</select>
 	
 	<!-- 휴면 계정으로 전환 하기 위하여 prj_own_fl = 'Y' 인 리스트를 가져온다
