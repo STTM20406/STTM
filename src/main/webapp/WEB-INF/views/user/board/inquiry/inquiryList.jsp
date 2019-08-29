@@ -49,24 +49,13 @@ ul.tabs li.current {
          $("#frm01").submit();
       })
       
-      $("#sch_submit02").on("click",function(){
-         $("#frm01").attr("action","/userInquirySearch");
-         $("#frm01").attr("method","get");
-         $("#frm01").submit();
-      })
-      
       
       $('#generalBtn').click(function(){
          $("#frm01").attr("action","/userInquiryPost");
          $("#frm01").attr("method","get");
          $("#frm01").submit();   
       })
-      $('#advarBtn').click(function(){
-         $("#frm02").attr("action","/userInquiryPost");
-         $("#frm02").attr("method","get");
-         $("#frm02").submit();   
-      })
-      
+    
       
       
       $('ul.tabs li').click(function() {
@@ -102,7 +91,7 @@ ul.tabs li.current {
       <div class="sub_menu">
          <ul class="tabs">
             <li data-tab="tab-1">일반 문의</li>
-            <li data-tab="tab-2">광고 문의</li>
+            
          </ul>
       </div>
 
@@ -206,104 +195,7 @@ ul.tabs li.current {
             </div>
          </div>
       </form>
-      <form id="frm02">
-         <div id="tab-2" class="tab-content">
-         <input type="hidden" name="inqCate" value="INQ02"/>
-            <div>
-               <div>
-                  <div class="searchBox">
-                     <div class="tb_sch_wr">
-                        <fieldset id="hd_sch">
-         <input type="hidden" id="inq_cate" name="inq_cate" value="INQ02"/>
-                           <input type="hidden" id="scText" name="scText" value="title"/>
-                               <legend>사이트 내 전체검색</legend>
-                                  <select id="search">
-                                     <option value="title">제목</option>
-                                     <option value="content">내용</option>
-                                  </select>
-                               <input type="text" name="searchText" id="searchText" maxlength="20" placeholder="검색어를 입력해주세요">
-                               <button type="submit" id="sch_submit02" value="검색">검색</button>
-                           </fieldset>
-                        </div>
-                     </div>
-                  <table class="tb_style_01">
-                     <colgroup>
-                        <col width="10%">
-                        <col width="40%">
-                        <col width="30%">
-                        <col width="10%">
-                        <col width="10%">
-                     </colgroup>
-                     <tbody>
-                        <tr>
-   
-                           <th>번호</th>
-                           <th>제목</th>
-                           <th>작성자 아이디</th>
-                           <th>작성일</th>
-                           <th>답변 여부</th>
-   
-   
-                           <c:forEach items="${inquiryListAd }" var="iq">
-                                 <tr class="inquiryTr">
-                                    <td class="inquirynum" style="display:none;">${iq.inq_id }</td>
-                                    <td>${iq.rn }</td>
-                                    <td>${iq.subject }</td>
-                                    <td>${iq.user_email }</td>
-                                    <td><fmt:formatDate value="${iq.inq_dt }" pattern="yyyy-MM-dd" /></td>
-                                    <c:choose>
-                                       <c:when test="${iq.ans_st == 'Y'}">
-                                          <td>답변 완료</td>
-                                       </c:when>
-                                       <c:otherwise>
-                                          <td>답변 미완료</td>
-                                       </c:otherwise>
-                                    </c:choose>
-                                 </tr>
-                           </c:forEach>
-                        </tr>
-                     </tbody>
-                  </table>
-                  <button id="advarBtn" type="button" class="btn_style_01">광고문의 작성</button>
-               </div>
-   
-               <div class="pagination">
-                     <c:choose>
-                        <c:when test="${pageVo.page == 1 }">
-                           <a class="btn_first"></a>
-                        </c:when>
-                        <c:otherwise>
-                           <a href="${cp}/userInquiry?inq_cate=${pageVo.inq_cate }&page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a>
-                        
-                        </c:otherwise>
-                     </c:choose>
-   
-                     <c:forEach begin="1" end="${paginationSizeAd}" var="i">
-                        <c:choose>
-                           <c:when test="${pageVo.page == i}">
-                              <span>${i}</span>
-                           </c:when>
-                           <c:otherwise>
-                           <a href="${cp}/userInquiry?inq_cate=${pageVo.inq_cate }&page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
-                           </c:otherwise>
-                        </c:choose>
-   
-                     </c:forEach>
-   
-                     <c:choose>
-                        <c:when test="${pageVo.page == paginationSizeAd}">
-                           <a class="btn_last"></a>
-                        </c:when>
-                        <c:otherwise>
-                        <a href="${cp}/userInquiry?inq_cate=${pageVo.inq_cate }&page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
-                           
-   
-                        </c:otherwise>
-                     </c:choose>
-               </div>
-         </div>
-      </div>
-      </form>
+     
    </div>
 
    </div>
