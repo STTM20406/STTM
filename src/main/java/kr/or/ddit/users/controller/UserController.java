@@ -769,7 +769,7 @@ public class UserController {
 
 		int admInsertUser = userService.insertUser(userVo);
 
-		return "/member/memberList.adm.tiles";
+		return "redirect:/admUserList";
 	}
 
 	/**
