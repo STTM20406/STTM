@@ -129,7 +129,7 @@ public class Project_MemDao implements IProject_MemDao{
 	 */
 	@Override
 	public int deleteProjectMem(Project_MemVo projectMemVo) {
-		return sqlSession.delete("project.deleteProjectMem", projectMemVo);
+		return sqlSession.update("project.deleteProjectMem", projectMemVo);
 	}
 
 	/**
@@ -240,6 +240,20 @@ public class Project_MemDao implements IProject_MemDao{
 		
 		// 2019.08.26 오전 01:12 이름 틀림
 //		return sqlSession.selectOne("project.projectMemListCnt", prj_id);
+	}
+
+	/**
+	 * 
+	* Method : projectMemYNList
+	* 작성자 : melong2
+	* 변경이력 :
+	* @param projectMemVo
+	* @return
+	* Method 설명 :
+	 */
+	@Override
+	public List<Project_MemVo> projectMemYNList(Project_MemVo projectMemVo) {
+		return sqlSession.selectList("project.projectMemYNList", projectMemVo);
 	}
 
 }

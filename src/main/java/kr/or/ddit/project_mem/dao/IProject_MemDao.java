@@ -168,4 +168,17 @@ public interface IProject_MemDao {
 	* 			     프로젝트 번호로 나의 프로젝트 멤버를 조회하여 페이징 리스트로 검색한 갯수
 	 */
 	int projectMemListByIdCnt(Map<String, Object> prj_id);
+	
+	
+	
+	/**
+	 * 
+	 * Method 		: projectMemYNList
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-29 최초 생성
+	 * @param projectMemVo
+	 * @return
+	 * Method 설명 	: 
+	 */
+	List<Project_MemVo> projectMemYNList(Project_MemVo projectMemVo);
 }

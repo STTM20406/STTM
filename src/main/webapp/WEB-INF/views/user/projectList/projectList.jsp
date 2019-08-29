@@ -69,7 +69,6 @@
 			});
 		}
 		
-		
 		//프로젝트 상태별 프로젝트 리스트 조회 ajax
 		$("#prj_all_st").on("change", function(){
 			var prj_status = $(this).val();
@@ -169,6 +168,8 @@
 			//검색을 위한 ajax 호출
 			prjSearchAjax(prj_nm);
 		});
+		
+		
 		
 		function prjSearchAjax(prj_nm){
 			$.ajax({
@@ -485,7 +486,6 @@
 			});
 		}
 		
-		
 		//프로젝트 멤버 추가하기 버튼 클릭시 내가 속한 모든 프로젝트의 멤버들을 가져옴
 		$(".prj_add_mem").fadeOut(0); //멤버리스트 layer 숨기기
 		$("#ppt_mem_set").on("click", function(){
@@ -696,13 +696,31 @@
 				var html = "";
 				data.data.forEach(function(item, index){
 					//html 생성
-					html += "<li><input type='checkbox' name='memItem' value='"+item.user_email+"'><span>"+ item.user_nm +"</span>"+ item.user_email + "</li>";
+					html += "<li id='"+ item.user_email +"'><span>"+ item.user_nm +"</span>"+ item.user_email + "</li>";
 				});	
 				$(".searchPL_item").html(html);
 			}
 		});
 	}
 	//프로젝트 생성 후 설정에서 프로젝트 관리자 검색
+	//프로젝트 생성 후 설정에서 프로젝트 멤버 검색
+	function searchMem(user_nm){
+		$.ajax({
+			url:"/project/searchMem",
+			method:"post",
+			data: "&user_nm=" + user_nm,
+			success:function(data){
+				console.log(data);
+				var html = "";
+				data.data.forEach(function(item, index){
+					//html 생성
+					html += "<li id='"+ item.user_email +"'><span>"+ item.user_nm +"</span>"+ item.user_email + "</li>";
+				});	
+				$(".prj_mem_item_list").html(html);
+			}
+		});
+	}
+	//프로젝트 생성 후 설정에서 프로젝트 멤버 검색
 	
 	
 	//프로젝트 생성 - 선택한멤버리스트 함께 넘기기
