@@ -2,8 +2,19 @@
  *  일정 편집
  * ************** */
 var editEvent = function (event, element, view) {
-	console.log(event._id);
 
+	$.ajax({
+		url: "/search_userEmail",
+		type: "post",
+		data: "wrk_id=" + event._id,
+		success: function(data){
+			var work_user_email = data.user_email.user_email
+			if(email != work_user_email){
+				$('#deleteEvent').css({display:"none"});
+			}
+		}
+	});
+	
 	//업무 수정 할때 해당 업무가 어떤 프로젝트, 어떤 업무 리스트의 것인지 보여줌!
 	$.ajax({
 		url: "/searchWorkInfomation",
@@ -11,8 +22,6 @@ var editEvent = function (event, element, view) {
 		data: "wrk_id=" + event._id,
 		success: function(data){
 			var html = "";
-			console.log(data.CalendarVo);
-//			editType.val(data.CalendarVo.prj_nm);
 			$("#prj_selected").prop("selected", false);
 			$("select[name='prj_id'] option:contains('"+data.CalendarVo.prj_nm+"')").prop("selected", true);
 			$("select[name='prj_id'] option:contains('"+data.CalendarVo.prj_nm+"')").val(data.CalendarVo.prj_id);

@@ -85,4 +85,15 @@ public interface ICalendarService {
 	 * Method 설명 	: 수정 버튼 눌렀을때 업무 번호에 맞는 프로젝트, 업무 리스트 이름 불러오기
 	 */
 	CalendarVo searchWorkInfomation(int wrk_id);
+	
+	
+	/**
+	 * Method 		: search_userEmail
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-29 최초 생성
+	 * @param workVo
+	 * @return
+	 * Method 설명 	: 업무 번호로 workvo정보 하나
+	 */
+	WorkVo search_userEmail(int wrk_id);
 }

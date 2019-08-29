@@ -32,6 +32,19 @@
         AND     A.WRK_START_DT is not null
         AND     A.WRK_END_DT is not null
    </select>
+   
+   <select id="search_userEmail" parameterType="int" resultType="workVo">
+   	  SELECT  DISTINCT A.WRK_ID
+           ,  A.USER_EMAIL
+          
+      FROM    WORK A, USERS B, WORK_LIST C, PROJECT D
+      WHERE   A.WRK_ID = #{wrk_id}
+      AND     A.USER_EMAIL = B.USER_EMAIL
+      AND     A.WRK_LST_ID = C.WRK_LST_ID
+      AND     C.PRJ_ID = D.PRJ_ID
+      AND     A.WRK_START_DT is not null
+      AND     A.WRK_END_DT is not null
+   </select>
 
 <!-- 등록 수정 drag and drop 삭제 -->
 

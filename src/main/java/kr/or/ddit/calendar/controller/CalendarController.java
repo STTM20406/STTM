@@ -62,7 +62,10 @@ public class CalendarController {
 	 */
 	@RequestMapping(path="/calendarGet" , method=RequestMethod.GET)
 	String calendarGet(Model model, HttpSession session) {
-		logger.debug("♬♩♪   여기 calendarGet");
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email =  userVo.getUser_email();
+		model.addAttribute("user_email", user_email);
+		logger.debug("♬♩♪  user_email: {}", user_email);
 		return "/outline/calendar.user.tiles";
 	}	
 	
@@ -234,7 +237,12 @@ public class CalendarController {
 	
 	@RequestMapping("/calendarTest")
 	@ResponseBody
-	public Map<String, Object> calendarTestJSON(FilterVo filterVo) {
+	public Map<String, Object> calendarTestJSON(FilterVo filterVo, Model model, HttpSession session) {
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email =  userVo.getUser_email();
+		
+		model.addAttribute("user_email", user_email);
+		logger.debug("♬♩♪  calendarTest: {}", user_email);
 		return filterService.calendarTemplateJSON(filterVo); 
 	}
 	
@@ -250,6 +258,14 @@ public class CalendarController {
 	@RequestMapping("/searchWorkInfomation")
 	String searchWorkInfomation(Model model, int wrk_id) {
 		model.addAttribute("CalendarVo", calendarService.searchWorkInfomation(wrk_id));
+		
+		return "jsonView";
+	}
+	
+	@RequestMapping("/search_userEmail")
+	String search_userEmail(Model model, int wrk_id) {
+		model.addAttribute("user_email", calendarService.search_userEmail(wrk_id));
+		logger.debug("♬♩♪  search_userEmail user_email: {}", calendarService.search_userEmail(wrk_id));
 		return "jsonView";
 	}
 	

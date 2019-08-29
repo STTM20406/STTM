@@ -166,6 +166,11 @@ public class CalendarService implements ICalendarService {
 		return calendarDao.searchWorkInfomation(wrk_id);
 	}
 
+	@Override
+	public WorkVo search_userEmail(int wrk_id) {
+		return calendarDao.search_userEmail(wrk_id);
+	}
+
 
 	
 }
