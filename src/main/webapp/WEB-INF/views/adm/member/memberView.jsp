@@ -9,11 +9,22 @@
 
 <script>
 $(document).ready(function(){
-
+	var st = "";
+	var st_val = "${userVo.user_st}";
+	switch(st_val) {
+		case "N" :
+			st = "정상";
+			break;
+		case "D" :
+			st = "휴면계정";
+			break;
+	}
+	$("#user_st").text(st);
 });
 
 function admUpdateUserView() {
 	$("#admUpdate").submit();
+	
 }
 </script>
 
