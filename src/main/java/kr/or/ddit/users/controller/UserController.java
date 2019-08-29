@@ -318,7 +318,9 @@ public class UserController {
 	 */
 	@RequestMapping(path = "/projectMember", method = RequestMethod.GET)
 	public String projectMemberListView(PageVo pageVo, Model model, HttpSession session, String prjMemView) {
-
+		
+		logger.debug("prjMemView 로거슈 : {}",prjMemView);
+		
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
 
 		// ----- 프로젝트 리스트 가져오기 -----
@@ -379,10 +381,15 @@ public class UserController {
 		model.addAttribute("pageVo", pageVo);
 
 		// 친구 요청 버튼 만들기
-		List<FriendsVo> prjMemFriList = friendsService.friendsList(user_email);
-		logger.debug("prjMemFriList : 아침 로거 {}", prjMemFriList);
-		model.addAttribute("prjMemFriList", prjMemFriList);
+//		List<FriendsVo> prjMemFriList = friendsService.friendsList(user_email);
+//		logger.debug("prjMemFriList : 아침 로거 {}", prjMemFriList);
+//		model.addAttribute("prjMemFriList", prjMemFriList);
 
+		// 친구 요청 버튼 만들기
+		List<Project_MemVo> prjMemFriList = project_MemService.getFriendsBtn(memPrjIdParse);
+		model.addAttribute("prjMemFriList", prjMemFriList);
+		logger.debug("prjMemFriList 친구요청버튼 : {}",prjMemFriList);
+		
 		return "/member/projectMemberList.user.tiles";
 	}
 	

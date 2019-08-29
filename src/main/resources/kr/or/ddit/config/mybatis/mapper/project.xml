@@ -415,6 +415,21 @@
 		and user_email = #{user_email}
 	</select>
 	
+	<!-- 프로젝트 멤버 리스트에서 친구가 아닌 사람만 친구 요청 버튼 생기도록 리스트를 가져옴 -->
+	<select id="getFriendsBtn" parameterType="int" resultType="project_memVo">
+		select distinct 
+		                a.prj_id 
+		               ,d.user_email
+		               ,d.user_nm
+		from
+		(select * 
+		from project_mem
+		where prj_id = #{prj_id}) a, project_mem b, friends c, users d
+		where a.prj_id = b.prj_id
+		and b.user_email = c.frd_email
+		and b.user_email = d.user_email
+	</select>
+	
 	<!-- *******************project_trnf_hs****************** -->
 
 
