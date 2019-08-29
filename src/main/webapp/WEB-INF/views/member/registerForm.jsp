@@ -61,15 +61,22 @@
 				return false;
 			}
 			
-			// 비밀번호
-			if(join.user_pass.value=="") {
+			// 비밀번호가 공백일 경우
+			if(join.user_pass1.value=="") {
 			    alert("비밀번호를 입력해 주세요");
-			    join.user_pass.focus();
+			    join.user_pass1.focus();
 			    return false;
+			}else if(join.user_pass.value==""){
+			 alert("새 비밀번호를 다시 입력하여 확인해 주세요");
+				 passForm.user_pass.focus();
+				 return false;
 			}
-
-			if(!check(re, user_pass, "패스워드는 4~12자의 영문 대소문자와 숫자로만 입력")) {
+			
+			// ------- 패스워드가 정규식에 안맞을 경우 -------
+			if(!check(re, user_pass1, "패스워드는 4~12자의 영문 대소문자와 숫자로만 입력")) {
 			    return false;
+			}else if(!check(re, user_pass, "패스워드는 4~12자의 영문 대소문자와 숫자로만 입력")){
+				return false;
 			}
 			
 			// 핸드폰 번호
@@ -129,7 +136,11 @@
 							<input type="text" id="user_nm" name="user_nm" placeholder="이름은 한글 2~4자 이내">
 						</li>
 						<li>
-							<label for="userPass">비밀번호</label>
+							<label for="userPass1">비밀번호 입력</label>
+							<input type="password" id="user_pass1" name="user_pass1" placeholder="4~12자의 영문 대소문자와 숫자">
+						</li>
+						<li>
+							<label for="userPass2">비밀번호 확인</label>
 							<input type="password" id="user_pass" name="user_pass" placeholder="4~12자의 영문 대소문자와 숫자">
 						</li>
 						<li>
