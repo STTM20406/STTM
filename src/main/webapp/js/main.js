@@ -166,8 +166,7 @@ function initCalendar(){
    * ************** */
   events: function (start, end, timezone, callback) {
 	  
-	  console.log("filterFrm : " + $("#filterFrm").serialize());
-    $.ajax({
+	  $.ajax({
       method:"post",
       url: "/calendarTest",
       data: $("#filterFrm").serialize(),
@@ -175,7 +174,9 @@ function initCalendar(){
       contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
       success: function (response) {
 
-    	  console.log(response.data);
+    	  console.log("여기가 어디요!!1" + response);
+    	  console.log("여기가 어디요!!2" + response.user_email);
+    	  
     	  response = response.data;
         var fixedDate = response.map(function (array) {
           if (array.allDay && array.start !== array.end) {
@@ -185,7 +186,6 @@ function initCalendar(){
           return array;
         })
         calData = fixedDate;
-        console.log(fixedDate);
         callback(fixedDate);
       }
     });

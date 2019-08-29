@@ -59,7 +59,8 @@ public class LoginController {
 	 */
 	@RequestMapping(path="/login", method=RequestMethod.GET)
 	public String loginView(HttpSession session, UserVo userVo, Model model) {
-		if(session.getAttribute("USER_INFO")!=null) {
+		userVo = (UserVo) session.getAttribute("USER_INFO");
+		if(userVo!=null) {
 			
 			// 추후 수정
 			if("A".equals(userVo.getUser_right())) {
