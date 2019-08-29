@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
 
 <style>
 
@@ -281,7 +282,6 @@
 					<form action="/setUserPass" method="post" id="noticeForm">
 						<div class="inputField">
 							<ul>
-								<!-- 프로젝트에 대한 알림 -->
 								<li>
 									<br><br>
 									<input type="checkbox" id="notice" name="project" value="이거보내니?"> 프로젝트에 대한 알림<br>
@@ -316,7 +316,6 @@
 				</div>
 				
 				<!-- 휴면 계정 설정 레이어창 -->
-<!-- 				<form action="/setUserStatus" id="friendsRequestListForm" method="get"> -->
 				<form action="/setUserPass" id="ownEmailForm" method="post">
 					<input type="hidden" id="transferOwership" name="transferOwership">
 					<input type="hidden" id="transferPrjId" name="transferPrjId">
@@ -350,9 +349,6 @@
 												<td>${inactive.prj_nm}</td>
 												<td>${inactive.user_nm}</td>
 												<td class="transOwn" id="${inactive.user_email}">
-<%-- 												<td class="transOwn" id="${inactive.user_email}"> --%>
-<%-- 													<a href="/setUserPass?transferOwership=${inactive.user_email}" id="transferBtn" class="inp_style_01">소유권이전</a> --%>
-<!-- 													<input type="submit" id="subOwership" class="inp_style_01" value="소유권 이전"> -->
 													<input type="button" id="subOwership" class="inp_style_02" value="소유권 이전">
 													<input type="hidden" id="transPrjId" value="${inactive.prj_id}"/> <!-- sol -->
 												</td>
@@ -362,22 +358,16 @@
 										</c:forEach>
 											
 									</tr>
+
+							<!-- 휴면 계정 전환 -->
+							<c:if test="${fn:length(inactiveList)==0}">
+<!-- 								<input type="button" id="inactiveBtn" value="휴면 계정 전환" class="inp_style_04" style="float: right;"> -->
+								<a href="/inactiveUser?inactiveEmail=${inactiveMemList}" class="inp_style_04" style="float: right;">휴면계정전환</a>
+							</c:if>
+							
 								</tbody>
 							</table>
 
-							<!-- 휴면 계정 전환 -->
-							
-							<c:set var="inactive" value="${inactiveMemList}"/>
-							<input type="text" value="${inactive}">	
-							<input type="text" value="${inactiveMemList}">	
-							
-							<input type="text" value="${inactive_email}">	
-							<input type="text" value="${inactiveList}">	
-													
-							<c:if test="${inactiveList eq null}">
-<!-- 								<input type="button" id="inactiveBtn" value="휴면 계정 전환" class="inp_style_04" style="float: right;"> -->
-								<a href="/inactiveUser?inactiveEmail=${inactiveMemList.user_email}" style="float: right;">휴면계정전환</a>
-							</c:if>
 							
 				            <div class="btn-r">
 				                <a href="#" class="btn-layerClose">Close</a>
@@ -392,8 +382,8 @@
 									<a href class="btn_first"></a>
 								</c:when>
 								<c:otherwise>
-									<a href="${cp}/setUserPass#layer0?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a>
-								
+<%-- 									<a href="${cp}/setUserPass#layer0?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">≪</a> --%>
+									<a href="${cp}/setUserPass?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">≪</a>
 								</c:otherwise>
 							</c:choose>
 				
@@ -403,7 +393,8 @@
 										<span>${i}</span>
 									</c:when>
 									<c:otherwise>
-									<a href="${cp}/setUserPass#layer0?page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
+<%-- 										<a href="${cp}/setUserPass#layer0?page=${i}&pageSize=${pageVo.pageSize}">${i}</a> --%>
+										<a href="${cp}/setUserPass?page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
 									</c:otherwise>
 								</c:choose>
 				
@@ -415,14 +406,14 @@
 								</c:when>
 								
 								<c:otherwise>
-									<a href="${cp}/setUserPass#layer0?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
+<%-- 									<a href="${cp}/setUserPass#layer0?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">≫</a> --%>
+									<a href="${cp}/setUserPass?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">≫</a>
 								</c:otherwise>
 							</c:choose>
 						</div>
 				    </div>
 				</div>
 			</form>
-				
 				
 			</div> 
 		
