@@ -781,13 +781,13 @@ window.onclick = function(event) {
       var a = $("#hChatMemList").val(memArray);
       
       if(socket){
-			var socketMsg = "";
-			for(var i=0;i<memArray.length;i++){
-				socketMsg = "videoNotify," + text +","+ memArray[i];
-				socket.send(socketMsg);
-			}
-			// websocket에 보내기!!
+		var socketMsg = "";
+		for(var i=0;i<memArray.length;i++){
+			socketMsg = "videoNotify," + text +","+ memArray[i];
+			socket.send(socketMsg);
 		}
+		// websocket에 보내기!!
+	  }
       
      // $("#headerChatSend").submit();
    }
@@ -1165,7 +1165,6 @@ pauseBtn.addEventListener('click',pauseTimer);
   ga('send', 'pageview'); 
 
   ga('send', 'pageview');
-}
 </script>
 
 

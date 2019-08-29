@@ -35,14 +35,6 @@ ul.tabs li.current {
 	$(document).ready(function() {
 		individualPagination(1,10);
 		
-		<div class="tb_sch_wr">
-        <select class="search" name="selectFile">
-        	<option value="fileName">파일명</option>
-        </select>
-		    <input type="text" value="" name="original_file_nm" id="searchText" maxlength="20" placeholder="검색어를 입력해주세요">
-		    <button type="button" id ="searchBtn" value="검색">검색</button>
-		</div>
-		
 		$('.tb_sch_wr').on('click',"#searchBtn",function(){
 			if($('#searchText').val().length == 0){
 				alert("검색어를 입력해주세요");
