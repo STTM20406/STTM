@@ -3,6 +3,8 @@ package kr.or.ddit.board.controller;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +36,7 @@ public class BoardController {
 	}
 	
 	@RequestMapping(path = "/boardAdd", method =RequestMethod.POST)
-	public String insertBoard(Model model, String use_fl, String name) {
+	public String insertBoard(Model model, String use_fl, String name, HttpServletRequest request) {
 		String viewName="";
 		
 		logger.debug("!@# use_fl : {}",use_fl);
@@ -52,11 +54,15 @@ public class BoardController {
 			viewName ="redirect:/boardAdd";
 		}
 		
+		ServletContext sc = request.getServletContext();
+		List<BoardVo> boardList = boardService.boardListYes();
+		sc.setAttribute("admBoardListY", boardList);
+		
 		return viewName;
 	}
 	
 	@RequestMapping(path="/boardModify", method=RequestMethod.POST)
-	public String updateBoard(Model model,int board_id02, String use_fl02, String name02 ) {
+	public String updateBoard(Model model,int board_id02, String use_fl02, String name02, HttpServletRequest request ) {
 		String viewName="";
 		
 		logger.debug("!@# board_id02 : {}",board_id02);
@@ -76,6 +82,12 @@ public class BoardController {
 			viewName = "redirect:/boardAdd";
 			
 		}
+		
+		ServletContext sc = request.getServletContext();
+		List<BoardVo> boardList = boardService.boardListYes();
+		sc.setAttribute("admBoardListY", boardList);
+		
+		
 		return viewName;
 	}
 	
