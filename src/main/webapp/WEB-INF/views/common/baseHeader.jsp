@@ -611,19 +611,6 @@ function connectNotify(){
 		      },3000);
 		      
 	      } 
-      
-    	  var userId = $("#huser_email").val();
-    	  var strArray = event.data.split(",");
-
-			console.log("들어온거니strArray[0] :" + strArray[0] + "strArray[1]"
-					+ strArray[1] + "strArray[2]" + strArray[2] + "userId"+userId);
-
-			if (strArray[0] != userId) {
-					var printHTML = "<div class='incoming_msg'>";
-					printHTML += "<div class='received_msg'>";
-					printHTML += "<div class='received_withd_msg'>";
-	  
-	      console.log("ReceiveMessage: ", event.data + "\n");
     	
 	   	  //채팅아닐때
 	      if(socketDistinguish != "chatting"){
@@ -668,7 +655,7 @@ function connectNotify(){
 					printHTML += "<div class='sent_msg'>";
 					printHTML += "<p>" + strArray[1] + "</p>";
 					printHTML += "<p>" + strArray[2] + "</p>";
-					printHTML += "<span class='time_date'>" + strArray[3] + "</span></div></div></div>";
+					printHTML += "<span class='time_date'>" + strArray[3] + "</span></div></div>";
 					$("#hchatData").append(printHTML);
 					$("#hchatData").scrollTop($("#hchatData")[0].scrollHeight);
 				}
@@ -791,7 +778,8 @@ window.onclick = function(event) {
       
      // $("#headerChatSend").submit();
    }
-</script>
+
+  </script>
 
 
 </head>
@@ -884,6 +872,7 @@ window.onclick = function(event) {
             </ul>
          </div>
       </header>
+   </div>
    
    
 <!--  화상회의 생성 레이어 팝업창 -->
