@@ -83,7 +83,8 @@ public class UserController {
 		String user_nm = userVo.getUser_nm();
 		String user_hp = userVo.getUser_hp();
 
-		model.addAttribute("user_email : 찍히니? {}", user_email);
+//		model.addAttribute("user_email : 찍히니? {}", user_email);
+		model.addAttribute("user_email", user_email);
 		model.addAttribute("user_pass", decodePass);
 
 		model.addAttribute("user_nm", user_nm);
