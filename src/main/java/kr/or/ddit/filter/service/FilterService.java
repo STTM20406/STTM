@@ -207,7 +207,7 @@ public class FilterService implements IFilterService{
 			Boolean unscheduled = work.getWrk_start_dt() == null || work.getWrk_end_dt() == null ? true : null;
 			String start_date = work.getWrk_start_dt() == null ? null : sdf.format(work.getWrk_start_dt());			
 			String end_date = work.getWrk_end_dt() == null ? null : sdf.format(work.getWrk_end_dt().getTime() + (1000*60*60*24));
-			
+			String color_cd = work.getWrk_color_cd();
 			if("AUTH04".equals(work.getAuth())) {
 				continue;
 			}
@@ -215,24 +215,24 @@ public class FilterService implements IFilterService{
 			GanttChartVo ganttVo = new GanttChartVo();
 			
 				
-			if(work.getWrk_start_dt()!=null && work.getWrk_end_dt()!=null) {
-				if(work.getWrk_end_dt().before(new Date()) && "N".equals(work.getWrk_cmp_fl())) {
-					ganttVo.setColor("#ef1010");
-				}
-				
-				if(work.getWrk_cmp_dt()!=null) {
-					if(work.getWrk_cmp_dt().after(work.getWrk_end_dt())) {
-						ganttVo.setColor("#c7c20e");
-					} else if ("Y".equals(work.getWrk_cmp_fl())){
-						ganttVo.setColor("#00cc00");
-					}
-				}
-			}
+//			if(work.getWrk_start_dt()!=null && work.getWrk_end_dt()!=null) {
+//				if(work.getWrk_end_dt().before(new Date()) && "N".equals(work.getWrk_cmp_fl())) {
+//					ganttVo.setColor("#ef1010");
+//				}
+//				
+//				if(work.getWrk_cmp_dt()!=null) {
+//					if(work.getWrk_cmp_dt().after(work.getWrk_end_dt())) {
+//						ganttVo.setColor("#c7c20e");
+//					} else if ("Y".equals(work.getWrk_cmp_fl())){
+//						ganttVo.setColor("#00cc00");
+//					}
+//				}
+//			}
 			
 			if("AUTH02".equals(work.getAuth()) || "AUTH03".equals(work.getAuth()))
 				ganttVo.setReadonly(true);
 			
-			
+			ganttVo.setColor(color_cd);
 			ganttVo.setId(id);
 			ganttVo.setText(text);
 			ganttVo.setParent(parent);
