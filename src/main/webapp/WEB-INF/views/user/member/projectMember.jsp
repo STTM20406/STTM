@@ -99,8 +99,6 @@ $(document).ready(function(){
     	  }
       }
    };
-   	socket.onopen = function(event) {
-   	}
 		
 	// 프로젝트 멤버 tr클릭시 레이어창 띄우기
 	$('.prjMember').on("click", function(){
