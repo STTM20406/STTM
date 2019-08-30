@@ -596,21 +596,21 @@ function connectNotify(){
 	      console.log(data);
 	      
 	      
-	      if(!data.startsWith("lst:")) {
-	    	  var textSplit = data.split("*");
-			    console.log(textSplit);
-	    	  var $socketAlert = $('#socketAlert p');
-		      $socketAlert.text(textSplit[0]);
-		      $(".socketAlram").fadeIn(300);
-		      $(".socketAlram").animate({right:"0px"}, 500);
-	    	  $("#spanCountReset").text(textSplit[1]);
-		      setTimeout(function(){
-		         $(".socketAlram").fadeOut(300);
-		         $(".socketAlram").animate({right:"-350px"}, 500);
+// 	      if(!data.startsWith("lst:")) {
+// 	    	  var textSplit = data.split("*");
+// 			    console.log(textSplit);
+// 	    	  var $socketAlert = $('#socketAlert p');
+// 		      $socketAlert.text(textSplit[0]);
+// 		      $(".socketAlram").fadeIn(300);
+// 		      $(".socketAlram").animate({right:"0px"}, 500);
+// 	    	  $("#spanCountReset").text(textSplit[1]);
+// 		      setTimeout(function(){
+// 		         $(".socketAlram").fadeOut(300);
+// 		         $(".socketAlram").animate({right:"-350px"}, 500);
 		          
-		      },3000);
+// 		      },3000);
 		      
-	      } 
+// 	      } 
     	
 	   	  //채팅아닐때
 	      if(socketDistinguish != "chatting"){
