@@ -1,17 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<style>
+	#iq_content {width : 250px;}
+</style>
 <script>
 $(document).ready(function(){
 	// 답변버튼
 // 	$("#replyBtn").on("click",function(){
 // 		$("#frm").submit();
 // 	})
-	
-	$("#replyBtn").on("click",function(){
+	$("#toList").on("click", function() {
+		window.location = "/admInquiry";
+	});	
+
+	$(".contents").on("click", "#replyBtn",function(){
 		var inq_id = $(this).siblings("#inq_id").val();
 		var iq_content = $(this).siblings("#iq_content").val();
+		
+		if(!iq_content) {
+			alert("내용을 입력해주세요.");
+			return;
+		}
 		console.log(inq_id);
 		console.log(iq_content);
 		
@@ -29,9 +39,11 @@ $(document).ready(function(){
 				success:function(data){
 					console.log(data);
 					var html = "";
+					html += '<input type="hidden" id="inq_id" name="inq_id" value="${inquiryInfo.inq_id }" value="'+ inq_id+'">';
 					html +="<label>답변</label> : ";
 					html +=data.data.inquiryInfo.ans_con;
-					
+					html += '<br>' + '<input type="text" id="iq_content" name="iq_content"> ' + 
+					'<button type="button" name="replyBtn" id="replyBtn"> 답변등록 </button>';
 					$(".divSubject").html(html);
 					
 					console.log("소켓연결인지 확인",socket);
@@ -61,8 +73,8 @@ $(document).ready(function(){
 		</div>
 		<div class="divSubject">
 <!-- 	<form id="frm" action="/admInquiryView" method="post"> -->
-			<input type="hidden" id="inq_id" name="inq_id" value="${inquiryInfo.inq_id }"/>
-			<label>답변</label>
+			<input type="hidden" id="inq_id" name="inq_id" value="${inquiryInfo.inq_id }">
+			<label>답변</label> : 
 			<c:choose>
 				<c:when test="${inquiryInfo.ans_st == 'N'}">
 					<label>답변이 없습니다.</label>
@@ -73,9 +85,9 @@ $(document).ready(function(){
 			</c:choose>
 			
 		<br>
-		<textarea rows="1" cols="60" id="iq_content" name="iq_content"></textarea>
+		<input type="text" id="iq_content" name="iq_content">
 		<button type="button" name="replyBtn" id="replyBtn"> 답변등록 </button>
-
 <!-- 	</form> -->
 		</div>
+		<button type="button" id="toList"> 목록 </button>
 </section>
