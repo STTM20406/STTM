@@ -28,6 +28,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import kr.or.ddit.file_attch.model.File_AttchVo;
 import kr.or.ddit.file_attch.service.IFile_AttchService;
+import kr.or.ddit.file_dw_his.model.File_Dw_HisVo;
+import kr.or.ddit.file_dw_his.service.IFile_Dw_HisService;
 import kr.or.ddit.link_attch.model.Link_attchVo;
 import kr.or.ddit.link_attch.service.ILink_attchService;
 import kr.or.ddit.paging.model.PageVo;
@@ -57,6 +59,9 @@ public class File_AttchController {
 	@Resource(name="work_Mem_FlwService")
 	private IWork_Mem_FlwService workMemFlwService;
 	
+	@Resource(name="file_Dw_HisService")
+	private IFile_Dw_HisService file_Dw_HisService;
+	
 	/**
 	 * Method 		: fileDownLoad
 	 * 작성자 			: 손영하
@@ -67,9 +72,20 @@ public class File_AttchController {
 	 * Method 설명 	: 파일 다운로드 처리!
 	 */
 	@RequestMapping(path = "/fileDownLoad", method = RequestMethod.GET)
-	public void fileDownLoad(int file_id, HttpServletRequest request, HttpServletResponse response) {
+	public void fileDownLoad(int file_id, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		file_id = Integer.parseInt(request.getParameter("file_id"));
-
+		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
+		int prj_id = projectVo.getPrj_id();
+		logger.debug("♬♩♪  prj_id:{}",prj_id);
+		
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = userVo.getUser_email();
+		
+		File_Dw_HisVo file_Dw_HisVo = new File_Dw_HisVo(prj_id, user_email, file_id);
+		int cnt = file_Dw_HisService.insertHistory(file_Dw_HisVo);
+		if(cnt==1) {
+			logger.debug("다운로드 기록 등록");
+		}
 		File_AttchVo file_AttchVo = file_AttchService.getFile(file_id);
 		logger.debug("♬♩♪  fileDownLoad file_id: {}", file_id);
 		// 파일 업로드된 경로
