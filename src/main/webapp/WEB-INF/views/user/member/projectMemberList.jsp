@@ -177,29 +177,10 @@ $(document).ready(function(){
 										
 <%-- 										</c:forEach>										 --%>
 
-										<c:forEach items="${prjMemFriList}" var="friVo">
 										
-										<c:choose>
-
-<%-- 											<c:when test="${prjVo.user_email eq friVo.user_email or prjVo.user_email eq friVo.frd_email}"> --%>
-												
-<%-- 											</c:when> --%>
-
-											<c:when test="${prjVo.user_email eq friVo.user_email}">
-												
-											</c:when>
-
-<%-- 											<c:when test="${prjVo.user_email eq friVo.frd_email}"> --%>
-												
-<%-- 											</c:when> --%>
-
-											<c:otherwise>
-												<a href="/friendsList?frdRequEmail=${prjVo.user_email}" id="friendReqAtag" class="inp_style_01">친구요청</a>
-											</c:otherwise>
+										<a href="/friendsList?frdRequEmail=${prjVo.user_email}" id="friendReqAtag" class="inp_style_01">친구요청</a>
 											
-										</c:choose>	
 										
-										</c:forEach>										
 
 									</td>
 									
