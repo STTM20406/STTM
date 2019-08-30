@@ -39,12 +39,16 @@ public class File_Dw_HisVo {
 
 	}
 
-	public File_Dw_HisVo(int down_id, int prj_id, String user_email, int file_id, Date down_date) {
-		this.down_id = down_id;
+	/**
+	 * @param prj_id
+	 * @param user_email
+	 * @param file_id
+	 * 우헤헿ㅎ
+	 */
+	public File_Dw_HisVo(int prj_id, String user_email, int file_id) {
 		this.prj_id = prj_id;
 		this.user_email = user_email;
 		this.file_id = file_id;
-		this.down_date = down_date;
 	}
 	
 	 public String getPrjStartDtStr() {

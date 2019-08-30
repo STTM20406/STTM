@@ -197,12 +197,11 @@ function copyTask(btn) {
    console.log("Copied!");
 };
 
-//소켓 채팅인지 알림인지 구분하기
-var socketDistinguish = null;
+
 
 $(document).ready(function(){
    connectNotify();
-  
+
    //채팅 대화 보내기
    $("#hbuttonMessage").on(
 		"click",
@@ -221,15 +220,12 @@ $(document).ready(function(){
 			let ct_id = $("#hct_id").val();
 
 			if (socket) {
-				
-				socketDistinguish = "chatting";
 				let socketMsg = "chatting," + senderNm + ","
 						+ content + "," + senderId1 + ","
 						+ ct_id; //소켓으로 이 정보를 보냄
 				console.log("sssssssmsg>>", socketMsg);
 				socket.send(socketMsg);
 			}
-			
 			
 			$("#hmsg").val('');
 			$("#hmsg").focus();
@@ -343,16 +339,10 @@ $(document).ready(function(){
    
    //화상회의생성 버튼 클릭시
    $('#headerFaceChat').on("click", function(){
-	
+      
         var $href = $(this).attr('href');
         layer_popup($href);
-        console.log()
-        $("#headerSelectProject option:eq(0)").prop("selected", true); //첫번째 option 선택
-        var select = $("#headerSelectProject option:selected").val();
-        
-        $("#checkProject").val(select);
-        
-   });
+    });
    
    //화상회의방 참여하기 버튼 클릭시
    $("#hfaceBtn").on("click",function(){
@@ -430,8 +420,8 @@ $(document).ready(function(){
 	});
    
 	
-	$("#hsch_submit").on("click",function(){
-		$("#hsearchFrm").submit();
+	$("#sch_submit").on("click",function(){
+		$("#searchFrm").submit();
 	});
 	
 	//프로젝트 채팅할지 일반채팅할지 선택
@@ -590,77 +580,53 @@ function connectNotify(){
    socket.onmessage = function(event) { //알림메세지 보내기@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	   
 	  //알림인지 채팅인지 구분 
+	  var distinguish = $("#distinguishSocket").val(); 
       console.log("ReceiveMessage: ", event.data + "\n");
       
+      if(distinguish != 'chatting'){
 	      var data = event.data;
-	      console.log(data);
-	      
 	      
 	      if(!data.startsWith("lst:")) {
-	    	  var textSplit = data.split("*");
-			    console.log(textSplit);
-	    	  var $socketAlert = $('#socketAlert p');
-		      $socketAlert.text(textSplit[0]);
+		      var $socketAlert = $('#socketAlert p');
+		      $socketAlert.text(event.data);
 		      $(".socketAlram").fadeIn(300);
 		      $(".socketAlram").animate({right:"0px"}, 500);
-	    	  $("#spanCountReset").text(textSplit[1]);
 		      setTimeout(function(){
 		         $(".socketAlram").fadeOut(300);
 		         $(".socketAlram").animate({right:"-350px"}, 500);
 		          
 		      },3000);
-		      
 	      } 
-    	
-	   	  //채팅아닐때
-	      if(socketDistinguish != "chatting"){
-		      var data = event.data;
-		      
-		      if(!data.startsWith("lst:")) {
-		    	  var textSplit = data.split("*");
-				    console.log(textSplit);
-		    	  var $socketAlert = $('#socketAlert p');
-			      $socketAlert.text(textSplit[0]);
-			      $(".socketAlram").fadeIn(300);
-			      $(".socketAlram").animate({right:"0px"}, 500);
-		    	  $("#spanCountReset").text(textSplit[1]);
-			      setTimeout(function(){
-			         $(".socketAlram").fadeOut(300);
-			         $(".socketAlram").animate({right:"-350px"}, 500);
-			          
-			      },3000);
-			      
-		      } 
-	      }
-	      //채팅부분
-	      if(socketDistinguish == "chatting"){
-	    	  var userId = $("#huser_email").val();
-	    	  var strArray = event.data.split(",");
-	
-				console.log("들어온거니strArray[0] :" + strArray[0] + "strArray[1]"
-						+ strArray[1] + "strArray[2]" + strArray[2] + "userId"+userId);
-	
-				if (strArray[0] != userId) {
-						var printHTML = "<div class='incoming_msg'>";
-						printHTML += "<div class='received_msg'>";
-						printHTML += "<div class='received_withd_msg'>";
-						printHTML += "<p>" + strArray[1] + "</p>";
-						printHTML += "<p>" + strArray[2] + "</p>";
-						printHTML += "<span class='time_date'>" + strArray[3] + "</span></div></div></div>";
-					$("#hchatData").append(printHTML);
-					$("#hchatData").scrollTop($("#hchatData")[0].scrollHeight);			
-					
-				} else {
-					var printHTML = "<div class='outgoing_msg'>";
-					printHTML += "<div class='sent_msg'>";
+      
+      }else if(distinguish == 'chatting'){
+    	  var userId = $("#huser_email").val();
+    	  var strArray = event.data.split(",");
+
+			console.log("들어온거니strArray[0] :" + strArray[0] + "strArray[1]"
+					+ strArray[1] + "strArray[2]" + strArray[2] + "userId"+userId);
+
+			if (strArray[0] != userId) {
+					var printHTML = "<div class='incoming_msg'>";
+					printHTML += "<div class='received_msg'>";
+					printHTML += "<div class='received_withd_msg'>";
 					printHTML += "<p>" + strArray[1] + "</p>";
 					printHTML += "<p>" + strArray[2] + "</p>";
-					printHTML += "<span class='time_date'>" + strArray[3] + "</span></div></div>";
-					$("#hchatData").append(printHTML);
-					$("#hchatData").scrollTop($("#hchatData")[0].scrollHeight);
-				}
-				socketDistinguish = null;	
-	      }
+					printHTML += "<span class='time_date'>" + strArray[3] + "</span></div></div></div>";
+				$("#hchatData").append(printHTML);
+				$("#hchatData").scrollTop($("#hchatData")[0].scrollHeight);			
+				
+			} else {
+				var printHTML = "<div class='outgoing_msg'>";
+				printHTML += "<div class='sent_msg'>";
+				printHTML += "<p>" + strArray[1] + "</p>";
+				printHTML += "<p>" + strArray[2] + "</p>";
+				printHTML += "<span class='time_date'>" + strArray[3] + "</span></div></div></div>";
+				$("#hchatData").append(printHTML);
+				$("#hchatData").scrollTop($("#hchatData")[0].scrollHeight);
+			}
+			distinguish=null;
+      }
+      
       
       
    };
@@ -761,29 +727,18 @@ window.onclick = function(event) {
       $("input:checkbox[name=hfriend]:checked").each(function(){
          memArray.push($(this).val());
       });
-      var text = $("#hChatText").val();
-      console.log("memArray " + memArray[0]);
-      console.log("text : ", text);
-      console.log("socke : ",socket);
-      var a = $("#hChatMemList").val(memArray);
       
-      if(socket){
-		var socketMsg = "";
-		for(var i=0;i<memArray.length;i++){
-			socketMsg = "videoNotify," + text +","+ memArray[i];
-			socket.send(socketMsg);
-		}
-		// websocket에 보내기!!
-	  }
+      console.log("memArray " + memArray);
+      var a = $("#hChatMemList").val(memArray);
       
      // $("#headerChatSend").submit();
    }
-
-  </script>
+</script>
 
 
 </head>
 <body>
+	<input type="hidden" id="distinguishSocket">
    <div id="socketAlert" class="socketAlram" role="alert">
       <p></p>
    </div>
@@ -822,14 +777,14 @@ window.onclick = function(event) {
          <div class="hd_sch_wr">
             <fieldset id="hd_sch">
                <legend>사이트 내 전체검색</legend>
-               <form id="hsearchFrm" action="/project/headerSearch" method="get">
+               <form id="searchFrm" action="#" method="get">
                   <select id="headerSearch" name="headerSearch">
                      <option value="1">업무리스트</option>
                      <option value="2">업무명</option>
                      <option value="3">프로젝트 멤버명</option>
                   </select> <input type="text" name="headerSearchText" id="headerSearchText" maxlength="20"
                      placeholder="프로젝트 검색">
-                  <button type="submit" id="hsch_submit" value="검색">검색</button>
+                  <button type="submit" id="sch_submit" value="검색">검색</button>
                </form>
             </fieldset>
          </div>
@@ -864,6 +819,7 @@ window.onclick = function(event) {
                      <dl>
                         <dt></dt>
                         <dd><a href="/setUserPass">계정설정</a></dd>
+                        <dd><a href="/setUserProfile">프로필설정</a></dd>
                         <dd><a href="/individualBox">개인보관함</a></dd>
                         <dd><a href="/logout">로그아웃</a></dd>
                      </dl>
@@ -872,7 +828,7 @@ window.onclick = function(event) {
             </ul>
          </div>
       </header>
-   </div>
+      </div>
    
    
 <!--  화상회의 생성 레이어 팝업창 -->
@@ -886,10 +842,13 @@ window.onclick = function(event) {
                
                <input type="hidden" name="checkProject" id="checkProject">
                <div class="new_proejct">
-               	  <h2>화상회의방 참여하기</h2>
-                  <a href="#" id = "hfaceBtn" class="btn-layerClose">화상 회의 참여</a>
                
-               
+               	<h2>화상회의방 참여하기</h2>
+                  <a href="#" id = "hfaceBtn">화상 회의</a>
+                  <div class="prj_btn">
+                     <a href="javascript:;" id="headerChat_btn_next">다음</a>
+                  </div>
+                  
                   <h2>화상회의방 생성</h2>
                   <ul>
                      <li><label>알림 문구</label> <input
@@ -908,9 +867,6 @@ window.onclick = function(event) {
                   </ul>
                   
                   
-                  <div class="prj_btn">
-                     <a href="javascript:;" id="headerChat_btn_next">다음</a>
-                  </div>
                </div>
                <div class="select_template">
                	  <input type="hidden" id="hChatMemList">
@@ -990,182 +946,3 @@ window.onclick = function(event) {
          </div>
       </div>
    </div>
-
-
-
-<!-----------------------------------  타이머 레이어 팝업창 ----------------------------------->
-<div id="timer" class="pop-layer">
-    <div class="pop-container">
-        <div class="pop-conts">
-<!------------------------------  timer content ------------------------------>
-            <p class="ctxt mb20">
-         타이머 가져오나
-         </p>
-         
-<h1>Circular Countdown Timer Demo</h1>
-<div class="container">
-  <div class="setters">
-    <div class="minutes-set">
-      <button data-setter="minutes-plus">+</button>
-      <button data-setter="minutes-minus">-</button>
-    </div>
-    <div class="seconds-set">
-      <button data-setter="seconds-plus">+</button>
-      <button data-setter="seconds-minus">-</button>
-    </div>
-  </div>
-  <div class="circle"> <svg width="300" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
-    <g transform="translate(110,110)">
-      <circle r="100" class="e-c-base"/>
-      <g transform="rotate(-90)">
-        <circle r="100" class="e-c-progress"/>
-        <g id="e-pointer">
-          <circle cx="100" cy="0" r="8" class="e-c-pointer"/>
-        </g>
-      </g>
-    </g>
-    </svg> </div>
-  <div class="controlls">
-    <div class="display-remain-time">00:30</div>
-    <button class="play" id="pause"></button>
-  </div>
-</div>
-<script>
-//circle start
-let progressBar = document.querySelector('.e-c-progress');
-let indicator = document.getElementById('e-indicator');
-let pointer = document.getElementById('e-pointer');
-let length = Math.PI * 2 * 100;
-
-progressBar.style.strokeDasharray = length;
-
-function update(value, timePercent) {
-   var offset = - length - length * value / (timePercent);
-   progressBar.style.strokeDashoffset = offset; 
-   pointer.style.transform = `rotate(${360 * value / (timePercent)}deg)`; 
-};
-
-//circle ends
-const displayOutput = document.querySelector('.display-remain-time')
-const pauseBtn = document.getElementById('pause');
-const setterBtns = document.querySelectorAll('button[data-setter]');
-
-let intervalTimer;
-let timeLeft;
-let wholeTime = 0.5 * 60; // manage this to set the whole time 
-let isPaused = false;
-let isStarted = false;
-
-
-update(wholeTime,wholeTime); //refreshes progress bar
-displayTimeLeft(wholeTime);
-
-function changeWholeTime(seconds){
-  if ((wholeTime + seconds) > 0){
-    wholeTime += seconds;
-    update(wholeTime,wholeTime);
-  }
-}
-
-
-for (var i = 0; i < setterBtns.length; i++) {
-    setterBtns[i].addEventListener("click", function(event) {
-        var param = this.dataset.setter;
-        switch (param) {
-            case 'minutes-plus':
-                changeWholeTime(1 * 60);
-                break;
-            case 'minutes-minus':
-                changeWholeTime(-1 * 60);
-                break;
-            case 'seconds-plus':
-                changeWholeTime(1);
-                break;
-            case 'seconds-minus':
-                changeWholeTime(-1);
-                break;
-        }
-      displayTimeLeft(wholeTime);
-    });
-}
-
-function timer (seconds){ //counts time, takes seconds
-  let remainTime = Date.now() + (seconds * 1000);
-  displayTimeLeft(seconds);
-  
-  intervalTimer = setInterval(function(){
-    timeLeft = Math.round((remainTime - Date.now()) / 1000);
-    if(timeLeft < 0){
-      clearInterval(intervalTimer);
-      isStarted = false;
-      setterBtns.forEach(function(btn){
-        btn.disabled = false;
-        btn.style.opacity = 1;
-      });
-      displayTimeLeft(wholeTime);
-      pauseBtn.classList.remove('pause');
-      pauseBtn.classList.add('play');
-      return ;
-    }
-    displayTimeLeft(timeLeft);
-  }, 1000);
-}
-function pauseTimer(event){
-  if(isStarted === false){
-    timer(wholeTime);
-    isStarted = true;
-    this.classList.remove('play');
-    this.classList.add('pause');
-    
-    setterBtns.forEach(function(btn){
-      btn.disabled = true;
-      btn.style.opacity = 0.5;
-    });
-
-  }else if(isPaused){
-    this.classList.remove('play');
-
-    this.classList.add('pause');
-    timer(timeLeft);
-    isPaused = isPaused ? false : true
-  }else{
-    this.classList.remove('pause');
-    this.classList.add('play');
-    clearInterval(intervalTimer);
-    isPaused = isPaused ? false : true ;
-  }
-}
-
-function displayTimeLeft (timeLeft){ //displays time on the input
-  let minutes = Math.floor(timeLeft / 60);
-  let seconds = timeLeft % 60;
-  let displayString = `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-  displayOutput.textContent = displayString;
-  update(timeLeft, wholeTime);
-}
-
-pauseBtn.addEventListener('click',pauseTimer);
-
-</script>
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-46156385-1', 'cssscript.com');
-  ga('send', 'pageview'); 
-
-  ga('send', 'pageview');
-</script>
-
-
-
-            <div class="btn-r">
-                <a href="#" class="btn-layerClose">Close</a>
-            </div>
-<!------------------------------  timer content ------------------------------>
-        </div>
-    </div>
-</div>
-<!-----------------------------------  타이머 레이어 팝업창 ----------------------------------->

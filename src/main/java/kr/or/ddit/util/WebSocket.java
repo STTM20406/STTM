@@ -101,11 +101,13 @@ public class WebSocket extends TextWebSocketHandler {
 
 		String senderId = getId(session); // 유저의 이메일(아이디) 가져옴 galbi@naver.com
 //		System.out.println("senderId : " + senderId);
-
-		for (WebSocketSession sess : sessions) { // 메시지 받은 것을 접속되어 있는 모두에게 전송
-			sess.sendMessage(new TextMessage(senderId + ": " + message.getPayload())); // 보낼 메시지 가공 getPayload가 보내는 내용,
-																						// 이거 보내면jsp의 onmessage를 탐
-		}
+logger.debug("!@# 나와랏!!!!!!session : {}",session);
+logger.debug("!@# 나와랏!!!!!!message : {}",message);
+logger.debug("!@# 나와랏!!!!!!sessionssssss : {}",sessions);
+//		for (WebSocketSession sess : sessions) { // 메시지 받은 것을 접속되어 있는 모두에게 전송
+//			logger.debug("!@# 들어왔니??????????????????????????????????????????");
+//			sess.sendMessage(new TextMessage(senderId + ": " + message.getPayload())); // 보낼 메시지 가공 getPayload가 보내는 내용,
+//		}
 
 		// protocol: chatting,채팅발신자명, 채팅 내용, 채팅발신자아이디, 채팅방아이디
 		String msg = message.getPayload(); // 내가 받은 메시지 내용
@@ -296,7 +298,7 @@ public class WebSocket extends TextWebSocketHandler {
 				}
 
 			} else if (strs != null && strs.length == 3 && strs[0].equals("project_setItem")) { // 프로젝트 설정 알림보내기
-//				logger.debug("!@#프로젝트 알림 메세지 들어오거라@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+				logger.debug("!@#프로젝트 알림 메세지 들어오거라@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 				String project_setItem = strs[0]; // 업무코멘트알림
 //				String notify_cd = strs[1]; // 알림코드 (N01 : 프로젝트, N02 : 업무알림, N03 : 채팅알림, N04 : 1:1답변)
 				String rcv_email = strs[1]; // 받는사람

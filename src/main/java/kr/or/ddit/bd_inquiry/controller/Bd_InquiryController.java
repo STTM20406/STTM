@@ -373,7 +373,7 @@ public class Bd_InquiryController {
 			int paginationSize = (Integer) resultMap.get("paginationSize");
 			
 			model.addAttribute("inquiryListOrigin",inquiryList);
-			model.addAttribute("paginationSize", paginationSize);
+			model.addAttribute("paginationSizeOrigin", paginationSize);
 			model.addAttribute("pageVo", pageVo);
 			logger.debug("!@# inquiryList : @@@@@@@@@@@{}",inquiryList);
 			
@@ -384,7 +384,7 @@ public class Bd_InquiryController {
 			int paginationSize = (Integer) resultMap.get("paginationSize");
 			
 			model.addAttribute("inquiryListOrigin",inquiryList);
-			model.addAttribute("paginationSize", paginationSize);
+			model.addAttribute("paginationSizeOrigin", paginationSize);
 			model.addAttribute("pageVo", pageVo);
 		}
 		
