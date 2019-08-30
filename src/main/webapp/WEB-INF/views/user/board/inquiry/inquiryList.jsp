@@ -154,7 +154,7 @@ ul.tabs li.current {
                   </tbody>
                </table>
                
-               <button id="generalBtn" type="button" class="btn_style_01">일반문의 작성</button>
+               <button id="generalBtn" type="button" class="btn_style_01">1:1문의 작성</button>
                
             </div>
             

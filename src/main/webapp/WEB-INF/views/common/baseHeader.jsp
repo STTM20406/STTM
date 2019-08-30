@@ -356,7 +356,7 @@ $(document).ready(function(){
    
    //화상회의방 참여하기 버튼 클릭시
    $("#hfaceBtn").on("click",function(){
-		window.open('http://localhost/RTCMulticonnection/index.html', '_blank')
+		window.open('http://localhost/RTCMulticonnection/index.html', '_blank');
 
 	});
    
@@ -596,21 +596,21 @@ function connectNotify(){
 	      console.log(data);
 	      
 	      
-	      if(!data.startsWith("lst:")) {
-	    	  var textSplit = data.split("*");
-			    console.log(textSplit);
-	    	  var $socketAlert = $('#socketAlert p');
-		      $socketAlert.text(textSplit[0]);
-		      $(".socketAlram").fadeIn(300);
-		      $(".socketAlram").animate({right:"0px"}, 500);
-	    	  $("#spanCountReset").text(textSplit[1]);
-		      setTimeout(function(){
-		         $(".socketAlram").fadeOut(300);
-		         $(".socketAlram").animate({right:"-350px"}, 500);
+// 	      if(!data.startsWith("lst:")) {
+// 	    	  var textSplit = data.split("*");
+// 			    console.log(textSplit);
+// 	    	  var $socketAlert = $('#socketAlert p');
+// 		      $socketAlert.text(textSplit[0]);
+// 		      $(".socketAlram").fadeIn(300);
+// 		      $(".socketAlram").animate({right:"0px"}, 500);
+// 	    	  $("#spanCountReset").text(textSplit[1]);
+// 		      setTimeout(function(){
+// 		         $(".socketAlram").fadeOut(300);
+// 		         $(".socketAlram").animate({right:"-350px"}, 500);
 		          
-		      },3000);
+// 		      },3000);
 		      
-	      } 
+// 	      } 
     	
 	   	  //채팅아닐때
 	      if(socketDistinguish != "chatting"){
@@ -743,6 +743,11 @@ window.onclick = function(event) {
         }
 
         $el.find('a.btn-layerClose').click(function(){
+            isDim ? $('.dim-layer').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
+            return false;
+        });
+
+        $el.find('a#hfaceBtn').click(function(){
             isDim ? $('.dim-layer').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
             return false;
         });
@@ -887,8 +892,7 @@ window.onclick = function(event) {
                <input type="hidden" name="checkProject" id="checkProject">
                <div class="new_proejct">
                	  <h2>화상회의방 참여하기</h2>
-                  <a href="#" id = "hfaceBtn" class="btn-layerClose">화상 회의 참여</a>
-               
+                  	<a href="#" id = "hfaceBtn" >화상 회의 참여</a>
                
                   <h2>화상회의방 생성</h2>
                   <ul>
