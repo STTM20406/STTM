@@ -402,9 +402,8 @@
 		$(".prj_add_adm").fadeOut(0); //멤버리스트 layer 숨기기
 		$("#ppt_adm_set").on("click", function(){
 			$(".prj_add_adm").fadeIn(300);
-			
 			var id = $("#ppt_id").val();
-			
+			alert(id);
 			projectAdmListAjax(id);
 		});
 		
@@ -422,15 +421,16 @@
 						//html 생성
 						html += "<li id='"+ item.user_email +"'><span>"+ item.user_nm +"</span>"+ item.user_email + "</li>";
 					});	
-					$(".searchPL_item").html(html);
+					$(".prj_mem_item").html(html);
 				}
 			});
 		}
 		
-		//프로젝트 멤버리스트를 클릭 했을 때
-		$(".searchPL_item").on("click", "li", function(){
+		//프로젝트 관리자 리스트를 클릭 했을 때
+		$(".prj_mem_item").on("click", "li", function(){
 			var adm_add_email = $(this).attr("id");
 			var id = $("#ppt_id").val();
+			alert(id);
 			projectAdmAddAjax(id, adm_add_email);
 		});
 		
@@ -517,8 +517,6 @@
 			});
 		}
 		
-		
-		
 		//프로젝트 멤버리스트를 클릭 했을 때
 		$(".prj_mem_item_list").on("click", "li", function(){
 			var mem_add_email = $(this).attr("id");
@@ -553,7 +551,6 @@
 				}
 			});
 		}
-		
 		
 		//프로젝트 멤버 삭제 클릭 했을 때
 		$(".prj_mem_add_box").on("click", "li input", function(){
@@ -750,7 +747,7 @@
        	}else{  
        		sec = Math.floor(sec/3600/24) + '일 ' + Math.floor(sec/3600%24) + '시간 ' + Math.floor(sec%3600/60) + '분 ' + sec%60 + '초';
        	}
-        
+         
 		html += sec + "전에 업데이트 되었습니다.";
 		
         // setTimeout함수를 통해 원하는 함수를 1초간격으로 출력해줌
@@ -1023,6 +1020,9 @@
 					<input type="text" data-language="en" class="datepicker-here datePick" id="ppt_cmp_date">
 				</dd>
 			</dl>
+			
+			
+			
 			<dl class="setItem">
 				<dt>프로젝트 관리자</dt>
 				<dd>
@@ -1033,44 +1033,92 @@
 
 					<div class="prj_add_adm">
 						<label for="prj_mem">프로젝트 관리자 추가</label>
-						<div class="prj_mem_list">
+						<input type="button" value="닫기" id="memClose" class="memClose">
+						<div class="prj_mem_list"> 
 							<div class="searchPL">
 								<fieldset id="hd_sch">
-									<legend>사이트 내 프로젝트 검색</legend>
 									<input type="text" name="user_nm" id="searchPL" maxlength="20" placeholder="검색어를 입력해주세요">
 								</fieldset>
 							</div>
-
-							<!-- 추가된 프로젝트 관리자 리스트 box -->
+					<!-- 추가된 프로젝트 관리자 리스트 box -->
 							<ul class="searchPL_item"></ul>
 						</div>
 					</div>
 				</dd>
 			</dl>
+			
 			<dl class="setItem">
 				<dt>프로젝트 멤버</dt>
 				<dd>
 					<button type="button" id="ppt_mem_set" name="ppt_mem_set">프로젝트 멤버 추가 버튼</button>
-
 					<!-- 프로젝트 멤버 리스트 box -->
 					<ul class="prj_mem_add_box"></ul>
 
 					<div class="prj_add_mem">
 						<label for="prj_mem">프로젝트 멤버 추가</label>
-						<div class="prj_mem_list">
+						<input type="button" value="닫기" id="mamListClose" class="mamListClose">
+						<div class="prj_mem_list"> 
 							<div class="searchMem">
 								<fieldset id="hd_sch">
 									<legend>사이트 내 프로젝트 검색</legend>
 									<input type="text" name="user_nm" id="searchMem" maxlength="20" placeholder="검색어를 입력해주세요" value="">
 								</fieldset>
 							</div>
-
-							<!-- 추가된 프로젝트 멤버 리스트 box -->
+					<!-- 추가된 프로젝트 멤버 리스트 box -->
 							<ul class="prj_mem_item_list"></ul>
 						</div>
 					</div>
 				</dd>
 			</dl>
+			
+<!-- 			<dl class="setItem"> -->
+<!-- 				<dt>프로젝트 관리자</dt> -->
+<!-- 				<dd> -->
+<!-- 					<button type="button" id="ppt_adm_set" name="ppt_adm_set">관리자 추가 버튼</button> -->
+
+<!-- 					프로젝트 관리자 리스트 box -->
+<!-- 					<ul class="prj_add_box"></ul> -->
+
+<!-- 					<div class="prj_add_adm"> -->
+<!-- 						<label for="prj_mem">프로젝트 관리자 추가</label> -->
+<!-- 						<div class="prj_mem_list"> -->
+<!-- 							<div class="searchPL"> -->
+<!-- 								<fieldset id="hd_sch"> -->
+<!-- 									<legend>사이트 내 프로젝트 검색</legend> -->
+<!-- 									<input type="text" name="user_nm" id="searchPL" maxlength="20" placeholder="검색어를 입력해주세요"> -->
+<!-- 								</fieldset> -->
+<!-- 							</div> -->
+
+<!-- 							추가된 프로젝트 관리자 리스트 box -->
+<!-- 							<ul class="searchPL_item"></ul> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+<!-- 				</dd> -->
+<!-- 			</dl> -->
+<!-- 			<dl class="setItem"> -->
+<!-- 				<dt>프로젝트 멤버</dt> -->
+<!-- 				<dd> -->
+<!-- 					<button type="button" id="ppt_mem_set" name="ppt_mem_set">프로젝트 멤버 추가 버튼</button> -->
+
+<!-- 					프로젝트 멤버 리스트 box -->
+<!-- 					<ul class="prj_mem_add_box"></ul> -->
+
+<!-- 					<div class="prj_add_mem"> -->
+<!-- 						<label for="prj_mem">프로젝트 멤버 추가</label> -->
+<!-- 						<div class="prj_mem_list"> -->
+<!-- 							<div class="searchMem"> -->
+<!-- 								<fieldset id="hd_sch"> -->
+<!-- 									<legend>사이트 내 프로젝트 검색</legend> -->
+<!-- 									<input type="text" name="user_nm" id="searchMem" maxlength="20" placeholder="검색어를 입력해주세요" value=""> -->
+<!-- 								</fieldset> -->
+<!-- 							</div> -->
+
+<!-- 							추가된 프로젝트 멤버 리스트 box -->
+<!-- 							<ul class="prj_mem_item_list"></ul> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+<!-- 				</dd> -->
+<!-- 			</dl> -->
 			<dl class="setItem">
 				<dt>프로젝트 나가기</dt>
 				<dd>
