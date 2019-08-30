@@ -110,7 +110,8 @@ public class LoginController {
 		List<ProjectVo> projectList = projectService.projectList(user_email);
 		
 		//userVo에 값이 있고 userVo에 저장된 패스워드가 생성된 패스워드와 같다면
-		if(userVo != null && encryptPassword.equals(userVo.getUser_pass()) && "N".equals(user_st)) {
+		if(userVo != null && encryptPassword.equals(userVo.getUser_pass())) {
+//		if(userVo != null && encryptPassword.equals(userVo.getUser_pass()) && "N".equals(user_st)) {
 			
 			//세션 생성 userVo를 USER_INFO에 담음
 			session.setAttribute("USER_INFO", userVo);
