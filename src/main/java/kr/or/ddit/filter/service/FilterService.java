@@ -1044,7 +1044,7 @@ public class FilterService implements IFilterService{
 		overdueMap.put("data", overdueData);
 		overdueMap.put("name", "마감일 지난 업무");
 		
-		double nodeadlineData = Math.round(nodeadlinePt/entPt)*100;
+		double nodeadlineData = Math.round((nodeadlinePt/entPt)*100);
 		nodeadlineMap.put("data", nodeadlineData);
 		nodeadlineMap.put("name", "마감일 없는 업무");
 		
@@ -1247,6 +1247,7 @@ public class FilterService implements IFilterService{
 		} else if(nowDate.after(workVo.getWrk_end_dt())){ // 마감일 지난 업무 : 업무 마감일이 현재보다 앞일 때
 			wrkStatus = "overdue";
 		}
+		
 		return wrkStatus;
 	}
 }
