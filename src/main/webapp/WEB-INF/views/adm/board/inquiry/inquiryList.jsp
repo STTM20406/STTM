@@ -80,7 +80,6 @@ ul.tabs li.current {
 		<div class="sub_menu">
 			<ul class="tabs">
 				<li data-tab="tab-1">일반 문의</li>
-				<li data-tab="tab-2">광고 문의</li>
 			</ul>
 		</div>
 
@@ -151,7 +150,7 @@ ul.tabs li.current {
 				<div class="pagination">
 						<c:choose>
 							<c:when test="${pageVo.page == 1 }">
-								<a href class="btn_first"></a>
+								<a class="btn_first"></a>
 							</c:when>
 							<c:otherwise>
 								<a href="${cp}/admInquiry?inq_cate=${pageVo.inq_cate }&page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a>
@@ -173,7 +172,7 @@ ul.tabs li.current {
 
 						<c:choose>
 							<c:when test="${pageVo.page == paginationSizeOrigin}">
-								<a href class="btn_last"></a>
+								<a class="btn_last"></a>
 							</c:when>
 							<c:otherwise>
 							<a href="${cp}/admInquiry?inq_cate=${pageVo.inq_cate }&page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>

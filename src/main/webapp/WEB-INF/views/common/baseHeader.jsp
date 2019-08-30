@@ -887,7 +887,7 @@ window.onclick = function(event) {
                <input type="hidden" name="checkProject" id="checkProject">
                <div class="new_proejct">
                	  <h2>화상회의방 참여하기</h2>
-                  <a href="#" id = "hfaceBtn">화상 회의</a>
+                  <a href="#" id = "hfaceBtn" class="btn-layerClose">화상 회의 참여</a>
                
                
                   <h2>화상회의방 생성</h2>
