@@ -345,7 +345,7 @@ public class ProjectController {
 		logger.debug("♬♩♪  user_emailList: {}", user_emailList);
 		
 		for (int i=0; i < user_emailList.size(); i++) {
-			if(user_emailList.get(i)==(user_email)) {
+			if(user_emailList.get(i).equals(user_email)) {
 				logger.debug("♬♩♪  update");
 				projectMemVo.setPrj_own_fl("N");
 				projectMemVo.setPrj_id(prjId);
@@ -730,6 +730,7 @@ public class ProjectController {
 		project_memVo.setUser_nm(user_nm);
 		
 		List<Project_MemVo> project_memList = projectService.searchPL(project_memVo);
+		
 		logger.debug("♬♩♪  누굴까요?: {}", project_memList);
 		
 		model.addAttribute("data", project_memList);
