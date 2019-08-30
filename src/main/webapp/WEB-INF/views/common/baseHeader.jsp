@@ -583,7 +583,7 @@ function connectNotify(){
 	  var distinguish = $("#distinguishSocket").val(); 
       console.log("ReceiveMessage: ", event.data + "\n");
       
-      if(distinguish == 'ddd'){
+      if(distinguish != 'chatting'){
 	      var data = event.data;
 	      
 	      if(!data.startsWith("lst:")) {
@@ -624,7 +624,7 @@ function connectNotify(){
 				$("#hchatData").append(printHTML);
 				$("#hchatData").scrollTop($("#hchatData")[0].scrollHeight);
 			}
-    	  
+			distinguish=null;
       }
       
       
