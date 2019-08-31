@@ -226,6 +226,35 @@
 		UPDATE PROJECT_MEM A SET PRJ_MEM_LV = #{prj_mem_lv}, PRJ_MEM_DEL_FL = 'N' WHERE PRJ_ID = #{prj_id} AND USER_EMAIL = #{user_email}
 	</update>
 	
+	<!-- PROJECT_MEM 테이블에 아예 데이터가 없거나, 있지만 DEL_FL이 Y인 회원 프로젝트 멤버(LV1, N)로 추가시 -->
+	<insert id="mergeProjectMem" parameterType="project_memVo">
+		MERGE INTO PROJECT_MEM
+		USING DUAL ON
+	    (
+	        PRJ_ID = #{prj_id}
+	        AND USER_EMAIL = #{user_email}
+	    )
+	    WHEN MATCHED THEN
+	        UPDATE SET
+	            PRJ_MEM_DEL_FL = 'N'
+	    WHEN NOT MATCHED THEN
+	        INSERT
+	            (
+	                PRJ_ID
+	                ,USER_EMAIL
+	                ,PRJ_MEM_LV
+	                ,PRJ_OWN_FL
+	                ,PRJ_MEM_DEL_FL
+	            )
+	        VALUES
+	            (
+	                #{prj_id}
+	                ,#{user_email}
+	                ,'LV1'
+	                ,'N'
+	                ,'N'
+	            )
+	</insert>
 	<!-- 프로젝트 멤버 삭제할 때 -->
 	<update id="deleteProjectMem" parameterType="project_memVo">
 		UPDATE PROJECT_MEM SET PRJ_MEM_DEL_FL = 'Y' WHERE PRJ_ID = #{prj_id} AND USER_EMAIL = #{user_email} AND PRJ_MEM_LV = #{prj_mem_lv}

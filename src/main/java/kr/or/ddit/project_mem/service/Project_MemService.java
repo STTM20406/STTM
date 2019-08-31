@@ -286,4 +286,8 @@ public class Project_MemService implements IProject_MemService{
 		return projectMemDao.getFriendsBtn(prj_id);
 	}
 	
+	@Override
+	public int mergeProjectMem(Project_MemVo project_MemVo) {
+		return projectMemDao.mergeProjectMem(project_MemVo);
+	}
 }

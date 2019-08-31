@@ -238,14 +238,30 @@
 	function inactivePagingListAjax(page, pageSize){
 		$.ajax({
 			
-			url:"localhost/setUserPass#layer0",
+			url:"/setUserPass#layer0",
 			method:"get",
 			data:"page="+page+"&pageSize="+pageSize,
 			success:function(data){
 				
 				var html="";
-				data.data.userList.forEach(function(inactive){
+				data.data.inactiveMemList.forEach(function(inactive){
 					
+// 					<td>${inactive.prj_id}</td>
+// 					<td>${inactive.prj_nm}</td>
+// 					<td>${inactive.user_nm}</td>
+					
+// 					<td class="transOwn" id="${inactive.user_email}">
+// 						<input type="button" id="subOwership" class="inp_style_02" value="소유권 이전">
+// 						<input type="hidden" id="transPrjId" value="${inactive.prj_id}"/> <!-- sol -->
+// 					</td>
+
+					html += "<td>"+${inactive.prj_id}+"</td>";
+					html += "<td>"+${inactive.prj_nm}+"</td>";
+					html += "<td>"+${inactive.user_nm}+"</td>";
+					html += "<td class='transOwn' id='"+${inactive.user_email}+""'>";
+					hrml += "<input type='button' id='subOwership' class='inp_style_02' value='소유권 이전'>";
+					html += "<input type='hidden' id='transPrjId' value='"+${inactive.prj_id}+"'/>"; // sol
+					html += "</td>"
 				});
 				
 				// 페이지네이션 생성
@@ -271,10 +287,11 @@
 				
 				console.log("html : ", html);
 				console.log("pHtml : ", pHtml);
-				$("#userListTbody").html(html);
+				$("#inactiveMember").html(html);
 				$(".pagination").html(pHtml);
+			
+			}	
 				
-			};
 		});
 	};
   
@@ -389,26 +406,20 @@
 					
 										<c:forEach items="${inactiveMemList}" var="inactive">
 										
-											<tr class="ownTr" data-user_email="${inactive.user_email}">
-												<td>${inactive.prj_id}</td>
-												<td>${inactive.prj_nm}</td>
-												<td>${inactive.user_nm}</td>
-												<td class="transOwn" id="${inactive.user_email}">
-													<input type="button" id="subOwership" class="inp_style_02" value="소유권 이전">
-													<input type="hidden" id="transPrjId" value="${inactive.prj_id}"/> <!-- sol -->
-												</td>
-												
+											<tr id="inactiveMember" class="ownTr" data-user_email="${inactive.user_email}">
+<%-- 												<td>${inactive.prj_id}</td> --%>
+<%-- 												<td>${inactive.prj_nm}</td> --%>
+<%-- 												<td>${inactive.user_nm}</td> --%>
+<%-- 												<td class="transOwn" id="${inactive.user_email}"> --%>
+<!-- 													<input type="button" id="subOwership" class="inp_style_02" value="소유권 이전"> -->
+<%-- 													<input type="hidden" id="transPrjId" value="${inactive.prj_id}"/> <!-- sol --> --%>
+<!-- 												</td> -->
 											</tr>
 											
 										</c:forEach>
 											
 									</tr>
 
-<!-- 							휴면 계정 전환 -->
-<%-- 							<c:if test="${fn:length(inactiveList)==0}"> --%>
-<%-- 								<a href="/inactiveUser?inactiveEmail=${user_email}" class="inp_style_04" style="float: right;">휴면계정전환</a> --%>
-<%-- 							</c:if> --%>
-							
 								</tbody>
 							</table>
 
@@ -427,41 +438,43 @@
 				            <!--// content-->
 				        </div>
 				        
+			        <div class="text-center">
+				        <!-- 휴면 계정 전환 페이지 네이션 -->
 				        <div class="pagination">
-							<c:choose>
-								<c:when test="${pageVo.page == 1 }">
-									<a href class="btn_first"></a>
-								</c:when>
-								<c:otherwise>
-<%-- 									<a href="${cp}/setUserPass#layer0?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">≪</a> --%>
-									<a href="${cp}/setUserPass?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">≪</a>
-								</c:otherwise>
-							</c:choose>
+<%-- 							<c:choose> --%>
+<%-- 								<c:when test="${pageVo.page == 1 }"> --%>
+<!-- 									<a href class="btn_first"></a> -->
+<%-- 								</c:when> --%>
+<%-- 								<c:otherwise> --%>
+<%-- 									<a href="${cp}/setUserPass?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">≪</a> --%>
+<%-- 								</c:otherwise> --%>
+<%-- 							</c:choose> --%>
 				
-							<c:forEach begin="1" end="${paginationSize}" var="i">
-								<c:choose>
-									<c:when test="${pageVo.page == i}">
-										<span>${i}</span>
-									</c:when>
-									<c:otherwise>
-<%-- 										<a href="${cp}/setUserPass#layer0?page=${i}&pageSize=${pageVo.pageSize}">${i}</a> --%>
-										<a href="${cp}/setUserPass?page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
-									</c:otherwise>
-								</c:choose>
+<%-- 							<c:forEach begin="1" end="${paginationSize}" var="i"> --%>
+<%-- 								<c:choose> --%>
+<%-- 									<c:when test="${pageVo.page == i}"> --%>
+<%-- 										<span>${i}</span> --%>
+<%-- 									</c:when> --%>
+<%-- 									<c:otherwise> --%>
+<%-- 										<a href="${cp}/setUserPass?page=${i}&pageSize=${pageVo.pageSize}">${i}</a> --%>
+<%-- 									</c:otherwise> --%>
+<%-- 								</c:choose> --%>
 				
-							</c:forEach>
+<%-- 							</c:forEach> --%>
 				
-							<c:choose>
-								<c:when test="${pageVo.page == paginationSize}">
-									<a href class="btn_last"></a>
-								</c:when>
+<%-- 							<c:choose> --%>
+<%-- 								<c:when test="${pageVo.page == paginationSize}"> --%>
+<!-- 									<a href class="btn_last"></a> -->
+<%-- 								</c:when> --%>
 								
-								<c:otherwise>
-<%-- 									<a href="${cp}/setUserPass#layer0?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">≫</a> --%>
-									<a href="${cp}/setUserPass?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">≫</a>
-								</c:otherwise>
-							</c:choose>
+<%-- 								<c:otherwise> --%>
+<%-- 									<a href="${cp}/setUserPass?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">≫</a> --%>
+<%-- 								</c:otherwise> --%>
+<%-- 							</c:choose> --%>
 						</div>
+						<!-- 휴면 계정 전환 페이지 네이션 끝-->
+					</div>
+						
 				    </div>
 				</div>
 			</form>

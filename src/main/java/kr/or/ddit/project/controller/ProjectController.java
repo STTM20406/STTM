@@ -332,34 +332,36 @@ public class ProjectController {
 
 		Project_MemVo projectMemVo = new Project_MemVo();
 		projectMemVo.setPrj_id(prjId);
-		projectMemVo.setUser_email(login_user_email);
+		projectMemVo.setUser_email(user_email);
+		projectMemService.mergeProjectMem(projectMemVo);
 		
 		//생성할 때 체크한 멤버리스트
-		List<Project_MemVo> project_MemList = projectMemService.projectMemYNList(projectMemVo);
-		logger.debug("♬♩♪  projectMemAddAjax + project_MemList: {}", project_MemList);
-		ArrayList<String> user_emailList = new ArrayList<String>();
-		for (int i = 0; i < project_MemList.size(); i++) {
-			user_emailList.add(project_MemList.get(i).getUser_email());
-		}
-		logger.debug("♬♩♪  user_emailList: {}", user_emailList);
-		logger.debug("♬♩♪  선택한 회원 email: {}", user_email);
-		
-		int insertCnt = 0;
-		for (int i=0; i < user_emailList.size(); i++) {
-			if(user_emailList.get(i).contains(user_email)) {
-				logger.debug("♬♩♪  update");
-				projectMemVo.setPrj_mem_lv("LV1");
-				projectMemVo.setPrj_id(prjId);
-				projectMemVo.setUser_email(user_email);
-			}
-			projectMemService.updateProjectMem(projectMemVo);
-			
-			projectMemVo.setPrj_id(prjId);
-			projectMemVo.setUser_email(user_email);
-			projectMemVo.setPrj_mem_lv("LV1");
-			projectMemVo.setPrj_own_fl("N");
-			insertCnt = projectMemService.insertProjectMem(projectMemVo);
-		}
+//		List<Project_MemVo> project_MemList = projectMemService.projectMemYNList(projectMemVo);
+//		logger.debug("♬♩♪  projectMemAddAjax + project_MemList: {}", project_MemList);
+//		ArrayList<String> user_emailList = new ArrayList<String>();
+//		for (int i = 0; i < project_MemList.size(); i++) {
+//			user_emailList.add(project_MemList.get(i).getUser_email());
+//		}
+//		logger.debug("♬♩♪  user_emailList: {}", user_emailList);
+//		logger.debug("♬♩♪  선택한 회원 email: {}", user_email);
+//		
+//		int insertCnt = 0;
+//		for (int i=0; i < user_emailList.size(); i++) {
+//			if(user_emailList.get(i).contains(user_email)) {
+//				logger.debug("♬♩♪  update");
+//				projectMemVo.setPrj_mem_lv("LV1");
+//				projectMemVo.setPrj_id(prjId);
+//				projectMemVo.setUser_email(user_email);
+//			}
+//			
+//			projectMemService.updateProjectMem(projectMemVo);
+//			
+//			projectMemVo.setPrj_id(prjId);
+//			projectMemVo.setUser_email(user_email);
+//			projectMemVo.setPrj_mem_lv("LV1");
+//			projectMemVo.setPrj_own_fl("N");
+//			insertCnt = projectMemService.insertProjectMem(projectMemVo);
+//		}
 		
 		//채팅방에 프로젝트 멤버 추가
 		ProjectVo vo = new ProjectVo();
@@ -375,14 +377,15 @@ public class ProjectController {
 		List<Project_MemVo> project_mem_list = projectMemService.projectAllMemList(user_email);
 		List<Project_MemVo> project_adm_list = projectMemService.projectMemList(projectMemListVo);
 		HashMap<String, Object> hashmap = new HashMap<String, Object>();
-		
-		if (insertCnt != 0) {
-			for (int i = 0; i < project_adm_list.size(); i++) {
-				for (int j = 0; j < project_mem_list.size(); j++) {
-					if (project_mem_list.get(j).getUser_email()
-							.equals(project_adm_list.get(i).getUser_email())) {
-						project_mem_list.remove(project_mem_list.get(j));
-					}
+			
+		for (int i = 0; i < project_adm_list.size(); i++) 
+		{
+			for (int j = 0; j < project_mem_list.size(); j++) 
+			{
+				if (project_mem_list.get(j).getUser_email().equals(project_adm_list.get(i).getUser_email())) 
+				{
+					project_mem_list.remove(project_mem_list.get(j));
+					break;
 				}
 			}
 		}
