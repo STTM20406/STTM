@@ -683,30 +683,14 @@ public class File_AttchController {
 		logger.debug("♬♩♪  question:{}",question);
 		
 		if(question.contains("안녕")) {
-			model.addAttribute("data", "초면에 반말이시네요....허허허");
-		}else if(question.contains("미안")) {
-			model.addAttribute("data", "하....C 참는다..");
-		}else if(question.contains("3")) {
-			model.addAttribute("data", "음하하하");
-		}else if(question.contains("4")) {
-			model.addAttribute("data", "음하하하");
-		}else if(question.contains("5")) {
-			model.addAttribute("data", "음하하하");
-		}else if(question.contains("6")) {
-			model.addAttribute("data", "음하하하");
-		}else if(question.contains("7")) {
-			model.addAttribute("data", "음하하하");
-		}else if(question.contains("8")) {
-			model.addAttribute("data", "음하하하");
-		}else if(question.contains("9")) {
-			model.addAttribute("data", "음하하하");
+			model.addAttribute("data", "안녕하세요. 척척박사 ChatBot이에요.");
+		}else if(question.contains("시연")) {
+			model.addAttribute("data", "시연 순서는 ");
 		}else {
-			model.addAttribute("data", "궁금하신 점이 없으신가요?");
+			model.addAttribute("data", "감사합니다");
 		}
-		
 		return "jsonView";
 	}
-	
 	//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi
 	
 	
