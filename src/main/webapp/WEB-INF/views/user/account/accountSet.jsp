@@ -234,7 +234,50 @@
           });
 
       }				
-    
+	
+	function inactivePagingListAjax(page, pageSize){
+		$.ajax({
+			
+			url:"localhost/setUserPass#layer0",
+			method:"get",
+			data:"page="+page+"&pageSize="+pageSize,
+			success:function(data){
+				
+				var html="";
+				data.data.userList.forEach(function(inactive){
+					
+				});
+				
+				// 페이지네이션 생성
+				var pHtml = "";
+//	 			var pageVo = data.data.pageVo;
+				var pageVo = data.pageVo;
+				if(pageVo.page==1)
+					pHtml += "<li class='disabled'<span>«</span></li>";
+				else
+					pHtml += "<li><a href='javascript:setUserPass(" + (pageVo.page -1) + "," + pageVo.pageSize + ");'>«</a></li>";
+				
+				for(var i=1; i<= data.data.paginationSize; i++ ){
+					if(pageVo.page == i)
+						pHtml += "<li class='active'><span>" + i + "</span></li>";
+					else
+						pHtml += "<li><a href='javascript:setUserPass(" + i + "," + pageVo.pageSize + ");'>" + i + "</a></li>";
+				}
+					
+				if(pageVo.page == data.data.paginationSize)
+					pHtml += "<li class='disabled'><span></span><li>"
+				else
+					pHtml += "<li><a href='jacascript:setUserPass(" + (pageVo.page+1) + "," + pageVo.pageSize + ");'>»</a></li>";
+				
+				console.log("html : ", html);
+				console.log("pHtml : ", pHtml);
+				$("#userListTbody").html(html);
+				$(".pagination").html(pHtml);
+				
+			};
+		});
+	};
+  
 </script>
 
 <section class = "contents">	
@@ -361,13 +404,10 @@
 											
 									</tr>
 
-							<!-- 휴면 계정 전환 -->
-							<c:if test="${fn:length(inactiveList)==0}">
-<!-- 								<input type="button" id="inactiveBtn" value="휴면 계정 전환" class="inp_style_04" style="float: right;"> -->
-
-<%-- C								<a href="/inactiveUser?inactiveEmail=${inactiveMemList}" class="inp_style_04" style="float: right;">휴면계정전환</a> --%>
-								<a href="/inactiveUser?inactiveEmail=${user_email}" class="inp_style_04" style="float: right;">휴면계정전환</a>
-							</c:if>
+<!-- 							휴면 계정 전환 -->
+<%-- 							<c:if test="${fn:length(inactiveList)==0}"> --%>
+<%-- 								<a href="/inactiveUser?inactiveEmail=${user_email}" class="inp_style_04" style="float: right;">휴면계정전환</a> --%>
+<%-- 							</c:if> --%>
 							
 								</tbody>
 							</table>

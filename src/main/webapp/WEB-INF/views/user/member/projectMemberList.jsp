@@ -2,8 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>	
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<%-- basic Library --%>
-<%@include file="/WEB-INF/views/common/baseLib.jsp"%>
 
 <style>
 	
@@ -57,11 +55,11 @@
 	.logon {
 		color: #0ceb47;
 	}
+	
 </style>
 
 <script>
 $(document).ready(function(){
-
 		
 	// 프로젝트 멤버 tr클릭시 레이어창 띄우기
 	$('.prjMember').on("click", function(){
@@ -107,9 +105,21 @@ $(document).ready(function(){
 	    	  }
 	      }
 	   };
-	   	socket.onopen = function(event) {
-			socket.send("prjMem,${USER_INFO.user_email}");
-	   	}
+   	socket.onopen = function(event) {
+		socket.send("prjMem,${USER_INFO.user_email}");
+   	}
+	   console.log(socket.readyState);
+	   if(socket.readyState == 1)
+		   socket.send("prjMem,${USER_INFO.user_email}");
+	   
+	   socket.onclose = function(event) {
+		      console.log('info: MemberConnection closed');
+		   };
+
+	   socket.onerror = function(err) {
+	      console.log('error: ', err);
+	   };
+	   
 });	
 
 
