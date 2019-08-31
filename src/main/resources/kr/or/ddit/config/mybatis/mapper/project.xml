@@ -5,7 +5,6 @@
 <mapper namespace="project">
 
 	<!-- **********************project*********************** -->
-
 	<!-- 내가 속한 프로젝트 리스트 조회 -->
 	<select id="projectList" parameterType="string" resultType="projectVo">
 		SELECT * FROM (SELECT * FROM PROJECT)A INNER JOIN
@@ -215,7 +214,6 @@
 		WHERE           	      A.USER_EMAIL = B.USER_EMAIL AND A.PRJ_ID = #{prj_id}
 	</select>
 	
-	
 	<!-- 프로젝트 생성시 멤버 테이블에 동시에 인서트 / 프로젝트 멤버 추가할 때 -->
 	<insert id="insertProjectMem" parameterType="project_memVo">
 		INSERT INTO
@@ -228,13 +226,11 @@
 		UPDATE PROJECT_MEM A SET PRJ_MEM_LV = #{prj_mem_lv}, PRJ_MEM_DEL_FL = 'N' WHERE PRJ_ID = #{prj_id} AND USER_EMAIL = #{user_email}
 	</update>
 	
-	
 	<!-- 프로젝트 멤버 삭제할 때 -->
 	<update id="deleteProjectMem" parameterType="project_memVo">
 		UPDATE PROJECT_MEM SET PRJ_MEM_DEL_FL = 'Y' WHERE PRJ_ID = #{prj_id} AND USER_EMAIL = #{user_email} AND PRJ_MEM_LV = #{prj_mem_lv}
 	</update>
 	
-
 	<!-- 휴면 계정으로 전환하기 위하여 나와 프로젝트 아이디가 같은 멤버 조회 -->
 	<select id="getMyProjectMemList" parameterType="string" resultType="project_memVo">
 		select distinct b.user_email

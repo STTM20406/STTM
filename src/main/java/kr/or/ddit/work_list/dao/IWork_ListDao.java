@@ -9,6 +9,26 @@ import kr.or.ddit.work_list.model.Work_ListVo;
 public interface IWork_ListDao {
 
 	/**
+	 * Method 		: ingCnt
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-31 최초 생성
+	 * @param wrk_lst_id
+	 * @return
+	 * Method 설명 	: 진행중인 업무 개수 조회
+	 */
+	int ingCnt(int wrk_lst_id);
+	
+	/**
+	 * Method 		: comCnt
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-31 최초 생성
+	 * @param wrk_lst_id
+	 * @return
+	 * Method 설명 	: 완료된 업부 개수 조회
+	 */
+	int comCnt(int wrk_lst_id);
+	
+	/**
 	 * 
 	 * Method 			: workList
 	 * 작성자 				: 박서경 

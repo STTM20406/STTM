@@ -349,7 +349,6 @@ public class Work_ListController {
 		HashMap<String, Object> hashmap = new HashMap<String, Object>();
 		List<WorkVo> work = new ArrayList<WorkVo>();
 		List<WorkVo> works = new ArrayList<WorkVo>();
-		
 		/*
 			해당 업무리스트에서 업무리스트 ID 가져서와 업무테이블의
 			테이블의 업무리스트 ID 매칭하여 해당 업무 가져오기
@@ -362,12 +361,10 @@ public class Work_ListController {
 				works.add(work.get(j)); 
 			}
 		}
-		
 		if(insertCnt != 0 && insertFlwCnt != 0) {
 			hashmap.put("workList", workList);
 			hashmap.put("works", works);
 		}
-		
 		return hashmap;
 	}
 	

@@ -237,7 +237,6 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 			}
 		});
 		
-		
 		//업무리스트 추가
 		function workListAddAjax(workListNm) {
 			$.ajax({
@@ -247,14 +246,15 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 				success : function(data) {
 					var html = "";
 					data.workList.forEach(function(workList, index) {
+						
 						html +="<div class='workList' id='"+ workList.wrk_lst_id + "'><span class='handle'>+++</span><div class='workList_hd'><dl>"
 						html +="<dt><input type='text' value='"+ workList.wrk_lst_nm+"' id='"+workList.wrk_lst_id+"' class='wrkListName'></dt><dd>"
 						html +="<input type='button' class='workList_add_i' value='새업무 추가'>"
 						html +="<a href='javascript:;' class='workList_set_i'>업무리스트 설정</a>"
 						html +="<div class='workList_set'><input type='button' id='btnWorkListDel_"+workList.wrk_lst_id+"' value='업무리스트 삭제'></div>"
 						html +="</dd></dl><ul><li>"
-						html +="<p>진행중 업무 <span>4</span></p>";
-						html +="<p><a href='javascript:' class='btnComplete' id='"+workList.wrk_lst_id+"'>완료된업무보기</a><span>2</span></p></li>";
+						html +="<p>진행중 업무 <span></span></p>";
+						html +="<p><a href='javascript:' class='btnComplete' id='"+workList.wrk_lst_id+"'>완료된업무보기</a><span></span></p></li>";
 						html +="<li class='graph'></li></ul><div class='workCreateBox'>";
 						html +="<textarea name='wrk_nm' id='wrk_nm' placeholder='업무 이름을 입력해 주세요. 업무 이름은 70자 이내로 입력해 주세요'></textarea>";
 						html +="<div class='workCreatebtnBox'>";
@@ -477,6 +477,10 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 			wrkCreateAjax(workLstID, workName);
 		});
 		
+		//진행중 n, y끝난거?
+		var nCnt = "";
+		var yCnt = "";
+
 		function wrkCreateAjax(workLstID, workName){
 			$.ajax({
 				url:"/work/wrkCreateAjax",
@@ -503,6 +507,8 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 						html +="<div class='workWrap'><div class='working list n1' id='"+workList.wrk_lst_id+"'>"
 							data.works.forEach(function(work, index2) {
 		 						if(work.wrk_lst_id == workList.wrk_lst_id && work.wrk_cmp_fl == 'N'){
+// 		 							nCnt = work.length;
+// 		 							console.log(work.);
 		 							html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work.wrk_id+"' class='workListItem'>";
 		 							html +=	"<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl'>";
 		 							html +=	"<button type='button' id='workDelBtn' class='workDelBtn'>업무삭제</button>";
@@ -529,6 +535,8 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 						html +="<div class='complete_"+workList.wrk_lst_id+" list n1' id='"+workList.wrk_lst_id+"'>"
 							data.works.forEach(function(work1, index3) {
 		 						if(work1.wrk_lst_id == workList.wrk_lst_id && work1.wrk_cmp_fl == 'Y'){
+// 		 							yCnt = work1.length;
+		 							console.log(data.works);
 									html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work1.wrk_id+"' class='workListItem'>";
 		 							html +=	"<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl' checked>";
 		 							html +=	"<button type='button' id='workDelBtn' class='workDelBtn'>업무삭제</button>";
