@@ -22,7 +22,7 @@
 		
 		$('.searchPL').on('keyup',"#searchPL",function(){
 			var user_nm = $('#searchPL').val();
-			var prj_id = $(this).attr("id");
+			var prj_id = $("#ppt_id").val();
 			searchPL(user_nm,prj_id);
 		});
 		

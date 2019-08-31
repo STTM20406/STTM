@@ -190,5 +190,12 @@ public interface IProject_MemService {
 	 */
 	List<Project_MemVo> getFriendsBtn(int prj_id);
 
-	
+	/**
+	 * Method : mergeProjectMem
+	 * 작성자 : 유승진
+	 * 변경이력 : 2019-08-31 최초 생성
+	 * @param project_MemVo
+	 * Method 설명 : 프로젝트 멤버(LV1) Insert 또는 Update 메서드
+	 */
+	int mergeProjectMem(Project_MemVo project_MemVo);
 }

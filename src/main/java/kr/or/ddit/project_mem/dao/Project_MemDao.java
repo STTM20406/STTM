@@ -272,5 +272,17 @@ public class Project_MemDao implements IProject_MemDao{
 	public List<Project_MemVo> getFriendsBtn(int prj_id) {
 		return sqlSession.selectList("project.getFriendsBtn", prj_id);
 	}
-
+	
+	/**
+	 * Method : mergeProjectMem
+	 * 작성자 : 유승진
+	 * 변경이력 : 2019-08-31 최초 생성
+	 * @param project_MemVo
+	 * @return
+	 * Method 설명 : 프로젝트 멤버(LV1) Insert 또는 Update 메서드
+	 */
+	@Override
+	public int mergeProjectMem(Project_MemVo project_MemVo) {
+		return sqlSession.insert("project.mergeProjectMem", project_MemVo);
+	}
 }
