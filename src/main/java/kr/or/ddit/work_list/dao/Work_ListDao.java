@@ -100,14 +100,5 @@ public class Work_ListDao implements IWork_ListDao{
 		return sqlSession.selectOne("work.timerWorkListCnt", user_email);
 	}
 
-	@Override
-	public int ingCnt(int wrk_lst_id) {
-		return sqlSession.selectOne("project.ingCnt",wrk_lst_id);
-	}
-
-	@Override
-	public int comCnt(int wrk_lst_id) {
-		return sqlSession.selectOne("project.comCnt",wrk_lst_id);
-	}
 
 }
