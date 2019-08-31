@@ -421,16 +421,15 @@
 						//html 생성
 						html += "<li id='"+ item.user_email +"'><span>"+ item.user_nm +"</span>"+ item.user_email + "</li>";
 					});	
-					$(".prj_mem_item").html(html);
+					$(".searchPL_item").html(html);
 				}
 			});
 		}
 		
 		//프로젝트 관리자 리스트를 클릭 했을 때
-		$(".prj_mem_item").on("click", "li", function(){
+		$(".searchPL_item").on("click", "li", function(){
 			var adm_add_email = $(this).attr("id");
 			var id = $("#ppt_id").val();
-			alert(id);
 			projectAdmAddAjax(id, adm_add_email);
 		});
 		
@@ -489,11 +488,9 @@
 		//프로젝트 멤버 추가하기 버튼 클릭시 내가 속한 모든 프로젝트의 멤버들을 가져옴
 		$(".prj_add_mem").fadeOut(0); //멤버리스트 layer 숨기기
 		$("#ppt_mem_set").on("click", function(){
-			
 			$(".prj_add_mem").fadeIn(300);
-			
 			var id = $("#ppt_id").val();
-			
+			alert(id);
 			projectMemListAjax(id);
 		});
 		
@@ -521,7 +518,6 @@
 		$(".prj_mem_item_list").on("click", "li", function(){
 			var mem_add_email = $(this).attr("id");
 			var id = $("#ppt_id").val();
-			
 			console.log(id);
 			console.log(mem_add_email);
 			projectMemAddAjax(id, mem_add_email);
@@ -1029,6 +1025,7 @@
 					<button type="button" id="ppt_adm_set" name="ppt_adm_set">관리자 추가 버튼</button>
 
 					<!-- 프로젝트 관리자 리스트 box -->
+					
 					<ul class="prj_add_box"></ul>
 
 					<div class="prj_add_adm">

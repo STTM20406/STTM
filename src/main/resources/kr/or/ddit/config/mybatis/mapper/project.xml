@@ -826,7 +826,6 @@
 			)
 	</insert>
 	
-	
 	<select id="historyPagination" parameterType="map" resultType="file_dw_hisVo">
 	 <![CDATA[
 	 	select rn, a.DOWN_ID, a.PRJ_ID, a.USER_EMAIL, a.FILE_ID, a.DOWN_DATE, b.wrk_nm, c.ORIGINAL_FILE_NM, d.user_nm
