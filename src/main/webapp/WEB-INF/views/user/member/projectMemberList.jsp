@@ -55,11 +55,11 @@
 	.logon {
 		color: #0ceb47;
 	}
+	
 </style>
 
 <script>
 $(document).ready(function(){
-
 		
 	// 프로젝트 멤버 tr클릭시 레이어창 띄우기
 	$('.prjMember').on("click", function(){
@@ -105,6 +105,9 @@ $(document).ready(function(){
 	    	  }
 	      }
 	   };
+   	socket.onopen = function(event) {
+		socket.send("prjMem,${USER_INFO.user_email}");
+   	}
 	   console.log(socket.readyState);
 	   if(socket.readyState == 1)
 		   socket.send("prjMem,${USER_INFO.user_email}");
