@@ -715,18 +715,18 @@ public class ProjectController {
 	 * Method 설명 	: 프로젝트 생성후 설정에서 관리자 검색
 	 */
 	@RequestMapping("/searchPL")
-	String searchPL(HttpSession session, Model model, String user_nm) {
+	String searchPL(HttpSession session ,Model model, String user_nm, String prj_id) {
 		logger.debug("♬♩♪  searchPL user_nm: {}", user_nm);
-		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
-		int prj_id = projectVo.getPrj_id();
 		logger.debug("♬♩♪  prj_id: {}", prj_id);
+		
+		int prj_id_project = Integer.parseInt(prj_id);
 		
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
 		String user_email = userVo.getUser_email();
 		
 		Project_MemVo project_memVo = new Project_MemVo();
 		project_memVo.setUser_email(user_email);
-		project_memVo.setPrj_id(prj_id);
+		project_memVo.setPrj_id(prj_id_project);
 		project_memVo.setUser_nm(user_nm);
 		
 		List<Project_MemVo> project_memList = projectService.searchPL(project_memVo);

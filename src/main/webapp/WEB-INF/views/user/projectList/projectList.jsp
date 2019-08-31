@@ -22,8 +22,8 @@
 		
 		$('.searchPL').on('keyup',"#searchPL",function(){
 			var user_nm = $('#searchPL').val();
-			
-			searchPL(user_nm);
+			var prj_id = $(this).attr("id");
+			searchPL(user_nm,prj_id);
 		});
 		
 		$('.searchMem').on('keyup',"#searchMem",function(){
@@ -665,7 +665,7 @@
 		$.ajax({
 			url:"/project/searchName",
 			method:"post",
-			data: "&user_nm=" + user_nm,
+			data: "user_nm=" + user_nm,
 			success:function(data){
 				console.log(data);
 				var html = "";
@@ -679,11 +679,11 @@
 	}
 	//프로젝트 생성시 멤버 검색프로젝트 생성시 멤버 검색
 	//프로젝트 생성 후 설정에서 프로젝트 관리자 검색
-	function searchPL(user_nm){
+	function searchPL(user_nm, prj_id){
 		$.ajax({
 			url:"/project/searchPL",
 			method:"post",
-			data: "&user_nm=" + user_nm,
+			data: "user_nm=" + user_nm + "&prj_id=" + prj_id,
 			success:function(data){
 				console.log(data);
 				var html = "";
@@ -701,7 +701,7 @@
 		$.ajax({
 			url:"/project/searchMem",
 			method:"post",
-			data: "&user_nm=" + user_nm,
+			data: "user_nm=" + user_nm,
 			success:function(data){
 				console.log(data);
 				var html = "";
@@ -1067,55 +1067,6 @@
 					</div>
 				</dd>
 			</dl>
-			
-<!-- 			<dl class="setItem"> -->
-<!-- 				<dt>프로젝트 관리자</dt> -->
-<!-- 				<dd> -->
-<!-- 					<button type="button" id="ppt_adm_set" name="ppt_adm_set">관리자 추가 버튼</button> -->
-
-<!-- 					프로젝트 관리자 리스트 box -->
-<!-- 					<ul class="prj_add_box"></ul> -->
-
-<!-- 					<div class="prj_add_adm"> -->
-<!-- 						<label for="prj_mem">프로젝트 관리자 추가</label> -->
-<!-- 						<div class="prj_mem_list"> -->
-<!-- 							<div class="searchPL"> -->
-<!-- 								<fieldset id="hd_sch"> -->
-<!-- 									<legend>사이트 내 프로젝트 검색</legend> -->
-<!-- 									<input type="text" name="user_nm" id="searchPL" maxlength="20" placeholder="검색어를 입력해주세요"> -->
-<!-- 								</fieldset> -->
-<!-- 							</div> -->
-
-<!-- 							추가된 프로젝트 관리자 리스트 box -->
-<!-- 							<ul class="searchPL_item"></ul> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 				</dd> -->
-<!-- 			</dl> -->
-<!-- 			<dl class="setItem"> -->
-<!-- 				<dt>프로젝트 멤버</dt> -->
-<!-- 				<dd> -->
-<!-- 					<button type="button" id="ppt_mem_set" name="ppt_mem_set">프로젝트 멤버 추가 버튼</button> -->
-
-<!-- 					프로젝트 멤버 리스트 box -->
-<!-- 					<ul class="prj_mem_add_box"></ul> -->
-
-<!-- 					<div class="prj_add_mem"> -->
-<!-- 						<label for="prj_mem">프로젝트 멤버 추가</label> -->
-<!-- 						<div class="prj_mem_list"> -->
-<!-- 							<div class="searchMem"> -->
-<!-- 								<fieldset id="hd_sch"> -->
-<!-- 									<legend>사이트 내 프로젝트 검색</legend> -->
-<!-- 									<input type="text" name="user_nm" id="searchMem" maxlength="20" placeholder="검색어를 입력해주세요" value=""> -->
-<!-- 								</fieldset> -->
-<!-- 							</div> -->
-
-<!-- 							추가된 프로젝트 멤버 리스트 box -->
-<!-- 							<ul class="prj_mem_item_list"></ul> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 				</dd> -->
-<!-- 			</dl> -->
 			<dl class="setItem">
 				<dt>프로젝트 나가기</dt>
 				<dd>
