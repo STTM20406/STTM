@@ -35,25 +35,24 @@ public class Project_MemVo {
 	public Project_MemVo() {
 		
 	}
+	
+	public Project_MemVo(int prj_id,String user_email) {
+		this.prj_id = prj_id;
+		this.user_email = user_email;
+	}
 
-	public Project_MemVo(int prj_id, String user_email, String prj_mem_lv, String prj_mem_nik, String prj_own_fl) {
+	public Project_MemVo(int prj_id, String user_email, String prj_mem_lv, String prj_mem_nik, String prj_own_fl,
+			String prj_mem_del_fl, String user_nm, String prj_nm, String frd_email) {
 		super();
 		this.prj_id = prj_id;
 		this.user_email = user_email;
 		this.prj_mem_lv = prj_mem_lv;
 		this.prj_mem_nik = prj_mem_nik;
 		this.prj_own_fl = prj_own_fl;
-	}
-	
-	/**
-	 * @param prj_id
-	 * @param user_email
-	 * 현재 접속한 사용자의 프로젝트 멤버 정보를 조회 하기 위한 생성자
-	 */
-	public Project_MemVo(int prj_id, String user_email) {
-		super();
-		this.prj_id = prj_id;
-		this.user_email = user_email;
+		this.prj_mem_del_fl = prj_mem_del_fl;
+		this.user_nm = user_nm;
+		this.prj_nm = prj_nm;
+		this.frd_email = frd_email;
 	}
 
 	public int getPrj_id() {
