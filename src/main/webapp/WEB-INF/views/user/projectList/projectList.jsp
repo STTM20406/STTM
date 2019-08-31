@@ -22,8 +22,8 @@
 		
 		$('.searchPL').on('keyup',"#searchPL",function(){
 			var user_nm = $('#searchPL').val();
-			
-			searchPL(user_nm);
+			var prj_id = $(this).attr("id");
+			searchPL(user_nm,prj_id);
 		});
 		
 		$('.searchMem').on('keyup',"#searchMem",function(){
@@ -421,16 +421,15 @@
 						//html 생성
 						html += "<li id='"+ item.user_email +"'><span>"+ item.user_nm +"</span>"+ item.user_email + "</li>";
 					});	
-					$(".prj_mem_item").html(html);
+					$(".searchPL_item").html(html);
 				}
 			});
 		}
 		
 		//프로젝트 관리자 리스트를 클릭 했을 때
-		$(".prj_mem_item").on("click", "li", function(){
+		$(".searchPL_item").on("click", "li", function(){
 			var adm_add_email = $(this).attr("id");
 			var id = $("#ppt_id").val();
-			alert(id);
 			projectAdmAddAjax(id, adm_add_email);
 		});
 		
@@ -489,11 +488,9 @@
 		//프로젝트 멤버 추가하기 버튼 클릭시 내가 속한 모든 프로젝트의 멤버들을 가져옴
 		$(".prj_add_mem").fadeOut(0); //멤버리스트 layer 숨기기
 		$("#ppt_mem_set").on("click", function(){
-			
 			$(".prj_add_mem").fadeIn(300);
-			
 			var id = $("#ppt_id").val();
-			
+			alert(id);
 			projectMemListAjax(id);
 		});
 		
@@ -521,7 +518,6 @@
 		$(".prj_mem_item_list").on("click", "li", function(){
 			var mem_add_email = $(this).attr("id");
 			var id = $("#ppt_id").val();
-			
 			console.log(id);
 			console.log(mem_add_email);
 			projectMemAddAjax(id, mem_add_email);
@@ -669,7 +665,7 @@
 		$.ajax({
 			url:"/project/searchName",
 			method:"post",
-			data: "&user_nm=" + user_nm,
+			data: "user_nm=" + user_nm,
 			success:function(data){
 				console.log(data);
 				var html = "";
@@ -683,11 +679,11 @@
 	}
 	//프로젝트 생성시 멤버 검색프로젝트 생성시 멤버 검색
 	//프로젝트 생성 후 설정에서 프로젝트 관리자 검색
-	function searchPL(user_nm){
+	function searchPL(user_nm, prj_id){
 		$.ajax({
 			url:"/project/searchPL",
 			method:"post",
-			data: "&user_nm=" + user_nm,
+			data: "user_nm=" + user_nm + "&prj_id=" + prj_id,
 			success:function(data){
 				console.log(data);
 				var html = "";
@@ -705,7 +701,7 @@
 		$.ajax({
 			url:"/project/searchMem",
 			method:"post",
-			data: "&user_nm=" + user_nm,
+			data: "user_nm=" + user_nm,
 			success:function(data){
 				console.log(data);
 				var html = "";
@@ -1029,6 +1025,7 @@
 					<button type="button" id="ppt_adm_set" name="ppt_adm_set">관리자 추가 버튼</button>
 
 					<!-- 프로젝트 관리자 리스트 box -->
+					
 					<ul class="prj_add_box"></ul>
 
 					<div class="prj_add_adm">
@@ -1070,55 +1067,6 @@
 					</div>
 				</dd>
 			</dl>
-			
-<!-- 			<dl class="setItem"> -->
-<!-- 				<dt>프로젝트 관리자</dt> -->
-<!-- 				<dd> -->
-<!-- 					<button type="button" id="ppt_adm_set" name="ppt_adm_set">관리자 추가 버튼</button> -->
-
-<!-- 					프로젝트 관리자 리스트 box -->
-<!-- 					<ul class="prj_add_box"></ul> -->
-
-<!-- 					<div class="prj_add_adm"> -->
-<!-- 						<label for="prj_mem">프로젝트 관리자 추가</label> -->
-<!-- 						<div class="prj_mem_list"> -->
-<!-- 							<div class="searchPL"> -->
-<!-- 								<fieldset id="hd_sch"> -->
-<!-- 									<legend>사이트 내 프로젝트 검색</legend> -->
-<!-- 									<input type="text" name="user_nm" id="searchPL" maxlength="20" placeholder="검색어를 입력해주세요"> -->
-<!-- 								</fieldset> -->
-<!-- 							</div> -->
-
-<!-- 							추가된 프로젝트 관리자 리스트 box -->
-<!-- 							<ul class="searchPL_item"></ul> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 				</dd> -->
-<!-- 			</dl> -->
-<!-- 			<dl class="setItem"> -->
-<!-- 				<dt>프로젝트 멤버</dt> -->
-<!-- 				<dd> -->
-<!-- 					<button type="button" id="ppt_mem_set" name="ppt_mem_set">프로젝트 멤버 추가 버튼</button> -->
-
-<!-- 					프로젝트 멤버 리스트 box -->
-<!-- 					<ul class="prj_mem_add_box"></ul> -->
-
-<!-- 					<div class="prj_add_mem"> -->
-<!-- 						<label for="prj_mem">프로젝트 멤버 추가</label> -->
-<!-- 						<div class="prj_mem_list"> -->
-<!-- 							<div class="searchMem"> -->
-<!-- 								<fieldset id="hd_sch"> -->
-<!-- 									<legend>사이트 내 프로젝트 검색</legend> -->
-<!-- 									<input type="text" name="user_nm" id="searchMem" maxlength="20" placeholder="검색어를 입력해주세요" value=""> -->
-<!-- 								</fieldset> -->
-<!-- 							</div> -->
-
-<!-- 							추가된 프로젝트 멤버 리스트 box -->
-<!-- 							<ul class="prj_mem_item_list"></ul> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 				</dd> -->
-<!-- 			</dl> -->
 			<dl class="setItem">
 				<dt>프로젝트 나가기</dt>
 				<dd>

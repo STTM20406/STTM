@@ -250,8 +250,8 @@ public class Project_MemDao implements IProject_MemDao{
 	* Method 설명 :
 	 */
 	@Override
-	public List<Project_MemVo> projectMemYNList(int prj_id) {
-		return sqlSession.selectList("project.projectMemYNList", prj_id);
+	public List<Project_MemVo> projectMemYNList(Project_MemVo project_MemVo) {
+		return sqlSession.selectList("project.projectMemYNList", project_MemVo);
 	}
 		
 	@Override

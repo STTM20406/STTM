@@ -587,10 +587,12 @@ function connectNotify(){
 	      var data = event.data;
 	      
 	      if(!data.startsWith("lst:")) {
+	    	  var textsplit = data.split("*");
 		      var $socketAlert = $('#socketAlert p');
-		      $socketAlert.text(event.data);
+		      $socketAlert.text(textsplit[0]);
 		      $(".socketAlram").fadeIn(300);
 		      $(".socketAlram").animate({right:"0px"}, 500);
+		      $("#spanCountReset").text(textsplit[1]);
 		      setTimeout(function(){
 		         $(".socketAlram").fadeOut(300);
 		         $(".socketAlram").animate({right:"-350px"}, 500);
