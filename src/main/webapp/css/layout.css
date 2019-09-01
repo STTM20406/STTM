@@ -133,9 +133,9 @@ Last update : 2019. 08. 28.
 .sub_menu:after {content:''; clear:both; display:block; zoom:1}
 .sub_menu .sub_menu_item {margin-bottom:30px;}
 .sub_menu .sub_menu_item li {display:inline-block; margin-left:50px;}
-.sub_menu .sub_menu_item li a {position:relative; color:#b9cceb; font-size:14px; font-weight:300; transition:all 0.4s}
+.sub_menu .sub_menu_item li a {position:relative; color:#b9cceb; font-size:14px; font-weight:400; transition:all 0.4s}
 .sub_menu .sub_menu_item li a:hover {color:#fff;}
-.sub_menu .sub_menu_item li a:after {content:''; position:absolute; left:0; bottom:-13px; width:0%; height:2px; background:#3867e4; transition:all 0.4s}
+.sub_menu .sub_menu_item li a:after {content:''; position:absolute; left:0; bottom:-13px; width:0%; height:2px; background:#fff; transition:all 0.4s}
 .sub_menu .sub_menu_item li a:hover:after{width:100%;}
 
 .sub_btn {float:left}
@@ -237,13 +237,12 @@ button.rcvbtn-style:hover {background-color:#1f326a; color:#fff;}
 
 
 /* table search style */
-.searchBox {float:right; margin-bottom:20px;}
+.searchBox {float: right; border: 1px solid #748df1; border-radius: 3px; margin-bottom:20px}
 .searchBox .tb_sch_wr {width:auto; height:36px; border-radius:30px; line-height: 27px; position:relative;}
-.searchBox .tb_sch_wr select {-webkit-appearance: none; -moz-appearance: none; -ms-appearance: none; appearance: none; outline: 0; box-shadow: none; border: 0 !important; background:transparent; background-image: none; color:#656774; width:90px; padding-left: 22px;}
-.searchBox .tb_sch_wr:after {content: '\25BC'; position: absolute; top: 2px; left: 70px; background: transparent; cursor: pointer; pointer-events: none; -webkit-transition: .25s all ease; -o-transition: .25s all ease; transition: .25s all ease; color:#656774; font-size:10px;}
+.searchBox .tb_sch_wr select {width: 110px; background: transparent;border: 0;height: 34px;color: #fff; font-size: 15px; padding:0 20px;}
 
-.searchBox .tb_sch_wr input {border:none; padding-left:6px; width:180px; height: 31px; outline: none; border:none;}
-.searchBox .tb_sch_wr input::-webkit-input-placeholder {color: #a8afbe;}
+.searchBox .tb_sch_wr input {border: none;padding-left: 15px;width: 230px;height: 35px; outline: none;font-size: 15px;color: #fff;}
+.searchBox .tb_sch_wr input::-webkit-input-placeholder {color: #85a1f7;}
 .searchBox .tb_sch_wr button {background:url("../img/search_icon.png") no-repeat; background-size:15px; position:absolute; right:0px; top:8px; text-indent:-9999px; border:none; width:15px;}
 
 .searchBoxMinutes {float:left; padding-top:50px; margin-bottom:5px;}
@@ -256,7 +255,7 @@ button.rcvbtn-style:hover {background-color:#1f326a; color:#fff;}
 .searchBoxMinutes .tb_sch_wr button {background:url("../img/search_icon.png") no-repeat; background-size:15px; position:absolute; right:0px; top:8px; text-indent:-9999px; border:none; width:15px;}
 
 /* pagination style */
-.pagination{padding-top:20px; text-align:center;}
+.pagination{padding:20px 0 50px; text-align:center;}
 .pagination > *{display:inline-block; min-width:35px; height:35px; box-sizing:border-box; margin:2px; border:1px solid #ddd; background:#fff; color:#777; text-align:center; vertical-align:top; line-height:36px; transition:border-color 0.3s ease 0s;}
 .pagination a[class^="btn_"]{width:35px; background-image:url(../img/btn_pagination.png); background-repeat:no-repeat; background-size: 125px; text-indent:100%; overflow:hidden; white-space:nowrap;}
 .pagination a[class^="btn_"]:hover,
@@ -565,7 +564,7 @@ a.btn-layerClose {display:inline-block; height:25px; padding:0 14px 0; backgroun
 #uploadFile {border: 1px solid #3f4df5; border-radius: 3px; display: inline-block; text-align: center; font-size: 13px;vertical-align: top;   padding: 5px 11px; color: #3f4df5;transition: all 0.4s;}
 
 
-.cal_wrapper {width:86%; float:left; height:600px}
+.cal_wrapper {width:86%; float:left; height:auto}
 .cal_wrapper table {width:100%}
 
 .workCreateBox {display:none}
@@ -710,14 +709,11 @@ a.btn-layerClose {display:inline-block; height:25px; padding:0 14px 0; backgroun
 
 /* 회의록 css */
 .minutes:hover{cursor: pointer;}
-<<<<<<< HEAD
 ul.tabs {margin: 0px; padding: 0px; list-style: none;}
 ul.tabs li {background: none; color: #222; display: inline-block; padding: 10px 15px; cursor: pointer;}
-=======
 ul.tabs {margin: 0px; padding: 23px 0; list-style: none; }
 ul.tabs li {cursor: pointer; float: left; text-align: center; height: 34px; line-height: 30px; background:white; margin-right: 1%; font-size: 1.1em; border-radius: 3px 3px 0 0;}
 ul.tabs li:hover {color:red; }
->>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 ul.tabs li.current {color: #222;}
 #fs{margin : 0 auto; text-allign : center;}
 #subject{width:500px; height:80px; resize:none;}
@@ -734,11 +730,6 @@ ul.tabs li.current {color: #222;}
 #smarteditor {
 	margin: auto;
 }
-<<<<<<< HEAD
-
-
-=======
->>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 /* work list style */
 .contentTitle {font-size: 3em; color: #fff; margin-bottom: 20px; font-weight: 300;}
 #filterFrm ul li label { cursor: pointer; } 
@@ -761,12 +752,6 @@ ul.tabs li.current {color: #222;}
 #resultContainer { width: 32%; height: 100%; float:left; margin-right:1%}
 #chartContainer { width:50%; height:100%; float:left;}
 #blankContainer { font-size:large; width:100%; height:730px; text-align:center; padding:250px;}
-<<<<<<< HEAD
-
-
-
-=======
->>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 .boardTr:hover {
 	cursor: pointer;
 }
@@ -783,8 +768,7 @@ ul.tabs li.current {color: #222;}
 		cursor: pointer;
 }
 #iq_content {width : 250px;}
-<<<<<<< HEAD
-=======
+
 /* Project Analysis */
 #dateContainer { width:100%; height:120px;}
 #dateContainer input[type=text] {text-align: center; width:110px; margin-left:25px;}
@@ -799,6 +783,15 @@ ul.tabs li.current {color: #222;}
 #prj_barchart { width:100%; height:250px; }
 #prj_piechart, #wrk_lst_barchart { width:100%; height:300px; }
 .agn_cent { text-align:center; }
+
+
 /* Gantt Chart*/
 #gantt_here { width:85%; height:630px; overflow:hidden; padding:0px; margin:0px; float:left;}
->>>>>>> branch 'master' of https://github.com/STTM20406/STTM
+
+
+/* project member list */
+.prjMember .project_item {height:85px !important}
+
+.logout { color: #e1e1e1; vertical-align: middle;}
+.logon {color: #0ceb47; vertical-align: middle;}
+.friendBtn {float:left}

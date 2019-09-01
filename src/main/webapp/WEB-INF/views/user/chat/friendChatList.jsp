@@ -255,18 +255,13 @@
 			<li><a id="memChatTab" href="/projectChatList">프로젝트 멤버 채팅</a></li>
 			<li><a href="#" id = "faceBtn">화상 회의</a></li>
 		</ul>
-		<div class="sub_btn">
-			<ul>
-				<li><a href="#chatlayer1" class="btn-example btn_style_01">새 채팅방 생성</a></li>
-			</ul>
-		</div>
 	</div>
-
-
-
-
-
-
+	<div class="sub_btn">
+		<ul>
+			<li><a href="#chatlayer1" class="btn-example a_style_01">새 채팅방 생성</a></li>
+		</ul>
+	</div>
+	
 	<!-- table style start -->
 	<table class="tb_style_01">
 		<caption>테이블 이름</caption>

@@ -2,54 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>	
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<%-- basic Library --%>
-<%@include file="/WEB-INF/views/common/baseLib.jsp"%>
-
-<style>
-	
-	.userTr:hover{
-		cursor: pointer;
-	}
-	
-	/* 탭 설정 스타일 */
-	.inquiryTr:hover{
-			cursor: pointer;
-	}
-	ul.tabs {
-		margin: 0px;
-		padding: 0px;
-		list-style: none;
-	}
-	
-	ul.tabs li {
-		background: none;
-		color: #222;
-		display: inline-block;
-		padding: 10px 15px;
-		cursor: pointer;
-	}
-	
-	ul.tabs li.current {
-		color: #222;
-	}
-	
-	.tab-content {
-		display: none;
-		padding: 15px;
-	}
-	
-	.tab-content.current {
-		display: inherit;
-	}
-	
-	.logout {
-		color: #e1e1e1;
-	}
-	
-	.logon {
-		color: #0ceb47;
-	}
-</style>
 
 <script>
 $(document).ready(function(){
@@ -227,23 +179,24 @@ function requestedFriendsList() {
 
 </script>
 
+
+<div class="sub_menu">
+	<ul class="sub_menu_item">
+		<li><a href="/projectMember">Project Member</a></li>
+		<li><a href="/friendsList">Friend List</a></li>
+	</ul>
+</div>
+
 <section class="contents">
-
-<div id="container">
-
-	<div class="sub_menu">
-			<ul class="tabs">
-				<li>
-					<a href="/projectMember">프로젝트 멤버</a>
-				</li>
-				<li data-tab="tab-2">친구 리스트</li>
-			</ul>
-	</div>
-
+<div class="project_wrap">
+			<h2>친구 목록</h2>
 <!-- 	<div class="tab_con"> -->
 	
 <!-- 		<div id="tab-2" class="tab-content"> -->
-			
+			<div class="friendBtn">
+				<a href="#layer3" class="requestedFriendsList a_style_01">요청 받은 친구 목록</a>
+				<a href="#layer4" class="friendsBtn a_style_01">친구 요청</a>
+			</div>
 			<div>
 				<div class="searchBox">
 					<div class="tb_sch_wr">
@@ -292,9 +245,6 @@ function requestedFriendsList() {
 					</tbody>
 				</table>
 <!-- 			</div> -->
-			
-			<a href="#layer3" class="requestedFriendsList a_style_01">요청 받은 친구 목록</a>
-			<a href="#layer4" class="friendsBtn a_style_01">친구 요청</a>
 			
 		<div class="pagination">
 				<c:choose>
@@ -409,5 +359,4 @@ function requestedFriendsList() {
 <!-- 	</div> -->
 	
 </div>
-
 </section>

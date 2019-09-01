@@ -738,13 +738,10 @@ border:none
 
 .fc-ltr .fc-basic-view .fc-day-top .fc-day-number {
       float: right;
-    background: #3f4df5;
-    width: 15px;
-    height: 15px;
     border-radius: 20px;
     text-align: center;
     line-height:15px;
-    color: #fff;
+    color: #34383b;
     margin: 7px;
 }
 

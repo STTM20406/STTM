@@ -127,15 +127,15 @@
     }
 	
 </script>
+
 <div class="sub_menu">
 	<ul class="sub_menu_item">
-		<li><a href="/overview/analysis">Work List</a></li>
+		<li><a href="/overview/analysis">Work</a></li>
 		<li><a href="/calendarGet">Calendar</a></li>
 		<li><a href="/gantt/overview">Gantt Chart</a></li>
 	</ul>
-	<div class="sub_btn">
-	</div>
 </div>
+
 <section class="contents">
 	<h2 class="contentTitle">캘린더</h2>
 	<div class="calenderWrap">

@@ -2,54 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>	
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<%-- basic Library --%>
-<%@include file="/WEB-INF/views/common/baseLib.jsp"%>
 
-<style>
-	
-	.userTr:hover{
-		cursor: pointer;
-	}
-	
-	/* 탭 설정 스타일 */
-	.inquiryTr:hover{
-			cursor: pointer;
-	}
-	ul.tabs {
-		margin: 0px;
-		padding: 0px;
-		list-style: none;
-	}
-	
-	ul.tabs li {
-		background: none;
-		color: #222;
-		display: inline-block;
-		padding: 10px 15px;
-		cursor: pointer;
-	}
-	
-	ul.tabs li.current {
-		color: #222;
-	}
-	
-	.tab-content {
-		display: none;
-		padding: 15px;
-	}
-	
-	.tab-content.current {
-		display: inherit;
-	}
-	
-	.logout {
-		color: #e1e1e1;
-	}
-	
-	.logon {
-		color: #0ceb47;
-	}
-</style>
 
 <script>
 $(document).ready(function(){
@@ -239,50 +192,39 @@ function requestedFriendsList() {
 
 </script>
 
-<section class="contents">
-
-<div id="container">
-
-	<div class="sub_menu">
-			<ul class="tabs">
-				<li data-tab="tab-1">
-					<a href="/projectMember">프로젝트 멤버</a>
-				</li>
-				<li data-tab="tab-2">
-					<a href="/friendsList">친구 리스트</a>
-				</li>
-			</ul>
-	</div>
-
-	<div class="tab_con">
-	
-		<div id="tab-1" class="tab-content current">
-			
-			<!-- 프로젝트 리스트 가져오기 시작 -->
-			<div class="project_wrap">
-				<div class="project_list my_project_list">
-					<c:forEach items="${projectList}" var="projectList">
-						<div class="project_item" id="${projectList.prj_id}">
-							<ul class="project_item_hd">
-								<li class="prj_title" id="${projectList.prj_id}">
-									<a href="/projectMemberList?memPrjId=${projectList.prj_id}">${projectList.prj_nm}</a>
-								</li>
-							</ul>
-						</div>
-					</c:forEach>
-				</div>
-			</div>
-			<!-- 프로젝트 리스트 가져오기 시작 -->
-			
-			<form id="prjMemView" action="/projectMemView" method="get">
-				<input type="hidden" id="user_email" name="user_email">
-			</form>
-			
-		</div>
-		
-		
-	</div>
-	
+<div class="sub_menu">
+	<ul class="sub_menu_item">
+		<li><a href="/projectMember">Project Member</a></li>
+		<li><a href="/friendsList">Friend List</a></li>
+	</ul>
 </div>
-
+	
+<section class="contents">
+	<div class="project_wrap">
+		<h2>프로젝트 목록</h2>
+		<div class="tab_con">
+			<div id="tab-1" class="tab-content current">
+				<!-- 프로젝트 리스트 가져오기 시작 -->
+				<div class="project_wrap">
+					<div class="project_list my_project_list prjMember">
+						<c:forEach items="${projectList}" var="projectList">
+							<div class="project_item" id="${projectList.prj_id}">
+								<ul class="project_item_hd">
+									<li class="prj_title" id="${projectList.prj_id}">
+										<a href="/projectMemberList?memPrjId=${projectList.prj_id}">${projectList.prj_nm}</a>
+									</li>
+								</ul>
+							</div>
+						</c:forEach>
+					</div>
+				</div>
+				<!-- 프로젝트 리스트 가져오기 시작 -->
+				
+				<form id="prjMemView" action="/projectMemView" method="get">
+					<input type="hidden" id="user_email" name="user_email">
+				</form>
+				
+			</div>
+		</div>
+	</div>	
 </section>

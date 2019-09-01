@@ -22,16 +22,15 @@ Documentation - github.com/muaz-khan/WebRTC-Experiment/tree/master/getMediaEleme
 }
 
 .media-container {
-    width: 36%;
+    width: 49% !important;
     display: inline-block;
-    border: 1px solid rgb(0, 0, 0);
-    border-radius: 4px;
     overflow: hidden;
     vertical-align: top;
     background: white;
 }
 
 .media-box {
+	widht:100% !important;
     background: black;
     border: 1px solid rgb(107, 107, 107);
     margin: 1px;

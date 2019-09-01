@@ -9,11 +9,13 @@
 
 <div class="sub_menu">
 	<ul class="sub_menu_item">
-		<li><a href="/work/list">Work</a></li>
+		<li><a href="/overview/analysis">Work</a></li>
 		<li><a href="/calendarGet">Calendar</a></li>
 		<li><a href="/gantt/overview">Gantt Chart</a></li>
 	</ul>
 </div>
+
+
 <section class="contents">
 	<h2 class="contentTitle">업무 개요</h2>
 		<div id="allContainer">
