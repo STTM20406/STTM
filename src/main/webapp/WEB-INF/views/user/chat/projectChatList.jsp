@@ -83,7 +83,7 @@ ul.tabs li.current {
 	<div class="sub_menu">
 		<ul class="sub_menu_item">
 			<li><a href="/friendChatList">친구 채팅</a></li>
-			<li><a href="/projectChatList">프로젝트 멤버 채팅</a></li>
+			<li><a id="memChatTab" href="/projectChatList">프로젝트 멤버 채팅</a></li>
 			<li><a href="#" id = "faceBtn">화상 회의</a></li>
 		</ul>
 	</div>

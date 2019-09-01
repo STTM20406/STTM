@@ -97,7 +97,6 @@ public class Work_ListController {
 			}
 		}
 		
-		
 		//선택한 프로젝트의 정보를 세션에 담음 
 		session.setAttribute("PROJECT_INFO", projectVo);
 		model.addAttribute("workList", workList);
@@ -185,7 +184,6 @@ public class Work_ListController {
 			hashmap.put("workList", workList);
 			hashmap.put("works", works);
 		}
-
 		return hashmap;
 	}
 	
