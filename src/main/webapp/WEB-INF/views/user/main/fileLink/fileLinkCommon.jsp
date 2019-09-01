@@ -2,35 +2,6 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<style>
-ul.tabs {
-	margin: 0px;
-	padding: 0px;
-	list-style: none;
-}
-
-ul.tabs li {
-	background: none;
-	color: #222;
-	display: inline-block;
-	padding: 10px 15px;
-	cursor: pointer;
-}
-
-ul.tabs li.current {
-	color: #222;
-}
-
-.tab-content {
-	display: none;
-	padding: 15px;
-}
-
-.tab-content.current {
-	display: inherit;
-}
-</style>
-
 <script>
 	$(document).ready(function() {
 		publicFilePagination2(1,10)
@@ -47,7 +18,7 @@ ul.tabs li.current {
 				
 				//hhtml생성
 				hhtml += "<tr>";
-				hhtml += "<th>File_Num</th>";
+				hhtml += "<th>Num</th>";
 				hhtml += "<th>업무명</th>";
 				hhtml += "<th>파일명</th>";
 				hhtml += "<th>작성자 멤버 ID</th>";
@@ -67,7 +38,7 @@ ul.tabs li.current {
 					html += "<td>"+ file.user_nm + "</td>";
 					html += "<td>"+ file.prjStartDtStr + "</td>";
 					if(file.user_email==user_email){
-						html += "<td><a href='javascript:updateFile("+file.file_id+")'>삭제</a></td>";
+						html += "<td><a class='btndelete' href='javascript:updateFile("+file.file_id+")'>삭제</a></td>";
 					}else{
 						html += "<td></td>";
 					}
@@ -113,16 +84,16 @@ ul.tabs li.current {
 			}
 		});
 		
-		$(".sub_menu").on("click", "#adminFileList", function(){
+		$(".tab_sub_menu").on("click", "#adminFileList", function(){
 			historyPagination(1,20);
 		});
 	}
 		
-		$(".sub_menu").on("click", "#linkList",function(){
+		$(".tab_sub_menu").on("click", "#linkList",function(){
 			publicLinkPagination(1, 10);
 		})
 		
-		$(".sub_menu").on("click", "#fileList",function(){
+		$(".tab_sub_menu").on("click", "#fileList",function(){
 			publicFilePagination2(1, 10);
 		})
 	});
@@ -139,7 +110,7 @@ ul.tabs li.current {
 				
 				//hhtml생성
 				hhtml += "<tr>";
-				hhtml += "<th>Statistic_Num</th>";
+				hhtml += "<th>Num</th>";
 				hhtml += "<th>파일명</th>";
 				hhtml += "<th>해당 업무명</th>";
 				hhtml += "<th>다운로드 받은 멤버 ID</th>";
@@ -200,7 +171,7 @@ ul.tabs li.current {
 				
 				//hhtml생성
 				hhtml += "<tr>";
-				hhtml += "<th>Link_Num</th>";
+				hhtml += "<th>Num</th>";
 				hhtml += "<th>업무명</th>";
 				hhtml += "<th>링크명</th>";
 				hhtml += "<th>작성자 멤버 ID</th>";
@@ -220,7 +191,7 @@ ul.tabs li.current {
 					html += "<td>"+ link.user_nm + "</td>";
 					html += "<td>"+ link.prjStartDtStr + "</td>";
 					if(link.user_email==data.user_email){
-						html += "<td><a href='javascript:updateLink("+link.link_id+")'>삭제</a></td>";
+						html += "<td><a class='btndelete' href='javascript:updateLink("+link.link_id+")'>삭제</a></td>";
 					}else{
 						html += "<td></td>";
 					}
@@ -265,7 +236,7 @@ ul.tabs li.current {
 				
 				//hhtml생성
 				hhtml += "<tr>";
-				hhtml += "<th>Link_Num</th>";
+				hhtml += "<th>Num</th>";
 				hhtml += "<th>업무명</th>";
 				hhtml += "<th>링크명</th>";
 				hhtml += "<th>작성자 멤버 ID</th>";
@@ -285,7 +256,7 @@ ul.tabs li.current {
 					html += "<td>"+ link.user_nm + "</td>";
 					html += "<td>"+ link.prjStartDtStr + "</td>";
 					if(link.user_email==data.user_email){
-						html += "<td><a href='javascript:updateLink("+link.link_id+")'>삭제</a></td>";
+						html += "<td><a class='btndelete' href='javascript:updateLink("+link.link_id+")'>삭제</a></td>";
 					}else{
 						html += "<td></td>";
 					}
@@ -335,7 +306,7 @@ ul.tabs li.current {
 				
 				//hhtml생성
 				hhtml += "<tr>";
-				hhtml += "<th>File_Num</th>";
+				hhtml += "<th>Num</th>";
 				hhtml += "<th>업무명</th>";
 				hhtml += "<th>파일명</th>";
 				hhtml += "<th>작성자 멤버 ID</th>";
@@ -356,7 +327,7 @@ ul.tabs li.current {
 					html += "<td>"+ file.user_nm + "</td>";
 					html += "<td>"+ file.prjStartDtStr + "</td>";
 					if(file.user_email==user_email){
-						html += "<td><a href='javascript:updateFile("+file.file_id+")'>삭제</a></td>";
+						html += "<td><a class='btndelete' href='javascript:updateFile("+file.file_id+")'>삭제</a></td>";
 					}
 					html += "</tr>";	
 				});
@@ -397,7 +368,7 @@ ul.tabs li.current {
 				
 				//hhtml생성
 				hhtml += "<tr>";
-				hhtml += "<th>File_Num</th>";
+				hhtml += "<th>Num</th>";
 				hhtml += "<th>업무명</th>";
 				hhtml += "<th>파일명</th>";
 				hhtml += "<th>작성자 멤버 ID</th>";
@@ -418,7 +389,7 @@ ul.tabs li.current {
 					html += "<td>"+ file.user_nm + "</td>";
 					html += "<td>"+ file.prjStartDtStr + "</td>";
 					if(file.user_email==user_email){
-						html += "<td><a href='javascript:updateFile("+file.file_id+")'>삭제</a></td>";
+						html += "<td><a class='btndelete' href='javascript:updateFile("+file.file_id+")'>삭제</a></td>";
 					}else{
 						html += "<td></td>";
 					}
@@ -521,14 +492,14 @@ ul.tabs li.current {
 				<div>
 					<table class="tb_style_01">
 						<colgroup>
-							<col width="10%">
-							<col width="10%">
+							<col width="5%">
+							<col width="17%">
+							<col width="20%">
+							<col width="15%">
 							<col width="10%">
 							<col width="20%">
 							<col width="10%">
-							<col width="20%">
-							<col width="10%">
-							<col width="10%">
+							<col width="3%">
 						</colgroup>
 						
 							<thead id="publicHeader">

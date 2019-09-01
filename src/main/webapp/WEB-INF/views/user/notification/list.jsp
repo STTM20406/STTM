@@ -90,7 +90,7 @@
 	<div class="pagination">
            <c:choose>
               <c:when test="${pageVo.page == 1 }">
-                 <a href class="btn_first"></a>
+                 <a class="btn_first"></a>
               </c:when>
               <c:otherwise>
                  <a href="/notification?page=${pageVo.page - 1}&pageSize=10">«</a>
@@ -112,7 +112,7 @@
 
            <c:choose>
               <c:when test="${pageVo.page == notifiPageSize}">
-                 <a href class="btn_last"></a>
+                 <a class="btn_last"></a>
               </c:when>
               <c:otherwise>
               <a href="/notification?page=${pageVo.page + 1}&pageSize=10">»</a>

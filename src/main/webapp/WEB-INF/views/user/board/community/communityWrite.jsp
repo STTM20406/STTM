@@ -92,11 +92,6 @@
 		return true;
 	}
 </script>
-<style>
-#smarteditor {
-	margin: auto;
-}
-</style>
 
 <section class="contents">
 	<form action="/postAdd" method="post" id="frm" role="form"
