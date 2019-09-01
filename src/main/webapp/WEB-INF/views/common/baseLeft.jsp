@@ -48,10 +48,6 @@
 						success:function(data){
 							var answer = data.data;
 							var bot = "";
-							
-							if(answer == "감사합니다"){
-								$(".chatBot").fadeOut(3000);
-							}
 							//html 생성
 							bot += "<dl class='bot'>";
 							bot += "<dt>&nbsp;&nbsp;챗봇잉 </dt>";

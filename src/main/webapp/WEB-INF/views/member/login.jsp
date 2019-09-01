@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <!DOCTYPE HTML>
 <html lang="ko">
@@ -96,14 +95,6 @@
 						
 						<!-- 구글 로그인 버튼 -->
 						<li><div class="g-signin2" data-onsuccess="onSignIn"></div></li>
-<<<<<<< HEAD
-=======
-<!-- 						<li> -->
-<!-- 							<div class="g-signin2" data-onsuccess="onSignIn"></div> -->
-<!-- 						</li> -->
-						<!-- 구글 로그인 버튼 -->
-						
->>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 						<li class="forgot"><a href="resetPassword">Forgot your Password?</a></li>
 					</ul>
 				</div>

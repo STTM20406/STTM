@@ -916,7 +916,7 @@ function projectMemDelAjax(id, email){
 			}
 		});
 	}
-=======
+	
 	//프로젝트 생성시 멤버 검색프로젝트 생성시 멤버 검색프로젝트 생성시 멤버 검색
 	function searchName(user_nm){
 		$.ajax({
@@ -972,7 +972,6 @@ function projectMemDelAjax(id, email){
 	}
 	//프로젝트 생성 후 설정에서 프로젝트 멤버 검색
 	
->>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 	
 	//프로젝트 생성 - 선택한멤버리스트 함께 넘기기
 	function prjBtnSubmit(){
