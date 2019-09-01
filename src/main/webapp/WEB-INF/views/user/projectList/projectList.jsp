@@ -74,9 +74,6 @@
 			prjStListAjax(prj_status);
 			
 		});
-		
-<<<<<<< HEAD
-=======
 		//프로젝트 상태별 프로젝트 리스트 조회 ajax
 		function prjStListAjax(prj_status){
 			$.ajax({
@@ -131,8 +128,6 @@
 			});
 		}
 
->>>>>>> branch 'master' of https://github.com/STTM20406/STTM
-		
 		//프로젝트 생성 다음 버튼 클릭시
 		$(".prj_btn").on("click", "#prj_btn_next", function(){
 			
@@ -168,9 +163,6 @@
 		});
 		
 		
-<<<<<<< HEAD
-=======
-		
 		function prjSearchAjax(prj_nm){
 			$.ajax({
 				url:"/project/prjSearchAjax",
@@ -201,7 +193,6 @@
 				
 			});
 		}
->>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 		
 		//프로젝트 설정 버튼을 클릭했을 때
 		$(".my_project_list").on("click", ".btnSetting", function(){
@@ -330,17 +321,12 @@
 		$(".prj_add_adm").fadeOut(0); //멤버리스트 layer 숨기기
 		$("#ppt_adm_set").on("click", function(){
 			$(".prj_add_adm").fadeIn(300);
-<<<<<<< HEAD
 			$(".prj_add_mem").fadeOut(300);
-=======
->>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 			var id = $("#ppt_id").val();
 			alert(id);
 			projectAdmListAjax(id);
 		});
 		
-<<<<<<< HEAD
-=======
 		//프로젝트 관리자 가져오는 ajax
 		function projectAdmListAjax(id){
 			$.ajax({
@@ -359,7 +345,6 @@
 				}
 			});
 		}
->>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 		
 		//프로젝트 관리자 리스트를 클릭 했을 때
 		$(".searchPL_item").on("click", "li", function(){
@@ -368,9 +353,6 @@
 			projectAdmAddAjax(id, adm_add_email);
 		});
 		
-<<<<<<< HEAD
-		
-=======
 		//프로젝트 관리자로 선택한 멤버 추가
 		function projectAdmAddAjax(id, adm_add_email){
 			$.ajax({
@@ -387,7 +369,6 @@
 				}
 			});
 		}
->>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 		
 		//프로젝트 관리자 삭제 클릭 했을 때
 		$(".prj_add_box").on("click", "li input", function(){
@@ -406,9 +387,6 @@
 			
 			projectAdmDelAjax(id, email);
 		});
-		
-<<<<<<< HEAD
-=======
 		function projectAdmDelAjax(id, email){
 			$.ajax({
 				url:"/project/projectAdmDelAjax",
@@ -425,16 +403,12 @@
 				}
 			});
 		}
->>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 		
 		//프로젝트 멤버 추가하기 버튼 클릭시 내가 속한 모든 프로젝트의 멤버들을 가져옴
 		$(".prj_add_mem").fadeOut(0); //멤버리스트 layer 숨기기
 		$("#ppt_mem_set").on("click", function(){
 			$(".prj_add_mem").fadeIn(300);
-<<<<<<< HEAD
 			$(".prj_add_adm").fadeOut(300);
-=======
->>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 			var id = $("#ppt_id").val();
 			alert(id);
 			projectMemListAjax(id);
@@ -557,8 +531,6 @@
 			$(".prj_add_mem").fadeOut(300);
 		});
 	});
-	
-<<<<<<< HEAD
 	
 	
 	//프로젝트 상태값 변경 ajax

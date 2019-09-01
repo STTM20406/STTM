@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -93,7 +92,6 @@
 			<!-- header search box end -->
 		</div>
 	</header>
-=======
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -549,16 +547,7 @@ $(document).ready(function(){
 			}
 		});
 	};
-	
-	
-	
-	
-	
-	
-	
-
 });
-	
 	
 	//채팅방  멤버 띄우는 Ajax
 	function chatStartMem(ct_id){
@@ -581,10 +570,6 @@ $(document).ready(function(){
 			}
 		});
 	}
-		
-		
-	
-	
 	
 	//채팅방  내용 띄우는 Ajax
 	function chatStartContent(ct_id){
@@ -615,15 +600,8 @@ $(document).ready(function(){
 						html += "<span class='time_date'>" + item.ch_msg_dtString + "</span>";
 						html += "</div>";
 						html += "</div>";
-						
-						
 					}
-					
-					
-					
-					
 				});	
-				
 				$("#hchatData").html(html);		
 			}
 		});
@@ -644,7 +622,6 @@ $(document).ready(function(){
 			}
 		});
 	};
-
 
 	//채팅방 클릭하면 채팅방으로 넘어가기
 	function headerChatRoomClick(ctID){
@@ -725,8 +702,6 @@ function connectNotify(){
 			distinguish=null;
       }
       
-      
-      
    };
 
    socket.onclose = function(event) {
@@ -766,8 +741,6 @@ function myFunctionNote() {
       $(this).fadeOut(300);
    });
 }
-
-
 
 window.onclick = function(event) {
   if (!event.target.matches('.dropNotebtn')) {
@@ -832,7 +805,6 @@ window.onclick = function(event) {
      // $("#headerChatSend").submit();
    }
 </script>
-
 
 </head>
 <body>
@@ -991,8 +963,6 @@ window.onclick = function(event) {
    </div>
 <!-- </div> -->
 
-
-
 <!-- *************채팅리스트 팝업 창*************** -->
  <div id="layerChatHeader" class="pop-layer">
       <div class="pop-container">
@@ -1031,8 +1001,6 @@ window.onclick = function(event) {
                   
                   <input type="text" id="hmsg" name="hmsg" class="write_msg" placeholder="Type a message" />
 			      <button class="msg_send_btn" id="hbuttonMessage" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
-                  
-                  
                   <div class="prj_btn">
                      <a href="javascript:;" id="hchat_btn_prev2">뒤로</a> 
                   </div>
@@ -1044,4 +1012,3 @@ window.onclick = function(event) {
          </div>
       </div>
    </div>
->>>>>>> branch 'master' of https://github.com/STTM20406/STTM
