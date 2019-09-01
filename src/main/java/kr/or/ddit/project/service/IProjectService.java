@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import kr.or.ddit.project.model.ProjectVo;
+import kr.or.ddit.project_mem.model.Project_MemVo;
 import kr.or.ddit.users.model.UserVo;
 import kr.or.ddit.work.model.WorkVo;
 import kr.or.ddit.work_list.model.Work_ListVo;
@@ -156,4 +157,24 @@ public interface IProjectService {
 	 * Method 설명 : 업무 아이디로 해당 업무가 포함된 프로젝트 정보를 조회하는 메서드
 	 */
 	ProjectVo getPrjByWrk(int wrk_id);
+	
+	/**
+	 * Method 		: searchName
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-28 최초 생성
+	 * @param project_MemVo
+	 * @return
+	 * Method 설명 	: 프로젝스 생성 시 프로젝트 멤버 검색
+	 */
+	List<Project_MemVo> searchName(Project_MemVo project_MemVo);
+	
+	/**
+	 * Method 		: searchPL
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-28 최초 생성
+	 * @param project_MemVo
+	 * @return
+	 * Method 설명 	: 프로젝트 생성후 설정 메뉴에서 관리자 목록 가져오는!
+	 */
+	List<Project_MemVo> searchPL(Project_MemVo project_MemVo);
 }

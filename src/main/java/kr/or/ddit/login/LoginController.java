@@ -59,7 +59,8 @@ public class LoginController {
 	 */
 	@RequestMapping(path="/login", method=RequestMethod.GET)
 	public String loginView(HttpSession session, UserVo userVo, Model model) {
-		if(session.getAttribute("USER_INFO")!=null) {
+		userVo = (UserVo) session.getAttribute("USER_INFO");
+		if(userVo!=null) {
 			
 			// 추후 수정
 			if("A".equals(userVo.getUser_right())) {
@@ -101,12 +102,16 @@ public class LoginController {
 		//비밀번호 암호화
 		String encryptPassword = ARIAUtil.ariaEncrypt(user_pass);
 		UserVo userVo = userService.getUser(user_email);
+		String user_st = userVo.getUser_st();
+		
+		logger.debug("user_st : 계정 상태 {}", user_st);
 		
 		// 회원이 속한 프로젝트리스트 조회
 		List<ProjectVo> projectList = projectService.projectList(user_email);
 		
 		//userVo에 값이 있고 userVo에 저장된 패스워드가 생성된 패스워드와 같다면
 		if(userVo != null && encryptPassword.equals(userVo.getUser_pass())) {
+//		if(userVo != null && encryptPassword.equals(userVo.getUser_pass()) && "N".equals(user_st)) {
 			
 			//세션 생성 userVo를 USER_INFO에 담음
 			session.setAttribute("USER_INFO", userVo);

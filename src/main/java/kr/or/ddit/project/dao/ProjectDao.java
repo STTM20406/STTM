@@ -11,13 +11,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import kr.or.ddit.project.model.ProjectVo;
+import kr.or.ddit.project_mem.model.Project_MemVo;
 import kr.or.ddit.users.model.UserVo;
 import kr.or.ddit.work.model.WorkVo;
 import kr.or.ddit.work_list.model.Work_ListVo;
 
 @Repository
 public class ProjectDao implements IProjectDao{
-	
 	
 	@Resource(name = "sqlSession")
 	private SqlSessionTemplate sqlSession;
@@ -160,5 +160,15 @@ public class ProjectDao implements IProjectDao{
 	@Override
 	public ProjectVo getPrjByWrk(int wrk_id) {
 		return sqlSession.selectOne("project.getPrjByWrk", wrk_id);
+	}
+
+	@Override
+	public List<Project_MemVo> searchName(Project_MemVo project_MemVo) {
+		return sqlSession.selectList("project.searchName",project_MemVo);
+	}
+
+	@Override
+	public List<Project_MemVo> searchPL(Project_MemVo project_MemVo) {
+		return sqlSession.selectList("project.searchPL",project_MemVo);
 	}
 }

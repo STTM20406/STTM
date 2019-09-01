@@ -255,6 +255,7 @@ public class Board_WriteController {
 		}
 		
 		model.addAttribute("data",answerList );
+		model.addAttribute("user_email",user_email );
 		 
 		return "jsonView";
 	}

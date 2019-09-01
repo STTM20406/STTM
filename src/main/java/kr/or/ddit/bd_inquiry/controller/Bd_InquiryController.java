@@ -367,23 +367,24 @@ public class Bd_InquiryController {
 		search.put("user_email",userVo.getUser_email());
 		logger.debug("!@# search : {}",search);
 		
-		if(inq_cate.equals("INQ01") && scText.equals("title") || inq_cate.equals("INQ02") && scText.equals("title")) {
+		if(inq_cate.equals("INQ01") && scText.equals("title")) {
 			Map<String, Object> resultMap = bd_InquiryService.userSearchSubList(search);
 			List<Bd_InquiryVo> inquiryList = (List<Bd_InquiryVo>) resultMap.get("userSearchSubList");
 			int paginationSize = (Integer) resultMap.get("paginationSize");
 			
-			model.addAttribute("inquiryList",inquiryList);
-			model.addAttribute("paginationSize", paginationSize);
+			model.addAttribute("inquiryListOrigin",inquiryList);
+			model.addAttribute("paginationSizeOrigin", paginationSize);
 			model.addAttribute("pageVo", pageVo);
+			logger.debug("!@# inquiryList : @@@@@@@@@@@{}",inquiryList);
 			
 			
-		}else if(inq_cate.equals("INQ01") && scText.equals("content") || inq_cate.equals("INQ02") && scText.equals("content")){
+		}else if(inq_cate.equals("INQ01") && scText.equals("content")){
 			Map<String, Object> resultMap = bd_InquiryService.userSearchConList(search);
 			List<Bd_InquiryVo> inquiryList = (List<Bd_InquiryVo>) resultMap.get("userSearchConList");
 			int paginationSize = (Integer) resultMap.get("paginationSize");
 			
-			model.addAttribute("inquiryList",inquiryList);
-			model.addAttribute("paginationSize", paginationSize);
+			model.addAttribute("inquiryListOrigin",inquiryList);
+			model.addAttribute("paginationSizeOrigin", paginationSize);
 			model.addAttribute("pageVo", pageVo);
 		}
 		

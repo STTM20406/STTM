@@ -90,7 +90,6 @@
         WHERE A.USER_EMAIL like '%'||#{user_email}||'%') A, USERS B
         WHERE A.FRD_EMAIL = B.USER_EMAIL)
         where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
-		
 		]]>
 	</select>
 	
@@ -103,22 +102,35 @@
 	
 	<!-- 일반 사용자가 자신의 친구 목록을  친구의 이메일로 검색 -->
 	<select id="friendSearchByEmail" parameterType="map" resultType="friendsVo">
-	<![CDATA[
-		select *
-		from
-		(select a.*, rownum rn
-		from
-		(select a.*
-		from friends a
-		where frd_email like '%'||#{frd_email}||'%') a)
-		where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
-	]]>
+		<![CDATA[
+			SELECT *
+			FROM
+			(SELECT A.FRD_EMAIL, B.USER_NM, ROWNUM RN
+			FROM
+			(SELECT *
+			FROM FRIENDS 
+			WHERE FRD_EMAIL like '%'||#{frd_email}||'%'
+			AND USER_EMAIL = #{user_email}) A, USERS B
+			WHERE A.FRD_EMAIL = B.USER_EMAIL)
+			where rn >= (#{page}-1)*#{pageSize} + 1 and rn <= #{page}*#{pageSize}
+		]]>
 	</select>
 	<!-- 일반 사용자가 자신의 친구 목록을 친구의 이메일로 검색한 갯수 -->
 	<select id="friendSearchByEmailCnt" parameterType="map" resultType="int">
-		select count(*)
-		from friends
-		where frd_email like '%'||#{frd_email}||'%'
+		<![CDATA[
+			select count(*)
+			from
+			(SELECT *
+			FROM
+			(SELECT A.FRD_EMAIL, B.USER_NM, ROWNUM RN
+			FROM
+			(SELECT *
+			FROM FRIENDS 
+			WHERE FRD_EMAIL like '%'||#{frd_email}||'%'
+			AND USER_EMAIL = #{user_email}) A, USERS B
+			WHERE A.FRD_EMAIL = B.USER_EMAIL)
+			where rn >= (#{page}-1)*#{pageSize} + 1 and rn <= #{page}*#{pageSize})c
+		]]>
 	</select>
 	
 	<!-- 일반 사용자가 자신의 친구를 삭제 -->

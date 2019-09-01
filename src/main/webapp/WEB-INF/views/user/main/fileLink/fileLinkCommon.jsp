@@ -56,8 +56,8 @@ ul.tabs li.current {
 				hhtml += "<th>삭제</th>";
 				hhtml += "</tr>";
 				
+				var user_email = data.user_email
 				data.publicFileList.forEach(function(file, index){
-				
 					//html생성
 					html += "<tr id='filetr'>";
 					html += "<td>"+ file.rn + "</td>";
@@ -66,8 +66,12 @@ ul.tabs li.current {
 					html += "<td>"+ file.user_email + "</td>";
 					html += "<td>"+ file.user_nm + "</td>";
 					html += "<td>"+ file.prjStartDtStr + "</td>";
-					html += "<td><a href='javascript:updateFile("+file.file_id+")'>삭제</a></td>";
-					html += "</tr>";
+					if(file.user_email==user_email){
+						html += "<td><a href='javascript:updateFile("+file.file_id+")'>삭제</a></td>";
+					}else{
+						html += "<td></td>";
+					}
+					html += "</tr>";			
 				});
 				
 				
@@ -205,16 +209,21 @@ ul.tabs li.current {
 				hhtml += "<th>삭제</th>";
 				hhtml += "</tr>";
 				
+				var user_email = data.user_email
 				data.publicLinkList.forEach(function(link, index){
 					//html생성
 					html += "<tr>";
 					html += "<td>"+ link.rn + "</td>";
 					html += "<td>"+ link.wrk_nm + "</td>";
-					html += "<td><a href='https://"+link.attch_url+"'>"+link.attch_url+"</a></td>";	
+					html += "<td><a href='https://"+link.attch_url+"' target='_blank'>"+link.attch_url+"</a></td>";	
 					html += "<td>"+ link.user_email + "</td>";
 					html += "<td>"+ link.user_nm + "</td>";
 					html += "<td>"+ link.prjStartDtStr + "</td>";
-					html += "<td><a href='javascript:updateLink("+link.link_id+")'>삭제</a></td>";
+					if(link.user_email==data.user_email){
+						html += "<td><a href='javascript:updateLink("+link.link_id+")'>삭제</a></td>";
+					}else{
+						html += "<td></td>";
+					}
 					html += "</tr>";
 				});
 				
@@ -265,16 +274,21 @@ ul.tabs li.current {
 				hhtml += "<th>삭제</th>";
 				hhtml += "</tr>";
 				
+				var user_email = data.user_email
 				data.publicLinkList.forEach(function(link, index){
 					//html생성
 					html += "<tr>";
 					html += "<td>"+ link.rn + "</td>";
 					html += "<td>"+ link.wrk_nm + "</td>";
-					html += "<td><a href='https://"+link.attch_url+"'>"+link.attch_url+"</a></td>";	
+					html += "<td><a href='https://"+link.attch_url+"' target='_blank'>"+link.attch_url+"</a></td>";	
 					html += "<td>"+ link.user_email + "</td>";
 					html += "<td>"+ link.user_nm + "</td>";
 					html += "<td>"+ link.prjStartDtStr + "</td>";
-					html += "<td><a href='javascript:updateLink("+link.link_id+")'>삭제</a></td>";
+					if(link.user_email==data.user_email){
+						html += "<td><a href='javascript:updateLink("+link.link_id+")'>삭제</a></td>";
+					}else{
+						html += "<td></td>";
+					}
 					html += "</tr>";
 				});
 				
@@ -301,7 +315,7 @@ ul.tabs li.current {
 				$("#publicHeader").html(hhtml);
 				$("#publicList").html(html);
 				$(".ctxt").text("해당 게시물이 삭제 되었습니다.");
-	        	layer_popup("#layer2");
+	        	layer_popup("#layer20");
 	            return false;
 			}
 		});
@@ -329,7 +343,8 @@ ul.tabs li.current {
 				hhtml += "<th>등록일</th>";
 				hhtml += "<th>삭제</th>";
 				hhtml += "</tr>";
-				console.log(data.publicFileList);
+
+				var user_email = data.user_email
 				data.publicFileList.forEach(function(file, index){
 				
 					//html생성
@@ -340,8 +355,10 @@ ul.tabs li.current {
 					html += "<td>"+ file.user_email + "</td>";
 					html += "<td>"+ file.user_nm + "</td>";
 					html += "<td>"+ file.prjStartDtStr + "</td>";
-					html += "<td><a href='javascript:updateFile("+file.file_id+")'>삭제</a></td>";
-					html += "</tr>";
+					if(file.user_email==user_email){
+						html += "<td><a href='javascript:updateFile("+file.file_id+")'>삭제</a></td>";
+					}
+					html += "</tr>";	
 				});
 				var pHtml = "";
 				var pageVo = data.pageVo;
@@ -388,7 +405,8 @@ ul.tabs li.current {
 				hhtml += "<th>등록일</th>";
 				hhtml += "<th>삭제</th>";
 				hhtml += "</tr>";
-				console.log(data.publicFileList);
+				
+				var user_email = data.user_email
 				data.publicFileList.forEach(function(file, index){
 				
 					//html생성
@@ -399,8 +417,12 @@ ul.tabs li.current {
 					html += "<td>"+ file.user_email + "</td>";
 					html += "<td>"+ file.user_nm + "</td>";
 					html += "<td>"+ file.prjStartDtStr + "</td>";
-					html += "<td><a href='javascript:updateFile("+file.file_id+")'>삭제</a></td>";
-					html += "</tr>";
+					if(file.user_email==user_email){
+						html += "<td><a href='javascript:updateFile("+file.file_id+")'>삭제</a></td>";
+					}else{
+						html += "<td></td>";
+					}
+					html += "</tr>";	
 				});
 				var pHtml = "";
 				var pageVo = data.pageVo;
@@ -426,13 +448,46 @@ ul.tabs li.current {
 				$("#publicHeader").html(hhtml);
 				$("#publicList").html(html);
 				$(".ctxt").text("해당 게시물이 삭제 되었습니다.");
-	        	layer_popup("#layer2");
+	        	layer_popup("#layer20");
 	            return false;
 			}
 		});
 	}
 	
-	
+	//layer popup - 프로젝트 생성
+	function layer_popup(el){
+		console.log(el);
+
+        var $el = $(el);		//레이어의 id를 $el 변수에 저장
+        var isDim = $el.prev().hasClass('dimBg');	//dimmed 레이어를 감지하기 위한 boolean 변수
+
+        isDim ? $('.dim-layer').fadeIn() : $el.fadeIn();
+
+        var $elWidth = ~~($el.outerWidth()),
+            $elHeight = ~~($el.outerHeight()),
+            docWidth = $(document).width(),
+            docHeight = $(document).height();
+
+        // 화면의 중앙에 레이어를 띄운다.
+        if ($elHeight < docHeight || $elWidth < docWidth) {
+            $el.css({
+                marginTop: -$elHeight /2,
+                marginLeft: -$elWidth/2
+            })
+        } else {
+            $el.css({top: 0, left: 0});
+        }
+
+        $el.find('a.btn-layerClose').click(function(){
+            isDim ? $('.dim-layer').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
+            return false;
+        });
+
+        $('.layer .dimBg').click(function(){
+            $('.dim-layer').fadeOut();
+            return false;
+        });
+    }
 	
 </script>
 
@@ -497,7 +552,7 @@ ul.tabs li.current {
 <!-- 오류 알림창 -->
 <!-- <div class="dim-layer"> -->
 <!-- 	<div class="dimBg"></div> -->
-<div id="layer2" class="pop-layer">
+<div id="layer20" class="pop-layer">
 	<div class="pop-container">
 		<div class="pop-conts">
 			<!--content //-->

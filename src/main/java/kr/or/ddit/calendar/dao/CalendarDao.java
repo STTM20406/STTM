@@ -125,4 +125,9 @@ public class CalendarDao implements ICalendarDao {
 		return sqlSession.selectOne("calendar.searchWorkInfomation",wrk_id);
 	}
 
+	@Override
+	public WorkVo search_userEmail(int wrk_id) {
+		return sqlSession.selectOne("calendar.search_userEmail",wrk_id);
+	}
+
 }

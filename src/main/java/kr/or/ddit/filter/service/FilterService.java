@@ -207,7 +207,7 @@ public class FilterService implements IFilterService{
 			Boolean unscheduled = work.getWrk_start_dt() == null || work.getWrk_end_dt() == null ? true : null;
 			String start_date = work.getWrk_start_dt() == null ? null : sdf.format(work.getWrk_start_dt());			
 			String end_date = work.getWrk_end_dt() == null ? null : sdf.format(work.getWrk_end_dt().getTime() + (1000*60*60*24));
-			
+			String color_cd = work.getWrk_color_cd();
 			if("AUTH04".equals(work.getAuth())) {
 				continue;
 			}
@@ -215,24 +215,24 @@ public class FilterService implements IFilterService{
 			GanttChartVo ganttVo = new GanttChartVo();
 			
 				
-			if(work.getWrk_start_dt()!=null && work.getWrk_end_dt()!=null) {
-				if(work.getWrk_end_dt().before(new Date()) && "N".equals(work.getWrk_cmp_fl())) {
-					ganttVo.setColor("#ef1010");
-				}
-				
-				if(work.getWrk_cmp_dt()!=null) {
-					if(work.getWrk_cmp_dt().after(work.getWrk_end_dt())) {
-						ganttVo.setColor("#c7c20e");
-					} else if ("Y".equals(work.getWrk_cmp_fl())){
-						ganttVo.setColor("#00cc00");
-					}
-				}
-			}
+//			if(work.getWrk_start_dt()!=null && work.getWrk_end_dt()!=null) {
+//				if(work.getWrk_end_dt().before(new Date()) && "N".equals(work.getWrk_cmp_fl())) {
+//					ganttVo.setColor("#ef1010");
+//				}
+//				
+//				if(work.getWrk_cmp_dt()!=null) {
+//					if(work.getWrk_cmp_dt().after(work.getWrk_end_dt())) {
+//						ganttVo.setColor("#c7c20e");
+//					} else if ("Y".equals(work.getWrk_cmp_fl())){
+//						ganttVo.setColor("#00cc00");
+//					}
+//				}
+//			}
 			
 			if("AUTH02".equals(work.getAuth()) || "AUTH03".equals(work.getAuth()))
 				ganttVo.setReadonly(true);
 			
-			
+			ganttVo.setColor(color_cd);
 			ganttVo.setId(id);
 			ganttVo.setText(text);
 			ganttVo.setParent(parent);
@@ -314,9 +314,7 @@ public class FilterService implements IFilterService{
 				} 
 					else if("Y".equals(work.getWrk_cmp_fl())) 
 				{
-					if(work.getWrk_cmp_dt().before(work.getWrk_end_dt()))
-						sb_result.append("<span>&nbsp;&nbsp; "+ date_str +" </span><span class='cmp' style='color:#32a89b;'>&nbsp;&nbsp;"+ sdf.format(work.getWrk_cmp_dt()) +" <b>완료</b></span>");
-					else if(work.getWrk_cmp_dt().after(work.getWrk_end_dt()))
+					if(work.getWrk_cmp_dt().after(work.getWrk_end_dt()))
 						sb_result.append("<span>&nbsp;&nbsp; "+ date_str +" </span><span class='latecmp' style='color:#b71bbf;'>&nbsp;&nbsp;"+ sdf.format(work.getWrk_cmp_dt()) +" <b>완료</b></span>");
 				}
 			
@@ -1046,7 +1044,7 @@ public class FilterService implements IFilterService{
 		overdueMap.put("data", overdueData);
 		overdueMap.put("name", "마감일 지난 업무");
 		
-		double nodeadlineData = Math.round(nodeadlinePt/entPt)*100;
+		double nodeadlineData = Math.round((nodeadlinePt/entPt)*100);
 		nodeadlineMap.put("data", nodeadlineData);
 		nodeadlineMap.put("name", "마감일 없는 업무");
 		
@@ -1249,6 +1247,7 @@ public class FilterService implements IFilterService{
 		} else if(nowDate.after(workVo.getWrk_end_dt())){ // 마감일 지난 업무 : 업무 마감일이 현재보다 앞일 때
 			wrkStatus = "overdue";
 		}
+		
 		return wrkStatus;
 	}
 }

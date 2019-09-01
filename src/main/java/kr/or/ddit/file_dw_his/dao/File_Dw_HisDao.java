@@ -26,4 +26,9 @@ public class File_Dw_HisDao implements IFile_Dw_HisDao{
 		return sqlSession.selectOne("project.historyCnt",prj_id);
 	}
 
+	@Override
+	public int insertHistory(File_Dw_HisVo file_Dw_HisVo) {
+		return sqlSession.insert("project.insertHistory",file_Dw_HisVo);
+	}
+
 }

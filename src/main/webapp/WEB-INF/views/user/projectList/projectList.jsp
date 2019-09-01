@@ -16,6 +16,24 @@
 		var prjStatus =  "";
 		var stColor ="";
 		
+		$('.prj_mem_sch').on('keyup',"#prj_mem",function(){
+			var user_nm = $('#prj_mem').val();
+			
+			searchName(user_nm);
+		});
+		
+		$('.searchPL').on('keyup',"#searchPL",function(){
+			var user_nm = $('#searchPL').val();
+			var prj_id = $("#ppt_id").val();
+			searchPL(user_nm,prj_id);
+		});
+		
+		$('.searchMem').on('keyup',"#searchMem",function(){
+			var user_nm = $('#searchMem').val();
+			
+			searchMem(user_nm);
+		});
+		
 		//프로젝트 리스트 클릭시 업무 페이지로 이동
 		$(".my_project_list").on("click", ".prj_title", function(){
 			var prj_id = $(this).attr("id");
@@ -48,7 +66,6 @@
 		});
 		
 		
-		
 		//프로젝트 상태별 프로젝트 리스트 조회 ajax
 		$("#prj_all_st").on("change", function(){
 			var prj_status = $(this).val();
@@ -58,6 +75,63 @@
 			
 		});
 		
+<<<<<<< HEAD
+=======
+		//프로젝트 상태별 프로젝트 리스트 조회 ajax
+		function prjStListAjax(prj_status){
+			$.ajax({
+				url:"/project/prjStListAjax",
+				method:"post",
+				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+				data: "prj_st=" + prj_status,
+				success:function(data){
+					
+					var html = "";
+					
+					//상태값이 전체프로젝트가 아닐때
+					if(prj_status != "전체프로젝트"){
+						//데이터에서 값을 꺼내 리스트 생성
+						data.data.projectList.forEach(function(project){
+							//html 생성
+			 				html += "<div class='project_item'><ul class='project_item_hd'>";
+			 				html += "<li>" + project.prj_nm + "</li>";
+			 				html += "<li><a href=''>설정</a></li></ul>";
+			 				html += "<ul class='project_item_con'><li>";
+			 				html += "<p class='currnt_prj_st'>" + project.prj_st + "</p>";
+			 				html += "<div class='prj_item_st'>";
+			 				html += "<input type='button' value='계획' id='prj_st_"+ project.prj_id + "'>";
+			 				html += "<input type='button' value='진행중' id='prj_st_"+ project.prj_id + "'>";
+			 				html += "<input type='button' value='완료' id='prj_st_"+ project.prj_id + "'>";
+			 				html += "<input type='button' value='보류' id='prj_st_"+ project.prj_id + "'>";
+			 				html += "<input type='button' value='취소' id='prj_st_"+ project.prj_id + "'>";
+			 				html += "<input type='button' value='상태없음' id='prj_st_"+ project.prj_id + "'>";
+							html += "</div></li></ul></div>"	;
+						});	
+					}else{
+						//상태값이 전체프로젝트일때
+						data.data.forEach(function(item, index){
+							//html 생성
+			 				html += "<div class='project_item'><ul class='project_item_hd'>";
+			 				html += "<li>" + item.prj_nm + "</li>";
+			 				html += "<li><a href=''>설정</a></li></ul>";
+			 				html += "<ul class='project_item_con'><li>";
+			 				html += "<p class='currnt_prj_st'>" + item.prj_st + "</p>";
+			 				html += "<div class='prj_item_st'>";
+			 				html += "<input type='button' value='계획' id='prj_st_"+ item.prj_id + "'>";
+			 				html += "<input type='button' value='진행중' id='prj_st_"+ item.prj_id + "'>";
+			 				html += "<input type='button' value='완료' id='prj_st_"+ item.prj_id + "'>";
+			 				html += "<input type='button' value='보류' id='prj_st_"+ item.prj_id + "'>";
+			 				html += "<input type='button' value='취소' id='prj_st_"+ item.prj_id + "'>";
+			 				html += "<input type='button' value='상태없음' id='prj_st_"+ item.prj_id + "'>";
+							html += "</div></li></ul></div>"	
+						});	
+					}
+					$(".my_project_list").html(html);
+				}
+			});
+		}
+
+>>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 		
 		//프로젝트 생성 다음 버튼 클릭시
 		$(".prj_btn").on("click", "#prj_btn_next", function(){
@@ -94,6 +168,40 @@
 		});
 		
 		
+<<<<<<< HEAD
+=======
+		
+		function prjSearchAjax(prj_nm){
+			$.ajax({
+				url:"/project/prjSearchAjax",
+				method:"post",
+				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+				data: "prj_nm=" + prj_nm,
+				success:function(data){
+					var html = "";
+					data.data.projectList.forEach(function(project){
+						//html 생성
+		 				html += "<div class='project_item'><ul class='project_item_hd'>";
+		 				html += "<li>" + project.prj_nm + "</li>";
+		 				html += "<li><a href=''>설정</a></li></ul>";
+		 				html += "<ul class='project_item_con'><li>";
+		 				html += "<p class='currnt_prj_st'>" + project.prj_st + "</p>";
+		 				html += "<div class='prj_item_st'>";
+		 				html += "<input type='button' value='계획' id='prj_st_"+ project.prj_id + "'>";
+		 				html += "<input type='button' value='진행중' id='prj_st_"+ project.prj_id + "'>";
+		 				html += "<input type='button' value='완료' id='prj_st_"+ project.prj_id + "'>";
+		 				html += "<input type='button' value='보류' id='prj_st_"+ project.prj_id + "'>";
+		 				html += "<input type='button' value='취소' id='prj_st_"+ project.prj_id + "'>";
+		 				html += "<input type='button' value='상태없음' id='prj_st_"+ project.prj_id + "'>";
+						html += "</div></li></ul></div>";
+					});	
+					
+					$(".my_project_list").html(html);
+				}
+				
+			});
+		}
+>>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 		
 		//프로젝트 설정 버튼을 클릭했을 때
 		$(".my_project_list").on("click", ".btnSetting", function(){
@@ -222,21 +330,64 @@
 		$(".prj_add_adm").fadeOut(0); //멤버리스트 layer 숨기기
 		$("#ppt_adm_set").on("click", function(){
 			$(".prj_add_adm").fadeIn(300);
+<<<<<<< HEAD
 			$(".prj_add_mem").fadeOut(300);
+=======
+>>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 			var id = $("#ppt_id").val();
-			
+			alert(id);
 			projectAdmListAjax(id);
 		});
 		
+<<<<<<< HEAD
+=======
+		//프로젝트 관리자 가져오는 ajax
+		function projectAdmListAjax(id){
+			$.ajax({
+				url:"/project/projectAdmListAjax",
+				method:"post",
+				contentType:"application/x-www-form-urlencoded; charset=UTF-8",
+				data:	"prj_id=" + id,
+				success:function(data){
+					var html = "";
+					console.log(data.data);
+					data.data.forEach(function(item, index){
+						//html 생성
+						html += "<li id='"+ item.user_email +"'><span>"+ item.user_nm +"</span>"+ item.user_email + "</li>";
+					});	
+					$(".searchPL_item").html(html);
+				}
+			});
+		}
+>>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 		
-		//프로젝트 멤버리스트를 클릭 했을 때
-		$(".prj_mem_item").on("click", "li", function(){
+		//프로젝트 관리자 리스트를 클릭 했을 때
+		$(".searchPL_item").on("click", "li", function(){
 			var adm_add_email = $(this).attr("id");
 			var id = $("#ppt_id").val();
 			projectAdmAddAjax(id, adm_add_email);
 		});
 		
+<<<<<<< HEAD
 		
+=======
+		//프로젝트 관리자로 선택한 멤버 추가
+		function projectAdmAddAjax(id, adm_add_email){
+			$.ajax({
+				url:"/project/projectAdmAddAjax",
+				method:"post",
+				data:"prj_id="+ id + "&user_email=" + adm_add_email,
+				success:function(data){
+					var html = "";
+					data.data.forEach(function(item, index){
+						html += "<li id='"+ item.user_email +"_"+item.prj_id+"_"+item.prj_mem_lv+"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
+					});	
+					propertySetAjax(id);
+					$(".prj_add_box").html(html);
+				}
+			});
+		}
+>>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 		
 		//프로젝트 관리자 삭제 클릭 했을 때
 		$(".prj_add_box").on("click", "li input", function(){
@@ -256,20 +407,38 @@
 			projectAdmDelAjax(id, email);
 		});
 		
-		
+<<<<<<< HEAD
+=======
+		function projectAdmDelAjax(id, email){
+			$.ajax({
+				url:"/project/projectAdmDelAjax",
+				method:"post",
+				data:"prj_id="+ id + "&user_email=" + email,
+				success:function(data){
+					var html = "";
+					data.data.forEach(function(item, index){
+						html += "<li id='"+ item.user_email +"_"+item.prj_id+"_"+item.prj_mem_lv+"'>"+ item.user_nm +"<input type='button' class='memDel' value='삭제'></li>";
+					});	
+					
+					propertySetAjax(id);
+					$(".prj_add_box").html(html);
+				}
+			});
+		}
+>>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 		
 		//프로젝트 멤버 추가하기 버튼 클릭시 내가 속한 모든 프로젝트의 멤버들을 가져옴
 		$(".prj_add_mem").fadeOut(0); //멤버리스트 layer 숨기기
 		$("#ppt_mem_set").on("click", function(){
-			
 			$(".prj_add_mem").fadeIn(300);
+<<<<<<< HEAD
 			$(".prj_add_adm").fadeOut(300);
+=======
+>>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 			var id = $("#ppt_id").val();
-			
+			alert(id);
 			projectMemListAjax(id);
 		});
-		
-		
 		
 		
 		
@@ -277,12 +446,10 @@
 		$(".prj_mem_item_list").on("click", "li", function(){
 			var mem_add_email = $(this).attr("id");
 			var id = $("#ppt_id").val();
-			
 			console.log(id);
 			console.log(mem_add_email);
 			projectMemAddAjax(id, mem_add_email);
 		});
-		
 		
 		
 		
@@ -338,7 +505,6 @@
 			$("#projectLeaveFrm").submit();
 		});
 		
-		
 		//프로젝트 삭제
 		$("#prjDelBtn").on("click", function(){
 			
@@ -362,6 +528,7 @@
 			$(".btn-r").show(0);
 			
 			$("#projectDelFrm").submit();
+			
 		});
 		
 		$(".select_template").on("click", "li", function(){
@@ -391,6 +558,7 @@
 		});
 	});
 	
+<<<<<<< HEAD
 	
 	
 	//프로젝트 상태값 변경 ajax
@@ -776,6 +944,63 @@ function projectMemDelAjax(id, email){
 			}
 		});
 	}
+=======
+	//프로젝트 생성시 멤버 검색프로젝트 생성시 멤버 검색프로젝트 생성시 멤버 검색
+	function searchName(user_nm){
+		$.ajax({
+			url:"/project/searchName",
+			method:"post",
+			data: "user_nm=" + user_nm,
+			success:function(data){
+				console.log(data);
+				var html = "";
+				data.data.forEach(function(item, index){
+					//html 생성
+					html += "<li><input type='checkbox' name='memItem' value='"+item.user_email+"'><span>"+ item.user_nm +"</span>"+ item.user_email + "</li>";
+				});	
+				$(".prj_crt_mem_item").html(html);
+			}
+		});
+	}
+	//프로젝트 생성시 멤버 검색프로젝트 생성시 멤버 검색
+	//프로젝트 생성 후 설정에서 프로젝트 관리자 검색
+	function searchPL(user_nm, prj_id){
+		$.ajax({
+			url:"/project/searchPL",
+			method:"post",
+			data: "user_nm=" + user_nm + "&prj_id=" + prj_id,
+			success:function(data){
+				console.log(data);
+				var html = "";
+				data.data.forEach(function(item, index){
+					//html 생성
+					html += "<li id='"+ item.user_email +"'><span>"+ item.user_nm +"</span>"+ item.user_email + "</li>";
+				});	
+				$(".searchPL_item").html(html);
+			}
+		});
+	}
+	//프로젝트 생성 후 설정에서 프로젝트 관리자 검색
+	//프로젝트 생성 후 설정에서 프로젝트 멤버 검색
+	function searchMem(user_nm){
+		$.ajax({
+			url:"/project/searchMem",
+			method:"post",
+			data: "user_nm=" + user_nm,
+			success:function(data){
+				console.log(data);
+				var html = "";
+				data.data.forEach(function(item, index){
+					//html 생성
+					html += "<li id='"+ item.user_email +"'><span>"+ item.user_nm +"</span>"+ item.user_email + "</li>";
+				});	
+				$(".prj_mem_item_list").html(html);
+			}
+		});
+	}
+	//프로젝트 생성 후 설정에서 프로젝트 멤버 검색
+	
+>>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 	
 	//프로젝트 생성 - 선택한멤버리스트 함께 넘기기
 	function prjBtnSubmit(){
@@ -794,7 +1019,7 @@ function projectMemDelAjax(id, email){
         
         var secGap = new Date().getTime() - updateTime;
         var sec = Math.floor(secGap/1000); //초
-        
+         
         //시분초일로 표현
         if(sec < 60) {
 			sec = sec + '초';
@@ -802,10 +1027,10 @@ function projectMemDelAjax(id, email){
 			sec = Math.floor(sec%3600/60) + '분 ' + sec%60 + '초';
        	}else if(sec < 86400){
        	 	sec = Math.floor(sec/3600) + '시간 ' + Math.floor(sec%3600/60) + '분 ' + sec%60 + '초';
-       	}else{
+       	}else{  
        		sec = Math.floor(sec/3600/24) + '일 ' + Math.floor(sec/3600%24) + '시간 ' + Math.floor(sec%3600/60) + '분 ' + sec%60 + '초';
        	}
-        
+         
 		html += sec + "전에 업데이트 되었습니다.";
 		
         // setTimeout함수를 통해 원하는 함수를 1초간격으로 출력해줌
@@ -1098,32 +1323,39 @@ function projectMemDelAjax(id, email){
 					<input type="text" data-language="en" class="datepicker-here datePick" id="ppt_cmp_date">
 				</dd>
 			</dl>
+			
+			
+			
 			<dl class="setItem">
 				<dt>프로젝트 관리자</dt>
 				<dd>
 					<button type="button" id="ppt_adm_set" name="ppt_adm_set">관리자 추가 버튼</button>
 
 					<!-- 프로젝트 관리자 리스트 box -->
+					
 					<ul class="prj_add_box"></ul>
 
 					<div class="prj_add_adm">
 						<label for="prj_mem">프로젝트 관리자 추가</label>
 						<input type="button" value="닫기" id="memClose" class="memClose">
+<<<<<<< HEAD
 						<div class="prj_mem_list">
 							<div class="prj_mem_sch">
+=======
+						<div class="prj_mem_list"> 
+							<div class="searchPL">
+>>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 								<fieldset id="hd_sch">
-									<legend>사이트 내 프로젝트 검색</legend>
-									<input type="text" name="prj_mem" id="prj_mem" maxlength="20"
-										placeholder="검색어를 입력해주세요">
+									<input type="text" name="user_nm" id="searchPL" maxlength="20" placeholder="검색어를 입력해주세요">
 								</fieldset>
 							</div>
-
-							<!-- 추가된 프로젝트 관리자 리스트 box -->
-							<ul class="prj_mem_item"></ul>
+					<!-- 추가된 프로젝트 관리자 리스트 box -->
+							<ul class="searchPL_item"></ul>
 						</div>
 					</div>
 				</dd>
 			</dl>
+			
 			<dl class="setItem">
 				<dt>프로젝트 멤버</dt>
 				<dd>
@@ -1134,16 +1366,19 @@ function projectMemDelAjax(id, email){
 					<div class="prj_add_mem">
 						<label for="prj_mem">프로젝트 멤버 추가</label>
 						<input type="button" value="닫기" id="mamListClose" class="mamListClose">
+<<<<<<< HEAD
 						<div class="prj_mem_list">
 							<div class="prj_mem_sch">
+=======
+						<div class="prj_mem_list"> 
+							<div class="searchMem">
+>>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 								<fieldset id="hd_sch">
 									<legend>사이트 내 프로젝트 검색</legend>
-									<input type="text" name="prj_mem" id="prj_mem" maxlength="20"
-										placeholder="검색어를 입력해주세요">
+									<input type="text" name="user_nm" id="searchMem" maxlength="20" placeholder="검색어를 입력해주세요" value="">
 								</fieldset>
 							</div>
-
-							<!-- 추가된 프로젝트 멤버 리스트 box -->
+					<!-- 추가된 프로젝트 멤버 리스트 box -->
 							<ul class="prj_mem_item_list"></ul>
 						</div>
 					</div>

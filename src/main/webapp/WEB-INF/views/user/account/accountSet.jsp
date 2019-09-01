@@ -2,6 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<!-- https://huskdoll.tistory.com/529 -->
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
+
 <style>
 
 	/* 탭 설정 스타일 */
@@ -119,7 +122,7 @@
 		    return false;
 		}else if(passForm.user_pass.value==""){
 			 alert("새 비밀번호를 다시 입력하여 확인해 주세요");
-				 passForm.user_pass2.focus();
+				 passForm.user_pass.focus();
 				 return false;
 		}
 		
@@ -147,6 +150,44 @@
 		alert("회원님의 계정이 휴면 상태로 전환 되었습니다.");			
 	}
     
+    // ------- 일반 사용자 프로필 업데이트 -------
+    function setProfile(){
+    	
+    	// 핸드폰 번호 정규식
+    	var re3 = /^\d{3}-\d{4}-\d{4}$/;
+    	
+    	// 이름 정규식
+    	var re4 = /^[가-힣]{2,4}$/;
+    	
+    	var user_nm = document.getElementById("user_nm");
+    	var user_hp = document.getElementById("user_hp");
+    	
+    	// 이름
+		if(profileForm.user_nm.value=="") {
+		    alert("이름을 입력해 주세요");
+		    join.user_nm.focus();
+		    return false;
+		}
+		
+		if(!check(re4, user_nm, "이름은 이름은 한글 2~4자 이내로 입력해주세요.")) {
+			return false;
+		}
+		
+		// 핸드폰 번호
+		if(profileForm.user_hp.value=="") {
+		    alert("핸드폰 번호를 입력해 주세요");
+		    join.user_hp.focus();
+		    return false;
+		}
+		
+		if(!check(re3, user_hp, "010-0000-0000 형식에 맞는 핸드폰 번호를 입력해주세요.")) {
+		    return false;
+		}
+    	
+		$("#profileForm").submit();
+		alert("회원님의 프로필이 업데이트 되었습니다.");			
+    }
+    
     function check(re,what,message){
     	if(re.test(what.value)){
     		return true;
@@ -155,12 +196,6 @@
     	what.value = "";
     	what.focus();
     	// return false;
-    }
-    
-    // ------- 일반 사용자 프로필 업데이트 -------
-    function setProfile(){
-		$("#profileForm").submit();
-		alert("회원님의 프로필이 업데이트 되었습니다.");			
     }
     
   //------- 모달 설정 스크립트 -------
@@ -199,7 +234,67 @@
           });
 
       }				
-    
+	
+	function inactivePagingListAjax(page, pageSize){
+		$.ajax({
+			
+			url:"/setUserPass#layer0",
+			method:"get",
+			data:"page="+page+"&pageSize="+pageSize,
+			success:function(data){
+				
+				var html="";
+				data.data.inactiveMemList.forEach(function(inactive){
+					
+// 					<td>${inactive.prj_id}</td>
+// 					<td>${inactive.prj_nm}</td>
+// 					<td>${inactive.user_nm}</td>
+					
+// 					<td class="transOwn" id="${inactive.user_email}">
+// 						<input type="button" id="subOwership" class="inp_style_02" value="소유권 이전">
+// 						<input type="hidden" id="transPrjId" value="${inactive.prj_id}"/> <!-- sol -->
+// 					</td>
+
+					html += "<td>"+${inactive.prj_id}+"</td>";
+					html += "<td>"+${inactive.prj_nm}+"</td>";
+					html += "<td>"+${inactive.user_nm}+"</td>";
+					html += "<td class='transOwn' id='"+${inactive.user_email}+""'>";
+					hrml += "<input type='button' id='subOwership' class='inp_style_02' value='소유권 이전'>";
+					html += "<input type='hidden' id='transPrjId' value='"+${inactive.prj_id}+"'/>"; // sol
+					html += "</td>"
+				});
+				
+				// 페이지네이션 생성
+				var pHtml = "";
+//	 			var pageVo = data.data.pageVo;
+				var pageVo = data.pageVo;
+				if(pageVo.page==1)
+					pHtml += "<li class='disabled'<span>«</span></li>";
+				else
+					pHtml += "<li><a href='javascript:setUserPass(" + (pageVo.page -1) + "," + pageVo.pageSize + ");'>«</a></li>";
+				
+				for(var i=1; i<= data.data.paginationSize; i++ ){
+					if(pageVo.page == i)
+						pHtml += "<li class='active'><span>" + i + "</span></li>";
+					else
+						pHtml += "<li><a href='javascript:setUserPass(" + i + "," + pageVo.pageSize + ");'>" + i + "</a></li>";
+				}
+					
+				if(pageVo.page == data.data.paginationSize)
+					pHtml += "<li class='disabled'><span></span><li>"
+				else
+					pHtml += "<li><a href='jacascript:setUserPass(" + (pageVo.page+1) + "," + pageVo.pageSize + ");'>»</a></li>";
+				
+				console.log("html : ", html);
+				console.log("pHtml : ", pHtml);
+				$("#inactiveMember").html(html);
+				$(".pagination").html(pHtml);
+			
+			}	
+				
+		});
+	};
+  
 </script>
 
 <section class = "contents">	
@@ -249,7 +344,6 @@
 					<form action="/setUserPass" method="post" id="noticeForm">
 						<div class="inputField">
 							<ul>
-								<!-- 프로젝트에 대한 알림 -->
 								<li>
 									<br><br>
 									<input type="checkbox" id="notice" name="project" value="이거보내니?"> 프로젝트에 대한 알림<br>
@@ -274,16 +368,16 @@
 				<br><br>
 			
 				<!-- 휴면 계정 설정 -->  
-				<div id="setUserStatus" class="loginWrap" style="background-color:paleturquoise" onclick="setUserStatus"><label>휴면계정</label>
+				<div id="setUserStatus" class="loginWrap" style="background-color:paleturquoise" onclick="setUserStatus"><label>휴면 계정</label>
 					<form action="/setUserStatus" method="get" id="userStatusForm">
 						<div class="inputField">
-							<a href="#layer0" class="inactiveUser a_style_01">휴면 계정 전환</a>
+							<a href="#layer0" class="inactiveUser a_style_02">휴면계정전환</a>
+<!-- 							<a href="#layer0" class="inactiveUser a_style_03">휴면 계정 전환</a> -->
 						</div>
 					</form>
 				</div>
 				
 				<!-- 휴면 계정 설정 레이어창 -->
-<!-- 				<form action="/setUserStatus" id="friendsRequestListForm" method="get"> -->
 				<form action="/setUserPass" id="ownEmailForm" method="post">
 					<input type="hidden" id="transferOwership" name="transferOwership">
 					<input type="hidden" id="transferPrjId" name="transferPrjId">
@@ -294,7 +388,6 @@
 				    <div class="pop-container">
 				        <div class="pop-conts">
 				            <!--content //-->
-						
 						
 							<table class="tb_style_01">
 								<colgroup>
@@ -308,31 +401,35 @@
 									
 										<th>프로젝트 아이디</th>
 										<th>프로젝트 이름</th>
-										<th>프로젝트 멤버 이름</th>
+										<th>멤버 이름</th>
 										<th></th>
 					
 										<c:forEach items="${inactiveMemList}" var="inactive">
 										
-											<tr class="ownTr" data-user_email="${inactive.user_email}">
-												<td>${inactive.prj_id}</td>
-												<td>${inactive.prj_nm}</td>
-												<td>${inactive.user_nm}</td>
-												<td class="transOwn" id="${inactive.user_email}">
+											<tr id="inactiveMember" class="ownTr" data-user_email="${inactive.user_email}">
+<%-- 												<td>${inactive.prj_id}</td> --%>
+<%-- 												<td>${inactive.prj_nm}</td> --%>
+<%-- 												<td>${inactive.user_nm}</td> --%>
 <%-- 												<td class="transOwn" id="${inactive.user_email}"> --%>
-<%-- 													<a href="/setUserPass?transferOwership=${inactive.user_email}" id="transferBtn" class="inp_style_01">소유권이전</a> --%>
-<!-- 													<input type="submit" id="subOwership" class="inp_style_01" value="소유권 이전"> -->
-													<input type="button" id="subOwership" class="inp_style_04" value="소유권 이전">
-													<input type="hidden" id="transPrjId" value="${inactive.prj_id}"/> <!-- sol -->
-												</td>
-												
-												
+<!-- 													<input type="button" id="subOwership" class="inp_style_02" value="소유권 이전"> -->
+<%-- 													<input type="hidden" id="transPrjId" value="${inactive.prj_id}"/> <!-- sol --> --%>
+<!-- 												</td> -->
 											</tr>
 											
 										</c:forEach>
 											
 									</tr>
+
 								</tbody>
 							</table>
+
+							<!-- 휴면 계정 전환 -->
+							<c:if test="${fn:length(inactiveList)==0}">
+<!-- 								<input type="button" id="inactiveBtn" value="휴면 계정 전환" class="inp_style_04" style="float: right;"> -->
+
+<%-- C								<a href="/inactiveUser?inactiveEmail=${inactiveMemList}" class="inp_style_04" style="float: right;">휴면계정전환</a> --%>
+								<a href="/inactiveUser?inactiveEmail=${sessionEmail}" class="inp_style_04" style="float: right;">휴면계정전환</a>
+							</c:if>
 							
 				            <div class="btn-r">
 				                <a href="#" class="btn-layerClose">Close</a>
@@ -341,46 +438,46 @@
 				            <!--// content-->
 				        </div>
 				        
+			        <div class="text-center">
+				        <!-- 휴면 계정 전환 페이지 네이션 -->
 				        <div class="pagination">
-							<c:choose>
-								<c:when test="${pageVo.page == 1 }">
-									<a href class="btn_first"></a>
-								</c:when>
-								<c:otherwise>
-<%-- 									<a href="${cp}/setUserPass?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a> --%>
-									<a href="${cp}/setUserPass#layer0?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">«</a>
+<%-- 							<c:choose> --%>
+<%-- 								<c:when test="${pageVo.page == 1 }"> --%>
+<!-- 									<a href class="btn_first"></a> -->
+<%-- 								</c:when> --%>
+<%-- 								<c:otherwise> --%>
+<%-- 									<a href="${cp}/setUserPass?page=${pageVo.page - 1}&pageSize=${pageVo.pageSize}">≪</a> --%>
+<%-- 								</c:otherwise> --%>
+<%-- 							</c:choose> --%>
+				
+<%-- 							<c:forEach begin="1" end="${paginationSize}" var="i"> --%>
+<%-- 								<c:choose> --%>
+<%-- 									<c:when test="${pageVo.page == i}"> --%>
+<%-- 										<span>${i}</span> --%>
+<%-- 									</c:when> --%>
+<%-- 									<c:otherwise> --%>
+<%-- 										<a href="${cp}/setUserPass?page=${i}&pageSize=${pageVo.pageSize}">${i}</a> --%>
+<%-- 									</c:otherwise> --%>
+<%-- 								</c:choose> --%>
+				
+<%-- 							</c:forEach> --%>
+				
+<%-- 							<c:choose> --%>
+<%-- 								<c:when test="${pageVo.page == paginationSize}"> --%>
+<!-- 									<a href class="btn_last"></a> -->
+<%-- 								</c:when> --%>
 								
-								</c:otherwise>
-							</c:choose>
-				
-							<c:forEach begin="1" end="${paginationSize}" var="i">
-								<c:choose>
-									<c:when test="${pageVo.page == i}">
-										<span>${i}</span>
-									</c:when>
-									<c:otherwise>
-<%-- 									<a href="${cp}/setUserPass?page=${i}&pageSize=${pageVo.pageSize}">${i}</a> --%>
-									<a href="${cp}/setUserPass#layer0?page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
-									</c:otherwise>
-								</c:choose>
-				
-							</c:forEach>
-				
-							<c:choose>
-								<c:when test="${pageVo.page == paginationSize}">
-									<a href class="btn_last"></a>
-								</c:when>
-								
-								<c:otherwise>
-<%-- 									<a href="${cp}/setUserPass?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a> --%>
-									<a href="${cp}/setUserPass#layer0?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
-								</c:otherwise>
-							</c:choose>
+<%-- 								<c:otherwise> --%>
+<%-- 									<a href="${cp}/setUserPass?page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">≫</a> --%>
+<%-- 								</c:otherwise> --%>
+<%-- 							</c:choose> --%>
 						</div>
+						<!-- 휴면 계정 전환 페이지 네이션 끝-->
+					</div>
+						
 				    </div>
 				</div>
 			</form>
-				
 				
 			</div> 
 		
@@ -407,7 +504,7 @@
 								</li>
 								
 								<li>
-									<input type="button" onclick="setProfile()" class="btn_style_01" value="비밀번호 수정">
+									<input type="button" onclick="setProfile()" class="btn_style_01" value="프로필 수정">
 								</li>
 								
 							</ul>

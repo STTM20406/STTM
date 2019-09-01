@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import org.apache.poi.hpsf.Array;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -225,14 +226,15 @@ public class ProjectController {
 		projectMemVo.setUser_email(user_email);
 
 		model.addAttribute("data", projectMemService.projectMemList(projectMemVo));
+		logger.debug("♬♩♪  프로젝트 설정 누르면 프로젝트 관리로 추가 할 멤버 리스트 불러옴:{}",projectMemService.projectMemList(projectMemVo) );
 
 		return "jsonView";
 	}
 
 	// 프로젝트 멤버 관리자로 update
 	@RequestMapping("/projectAdmAddAjax")
-	public String projectAdmAddAjax(String user_email, String prj_id, Model model) {
-
+	public String projectAdmAddAjax(String user_email, String prj_id, Model model, HttpSession session) {
+		logger.debug("♬♩♪  projectAdmAddAjax로들어오나요?");
 		int prjId = Integer.parseInt(prj_id);
 
 		Project_MemVo projectMemVo = new Project_MemVo();
@@ -242,14 +244,17 @@ public class ProjectController {
 
 		int updateCnt = projectMemService.updateProjectMem(projectMemVo);
 
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String email = userVo.getUser_email();
+		
 		Project_MemVo projectMemListVo = new Project_MemVo();
 		projectMemListVo.setPrj_id(prjId);
-		projectMemListVo.setUser_email(user_email);
-
+		projectMemListVo.setUser_email(email);
+		
 		List<Project_MemVo> admList = new ArrayList<Project_MemVo>();
-
+		
 		if (updateCnt != 0) {
-			List<Project_MemVo> project_adm_list = projectMemService.projectMemList(projectMemVo);
+			List<Project_MemVo> project_adm_list = projectMemService.projectMemList(projectMemListVo);
 			for (int i = 0; i < project_adm_list.size(); i++) {
 				if (project_adm_list.get(i).getPrj_mem_lv().equals("LV0")) {
 					admList.add(project_adm_list.get(i));
@@ -289,7 +294,7 @@ public class ProjectController {
 	// 프로젝트 멤버 리스트 불러오기
 	@RequestMapping("/projectMemListAjax")
 	public String projectMemListAjax(String prj_id, Model model, HttpSession session) {
-
+		logger.debug("♬♩♪  projectMemListAjax로 들어옵니까?????????");
 		int prjId = Integer.parseInt(prj_id);
 
 		// 세션에 저장된 user 정보를 가져옴
@@ -312,32 +317,57 @@ public class ProjectController {
 				}
 			}
 		}
-
 		model.addAttribute("data", project_mem_list);
-
 		return "jsonView";
 	}
 
 	// 프로젝트 멤버 추가
 	@RequestMapping("/projectMemAddAjax")
-	public @ResponseBody HashMap<String, Object> projectMemAddAjax(String user_email, String prj_id, Model model) {
-
+	public @ResponseBody HashMap<String, Object> projectMemAddAjax(String user_email, String prj_id, Model model, HttpSession session) {
+		
 		int prjId = Integer.parseInt(prj_id);
+		
+		UserVo user = (UserVo) session.getAttribute("USER_INFO");
+		String login_user_email = user.getUser_email();
 
 		Project_MemVo projectMemVo = new Project_MemVo();
-		projectMemVo.setUser_email(user_email);
 		projectMemVo.setPrj_id(prjId);
-		projectMemVo.setPrj_mem_lv("LV1");
-		projectMemVo.setPrj_own_fl("N");
-
-		int insertCnt = projectMemService.insertProjectMem(projectMemVo);
+		projectMemVo.setUser_email(user_email);
+		projectMemService.mergeProjectMem(projectMemVo);
+		
+		//생성할 때 체크한 멤버리스트
+//		List<Project_MemVo> project_MemList = projectMemService.projectMemYNList(projectMemVo);
+//		logger.debug("♬♩♪  projectMemAddAjax + project_MemList: {}", project_MemList);
+//		ArrayList<String> user_emailList = new ArrayList<String>();
+//		for (int i = 0; i < project_MemList.size(); i++) {
+//			user_emailList.add(project_MemList.get(i).getUser_email());
+//		}
+//		logger.debug("♬♩♪  user_emailList: {}", user_emailList);
+//		logger.debug("♬♩♪  선택한 회원 email: {}", user_email);
+//		
+//		int insertCnt = 0;
+//		for (int i=0; i < user_emailList.size(); i++) {
+//			if(user_emailList.get(i).contains(user_email)) {
+//				logger.debug("♬♩♪  update");
+//				projectMemVo.setPrj_mem_lv("LV1");
+//				projectMemVo.setPrj_id(prjId);
+//				projectMemVo.setUser_email(user_email);
+//			}
+//			
+//			projectMemService.updateProjectMem(projectMemVo);
+//			
+//			projectMemVo.setPrj_id(prjId);
+//			projectMemVo.setUser_email(user_email);
+//			projectMemVo.setPrj_mem_lv("LV1");
+//			projectMemVo.setPrj_own_fl("N");
+//			insertCnt = projectMemService.insertProjectMem(projectMemVo);
+//		}
 		
 		//채팅방에 프로젝트 멤버 추가
 		ProjectVo vo = new ProjectVo();
 		vo.setUser_email(user_email);
 		vo.setPrj_id(prjId);
 		memService.insertChatMemProject(vo);
-		
 		
 		Project_MemVo projectMemListVo = new Project_MemVo();
 		projectMemListVo.setUser_email(user_email);
@@ -347,18 +377,18 @@ public class ProjectController {
 		List<Project_MemVo> project_mem_list = projectMemService.projectAllMemList(user_email);
 		List<Project_MemVo> project_adm_list = projectMemService.projectMemList(projectMemListVo);
 		HashMap<String, Object> hashmap = new HashMap<String, Object>();
-
-		if (insertCnt != 0) {
-			for (int i = 0; i < project_adm_list.size(); i++) {
-				for (int j = 0; j < project_mem_list.size(); j++) {
-					if (project_mem_list.get(j).getUser_email()
-							.equals(project_adm_list.get(i).getUser_email())) {
-						project_mem_list.remove(project_mem_list.get(j));
-					}
+			
+		for (int i = 0; i < project_adm_list.size(); i++) 
+		{
+			for (int j = 0; j < project_mem_list.size(); j++) 
+			{
+				if (project_mem_list.get(j).getUser_email().equals(project_adm_list.get(i).getUser_email())) 
+				{
+					project_mem_list.remove(project_mem_list.get(j));
+					break;
 				}
 			}
 		}
-
 		hashmap.put("projectAdmList", project_adm_list);
 		hashmap.put("projectMemList", project_mem_list);
 
@@ -647,6 +677,98 @@ public class ProjectController {
 
 		return "/projectList/projectList.user.tiles";
 	}
+	
+	
+	/**
+	 * Method 		: searchName
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-28 최초 생성
+	 * @param session
+	 * @param model
+	 * @param user_nm
+	 * @return
+	 * Method 설명 	: 프로젝트 생성시 멤버 검색
+	 */
+	@RequestMapping("/searchName")
+	String searchName(HttpSession session, Model model, String user_nm) {
+		logger.debug("♬♩♪  searchName user_nm: {}", user_nm);
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = userVo.getUser_email();
+		
+		Project_MemVo project_memVo = new Project_MemVo();
+		project_memVo.setUser_email(user_email);
+		project_memVo.setUser_nm(user_nm);
+		
+		List<Project_MemVo> project_memList = projectService.searchName(project_memVo);
+		logger.debug("♬♩♪  누굴까요?: {}", project_memList);
+		
+		model.addAttribute("data", project_memList);
+		
+		return "jsonView";
+	}
+	
+	/**
+	 * Method 		: searchPL
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-28 최초 생성
+	 * @param session
+	 * @param model
+	 * @param user_nm
+	 * @return
+	 * Method 설명 	: 프로젝트 생성후 설정에서 관리자 검색
+	 */
+	@RequestMapping("/searchPL")
+	String searchPL(HttpSession session ,Model model, String user_nm, String prj_id) {
+		logger.debug("♬♩♪  searchPL user_nm: {}", user_nm);
+		logger.debug("♬♩♪  prj_id: {}", prj_id);
+		
+		int prj_id_project = Integer.parseInt(prj_id);
+		
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = userVo.getUser_email();
+		
+		Project_MemVo project_memVo = new Project_MemVo();
+		project_memVo.setUser_email(user_email);
+		project_memVo.setPrj_id(prj_id_project);
+		project_memVo.setUser_nm(user_nm);
+		
+		List<Project_MemVo> project_memList = projectService.searchPL(project_memVo);
+		
+		logger.debug("♬♩♪  누굴까요?: {}", project_memList);
+		
+		model.addAttribute("data", project_memList);
+		
+		return "jsonView";
+	}
+	
+	/**
+	 * Method 		: searchMem
+	 * 작성자 			: 손영하
+	 * 변경이력 		: 2019-08-29 최초 생성
+	 * @param session
+	 * @param model
+	 * @param user_nm
+	 * @return
+	 * Method 설명 	: 프로젝트 멤버 추가 삭제
+	 */
+	@RequestMapping("/searchMem")
+	String searchMem(HttpSession session, Model model, String user_nm) {
+		logger.debug("♬♩♪  searchName user_nm: {}", user_nm);
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = userVo.getUser_email();
+		
+		Project_MemVo project_memVo = new Project_MemVo();
+		project_memVo.setUser_email(user_email);
+		project_memVo.setUser_nm(user_nm);
+		
+		List<Project_MemVo> project_memList = projectService.searchName(project_memVo);
+		logger.debug("♬♩♪  누굴까요?: {}", project_memList);
+		
+		model.addAttribute("data", project_memList);
+		
+		return "jsonView";
+	}
+	
 	
 	
 	

@@ -8,8 +8,6 @@ import javax.annotation.Resource;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
-import kr.or.ddit.paging.model.PageVo;
-import kr.or.ddit.project.model.ProjectVo;
 import kr.or.ddit.project_mem.model.Project_MemVo;
 
 @Repository
@@ -129,7 +127,7 @@ public class Project_MemDao implements IProject_MemDao{
 	 */
 	@Override
 	public int deleteProjectMem(Project_MemVo projectMemVo) {
-		return sqlSession.delete("project.deleteProjectMem", projectMemVo);
+		return sqlSession.update("project.deleteProjectMem", projectMemVo);
 	}
 
 	/**
@@ -242,4 +240,49 @@ public class Project_MemDao implements IProject_MemDao{
 //		return sqlSession.selectOne("project.projectMemListCnt", prj_id);
 	}
 
+	/**
+	 * 
+	* Method : projectMemYNList
+	* 작성자 : melong2
+	* 변경이력 :
+	* @param projectMemVo
+	* @return
+	* Method 설명 :
+	 */
+	@Override
+	public List<Project_MemVo> projectMemYNList(Project_MemVo project_MemVo) {
+		return sqlSession.selectList("project.projectMemYNList", project_MemVo);
+	}
+		
+	@Override
+	public List<Project_MemVo> getprjListForInactive(String user_email) {
+		return sqlSession.selectList("project.getprjListForInactive", user_email);
+	}
+	
+	/**
+	 * 
+	* Method : getFriendsBtn
+	* 작성자 : 김경호
+	* 변경이력 : 2019-08-29
+	* @param prj_id
+	* @return
+	* Method 설명 : 프로젝트 멤버 리스트에서 친구가 아닌 사람만 친구 요청 버튼 생기도록 리스트를 가져옴
+	 */
+	@Override
+	public List<Project_MemVo> getFriendsBtn(int prj_id) {
+		return sqlSession.selectList("project.getFriendsBtn", prj_id);
+	}
+	
+	/**
+	 * Method : mergeProjectMem
+	 * 작성자 : 유승진
+	 * 변경이력 : 2019-08-31 최초 생성
+	 * @param project_MemVo
+	 * @return
+	 * Method 설명 : 프로젝트 멤버(LV1) Insert 또는 Update 메서드
+	 */
+	@Override
+	public int mergeProjectMem(Project_MemVo project_MemVo) {
+		return sqlSession.insert("project.mergeProjectMem", project_MemVo);
+	}
 }

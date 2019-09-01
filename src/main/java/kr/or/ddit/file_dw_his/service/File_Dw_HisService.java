@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import kr.or.ddit.file_dw_his.dao.IFile_Dw_HisDao;
+import kr.or.ddit.file_dw_his.model.File_Dw_HisVo;
 
 @Service 
 public class File_Dw_HisService implements IFile_Dw_HisService{
@@ -31,6 +32,11 @@ public class File_Dw_HisService implements IFile_Dw_HisService{
 		int paginationSize = (int) Math.ceil((double) historyCnt/ (int) map.get("pageSize"));
 		resultMap.put("paginationSize", paginationSize);
 		return resultMap;
+	}
+
+	@Override
+	public int insertHistory(File_Dw_HisVo file_Dw_HisVo) {
+		return file_Dw_HisDao.insertHistory(file_Dw_HisVo);
 	}
 	
 }

@@ -8,7 +8,7 @@
 <script src="/js/toast-ui-chart.js"></script>
 <style>
 	#filterFrm label { font-size:13px; font-weight: 500; }
-	#filterFrm ul li label { cursor: pointer; }
+ 	#filterFrm ul li label { cursor: pointer; } 
 </style>
 <div class="sub_menu">
 	<ul class="sub_menu_item">
@@ -432,6 +432,10 @@
 			propertyWorkSetAjax(wrk_id);
 		});
 		
+		var dropdown = $(".dropdown-content").css("display");
+		$("body").on("change", dropdown, function() {
+			console.log(dropdown);
+		});
 		//프로젝트 닫기 버튼을 클릭했을 때
 		$(".btnSetClose").on("click", function(){
 			$("#propertyWorkSet").animate({right:'-700px'}, 500);
@@ -520,7 +524,7 @@
 		});
 		
 		/* 여기서부터 업무 셋팅 업데이트를 위한 이벤트 핸들러 입니다. */
-		$("#propertyWorkSet input, select").on("propertychange keyup change click", function(){
+		$("#propertyWorkSet input, #propertyWorkSet select").on("propertychange keyup change click", function(){
 			
 			//프로젝트 셋팅 값 가져오기
 			var id = $("#wps_id").val();
@@ -576,6 +580,7 @@
 							$(this).find(".wrk_date").text(data.data.wrkStartDtStr +" ~ "+ data.data.wrkEndDtStr );
 						}
 					});
+					search();
 				}
 			});
 		}

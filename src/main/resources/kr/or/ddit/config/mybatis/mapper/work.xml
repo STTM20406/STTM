@@ -12,7 +12,7 @@
 				,USER_EMAIL = #{user_email}
 				,WRK_NM = #{wrk_nm}
 				,WRK_GRADE = #{wrk_grade}
-				,WRK_COLOR_CD = #{wrk_color_cd}
+				,WRK_COLOR_CD = #{wrk_color_cd, jdbcType=VARCHAR}
 				,WRK_START_DT = #{wrk_start_dt}
 				,WRK_END_DT = #{wrk_end_dt}
 				,WRK_CMP_DT = #{wrk_cmp_dt, jdbcType=DATE}

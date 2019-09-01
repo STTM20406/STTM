@@ -97,10 +97,10 @@
 							</dl>
 						</li>
 						<li>
-							<label for="userId">GOOGLE EMAIL로 가입하기</label>
+<!-- 							<label for="userId">GOOGLE EMAIL로 가입하기</label> -->
 							
 							<!-- 구글 로그인 버튼 만들기 -->
-							<div class="g-signin2" data-onsuccess="onSignIn"></div>
+<!-- 							<div class="g-signin2" data-onsuccess="onSignIn"></div> -->
 						</li>
 						<li>
 							<button type="submit" id="btnLogin">Sign Up</button>

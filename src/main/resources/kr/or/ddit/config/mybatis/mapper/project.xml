@@ -5,7 +5,6 @@
 <mapper namespace="project">
 
 	<!-- **********************project*********************** -->
-
 	<!-- 내가 속한 프로젝트 리스트 조회 -->
 	<select id="projectList" parameterType="string" resultType="projectVo">
 		SELECT * FROM (SELECT * FROM PROJECT)A INNER JOIN
@@ -181,6 +180,18 @@
 		AND C.USER_EMAIL = B.USER_EMAIL AND B.PRJ_ID = #{prj_id} AND B.PRJ_MEM_DEL_FL = 'N'
 	</select>
 	
+	<!-- 프로젝트 멤버 조건없이 조회  -->
+	<select id="projectMemYNList" resultType="project_memVo" parameterType="project_memVo">
+		SELECT DISTINCT B.PRJ_ID
+					  , B.USER_EMAIL
+					  , B.PRJ_MEM_LV
+					  , B.PRJ_MEM_NIK
+					  , B.PRJ_OWN_FL
+					  , C.USER_NM FROM
+					  ( SELECT * FROM PROJECT_MEM WHERE USER_EMAIL = #{user_email}) A, PROJECT_MEM B, USERS C
+		WHERE B.PRJ_ID IN (A.PRJ_ID)
+		AND C.USER_EMAIL = B.USER_EMAIL AND B.PRJ_ID = #{prj_id}
+	</select>
 	
 	<!-- 프로젝트 멤버로 추가 할 프로젝트 멤버 리스트 조회 -->
 	<select id="projectAllMemList" resultType="project_memVo" parameterType="string">
@@ -203,7 +214,6 @@
 		WHERE           	      A.USER_EMAIL = B.USER_EMAIL AND A.PRJ_ID = #{prj_id}
 	</select>
 	
-	
 	<!-- 프로젝트 생성시 멤버 테이블에 동시에 인서트 / 프로젝트 멤버 추가할 때 -->
 	<insert id="insertProjectMem" parameterType="project_memVo">
 		INSERT INTO
@@ -211,19 +221,45 @@
 		VALUES (#{prj_id}, #{user_email}, #{prj_mem_lv}, #{prj_own_fl}, 'N')
 	</insert>
 	
-	
 	<!-- 프로젝트 멤버 관리자로 추가시 lv0으로 값 업데이트 / 프로젝트 관리자 삭제시 lv1로 값 업데이트 -->
 	<update id="updateProjectMem" parameterType="project_memVo">
 		UPDATE PROJECT_MEM A SET PRJ_MEM_LV = #{prj_mem_lv}, PRJ_MEM_DEL_FL = 'N' WHERE PRJ_ID = #{prj_id} AND USER_EMAIL = #{user_email}
 	</update>
 	
-	
+	<!-- PROJECT_MEM 테이블에 아예 데이터가 없거나, 있지만 DEL_FL이 Y인 회원 프로젝트 멤버(LV1, N)로 추가시 -->
+	<insert id="mergeProjectMem" parameterType="project_memVo">
+		MERGE INTO PROJECT_MEM
+		USING DUAL ON
+	    (
+	        PRJ_ID = #{prj_id}
+	        AND USER_EMAIL = #{user_email}
+	    )
+	    WHEN MATCHED THEN
+	        UPDATE SET
+	            PRJ_MEM_DEL_FL = 'N'
+	    WHEN NOT MATCHED THEN
+	        INSERT
+	            (
+	                PRJ_ID
+	                ,USER_EMAIL
+	                ,PRJ_MEM_LV
+	                ,PRJ_OWN_FL
+	                ,PRJ_MEM_DEL_FL
+	            )
+	        VALUES
+	            (
+	                #{prj_id}
+	                ,#{user_email}
+	                ,'LV1'
+	                ,'N'
+	                ,'N'
+	            )
+	</insert>
 	<!-- 프로젝트 멤버 삭제할 때 -->
 	<update id="deleteProjectMem" parameterType="project_memVo">
 		UPDATE PROJECT_MEM SET PRJ_MEM_DEL_FL = 'Y' WHERE PRJ_ID = #{prj_id} AND USER_EMAIL = #{user_email} AND PRJ_MEM_LV = #{prj_mem_lv}
 	</update>
 	
-
 	<!-- 휴면 계정으로 전환하기 위하여 나와 프로젝트 아이디가 같은 멤버 조회 -->
 	<select id="getMyProjectMemList" parameterType="string" resultType="project_memVo">
 		select distinct b.user_email
@@ -383,6 +419,49 @@
 		]]>
 	</select>
 	
+	<select id="searchName" parameterType="project_memVo" resultType="project_memVo">
+		SELECT DISTINCT B.USER_EMAIL
+              , C.USER_NM FROM
+              ( SELECT * FROM PROJECT_MEM WHERE USER_EMAIL = #{user_email}) A, PROJECT_MEM B, USERS C
+		WHERE B.PRJ_ID IN (A.PRJ_ID)
+		AND C.USER_EMAIL = B.USER_EMAIL AND B.PRJ_MEM_DEL_FL = 'N' AND C.USER_NM LIKE '%'||#{user_nm}||'%'
+	</select>
+	
+	<select id="searchPL" parameterType="project_memVo" resultType="project_memVo">
+		SELECT DISTINCT B.PRJ_ID
+					  , B.USER_EMAIL
+					  , B.PRJ_MEM_LV
+					  , B.PRJ_MEM_NIK
+					  , B.PRJ_OWN_FL
+					  , C.USER_NM FROM
+					  ( SELECT * FROM PROJECT_MEM WHERE USER_EMAIL = #{user_email}) A, PROJECT_MEM B, USERS C
+		WHERE B.PRJ_ID IN (A.PRJ_ID)
+		AND C.USER_EMAIL = B.USER_EMAIL AND B.PRJ_ID = #{prj_id} AND B.PRJ_MEM_DEL_FL = 'N' AND C.USER_NM LIKE '%'||#{user_nm}||'%'
+	</select>
+	
+	<!-- 휴면 계정으로 전환 하기 위하여 prj_own_fl = 'Y' 인 리스트를 가져온다
+		  리스트가 null이면 휴면계정 버튼이 보이고 휴면 계정 전환 할수 있다 -->
+	<select id="getprjListForInactive" parameterType="string" resultType="project_memVo">
+		select * from project_mem
+		where prj_own_fl = 'Y'
+		and user_email = #{user_email}
+	</select>
+	
+	<!-- 프로젝트 멤버 리스트에서 친구가 아닌 사람만 친구 요청 버튼 생기도록 리스트를 가져옴 -->
+	<select id="getFriendsBtn" parameterType="int" resultType="project_memVo">
+		select distinct 
+		                a.prj_id 
+		               ,d.user_email
+		               ,d.user_nm
+		from
+		(select * 
+		from project_mem
+		where prj_id = #{prj_id}) a, project_mem b, friends c, users d
+		where a.prj_id = b.prj_id
+		and b.user_email = c.frd_email
+		and b.user_email = d.user_email
+	</select>
+	
 	<!-- *******************project_trnf_hs****************** -->
 
 
@@ -452,7 +531,7 @@
 	<!-- public filePagination 공용 파일 링크 보관함!!!! -->
 	<select id="publicFilePagination" parameterType="map" resultType="file_attchVo">
 		<![CDATA[
-			 select 
+			select 
 	            rn, a.file_id, a.prj_id, a.user_email, a.wrk_id, a.original_file_nm, a.db_file_nm, a.file_size, a.file_exts, a.file_dt, a.del_fl, a.FILE_SAVE_FL,a.FILE_COMM_FL, b.wrk_nm, C.USER_NM
 	        from
 	            (select a.*, ROW_NUMBER() OVER(order by file_id desc) rn
@@ -465,6 +544,7 @@
 			where rn >=(#{page}-1)*#{pageSize}+1 and rn <= #{page}*#{pageSize}
 			and b.wrk_id = a.wrk_id
 			AND A.USER_EMAIL = C.USER_EMAIL
+			order by file_id desc
 		]]>
 	</select>
 
@@ -496,6 +576,7 @@
       where rn >=(#{page}-1)*#{pageSize}+1 and rn <= #{page}*#{pageSize}
       and b.wrk_id = a.wrk_id
       and a.user_email = c.user_email
+      order by link_id desc
    ]]>
 	</select>
 
@@ -604,6 +685,7 @@
 		    where rn>=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
 		    and b.wrk_id = a.wrk_id
 		    AND A.USER_EMAIL = C.USER_EMAIL
+		   order by a.file_id desc
 	   ]]>
 	</select>
 	
@@ -663,6 +745,7 @@
 	      where rn>=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
 	      and b.wrk_id = a.wrk_id
 	      AND A.USER_EMAIL = C.USER_EMAIL
+	      order by a.file_id desc
       ]]>
 	</select>
 	
@@ -687,6 +770,7 @@
 	      where rn>=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
 	      and b.wrk_id = a.wrk_id
 	      and a.user_email = c.user_email
+	      order by a.link_id desc
       ]]>
 	</select>
 	
@@ -754,6 +838,19 @@
 	</select>
 	
 	<!-- 다운로드 이용 내역 -->
+	
+	<insert id="insertHistory" parameterType="file_dw_hisVo">
+		insert into 
+			FILE_DW_HIS 
+		values(
+			FILE_DW_SEQ.nextVal,
+			#{prj_id},
+			#{user_email},
+			#{file_id},
+			sysdate
+			)
+	</insert>
+	
 	<select id="historyPagination" parameterType="map" resultType="file_dw_hisVo">
 	 <![CDATA[
 	 	select rn, a.DOWN_ID, a.PRJ_ID, a.USER_EMAIL, a.FILE_ID, a.DOWN_DATE, b.wrk_nm, c.ORIGINAL_FILE_NM, d.user_nm
@@ -767,6 +864,7 @@
 		and a.file_id = c.file_id
 		and b.wrk_id = c.wrk_id
         and a.user_email=d.user_email
+        order by a.down_id desc
 	]]>
 	</select>
 	
@@ -788,16 +886,16 @@
 
 	<select id="minutesPagination" parameterType="map" resultType="minutesVo">
 		<![CDATA[
-		select rownum num, a.mnu_id, a.prj_id, a.user_email, a.subject, a.special, a.write_date, a.del_fl, a.user_nm 
+		select rn, a.mnu_id, a.prj_id, a.user_email, a.subject, a.special, a.write_date, a.del_fl, a.user_nm 
 		from
-		(select a.*, rownum rn 
+		(select a.*, ROW_NUMBER() OVER(order by A.mnu_id desc) rn
 		from
 		(select A.*, B.user_nm from minutes A, users B
 		where prj_id = #{prj_id}
 		and A.user_email = B.user_email
-		and A.del_fl ='N'
-		order by A.mnu_id desc) a)a
+		and A.del_fl ='N') a)a
 		where rn >=(#{page}-1)*#{pageSize}+1 and rn <= #{page}*#{pageSize}
+        order by A.mnu_id desc
 	 	]]>
 	</select>
 	
@@ -821,17 +919,17 @@
 	<!-- 검색 -->
 	<select id="searchPagination" parameterType="map" resultType="minutesVo">
 		<![CDATA[
-		select rownum num, a.mnu_id, a.prj_id, a.user_email, a.subject, a.special, a.write_date, a.del_fl, a.user_nm 
+		select rn, a.mnu_id, a.prj_id, a.user_email, a.subject, a.special, a.write_date, a.del_fl, a.user_nm 
 	    from
-	    (select a.*, rownum rn 
+	    (select a.*, ROW_NUMBER() OVER(order by A.prj_id desc) rn
 	    from
 	    (select A.*, B.user_nm from minutes A, users B
 	    where B.user_nm like '%'||#{user_nm}||'%'
-	    and A.prj_id=#{prj_id}
+	    and A.prj_id= #{prj_id}
 	    and A.del_fl ='N'
-	    and A.user_email = B.user_email
-	    order by A.prj_id asc) a)a
+	    and A.user_email = B.user_email) a)a
 	    where rn >=(#{page}-1)*#{pageSize}+1 and rn <= #{page}*#{pageSize}
+	    order by A.prj_id desc
 	    ]]>
 	</select>
 	

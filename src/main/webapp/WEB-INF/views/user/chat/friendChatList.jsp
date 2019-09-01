@@ -12,6 +12,7 @@
 <script>
 	$(document).ready(function() {
 
+		
 		$(".tb_style_01").on("click", "td.roomNm", function() {
 			//a = .text();
 			var a = $(this).attr("id");
@@ -25,9 +26,10 @@
 
 		$("#createBtn").on("click", function() {
 
-			if ($("#room_nm").val().length == 0)
+			if ($("#room_nm").val().length == 0){
 				alert("채팅방 이름을 입력하세요");
-
+				return false;
+			}
 			var test = $("#room_nm").val();
 			test.replace("<","&lt;",test);
 			test.replace(">","&gt;",test);
@@ -56,9 +58,33 @@
 		
 		//채팅방 이름 수정
 		$("#updateRoomBtn").on("click", function() {
+			
+			if($("#room_nmup").val().length == 0){
+				alert("수정할 채팅방 이름을 입력하세요");
+				return false;
+			}
 			$("#frmUpdateRoom").submit();
 		});
+		
+		
+		//채팅방 이름 범위넘으면 출력
+		$('#room_nmup').keyup(function(){
+	        if ($(this).val().length > $(this).attr('maxlength')) {
+	            alert('입력할 수 있는 제목 범위를 넘었습니다');
+	            $(this).val($(this).val().substr(0, $(this).attr('maxlength')));
+	        }
+   		 });
+		
+		//채팅방 생성 할 때 이름 범위 
+		$('#room_nm ').keyup(function(){
+	        if ($(this).val().length > $(this).attr('maxlength')) {
+	            alert('입력할 수 있는 제목 범위를 넘었습니다');
+	            $(this).val($(this).val().substr(0, $(this).attr('maxlength')));
+	        }
+   		 });
 
+
+		
 		//프로젝트 생성 버튼 클릭시
 		$('.btn-example').on("click", function(){
 			
@@ -66,6 +92,7 @@
 	        layer_popup($href);
 	    });
 		
+		//채팅방 수정 버튼 클릭 시 
 		$('.btn-example1').on("click", function(){
 			var a = $(this).attr('id');
 			var aarray = a.split('_');
@@ -76,6 +103,8 @@
 			
 			$("#upct_id").val(id);
 			$("#room_nmup").val(name);
+			
+			
 			
 			$("#outRoomBtn").attr('href', '/outChatRoom?ct_id=' + id); 
 			console.log($("#outRoomBtn").attr('href'));
@@ -119,6 +148,11 @@
         }
 
         $el.find('a.btn-layerClose').click(function(){
+        	
+        	//닫으면 text값 초기화
+        	$("#room_nm").val('');
+        	
+        	
             isDim ? $('.dim-layer').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
             return false;
         });
@@ -129,6 +163,7 @@
         });
 
     }
+	
 </script>
 
 
@@ -147,7 +182,7 @@
 							<ul>
 								<li><label for="prj_nm">새 채팅방 생성</label></li>
 								<li><label for="prj_nm">채팅방 이름</label> <input type="text"
-									id="room_nm" name="room_nm"></li>
+									id="room_nm" name="room_nm" maxlength="20"></li>
 								<li><label for="prj_mem">채팅방 친구 선택</label>
 									<div class="prj_mem_list">
 										<ul>
@@ -192,13 +227,12 @@
 							<!-- 방 만들기 테이블 -->
 							<ul>
 								<li><label for="prj_nm">채팅방 이름 수정</label> 
-								<input type="text" id="room_nmup" name="room_nmup"></li>
+								<input type="text" id="room_nmup" name="room_nmup" maxlength="20"></li>
 							</ul>
 							<div class="prj_btn">
 								<input type="submit" id="updateRoomBtn" value="채팅방 이름 수정">
 							</div>
 							<a href="#"  id="outRoomBtn" style="color: red;">채팅방나가기</a>
-							
 						</div>
 
 					</form>

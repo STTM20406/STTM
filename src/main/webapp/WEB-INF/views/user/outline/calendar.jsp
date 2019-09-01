@@ -16,6 +16,9 @@
 
 
 <script>
+
+	var email = "${user_email}";
+	
 	function calAjax() {
 		$.ajax({
 			url: "/calendarTest",
@@ -92,10 +95,52 @@
 		
 	});
 	
-	
-	
+	//layer popup - 프로젝트 생성
+	function layer_popup(el){
+		console.log(el);
+
+        var $el = $(el);		//레이어의 id를 $el 변수에 저장
+        var isDim = $el.prev().hasClass('dimBg');	//dimmed 레이어를 감지하기 위한 boolean 변수
+
+        isDim ? $('.dim-layer').fadeIn() : $el.fadeIn();
+
+        var $elWidth = ~~($el.outerWidth()),
+            $elHeight = ~~($el.outerHeight()),
+            docWidth = $(document).width(),
+            docHeight = $(document).height();
+
+        // 화면의 중앙에 레이어를 띄운다.
+        if ($elHeight < docHeight || $elWidth < docWidth) {
+            $el.css({
+                marginTop: -$elHeight /2,
+                marginLeft: -$elWidth/2
+            })
+        } else {
+            $el.css({top: 0, left: 0});
+        }
+
+        $el.find('a.btn-layerClose').click(function(){
+            isDim ? $('.dim-layer').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
+            return false;
+        });
+
+        $('.layer .dimBg').click(function(){
+            $('.dim-layer').fadeOut();
+            return false;
+        });
+    }
 	
 </script>
+<div class="sub_menu">
+	<ul class="sub_menu_item">
+		<li><a href="/overview/analysis">Work List</a></li>
+		<li><a href="/calendarGet">Calendar</a></li>
+		<li><a href="/gantt/overview">Gantt Chart</a></li>
+	</ul>
+	<div class="sub_btn">
+	</div>
+</div>
+
 <div id="frmContainer" style="height:100%;width:250px;float:left;margin-right:0;">
 	    <form id="filterFrm">
 	    	<label>업무 구분</label><br>

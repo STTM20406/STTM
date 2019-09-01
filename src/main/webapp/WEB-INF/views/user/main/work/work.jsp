@@ -32,11 +32,15 @@ function commentPagination(wps_wrk_id,page, pageSize){
 				html += "<td>";
 				html += "<input type='hidden' id='prj_id02' value='"+ comm.prj_id +"'/>"
 				html += "<input type='hidden' id='comm_id02' value='"+comm.comm_id +"'/>"
+				if(comm.user_email == data.user_email){
 				html += "<button type='button' id='commUpdateBtn' class='commUpdateBtn'>수정</button>"
+				}
 				html += "</td>";
 				html += "<td class='commDeleteTd'>";
 				html += "<input type='hidden' value='"+comm.prj_id +"'/>"
-				html += "<button type='button' id='commDeleteBtn' class='commDeleteBtn' name='"+comm.comm_id+"'>삭제</button>"
+				if(comm.user_email == data.user_email){
+					html += "<button type='button' id='commDeleteBtn' class='commDeleteBtn' name='"+comm.comm_id+"'>삭제</button>"
+				}
 				html += "</td>";
 				html += "</tr>";
 				
@@ -233,7 +237,6 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 			}
 		});
 		
-		
 		//업무리스트 추가
 		function workListAddAjax(workListNm) {
 			$.ajax({
@@ -243,14 +246,15 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 				success : function(data) {
 					var html = "";
 					data.workList.forEach(function(workList, index) {
+						
 						html +="<div class='workList' id='"+ workList.wrk_lst_id + "'><span class='handle'>+++</span><div class='workList_hd'><dl>"
 						html +="<dt><input type='text' value='"+ workList.wrk_lst_nm+"' id='"+workList.wrk_lst_id+"' class='wrkListName'></dt><dd>"
 						html +="<input type='button' class='workList_add_i' value='새업무 추가'>"
 						html +="<a href='javascript:;' class='workList_set_i'>업무리스트 설정</a>"
 						html +="<div class='workList_set'><input type='button' id='btnWorkListDel_"+workList.wrk_lst_id+"' value='업무리스트 삭제'></div>"
 						html +="</dd></dl><ul><li>"
-						html +="<p>진행중 업무 <span>4</span></p>";
-						html +="<p><a href='javascript:' class='btnComplete' id='"+workList.wrk_lst_id+"'>완료된업무보기</a><span>2</span></p></li>";
+						html +="<p>진행중 업무 <span></span></p>";
+						html +="<p><a href='javascript:' class='btnComplete' id='"+workList.wrk_lst_id+"'>완료된업무보기</a><span></span></p></li>";
 						html +="<li class='graph'></li></ul><div class='workCreateBox'>";
 						html +="<textarea name='wrk_nm' id='wrk_nm' placeholder='업무 이름을 입력해 주세요. 업무 이름은 70자 이내로 입력해 주세요'></textarea>";
 						html +="<div class='workCreatebtnBox'>";
@@ -481,6 +485,10 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 			wrkCreateAjax(workLstID, workName);
 		});
 		
+		//진행중 n, y끝난거?
+		var nCnt = "";
+		var yCnt = "";
+
 		function wrkCreateAjax(workLstID, workName){
 			$.ajax({
 				url:"/work/wrkCreateAjax",
@@ -507,6 +515,8 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 						html +="<div class='workWrap'><div class='working list n1' id='"+workList.wrk_lst_id+"'>"
 							data.works.forEach(function(work, index2) {
 		 						if(work.wrk_lst_id == workList.wrk_lst_id && work.wrk_cmp_fl == 'N'){
+// 		 							nCnt = work.length;
+// 		 							console.log(work.);
 		 							html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work.wrk_id+"' class='workListItem'>";
 		 							html += "<div class='checkList etrans workCheck'>"
 		 							html += "<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl_"+work.wrk_id+"' class='wrk_cmp_fl'>"
@@ -535,6 +545,8 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 						html +="<div class='complete_"+workList.wrk_lst_id+" list n1' id='"+workList.wrk_lst_id+"'>"
 							data.works.forEach(function(work1, index3) {
 		 						if(work1.wrk_lst_id == workList.wrk_lst_id && work1.wrk_cmp_fl == 'Y'){
+// 		 							yCnt = work1.length;
+		 							console.log(data.works);
 									html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work1.wrk_id+"' class='workListItem'>";
 									html += "<div class='checkList etrans workCheck'>"
 		 							html += "<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl_"+work.wrk_id+"' class='wrk_cmp_fl' checked>"
@@ -1175,6 +1187,20 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 	 		    processData: false,
 	 		    success: function(data){
 	 		    	workFilePagination(1, 5, wrk_id);
+	 		    	
+	 		    	if(socket){
+	 					var socketMsg = "";
+	 					for(i=0;i<data.wrkFlwList.length;i++){
+	 						socketMsg = "file&link," + data.wrkMemList[i].user_email +"," + data.workFileList.wrk_nm;
+	 						socket.send(socketMsg);
+	 					}
+	 					
+	 					for(var i=0;i<data.wrkMemList.length;i++){
+	 						socketMsg = "file&link," + data.wrkFlwList[i].user_email +"," + data.workFileList.wrk_nm;
+	 						socket.send(socketMsg);
+	 					}
+	 					// websocket에 보내기!!
+	 				}
 	 		    },
 	 		    error: function(e){
 	 		        alert(e.reponseText);
@@ -1468,14 +1494,19 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 				hhtml += "<th>삭제</th>";
 				hhtml += "</tr>";
 
+				var user_email = data.user_email;
 				data.workFileList.forEach(function(file, index) {
 					//html생성
 					html += "<tr id='filetr'>";
 					html += "<td><a href='/fileDownLoad?file_id="+file.file_id+"'>" + file.original_file_nm+ "</a></td>";
 					html += "<td>" + file.user_nm + "</td>";
 					html += "<td>" + file.prjStartDtStr + "</td>";
-					html += "<td><a href='javascript:workDelFile("+ file.file_id + "," + file.wrk_id+ ")'>삭제</a></td>";
-					html += "</tr>";
+					if(file.user_email == user_email){
+						html += "<td><a href='javascript:workDelFile("+ file.file_id + "," + file.wrk_id+ ")'>삭제</a></td>";
+					}else{
+						html += "<td>삭제</td>";
+					}
+					html += "</tr>";	
 				});
 				var pHtml = "";
 				var pageVo = data.pageVo;
@@ -1527,14 +1558,18 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 				hhtml += "<th>삭제</th>";
 				hhtml += "</tr>";
 
-				console.log(data.workLinkList);
+				var user_email = data.user_email;
 				data.workLinkList.forEach(function(link, index) {
 					//html생성
 					html += "<tr>";
-					html += "<td><a href='https://"+link.attch_url+"'>"+ link.attch_url + "</a></td>";
+					html += "<td><a href='https://"+link.attch_url+"' target='_blank'>"+ link.attch_url + "</a></td>";
 					html += "<td>" + link.user_nm + "</td>";
 					html += "<td>" + link.prjStartDtStr + "</td>";
-					html += "<td><a href='javascript:workDelLink("+ link.link_id + "," + link.wrk_id+ ")'>삭제</a></td>";
+					if(link.user_email==data.user_email){
+						html += "<td><a href='javascript:workDelLink("+ link.link_id + "," + link.wrk_id+ ")'>삭제</a></td>";
+					}else{
+						html += "<td>삭제</td>";
+					}
 					html += "</tr>";
 				});
 				var pHtml = "";
@@ -1572,8 +1607,6 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 	}
 
 	function workDelFile(fileID, wrk_id) {
-		alert("삭제긔긔");
-
 		$.ajax({
 			url : "/workDelFile",
 			method : "post",
@@ -1591,15 +1624,18 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 				hhtml += "<th>삭제</th>";
 				hhtml += "</tr>";
 
+				var user_email = data.user_email;
 				data.workFileList.forEach(function(file, index) {
 					//html생성
 					html += "<tr id='filetr'>";
 					html += "<td><a href='/fileDownLoad?file_id="+file.file_id+"'>" + file.original_file_nm+ "</a></td>";
 					html += "<td>" + file.user_nm + "</td>";
 					html += "<td>" + file.prjStartDtStr + "</td>";
-					html += "<td><a href='javascript:workDelFile("
-							+ file.file_id + "," + file.wrk_id
-							+ ")'>삭제</a></td>";
+					if(file.user_email == user_email){
+						html += "<td><a href='javascript:workDelFile("+ file.file_id + "," + file.wrk_id+ ")'>삭제</a></td>";
+					}else{
+						html += "<td>삭제</td>";
+					}
 					html += "</tr>";
 				});
 				var pHtml = "";
@@ -1636,8 +1672,6 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 	}
 
 	function workDelLink(linkID, wrk_id) {
-		alert("삭제긔긔");
-
 		$.ajax({
 			url : "/workDelLink",
 			method : "post",
@@ -1655,17 +1689,19 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 				hhtml += "<th>삭제</th>";
 				hhtml += "</tr>";
 
-				console.log(data.workLinkList);
+				var user_email = data.user_email;
 				data.workLinkList.forEach(function(link, index) {
 					//html생성
 					html += "<tr>";
-					html += "<td><a href='https://"+link.attch_url+"'>"
+					html += "<td><a href='https://"+link.attch_url+"' target='_blank'>"
 							+ link.attch_url + "</a></td>";
 					html += "<td>" + link.user_nm + "</td>";
 					html += "<td>" + link.prjStartDtStr + "</td>";
-					html += "<td><a href='javascript:workDelLink("
-							+ link.link_id + "," + link.wrk_id
-							+ ")'>삭제</a></td>";
+					if(link.user_email==data.user_email){
+						html += "<td><a href='javascript:workDelLink("+ link.link_id + "," + link.wrk_id+ ")'>삭제</a></td>";
+					}else{
+						html += "<td>삭제</td>";
+					}
 					html += "</tr>";
 				});
 				var pHtml = "";
@@ -1845,8 +1881,8 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 										<ul>
 											<li>${work.wrkStartDtStr} ~ ${work.wrkEndDtStr}</li>
 											<li>
-												<span>코멘트 개수</span>
-												<span>업무 파일 개수</span>
+												<p>코멘트 개수<span>1</span></p>
+												<p>업무 파일 개수<span>2</span></p>
 											</li>
 										</ul>
 										<div class="wrk_mem_flw">

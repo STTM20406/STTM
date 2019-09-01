@@ -19,7 +19,6 @@ public interface IWork_ListService {
 	 */
 	List<Work_ListVo> workList(int prj_id);
 	
-	
 	/**
 	 * 
 	 * Method 			: insertWorkList

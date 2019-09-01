@@ -28,6 +28,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import kr.or.ddit.file_attch.model.File_AttchVo;
 import kr.or.ddit.file_attch.service.IFile_AttchService;
+import kr.or.ddit.file_dw_his.model.File_Dw_HisVo;
+import kr.or.ddit.file_dw_his.service.IFile_Dw_HisService;
 import kr.or.ddit.link_attch.model.Link_attchVo;
 import kr.or.ddit.link_attch.service.ILink_attchService;
 import kr.or.ddit.paging.model.PageVo;
@@ -36,6 +38,8 @@ import kr.or.ddit.project.service.IProjectService;
 import kr.or.ddit.project_mem.model.Project_MemVo;
 import kr.or.ddit.users.model.UserVo;
 import kr.or.ddit.util.PartUtil;
+import kr.or.ddit.work_mem_flw.model.Work_Mem_FlwVo;
+import kr.or.ddit.work_mem_flw.service.IWork_Mem_FlwService;
 
 //link Controller랑 합침!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 @Controller
@@ -52,6 +56,12 @@ public class File_AttchController {
 	@Resource(name="projectService")
 	private IProjectService projectService;
 	
+	@Resource(name="work_Mem_FlwService")
+	private IWork_Mem_FlwService workMemFlwService;
+	
+	@Resource(name="file_Dw_HisService")
+	private IFile_Dw_HisService file_Dw_HisService;
+	
 	/**
 	 * Method 		: fileDownLoad
 	 * 작성자 			: 손영하
@@ -62,9 +72,20 @@ public class File_AttchController {
 	 * Method 설명 	: 파일 다운로드 처리!
 	 */
 	@RequestMapping(path = "/fileDownLoad", method = RequestMethod.GET)
-	public void fileDownLoad(int file_id, HttpServletRequest request, HttpServletResponse response) {
+	public void fileDownLoad(int file_id, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		file_id = Integer.parseInt(request.getParameter("file_id"));
-
+		ProjectVo projectVo = (ProjectVo) session.getAttribute("PROJECT_INFO");
+		int prj_id = projectVo.getPrj_id();
+		logger.debug("♬♩♪  prj_id:{}",prj_id);
+		
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = userVo.getUser_email();
+		
+		File_Dw_HisVo file_Dw_HisVo = new File_Dw_HisVo(prj_id, user_email, file_id);
+		int cnt = file_Dw_HisService.insertHistory(file_Dw_HisVo);
+		if(cnt==1) {
+			logger.debug("다운로드 기록 등록");
+		}
 		File_AttchVo file_AttchVo = file_AttchService.getFile(file_id);
 		logger.debug("♬♩♪  fileDownLoad file_id: {}", file_id);
 		// 파일 업로드된 경로
@@ -137,17 +158,21 @@ public class File_AttchController {
 	
 	//공용보관함입니다.//공용보관함입니다.//공용보관함입니다.//공용보관함입니다.//공용보관함입니다.//공용보관함입니다.//공용보관함입니다.//공용보관함입니다.
 	@RequestMapping(path = "/publicFilePagination", method = RequestMethod.GET)
-	String publicFilePagination() {
-		logger.debug("♬♩♪  여기는 공용 보관함입니다");
+	String publicFilePagination(HttpSession session, Model model) {
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = userVo.getUser_email();
+		model.addAttribute("user_email", user_email);
 		
 		return "/main/fileLink/fileLinkCommon.user.tiles";
 	}
 	
 	@RequestMapping(path = "/update", method = RequestMethod.GET)
-	String update(int file_id) {
+	String update(int file_id,HttpSession session, Model model) {
 		logger.debug("♬♩♪  file_id: {}", file_id);
 		file_AttchService.updateFile(file_id);
-		
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = userVo.getUser_email();
+		model.addAttribute("user_email", user_email);
 		return "redirect:/publicFilePagination";
 	}
 	
@@ -169,9 +194,14 @@ public class File_AttchController {
 		
 		int paginationSize = (Integer) resultMap.get("paginationSize");
 		
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = userVo.getUser_email();
+		
+		model.addAttribute("user_email", user_email);
+		
 		model.addAttribute("paginationSize", paginationSize);
 		model.addAttribute("pageVo", pageVo);
-
+		
 		model.addAttribute("publicLinkList", publicLinkList);
 		return "jsonView";
 	}
@@ -213,6 +243,9 @@ public class File_AttchController {
 		hashmap.put("prj_id", prj_id);
 		hashmap.put("LV", file_AttchService.selectLV(project_MemVo));
 		
+		model.addAttribute("user_email", user_email);
+		hashmap.put("user_email", user_email);
+		
 		return hashmap;
 	}
 	
@@ -238,11 +271,16 @@ public class File_AttchController {
 		
 		int paginationSize = (Integer) resultMap.get("paginationSize");
 		
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = userVo.getUser_email();
+		
 		HashMap<String, Object> hashmap = new HashMap<String, Object>();
 		hashmap.put("paginationSize", paginationSize);
 		hashmap.put("pageVo", pageVo);
 		hashmap.put("publicFileList", publicFileList);
 		hashmap.put("prj_id", prj_id);
+		hashmap.put("user_email", user_email);
+		
 		logger.debug("♬♩♪  hashmap: {}", hashmap);
 		
 		return hashmap;
@@ -268,10 +306,14 @@ public class File_AttchController {
 		
 		int paginationSize = (Integer) resultMap.get("paginationSize");
 		
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = userVo.getUser_email();
+		
 		HashMap<String, Object> hashmap = new HashMap<String, Object>();
 		hashmap.put("paginationSize", paginationSize);
 		hashmap.put("pageVo", pageVo);
 		hashmap.put("publicLinkList", publicLinkList);
+		hashmap.put("user_email", user_email);
 		
 		return hashmap;
 	}
@@ -381,10 +423,14 @@ public class File_AttchController {
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("workFileList", workFileList);
 		
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = userVo.getUser_email();
+		
 		HashMap<String, Object> hashmap = new HashMap<String, Object>();
 		hashmap.put("paginationSize", paginationSize);
 		hashmap.put("pageVo", pageVo);
 		hashmap.put("workFileList", workFileList);
+		hashmap.put("user_email", user_email);
 		
 		return hashmap;
 	}
@@ -405,10 +451,14 @@ public class File_AttchController {
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("workLinkList", workLinkList);
 		
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = userVo.getUser_email();
+		
 		HashMap<String, Object> hashmap = new HashMap<String, Object>();
 		hashmap.put("paginationSize", paginationSize);
 		hashmap.put("pageVo", pageVo);
 		hashmap.put("workLinkList", workLinkList);
+		hashmap.put("user_email", user_email);
 		
 		return hashmap;
 	}
@@ -438,10 +488,14 @@ public class File_AttchController {
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("workFileList", workFileList);
 		
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = userVo.getUser_email();
+		
 		HashMap<String, Object> hashmap = new HashMap<String, Object>();
 		hashmap.put("paginationSize", paginationSize);
 		hashmap.put("pageVo", pageVo);
 		hashmap.put("workFileList", workFileList);
+		hashmap.put("user_email", user_email);
 		
 		return hashmap;
 	}
@@ -471,10 +525,14 @@ public class File_AttchController {
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("workLinkList", workLinkList);
 		
+		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
+		String user_email = userVo.getUser_email();
+		
 		HashMap<String, Object> hashmap = new HashMap<String, Object>();
 		hashmap.put("paginationSize", paginationSize);
 		hashmap.put("pageVo", pageVo);
 		hashmap.put("workLinkList", workLinkList);
+		hashmap.put("user_email", user_email);
 		
 		return hashmap;
 	}
@@ -484,8 +542,18 @@ public class File_AttchController {
 	public @ResponseBody HashMap<String, Object> workFileUpload(HttpSession session, Model model, PageVo pageVo, String locker,
 			@RequestPart MultipartFile profile, int wrk_id) {
 		
+		
+		
 		ProjectVo projectVo = projectService.getPrjByWrk(wrk_id);
 		int prj_id = projectVo.getPrj_id();
+		
+		//배정된 업무 멤버 가져오기
+		Work_Mem_FlwVo work_memVo = new Work_Mem_FlwVo(wrk_id, "M");
+		List<Work_Mem_FlwVo> wrkMemList = workMemFlwService.workMemFlwList(work_memVo); 
+		
+		//업무 팔로워 멤버 가져오기
+		Work_Mem_FlwVo work_flwVo = new Work_Mem_FlwVo(wrk_id, "F");
+		List<Work_Mem_FlwVo> wrkFlwList = workMemFlwService.workMemFlwList(work_flwVo); 
 		
 		logger.debug("♬♩♪  wrk_id: {}", wrk_id);
 		UserVo userVo = (UserVo) session.getAttribute("USER_INFO");
@@ -556,6 +624,9 @@ public class File_AttchController {
 		hashmap.put("paginationSize", paginationSize);
 		hashmap.put("pageVo", pageVo);
 		hashmap.put("workFileList", workFileList);
+		hashmap.put("wrkMemList", wrkMemList);
+		hashmap.put("wrkFlwList", wrkFlwList);
+		hashmap.put("user_email", user_email);
 		
 		return hashmap;
 		
@@ -598,6 +669,7 @@ public class File_AttchController {
 		hashmap.put("paginationSize", paginationSize);
 		hashmap.put("pageVo", pageVo);
 		hashmap.put("workLinkList", workLinkList);
+		hashmap.put("user_email", user_email);
 		
 		return hashmap;
 	}
@@ -607,34 +679,16 @@ public class File_AttchController {
 	//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi
 	@RequestMapping("/chatBotApi")
 	String chatBotApi(Model model, String question) {
-		logger.debug("♬♩♪  chatBotApi");
-		logger.debug("♬♩♪  question:{}",question);
-		
+
 		if(question.contains("안녕")) {
-			model.addAttribute("data", "초면에 반말이시네요....허허허");
-		}else if(question.contains("미안")) {
-			model.addAttribute("data", "하....C 참는다..");
-		}else if(question.contains("3")) {
-			model.addAttribute("data", "음하하하");
-		}else if(question.contains("4")) {
-			model.addAttribute("data", "음하하하");
-		}else if(question.contains("5")) {
-			model.addAttribute("data", "음하하하");
-		}else if(question.contains("6")) {
-			model.addAttribute("data", "음하하하");
-		}else if(question.contains("7")) {
-			model.addAttribute("data", "음하하하");
-		}else if(question.contains("8")) {
-			model.addAttribute("data", "음하하하");
-		}else if(question.contains("9")) {
-			model.addAttribute("data", "음하하하");
-		}else {
-			model.addAttribute("data", "궁금하신 점이 없으신가요?");
+			model.addAttribute("data", "안녕하세요. 척척박사 ChatBot이에요.");
+		}else if(question.contains("시연")) {
+			model.addAttribute("data", "시연 순서는 ");
+		}else if(question.contains("닫기")) {
+			model.addAttribute("data", "감사합니다");
 		}
-		
 		return "jsonView";
 	}
-	
 	//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi
 	
 	
