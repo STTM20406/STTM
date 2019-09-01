@@ -1140,7 +1140,6 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 		
 		
 		$("#workLink").on('click','#uploadLink', function(){
-			alert("link가즈아!!");
 			var attch_url = $('.link').val();
 			var locker = $("#locker input[type=radio]:checked").val();
 			var wrk_id = $('#wps_wrk_id').val();
@@ -1172,11 +1171,10 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 			var locker = $("#locker input[type=radio]:checked").val();
 			var wrk_id = $('#wps_wrk_id').val();
 			$('#box').val(locker);
-			$('#work').val(wrk_id);ㅍ
+			$('#work').val(wrk_id);
 			var formData  = new FormData(form);
-			console.log(formData);
-			console.log($(formData).serialize());
-			alert(formData);
+			$(".ctxt").text("파일 업로드 완료!!!");
+				layer_popup("#layer2");
 			$.ajax({
 	 		    url: "/workFileUpload",
 	 		    type: "POST",
@@ -1207,10 +1205,7 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 	 		});
 		});
 		
-		
-
 		// file, link 등록 부분 구현중// file, link 등록 부분 구현중// file, link 등록 부분 구현중// file, link 등록 부분 구현중// file, link 등록 부분 구현중// file, link 등록 부분 구현중
-		
 		
 		//업무 멤버 추가하기 버튼 클릭시 해당 프로젝트 멤버 가져오기
 		$(".wrk_add_mem").fadeOut(0); //멤버리스트 layer 숨기기
