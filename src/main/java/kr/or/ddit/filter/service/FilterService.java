@@ -290,9 +290,8 @@ public class FilterService implements IFilterService{
 				date_str = "";
 			}
 			
-			sb_result.append("<div class='result' style='border:1px solid black; width:330px; padding:5px 10px; margin: 3px;' data-wrk_id='"+ work.getWrk_id() +"'>");
+			sb_result.append("<div class='result' data-wrk_id='"+ work.getWrk_id() +"'>");
 			sb_result.append("<span>"+ work.getPrj_nm() + " > " + work.getWrk_lst_nm() +"</span>");
-			sb_result.append("<br>");
 			sb_result.append("<span class='wrk_nm'><b>"+ work.getWrk_nm() +"</b></span>");
 			
 			
@@ -446,17 +445,14 @@ public class FilterService implements IFilterService{
 		StringBuffer sb_form = new StringBuffer();
 		sb_form.append("<form id='filterFrm'>");
 		sb_form.append("<label>업무 구분</label>");
-		sb_form.append("<br>");
 		
 		sb_form.append("<select name='wrk_is_mine' class='filter'>");
 		sb_form.append("<option value='all' selected>전체 업무</option>");
 		sb_form.append("<option value='mine'>내가 맡은 업무만</option>");
 		sb_form.append("</select>");
 		
-		sb_form.append("<br><br>");
 		
 		sb_form.append("<label>작성일 기준</label>");
-		sb_form.append("<br>");
 		
 		sb_form.append("<select name='wrk_dt' class='filter'>");
 		sb_form.append("<option value='0' selected>전체</option>");
@@ -465,46 +461,34 @@ public class FilterService implements IFilterService{
 		sb_form.append("<option value='90'>90일 이내</option>");
 		sb_form.append("</select>");
 		
-		sb_form.append("<br><br>");
 		
 		sb_form.append("<label>업무 주체</label>");
-		sb_form.append("<br>");
 		
 		sb_form.append("<input type='checkbox' class='filter' name='wrk_i_assigned' value='y'> 내게 할당된 업무 <br>");
 		sb_form.append("<input type='checkbox' class='filter' name='wrk_i_made' value='y'> 내가 작성한 업무 <br>");
 		sb_form.append("<input type='checkbox' class='filter' name='wrk_i_following' value='y'> 내가 팔로우한 업무 <br>");
-		sb_form.append("<br><br>");
 		
 		sb_form.append("<div id='prjList'></div>");
 		
-		sb_form.append("<br><br>");
 		
 		sb_form.append("<label>마감일 기준</label>");
-		sb_form.append("<br>");
 		
 		sb_form.append("<input type='checkbox' class='filter' name='overdue' value='y'> 마감일 지남 <br>");
 		sb_form.append("<input type='checkbox' class='filter' name='till_this_week' value='y'> 이번 주까지 <br>");
 		sb_form.append("<input type='checkbox' class='filter' name='till_this_month' value='y'> 이번 달까지 <br>");
 		sb_form.append("<input type='checkbox' class='filter' name='no_deadline' value='y'> 마감일 없음 <br>");
 		
-		sb_form.append("<br><br>");
 		
 		sb_form.append("<label>업무 상태</label>");
-		sb_form.append("<br>");
 		
 		sb_form.append("<input type='checkbox' class='filter' name='is_cmp' value='y'> 완료된 업무 <br>");
-		sb_form.append("<br><br>");
 		
 		sb_form.append("<div id='makerList'></div>");
 		
-		sb_form.append("<br><br>");
 		
 		sb_form.append("<div id='followerList'></div>");
 		
-		
-		sb_form.append("<br>");
 		sb_form.append("<button type='button' class='btn_style_02' onclick='reset()'> 필터 초기화 </button>");
-		sb_form.append("<br>");
 		sb_form.append("<input type='hidden' name='user_email' value='"+ filterVo.getUser_email() +"'>");
 		sb_form.append("</form>");
 		return sb_form.toString();
@@ -520,17 +504,14 @@ public class FilterService implements IFilterService{
 		StringBuffer sb_form = new StringBuffer();
 		sb_form.append("<form id='filterFrm'>");
 		sb_form.append("<label>업무 구분</label>");
-		sb_form.append("<br>");
 		
 		sb_form.append("<select name='wrk_is_mine' class='filter'>");
 		sb_form.append("<option value='all' selected>전체 업무</option>");
 		sb_form.append("<option value='mine'>내가 맡은 업무만</option>");
 		sb_form.append("</select>");
 		
-		sb_form.append("<br><br>");
 		
 		sb_form.append("<label>작성일 기준</label>");
-		sb_form.append("<br>");
 		
 		sb_form.append("<select name='wrk_dt' class='filter'>");
 		sb_form.append("<option value='0' selected>전체</option>");
@@ -539,42 +520,30 @@ public class FilterService implements IFilterService{
 		sb_form.append("<option value='90'>90일 이내</option>");
 		sb_form.append("</select>");
 		
-		sb_form.append("<br><br>");
 		
 		sb_form.append("<label>업무 주체</label>");
-		sb_form.append("<br>");
 		
 		sb_form.append("<input type='checkbox' class='filter' name='wrk_i_assigned' value='y'> 내게 할당된 업무 <br>");
 		sb_form.append("<input type='checkbox' class='filter' name='wrk_i_made' value='y'> 내가 작성한 업무 <br>");
 		sb_form.append("<input type='checkbox' class='filter' name='wrk_i_following' value='y'> 내가 팔로우한 업무 <br>");
-		sb_form.append("<br><br>");
 		
-		sb_form.append("<br>");
 		sb_form.append("<div id='prjList'></div>");
 		
-		sb_form.append("<br><br>");
 		
 		sb_form.append("<label>마감일 기준</label>");
-		sb_form.append("<br>");
 		
 		sb_form.append("<input type='checkbox' class='filter' name='overdue' value='y'> 마감일 지남 <br>");
 		sb_form.append("<input type='checkbox' class='filter' name='till_this_week' value='y'> 이번 주까지 <br>");
 		sb_form.append("<input type='checkbox' class='filter' name='till_this_month' value='y'> 이번 달까지 <br>");
 		sb_form.append("<input type='checkbox' class='filter' name='no_deadline' value='y'> 마감일 없음 <br>");
 		
-		sb_form.append("<br><br>");
 		
 		sb_form.append("<label>업무 상태 구분</label>");
-		sb_form.append("<br>");
 		
 		sb_form.append("<input type='checkbox' class='filter' name='is_cmp' value='y'> 완료된 업무 <br>");
-		sb_form.append("<br><br>");
 		
-		sb_form.append("<br>");
 		sb_form.append("<div id='makerList'></div>");
-		sb_form.append("<br>");
 		sb_form.append("<button type='button' onclick='reset()'> 필터 초기화 </button>");
-		sb_form.append("<br>");
 		sb_form.append("<input type='hidden' name='user_email' value='"+ filterVo.getUser_email() + "'>");
 		sb_form.append("<input type='hidden' name='is_cal' value='true'>");
 		sb_form.append("</form>");
