@@ -85,7 +85,7 @@
 		});
 		
 		$(".tab_sub_menu").on("click", "#adminFileList", function(){
-			historyPagination(1,20);
+			historyPagination(1,10);
 		});
 	}
 		
@@ -489,7 +489,7 @@
 		<div class="tab_con">
 
 			<div class="tab-content current">
-				<div>
+				<div class="ok">
 					<table class="tb_style_01">
 						<colgroup>
 							<col width="5%">
