@@ -69,6 +69,7 @@
 				<tr>
 					<th>메세지 내용</th>
 					<th>날짜</th>
+					<th></th>
 				</tr>			
 			</thead>
 			<tbody id="notifyTbody">
