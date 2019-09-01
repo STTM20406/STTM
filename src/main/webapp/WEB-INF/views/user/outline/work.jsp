@@ -44,7 +44,9 @@
 	       	</div>
 		</div>
 		
-	<div id="propertyWorkSet" class="propertySet">
+	
+<!-- work setting layer -->
+<div id="propertyWorkSet" class="propertySet">
 	<div class="propertySetWrap">
 		<div class="setHd">
 			<div class="setHdTitle">
@@ -106,6 +108,7 @@
 
 					<div class="wrk_add_mem">
 						<label for="wrk_mem">배정된 멤버 추가</label>
+						<input type="button" value="닫기" id="memClose" class="close">
 						<div class="wrk_mem_list">
 							<div class="wrk_mem_sch">
 								<fieldset id="hd_sch">
@@ -130,6 +133,7 @@
 
 					<div class="wrk_add_flw">
 						<label for="wrk_flw">팔로워 추가</label>
+						<input type="button" value="닫기" id="flwClose" class="close">
 						<div class="wrk_flw_list">
 							<div class="wrk_flw_sch">
 								<fieldset id="hd_sch">
@@ -165,44 +169,44 @@
 					<div class="lableColor">
 						<ul>
 							<li>
-								<label for="D25565" class="wrk_color wrk_color01" style="background:#D25565"></label>
-								<input type="radio" value="#D25565" name="wrk_color_cd" id="D25565">
+								<label for="7d3bff" class="wrk_color wrk_color01" style="background:#7d3bff"></label>
+								<input type="radio" value="#7d3bff" name="wrk_color_cd" id="7d3bff">
 							</li>
 							<li>
-								<label for="9775fa" class="wrk_color wrk_color02" style="background:#9775fa"></label>
-								<input type="radio" value="#9775fa" name="wrk_color_cd" id="9775fa">
+								<label for="cf5de1" class="wrk_color wrk_color02" style="background:#cf5de1"></label>
+								<input type="radio" value="#cf5de1" name="wrk_color_cd" id="cf5de1">
 							</li>
 							<li>
-								<label for="ffa94d" class="wrk_color wrk_color03" style="background:#D25565"></label>
-								<input type="radio" value="#ffa94d" name="wrk_color_cd" id="ffa94d">
+								<label for="75dfff" class="wrk_color wrk_color03" style="background:#75dfff"></label>
+								<input type="radio" value="#75dfff" name="wrk_color_cd" id="75dfff">
 							</li>
 							<li>
-								<label for="ffa94d" class="wrk_color wrk_color04" style="background:#74c0fc"></label>
-								<input type="radio" value="#74c0fc" name="wrk_color_cd" id="74c0fc">
+								<label for="287cff" class="wrk_color wrk_color04" style="background:#287cff"></label>
+								<input type="radio" value="#287cff" name="wrk_color_cd" id="287cff">
 							</li>
 							<li>
-								<label for="f06595" class="wrk_color wrk_color05" style="background:#f06595"></label>
-								<input type="radio" value="#f06595" name="wrk_color_cd" id="f06595">
+								<label for="ffe604" class="wrk_color wrk_color05" style="background:#ffe604"></label>
+								<input type="radio" value="#ffe604" name="wrk_color_cd" id="ffe604">
 							</li>
 							<li>
-								<label for="63e6be" class="wrk_color wrk_color06" style="background:#63e6be"></label>
-								<input type="radio" value="#63e6be" name="wrk_color_cd" id="63e6be">
+								<label for="ff8b03" class="wrk_color wrk_color06" style="background:#ff8b03"></label>
+								<input type="radio" value="#ff8b03" name="wrk_color_cd" id="ff8b03">
 							</li>
 							<li>
-								<label for="a9e34b" class="wrk_color wrk_color07" style="background:#a9e34b"></label>
-								<input type="radio" value="#a9e34b" name="wrk_color_cd" id="a9e34b">
+								<label for="de4439" class="wrk_color wrk_color07" style="background:#de4439"></label>
+								<input type="radio" value="#de4439" name="wrk_color_cd" id="de4439">
 							</li>
 							<li>
-								<label for="a9e34b" class="wrk_color wrk_color08" style="background:#4d638c"></label>
-								<input type="radio" value="#4d638c" name="wrk_color_cd" id="a9e34b">
+								<label for="0b16c6" class="wrk_color wrk_color08" style="background:#0b16c6"></label>
+								<input type="radio" value="#0b16c6" name="wrk_color_cd" id="0b16c6">
 							</li>
 							<li>
-								<label for="495057" class="wrk_color wrk_color09" style="background:#495057"></label>
-								<input type="radio" value="#495057" name="wrk_color_cd" id="495057">
+								<label for="ff2f77" class="wrk_color wrk_color09" style="background:#ff2f77"></label>
+								<input type="radio" value="#ff2f77" name="wrk_color_cd" id="ff2f77">
 							</li>
 							<li>
-								<label for="002dff" class="wrk_color wrk_color10" style="background:#002dff"></label>
-								<input type="radio" value="#002dff" name="wrk_color_cd" id="002dff">
+								<label for="3d434f" class="wrk_color wrk_color10" style="background:#3d434f"></label>
+								<input type="radio" value="#3d434f" name="wrk_color_cd" id="3d434f">
 							</li>
 						</ul>
 					</div>
@@ -213,28 +217,31 @@
 		<!--  여기서부터 work comment -->
 		<form id="frm02">
 		<div id="tab2" class="tab_content">
-			<div>
-				<table class="tb_style_01">
+			<div class="tableWrap">
+				<table class="tb_style_02">
 					<colgroup>
-						<col width="30%">
+						<col width="50%">
 						<col width="10%">
-						<col width="5%">
-						<col width="2%">
-						<col width="2%">
+						<col width="10%">
+						<col width="10%">
+						<col width="10%">
 					</colgroup>
 					<thead>
 						<tr>
 							<th>내용</th>
-							<th>작성자 아이디</th>
-							<th colspan='3'>작성일</th>
+							<th>아이디</th>
+							<th>작성일</th>
+							<th></th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody id="commBody">
 
 					</tbody>
 				</table>
-				<label>댓글 작성</label><br>
-				<textarea rows="1" cols="60" name="comm_content" id="comm_content"></textarea>
+			</div>
+			<div class="commWrite">
+				<textarea rows="1" cols="60" name="comm_content" id="comm_content" placeholder="댓글을 작성해 주세요."></textarea>
 				<button type="button" name="replyBtn" id="replyBtn"> 댓글등록 </button>
 			</div>
 			<div class="pagination">
@@ -247,8 +254,8 @@
 		<div id="tab3" class="tab_content">
 			<div class="tab_sub_menu">
 				<ul class="tabs">
-					<li id="fileList">FileList</li>
-					<li id="linkList">LinkList</li>
+					<li id="fileList">파일</li>
+					<li id="linkList">링크</li>
 				</ul>
 			</div>
 			
@@ -277,8 +284,8 @@
 			<div class="tab_con">
 	
 				<div class="tab-content current">
-					<div>
-						<table class="tb_style_01">
+					<div class="fileWrap">
+						<table class="tb_style_03">
 							<colgroup>
 								<col width="30%">
 								<col width="20%">
