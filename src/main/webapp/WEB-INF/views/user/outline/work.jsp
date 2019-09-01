@@ -6,15 +6,7 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://uicdn.toast.com/tui.chart/latest/tui-chart-all.min.js"></script>
 <script src="/js/toast-ui-chart.js"></script>
-<style>
-	#filterFrm label { font-size:13px; font-weight: 500; }
- 	#filterFrm ul li label { cursor: pointer; } 
- 	#allContainer { height: 95%; width:1200px; float:left; margin-top:140px;}
- 	#frmContainer { height:100%;width:150px;float:left;margin-right:0; }
- 	#resultContainer { width: 400px; padding:15px; height: 700px; float:left; }
- 	#chartContainer { width:600px; padding:15px; height:100%; float:left;}
- 	#blankContainer { font-size:large; width:100%; height:730px; text-align:center; padding:250px;}
-</style>
+
 <div class="sub_menu">
 	<ul class="sub_menu_item">
 		<li><a href="/work/list">Work</a></li>
@@ -23,7 +15,7 @@
 	</ul>
 </div>
 <section class="contents">
-<h2>Work List</h2>
+	<h2 class="contentTitle">업무 개요</h2>
 		<div id="allContainer">
 <div id="frmContainer">
 	    <form id="filterFrm">

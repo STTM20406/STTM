@@ -554,7 +554,6 @@ a.btn-layerClose {display:inline-block; height:25px; padding:0 14px 0; backgroun
 #uploadFile {border: 1px solid #3f4df5; border-radius: 3px; display: inline-block; text-align: center; font-size: 13px;vertical-align: top;   padding: 5px 11px; color: #3f4df5;transition: all 0.4s;}
 
 
-#frmContainer {width:20%; float:left}
 .cal_wrapper {width:78%; float:left; height:600px}
 .cal_wrapper table {width:100%}
 
@@ -766,3 +765,27 @@ a.btn-layerClose {display:inline-block; height:25px; padding:0 14px 0; backgroun
   overflow-y: auto;
 }
 
+
+
+/* work list style */
+.contentTitle {font-size: 3em; color: #fff; margin-bottom: 20px; font-weight: 300;}
+#filterFrm ul li label { cursor: pointer; } 
+#allContainer {width: 100%; height: auto; float: left; background: #fff; border-radius: 3px; padding:20px}
+#frmContainer {height: 100%; width: 13%; float: left; margin-right: 1%;}
+#frmContainer  label {font-size: 1.2em; color: #7a8794; margin-bottom:6px; display:block}
+#frmContainer  select {color: #585f66; margin-bottom:15px; width:100%; border:0; padding:5px 10px; border-top:1px solid #7a8794; border-bottom:1px solid #7a8794; -webkit-appearance: none; -moz-appearance: none; -ms-appearance: none; appearance: none; outline: 0; border-radius: 0;}
+#frmContainer p {margin-bottom:6px; color:#34383b; font-size:1.1em}
+#frmContainer p input[type=checkbox] {margin-right:7px}
+#prjList {margin:15px 0}
+#makerList {margin-top:15px}
+#followerList {margin:15px 0}
+
+.result {border: 1px dashed #c1cad1; padding: 10px 15px; border-radius: 3px; margin-bottom:15px}
+.result span {display:block}
+.result span:nth-child(1) {font-size: 1em; color: #798793; margin-bottom:6px}
+.result span:nth-child(2) b {font-size: 1.3em; font-weight: 400; color: #3f4df5;}
+.result span:nth-child(3) {}
+
+#resultContainer { width: 32%; height: 100%; float:left; margin-right:1%}
+#chartContainer { width:50%; height:100%; float:left;}
+#blankContainer { font-size:large; width:100%; height:730px; text-align:center; padding:250px;}
