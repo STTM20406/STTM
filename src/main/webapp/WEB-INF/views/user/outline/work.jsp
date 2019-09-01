@@ -11,7 +11,7 @@
 	<ul class="sub_menu_item">
 		<li><a href="/work/list">Work</a></li>
 		<li><a href="/calendarGet">Calendar</a></li>
-		<li><a href="/gantt/project">Gantt Chart</a></li>
+		<li><a href="/gantt/overview">Gantt Chart</a></li>
 	</ul>
 </div>
 <section class="contents">
@@ -245,7 +245,7 @@
 		<!--  여기서부터 work file&link-->
 		<!-- 영하가 수정함 여기부터 ㅎ-->
 		<div id="tab3" class="tab_content">
-			<div class="sub_menu">
+			<div class="tab_sub_menu">
 				<ul class="tabs">
 					<li id="fileList">FileList</li>
 					<li id="linkList">LinkList</li>
@@ -657,7 +657,7 @@
 			workFilePagination(1, 10, wrk_id);
 		})
 	
-		$(".sub_menu").on("click", "#fileList",function(){
+		$(".tab_sub_menu").on("click", "#fileList",function(){
 			var wrk_id = $('#wps_wrk_id').val();
 			$('#locker').fadeIn(0);
 			$('#workLink').fadeOut(0);
@@ -665,7 +665,7 @@
 			workFilePagination(1, 10, wrk_id);
 		})
 		
-		$(".sub_menu").on("click", "#linkList",function(){
+		$(".tab_sub_menu").on("click", "#linkList",function(){
 			$('#locker').hide(0);
 			var wrk_id = $('#wps_wrk_id').val();
 			$('#workFile').fadeOut(0);

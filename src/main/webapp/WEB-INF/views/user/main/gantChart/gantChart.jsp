@@ -1,12 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<style>
+	#gantt_here { width:85%; height:630px; overflow:hidden; padding:0px; margin:0px; float:left;}
+</style>
 <!-- 프로젝트 업무 간트차트 -->
 <script src="/js/dhtmlxgantt.js"></script>
 <link rel="stylesheet" href="/css/dhtmlxgantt.css" type="text/css">
-<style>
-	#filterFrm label { font-size:13px; font-weight: 500; }
-	#filterFrm ul li label { cursor: pointer; }
-</style>
 <!-- Include 할 부분 -->
 <div class="sub_menu">
 	<ul class="sub_menu_item">
@@ -21,51 +20,44 @@
 </div>
 <!-- Include 끝 -->
 <section class="contents">
-<h2>${PROJECT_INFO.prj_nm } > Gantt Chart</h2>
-<div id="frmContainer" style="height:100%;width:20%;float:left;">
+<h2 class="contentTitle">${PROJECT_INFO.prj_nm } > Gantt Chart</h2>
+<div id="allContainer">
+<div id="frmContainer">
 	    <form id="filterFrm">
-	    	<label>업무 구분</label><br>
+	    	<label>업무 구분</label>
 	    	<select name="wrk_is_mine" class="filter">
 	    		<option value="all" selected>전체 업무</option>
 	    		<option value="mine">내 업무만</option>
 	    	</select>
-	    	<br><br><hr>
-	    	<label>작성일 기준</label><br>
+	    	<label>작성일 기준</label>
 	    	<select name="wrk_dt" class="filter">
 	    		<option value="0" selected>전체</option>
 	    		<option value="30">30일 이내</option>
 	    		<option value="60">60일 이내</option>
 	    		<option value="90">90일 이내</option>
 	    	</select>
-	    	<br><br><hr>
 	    	<label>업무 주체</label>
-	    	<br>
-		    	<input type="checkbox" class="filter" name="wrk_i_assigned" value="y"> 내게 할당된 업무 <br>
-		    	<input type="checkbox" class="filter" name="wrk_i_made" value="y">	내가 작성한 업무 <br>
-		    	<input type="checkbox" class="filter" name="wrk_i_following" value="y"> 내가 팔로우한 업무 <br>
-	    	<br><br><hr>
+		    	<p><input type="checkbox" class="filter" name="wrk_i_assigned" value="y"> 내게 할당된 업무</p>
+		    	<p><input type="checkbox" class="filter" name="wrk_i_made" value="y">	내가 작성한 업무</p>
+		    	<p><input type="checkbox" class="filter" name="wrk_i_following" value="y"> 내가 팔로우한 업무</p>
 	    	<input type="hidden" name="prj_id" value="${PROJECT_INFO.prj_id }"> <!-- 나중에 세션에 저장된 프로젝트 아이디 값이 들어올 예정 -->
-	    	<label>마감일 기준</label><br>
-		    	<input type="checkbox" class="filter" name="overdue" value="y"> 마감일 지남 <br>
-		    	<input type="checkbox" class="filter" name="till_this_week" value="y"> 이번 주까지 <br>
-		    	<input type="checkbox" class="filter" name="till_this_month" value="y"> 이번 달까지 <br>
-		    	<input type="checkbox" class="filter" name="no_deadline" value="y"> 마감일 없음 <br>
-	    	<br><br><hr>
-	    	<label>업무 상태 구분</label><br>
-		    	<input type="checkbox" class="filter" name="is_cmp" value="y"> 완료된 업무 <br>
-	    	<br><br><hr>
+	    	<label>마감일 기준</label>
+		    	<p><input type="checkbox" class="filter" name="overdue" value="y"> 마감일 지남</p>
+		    	<p><input type="checkbox" class="filter" name="till_this_week" value="y"> 이번 주까지</p>
+		    	<p><input type="checkbox" class="filter" name="till_this_month" value="y"> 이번 달까지</p>
+		    	<p><input type="checkbox" class="filter" name="no_deadline" value="y"> 마감일 없음</p>
+	    	<label>업무 상태 구분</label>
+		    	<p><input type="checkbox" class="filter" name="is_cmp" value="y"> 완료된 업무</p>
 	    		<div id="makerList">
 	    		</div>
-	    	<br><br><hr>
 	    		<div id="followerList">
 	    		</div>
-		    	<br>
-		    	<button type="button" onclick="reset()">필터 초기화</button>
+		    	<button type="button" class="btn_style_02" onclick="reset()">필터 초기화</button>
 		    	<input type="hidden" name="user_email" value="${USER_INFO.user_email }">
 	    </form>
 </div>
-<div id="gantt_here" style="width:1200px; height:630px; overflow:hidden; padding:0px; margin:0px; float:left;"></div>
-
+<div id="gantt_here"></div>
+</div>
 <!-- 업무 상세 보기 시작 -->
 <div id="propertyWorkSet" class="propertySet">
 	<div class="propertySetWrap">
@@ -268,7 +260,7 @@
 		<!--  여기서부터 work file&link-->
 		<!-- 영하가 수정함 여기부터 ㅎ-->
 		<div id="tab3" class="tab_content">
-			<div class="sub_menu">
+			<div class="tab_sub_menu">
 				<ul class="tabs">
 					<li id="fileList">FileList</li>
 					<li id="linkList">LinkList</li>
@@ -472,7 +464,7 @@ function workDetail(wrk_id){
 	$(function(){
 		searchInit();
 		loadGantt();
-		$("#filterFrm p").hide();
+// 		$("#filterFrm p").hide();
 		  // $("ul > li:first-child a").next().show();
 		  $("#filterFrm").on("click", "ul li label", function(){
 		    $(this).siblings().slideToggle(300);
