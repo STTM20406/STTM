@@ -1,11 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<style>
-	#filterFrm label { font-size:13px; font-weight: 500; }
-	#filterFrm ul li label { cursor: pointer; }
-	.pp {margin: 0;}
-</style>
 <link rel="stylesheet" href="/css/bootstrap-datetimepicker.min.css">
 <link rel="stylesheet" href="/css/bootstrap.min.css">
 <link rel="stylesheet" href='/css/fullcalendar.min.css'>
