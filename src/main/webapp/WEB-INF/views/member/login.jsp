@@ -95,13 +95,10 @@
 						</li>
 						
 						<!-- 구글 로그인 버튼 -->
-<<<<<<< HEAD
 						<li><div class="g-signin2" data-onsuccess="onSignIn"></div></li>
-=======
 <!-- 						<li> -->
 <!-- 							<div class="g-signin2" data-onsuccess="onSignIn"></div> -->
 <!-- 						</li> -->
->>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 						<!-- 구글 로그인 버튼 -->
 						
 						<li class="forgot"><a href="resetPassword">Forgot your Password?</a></li>
