@@ -13,12 +13,10 @@
 </style>
 <div class="sub_menu">
 	<ul class="sub_menu_item">
-		<li><a href="/overview/analysis">Work List</a></li>
+		<li><a href="/work/list">Work</a></li>
 		<li><a href="/calendarGet">Calendar</a></li>
-		<li><a href="/gantt/overview">Gantt Chart</a></li>
+		<li><a href="/gantt/project">Gantt Chart</a></li>
 	</ul>
-	<div class="sub_btn">
-	</div>
 </div>
 <section class="contents">
 <h2>Gantt Chart</h2>
