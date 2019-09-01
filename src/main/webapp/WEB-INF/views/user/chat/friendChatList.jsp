@@ -254,6 +254,7 @@
 		<input type="hidden" id="what" name="what" value="friend">
 	</form>
 
+
 	<div class="sub_menu">
 		<ul class="sub_menu_item">
 			<li><a href="/friendChatList">친구 채팅</a></li>
@@ -266,6 +267,10 @@
 			</ul>
 		</div>
 	</div>
+
+
+
+
 
 
 	<!-- table style start -->
