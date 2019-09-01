@@ -243,7 +243,7 @@
 				</table>
 			</div>
 			<div class="commWrite">
-				<textarea rows="1" cols="60" name="comm_content" id="comm_content" placeholder="댓글을 작성해 주세요."></textarea>
+				<input type="text" id="comm_content" name="comm_content" placeholder="댓글을 작성해 주세요." maxlength="70" style="width : 70%">
 				<button type="button" name="replyBtn" id="replyBtn"> 댓글등록 </button>
 			</div>
 			<div class="pagination">

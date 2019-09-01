@@ -283,12 +283,6 @@
 
 	<div id="container">
 		
-		<div class="sub_menu">
-			<ul class="tabs">
-				<li id="individualBox">individualBox</li>
-			</ul>
-		</div>
-		
 		<div class="searchBox">
 			<div class="tb_sch_wr">
 		                <select class="search" name="selectFile">
