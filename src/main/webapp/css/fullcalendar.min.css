@@ -201,7 +201,6 @@ hr.fc-divider {
 }
 
 .fc td.fc-today {
-    border-style: double
 }
 
 a[data-goto]:hover {
@@ -515,7 +514,7 @@ border:none
 }
 
 .fc-unthemed td.fc-today {
-    background: #fcf8e3
+    background: #eff3f8
 }
 
 .fc-unthemed .fc-disabled-day {
@@ -738,7 +737,15 @@ border:none
 }
 
 .fc-ltr .fc-basic-view .fc-day-top .fc-day-number {
-    float: right
+      float: right;
+    background: #3f4df5;
+    width: 15px;
+    height: 15px;
+    border-radius: 20px;
+    text-align: center;
+    line-height:15px;
+    color: #fff;
+    margin: 7px;
 }
 
 .fc-rtl .fc-basic-view .fc-day-top .fc-day-number {
