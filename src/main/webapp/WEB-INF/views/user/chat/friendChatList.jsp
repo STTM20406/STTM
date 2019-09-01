@@ -3,12 +3,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 
-<style type="text/css">
-.roomNm:hover{
-	 cursor: pointer;
-}
-</style>
-
 <script>
 	$(document).ready(function() {
 

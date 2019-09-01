@@ -3,24 +3,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<style>
-#fs{
-	margin : 0 auto;
-	text-allign : center;
-}
-#subject{ 
-	width:500px;  
-	height:80px;     
-	resize:none;
-}
-
-#special{ 
-	width:500px;  
-	height:60px;     
-	resize:none;
-}
-</style>
-
 <fieldSet id="fs">
 	    <label>♬♩♪ 회의록 번호 : ${minutesVo.mnu_id}</label>
 		<label>♬ 참석자 : </label>

@@ -3,39 +3,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 
-<style>
-.roomNm:hover{
-	 cursor: pointer;
-}
-
-ul.tabs {
-   margin: 0px;
-   padding: 0px;
-   list-style: none;
-}
-
-ul.tabs li {
-   background: none;
-   color: #222;
-   display: inline-block;
-   padding: 10px 15px;
-   cursor: pointer;
-}
-
-ul.tabs li.current {
-   color: #222;
-}
-
-.tab-content {
-   display: none;
-   padding: 15px;
-}
-
-.tab-content.current {
-   display: inherit;
-}
-</style>
-
 <script>
 	$(document).ready(function() {
 		
@@ -52,15 +19,15 @@ ul.tabs li.current {
 		});
 
 
-		$('ul.tabs li').click(function() {
-	         var tab_id = $(this).attr('data-tab');
+// 		$('ul.tabs li').click(function() {
+// 	         var tab_id = $(this).attr('data-tab');
 
-	         $('ul.tabs li').removeClass('current');
-	         $('.tab-content').removeClass('current');
+// 	         $('ul.tabs li').removeClass('current');
+// 	         $('.tab-content').removeClass('current');
 
-	         $(this).addClass('current');
-	         $("#" + tab_id).addClass('current');
-	     });
+// 	         $(this).addClass('current');
+// 	         $("#" + tab_id).addClass('current');
+// 	     });
 		
 		$("#faceBtn").on("click",function(){
 			window.open('http://localhost/RTCMulticonnection/index.html', '_blank')
