@@ -679,14 +679,12 @@ public class File_AttchController {
 	//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi//chatBotApi
 	@RequestMapping("/chatBotApi")
 	String chatBotApi(Model model, String question) {
-		logger.debug("♬♩♪  chatBotApi");
-		logger.debug("♬♩♪  question:{}",question);
-		
+
 		if(question.contains("안녕")) {
 			model.addAttribute("data", "안녕하세요. 척척박사 ChatBot이에요.");
 		}else if(question.contains("시연")) {
 			model.addAttribute("data", "시연 순서는 ");
-		}else {
+		}else if(question.contains("닫기")) {
 			model.addAttribute("data", "감사합니다");
 		}
 		return "jsonView";
