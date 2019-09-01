@@ -457,24 +457,24 @@ public class FilterService implements IFilterService{
 		
 		sb_form.append("<label>업무 주체</label>");
 		
-		sb_form.append("<input type='checkbox' class='filter' name='wrk_i_assigned' value='y'> 내게 할당된 업무");
-		sb_form.append("<input type='checkbox' class='filter' name='wrk_i_made' value='y'> 내가 작성한 업무");
-		sb_form.append("<input type='checkbox' class='filter' name='wrk_i_following' value='y'> 내가 팔로우한 업무");
+		sb_form.append("<p><input type='checkbox' class='filter' name='wrk_i_assigned' value='y'> 내게 할당된 업무</p>");
+		sb_form.append("<p><input type='checkbox' class='filter' name='wrk_i_made' value='y'> 내가 작성한 업무</p>");
+		sb_form.append("<p><input type='checkbox' class='filter' name='wrk_i_following' value='y'> 내가 팔로우한 업무</p>");
 		
 		sb_form.append("<div id='prjList'></div>");
 		
 		
 		sb_form.append("<label>마감일 기준</label>");
 		
-		sb_form.append("<input type='checkbox' class='filter' name='overdue' value='y'> 마감일 지남");
-		sb_form.append("<input type='checkbox' class='filter' name='till_this_week' value='y'> 이번 주까지");
-		sb_form.append("<input type='checkbox' class='filter' name='till_this_month' value='y'> 이번 달까지");
-		sb_form.append("<input type='checkbox' class='filter' name='no_deadline' value='y'> 마감일 없음");
+		sb_form.append("<p><input type='checkbox' class='filter' name='overdue' value='y'> 마감일 지남</p>");
+		sb_form.append("<p><input type='checkbox' class='filter' name='till_this_week' value='y'> 이번 주까지</p>");
+		sb_form.append("<p><input type='checkbox' class='filter' name='till_this_month' value='y'> 이번 달까지</p>");
+		sb_form.append("<p><input type='checkbox' class='filter' name='no_deadline' value='y'> 마감일 없음</p>");
 		
 		
 		sb_form.append("<label>업무 상태</label>");
 		
-		sb_form.append("<input type='checkbox' class='filter' name='is_cmp' value='y'> 완료된 업무");
+		sb_form.append("<p><input type='checkbox' class='filter' name='is_cmp' value='y'> 완료된 업무</p>");
 		
 		sb_form.append("<div id='makerList'></div>");
 		
@@ -516,24 +516,24 @@ public class FilterService implements IFilterService{
 		
 		sb_form.append("<label>업무 주체</label>");
 		
-		sb_form.append("<input type='checkbox' class='filter' name='wrk_i_assigned' value='y'> 내게 할당된 업무 ");
-		sb_form.append("<input type='checkbox' class='filter' name='wrk_i_made' value='y'> 내가 작성한 업무 ");
-		sb_form.append("<input type='checkbox' class='filter' name='wrk_i_following' value='y'> 내가 팔로우한 업무 ");
+		sb_form.append("<p><input type='checkbox' class='filter' name='wrk_i_assigned' value='y'> 내게 할당된 업무</p>");
+		sb_form.append("<p><input type='checkbox' class='filter' name='wrk_i_made' value='y'> 내가 작성한 업무</p>");
+		sb_form.append("<p><input type='checkbox' class='filter' name='wrk_i_following' value='y'> 내가 팔로우한 업무</p>");
 		
 		sb_form.append("<div id='prjList'></div>");
 		
 		
 		sb_form.append("<label>마감일 기준</label>");
 		
-		sb_form.append("<input type='checkbox' class='filter' name='overdue' value='y'> 마감일 지남 ");
-		sb_form.append("<input type='checkbox' class='filter' name='till_this_week' value='y'> 이번 주까지 ");
-		sb_form.append("<input type='checkbox' class='filter' name='till_this_month' value='y'> 이번 달까지 ");
-		sb_form.append("<input type='checkbox' class='filter' name='no_deadline' value='y'> 마감일 없음 ");
+		sb_form.append("<p><input type='checkbox' class='filter' name='overdue' value='y'> 마감일 지남</p>");
+		sb_form.append("<p><input type='checkbox' class='filter' name='till_this_week' value='y'> 이번 주까지</p>");
+		sb_form.append("<p><input type='checkbox' class='filter' name='till_this_month' value='y'> 이번 달까지</p>");
+		sb_form.append("<p><input type='checkbox' class='filter' name='no_deadline' value='y'> 마감일 없음</p>");
 		
 		
 		sb_form.append("<label>업무 상태 구분</label>");
 		
-		sb_form.append("<input type='checkbox' class='filter' name='is_cmp' value='y'> 완료된 업무 ");
+		sb_form.append("<p><input type='checkbox' class='filter' name='is_cmp' value='y'> 완료된 업무</p>");
 		
 		sb_form.append("<div id='makerList'></div>");
 		sb_form.append("<button type='button' onclick='reset()'> 필터 초기화 </button>");
