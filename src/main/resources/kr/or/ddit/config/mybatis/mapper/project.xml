@@ -214,14 +214,14 @@
 	
 	<!-- 프로젝트 멤버 관리자로 추가시 lv0으로 값 업데이트 / 프로젝트 관리자 삭제시 lv1로 값 업데이트 -->
 	<update id="updateProjectMem" parameterType="project_memVo">
-		UPDATE PROJECT_MEM A SET PRJ_MEM_LV = #{prj_mem_lv} WHERE PRJ_ID = #{prj_id} AND USER_EMAIL = #{user_email}
+		UPDATE PROJECT_MEM A SET PRJ_MEM_LV = #{prj_mem_lv}, PRJ_MEM_DEL_FL = 'N' WHERE PRJ_ID = #{prj_id} AND USER_EMAIL = #{user_email}
 	</update>
 	
 	
 	<!-- 프로젝트 멤버 삭제할 때 -->
-	<delete id="deleteProjectMem" parameterType="project_memVo">
+	<update id="deleteProjectMem" parameterType="project_memVo">
 		UPDATE PROJECT_MEM SET PRJ_MEM_DEL_FL = 'Y' WHERE PRJ_ID = #{prj_id} AND USER_EMAIL = #{user_email} AND PRJ_MEM_LV = #{prj_mem_lv}
-	</delete>
+	</update>
 	
 
 	<!-- 휴면 계정으로 전환하기 위하여 나와 프로젝트 아이디가 같은 멤버 조회 -->

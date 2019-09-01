@@ -21,7 +21,7 @@ function commentPagination(wps_wrk_id,page, pageSize){
 			var html = "";
 			
 			data.commentList.forEach(function(comm, index){
-				
+				console.log(data);
 				html += "<tr class='commTr'>";
 				html += "<input type='hidden' name='commContent' value='"+comm.comm_content +"'/>"
 				html += "<input type='hidden' name='commComm_id' value='"+comm.comm_id +"'/>"
@@ -262,7 +262,9 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 							data.works.forEach(function(work, index2) {
 		 						if(work.wrk_lst_id == workList.wrk_lst_id && work.wrk_cmp_fl == 'N'){
 		 							html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work.wrk_id+"' class='workListItem'>";
-		 							html +=	"<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl'>";
+		 							html += "<div class='checkList etrans workCheck'>"
+		 							html += "<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl_"+work.wrk_id+"' class='wrk_cmp_fl'>"
+		 							html += "<label for='wrk_cmp_fl_"+work.wrk_id+"'></label></div>"
 		 							html +=	"<button type='button' id='workDelBtn' class='workDelBtn'>업무삭제</button>";
 									html +=	"<h2 class='wrk_title'><span>"+work.wrk_grade+"</span>"+work.wrk_nm+"</h2>";
 									html +=	"<ul>";
@@ -288,7 +290,9 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 							data.works.forEach(function(work1, index3) {
 		 						if(work1.wrk_lst_id == workList.wrk_lst_id && work1.wrk_cmp_fl == 'Y'){
 									html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work1.wrk_id+"' class='workListItem'>";
-		 							html +=	"<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl' checked>"
+									html += "<div class='checkList etrans workCheck'>"
+		 							html += "<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl_"+work.wrk_id+"' class='wrk_cmp_fl' checked>"
+		 							html += "<label for='wrk_cmp_fl_"+work.wrk_id+"'></label></div>"
 	 								html +=	"<button type='button' id='workDelBtn' class='workDelBtn'>업무삭제</button>";;
 									html +=	"<h2 class='wrk_title'><span>"+work1.wrk_grade+"</span>"+work1.wrk_nm+"</h2>";
 									html +=	"<ul>";
@@ -360,7 +364,9 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 								data.works.forEach(function(work, index2) {
 			 						if(work.wrk_lst_id == workList.wrk_lst_id && work.wrk_cmp_fl == 'N'){
 			 							html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work.wrk_id+"' class='workListItem'>";
-			 							html +=	"<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl'>";
+			 							html += "<div class='checkList etrans workCheck'>"
+			 							html += "<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl_"+work.wrk_id+"' class='wrk_cmp_fl'>"
+			 							html += "<label for='wrk_cmp_fl_"+work.wrk_id+"'></label></div>"
 			 							html +=	"<button type='button' id='workDelBtn' class='workDelBtn'>업무삭제</button>";
 										html +=	"<h2 class='wrk_title'><span>"+work.wrk_grade+"</span>"+work.wrk_nm+"</h2>";
 										html +=	"<ul>";
@@ -386,7 +392,9 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 								data.works.forEach(function(work1, index3) {
 			 						if(work1.wrk_lst_id == workList.wrk_lst_id && work1.wrk_cmp_fl == 'Y'){
 										html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work1.wrk_id+"' class='workListItem'>";
-			 							html +=	"<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl' checked>";
+										html += "<div class='checkList etrans workCheck'>"
+			 							html += "<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl_"+work.wrk_id+"' class='wrk_cmp_fl' checked>"
+		 								html += "<label for='wrk_cmp_fl_"+work.wrk_id+"'></label></div>"
 			 							html +=	"<button type='button' id='workDelBtn' class='workDelBtn'>업무삭제</button>";
 										html +=	"<h2 class='wrk_title'><span>"+work1.wrk_grade+"</span>"+work1.wrk_nm+"</h2>";
 										html +=	"<ul>";
@@ -500,7 +508,9 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 							data.works.forEach(function(work, index2) {
 		 						if(work.wrk_lst_id == workList.wrk_lst_id && work.wrk_cmp_fl == 'N'){
 		 							html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work.wrk_id+"' class='workListItem'>";
-		 							html +=	"<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl'>";
+		 							html += "<div class='checkList etrans workCheck'>"
+		 							html += "<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl_"+work.wrk_id+"' class='wrk_cmp_fl'>"
+		 							html += "<label for='wrk_cmp_fl_"+work.wrk_id+"'></label></div>"
 		 							html +=	"<button type='button' id='workDelBtn' class='workDelBtn'>업무삭제</button>";
 									html +=	"<h2 class='wrk_title'><span>"+work.wrk_grade+"</span>"+work.wrk_nm+"</h2>";
 									html +=	"<ul>";
@@ -526,7 +536,9 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 							data.works.forEach(function(work1, index3) {
 		 						if(work1.wrk_lst_id == workList.wrk_lst_id && work1.wrk_cmp_fl == 'Y'){
 									html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work1.wrk_id+"' class='workListItem'>";
-		 							html +=	"<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl' checked>";
+									html += "<div class='checkList etrans workCheck'>"
+		 							html += "<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl_"+work.wrk_id+"' class='wrk_cmp_fl' checked>"
+		 							html += "<label for='wrk_cmp_fl_"+work.wrk_id+"'></label></div>"
 		 							html +=	"<button type='button' id='workDelBtn' class='workDelBtn'>업무삭제</button>";
 									html +=	"<h2 class='wrk_title'><span>"+work1.wrk_grade+"</span>"+work1.wrk_nm+"</h2>";
 									html +=	"<ul>";
@@ -617,6 +629,11 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 		//업무 클릭시 업무 설정 레이어 열기
 		$("#workListBox").on("click", ".workListItem h2", function(){
 			$("#propertyWorkSet").animate({right:'0'}, 500);
+			
+			$(".workTab ul.tabs li").removeClass("active").css({background:"#fff", color:"#2e3f57"});
+			$(".workTab ul.tabs li:nth-child(1)").css({background:"#dee2e7"});
+			$(".tab_content").fadeOut(0);
+			$("#tab1").fadeIn(0);
 			
 			//업무 아이디를 변수에 담음
 			var wrk_id = $(this).parent().attr("data-wrkid");
@@ -736,7 +753,9 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 							data.works.forEach(function(work, index2) {
 		 						if(work.wrk_lst_id == workList.wrk_lst_id && work.wrk_cmp_fl == 'N'){
 		 							html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work.wrk_id+"' class='workListItem'>";
-		 							html +=	"<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl'>";
+		 							html += "<div class='checkList etrans workCheck'>"
+		 							html += "<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl_"+work.wrk_id+"' class='wrk_cmp_fl'>"
+		 							html += "<label for='wrk_cmp_fl_"+work.wrk_id+"'></label></div>"
 		 							html +=	"<button type='button' id='workDelBtn' class='workDelBtn'>업무삭제</button>";
 									html +=	"<h2 class='wrk_title'><span>"+work.wrk_grade+"</span>"+work.wrk_nm+"</h2>";
 									html +=	"<ul>";
@@ -762,7 +781,9 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 							data.works.forEach(function(work1, index3) {
 		 						if(work1.wrk_lst_id == workList.wrk_lst_id && work1.wrk_cmp_fl == 'Y'){
 									html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work1.wrk_id+"' class='workListItem'>";
-		 							html +=	"<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl' checked>";
+									html += "<div class='checkList etrans workCheck'>"
+		 							html += "<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl_"+work.wrk_id+"' class='wrk_cmp_fl' checked>"
+		 							html += "<label for='wrk_cmp_fl_"+work.wrk_id+"'></label></div>"
 		 							html +=	"<button type='button' id='workDelBtn' class='workDelBtn'>업무삭제</button>";
 									html +=	"<h2 class='wrk_title'><span>"+work1.wrk_grade+"</span>"+work1.wrk_nm+"</h2>";
 									html +=	"<ul>";
@@ -800,10 +821,11 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 		//업무 클릭 했을 때 처음 보여주는 탭은 설정 탭
 		$(".propertySetWrap div:nth-child(3)").show();
 
+		$(".workTab ul.tabs li:nth-child(1)").css({background:"#dee2e7"});
 		//탭 버튼 클릭시 div 변경
 		$(".workTab").on("click", "ul.tabs li", function () {
-		    	$(".workTab ul.tabs li").removeClass("active").css("color", "#333");
-		    	$(this).addClass("active").css("color", "darkred");
+		    	$(".workTab ul.tabs li").removeClass("active").css({background:"#fff", color:"#2e3f57"});
+		    	$(this).addClass("active").css({background:"#dee2e7"});
 		    	$(".tab_content").hide()
 		    	var activeTab = $(this).attr("data-tab");
 		    	$("#" + activeTab).fadeIn()
@@ -830,8 +852,8 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 		
 		
 		//업무 완료 체크 했을 떄
-		$("#workListBox").on("click", "#wrk_cmp_fl", function(){
-			var wrkID = $(this).parent().attr("data-wrkid");
+		$("#workListBox").on("click", ".wrk_cmp_fl", function(){
+			var wrkID = $(this).parent().parent().attr("data-wrkid");
 			var wrkCMP = "";
 			if ($(this).prop('checked')){ 
 				wrkCMP = "Y";
@@ -844,7 +866,6 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 		
 		
 		function completeCheckAjax(wrkID, wrkCMP){
-			alert("test");
 			$.ajax({
 				url:"/work/completeCheckAjax",
 				method:"post",
@@ -872,7 +893,9 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 							data.works.forEach(function(work, index2) {
 		 						if(work.wrk_lst_id == workList.wrk_lst_id && work.wrk_cmp_fl == 'N'){
 		 							html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work.wrk_id+"' class='workListItem'>";
-		 							html +=	"<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl'>";
+		 							html += "<div class='checkList etrans workCheck'>"
+		 							html += "<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl_"+work.wrk_id+"' class='wrk_cmp_fl'>"
+		 							html += "<label for='wrk_cmp_fl_"+work.wrk_id+"'></label></div>"
 		 							html +=	"<button type='button' id='workDelBtn' class='workDelBtn'>업무삭제</button>";
 									html +=	"<h2 class='wrk_title'><span>"+work.wrk_grade+"</span>"+work.wrk_nm+"</h2>";
 									html +=	"<ul>";
@@ -898,7 +921,9 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 							data.works.forEach(function(work1, index3) {
 		 						if(work1.wrk_lst_id == workList.wrk_lst_id && work1.wrk_cmp_fl == 'Y'){
 									html +=	"<div id='"+workList.wrk_lst_id+"' data-wrkid='"+work1.wrk_id+"' class='workListItem'>";
-		 							html +=	"<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl' checked>";
+									html += "<div class='checkList etrans workCheck'>"
+		 							html += "<input type='checkbox' name='wrk_cmp_fl' id='wrk_cmp_fl_"+work.wrk_id+"' class='wrk_cmp_fl' checked>"
+		 							html += "<label for='wrk_cmp_fl_"+work.wrk_id+"'></label></div>"
 		 							html +=	"<button type='button' id='workDelBtn' class='workDelBtn'>업무삭제</button>";
 									html +=	"<h2 class='wrk_title'><span>"+work1.wrk_grade+"</span>"+work1.wrk_nm+"</h2>";
 									html +=	"<ul>";
@@ -1009,7 +1034,6 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
          		}else{
 	         		beforeChecked = index;
 	         		wrk_color = $("input:radio[name='wrk_color_cd']:checked").val();
-	         		console.log(wrk_color);
 	         		$(".wrk_color").removeClass("colorSelect");
 	         		$(this).prev().addClass("colorSelect");
          		}
@@ -1033,6 +1057,12 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
     				contentType:"application/x-www-form-urlencoded; charset=UTF-8",
     				data:"wrk_id=" + id + "&wrk_color_cd=" + changeColor,
     				success:function(data){
+    					$(".workListItem").each(function() {
+    						var wrkID = $(this).attr("data-wrkid");
+    						if(wrkID == id){
+    							$(this).css({borderTop:"3px solid" + wrk_color});
+    						}
+    					});
     				}
     			});
     		}
@@ -1059,6 +1089,15 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 		    	mode: "range",
 		    	minDate: "today",
 		    	enableTime: true
+		});
+		
+		
+		$("#memClose").on("click", function(){
+			$(".wrk_add_mem").fadeOut(300);
+		});
+		
+		$("#flwClose").on("click", function(){
+			$(".wrk_add_flw").fadeOut(300);
 		});
 		
 		
@@ -1152,6 +1191,7 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 		$(".wrk_add_mem").fadeOut(0); //멤버리스트 layer 숨기기
 		$("#wps_mem_set").on("click", function(){
 			var wrkID = $("#wps_id").val();
+			$(".wrk_add_flw").fadeOut(0);
 			$(".wrk_add_mem").fadeIn(300);
 			workMemListAjax(wrkID);
 		});
@@ -1258,6 +1298,7 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 		$("#wrk_flw_set").on("click", function(){
 			var wrkID = $("#wps_id").val();
 			$(".wrk_add_flw").fadeIn(300);
+			$(".wrk_add_mem").fadeOut(0);
 			workFlwListAjax(wrkID);
 		});
 		
@@ -1672,15 +1713,8 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 		<li><a href="/publicFilePagination">File&amp;Link</a></li>
 		<li><a href="/meeting/view">Meeting</a></li>
 		<li><a href="/vote">Vote</a></li>
+		<li><a href="/conferenceList">Minutes</a></li>
 	</ul>
-	<div class="sub_btn">
-		<ul>
-			<li><a href="#">4</a></li>
-			<li><a href="/conferenceList">회의록</a></li>
-			<li><a href="#">프로젝트 대화</a></li>
-			<li><a href="#">프로젝트 설정</a></li>
-		</ul>
-	</div>
 </div>
 
 <style>
@@ -1695,14 +1729,10 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 
 <section class="contents">
 	<div class="projectTitle">
-		<h2>${PROJECT_INFO.prj_nm}</h2> 
-		<div class="auth">
-			<p class="auth_txt"><span>제한</span></p>
-			<ul class="auth_list">
-				<li>전체 액세스</li>
-				<li>제한 액세스</li>
-				<li>통제 액세스</li>
-			</ul>
+		<p class="auth_txt"><span>제한</span></p>
+		<h2>${PROJECT_INFO.prj_nm}</h2>
+		<div class="workListAdd">
+			<input type="button" id="btnWorkList" value="업무리스트 추가">
 		</div>
 	</div>
 	<div class="workListWrap">
@@ -1731,7 +1761,6 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 						</dl>
 						<ul>
 							<li>
-							
 								<c:set var="yCnt" value="0"/>
 								<c:set var="nCnt" value="0"/>
 								<c:forEach items="${works}" var="work">
@@ -1766,8 +1795,11 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 						<c:forEach items="${works}" var="work">
 							<c:choose>
 								<c:when test="${workList.wrk_lst_id == work.wrk_lst_id && work.wrk_cmp_fl == 'N'}">
-									<div id="${work.wrk_lst_id}" data-wrkid="${work.wrk_id}" class="workListItem">
-										<input type="checkbox" name="wrk_cmp_fl" id="wrk_cmp_fl">
+									<div id="${work.wrk_lst_id}" data-wrkid="${work.wrk_id}" class="workListItem" style=" border-top: 3px solid ${work.wrk_color_cd}">
+										<div class="checkList etrans workCheck">
+											<input type="checkbox" name="wrk_cmp_fl" id="wrk_cmp_fl_${work.wrk_id}" class="wrk_cmp_fl">
+											<label for="wrk_cmp_fl_${work.wrk_id}"></label>
+										</div>
 										<button type="button" id="workDelBtn" class="workDelBtn">업무삭제</button>
 										<h2 class="wrk_title"><span>${work.wrk_grade}</span>${work.wrk_nm}</h2>
 										<ul>
@@ -1805,7 +1837,10 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 								<c:choose>
 								<c:when test="${workList.wrk_lst_id == work.wrk_lst_id && work.wrk_cmp_fl == 'Y'}">
 									<div id="${work.wrk_lst_id}" data-wrkid="${work.wrk_id}">
-										<input type="checkbox" name="wrk_cmp_fl" id="wrk_cmp_fl" checked>
+										<div class="checkList etrans">
+											<input type="checkbox" name="wrk_cmp_fl" id="wrk_cmp_fl_${work.wrk_id}" class="wrk_cmp_fl" checked>
+											<label for="wrk_cmp_fl_${work.wrk_id}"></label>
+										</div>
 										<h2><span>${work.wrk_grade}</span>${work.wrk_nm}</h2>
 										<ul>
 											<li>${work.wrkStartDtStr} ~ ${work.wrkEndDtStr}</li>
@@ -1840,9 +1875,6 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 					</div>
 				</div>
 			</c:forEach>
-		</div>
-		<div class="workListAdd">
-			<input type="button" id="btnWorkList" value="업무리스트 추가">
 		</div>
 	</div>
 </section>
@@ -1911,6 +1943,7 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 
 					<div class="wrk_add_mem">
 						<label for="wrk_mem">배정된 멤버 추가</label>
+						<input type="button" value="닫기" id="memClose" class="close">
 						<div class="wrk_mem_list">
 							<div class="wrk_mem_sch">
 								<fieldset id="hd_sch">
@@ -1935,6 +1968,7 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 
 					<div class="wrk_add_flw">
 						<label for="wrk_flw">팔로워 추가</label>
+						<input type="button" value="닫기" id="flwClose" class="close">
 						<div class="wrk_flw_list">
 							<div class="wrk_flw_sch">
 								<fieldset id="hd_sch">
@@ -1970,44 +2004,44 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 					<div class="lableColor">
 						<ul>
 							<li>
-								<label for="D25565" class="wrk_color wrk_color01" style="background:#D25565"></label>
-								<input type="radio" value="#D25565" name="wrk_color_cd" id="D25565">
+								<label for="7d3bff" class="wrk_color wrk_color01" style="background:#7d3bff"></label>
+								<input type="radio" value="#7d3bff" name="wrk_color_cd" id="7d3bff">
 							</li>
 							<li>
-								<label for="9775fa" class="wrk_color wrk_color02" style="background:#9775fa"></label>
-								<input type="radio" value="#9775fa" name="wrk_color_cd" id="9775fa">
+								<label for="cf5de1" class="wrk_color wrk_color02" style="background:#cf5de1"></label>
+								<input type="radio" value="#cf5de1" name="wrk_color_cd" id="cf5de1">
 							</li>
 							<li>
-								<label for="ffa94d" class="wrk_color wrk_color03" style="background:#D25565"></label>
-								<input type="radio" value="#ffa94d" name="wrk_color_cd" id="ffa94d">
+								<label for="75dfff" class="wrk_color wrk_color03" style="background:#75dfff"></label>
+								<input type="radio" value="#75dfff" name="wrk_color_cd" id="75dfff">
 							</li>
 							<li>
-								<label for="ffa94d" class="wrk_color wrk_color04" style="background:#74c0fc"></label>
-								<input type="radio" value="#74c0fc" name="wrk_color_cd" id="74c0fc">
+								<label for="287cff" class="wrk_color wrk_color04" style="background:#287cff"></label>
+								<input type="radio" value="#287cff" name="wrk_color_cd" id="287cff">
 							</li>
 							<li>
-								<label for="f06595" class="wrk_color wrk_color05" style="background:#f06595"></label>
-								<input type="radio" value="#f06595" name="wrk_color_cd" id="f06595">
+								<label for="ffe604" class="wrk_color wrk_color05" style="background:#ffe604"></label>
+								<input type="radio" value="#ffe604" name="wrk_color_cd" id="ffe604">
 							</li>
 							<li>
-								<label for="63e6be" class="wrk_color wrk_color06" style="background:#63e6be"></label>
-								<input type="radio" value="#63e6be" name="wrk_color_cd" id="63e6be">
+								<label for="ff8b03" class="wrk_color wrk_color06" style="background:#ff8b03"></label>
+								<input type="radio" value="#ff8b03" name="wrk_color_cd" id="ff8b03">
 							</li>
 							<li>
-								<label for="a9e34b" class="wrk_color wrk_color07" style="background:#a9e34b"></label>
-								<input type="radio" value="#a9e34b" name="wrk_color_cd" id="a9e34b">
+								<label for="de4439" class="wrk_color wrk_color07" style="background:#de4439"></label>
+								<input type="radio" value="#de4439" name="wrk_color_cd" id="de4439">
 							</li>
 							<li>
-								<label for="a9e34b" class="wrk_color wrk_color08" style="background:#4d638c"></label>
-								<input type="radio" value="#4d638c" name="wrk_color_cd" id="a9e34b">
+								<label for="0b16c6" class="wrk_color wrk_color08" style="background:#0b16c6"></label>
+								<input type="radio" value="#0b16c6" name="wrk_color_cd" id="0b16c6">
 							</li>
 							<li>
-								<label for="495057" class="wrk_color wrk_color09" style="background:#495057"></label>
-								<input type="radio" value="#495057" name="wrk_color_cd" id="495057">
+								<label for="ff2f77" class="wrk_color wrk_color09" style="background:#ff2f77"></label>
+								<input type="radio" value="#ff2f77" name="wrk_color_cd" id="ff2f77">
 							</li>
 							<li>
-								<label for="002dff" class="wrk_color wrk_color10" style="background:#002dff"></label>
-								<input type="radio" value="#002dff" name="wrk_color_cd" id="002dff">
+								<label for="3d434f" class="wrk_color wrk_color10" style="background:#3d434f"></label>
+								<input type="radio" value="#3d434f" name="wrk_color_cd" id="3d434f">
 							</li>
 						</ul>
 					</div>
@@ -2018,28 +2052,31 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 		<!--  여기서부터 work comment -->
 		<form id="frm02">
 		<div id="tab2" class="tab_content">
-			<div>
-				<table class="tb_style_01">
+			<div class="tableWrap">
+				<table class="tb_style_02">
 					<colgroup>
-						<col width="30%">
+						<col width="50%">
 						<col width="10%">
-						<col width="5%">
-						<col width="2%">
-						<col width="2%">
+						<col width="10%">
+						<col width="10%">
+						<col width="10%">
 					</colgroup>
 					<thead>
 						<tr>
 							<th>내용</th>
-							<th>작성자 아이디</th>
-							<th colspan='3'>작성일</th>
+							<th>아이디</th>
+							<th>작성일</th>
+							<th></th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody id="commBody">
 
 					</tbody>
 				</table>
-				<label>댓글 작성</label><br>
-				<textarea rows="1" cols="60" name="comm_content" id="comm_content"></textarea>
+			</div>
+			<div class="commWrite">
+				<textarea rows="1" cols="60" name="comm_content" id="comm_content" placeholder="댓글을 작성해 주세요."></textarea>
 				<button type="button" name="replyBtn" id="replyBtn"> 댓글등록 </button>
 			</div>
 			<div class="pagination">
@@ -2050,10 +2087,10 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 		<!--  여기서부터 work file&link-->
 		<!-- 영하가 수정함 여기부터 ㅎ-->
 		<div id="tab3" class="tab_content">
-			<div class="sub_menu">
+			<div class="tab_sub_menu">
 				<ul class="tabs">
-					<li id="fileList">FileList</li>
-					<li id="linkList">LinkList</li>
+					<li id="fileList">파일</li>
+					<li id="linkList">링크</li>
 				</ul>
 			</div>
 			
@@ -2082,8 +2119,8 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 			<div class="tab_con">
 	
 				<div class="tab-content current">
-					<div>
-						<table class="tb_style_01">
+					<div class="fileWrap">
+						<table class="tb_style_03">
 							<colgroup>
 								<col width="30%">
 								<col width="20%">

@@ -3,6 +3,7 @@
 
 <tiles:insertAttribute name="header"/>
 <div id="wrapper">
+	<%@include file="/WEB-INF/views/common/baseLeft.jsp"%>
 	<div class="container">
 		<tiles:insertAttribute name="body"/>
 	</div>

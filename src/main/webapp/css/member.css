@@ -8,7 +8,7 @@
 
 .loginLogo {position:absolute; left:50px; top:40px;}
 .loginLogo h2 {}
-.loginLogo h2 a {display:block; width:90px; height:20px; background:url("../img/logo.png") no-repeat; background-size:100%; text-indent:-9999px}
+.loginLogo h2 a {display:block; width:80px; height:23px; background:url("../img/logo.png") no-repeat; background-size:100%; text-indent:-9999px}
 
 
 /* right signup button */
@@ -29,14 +29,21 @@
 .inputField h2 span {display:inline-block; font-size:15px; font-weight:300; color:#fff; margin-left:8px}
 
 .inputField li {position:relative; margin-bottom:25px}
+.inputField li:nth-child(3) {margin-bottom:10px}
 .inputField li label {background:transparent; color:#fff}
 .inputField li.forgot {text-align:center}
 .inputField li.forgot a {text-align:center; color:#8293a0; border-bottom:1px dashed #8293a0; padding-bottom:5px;}
 
-.inputField input {border:0; border-bottom:1px solid #fff; width:100%; height:40px; box-sizing:border-box; font-size:13px; font-weight:300; background:transparent; color:#8293a0;}
+.inputField input {border:0; border-bottom:1px solid #fff; width:100%; height:40px; box-sizing:border-box; font-size:13px; background:transparent; color:#8293a0;}
 .inputField input::-webkit-input-placeholder {color: #8293a0;}
 .inputField input[type="password"] {font-family:"맑은 고딕";}
 .inputField button {background:#192b3a; width:100%; height:40px; border-radius:3px; border:none; color:#fff; font-size:14px;}
+
+
+/* google login button */
+.abcRioButton {width:100% !important; height:40px !important; box-shadow: none !important; border-radius:3px !important; line-height:40px !important}
+.abcRioButtonContentWrapper {background:#182b3a; color:#fff}
+.abcRioButtonIcon {padding:11px !important}
 
 
 /* send email text */

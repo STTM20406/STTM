@@ -22,6 +22,12 @@
 <script src="../js/jquery-1.8.3.min.js"></script>
 
 <script>
+
+	$(document).ready(function(){
+		var a = $(".g-signin2 span[id^='not_signed']").attr("id");
+		console.log(a);
+	});
+	
 	function funLoad() {
 		var Cheight = $(window).height();
 		$('#wrap').css({
@@ -77,20 +83,18 @@
 				<div class="inputField">
 					<ul>
 						<li><label for="userId">USER EMAIL</label> 
-						<input type="text" id="userId" name="user_email" placeholder="Please enter your Email." value="galbi@naver.com">
+						<input type="text" id="userId" name="user_email" placeholder="Please enter your Email.">
 							<!-- <input type="text" id="userId" name="user_email" placeholder="Please enter your Email." value="admin"> -->
 						</li>
 						<li><label for="userId">PASSWORD</label>
-							<input type="password" id="pass" name="user_pass" placeholder="Please enter your Password." value="galbi1234">
+							<input type="password" id="pass" name="user_pass" placeholder="Please enter your Password.">
 							<!-- <input type="password" id="pass" name="user_pass" placeholder="Please enter your Password." value="0000"> -->
 						</li>
 						<li>
 							<button type="submit" id="btnLogin">Login</button>
 						</li>
 						<!-- 구글 로그인 버튼 -->
-						<li>
-							<div class="g-signin2" data-onsuccess="onSignIn"></div>
-						</li>
+						<li><div class="g-signin2" data-onsuccess="onSignIn"></div></li>
 						<!-- 구글 로그인 버튼 -->
 						<li class="forgot"><a href="resetPassword">Forgot your Password?</a></li>
 					</ul>
@@ -100,8 +104,7 @@
 	</div>
 
 	<!--  -->
-	<script src="https://apis.google.com/js/platform.js?onload=init" async
-		defer></script>
+	<script src="https://apis.google.com/js/platform.js?onload=init" asyncdefer></script>
 </body>
 
 

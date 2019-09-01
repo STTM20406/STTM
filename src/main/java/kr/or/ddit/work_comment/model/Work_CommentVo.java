@@ -46,7 +46,7 @@ public class Work_CommentVo {
 	}
 	
 	public String getCommDateStr() {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		if(comm_date == null) {
 			return "";
 		}
