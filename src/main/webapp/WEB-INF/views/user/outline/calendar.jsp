@@ -1,6 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+
 <link rel="stylesheet" href="/css/bootstrap-datetimepicker.min.css">
 <link rel="stylesheet" href="/css/bootstrap.min.css">
 <link rel="stylesheet" href='/css/fullcalendar.min.css'>
@@ -135,6 +136,44 @@
 	<div class="sub_btn">
 	</div>
 </div>
+<section class="contents">
+	<h2 class="contentTitle">캘린더</h2>
+	<div class="calenderWrap">
+		<div id="frmContainer">
+			<form id="filterFrm">
+				<label>업무 구분</label>
+				<select name="wrk_is_mine" class="filter">
+					<option value="all" selected>전체 업무</option>
+					<option value="mine">내 업무만</option>
+				</select>
+				<label>작성일 기준</label>
+				<select name="wrk_dt" class="filter">
+					<option value="0" selected>전체</option>
+					<option value="30">30일 이내</option>
+					<option value="60">60일 이내</option>
+					<option value="90">90일 이내</option>
+				</select>
+				<label>업무 주체</label>
+			 	<input type="checkbox" class="filter" name="wrk_i_assigned" value="y"> 내게 할당된 업무 <br>
+			 	<input type="checkbox" class="filter" name="wrk_i_made" value="y">	내가 작성한 업무 <br>
+			 	<input type="checkbox" class="filter" name="wrk_i_following" value="y"> 내가 팔로우한 업무 <br>
+					<div id="prjList">
+					</div>
+				<label>마감일 기준</label>
+			 	<input type="checkbox" class="filter" name="overdue" value="y"> 마감일 지남 <br>
+			 	<input type="checkbox" class="filter" name="till_this_week" value="y"> 이번 주까지 <br>
+			 	<input type="checkbox" class="filter" name="till_this_month" value="y"> 이번 달까지 <br>
+			 	<input type="checkbox" class="filter" name="no_deadline" value="y"> 마감일 없음 <br>
+				<label>업무 상태 구분</label>
+			 	<input type="checkbox" class="filter" name="is_cmp" value="y"> 완료된 업무 <br>
+			 	<input type="checkbox" class="filter" name="is_del" value="y"> 삭제된 업무 <br>
+					<div id="makerList">
+					</div>
+			 	<button type="button" onclick="reset()">필터 초기화</button>
+			<input type="hidden" name="is_cal" value="true">
+			<input type="hidden" name="user_email" value="${USER_INFO.user_email }">
+			</form>
+		</div>
 
 <div id="frmContainer" style="height:100%;width:250px;float:left;margin-right:0;">
 	    <form id="filterFrm">
@@ -172,9 +211,6 @@
 		    	<input type="checkbox" class="filter" name="is_del" value="y"> 삭제된 업무 <br>
 	    	<br><br><hr>
 	    		<div id="makerList">
-<%-- 						<c:forEach items="${mList}" var="MB"> --%>
-<%-- 							<input class='filter'type="checkbox" value="${MB.user_nm}" checked>${MB.user_nm}<br> --%>
-<%-- 						</c:forEach> --%>
 	    		</div>
 		    	<br>
 		    	<button type="button" onclick="reset()" class="btn_style_02">필터 초기화</button>
@@ -182,30 +218,6 @@
 		    	<input type="hidden" name="user_email" value="${USER_INFO.user_email }">
 	    </form>
 </div>
-<!-- <div id="frmContainer"> -->
-<!-- 	<form id="filterFrm"> -->
-<!-- 		<label>업무 구분</label><br> -->
-<!-- 		<select id="sel" name="wrk_is_mine" class="filter"> -->
-<!-- 			<option value="all" selected>전체 업무</option> -->
-<!-- 			<option value="mine">내 업무만</option> -->
-<!-- 		</select> -->
-<!-- 		<br><br><hr> -->
-<!-- 		<label>프로젝트 구분</label><br> -->
-<!-- 			<div id="prjList"> -->
-<%-- 				<c:forEach items="${projectList}" var="PL"> --%>
-<%-- 					<input type="checkbox" value="${PL.prj_id}" checked>${PL.prj_nm}<br> --%>
-<%-- 				</c:forEach> --%>
-<!-- 			</div> -->
-<!-- 		<br><br><hr> -->
-<!-- 		<label>업무 작성자 구분</label><br> -->
-<!-- 			<div id="makerList"> -->
-
-<!-- 			</div> -->
-<!-- 			<br><br><br> -->
-<!-- 	 	<button type="button" onclick="reset()">필터 초기화</button> -->
-<%-- 		<input type="hidden" name="user_email" value="${USER_INFO.user_email}"> --%>
-<!-- 	</form>	 -->
-<!-- </div> -->
 
 	<!-- 일자 클릭시 메뉴오픈 -->
 	<div id="contextMenu" class="dropdown clearfix">
@@ -219,9 +231,21 @@
 	<div class="cal_wrapper">
 		<div id="loading"></div>
 		<div id="calendar"></div>
+		<!-- 일자 클릭시 메뉴오픈 -->
+		<div id="contextMenu" class="dropdown clearfix">
+			<ul class="dropdown-menu dropNewEvent" role="menu"
+				aria-labelledby="dropdownMenu"
+				style="display: block; position: static; margin-bottom: 5px;">
+				<li><a tabindex="-1" href="#">업무 등록</a></li>
+			</ul>
+		</div>
+		
+		<div class="cal_wrapper">
+			<div id="loading"></div>
+			<div id="calendar"></div>
+		</div>
 	</div>
-
-	<!-- 	<input type="hidden" name="wrk_id" id="wrk_id" value=""> -->
+</section>
 
 	<!-- 일정 추가 MODAL -->
 	<div class="modal fade" tabindex="-1" role="dialog" id="eventModal">
@@ -322,6 +346,7 @@
 		</div>
 	</div>
 	<!-- /.modal -->
+
 
 <!-- 오류 알림창 -->
 <!-- <div class="dim-layer"> -->

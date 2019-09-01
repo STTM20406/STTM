@@ -1,9 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<style>
-	input[type=text] {text-align: center; width:110px;}
-	.dt a {cursor: pointer;}
-</style>
 <link rel="stylesheet" href="https://uicdn.toast.com/tui.chart/latest/tui-chart.min.css">
 <script src="https://uicdn.toast.com/tui.chart/latest/tui-chart-all.min.js"></script>
 <script src="/js/toast-ui-chart.js"></script>
@@ -26,7 +22,8 @@
 </div>
 <!-- Include 끝 -->
 <section class="contents">
-<h2>${PROJECT_INFO.prj_nm } > Analysis</h2>
+<h2 class="contentTitle">${PROJECT_INFO.prj_nm } > Analysis</h2>
+<div id="allContainer">
 <div id="prj_list_container">
 	<form id="prj_list_frm">
 	<input type="hidden" name="over_prj_id" value="${PROJECT_INFO.prj_id }">
@@ -35,93 +32,90 @@
 	<input type="hidden" name="wrk_is_mine" value="all">
 </form>
 </div>
-<br>
-<div id="dateContainer" style="width:100%; height:120px;">
-	<div id="start_dt" style="width:13%;height:120px;float:left;">
-			<p style="text-align:center;margin-top:15px;">시작일</p>
-		<div class="dt" style="position:relative;top:50%;left:50%; transform:translate(-50%, -50%);">
+<div id="dateContainer">
+<h3 class="agn_cent">프로젝트 개요</h3>
+	<div id="start_dt" class="midCont" >
+			<p class="midCont_p">시작일</p>
+		<div class="dt">
 		<!-- pick를 사용할 input -->
-				<input id="st_dt" name="start_dt" data-input style="margin-left:30px;"/>
+				<input id="st_dt" name="start_dt" data-input/>
 				<a class="input-button" title="clear" data-clear>
 					X
 				</a>
 		</div>
 	</div>
-	<div id="end_dt" style="width:13%;height:120px;float:left;">
-			<p style="text-align:center;margin-top:15px;">마감일</p>
-		<div class="dt" style="margin:0 auto;position:relative;top:50%;left:50%; transform:translate(-50%, -50%);">
-			<input id="ed_dt" name="end_dt" data-input style="margin-left:30px;"/>
+	<div id="end_dt" class="midCont" >
+			<p class="midCont_p">마감일</p>
+		<div class="dt">
+			<input id="ed_dt" name="end_dt" data-input/>
 			<a class="input-button" title="clear" data-clear>
 				X
 			</a>
 		</div>
 	</div>
-	<div id="cmp_dt" style="width:13%;height:120px;float:left;">
-			<p style="text-align:center;margin-top:15px;">완료일</p>
-		<div class="dt" style="margin:0 auto;position:relative;top:50%;left:50%; transform:translate(-50%, -50%);">
-			<input id="cp_dt" name="cmp_dt" data-input style="margin-left:30px;"/>
+	<div id="cmp_dt" class="midCont">
+			<p class="midCont_p">완료일</p>
+		<div class="dt">
+			<input id="cp_dt" name="cmp_dt" data-input/>
 			<a class="input-button" title="clear" data-clear>
 				X
 			</a>
 		</div>
 	</div>
-	<div id="elapsed_time" style="width:13%;height:120px;float:left;">
-			<p style="text-align:center;margin-top:15px;">경과 시간</p>
-		<div style="position:relative;top:50%;left:50%; transform:translate(-50%, -50%);">
-			<p id="elap" style="text-align:center;">-</p>
+	<div id="elapsed_time" class="midCont">
+			<p class="midCont_p">경과 시간</p>
+		<div class="timeDiv">
+			<p id="elap" class="agn_cent">-</p>
 		</div>
 	</div>
-	<div id="remain_time" style="width:13%;height:120px;float:left;">
-			<p style="text-align:center;margin-top:15px;">남은 시간</p>
-		<div style="position:relative;top:50%;left:50%; transform:translate(-50%, -50%);">
-			<p id="remain" style="text-align:center;">-</p>
+	<div id="remain_time" class="midCont" >
+			<p class="midCont_p">남은 시간</p>
+		<div class="timeDiv">
+			<p id="remain" class="agn_cent">-</p>
 		</div>
 	</div>
-	<div id="cmp_wrk_cnt" style="width:13%;height:120px;float:left;">
-			<p style="text-align:center;margin-top:15px;">완료한 업무</p>
-		<div class="wrk" style="position:relative;top:50%;left:50%; transform:translate(-50%, -50%);">
-			<p id="done" style="text-align:center;">-</p>
+	<div id="cmp_wrk_cnt" class="midCont" >
+			<p class="midCont_p">완료한 업무</p>
+		<div class="wrkDiv">
+			<p id="done" class="agn_cent">-</p>
 		</div>
 	</div>
-	<div id="not_cmp_wrk_cnt" style="width:13%;height:120px;float:left;">
-			<p style="text-align:center;margin-top:15px;">남은 업무</p>
-		<div class="wrk" style="position:relative;top:50%;left:50%; transform:translate(-50%, -50%);">
-			<p id="undone" style="text-align:center;">-</p>
+	<div id="not_cmp_wrk_cnt" class="midCont">
+			<p class="midCont_p">남은 업무</p>
+		<div class="wrkDiv">
+			<p id="undone" class="agn_cent">-</p>
 		</div>
 	</div>
 </div>
-<div class="spacing" style="width:100%;height:20px;"></div>
-<div id="prj_barchart" style="height:250px; width:100%;">
-<p style="margin-left:30px;margin-top:10px;"><b>프로젝트 개요</b></p>
+<div id="prj_barchart">
+
 </div>
-<div class="spacing" style="width:100%;height:20px;"></div>
-	<div id="prj_piechart" style="width:100%;height:300px;">
-		<div id="pie_wrk_i_assigned" style="float:left; margin:5px; width:32%;">
-		<h3 style="text-align:center;">나에게 배정된 업무</h3>
-			<div class="blank" style="width:100%; height:250px;text-align:center;">
-				<div style="position:relative;top:50%;left:50%; transform:translate(-50%, -50%);">데이터 없음</div>
+	<div id="prj_piechart">
+		<div id="pie_wrk_i_assigned" >
+		<h3 class="agn_cent">나에게 배정된 업무</h3>
+			<div class="blank">
+				<div class="no_dataDiv">데이터 없음</div>
 			</div>
 		</div>
 		
-		<div id="pie_wrk_i_made" style="float:left; margin:5px; width:32%;">
-		<h3 style="text-align:center;">내가 작성한 업무</h3>
-			<div class="blank" style="width:100%; height:250px;text-align:center;">
-				<div style="position:relative;top:50%;left:50%; transform:translate(-50%, -50%);">데이터 없음</div>
+		<div id="pie_wrk_i_made">
+		<h3 class="agn_cent">내가 작성한 업무</h3>
+			<div class="blank">
+				<div class="no_dataDiv">데이터 없음</div>
 			</div>
 		</div>
 		
-		<div id="pie_wrk_i_follow" style="float:left; margin:5px; width:32%;">
-		<h3 style="text-align:center;">내가 팔로우하는 업무</h3>
-			<div class="blank" style="width:100%; height:250px;text-align:center;">
-				<div style="position:relative;top:50%;left:50%; transform:translate(-50%, -50%);">데이터 없음</div>
+		<div id="pie_wrk_i_follow">
+		<h3 class="agn_cent">내가 팔로우하는 업무</h3>
+			<div class="blank">
+				<div class="no_dataDiv">데이터 없음</div>
 			</div>
 		</div>
 	</div>
-	
-<div class="spacing" style="width:100%;height:20px;"></div>
-		<div id="wrk_lst_barchart" style="width:100%; height:300px;">
-		<p style="text-align:center;"><b>업무리스트 별 개요</b></p>
+		<div id="wrk_lst_barchart">
+		<p class="agn_cent"><b>업무리스트 별 개요</b></p>
 		</div>
+</div>
 </section>
 
 <script>
@@ -169,23 +163,23 @@ var currPrjVo = null;
 				var madeData = data.result.made;
 				
 				if(assignChart == null) {
-					assignChart = loadPieChart(assignContainer, assignData, 487, 250);
+					assignChart = loadPieChart(assignContainer, assignData, 400, 250);
 				} else {
 					assignChart["chartContainer"].remove();
-					assignChart = loadPieChart(assignContainer, assignData, 487, 250);
+					assignChart = loadPieChart(assignContainer, assignData, 400, 250);
 				}
 				if(madeChart == null){
-					madeChart = loadPieChart(madeContainer, madeData, 487, 250);
+					madeChart = loadPieChart(madeContainer, madeData, 400, 250);
 				} else {
 					madeChart["chartContainer"].remove();
-					madeChart = loadPieChart(madeContainer, madeData, 487, 250);
+					madeChart = loadPieChart(madeContainer, madeData, 400, 250);
 				}
 				
 				if(followChart == null) {
-					followChart = loadPieChart(followContainer, followingData, 487, 250);
+					followChart = loadPieChart(followContainer, followingData, 400, 250);
 				} else {
 					followChart["chartContainer"].remove();
-					followChart = loadPieChart(followContainer, followingData, 487, 250);
+					followChart = loadPieChart(followContainer, followingData, 400, 250);
 				}
 					
 				var listData = data.result.list;
@@ -193,19 +187,19 @@ var currPrjVo = null;
 				madeData.isBlank == "true" ? hideChart(madeContainer) : showChart(madeContainer); 
 				followingData.isBlank == "true" ? hideChart(followContainer) : showChart(followContainer);
 				if(listChart == null) {
-					listChart = loadListChart(listChartContainer, listData, 1500, 300);
+					listChart = loadListChart(listChartContainer, listData, 1200, 300);
 				} else {
 					listChart["chartContainer"].remove();					
-					listChart = loadListChart(listChartContainer, listData, 1500, 300);
+					listChart = loadListChart(listChartContainer, listData, 1200, 300);
 				}
 				
 				progressData = data.result.progress;
 				
 				if(progressChart == null) {
-					progressChart = loadProgressChart(progressContainer, progressData, 1500, 150);
+					progressChart = loadProgressChart(progressContainer, progressData, 1200, 150);
 				} else {
 					progressChart["chartContainer"].remove();
-					progressChart = loadProgressChart(progressContainer, progressData, 1500, 150);
+					progressChart = loadProgressChart(progressContainer, progressData, 1200, 150);
 				}
 				
 				var prjVo = data.result.prjVo;
@@ -218,13 +212,13 @@ var currPrjVo = null;
 				var auth = data.result.auth;
 				if(auth=="NO") {
 					$(cal[0].input).attr("disabled", "true");
-					$(cal[0].input).css("margin-left", "45px");
+// 					$(cal[0].input).css("margin-left", "45px");
 					$(cal[0].input).next().remove();
 					$(cal[1].input).attr("disabled", "true");
 					$(cal[1].input).next().remove();
-					$(cal[1].input).css("margin-left", "45px");
+// 					$(cal[1].input).css("margin-left", "45px");
 					$(cal[2].input).attr("disabled", "true");
-					$(cal[2].input).css("margin-left", "45px");
+// 					$(cal[2].input).css("margin-left", "45px");
 					$(cal[2].input).next().remove();
 				}
 					

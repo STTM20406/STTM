@@ -565,7 +565,7 @@ a.btn-layerClose {display:inline-block; height:25px; padding:0 14px 0; backgroun
 #uploadFile {border: 1px solid #3f4df5; border-radius: 3px; display: inline-block; text-align: center; font-size: 13px;vertical-align: top;   padding: 5px 11px; color: #3f4df5;transition: all 0.4s;}
 
 
-.cal_wrapper {width:78%; float:left; height:600px}
+.cal_wrapper {width:86%; float:left; height:600px}
 .cal_wrapper table {width:100%}
 
 .workCreateBox {display:none}
@@ -618,7 +618,7 @@ a.btn-layerClose {display:inline-block; height:25px; padding:0 14px 0; backgroun
 #gigi {background-image:url(../img/send-mail.png);  background-repeat: no-repeat; text-indent: -9999px; width: 30px; height: 30px; background-size: 27px; border: none; position: absolute; right: 30px; bottom: 20px;}
 
 /* memo setting layaer style */
-#memoView {position:fixed; right:-700px; top:100px; width:600px; height:100%; background:#f5f5f5; padding:60px 50px}
+#memoView {position:fixed; right:-700px; top:100px; width:600px; height:100%; background:#f5f5f5; padding:60px 50px; z-index:2}
 
 #memoView .btnSetClose {position:absolute; left:-80px; top:0; width:80px; height:50px; text-align:center; line-height:50px; background:#f5f5f5}
 
@@ -722,6 +722,7 @@ ul.tabs li.current {color: #222;}
 .minutes{background:white;}
 
 /* 캘린더 */
+.calenderWrap {width: 100%; height: auto; float: left; background: #fff; border-radius: 3px; padding:20px}
 #filterFrm label {font-size:13px; font-weight: 500;}
 #filterFrm ul li label {cursor: pointer;}
 .pp {margin: 0;}
@@ -730,9 +731,6 @@ ul.tabs li.current {color: #222;}
 #smarteditor {
 	margin: auto;
 }
-
-
-
 /* work list style */
 .contentTitle {font-size: 3em; color: #fff; margin-bottom: 20px; font-weight: 300;}
 #filterFrm ul li label { cursor: pointer; } 
@@ -747,8 +745,8 @@ ul.tabs li.current {color: #222;}
 #followerList {margin:15px 0}
 
 .result {border: 1px dashed #c1cad1; padding: 10px 15px; border-radius: 3px; margin-bottom:15px}
-.result span {display:block}
-.result span:nth-child(1) {font-size: 1em; color: #798793; margin-bottom:6px}
+.result span {display:block; margin-bottom:6px}
+.result span:nth-child(1) {font-size: 1em; color: #798793; }
 .result span:nth-child(2) b {font-size: 1.3em; font-weight: 400; color: #3f4df5;}
 .result span:nth-child(3) {}
 
@@ -771,3 +769,19 @@ ul.tabs li.current {color: #222;}
 		cursor: pointer;
 }
 #iq_content {width : 250px;}
+/* Project Analysis */
+#dateContainer { width:100%; height:120px;}
+#dateContainer input[type=text] {text-align: center; width:110px; margin-left:25px;}
+.agn_cent h3 { font-size: 2em; }
+.dt a {cursor: pointer;}
+.midCont { width:14%;height:120px;float:left; }
+.midCont .dt { position:relative;top:50%;left:50%; transform:translate(-50%, -50%);}
+.midCont .midCont_p { text-align:center;margin-top:15px; }
+.timeDiv, .wrkDiv, .no_dataDiv { position:relative;top:50%;left:50%; transform:translate(-50%, -50%);}
+#pie_wrk_i_made, #pie_wrk_i_assigned, #pie_wrk_i_follow {float:left; margin:5px; width:32%;}
+.blank {width:100%; height:250px;text-align:center;}
+#prj_barchart { width:100%; height:250px; }
+#prj_piechart, #wrk_lst_barchart { width:100%; height:300px; }
+.agn_cent { text-align:center; }
+/* Gantt Chart*/
+#gantt_here { width:85%; height:630px; overflow:hidden; padding:0px; margin:0px; float:left;}

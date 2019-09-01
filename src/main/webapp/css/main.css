@@ -100,10 +100,9 @@
 
 .fc-center h2 {
   text-transform: uppercase;
-  font-size: 18px;
-  font-weight: 600;
-  color: #505363;
-  line-height: 32px;
+  font-size: 23px;
+  font-weight: 300;
+  color: #2e3e56;
 }
 
 .fc-toolbar.fc-header-toolbar {
@@ -208,7 +207,7 @@
 .fc-unthemed td,
 .fc-unthemed th,
 .fc-unthemed thead {
-  border-color: #DADFEA;
+	border:none
 }
 
 .fc-ltr .fc-h-event .fc-end-resizer,
