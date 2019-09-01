@@ -299,26 +299,26 @@ public class FilterService implements IFilterService{
 			if(work.getWrk_end_dt()==null) 
 				{
 					if("Y".equals(work.getWrk_cmp_fl()))
-						sb_result.append("<span>&nbsp;&nbsp; "+ date_str +" </span><span class='cmp' style='color:#32a89b;'>&nbsp;&nbsp;"+ sdf_y.format(work.getWrk_cmp_dt()) +" <b>완료</b></span>" );
+						sb_result.append("<span> "+ date_str +" </span><span class='cmp' style='color:#32a89b;'>"+ sdf_y.format(work.getWrk_cmp_dt()) +" <b>완료</b></span>" );
 					else if("N".equals(work.getWrk_cmp_fl()))
-						sb_result.append("<span class='no_deadline' style='color:#616161;'>&nbsp;&nbsp; " + date_str + " <b>마감일 없음</b></span>");
+						sb_result.append("<span class='no_deadline' style='color:#616161;'> " + date_str + " <b>마감일 없음</b></span>");
 				} 
 					else if(nowDate.after(work.getWrk_end_dt()) && "N".equals(work.getWrk_cmp_fl()))
 				{
-					sb_result.append("<span>&nbsp;&nbsp;"+ date_str +"</span><span class='overdue' style='color:#a83232;'>&nbsp;&nbsp;<b> "+ "마감일 지남" +"</b></span>");
+					sb_result.append("<span>"+ date_str +"</span><span class='overdue' style='color:#a83232;'><b> "+ "마감일 지남" +"</b></span>");
 				} 
 					else if(nowDate.before(work.getWrk_start_dt()) && "N".equals(work.getWrk_cmp_fl()))
 				{
-					sb_result.append("<span>&nbsp;&nbsp;"+ date_str +"</span><span class='planned' style='color:#7b8500;'>&nbsp;&nbsp; <b>계획됨</b></span>");
+					sb_result.append("<span>"+ date_str +"</span><span class='planned' style='color:#7b8500;'> <b>계획됨</b></span>");
 				} 
 					else if("Y".equals(work.getWrk_cmp_fl())) 
 				{
 					if(work.getWrk_cmp_dt().after(work.getWrk_end_dt()))
-						sb_result.append("<span>&nbsp;&nbsp; "+ date_str +" </span><span class='latecmp' style='color:#b71bbf;'>&nbsp;&nbsp;"+ sdf.format(work.getWrk_cmp_dt()) +" <b>완료</b></span>");
+						sb_result.append("<span> "+ date_str +" </span><span class='latecmp' style='color:#b71bbf;'>"+ sdf.format(work.getWrk_cmp_dt()) +" <b>완료</b></span>");
 				}
 			
 				if(work.getWrk_start_dt() != null && work.getWrk_end_dt()!=null && nowDate.before(work.getWrk_end_dt()) && nowDate.after(work.getWrk_start_dt())) {
-					sb_result.append("<span class='cmp' style='color:#32a89b;'>&nbsp;&nbsp;"+ date_str +"</span>");
+					sb_result.append("<span class='cmp' style='color:#32a89b;'>"+ date_str +"</span>");
 				}
 			
 			sb_result.append("</div>");
@@ -416,13 +416,13 @@ public class FilterService implements IFilterService{
 		// 업무명, 작성자
 		// 속성 탭 : 업무 위치, 날짜 설정, 미리 알림, 배정된 멤버, 팔로워, 포인트, 색상라벨
 		sb_detail.append("<span>업무명</span>");
-		sb_detail.append("&nbsp;" + "<input type='text' name='wrk_nm' value='"+ workVo.getWrk_nm() + "'>");
+		sb_detail.append("" + "<input type='text' name='wrk_nm' value='"+ workVo.getWrk_nm() + "'>");
 		sdf.applyPattern("yyyy년 M월 dd일 HH시 mm분");
-		sb_detail.append("&nbsp;" + "<label>작성자</label> <label><b>"+ workVo.getUser_nm() +"</b></label>");
-		sb_detail.append("&nbsp;" + "<label>"+ sdf.format(workVo.getWrk_dt()) +" 작성</label>");
+		sb_detail.append("" + "<label>작성자</label> <label><b>"+ workVo.getUser_nm() +"</b></label>");
+		sb_detail.append("" + "<label>"+ sdf.format(workVo.getWrk_dt()) +" 작성</label>");
 		sdf.applyPattern("yyyy-MM-dd");
 		sb_detail.append("<span>업무 작성일</span>");
-		sb_detail.append("&nbsp;" + "<input type='date' name='wrk_dt' value='"+ sdf.format(workVo.getWrk_dt()) + "'>");
+		sb_detail.append("" + "<input type='date' name='wrk_dt' value='"+ sdf.format(workVo.getWrk_dt()) + "'>");
 		
 		return sb_detail.toString(); 
 	}
