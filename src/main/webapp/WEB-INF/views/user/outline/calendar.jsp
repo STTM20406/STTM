@@ -30,7 +30,7 @@
 				console.log("filterFrm : " + filterFrm);
 				console.log("makerList : " + makerList);
 				console.log("prjList : " + prjList);
-				$("#frmContainer").html(filterFrm);
+// 				$("#frmContainer").html(filterFrm);
 				$("#prjList").html(prjList);
 				$("#makerList").html(makerList);
 				console.log("after calAjax success");
@@ -154,22 +154,22 @@
 					<option value="90">90일 이내</option>
 				</select>
 				<label>업무 주체</label>
-			 	<input type="checkbox" class="filter" name="wrk_i_assigned" value="y"> 내게 할당된 업무 <br>
-			 	<input type="checkbox" class="filter" name="wrk_i_made" value="y">	내가 작성한 업무 <br>
-			 	<input type="checkbox" class="filter" name="wrk_i_following" value="y"> 내가 팔로우한 업무 <br>
+			 	<p><input type="checkbox" class="filter" name="wrk_i_assigned" value="y"> 내게 할당된 업무</p>
+			 	<p><input type="checkbox" class="filter" name="wrk_i_made" value="y">	내가 작성한 업무</p>
+			 	<p><input type="checkbox" class="filter" name="wrk_i_following" value="y"> 내가 팔로우한 업무</p>
 					<div id="prjList">
 					</div>
 				<label>마감일 기준</label>
-			 	<input type="checkbox" class="filter" name="overdue" value="y"> 마감일 지남 <br>
-			 	<input type="checkbox" class="filter" name="till_this_week" value="y"> 이번 주까지 <br>
-			 	<input type="checkbox" class="filter" name="till_this_month" value="y"> 이번 달까지 <br>
-			 	<input type="checkbox" class="filter" name="no_deadline" value="y"> 마감일 없음 <br>
+			 	<p><input type="checkbox" class="filter" name="overdue" value="y"> 마감일 지남</p>
+			 	<p><input type="checkbox" class="filter" name="till_this_week" value="y"> 이번 주까지</p>
+			 	<p><input type="checkbox" class="filter" name="till_this_month" value="y"> 이번 달까지 </p>
+			 	<p><input type="checkbox" class="filter" name="no_deadline" value="y"> 마감일 없음</p>
 				<label>업무 상태 구분</label>
-			 	<input type="checkbox" class="filter" name="is_cmp" value="y"> 완료된 업무 <br>
-			 	<input type="checkbox" class="filter" name="is_del" value="y"> 삭제된 업무 <br>
+			 	<p><input type="checkbox" class="filter" name="is_cmp" value="y"> 완료된 업무</p>
+			 	<p><input type="checkbox" class="filter" name="is_del" value="y"> 삭제된 업무</p>
 					<div id="makerList">
 					</div>
-			 	<button type="button" onclick="reset()">필터 초기화</button>
+			 	<button type="button" onclick="reset()" class="btn_style_02">필터 초기화</button>
 			<input type="hidden" name="is_cal" value="true">
 			<input type="hidden" name="user_email" value="${USER_INFO.user_email }">
 			</form>

@@ -699,13 +699,11 @@ a.btn-layerClose {display:inline-block; height:25px; padding:0 14px 0; backgroun
 /* filelink css */
 .tab-content {display: none;}
 .tab-content.current {display: inherit;}
-.ok{padding:10px 0 0 0;} 
 
 /* 회의록 css */
 .minutes:hover{cursor: pointer;}
-ul.tabs {margin: 0px; padding: 20px 0; list-style: none; }
-ul.tabs li {cursor: pointer; float: left; text-align: center; height: 34px; line-height: 30px; background:white; margin-right: 1%; font-size: 1.1em; border-radius: 3px 3px 0 0;}
-ul.tabs li:hover {color:red; }
+ul.tabs {margin: 0px; padding: 0px; list-style: none;}
+ul.tabs li {background: none; color: #222; display: inline-block; padding: 10px 15px; cursor: pointer;}
 ul.tabs li.current {color: #222;}
 #fs{margin : 0 auto; text-allign : center;}
 #subject{width:500px; height:80px; resize:none;}
@@ -717,15 +715,10 @@ ul.tabs li.current {color: #222;}
 #filterFrm ul li label {cursor: pointer;}
 .pp {margin: 0;}
 
-
 #smarteditor {
 	margin: auto;
 }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 
 /* work list style */
 .contentTitle {font-size: 3em; color: #fff; margin-bottom: 20px; font-weight: 300;}
@@ -733,7 +726,7 @@ ul.tabs li.current {color: #222;}
 #allContainer {width: 100%; height: auto; float: left; background: #fff; border-radius: 3px; padding:20px}
 #frmContainer {height: 100%; width: 13%; float: left; margin-right: 1%;}
 #frmContainer  label {font-size: 1.2em; color: #7a8794; margin-bottom:6px; display:block}
-#frmContainer  select {color: #585f66; margin-bottom:15px; width:100%; border:0; padding:5px 10px; border-top:1px solid #7a8794; border-bottom:1px solid #7a8794; -webkit-appearance: none; -moz-appearance: none; -ms-appearance: none; appearance: none; outline: 0; border-radius: 0;}
+#frmContainer  select {background:#fff; color: #585f66; margin-bottom:15px; width:100%; border:0; padding:5px 10px; border-top:1px solid #c9d1db; border-bottom:1px solid #c9d1db; -webkit-appearance: none; -moz-appearance: none; -ms-appearance: none; appearance: none; outline: 0; border-radius: 0;}
 #frmContainer p {margin-bottom:6px; color:#34383b; font-size:1.1em}
 #frmContainer p input[type=checkbox] {margin-right:7px}
 #prjList {margin:15px 0}
@@ -749,12 +742,9 @@ ul.tabs li.current {color: #222;}
 #resultContainer { width: 32%; height: 100%; float:left; margin-right:1%}
 #chartContainer { width:50%; height:100%; float:left;}
 #blankContainer { font-size:large; width:100%; height:730px; text-align:center; padding:250px;}
-<<<<<<< HEAD
 
 
 
-=======
->>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 .boardTr:hover {
 	cursor: pointer;
 }
@@ -771,19 +761,3 @@ ul.tabs li.current {color: #222;}
 		cursor: pointer;
 }
 #iq_content {width : 250px;}
-<<<<<<< HEAD
-=======
-/* Project Analysis */
-#dateContainer { width:100%; height:120px; margin-top: 160px; }
-	#dateContainer input[type=text] {text-align: center; width:110px; margin-left:25px;}
-	.dt a {cursor: pointer;}
-	.midCont { width:13%;height:120px;float:left; }
-	.midCont .dt { position:relative;top:50%;left:50%; transform:translate(-50%, -50%);}
-	.midCont .midCont_p { text-align:center;margin-top:15px; }
-	.timeDiv, .wrkDiv, .no_dataDiv { position:relative;top:50%;left:50%; transform:translate(-50%, -50%);}
-	#pie_wrk_i_made, #pie_wrk_i_assigned, #pie_wrk_i_follow {float:left; margin:5px; width:32%;}
-	.blank {width:100%; height:250px;text-align:center;}
-	#prj_barchart { width:100%; height:250px; }
-	#prj_piechart, #wrk_lst_barchart { width:100%; height:300px; }
-	.agn_cent { text-align:center; }
->>>>>>> branch 'master' of https://github.com/STTM20406/STTM
