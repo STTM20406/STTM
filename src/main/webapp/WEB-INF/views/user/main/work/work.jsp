@@ -1835,27 +1835,11 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 										<h2 class="wrk_title"><span>${work.wrk_grade}</span>${work.wrk_nm}</h2>
 										<ul>
 											<li class="wrk_date">${work.wrkStartDtStr} ~ ${work.wrkEndDtStr}</li>
-											<li>
-												<span>코멘트 개수</span>
-												<span>업무 파일 개수</span>
-											</li>
 										</ul>
 										<div class="wrk_mem_flw">
 											<dl class="wrk_mem">
-												<dt>업무 배정 멤버</dt>
-												<dd>
-													<p>또굥이</p>
-													<p>개굴이</p>
-													<p>쏠이</p>
-												</dd>
 											</dl>
 											<dl class="wrk_mem">
-												<dt>업무 팔로워</dt>
-												<dd>
-													<p>유돌이</p>
-													<p>하우두유두</p>
-													<p>몽몽이</p>
-												</dd>
 											</dl>
 										</div>
 									</div>
@@ -1875,27 +1859,11 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 										<h2><span>${work.wrk_grade}</span>${work.wrk_nm}</h2>
 										<ul>
 											<li>${work.wrkStartDtStr} ~ ${work.wrkEndDtStr}</li>
-											<li>
-												<p>코멘트 개수<span>1</span></p>
-												<p>업무 파일 개수<span>2</span></p>
-											</li>
 										</ul>
 										<div class="wrk_mem_flw">
 											<dl class="wrk_mem">
-												<dt>업무 배정 멤버</dt>
-												<dd>
-													<p>또굥이</p>
-													<p>개굴이</p>
-													<p>쏠이</p>
-												</dd>
 											</dl>
 											<dl class="wrk_mem">
-												<dt>업무 팔로워</dt>
-												<dd>
-													<p>유돌이</p>
-													<p>하우두유두</p>
-													<p>몽몽이</p>
-												</dd>
 											</dl>
 										</div>
 									</div>
