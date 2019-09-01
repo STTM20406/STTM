@@ -683,8 +683,9 @@ function connectNotify(){
 	      var data = event.data;
 	      
 	      if(!data.startsWith("lst:")) {
+	    	  var dataSplit = data.split("*");
 		      var $socketAlert = $('#socketAlert p');
-		      $socketAlert.text(event.data);
+		      $socketAlert.text(dataSplit[0]);
 		      $(".socketAlram").fadeIn(300);
 		      $(".socketAlram").animate({right:"0px"}, 500);
 		      setTimeout(function(){
@@ -692,6 +693,7 @@ function connectNotify(){
 		         $(".socketAlram").animate({right:"-350px"}, 500);
 		          
 		      },3000);
+		      $("#spanCountReset").text(dataSplit[1]);
 	      } 
       
       if(distinguish == 'chatting'){
