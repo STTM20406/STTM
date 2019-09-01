@@ -710,20 +710,17 @@ a.btn-layerClose {display:inline-block; height:25px; padding:0 14px 0; backgroun
 
 /* 회의록 css */
 .minutes:hover{cursor: pointer;}
-<<<<<<< HEAD
 ul.tabs {margin: 0px; padding: 0px; list-style: none;}
 ul.tabs li {background: none; color: #222; display: inline-block; padding: 10px 15px; cursor: pointer;}
-=======
 ul.tabs {margin: 0px; padding: 23px 0; list-style: none; }
 ul.tabs li {cursor: pointer; float: left; text-align: center; height: 34px; line-height: 30px; background:white; margin-right: 1%; font-size: 1.1em; border-radius: 3px 3px 0 0;}
 ul.tabs li:hover {color:red; }
->>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 ul.tabs li.current {color: #222;}
-#fs{margin : 0 auto; text-allign : center;}
 #subject{width:500px; height:80px; resize:none;}
 #special{ width:500px; height:60px; resize:none;}
 .sub_menu{padding:10px 0 0 0;}
 .minutes{background:white;}
+.insertMinutesFs{margin : 0 auto; text-allign : center;}
 .insertMinutesFs{background:white;}
 
 /* 캘린더 */
@@ -735,11 +732,8 @@ ul.tabs li.current {color: #222;}
 #smarteditor {
 	margin: auto;
 }
-<<<<<<< HEAD
 
 
-=======
->>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 /* work list style */
 .contentTitle {font-size: 3em; color: #fff; margin-bottom: 20px; font-weight: 300;}
 #filterFrm ul li label { cursor: pointer; } 
@@ -762,12 +756,9 @@ ul.tabs li.current {color: #222;}
 #resultContainer { width: 32%; height: 100%; float:left; margin-right:1%}
 #chartContainer { width:50%; height:100%; float:left;}
 #blankContainer { font-size:large; width:100%; height:730px; text-align:center; padding:250px;}
-<<<<<<< HEAD
 
 
 
-=======
->>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 .boardTr:hover {
 	cursor: pointer;
 }
@@ -784,8 +775,6 @@ ul.tabs li.current {color: #222;}
 		cursor: pointer;
 }
 #iq_content {width : 250px;}
-<<<<<<< HEAD
-=======
 /* Project Analysis */
 #dateContainer { width:100%; height:120px;}
 #dateContainer input[type=text] {text-align: center; width:110px; margin-left:25px;}
@@ -802,4 +791,3 @@ ul.tabs li.current {color: #222;}
 .agn_cent { text-align:center; }
 /* Gantt Chart*/
 #gantt_here { width:85%; height:630px; overflow:hidden; padding:0px; margin:0px; float:left;}
->>>>>>> branch 'master' of https://github.com/STTM20406/STTM

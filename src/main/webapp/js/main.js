@@ -251,7 +251,6 @@ function initCalendar(){
       contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
       data: "wrk_id=" + event._id+ "&wrk_start_dt=" + event.start+"&wrk_end_dt=" + event.end,
       success: function (response) {
-    	  console.log("이거다!!! "+event._id);
     	  $(".ctxt").text('해당업무 일정이 ' + newDates.startDate + ' ~ ' + newDates.endDate + '로 일정이 변경 되었습니다.');
 		  layer_popup("#layer2");
       }

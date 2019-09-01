@@ -24,14 +24,6 @@
 		$("#insertForm").submit();
 		
 	}
-	$('#writer').on('click',function(){
-		if($('#searchText').val().length == 0){
-			alert("검색어를 입력해주세요");
-		}else{
-			var user_nm = $('#searchText').val();
-			searchMinutes(1, 10, user_nm);
-		}
-	});
 	
 
 </script>

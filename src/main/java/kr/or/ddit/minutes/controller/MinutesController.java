@@ -235,14 +235,12 @@ public class MinutesController {
 		logger.debug("♬♩♪  insertSpecial: {}", insertSpecial);
 		
 		logger.debug("♬♩♪  insertConference + user_email: {}", user_email);
-		
 		//회의록 등록!!!
 		MinutesVo minutesVo = new MinutesVo(prj_id, email, insertSubject, insertSpecial);
 		int mCnt = minutesService.insertMinutes(minutesVo);
 		if(mCnt==1) {
 			logger.debug("♬♩♪  회의록 게시물 등록! ");
 		}
-		
 		//가장 최근에 작성한 글 mnu_id 가져오기!
 		MinutesVo minutesVo1 = minutesService.recentMinutes();
 		int mnu_id = minutesVo1.getMnu_id();
