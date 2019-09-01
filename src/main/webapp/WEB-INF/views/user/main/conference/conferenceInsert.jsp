@@ -5,8 +5,7 @@
 
 <script>
 	$(document).ready(function(){
-		$(".ctxt").text('참석자, 회의내용, 특이사항 빠짐없이 작성해주세요~');
-		  layer_popup("#layer2");
+		
 	});
 	function insert(){
 		var user_email = [];
