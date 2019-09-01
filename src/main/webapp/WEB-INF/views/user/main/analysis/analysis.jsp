@@ -22,7 +22,8 @@
 </div>
 <!-- Include 끝 -->
 <section class="contents">
-<h2>${PROJECT_INFO.prj_nm } > Analysis</h2>
+<h2 class="contentTitle">${PROJECT_INFO.prj_nm } > Analysis</h2>
+<div id="allContainer">
 <div id="prj_list_container">
 	<form id="prj_list_frm">
 	<input type="hidden" name="over_prj_id" value="${PROJECT_INFO.prj_id }">
@@ -32,7 +33,7 @@
 </form>
 </div>
 <div id="dateContainer">
-<h3>프로젝트 개요</h3>
+<h3 class="agn_cent">프로젝트 개요</h3>
 	<div id="start_dt" class="midCont" >
 			<p class="midCont_p">시작일</p>
 		<div class="dt">
@@ -114,6 +115,7 @@
 		<div id="wrk_lst_barchart">
 		<p class="agn_cent"><b>업무리스트 별 개요</b></p>
 		</div>
+</div>
 </section>
 
 <script>
@@ -161,23 +163,23 @@ var currPrjVo = null;
 				var madeData = data.result.made;
 				
 				if(assignChart == null) {
-					assignChart = loadPieChart(assignContainer, assignData, 487, 250);
+					assignChart = loadPieChart(assignContainer, assignData, 400, 250);
 				} else {
 					assignChart["chartContainer"].remove();
-					assignChart = loadPieChart(assignContainer, assignData, 487, 250);
+					assignChart = loadPieChart(assignContainer, assignData, 400, 250);
 				}
 				if(madeChart == null){
-					madeChart = loadPieChart(madeContainer, madeData, 487, 250);
+					madeChart = loadPieChart(madeContainer, madeData, 400, 250);
 				} else {
 					madeChart["chartContainer"].remove();
-					madeChart = loadPieChart(madeContainer, madeData, 487, 250);
+					madeChart = loadPieChart(madeContainer, madeData, 400, 250);
 				}
 				
 				if(followChart == null) {
-					followChart = loadPieChart(followContainer, followingData, 487, 250);
+					followChart = loadPieChart(followContainer, followingData, 400, 250);
 				} else {
 					followChart["chartContainer"].remove();
-					followChart = loadPieChart(followContainer, followingData, 487, 250);
+					followChart = loadPieChart(followContainer, followingData, 400, 250);
 				}
 					
 				var listData = data.result.list;
