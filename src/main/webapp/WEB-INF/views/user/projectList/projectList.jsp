@@ -1310,23 +1310,23 @@ function projectMemDelAjax(id, email){
 						<input type="button" value="닫기" id="memClose" class="memClose">
 						<div class="prj_mem_list">
 							<div class="prj_mem_sch">
-<<<<<<< HEAD
 						<div class="prj_mem_list"> 
 							<div class="searchPL">
 								<fieldset id="hd_sch">
 									<input type="text" name="user_nm" id="searchPL" maxlength="20" placeholder="검색어를 입력해주세요">
 								</fieldset>
-=======
 								<div class="prj_mem_list"> 
 									<div class="searchPL">
 										<fieldset id="hd_sch">
 											<input type="text" name="user_nm" id="searchPL" maxlength="20" placeholder="검색어를 입력해주세요">
 										</fieldset>
 									</div>
+									
 							<!-- 추가된 프로젝트 관리자 리스트 box -->
 									<ul class="searchPL_item"></ul>
 								</div>
->>>>>>> branch 'master' of https://github.com/STTM20406/STTM
+								</div>
+								</div>
 							</div>
 						</div>
 					</div> 
@@ -1345,14 +1345,12 @@ function projectMemDelAjax(id, email){
 						<input type="button" value="닫기" id="mamListClose" class="mamListClose">
 						<div class="prj_mem_list">
 							<div class="prj_mem_sch">
-<<<<<<< HEAD
 						<div class="prj_mem_list"> 
 							<div class="searchMem">
 								<fieldset id="hd_sch">
 									<legend>사이트 내 프로젝트 검색</legend>
 									<input type="text" name="user_nm" id="searchMem" maxlength="20" placeholder="검색어를 입력해주세요" value="">
 								</fieldset>
-=======
 								<div class="prj_mem_list"> 
 									<div class="searchMem">
 										<fieldset id="hd_sch">
@@ -1360,8 +1358,9 @@ function projectMemDelAjax(id, email){
 										<input type="text" name="user_nm" id="searchMem" maxlength="20" placeholder="검색어를 입력해주세요" value="">
 									</fieldset>
 									</div>
+									</div>
+									</div>
 								</div>
->>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 							</div>
 					<!-- 추가된 프로젝트 멤버 리스트 box -->
 							<ul class="prj_mem_item_list"></ul>
