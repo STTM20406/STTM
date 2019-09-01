@@ -129,6 +129,9 @@
    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
    z-index: 1;
 }
+#divDropDown{
+	
+}
 
 .dropdown-content a {
    color: black;
@@ -874,7 +877,7 @@ window.onclick = function(event) {
                   <a href="#"><span class="caret">메모</span></a>
                   <div id="myDropdown" class="dropdown-content">
                      <c:forEach items="${projectList }" var="pro">
-                        <div>
+                        <div id="divDropDown">
                            <a href="#" class="memoA" ><span class="">${pro.prj_nm }</span></a>
                            <input type="hidden" id="memoPrj_id" value="${pro.prj_id }"/>
                            <input type="hidden" id="memoPrj_nm" value="${pro.prj_nm }"/>
