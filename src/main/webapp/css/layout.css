@@ -557,7 +557,6 @@ a.btn-layerClose {display:inline-block; height:25px; padding:0 14px 0; backgroun
 #uploadFile {border: 1px solid #3f4df5; border-radius: 3px; display: inline-block; text-align: center; font-size: 13px;vertical-align: top;   padding: 5px 11px; color: #3f4df5;transition: all 0.4s;}
 
 
-#frmContainer {width:20%; float:left}
 .cal_wrapper {width:78%; float:left; height:600px}
 .cal_wrapper table {width:100%}
 
@@ -677,79 +676,25 @@ a.btn-layerClose {display:inline-block; height:25px; padding:0 14px 0; backgroun
 
 .active_chat{ background:#ebebeb;}
 
-.incoming_msg_img {
-  display: inline-block;
-  width: 6%;
-}
-.received_msg {
-  display: inline-block;
-  padding: 0 0 0 10px;
-  vertical-align: top;
-  width: 92%;
- }
- .received_withd_msg p {
-  background: #1e90ff none repeat scroll 0 0;
-  border-radius: 3px;
-  color: #000000;
-  font-size: 14px;
-  margin: 0;
-  padding: 5px 10px 5px 12px;
-  width: 100%;
-}
-.time_date {
-  color: #747474;
-  display: block;
-  font-size: 12px;
-  margin: 8px 0 0;
-}
+/* 채팅 부트스트랩*/
+.incoming_msg_img {display: inline-block;width: 6%;}
+.received_msg {display: inline-block;padding: 0 0 0 10px;vertical-align: top;width: 92%;}
+ .received_withd_msg p {background: #1e90ff none repeat scroll 0 0;border-radius: 3px;color: #000000;font-size: 14px;margin: 0;padding: 5px 10px 5px 12px;width: 100%;}
+.time_date {color: #747474;display: block;font-size: 12px;margin: 8px 0 0;}
 .received_withd_msg { width: 57%;}
-.mesgs {
-  float: left;
-  padding: 30px 15px 0 25px;
-  width: 50%;
-}
+.mesgs {float: left;padding: 30px 15px 0 25px;width: 50%;}
 
- .sent_msg p {
-  background: #0000CD none repeat scroll 0 0;
-  border-radius: 3px;
-  font-size: 14px;
-  margin: 0; color:#fff;
-  padding: 5px 10px 5px 12px;
-  width:100%;
-}
+ .sent_msg p {background: #0000CD none repeat scroll 0 0;border-radius: 3px;font-size: 14px;margin: 0; color:#fff;padding: 5px 10px 5px 12px;width:100%;}
 .outgoing_msg{ overflow:hidden; margin:26px 0 26px;}
-.sent_msg {
-  float: right;
-  width: 46%;
-}
-.input_msg_write input {
-  background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
-  border: medium none;
-  color: #4c4c4c;
-  font-size: 15px;
-  min-height: 48px;
-  width: 100%;
-}
+.sent_msg {float: right;width: 46%;}
+.input_msg_write input {background: rgba(0, 0, 0, 0) none repeat scroll 0 0;border: medium none;color: #4c4c4c;font-size: 15px;min-height: 48px;width: 100%;}
 
 .type_msg {border-top: 1px solid #c4c4c4;position: relative;}
-.msg_send_btn {
-  background: #0000CD none repeat scroll 0 0;
-  border: medium none;
-  border-radius: 50%;
-  color: #fff;
-  cursor: pointer;
-  font-size: 17px;
-  height: 33px;
-  position: absolute;
-  right: 0;
-  top: 11px;
-  width: 33px;
-}
+.msg_send_btn {background: #0000CD none repeat scroll 0 0;border: medium none;border-radius: 50%;color: #fff;cursor: pointer;font-size: 17px;height: 33px;position: absolute;right: 0;top: 11px;width: 33px;}
 .messaging { padding: 0 0 50px 0;}
-.msg_history {
-  height: 516px;
-  overflow-y: auto;
-}
+.msg_history {height: 516px; overflow-y: auto;}
+
+.roomNm:hover{cursor: pointer;}
 
 /* filelink css */
 .tab-content {display: none;}
@@ -772,3 +717,47 @@ ul.tabs li.current {color: #222;}
 .pp {margin: 0;}
 
 
+#smarteditor {
+	margin: auto;
+}
+
+
+
+/* work list style */
+.contentTitle {font-size: 3em; color: #fff; margin-bottom: 20px; font-weight: 300;}
+#filterFrm ul li label { cursor: pointer; } 
+#allContainer {width: 100%; height: auto; float: left; background: #fff; border-radius: 3px; padding:20px}
+#frmContainer {height: 100%; width: 13%; float: left; margin-right: 1%;}
+#frmContainer  label {font-size: 1.2em; color: #7a8794; margin-bottom:6px; display:block}
+#frmContainer  select {color: #585f66; margin-bottom:15px; width:100%; border:0; padding:5px 10px; border-top:1px solid #7a8794; border-bottom:1px solid #7a8794; -webkit-appearance: none; -moz-appearance: none; -ms-appearance: none; appearance: none; outline: 0; border-radius: 0;}
+#frmContainer p {margin-bottom:6px; color:#34383b; font-size:1.1em}
+#frmContainer p input[type=checkbox] {margin-right:7px}
+#prjList {margin:15px 0}
+#makerList {margin-top:15px}
+#followerList {margin:15px 0}
+
+.result {border: 1px dashed #c1cad1; padding: 10px 15px; border-radius: 3px; margin-bottom:15px}
+.result span {display:block}
+.result span:nth-child(1) {font-size: 1em; color: #798793; margin-bottom:6px}
+.result span:nth-child(2) b {font-size: 1.3em; font-weight: 400; color: #3f4df5;}
+.result span:nth-child(3) {}
+
+#resultContainer { width: 32%; height: 100%; float:left; margin-right:1%}
+#chartContainer { width:50%; height:100%; float:left;}
+#blankContainer { font-size:large; width:100%; height:730px; text-align:center; padding:250px;}
+.boardTr:hover {
+	cursor: pointer;
+}
+.inquiryTr:hover{
+      cursor: pointer;
+}
+.memoTr:hover{
+	cursor:pointer;
+}
+.rcvTr:hover{
+		cursor: pointer;
+}
+.sendTr:hover{
+		cursor: pointer;
+}
+#iq_content {width : 250px;}

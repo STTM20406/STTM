@@ -53,11 +53,6 @@
 		return true;
 	}
 </script>
-<style>
-#smarteditor {
-	margin: auto;
-}
-</style>
     
 <section class="contents">
 	<form action="/userInquiryModify" method="post" id="frm" role="form" enctype="multipart/form-data">

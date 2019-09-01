@@ -2,41 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
-<style>
-.rcvTr:hover{
-		cursor: pointer;
-}
-.sendTr:hover{
-		cursor: pointer;
-}
-ul.tabs {
-	margin: 0px;
-	padding: 0px;
-	list-style: none;
-}
-
-ul.tabs li {
-	background: none;e
-	color: #222;
-	display: inline-block;
-	padding: 10px 15px;
-	cursor: pointer;
-}
-
-ul.tabs li.current {
-	color: #222;
-}
-
-.tab-content {
-	display: none;
-	padding: 15px;
-}
-
-.tab-content.current {
-	display: inherit;
-}
-</style>
 <script>
 	$(document).ready(function() {
 		
@@ -201,6 +166,7 @@ ul.tabs li.current {
 								<th>내용</th>
 								<th>보낸 날짜</th>
 								<th>쪽지 읽음 여부</th>
+							</tr>
 						</thead>
 						<tbody id="publicList">
 								<c:forEach items="${sendList }" var="send">
@@ -214,14 +180,13 @@ ul.tabs li.current {
 												
 											</tr>
 								</c:forEach>
-							</tr>
 						</tbody>
 					</table>
 				</div>
 				<div class="pagination">
 						<c:choose>
 							<c:when test="${pageVo.page == 1 }">
-								<a href class="btn_first"></a>
+								<a class="btn_first"></a>
 							</c:when>
 							<c:otherwise>
 								<a href="/sendNoteList?page=${pageVo.page-1}&pageSize=${pageVo.pageSize}">«</a>
@@ -243,7 +208,7 @@ ul.tabs li.current {
 
 						<c:choose>
 							<c:when test="${pageVo.page == sendPaginationSize}">
-								<a href class="btn_last"></a>
+								<a class="btn_last"></a>
 							</c:when>
 							<c:otherwise>
 							<a href="/sendNoteList?page=&page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>

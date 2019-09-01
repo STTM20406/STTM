@@ -78,11 +78,6 @@
 		return true;
 	}
 </script>
-<style>
-#smarteditor {
-	margin: auto;
-}
-</style>
 
 <section class="contents">
 	<form action="/postModify" method="post" id="frm" role="form"
