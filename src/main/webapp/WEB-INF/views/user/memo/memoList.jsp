@@ -3,13 +3,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<style>
-.memoTr:hover{
-	cursor:pointer;
-}
-</style>
-
-
 <script>
 $(document).ready(function(){
 	

@@ -766,3 +766,23 @@ a.btn-layerClose {display:inline-block; height:25px; padding:0 14px 0; backgroun
   overflow-y: auto;
 }
 
+#smarteditor {
+	margin: auto;
+}
+
+.boardTr:hover {
+	cursor: pointer;
+}
+.inquiryTr:hover{
+      cursor: pointer;
+}
+.memoTr:hover{
+	cursor:pointer;
+}
+.rcvTr:hover{
+		cursor: pointer;
+}
+.sendTr:hover{
+		cursor: pointer;
+}
+#iq_content {width : 250px;}

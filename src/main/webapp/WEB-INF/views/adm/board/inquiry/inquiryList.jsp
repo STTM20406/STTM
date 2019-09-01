@@ -2,38 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
-<style>
-.inquiryTr:hover{
-      cursor: pointer;
-}
-ul.tabs {
-   margin: 0px;
-   padding: 0px;
-   list-style: none;
-}
-
-ul.tabs li {
-   background: none;
-   color: #222;
-   display: inline-block;
-   padding: 10px 15px;
-   cursor: pointer;
-}
-
-ul.tabs li.current {
-   color: #222;
-}
-
-.tab-content {
-   display: none;
-   padding: 15px;
-}
-
-.tab-content.current {
-   display: inherit;
-}
-</style>
 <script>
    $(document).ready(function() {
       
@@ -86,14 +54,6 @@ ul.tabs li.current {
    
    
    <div id="container">
-
-
-      <div class="sub_menu">
-         <ul class="tabs">
-            <li data-tab="tab-1">일반 문의</li>
-            
-         </ul>
-      </div>
 
       <div class="tab_con">
          <form id="frm01">
