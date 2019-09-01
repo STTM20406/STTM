@@ -30,7 +30,7 @@ public class File_Dw_HisController {
 	//다운로드 기록! controller
 	@RequestMapping("/historyPagination")
 	String historyPagination(Model model, HttpSession session, 
-		@RequestParam(name = "page", defaultValue = "1")int page,@RequestParam(name = "pageSize", defaultValue = "20")int pageSize) {
+		@RequestParam(name = "page", defaultValue = "1")int page,@RequestParam(name = "pageSize", defaultValue = "10")int pageSize) {
 		PageVo pageVo = new PageVo(page, pageSize);
 		
 		ProjectVo projectVO = (ProjectVo) session.getAttribute("PROJECT_INFO");

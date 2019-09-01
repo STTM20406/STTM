@@ -221,12 +221,6 @@
 		<input type="hidden" id="mnu_id" name="mnu_id">
 	</form>
 		
-	<div class="sub_menu">
-		<ul class="tabs">
-			<li id="minutes">회의록 게시판</li>
-		</ul>
-	</div>
-		
 	<div class="searchBox">
 		<div class="tb_sch_wr">
 	 		 <select class="search" name="selectFile">
@@ -258,6 +252,12 @@
 					</table>
 				</div>
 			<a href="/insertConference">회의록 작성</a>
+			<div class="sub_menu">
+				<ul class="tabs_click">
+					<li id="minutes">목록</li>
+				</ul>
+			</div>
+			
 			<div class="pagination">
 				</div>
 				
