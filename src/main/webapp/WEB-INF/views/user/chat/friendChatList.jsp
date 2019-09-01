@@ -191,7 +191,7 @@
 									</div></li>
 							</ul>
 							<div class="prj_btn">
-								<a href="javascript:;" id="chat_prev">뒤로</a> <input
+								 <input
 									type="submit" id="createBtn" value="채팅방 만들기">
 							</div>
 						</div>

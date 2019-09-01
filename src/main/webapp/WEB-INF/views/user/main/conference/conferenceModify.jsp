@@ -16,7 +16,6 @@ $(document).ready(function(){
 
 </script>
 
-
 <fieldSet id="fs">
 	<form id="frm" action="/upMinutes" method="post">
 	<input type="hidden" name="mnu_id" value="${minutesVo.mnu_id}">

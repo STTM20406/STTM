@@ -1122,16 +1122,15 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 			workFilePagination(1, 5, wrk_id);
 		})
 	
-		$(".sub_menu").on("click", "#fileList",function(){
+		$(".tab_sub_menu").on("click", "#fileList",function(){
 			var wrk_id = $('#wps_wrk_id').val();
 			$('#locker').fadeIn(0);
 			$('#workLink').fadeOut(0);
 			$('#workFile').fadeIn(0);
-			alert(wrk_id);
 			workFilePagination(1, 5, wrk_id);
 		})
 		
-		$(".sub_menu").on("click", "#linkList",function(){
+		$(".tab_sub_menu").on("click", "#linkList",function(){
 			$('#locker').hide(0);
 			var wrk_id = $('#wps_wrk_id').val();
 			$('#workFile').fadeOut(0);
@@ -1141,7 +1140,6 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 		
 		
 		$("#workLink").on('click','#uploadLink', function(){
-			alert("link가즈아!!");
 			var attch_url = $('.link').val();
 			var locker = $("#locker input[type=radio]:checked").val();
 			var wrk_id = $('#wps_wrk_id').val();
@@ -1175,9 +1173,8 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 			$('#box').val(locker);
 			$('#work').val(wrk_id);
 			var formData  = new FormData(form);
-			console.log(formData);
-			console.log($(formData).serialize());
-			alert(formData);
+			$(".ctxt").text("파일 업로드 완료!!!");
+				layer_popup("#layer2");
 			$.ajax({
 	 		    url: "/workFileUpload",
 	 		    type: "POST",
@@ -1208,10 +1205,7 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 	 		});
 		});
 		
-		
-
 		// file, link 등록 부분 구현중// file, link 등록 부분 구현중// file, link 등록 부분 구현중// file, link 등록 부분 구현중// file, link 등록 부분 구현중// file, link 등록 부분 구현중
-		
 		
 		//업무 멤버 추가하기 버튼 클릭시 해당 프로젝트 멤버 가져오기
 		$(".wrk_add_mem").fadeOut(0); //멤버리스트 layer 숨기기
@@ -1738,6 +1732,7 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 		});
 	}
 	
+	
 </script>
 
 
@@ -2131,7 +2126,7 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 			</div>
 			
 			<div id="locker">
-				<input value="public" name="box" type="radio">공유함 긔긔
+				<input value="public" name="box" type="radio" checked>공유함 긔긔
 				<input value="individual" name="box" type="radio">개인함 긔긔
 				<input value="both" name="box" type="radio">둘다 긔긔
 			</div>

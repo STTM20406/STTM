@@ -274,16 +274,16 @@
 							<label class="col-xs-4" for="edit-color">색상</label> <select
 								class="inputModal" name="wrk_color_cd" id="edit-color">
 								<option selected id="col_selected">- 선택 - </option>		
-								<option value="#D25565" style="color: #D25565;">빨간색</option>
-								<option value="#9775fa" style="color: #9775fa;">보라색</option>
-								<option value="#ffa94d" style="color: #ffa94d;">주황색</option>
-								<option value="#74c0fc" style="color: #74c0fc;">파란색</option>
-								<option value="#f06595" style="color: #f06595;">핑크색</option>
-								<option value="#63e6be" style="color: #63e6be;">연두색</option>
-								<option value="#a9e34b" style="color: #a9e34b;">초록색</option>
-								<option value="#4d638c" style="color: #4d638c;">남색</option>
-								<option value="#495057" style="color: #495057;">검정색</option>
-								<option value="#002dff" style="color: #002dff;">이게무슨색?</option>
+								<option value="#7d3bff" style="background: #7d3bff;"/>
+								<option value="#cf5de1" style="background: #cf5de1;"/>
+								<option value="#75dfff" style="background: #75dfff;"/>
+								<option value="#287cff" style="background: #287cff;"/>
+								<option value="#ffe604" style="background: #ffe604;"/>
+								<option value="#ff8b03" style="background: #ff8b03;"/>
+								<option value="#de4439" style="background: #de4439;"/>
+								<option value="#0b16c6" style="background: #0b16c6;"/>
+								<option value="#ff2f77" style="background: #ff2f77;"/>
+								<option value="#3d434f" style="background: #3d434f;"/>
 							</select>
 						</div>
 					</div>
