@@ -1,12 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 
 <script>
 	$(document).ready(function() {
-
-		
 		$(".tb_style_01").on("click", "td.roomNm", function() {
 			//a = .text();
 			var a = $(this).attr("id");
@@ -167,18 +164,18 @@
 		<div class="dimBg"></div>
 		<div id="chatlayer1" class="pop-layer">
 			<div class="pop-container">
-				<div class="pop-project">
+				<div class="pop-newChat">
 					<!--content //-->
 					<form action="/createChatRoom" method="post" id="frmCreateRoom">
 						<input type="hidden" id="array" name="array">
 						<div class="new_proejct">
 							<!-- 방 만들기 테이블 -->
+							<h2>새 채팅방 생성</h2>
 							<ul>
-								<li><label for="prj_nm">새 채팅방 생성</label></li>
 								<li><label for="prj_nm">채팅방 이름</label> <input type="text"
 									id="room_nm" name="room_nm" maxlength="20"></li>
 								<li><label for="prj_mem">채팅방 친구 선택</label>
-									<div class="prj_mem_list">
+									<div class="chat_mem_list">
 										<ul>
 											<c:forEach items="${allFriendList}" var="friendlist"
 												varStatus="status">
@@ -209,37 +206,31 @@
 
 
 	<!-- 팝업 채팅방 수정/나가기 -->
-<!-- 		<div class="dim-layer"> -->
-<!-- 		<div class="dimBg"></div> -->
-		<div id="chatlayer2" class="pop-layer">
-			<div class="pop-container">
-				<div class="pop-project">
-					<!--content //-->
-					<form action="/updateChatRoomTitle" method="post" id="frmUpdateRoom">
-						<div class="new_proejct">
-							<input type="hidden" name="upct_id" id="upct_id">
-							<!-- 방 만들기 테이블 -->
-							<ul>
-								<li><label for="prj_nm">채팅방 이름 수정</label> 
-								<input type="text" id="room_nmup" name="room_nmup" maxlength="20"></li>
-							</ul>
-							<div class="prj_btn">
-								<input type="submit" id="updateRoomBtn" value="채팅방 이름 수정">
-							</div>
-							<a href="#"  id="outRoomBtn" style="color: red;">채팅방나가기</a>
+	<div id="chatlayer2" class="pop-layer">
+		<div class="pop-container">
+			<!--content //-->
+			<form action="/updateChatRoomTitle" method="post" id="frmUpdateRoom">
+				<div class="pop-chat">
+					<div class="new_proejct">
+						<input type="hidden" name="upct_id" id="upct_id">
+						<!-- 방 만들기 테이블 -->
+						<ul>
+							<li><label for="prj_nm">채팅방 이름 수정</label> 
+							<input type="text" id="room_nmup" name="room_nmup" maxlength="20"></li>
+						</ul>
+						<div class="prj_btn">
+							<input type="submit" id="updateRoomBtn"  value="채팅방 이름 수정">
+							<a href="#"  id="outRoomBtn">채팅방나가기</a>
 						</div>
-
-					</form>
-					
-					
-					<div class="btn-r">
-						<a href="#" class="btn-layerClose">Close</a>
 					</div>
-					<!--// content-->
 				</div>
+			</form>
+			<div class="btn-r">
+				<a href="#" class="btn-layerClose">Close</a>
 			</div>
+			<!--// content-->
 		</div>
-<!-- 	</div> -->
+	</div>
 
 <section class="contents">
 
@@ -287,10 +278,7 @@
 			</tr>
 		</c:forEach>
 
-
-
 	</table>
-
 
 
 	<!-- table style end -->

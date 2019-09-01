@@ -41,19 +41,21 @@
 	})
 </script>
 
+<div class="sub_menu">
+	<ul class="sub_menu_item">
+		<li>
+			<a href="/community?board_id=${board_id }">게시글</a>
+		</li>
+		<li>
+			<a href="/myCommunity?board_id=${board_id }">내가 작성한 글</a>
+		</li>
+	</ul>
+</div>
 
 <section class="contents">
-	<div id="container">
-		
-		<div class="sub_menu">
-			<ul class="sub_menu_item">
-				<li>
-					<a href="/community?board_id=${board_id }">게시글</a>
-				</li>
-				<li>
-					<a href="/myCommunity?board_id=${board_id }">내가 작성한 글</a>
-				</li>
-			</ul>
+		<h2 class="contentTitle">게시판</h2>
+		<div class="sub_btn">
+			<button id="addBtn" type="button" class="btn_style_04">게시글 작성</button>
 		</div>
 
 		<div class="tab_con">
@@ -151,5 +153,4 @@
 				</div>
 				
 		</div>
-	</div>
 </section>

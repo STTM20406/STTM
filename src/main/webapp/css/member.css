@@ -22,7 +22,7 @@
 
 /* login form */
 .loginWrap {width:320px; height:auto; position:absolute; left:50%; top:39%; transform:translate(-50%, -50%); background:transparent; z-index:999; padding:30px;}
-.registerFormWrap {width:400px; height:auto; position:absolute; left:50%; top:39%; transform:translate(-50%, -50%); background:transparent; z-index:999; padding:30px;}
+.registerFormWrap {width:350px; height:auto; position:absolute; left:50%; top:39%; transform:translate(-50%, -50%); background:transparent; z-index:999; padding:30px;}
 
 .inputField {position:relative;}
 .inputField h2 {font-size:23px; font-weight:700; margin-bottom:30px; color:#fff}
@@ -38,7 +38,7 @@
 .inputField input::-webkit-input-placeholder {color: #8293a0;}
 .inputField input[type="password"] {font-family:"맑은 고딕";}
 .inputField button {background:#192b3a; width:100%; height:40px; border-radius:3px; border:none; color:#fff; font-size:14px;}
-
+#joinBtn {background: #192b3a; width: 100%; height: 40px; border-radius: 3px; border: none; color: #fff; font-size: 14px;}
 
 /* google login button */
 .abcRioButton {width:100% !important; height:40px !important; box-shadow: none !important; border-radius:3px !important; line-height:40px !important}

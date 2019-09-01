@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!-- Favicon -->
@@ -94,40 +93,22 @@
 </script>
 
 <section class="contents">
-	<form action="/postAdd" method="post" id="frm" role="form"
-		enctype="multipart/form-data">
-
-
+	<h2 class="contentTitle">글쓰기</h2>
+	<form action="/postAdd" method="post" id="frm" role="form" enctype="multipart/form-data">
 		<input type="hidden" name="boardnum" id="boardnum" value="${boardnum }">
-
-
-		<div>
-			<label for="post_title">제목</label>
-			<div class="col-sm-10">
-				<input type="text" id="subject" name="subject" placeholder="제목"
-					value="${param.subject }" maxlength="30">
+		<div class="boardWriteWrap">
+			<div class="title">
+				<input type="text" id="subject" name="subject" placeholder="제목을 입력해 주세요." value="${param.subject }" maxlength="30">
 			</div>
-		</div>
 
-		<div>
-			<label for="user_email">작성자</label>
-			<div class="col-sm-10">
-				<input type="hidden" class="form-control" id="user_email"
-					name="user_email" placeholder="작성자" value=${USER_INFO.user_email }>
-				<textarea name="smarteditor" id="smarteditor" rows="10" cols="100"
-					style="width: 766px; height: 412px;"></textarea>
+			<div class="boardContent">
+				<input type="hidden" class="form-control" id="user_email" name="user_email" placeholder="작성자" value=${USER_INFO.user_email }>
+				<textarea name="smarteditor" id="smarteditor" rows="10" cols="100" style="width:100%; height: 412px;"></textarea>
 			</div>
-		</div>
-
-
-		<div>
+	
 			<div>
-				<button id="postRegBtn" type="button" class="btn btn-default">등록하기</button>
+				<button id="postRegBtn" type="button" class="">등록하기</button>
 			</div>
 		</div>
-
-
-
 	</form>
-
 </section>

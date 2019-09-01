@@ -22,8 +22,8 @@
 		<div class="dimBg"></div>
 		<div id="layer1" class="pop-layer">
 			<div class="pop-container">
-				<div class="pop-project">
-					<!--content //-->
+				<!--content //-->
+				<div class="pop-addFriend">
 					<form action="/addFriend" method="post" id="addFriend">
 						<input type="hidden" id="array" name="array"> <input
 							type="hidden" id="ct_id" name="ct_id" value="${ct_id }">
@@ -32,7 +32,8 @@
 							<ul>
 								<li><label for="prj_nm">친구 추가</label></li>
 								<li><label for="prj_nm">채팅방 이름</label></li>
-								<li><label for="prj_mem">추가할 친구 선택</label>
+								<li>
+									<label for="prj_mem">추가할 친구 선택</label>
 									<div class="prj_mem_list">
 										<ul>
 											<c:forEach items="${inviteList}" var="friendlist"
@@ -42,22 +43,21 @@
 												</li>
 											</c:forEach>
 										</ul>
-
-									</div></li>
+	
+									</div>
+								</li>
 							</ul>
 							<div class="prj_btn">
-									<a href="javascript:;" id="prj_btn_prev">뒤로</a>
-									<input type="submit" id="prj_btn_submit" value="친구 추가">
+								<input type="submit" id="prj_btn_submit" value="친구 추가">
 							</div>
 						</div>
-
 					</form>
-
-					<div class="btn-r">
-						<a href="#" class="btn-layerClose">Close</a>
-					</div>
-					<!--// content-->
 				</div>
+
+				<div class="btn-r">
+					<a href="#" class="btn-layerClose">Close</a>
+				</div>
+				<!--// content-->
 			</div>
 		</div>
 	</div>
@@ -72,15 +72,17 @@
 						<li>${friendlist }</li>
 					</c:forEach>
 				</ul>
-				<c:if test="${what != 'project'}">
-					<a href="#layer1" class="btn-example btn_style_01">친구 추가</a>
-				</c:if>
-				<c:if test="${what != 'project'}">
-					<a href="/friendChatList">채팅방 리스트 이동</a>
-				</c:if>
-				<c:if test="${what == 'project'}">
-					<a href="/projectChatList">채팅방 리스트 이동</a>
-				</c:if>
+				<div class="chatBtn">
+					<c:if test="${what != 'project'}">
+						<a href="#layer1" class="btn-example">친구 추가</a>
+					</c:if>
+					<c:if test="${what != 'project'}">
+						<a href="/friendChatList">채팅방 리스트 이동</a>
+					</c:if>
+					<c:if test="${what == 'project'}">
+						<a href="/projectChatList">채팅방 리스트 이동</a>
+					</c:if>
+				</div>
 			</div>
 		</div>
 		<div class="chat_room"> 

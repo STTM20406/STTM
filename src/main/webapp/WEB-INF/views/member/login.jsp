@@ -94,7 +94,7 @@
 						</li>
 						
 						<!-- 구글 로그인 버튼 -->
-						<li><div class="g-signin2" data-onsuccess="onSignIn"></div></li>
+<!-- 						<li><div class="g-signin2" data-onsuccess="onSignIn"></div></li> -->
 						<li class="forgot"><a href="resetPassword">Forgot your Password?</a></li>
 					</ul>
 				</div>
