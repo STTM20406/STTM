@@ -1122,16 +1122,15 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 			workFilePagination(1, 5, wrk_id);
 		})
 	
-		$(".sub_menu").on("click", "#fileList",function(){
+		$(".tab_sub_menu").on("click", "#fileList",function(){
 			var wrk_id = $('#wps_wrk_id').val();
 			$('#locker').fadeIn(0);
 			$('#workLink').fadeOut(0);
 			$('#workFile').fadeIn(0);
-			alert(wrk_id);
 			workFilePagination(1, 5, wrk_id);
 		})
 		
-		$(".sub_menu").on("click", "#linkList",function(){
+		$(".tab_sub_menu").on("click", "#linkList",function(){
 			$('#locker').hide(0);
 			var wrk_id = $('#wps_wrk_id').val();
 			$('#workFile').fadeOut(0);
@@ -1173,7 +1172,7 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 			var locker = $("#locker input[type=radio]:checked").val();
 			var wrk_id = $('#wps_wrk_id').val();
 			$('#box').val(locker);
-			$('#work').val(wrk_id);
+			$('#work').val(wrk_id);ㅍ
 			var formData  = new FormData(form);
 			console.log(formData);
 			console.log($(formData).serialize());
@@ -1738,6 +1737,7 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 		});
 	}
 	
+	
 </script>
 
 
@@ -2131,7 +2131,7 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 			</div>
 			
 			<div id="locker">
-				<input value="public" name="box" type="radio">공유함 긔긔
+				<input value="public" name="box" type="radio" checked>공유함 긔긔
 				<input value="individual" name="box" type="radio">개인함 긔긔
 				<input value="both" name="box" type="radio">둘다 긔긔
 			</div>
