@@ -135,7 +135,7 @@
 			});
 		}
 		
-		$(".sub_menu").on("click", "#minutes",function(){
+		$(".sub_menu").on("click", ".minutes",function(){
 			conferencePagination(1, 10);
 		})
 	});
@@ -195,12 +195,7 @@
 		});
 	}
 	
-	
-	
 </script>
-
-
-
 
 <section class="contents">
 
@@ -221,13 +216,14 @@
 		<input type="hidden" id="mnu_id" name="mnu_id">
 	</form>
 		
-	<div class="searchBox">
+	<div class="searchBoxMinutes">
 		<div class="tb_sch_wr">
 	 		 <select class="search" name="selectFile">
               	<option value="fileName">작성자</option>
              </select>
              <input type="text" value="" name="original_file_nm" id="searchText" maxlength="20" placeholder="검색하실 이름을 입력해 주세요">
-             <button type="button" id ="searchBtn" value="검색">검색</button>
+             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" id ="searchBtn" value="검색">검색</button>
+             </div>
     	</div>
     </div>
     
@@ -251,19 +247,16 @@
 						
 					</table>
 				</div>
-			<a href="/insertConference">회의록 작성</a>
 			<div class="sub_menu">
-				<ul class="tabs_click">
-					<li id="minutes">목록</li>
-				</ul>
+				<div class="minutes">
+					<a class="btndelete" href="/insertConference">회의록 작성</a>
+				</div>
 			</div>
-			
 			<div class="pagination">
 				</div>
 				
 			</div>
 		</div>
-	</div>
 </section>
 
 

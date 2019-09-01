@@ -177,7 +177,7 @@
 <%-- 						</c:forEach> --%>
 	    		</div>
 		    	<br>
-		    	<button type="button" onclick="reset()">필터 초기화</button>
+		    	<button type="button" onclick="reset()" class="btn_style_02">필터 초기화</button>
 		    	<input type="hidden" name="is_cal" value="true">
 		    	<input type="hidden" name="user_email" value="${USER_INFO.user_email }">
 	    </form>
