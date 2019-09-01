@@ -4,19 +4,18 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 
+<div class="sub_menu">
+	<ul class="sub_menu_item">
+		<li><a href="/friendChatList">친구 채팅</a></li>
+		<li><a href="/projectChatList">프로젝트 멤버 채팅</a></li>
+		<li><a href="#" id = "faceBtn">화상 회의</a></li>
+	</ul>
+</div>
+	
 <section class="contents">
 	<input type="hidden" id="ct_id" name="ct_id" value="${ct_id }">
 	<input type="hidden" id="user_nm" value="${USER_INFO.user_nm }">
 	<input type="hidden" id="user_email" value="${USER_INFO.user_email}">
-
-
-	<div class="sub_menu">
-		<ul class="sub_menu_item">
-			<li><a href="/friendChatList">친구 채팅</a></li>
-			<li><a href="/projectChatList">프로젝트 멤버 채팅</a></li>
-			<li><a href="#" id = "faceBtn">화상 회의</a></li>
-		</ul>
-	</div>
 
 	<!-- popup 친구 추가-->
 	<div class="dim-layer">
@@ -65,92 +64,71 @@
 
 
 	<div class="chat_wrap">
-	<div class="chat_list">
-		<div class="chat_friends">
-			<h2>채팅방 멤버</h2>
-			<ul>
-				<c:forEach items="${friendList }" var="friendlist">
-					<li>${friendlist }</li>
-				</c:forEach>
-			</ul>
-			<br> <br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<c:if test="${what != 'project'}">
-				<a href="#layer1" class="btn-example btn_style_01">친구 추가</a>
-			</c:if>
-			<br>
-			<br> <br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<c:if test="${what != 'project'}">
-				<a href="/friendChatList">채팅방 리스트 이동</a>
-			</c:if>
-			<c:if test="${what == 'project'}">
-				<a href="/projectChatList">채팅방 리스트 이동</a>
-			</c:if>
-	       </div>
+		<div class="chat_list">
+			<div class="chat_friends">
+				<h2>채팅방 멤버</h2>
+				<ul>
+					<c:forEach items="${friendList }" var="friendlist">
+						<li>${friendlist }</li>
+					</c:forEach>
+				</ul>
+				<c:if test="${what != 'project'}">
+					<a href="#layer1" class="btn-example btn_style_01">친구 추가</a>
+				</c:if>
+				<c:if test="${what != 'project'}">
+					<a href="/friendChatList">채팅방 리스트 이동</a>
+				</c:if>
+				<c:if test="${what == 'project'}">
+					<a href="/projectChatList">채팅방 리스트 이동</a>
+				</c:if>
+			</div>
 		</div>
+		<div class="chat_room"> 
+				<div class="chat_room_hd">
+					<div class="mesgs">
+						<div class="msg_history" id="chatData">
+						<c:forEach items="${chatroomContentList }" var="contentList">
+							<c:if test="${contentList.user_email != USER_INFO.user_email }">
+								<div class="incoming_msg">
+									<div class="received_msg">
+										<div class="received_withd_msg">
+											<p>${contentList.user_nm }</p>
+											<p>${contentList.ch_msg }</p>
+											<span class="time_date"><fmt:formatDate value="${contentList.ch_msg_dt }" pattern="yy/MM/dd HH:mm" /></span>
+										</div>
+									</div>
+								</div>
+							
+							</c:if>
+							<c:if test="${contentList.user_email == USER_INFO.user_email }"> 
+								<div class="outgoing_msg">
+									<div class="sent_msg">
+										<p>${contentList.user_nm }</p>
+										<p>${contentList.ch_msg }</p>
+										<span class="time_date"><fmt:formatDate value="${contentList.ch_msg_dt }" pattern="yy/MM/dd HH:mm" /></span>
+									</div>
+								</div>
+							
+							</c:if>
+						</c:forEach>
+							
+					
+						</div>
+						<div class="type_msg">
+							<div class="type_msg">
+					            <div class="input_msg_write">
+					              <input type="text" id="msg" name="msg" class="write_msg" placeholder="Type a message" />
+					              <button class="msg_send_btn" id="buttonMessage" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+					            </div>
+					        </div>
+						</div>
+					</div>
+				</div>
+			</div>
 	</div>
 
 <!-- 	<div class="messaging"> -->
 <!-- 		<div class="inbox_msg"> -->
-	<div class="chat_room"> 
-		<div class="chat_room_hd">
-			<div class="mesgs">
-				<div class="msg_history" id="chatData">
-				<c:forEach items="${chatroomContentList }" var="contentList">
-					<c:if test="${contentList.user_email != USER_INFO.user_email }">
-						<div class="incoming_msg">
-							<div class="received_msg">
-								<div class="received_withd_msg">
-									<p>${contentList.user_nm }</p>
-									<p>${contentList.ch_msg }</p>
-									<span class="time_date"><fmt:formatDate value="${contentList.ch_msg_dt }" pattern="yy/MM/dd HH:mm" /></span>
-								</div>
-							</div>
-						</div>
-					
-					</c:if>
-					<c:if test="${contentList.user_email == USER_INFO.user_email }"> 
-						<div class="outgoing_msg">
-							<div class="sent_msg">
-								<p>${contentList.user_nm }</p>
-								<p>${contentList.ch_msg }</p>
-								<span class="time_date"><fmt:formatDate value="${contentList.ch_msg_dt }" pattern="yy/MM/dd HH:mm" /></span>
-							</div>
-						</div>
-					
-					</c:if>
-				</c:forEach>
-					
-			
-				</div>
-				<div class="type_msg">
-					<div class="type_msg">
-			            <div class="input_msg_write">
-			              <input type="text" id="msg" name="msg" class="write_msg" placeholder="Type a message" />
-			              <button class="msg_send_btn" id="buttonMessage" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
-			            </div>
-			        </div>
-				</div>
-			</div>
-		</div>
-	</div>
-
 </section>
 
 

@@ -161,7 +161,9 @@ button {border: 1px solid #d6dae1;
     vertical-align: top;
     padding: 3px 15px;
     color: #838d9f;
-    width:49.5%; margin:0 1% 1% 0}
+    width:49.5%; margin:0 1% 1% 0; background:#fff}
  button:nth-child(2n) {margin-right:0;}
  
  .msg_send_btn {display:none}
+ 
+ button:disabled {opacity:0.5}
