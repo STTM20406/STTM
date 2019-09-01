@@ -9,19 +9,23 @@
 <style>
 	#filterFrm label { font-size:13px; font-weight: 500; }
  	#filterFrm ul li label { cursor: pointer; } 
+ 	#allContainer { height: 95%; width:1200px; float:left; margin-top:140px;}
+ 	#frmContainer { height:100%;width:150px;float:left;margin-right:0; }
+ 	#resultContainer { width: 400px; padding:15px; height: 700px; float:left; }
+ 	#chartContainer { width:600px; padding:15px; height:100%; float:left;}
+ 	#blankContainer { font-size:large; width:100%; height:730px; text-align:center; padding:250px;}
 </style>
 <div class="sub_menu">
 	<ul class="sub_menu_item">
-		<li><a href="/overview/analysis">Work List</a></li>
+		<li><a href="/work/list">Work</a></li>
 		<li><a href="/calendarGet">Calendar</a></li>
-		<li><a href="/gantt/overview">Gantt Chart</a></li>
+		<li><a href="/gantt/project">Gantt Chart</a></li>
 	</ul>
-	<div class="sub_btn">
-	</div>
 </div>
 <section class="contents">
 <h2>Work List</h2>
-<div id="frmContainer" style="height:100%;width:200px;float:left;margin-right:0;">
+		<div id="allContainer">
+<div id="frmContainer">
 	    <form id="filterFrm">
 	    	<select name="wrk_is_mine" class="filter">
 	    		<option value="all" selected>전체 업무</option>
@@ -36,15 +40,14 @@
 		    	<input type="hidden" name="user_email" value="${USER_INFO.user_email}">
 	    </form>
 </div>	
-		<div id="allContainer" style="height:95%; width:1100px;float:left;">
-	        <div id="resultContainer" style="width:500px;padding:15px;height:700px; float:left;">
+	        <div id="resultContainer" >
 	        </div>
-	        <div id="chartContainer" style="width:600px;padding:15px;height:100%; float:left;">
+	        <div id="chartContainer">
 	        	<div id="pieChartContainer"></div>
 	        	<div id="priorChartContainer"></div>
 	        	<div id="percentChartContainer"></div>
 	        </div>
-	       	<div class="blankContainer" style="font-size:large;width:100%;height:730px;text-align:center;padding:250px;">
+	       	<div class="blankContainer">
 	       		<p>데이터 없음</p>
 	       	</div>
 		</div>

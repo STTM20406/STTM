@@ -6,9 +6,8 @@ import java.util.Date;
 
 public class PartUtil {
 
-	private static final String D_UPLOAD = "C:\\uploadFile";
+	private static final String D_UPLOAD = "/Users/lovettomore/Documents/uploadFile";
 	
-
 	/**
 	 * Method : getExt 작성자 : PC13 변경이력 :
 	 * @param fileName

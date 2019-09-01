@@ -52,6 +52,7 @@ public class FilterVo {
 										
 	private List<String> wrk_maker;		//	업무 작성자
 	private List<String> wrk_follower;	//	업무 팔로워 기준
+	private Integer wrk_lst_id;			//	업무 리스트 아이디	
 	
 	private String user_email;			//	내 이메일 
 	private String is_cal;				//	캘린더용 자료 확인값(시작일 / 마감일이 있는 자료만 검색)
@@ -170,6 +171,13 @@ public class FilterVo {
 	public void setPrj_id(Integer prj_id) {
 		this.prj_id = prj_id;
 	}
+	public Integer getWrk_lst_id() {
+		return wrk_lst_id;
+	}
+	public void setWrk_lst_id(Integer wrk_lst_id) {
+		this.wrk_lst_id = wrk_lst_id;
+	}
+	
 	@Override
 	public String toString() {
 		return "FilterVo [wrk_dt=" + wrk_dt + ", " + (wrk_is_mine != null ? "wrk_is_mine=" + wrk_is_mine + ", " : "")
@@ -187,6 +195,7 @@ public class FilterVo {
 				+ (is_cmp != null ? "is_cmp=" + is_cmp + ", " : "") + (is_del != null ? "is_del=" + is_del + ", " : "")
 				+ (wrk_maker != null ? "wrk_maker=" + wrk_maker + ", " : "")
 				+ (wrk_follower != null ? "wrk_follower=" + wrk_follower + ", " : "")
+				+ (wrk_lst_id != null ? "wrk_lst_id=" + wrk_lst_id + ", " : "")
 				+ (user_email != null ? "user_email=" + user_email + ", " : "")
 				+ (is_cal != null ? "is_cal=" + is_cal : "") + "]";
 	}

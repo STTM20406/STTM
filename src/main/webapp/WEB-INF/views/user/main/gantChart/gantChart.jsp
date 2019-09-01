@@ -14,16 +14,10 @@
 		<li><a href="/gantt/project">Gantt Chart</a></li>
 		<li><a href="/analysis">Work Analysis</a></li>
 		<li><a href="/publicFilePagination">File&amp;Link</a></li>
-		<li><a href="">Meeting</a></li>
+		<li><a href="/meeting/view">Meeting</a></li>
 		<li><a href="/vote">Vote</a></li>
+		<li><a href="/conferenceList">Minutes</a></li>
 	</ul>
-	<div class="sub_btn">
-		<ul>
-			<li><input type="button" value="4"></li>
-			<li><input type="button" value="프로젝트 대화"></li>
-			<li><input type="button" value="프로젝트 설정"></li>
-		</ul>
-	</div>
 </div>
 <!-- Include 끝 -->
 <section class="contents">

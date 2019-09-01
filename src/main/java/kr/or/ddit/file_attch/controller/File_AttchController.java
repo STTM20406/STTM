@@ -89,7 +89,7 @@ public class File_AttchController {
 		File_AttchVo file_AttchVo = file_AttchService.getFile(file_id);
 		logger.debug("♬♩♪  fileDownLoad file_id: {}", file_id);
 		// 파일 업로드된 경로
-		String savePath = "C:\\uploadFile\\2019\\08\\";
+		String savePath = "/Users/lovettomore/Documents/uploadFile/2019/09/";
 		
 		logger.debug("♬♩♪  savePath1: {}", savePath);
 		
