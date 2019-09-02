@@ -91,17 +91,18 @@
 
 			        <div>
 					<form id="meetingFrm" onsubmit="return false;">
-						<label>미팅 설명</label><input type="text" name="mt_exp"/><br>
+						<label>미팅 설명</label><input type="text" name="mt_exp"/>
 						<label>미팅 일</label><input class="flatpickr flatpickr-input" type="text" placeholder="Select Date.." data-id="rangeDisable" id="wps_start_date" name="date" readonly="readonly"><br>
-						<label>장소명</label><input type="text" id="mt_lc" name="mt_lc"/><br>
-						<input type="hidden" id="mt_lat" name="mt_lat"/><br>
-						<input type="hidden" id="mt_lng" name="mt_lng"/><br>
+						<label>장소명</label><input type="text" id="mt_lc" name="mt_lc"/>
+						<input type="hidden" id="mt_lat" name="mt_lat"/>
+						<input type="hidden" id="mt_lng" name="mt_lng"/>
 					</form>
 				</div>
-				
+				<div class="prj_btn">
+					 <button type="button" id="insertMeeting" class="btn btn-success" data-dismiss="modal">일정 추가</button>
+				</div>
 		                <div class="btn-r">
 		                    <a href="#" class="btn-layerClose">Close</a>
-		                    <button type="button" id="insertMeeting" class="btn btn-success" data-dismiss="modal">일정 추가</button>
 		                </div>
                 	<!--// content-->
             		</div>
