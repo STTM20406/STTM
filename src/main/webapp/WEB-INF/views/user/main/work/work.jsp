@@ -2103,7 +2103,6 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 				<div id="workFile">
 					<input type="hidden" id="work" value="" name="wrk_id">
 					<input type="hidden" id="box" value="" name="locker">
-					<label class="col-sm-2 control-label">공유할 첨부파일:</label>
 					<input type="file" class="file" name="profile"/>
 					<button type="button" id="uploadFile">등록</button>
 				</div>
@@ -2152,18 +2151,18 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 
 
 <!-- 오류 알림창 -->
-<!-- <div class="dim-layer"> -->
-<!-- 	<div class="dimBg"></div> -->
 <div id="layer2" class="pop-layer">
 	<div class="pop-container">
-		<div class="pop-conts">
-			<!--content //-->
-			<p class="ctxt mb20"></p>
-			<div class="btn-r">
-				<a href="#" class="btn-layerClose">Close</a>
+		<div class="pop-alram">
+			<div class="new_proejct">
+				<h2>알 림</h2>
+				<!--content //-->
+				<p class="ctxt mb20"></p>
+				<div class="btn-r">
+					<a href="#" class="btn-layerClose">Close</a>
+				</div>
+				<!--// content-->
 			</div>
-			<!--// content-->
 		</div>
 	</div>
 </div>
-<!-- </div> -->

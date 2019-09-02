@@ -32,9 +32,15 @@ $(document).ready(function(){
 				email += chkbox[i].value + ",";
 			}
 		}
-				console.log(email);
 		$("#rcvEmail").val(email);
-		console.log(a);
+		
+		if(email == ""){
+			return false;
+		}else{
+			$('.pop-layer').fadeOut();
+			return false;
+		}
+		
 	})
 	
 })
@@ -69,8 +75,8 @@ $(document).ready(function(){
         });
 
         $('.layer .dimBg').click(function(){
-            $('.dim-layer').fadeOut();
-            return false;
+//             $('.dim-layer').fadeOut();
+//             return false;
         });
 
     }
@@ -78,21 +84,23 @@ $(document).ready(function(){
 <form class="rcvFrm">
 	<div id="layer1" class="pop-layer">
 		<div class="pop-container">
-			<div class="pop-project">
+			<div class="pop-addFriend">
 				<!--content //-->
 					<input type="hidden" id="array" name="array">
 					<div class="new_proejct">
-						<label>친구목록</label>
-						<div>
-						<c:forEach items="${friendList }" var="fri">
-							<input type="checkbox" name="rcv_emailList" class="checkSelect" value="${fri.frd_email}">${fri.user_nm }
-						</c:forEach>
+						<h2>친구목록</h2>
+						<ul class="friendListNote">
+							<c:forEach items="${friendList }" var="fri">
+								<input type="checkbox" name="rcv_emailList" class="checkSelect" value="${fri.frd_email}">${fri.user_nm }
+							</c:forEach>
+						</ul>
+						<div class="btn-r">
+							<a href="#" class="btn-layerClose">Close</a>
+						</div>
+						<div class="prj_btn">
+							<button type="button" id="checkBtn" class="btn_style_01" style="width:70%; margin:0 auto">선택하기</button>
 						</div>
 					</div>
-				<div class="btn-r">
-					<button type="button" id="checkBtn" class="rcvbtn-style"> 확인</button>
-					<a href="#" class="btn-layerClose">Close</a>
-				</div>
 				<!--// content-->
 			</div>
 		</div>
@@ -100,17 +108,19 @@ $(document).ready(function(){
 </form>
 <section class="contents">
 	<h2 class="contentTitle">쪽지 쓰기</h2>
-	<div class="">
+	<div class="noteWrap">
 		<form id="frm">
-			<div>
-				<input type="hidden" name="sendEmail" id="sendEmail" value="${send_email }"/>
-				받는 사람 : <input type="text" name="rcvEmail" id="rcvEmail" value=""/>
-				<button type="button" id="friendList">친구목록</button> <br>
-				내용 : <br>
-				<textarea name="smarteditor" id="smarteditor" rows="10" cols="100" style="width: 766px; height: 412px;"></textarea>	<br>
-				<button type="button" id="sendBtn" class="btn_style_01">보내기</button>
+			<div class="noteBox">
+				<div class="noteHd">
+					<input type="hidden" name="sendEmail" id="sendEmail" value="${send_email }"/>
+					<input type="text" name="rcvEmail" id="rcvEmail" value="" placeholder="받는 사람">
+					<button type="button" id="friendList">친구목록</button> <br>
+				</div>
+				<div class="noteCon">
+					<textarea name="smarteditor" id="smarteditor" rows="10" cols="100" style="width: 100%;"></textarea>
+					<button type="button" id="sendBtn" class="btn_style_01">보내기</button>
+				</div>
 			</div>
 		</form>
 	</div>
-
 </section>

@@ -25,7 +25,7 @@
 				if($('#question').val().length > 20){
 					$('#question').val($('#question').val().substring(0, 20));		
 						$(".ctxt").text("20자 이내로 입력해주세요~");
-		 				layer_popup("#layer2");
+		 				layer_popup("#layer100");
 						return false;
 				}else{
 					var question = $('#question').val();
@@ -69,7 +69,7 @@
 			if($('#question').val().length > 20){
 				$('#question').val($('#question').val().substring(0, 20));		
 					$(".ctxt").text("20자 이내로 입력해주세요~");
-	 				layer_popup("#layer2");
+	 				layer_popup("#layer100");
 					return false;
 			}else{
 				var question = $('#question').val();
@@ -913,21 +913,21 @@ window.onclick = function(event) {
 </div>
 
 <!-- 오류 알림창 -->
-<!-- <div class="dim-layer"> -->
-<!-- 	<div class="dimBg"></div> -->
-<div id="layer2" class="pop-layer">
+<div id="layer100" class="pop-layer">
 	<div class="pop-container">
-		<div class="pop-conts">
-			<!--content //-->
-			<p class="ctxt mb20"></p>
-			<div class="btn-r">
-				<a href="#" class="btn-layerClose">Close</a>
+		<div class="pop-alram">
+			<div class="new_proejct">
+				<h2>알 림</h2>
+				<!--content //-->
+				<p class="ctxt mb20"></p>
+				<div class="btn-r">
+					<a href="#" class="btn-layerClose">Close</a>
+				</div>
+				<!--// content-->
 			</div>
-			<!--// content-->
 		</div>
 	</div>
 </div>
-<!-- </div> -->
 
 
 

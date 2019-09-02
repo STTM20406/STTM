@@ -392,8 +392,11 @@ a.btn-layerClose {display:inline-block; height:25px; padding:0 14px 0; backgroun
 .pop-chat {height:200px; background:#fff}
 .pop-addFriend {height:250px; background:#fff}
 .pop-newChat {height:380px; background:#fff}
+.pop-alram {height:200px; background:#fff}
 .new_proejct {position:absolute; left:0; top:0; width:100%}
 .select_template {position:absolute; left:100%; top:0; width:100%}
+
+.alram {margin-top:30px; text-align:center !important; font-size:1.5em; color: #d62b45 !important;}
 
 
 /* new project create */
@@ -587,7 +590,7 @@ a.btn-layerClose {display:inline-block; height:25px; padding:0 14px 0; backgroun
 #locker {position:absolute; right:0; top:7px; z-index: 1; font-size:1.15em; color:#ccc}
 #locker input[type=radio] {margin-right:5px; vertical-align: text-top;}
 #workFile {margin:10px 0}
-.fileWrap {height:230px; overflow:scroll; border-bottom:1px solid #dee2e7; border-top:1px solid #dee2e7}
+.fileWrap {height:200px; overflow:scroll; border-bottom:1px solid #dee2e7; border-top:1px solid #dee2e7}
 #uploadFile {border: 1px solid #3f4df5; border-radius: 3px; display: inline-block; text-align: center; font-size: 13px;vertical-align: top;   padding: 5px 11px; color: #3f4df5;transition: all 0.4s;}
 
 
@@ -761,14 +764,14 @@ a.btn-layerClose {display:inline-block; height:25px; padding:0 14px 0; backgroun
 .tab-content {display: none;}
 .tab-content.current {display: inherit;}
 
-/* 회의록 css */
-.minutes:hover{cursor: pointer;}
-ul.tabs {margin: 0px; padding: 0px; list-style: none;}
-ul.tabs li {background: none; color: #222; display: inline-block; padding: 10px 15px; cursor: pointer;}
-ul.tabs {margin: 0px; padding: 23px 0; list-style: none; }
-ul.tabs li {cursor: pointer; float: left; text-align: center; height: 34px; background:white; margin-right: 1%; font-size: 1.1em; border-radius: 3px 3px 0 0;}
-ul.tabs li:hover {color:red; }
-ul.tabs li.current {color: #222;}
+.tab_sub_menu ul.tabsFile_Link {margin: 0px; padding: 0px; list-style: none;}
+.tab_sub_menu ul.tabsFile_Link li {background: none; color: #222; display: inline-block; padding: 10px 15px; cursor: pointer;}
+.tab_sub_menu ul.tabsFile_Link {margin: 0px; padding: 23px 0; list-style: none; }
+.tab_sub_menu ul.tabsFile_Link li {cursor: pointer; float: left; text-align: center; height: 34px; background:white; margin-right: 5px; font-size: 1.1em; border-radius: 3px 3px 0 0;}
+.tab_sub_menu ul.tabsFile_Link li:hover {color:red; }
+.tab_sub_menu ul.tabsFile_Link li.current {color: #222;}
+
+.file {width: 87%;}
 
 .minutes{background:white;}
 .insertMinutesFs{margin : 0 auto; text-allign : center;}
@@ -912,3 +915,15 @@ ul.tabs li.current {color: #222;}
 #pagination .on {font-weight: bold; cursor: default;color:#777;}
 
 .addMtPlace {height:700px}
+
+
+/* note */
+.noteWrap {background:#fff; border-radius:3px; padding:20px}
+.noteBox {width:500px; margin:0 auto}
+.noteBox .noteHd {margin-bottom:10px}
+.noteBox .noteHd input[type=text] {width: 79%; border: none; background: #eff3f8; padding: 10px 20px; font-size: 1.2em; font-weight: 400; display:inline-block}
+.noteBox .noteHd button {width: 20%; height: 35px;color: #2b65ff; line-height: 35px; border: 1px solid #2b65ff; border-radius: 2px; display: inline-block;text-align: center;font-size: 13px;vertical-align: top;transition: all 0.4s;}
+.noteBox .noteCon {}
+.noteBox .noteCon textarea {border:1px dashed #ccc; resize:none; outline:none}
+.noteBox .noteCon  button {width:100%; margin-top:10px}
+.friendListNote {}

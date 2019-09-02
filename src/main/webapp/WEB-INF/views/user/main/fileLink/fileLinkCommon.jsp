@@ -475,7 +475,7 @@
 </div>
 <section class="contents">
 		<div class="tab_sub_menu">
-			<ul class="tabs">
+			<ul class="tabsFile_Link">
 				<li id="fileList">FileList</li>
 				<li id="linkList">LinkList</li>
 			</ul>
