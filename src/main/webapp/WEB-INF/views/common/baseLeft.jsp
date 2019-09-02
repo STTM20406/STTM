@@ -754,8 +754,18 @@ window.onclick = function(event) {
       });
       
       console.log("memArray " + memArray);
-      var a = $("#hChatMemList").val(memArray);
       
+      var text = $("#hCharText").val();
+      var a = $("#hChatMemList").val(memArray);
+     
+      
+      if(socket){
+    	  var socketMsg= "";
+    	  for(var i=0;i<memArray.length;i++){
+    		  socketMsg = "videoNotify," + text + ","+ memArray[i];
+    		  socket.send(socketMsg);
+    	  }
+      }
      // $("#headerChatSend").submit();
    }
 </script>

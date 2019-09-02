@@ -31,14 +31,10 @@
 							<!-- 방 만들기 테이블 -->
 							<h2>친구 추가</h2>
 							<ul>
-<<<<<<< HEAD
 								<li><label for="prj_nm">친구 추가</label></li>
 								<li><label for="prj_nm">채팅방 이름</label></li>
 								<li><label for="prj_mem">추가할 친구 선택</label>
-=======
-								
 								<li>
->>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 									<div class="prj_mem_list">
 										<ul>
 											<c:forEach items="${inviteList}" var="friendlist"
@@ -49,7 +45,8 @@
 											</c:forEach>
 										</ul>
 
-									</div></li>
+									</div>
+								</li>
 							</ul>
 							<div class="prj_btn">
 								<input type="submit" id="prj_btn_submit" value="친구 추가">
@@ -196,16 +193,12 @@
 						});
 
 						$('.btn-example').on("click", function() {
-
-<<<<<<< HEAD
 							var $href = $(this).attr('href');
 							layer_popup($href);
 						});
-=======
 					var array = Array();
 					var cnt = 0;
 					var chkbox = $(".checkList");
->>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 
 						$("#faceBtn")
 								.on(
