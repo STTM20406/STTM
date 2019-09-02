@@ -64,41 +64,22 @@
 	}
 </script>
     
+    
 <section class="contents">
-	<form action="/userInquiryPost" method="post" id="frm" role="form"
-								enctype="multipart/form-data">
-
-
-								<input type="hidden" name="inq_cate" id="inq_cate" value="${generalCate }">
-								
-
-								<div>
-									<label for="post_title" >제목</label>
-									<div class="col-sm-10">
-										<input type="text"id="subject" name="subject" placeholder="제목"
-											value="${param.subject }">
-									</div>
-								</div>
-
-								<div>
-									<label for="user_email">작성자</label>
-									<div class="col-sm-10">
-										<input type="hidden" class="form-control" id="user_email"
-											name="user_email" placeholder="작성자" value=${USER_INFO.user_email }>
-										<textarea name="smarteditor" id="smarteditor" rows="10"
-											cols="100" style="width: 766px; height: 412px;"></textarea>
-									</div>
-								</div>
-
-
-								<div>
-									<div>
-										<button id="postRegBtn" type="button" class="btn btn-default">등록하기</button>
-									</div>
-								</div>
-
-
-
-							</form>
-
+	<h2 class="contentTitle">글쓰기</h2>
+	<form action="/userInquiryPost" method="post" id="frm" role="form" enctype="multipart/form-data">
+		<div class="boardWriteWrap">
+			<input type="hidden" name="inq_cate" id="inq_cate" value="${generalCate }">
+			<div class="title">
+				<input type="text"id="subject" name="subject" placeholder="제목" value="${param.subject }">
+			</div>
+			<div class="boardContent">
+				<input type="hidden" class="form-control" id="user_email" name="user_email" placeholder="작성자" value=${USER_INFO.user_email }>
+				<textarea name="smarteditor" id="smarteditor" rows="10" cols="100" style="width: 100%; height: 412px;"></textarea>
+			</div>
+			<div>
+				<button id="postRegBtn" type="button" class="">등록하기</button>
+			</div>
+		</div>
+	</form>
 </section>

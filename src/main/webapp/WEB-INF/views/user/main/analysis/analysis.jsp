@@ -22,7 +22,7 @@
 </div>
 <!-- Include 끝 -->
 <section class="contents">
-<h2 class="contentTitle">${PROJECT_INFO.prj_nm } > Analysis</h2>
+<h2 class="contentTitle">${PROJECT_INFO.prj_nm }</h2>
 <div id="allContainer">
 <div id="prj_list_container">
 	<form id="prj_list_frm">

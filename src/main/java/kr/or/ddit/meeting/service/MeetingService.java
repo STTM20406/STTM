@@ -23,15 +23,12 @@ public class MeetingService implements IMeetingService{
 		String htmlCode = "";
 		for(MeetingVo meet : meetingList) {
 			htmlCode += "<div class='meetingItem'>"
-					+ "<b>"
-					+ meet.getMt_exp()
-					+ "</b>"
-					+ "<span>"
-					+ meet.getMt_lc() + "&nbsp;" + meet.getUser_email()
-					+ "</span>"
-					+ "<span>"
+					+ "<h2>"
+					+ meet.getMt_lc() + "<span>" + meet.getUser_email()
+					+ "</span></h2>"
+					+ "<p>"
 					+ sdf.format(meet.getMt_date())
-					+ "<input type='hidden' id='mt_id' value='" + meet.getMt_id() + "'/>"
+					+ "</p><input type='hidden' id='mt_id' value='" + meet.getMt_id() + "'/>"
 					+ "<input type='hidden' id='lat' value='" + meet.getMt_lat() + "'/>"
 					+ "<input type='hidden' id='lng' value='" + meet.getMt_lng() + "'/>"
 					+ "</div>";

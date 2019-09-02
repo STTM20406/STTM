@@ -20,7 +20,7 @@
 </div>
 <!-- Include 끝 -->
 <section class="contents">
-<h2 class="contentTitle">${PROJECT_INFO.prj_nm } > Gantt Chart</h2>
+<h2 class="contentTitle">${PROJECT_INFO.prj_nm }</h2>
 <div id="allContainer">
 <div id="frmContainer">
 	    <form id="filterFrm">

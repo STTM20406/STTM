@@ -83,7 +83,7 @@
 <section class="contents">
 	<h2 class="contentTitle">글쓰기</h2>
 	<form action="/postModify" method="post" id="frm" role="form" enctype="multipart/form-data">
-		<input type="hidden" name="boardnum" id="boardnum" value="${boardnum }">
+		<input type="hidden" id="write_id" name="write_id" value="${writeInfo.write_id }" /> <input type="hidden" id="board_id" name="board_id" value="${writeInfo.board_id }" />
 		<div class="boardWriteWrap">
 			<div class="title">
 				<input type="text" id="subject" name="subject" placeholder="제목을 입력해 주세요." value="${writeInfo.subject}" maxlength="30">
@@ -101,36 +101,3 @@
 	</form>
 </section>
 
-<!-- <section class="contents"> -->
-<!-- 	<form action="/postModify" method="post" id="frm" role="form" enctype="multipart/form-data"> -->
-
-<%-- 		<input type="hidden" id="write_id" name="write_id" value="${writeInfo.write_id }" /> <input type="hidden" id="board_id" name="board_id" value="${writeInfo.board_id }" /> --%>
-
-
-<!-- 		<div> -->
-<!-- 			<label for="post_title">제목</label> -->
-<!-- 			<div class="col-sm-10"> -->
-<!-- 				<input type="text" id="subject" name="subject" placeholder="제목" -->
-<%-- 					value="${writeInfo.subject }" maxlength="30"> --%>
-<!-- 			</div> -->
-<!-- 		</div> -->
-
-<!-- 		<div> -->
-<!-- 			<label for="user_email">작성자</label> -->
-<!-- 			<div class="col-sm-10"> -->
-<!-- 				<input type="hidden" class="form-control" id="user_email" -->
-<%-- 					name="user_email" placeholder="작성자" value=${USER_INFO.user_email }> --%>
-<!-- 				<textarea name="smarteditor" id="smarteditor" rows="10" cols="100" -->
-<%-- 					style="width: 766px; height: 412px;">${writeInfo.content }</textarea> --%>
-<!-- 			</div> -->
-<!-- 		</div> -->
-
-
-<!-- 		<div> -->
-<!-- 			<div> -->
-<!-- 				<button id="postRegBtn" type="button" class="btn btn-default">수정</button> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-<!-- 	</form> -->
-
-</section>

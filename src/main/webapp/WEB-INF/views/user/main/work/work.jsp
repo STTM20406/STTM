@@ -1836,15 +1836,12 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 										<ul>
 											<li class="wrk_date">${work.wrkStartDtStr} ~ ${work.wrkEndDtStr}</li>
 										</ul>
-<<<<<<< HEAD
-=======
 										<div class="wrk_mem_flw">
 											<dl class="wrk_mem">
 											</dl>
 											<dl class="wrk_mem">
 											</dl>
 										</div>
->>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 									</div>
 								</c:when>
 							</c:choose>
@@ -1863,15 +1860,12 @@ function commentInsert(wps_wrk_id,wps_wrk_nm,content,page, pageSize){
 										<ul>
 											<li>${work.wrkStartDtStr} ~ ${work.wrkEndDtStr}</li>
 										</ul>
-<<<<<<< HEAD
-=======
 										<div class="wrk_mem_flw">
 											<dl class="wrk_mem">
 											</dl>
 											<dl class="wrk_mem">
 											</dl>
 										</div>
->>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 									</div>
 								</c:when>
 							</c:choose>
