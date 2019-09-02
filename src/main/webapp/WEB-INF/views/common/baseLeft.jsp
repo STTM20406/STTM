@@ -20,50 +20,88 @@
 		});
 		
 		//업무리스트 이름 입력 후 엔터 또는 다른곳 클릭시 업무리스트 추가하는 ajax실행 
-		$(".chatInput").on("keydown change", "#question", function(key) {
-			if (key.keyCode == 13) {
-				if($('#question').val().length > 20){
-					$('#question').val($('#question').val().substring(0, 20));		
-						$(".ctxt").text("20자 이내로 입력해주세요~");
-		 				layer_popup("#layer100");
-						return false;
-				}else{
-					var question = $('#question').val();
-					var name = "${user_nm}";
-					
-					var me = "";
-					
-					me += "<dl class='me'>";
-					me += "<dt>" + name + "님&nbsp;&nbsp;</dt>";
-					me += "<dd>Q : " + question + "&nbsp;&nbsp;</dd>";
-					me += "<dl>";
-					
-					$('.chatContent').append(me);
-					$('#question').val('');
-					
-					$.ajax({
-						url:"/chatBotApi",
-						method:"post",
-						data : "question=" + question,
-						success:function(data){
-							var answer = data.data;
-							var bot = "";
-							
-							if(answer =="감사합니다"){
-								$(".chatBot").fadeOut(3000);
-							}
-							//html 생성
-							bot += "<dl class='bot'>";
-							bot += "<dt>&nbsp;&nbsp;챗봇잉 </dt>";
-							bot += "<dd>A:&nbsp;&nbsp;" + answer +"</dd>";
-							bot += "<dl>";
-							$('.chatContent').append(bot);
-						}
-						
-					});
-				}
-			}
-		});
+	      $(".chatInput").on("keydown change", "#question", function(key) {
+	         if (key.keyCode == 13) {
+	            if($('#question').val().length > 20){
+	               $('#question').val($('#question').val().substring(0, 20));      
+	                  $(".ctxt").text("20자 이내로 입력해주세요~");
+	                   layer_popup("#layer2");
+	                  return false;
+	            }else{
+	               var question = $('#question').val();
+	               var name = "${user_nm}";
+	               
+	               var me = "";
+	               
+	               me += "<dl class='me'>";
+	               me += "<dt>" + name + "님</dt>";
+	               me += "<dd>Q : " + question + "&nbsp;&nbsp;</dd>";
+	               me += "<dl>";
+	               
+	               $('.chatContent').append(me);
+	               $('#question').val('');
+	               
+	               $.ajax({
+	                  url:"/chatBotApi",
+	                  method:"post",
+	                  data : "question=" + question,
+	                  success:function(data){
+	                     var answer = data.data;
+	                     var bot = "";
+	                     var Bot = "";
+	                     if(answer =="감사합니다"){
+	                        $(".chatBot").fadeOut(1000);
+	                     }
+	                     //html 생성
+	                     if(answer == "설명"){
+	                        Bot += "<dl class='bot'>";
+	                        Bot += "<dt>&nbsp;&nbsp;챗봇잉 </dt>";
+	                        Bot += "&nbsp;&nbsp;프로젝트 템플릿으로 손 쉽게 정리하는 업무 프로세스<br>"
+	                        Bot += "시각적인 업무 보드로 기획 및 업무 관리, 담당자 지정,<br>"
+	                        Bot += "진행 상태를 확인,권한설정을 통한 프로젝트 관리<br>"
+	                        Bot += "<br>"
+	                        Bot += "&nbsp;&nbsp;업무 시간관리, 업무 메신저, 프로젝트 분석, Gantt Chart,<br>"
+	                        Bot += "Fullcalendar를 제공하여 업무 진행상황 및 일정을 한눈에 확인 <br>"
+	                        Bot += "미팅 기능을 통한 일정 및 장소 공유,프로젝트 멤버 간 화상회의,<br>"
+	                        Bot += "화면 공유, 회의록 작성, 개인 or 공유 파일함을 제공합니다.<br>"
+	                        Bot += "<dl>";
+	                        $('.chatContent').append(Bot);
+	                     }else if(answer == "시연"){
+	                        Bot += "<dl class='bot'>";
+	                        Bot += "<dt>&nbsp;&nbsp;챗봇잉 </dt>";
+	                        Bot += "프로젝트 진행순서는 다음과 같습니다.<br>"
+	                        Bot += "&nbsp;&nbsp;&nbsp;1.프로젝트 생성<br>"
+	                        Bot += "&nbsp;&nbsp;&nbsp;2.업무리스트 추가<br>"
+	                        Bot += "&nbsp;&nbsp;&nbsp;3.업무 코멘트<br>"
+	                        Bot += "&nbsp;&nbsp;&nbsp;4.파일&링크 등록<br>"
+	                        Bot += "&nbsp;&nbsp;&nbsp;5.간트차트<br>"
+	                        Bot += "&nbsp;&nbsp;&nbsp;6.분석<br>"
+	                        Bot += "&nbsp;&nbsp;&nbsp;7.파일&링크 공유함<br>"
+	                        Bot += "&nbsp;&nbsp;&nbsp;8.workList<br>"
+	                        Bot += "&nbsp;&nbsp;&nbsp;9.업무 개요 설명<br>"
+	                        Bot += "&nbsp;&nbsp;&nbsp;10.캘린더<br>"
+	                        Bot += "&nbsp;&nbsp;&nbsp;11.간트차트<br>"
+	                        Bot += "&nbsp;&nbsp;&nbsp;12.미팅,투표,메모 쪽지,게시판들,알림<br>"
+	                        Bot += "&nbsp;&nbsp;&nbsp;13.진행 상태를 확인,권한설정을 통한 프로젝트 관리<br>"
+	                        Bot += "&nbsp;&nbsp;&nbsp;14.채팅,화상회의 <br>"
+	                        Bot += " 순으로 진행 할 예정입니다. 감사합니다.<br>"
+	                        Bot += "<dl>";
+	                        $('.chatContent').append(Bot);
+	                        
+	                     }else{
+	                        bot += "<dl class='bot'>";
+	                        bot += "<dt>&nbsp;&nbsp;챗봇잉 </dt>";
+	                        bot += "<dd>A:&nbsp;&nbsp;" + answer +"</dd>";
+	                        bot += "<dl>";
+	                        $('.chatContent').append(bot);
+	                     }
+	                     
+	                  }
+	                  
+	               });
+	            }
+	         }
+	      });
 		
 		$('#gigi').on('click',function(){
 			if($('#question').val().length > 20){
@@ -96,8 +134,8 @@
 						var bot = "";
 						//html 생성
 						bot += "<dl class='bot'>";
-						bot += "<dt>&nbsp;&nbsp;챗봇잉 </dt>";
-						bot += "<dd>A :&nbsp;&nbsp;" + answer +"</dd>";
+						bot += "<dt>챗봇잉 </dt>";
+						bot += "<dd>" + answer +"</dd>";
 						bot += "<dl>";
 						$('.chatContent').append(bot);
 					}
@@ -350,7 +388,7 @@ $(document).ready(function(){
   //화상회의생성 다음 버튼 클릭시
    $("#headerChat_btn_next").on("click", function(){
       $(".new_proejct").animate({left:'-100%'}, 500);
-      $(".select_template").animate({left:'0%'}, 500);
+      $(".select_FaceMem").animate({left:'0%'}, 500);
       
       var hprj = $("#checkProject").val();
 	  projectAdmListAjax(hprj);
@@ -359,12 +397,12 @@ $(document).ready(function(){
    //화상회의생성 이전 버튼 클릭시
    $("#hchat_btn_prev").on("click", function(){
       $(".new_proejct").animate({left:'0%'}, 500);
-      $(".select_template").animate({left:'100%'}, 500);
+      $(".select_FaceMem").animate({left:'100%'}, 500);
       
    });
    $("#hchat_btn_prev2").on("click", function(){
       $(".new_proejct").animate({left:'0%'}, 500);
-      $(".select_template").animate({left:'100%'}, 500);
+      $(".select_FaceMem").animate({left:'100%'}, 500);
       
    });
    
@@ -545,7 +583,7 @@ $(document).ready(function(){
 		//채팅하고 알림 구분하기
 		$('#distinguishSocket').val("chatting");
 		$(".new_proejct").animate({left:'-100%'}, 500);
-	    $(".select_template").animate({left:'0%'}, 500);
+	   	$(".select_FaceMem").animate({left:'0%'}, 500);
 		$("#hct_id").val(ctID);
 	    
 		chatStartMem(ctID);
@@ -572,7 +610,7 @@ function connectNotify(){
       console.log("ReceiveMessage: ", event.data + "\n");
       
 	      var data = event.data;
-	      
+if(distinguish != 'chatting'){ 
 	      if(!data.startsWith("lst:")) {
 	    	  var dataSplit = data.split("*");
 		      var $socketAlert = $('#socketAlert p');
@@ -587,7 +625,7 @@ function connectNotify(){
 		      $("#spanCountReset").text(dataSplit[1]);
 	      } 
       
-      if(distinguish == 'chatting'){
+   }else  if(distinguish == 'chatting'){
     	  var userId = $("#huser_email").val();
     	  var strArray = event.data.split(",");
 
@@ -613,10 +651,8 @@ function connectNotify(){
 				$("#hchatData").append(printHTML);
 				$("#hchatData").scrollTop($("#hchatData")[0].scrollHeight);
 			}
-    	  
+			distinguish=null;
       }
-      
-      
       
    };
 
@@ -787,7 +823,7 @@ window.onclick = function(event) {
 <!--    <div class="dimBg"></div> -->
    <div id="layerFaceChatHeader" class="pop-layer">
       <div class="pop-container">
-         <div class="pop-project">
+         <div class="pop-faceChat">
             <!--content //-->
             <form action="/headerChatSend" method="post" id="headerChatSend">
                
@@ -795,8 +831,7 @@ window.onclick = function(event) {
                <div class="new_proejct">
                   <h2>화상회의방 생성</h2>
                   <ul>
-                     <li><label>알림 문구</label> <input
-                        type="text" id="hChatText" name="hChatText" placeholder="예) 화상회의방이름 : 프로젝트1, 오후 3시부터 화상회의 시작합니다">
+                     <li><label>알림 문구</label> <input type="text" id="hChatText" name="hChatText" placeholder="예) 화상회의방이름 : 프로젝트1, 오후 3시부터 화상회의 시작합니다">
                      </li>
                      <li><label for="prj_mem">프로젝트 리스트</label>
                            <div class="prj_mem_list">
@@ -810,20 +845,18 @@ window.onclick = function(event) {
                            </div></li>
                   </ul>
                   
-                  <h2>화상회의방 참여하기</h2>
-                  <a href="#" id = "hfaceBtn">화상 회의</a>
                   <div class="prj_btn">
-                     <a href="javascript:;" id="headerChat_btn_next">다음</a>
+                 	 <a href="#" id = "hfaceBtn" style="margin-bottom:5px">화상 회의 참여하기</a>
+			<a href="javascript:;" id="headerChat_btn_next">다음</a>
                   </div>
                </div>
-               <div class="select_template">
+               <div class="select_FaceMem">
                	  <input type="hidden" id="hChatMemList">
                   <h2>화상회의방 멤버 선택</h2>
                   <ul>
-                     <li><label for="prj_mem">멤버 선택</label>
-                           <div class="prj_mem_list">
+                     <li><label for="faceMem">멤버 선택</label>
+                           <div class="faceMemList">
                               <ul class="headerprj_mem_item"></ul>
-
                            </div></li>
                   </ul>
                   <div class="prj_btn">
@@ -862,7 +895,7 @@ window.onclick = function(event) {
                   <div id="hchatRoomList"> </div>
                   
                </div>
-               <div class="select_template">
+               <div class="select_FaceMem">
                	  <input type="hidden" id="hChatMemList">
                   <h2>채팅방 멤버</h2>
                   <div id="hchatMem"></div>
@@ -897,11 +930,9 @@ window.onclick = function(event) {
 
 <div class="chatBot">
 	<div class="chatContent">
-		<button class="btnSetClose">닫기</button>
-		
 		<dl class="bot">
-			<dt>&nbsp;&nbsp;챗봇잉</dt>
-			<dd>A :&nbsp;&nbsp;안녕하세유~ 저는 챗봇잉이예유~ 무엇을 도와 드려유?</dd>
+			<dt>챗봇잉</dt>
+			<dd>안녕하세유~ 저는 챗봇잉이예유~ 무엇을 도와 드려유?</dd>
 		</dl>
 	</div>
 	

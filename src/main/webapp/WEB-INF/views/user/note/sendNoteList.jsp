@@ -74,10 +74,11 @@
 <form class="rcvFrm">
 		<div id="layer1" class="pop-layer">
 			<div class="pop-container">
-				<div class="pop-project">
+				<div class="pop-note">
 					<!--content //-->
 						<input type="hidden" id="array" name="array">
 						<div class="new_proejct">
+							<h2>쪽지 내용</h2>
 							<ul>
 								<li>
 									<label>받는사람 : </label>
@@ -90,7 +91,7 @@
 								</li>
 								<li>
 									<div>
-										<br><textarea name="smarteditor" readonly="readonly" id="smarteditor" rows="10" cols="100" style="width: 460px; height: 330px;"></textarea>
+										<br><textarea name="smarteditor" readonly="readonly" id="smarteditor" class="noteEditor"></textarea>
 									</div>
 								</li>
 							</ul>
@@ -106,10 +107,11 @@
 <!-- 보낸 쪽지 상세내용 팝업 -->
 		<div id="layer2" class="pop-layer">
 			<div class="pop-container">
-				<div class="pop-project">
+				<div class="pop-note">
 					<!--content //-->
 						<input type="hidden" id="array" name="array">
 						<div class="new_proejct">
+							<h2>쪽지 내용</h2>
 							<ul>
 								<li>
 									<label>보낸사람 : </label>
@@ -121,7 +123,7 @@
 								</li>
 								<li>
 									<div>
-										<br><textarea name="smarteditor" readonly="readonly" id="smarteditor02" rows="10" cols="100" style="width: 460px; height: 330px;"></textarea>
+										<br><textarea name="smarteditor" readonly="readonly" id="smarteditor02" class="noteEditor"></textarea>
 									</div>
 								</li>
 							</ul>
@@ -133,93 +135,87 @@
 			</div>
 		</div>
 
+<div class="sub_menu">
+	<ul class="sub_menu_item">
+		<li>
+			<a href="/noteList">받은 쪽지함</a>
+		</li>
+		<li>
+			<a href="/sendNoteList">보낸 쪽지함</a>
+		</li>
+	</ul>
+</div>
+		
 <section class="contents">
-	
-	<div id="container">
-
-		<div class="sub_menu">
-			<ul class="sub_menu_item">
-				<li>
-					<a href="/noteList">받은 쪽지함</a>
-				</li>
-				<li>
-					<a href="/sendNoteList">보낸 쪽지함</a>
-				</li>
-			</ul>
-		</div>
-
-		<div class="tab_con">
+	<h2 class="contentTitle">보낸 쪽지함</h2>
 <!-- 1번 탭 -->
-			<div id="tab-1" class="tab-content current">
-				<div>
-					<table class="tb_style_01">
-						<colgroup>
-							<col width="10%">
-							<col width="40%">
-							<col width="30%">
-							<col width="10%">
-							<col width="10%">
-						</colgroup>
-						<thead id="publicHeader">
-							<tr>
-								<th>받는 사람</th>
-								<th>내용</th>
-								<th>보낸 날짜</th>
-								<th>쪽지 읽음 여부</th>
-							</tr>
-						</thead>
-						<tbody id="publicList">
-								<c:forEach items="${sendList }" var="send">
-											<tr class="rcvTr" >
-												<td class="sendEmail" id="sendEmail">${send.rcv_email }</td>
-												<td id="rcvCon">${send.note_con }</td>
-												<td style="display:none;" id="note_id">${send.note_con_id }</td>
-												<td id="rcvDate"><fmt:formatDate value="${send.send_date }" pattern="yyyy-MM-dd HH:mm"/></td>
-												<td>${send.read_fl }</td>
-												<td><a id="aTag" href="#layer1" class="btn-example1"></a></td>
-												
-											</tr>
-								</c:forEach>
-						</tbody>
-					</table>
-				</div>
-				<div class="pagination">
-						<c:choose>
-							<c:when test="${pageVo.page == 1 }">
-								<a class="btn_first"></a>
-							</c:when>
-							<c:otherwise>
-								<a href="/sendNoteList?page=${pageVo.page-1}&pageSize=${pageVo.pageSize}">«</a>
-							
-							</c:otherwise>
-						</c:choose>
-
-						<c:forEach begin="1" end="${sendPaginationSize}" var="i">
-							<c:choose>
-								<c:when test="${pageVo.page == i}">
-									<span>${i}</span>
-								</c:when>
-								<c:otherwise>
-								<a href="/sendNoteList?page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
-								</c:otherwise>
-							</c:choose>
-
+	<div id="tab-1" class="tab-content current">
+		<div>
+			<table class="tb_style_01">
+				<colgroup>
+					<col width="10%">
+					<col width="40%">
+					<col width="30%">
+					<col width="10%">
+					<col width="10%">
+				</colgroup>
+				<thead id="publicHeader">
+					<tr>
+						<th>받는 사람</th>
+						<th>내용</th>
+						<th>보낸 날짜</th>
+						<th colspan="2">쪽지 읽음 여부</th>
+					</tr>
+				</thead>
+				<tbody id="publicList">
+						<c:forEach items="${sendList }" var="send">
+									<tr class="rcvTr" >
+										<td class="sendEmail" id="sendEmail">${send.rcv_email }</td>
+										<td id="rcvCon">${send.note_con }</td>
+										<td style="display:none;" id="note_id">${send.note_con_id }</td>
+										<td id="rcvDate"><fmt:formatDate value="${send.send_date }" pattern="yyyy-MM-dd HH:mm"/></td>
+										<td>${send.read_fl }</td>
+										<td><a id="aTag" href="#layer1" class="btn-example1"></a></td>
+									</tr>
 						</c:forEach>
+				</tbody>
+			</table>
+		</div>
+		<div class="pagination">
+				<c:choose>
+					<c:when test="${pageVo.page == 1 }">
+						<a class="btn_first"></a>
+					</c:when>
+					<c:otherwise>
+						<a href="/sendNoteList?page=${pageVo.page-1}&pageSize=${pageVo.pageSize}">«</a>
+					
+					</c:otherwise>
+				</c:choose>
 
-						<c:choose>
-							<c:when test="${pageVo.page == sendPaginationSize}">
-								<a class="btn_last"></a>
-							</c:when>
-							<c:otherwise>
-							<a href="/sendNoteList?page=&page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
-								
+				<c:forEach begin="1" end="${sendPaginationSize}" var="i">
+					<c:choose>
+						<c:when test="${pageVo.page == i}">
+							<span>${i}</span>
+						</c:when>
+						<c:otherwise>
+						<a href="/sendNoteList?page=${i}&pageSize=${pageVo.pageSize}">${i}</a>
+						</c:otherwise>
+					</c:choose>
 
-							</c:otherwise>
-						</c:choose>
-				
-				</div>
-			</div>
+				</c:forEach>
+
+				<c:choose>
+					<c:when test="${pageVo.page == sendPaginationSize}">
+						<a class="btn_last"></a>
+					</c:when>
+					<c:otherwise>
+					<a href="/sendNoteList?page=&page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
+						
+
+					</c:otherwise>
+				</c:choose>
+		
+		</div>
 	</div>
 
-	</div>
 </section>

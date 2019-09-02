@@ -52,7 +52,7 @@
 					if($('#adminFileList').length == 1){
 						$("#adminFileList").remove();
 					}
-					$(".tabs").append(lvhtml);
+					$(".tabsFile_Link").append(lvhtml);
 					
 				}
 				

@@ -173,10 +173,10 @@ Last update : 2019. 08. 28.
 .workList .workList_hd ul li {}
 .workList .workList_hd ul li:after {content:''; display:block; clear:both; zoom:1;}
 .workList .workList_hd ul li p:nth-child(1) {float:left; color:#a2a4ad;}
-.workList .workList_hd ul li p:nth-child(1) span {width:25px; height:15px; border-radius:30px; text-align:center; line-height:13px; background:#f18898; color:#fff; display:inline-block;}
+.workList .workList_hd ul li p:nth-child(1) span {display:none !important; width:25px; height:15px; border-radius:30px; text-align:center; line-height:13px; background:#f18898; color:#fff; display:inline-block;}
 .workList .workList_hd ul li p:nth-child(2) {float:right; color:#a2a4ad;}
 .workList .workList_hd ul li p:nth-child(2) a {color:#a2a4ad;}
-.workList .workList_hd ul li p:nth-child(2) span {width:25px; height:15px; border-radius:30px; text-align:center; line-height:13px; background:#e1e8fe; color:#2b65ff; display:inline-block;}
+.workList .workList_hd ul li p:nth-child(2) span {display:none !important; width:25px; height:15px; border-radius:30px; text-align:center; line-height:13px; background:#e1e8fe; color:#2b65ff; display:inline-block;}
 .workList .workList_hd ul li.graph {}
 
 .workList .workList_content {}
@@ -393,8 +393,11 @@ a.btn-layerClose {display:inline-block; height:25px; padding:0 14px 0; backgroun
 .pop-addFriend {height:250px; background:#fff}
 .pop-newChat {height:380px; background:#fff}
 .pop-alram {height:200px; background:#fff}
+.pop-note {height:500px; background:#fff}
+.pop-faceChat {height:450px; position: relative; overflow: hidden;}
 .new_proejct {position:absolute; left:0; top:0; width:100%}
 .select_template {position:absolute; left:100%; top:0; width:100%}
+.select_FaceMem {position:absolute; left:100%; top:0; width:100%}
 
 .alram {margin-top:30px; text-align:center !important; font-size:1.5em; color: #d62b45 !important;}
 
@@ -419,7 +422,10 @@ a.btn-layerClose {display:inline-block; height:25px; padding:0 14px 0; backgroun
 .prj_btn a:hover {background:#3842dd; color:#fff }
 .prj_btn #prj_btn_prev {color:#ffd200; border:1px solid #ffd200; width:25%; display:inline-block; vertical-align:top}
 .prj_btn #prj_btn_prev:hover {background:#ffd200; color:#3842dd}
+.prj_btn #hchat_btn_prev {color:#ffd200; border:1px solid #ffd200; width:25%; display:inline-block; vertical-align:top}
+.prj_btn #hchat_btn_prev:hover {background:#ffd200; color:#3842dd}
 .prj_btn input {color:#3842dd; border:1px solid #3842dd; width:35%; height:50px; display:inline-block; border-radius:3px; vertical-align:top; font-size: 1.2em;}
+
 
 .select_template>h2 {margin-top:50px; font-size: 2em; color: #403f48; font-weight: 300; text-align: center; letter-spacing: -0.02em; position:relative}
 .select_template>h2:after {content:""; position:absolute; width:30px; height:1px; background:#e4e4e4; left:50%; transform: translateX(-50%); top:40px}
@@ -443,6 +449,11 @@ a.btn-layerClose {display:inline-block; height:25px; padding:0 14px 0; backgroun
 
 .templateSelect {border: 1px solid #ffd73b !important; color: #ffd73b !important;}
 
+.select_FaceMem>h2 {margin-top:50px; font-size: 2em; color: #403f48; font-weight: 300; text-align: center; letter-spacing: -0.02em; position:relative}
+.select_FaceMem>h2:after {content:""; position:absolute; width:30px; height:1px; background:#e4e4e4; left:50%; transform: translateX(-50%); top:40px}
+.select_FaceMem ul {margin-top:20px; text-align:center}
+.select_FaceMem ul li {display:inline-block; margin-right: 10px}
+.select_FaceMem ul li input {margin-right:5px}
 
 /* check list */
 .checkList {position:relative;}
@@ -600,7 +611,7 @@ a.btn-layerClose {display:inline-block; height:25px; padding:0 14px 0; backgroun
 .workCreateBox {display:none}
 .wrk_mem_flw dl dd {display:none}
 
-.workWrap div[class^="complete_"] {display:none}
+.workWrap div[class^="complete_"] {display:none; border-top: 1px solid #a3a5ae; margin-top: 15px;} 
 
 
 /* work property setting layer style */
@@ -634,10 +645,13 @@ a.btn-layerClose {display:inline-block; height:25px; padding:0 14px 0; backgroun
 
 
 /* chatbot */
-.chatBot{width: 400px; height: 500px; background: #f6f6fb; position: fixed; border-radius: 10px 0 0 0; right: 0px; bottom: 0; display: none; z-index: 1; box-shadow: -2px 11px 11px #b7c0c87a;}
-.chatContent {overflow-y:scroll; height:400px}
+.chatBot{width: 400px; height: 500px; background: #f6f6fb; position: fixed; border-radius: 10px 0 0 0; right: 0px; bottom: 0; display: none; z-index:10; box-shadow: -2px 11px 11px #b7c0c87a;}
+.chatContent {overflow-y:scroll; height:400px; padding: 20px;}
 .chatContent:after {content:""; clear:both; display:block; zoom:1}
 .chatContent .bot {display:block; width:100%}
+.chatContent .bot dt {font-size:1.3em; margin-bottom: 5px;}
+.chatContent .bot dd {font-size:1.1em; color: #7f8ea1;}
+
 .chatContent .me {display:block; width:100%; text-align:right}
 .chatInput {position:absolute; bottom:0; left:0; width:100%;}
 
@@ -647,9 +661,8 @@ a.btn-layerClose {display:inline-block; height:25px; padding:0 14px 0; backgroun
 #gigi {background-image:url(../img/send-mail.png);  background-repeat: no-repeat; text-indent: -9999px; width: 30px; height: 30px; background-size: 27px; border: none; position: absolute; right: 30px; bottom: 20px;}
 
 /* memo setting layaer style */
-#memoView {position:fixed; right:-700px; top:100px; width:600px; height:100%; background:#f5f5f5; padding:60px 50px; z-index:2}
-
-#memoView .btnSetClose {position:absolute; left:-80px; top:0; width:80px; height:50px; text-align:center; line-height:50px; background:#f5f5f5}
+#memoView {position:fixed; right:-700px;  top: 180px; width: 550px; height: 570px; background: #fff; padding: 60px 50px;box-shadow: 0px 4px 10px #c8d0d8; z-index: 999;}
+#memoView .btnSetClose {position: absolute; left: 30px;top: 25px;width: 17px;height: 18px; text-align: center;  line-height: 50px;background: url(../img/close.png) no-repeat;background-size: 17px;text-indent: -9999px;}
 
 
 /* chatting setting layaer style */
@@ -927,3 +940,15 @@ a.btn-layerClose {display:inline-block; height:25px; padding:0 14px 0; backgroun
 .noteBox .noteCon textarea {border:1px dashed #ccc; resize:none; outline:none}
 .noteBox .noteCon  button {width:100%; margin-top:10px}
 .friendListNote {}
+.noteEditor {width:100%; min-height:200px; border:1px dashed #ccc; resize:none; outline:none; padding:20px}
+
+
+/* memo */
+/* #h2prj_nm {font-size:2em; font-weight:300} */
+#h2prj_nm:after {content:''; clear:both; display:block; zoom:1}
+#memo label {margin-top: 20px;font-size: 1.2em;border-left: 3px solid #ffd200;padding-left: 10px;display: block;color: #36475c;}
+#memo textarea {border:1px dashed #ccc; padding:20px; width:100%;}
+#memo button {width:49%; border: 1px solid #d6dae1;border-radius: 3px;display: inline-block;text-align: center;font-size: 13px;vertical-align: top;padding: 3px 11px;color: #838d9f;transition: all 0.4s;}
+#memo button:last-child {margin-right:0}
+
+#hfaceBtn {}

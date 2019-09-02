@@ -17,7 +17,6 @@
 		
 		
 		$(".tb_style_01").on("click", ".rcvTr #rcvCon", function(){
-			console.log("rcvTr click :::::::::::::::::::::::");
 			var aTag = $('#aTag').attr('href');
 			var email = $(this).siblings('#sendEmail').text();
 			var con = $(this).text();
@@ -96,6 +95,7 @@
 					hhtml += "<th>내용</th>";
 					hhtml += "<th>받은 날짜</th>";
 					hhtml += "<th>쪽지 읽음 여부</th>";
+					hhtml += "<th>삭제</th>";
 					hhtml += "</tr>";
 					
 					data.rcvList.forEach(function(rcv, index){
@@ -193,6 +193,7 @@
 				hhtml += "<th>내용</th>";
 				hhtml += "<th>받은 날짜</th>";
 				hhtml += "<th>쪽지 읽음 여부</th>";
+				hhtml += "<th>삭제</th>";
 				hhtml += "</tr>";
 				
 					
@@ -245,30 +246,31 @@
 <form class="rcvFrm">
 		<div id="layer1" class="pop-layer">
 			<div class="pop-container">
-				<div class="pop-project">
+				<div class="pop-note">
 					<!--content //-->
-						<input type="hidden" id="array" name="array">
-						<div class="new_proejct">
-							<ul>
-								<li>
-									<label>보낸사람 : </label>
-									<label id="lbEmail"></label>
-									<input type="hidden" name="rcvEmail" id="rcvEmaildInput" value=""/>
-								</li>
-								<li>
-									<label>받은 날짜 : </label>
-									<label id="lbDate"></label>
-								</li>
-								<li>
-									<div>
-										<br><textarea name="smarteditor" readonly="readonly" id="smarteditor" rows="10" cols="100" style="width: 460px; height: 330px;"></textarea>
-									</div>
-								</li>
-							</ul>
+					<input type="hidden" id="array" name="array">
+					<div class="new_proejct">
+						<h2>쪽지 내용</h2>
+						<ul>
+							<li>
+								<label>보낸사람 : </label>
+								<label id="lbEmail"></label>
+								<input type="hidden" name="rcvEmail" id="rcvEmaildInput" value=""/>
+							</li>
+							<li>
+								<label>받은 날짜 : </label>
+								<label id="lbDate"></label>
+							</li>
+							<li>
+								<textarea name="smarteditor" readonly="readonly" id="smarteditor" class="noteEditor"></textarea>
+							</li>
+						</ul>
+						<div class="prj_btn">
+							<button type="button" id="rcvBtn" class="btn_style_01" style="width:70%; margin:0 auto"> 답장</button>
 						</div>
-					<div class="btn-r">
-						<button type="button" id="rcvBtn" class="rcvbtn-style"> 답장</button>
-						<a href="#" class="btn-layerClose">Close</a>
+						<div class="btn-r">
+							<a href="#" class="btn-layerClose">Close</a>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -278,10 +280,11 @@
 <!-- 보낸 쪽지 상세내용 팝업 -->
 		<div id="layer2" class="pop-layer">
 			<div class="pop-container">
-				<div class="pop-project">
+				<div class="pop-note">
 					<!--content //-->
 						<input type="hidden" id="array" name="array">
 						<div class="new_proejct">
+							<h2>쪽지 내용</h2>
 							<ul>
 								<li>
 									<label>보낸사람 : </label>
@@ -292,9 +295,7 @@
 									<label id="lbDate02"></label>
 								</li>
 								<li>
-									<div>
-										<br><textarea name="smarteditor" readonly="readonly" id="smarteditor02" rows="10" cols="100" style="width: 460px; height: 330px;"></textarea>
-									</div>
+									<textarea name="smarteditor" readonly="readonly" id="smarteditor02" class="noteEditor"></textarea>
 								</li>
 							</ul>
 						</div>
@@ -304,22 +305,19 @@
 				</div>
 			</div>
 		</div>
-
+		
+<div class="sub_menu">
+	<ul class="sub_menu_item">
+		<li>
+			<a href="/noteList">받은 쪽지함</a>
+		</li>
+		<li>
+			<a href="/sendNoteList">보낸 쪽지함</a>
+		</li>
+	</ul>
+</div>
 <section class="contents">
-	
-	<div id="container">
-
-		<div class="sub_menu">
-			<ul class="sub_menu_item">
-				<li>
-					<a href="/noteList">받은 쪽지함</a>
-				</li>
-				<li>
-					<a href="/sendNoteList">보낸 쪽지함</a>
-				</li>
-			</ul>
-		</div>
-
+	<h2 class="contentTitle">받은 쪽지함</h2>
 		<div class="tab_con">
 <!-- 1번 탭 -->
 			<div id="tab-1" class="tab-content current">
@@ -338,21 +336,21 @@
 								<th>내용</th>
 								<th>받은 날짜</th>
 								<th>쪽지 읽음 여부</th>
+								<th>삭제</th>
+							</tr>
 						</thead>
 						<tbody id="publicList">
-								<c:forEach items="${rcvList }" var="rcv">
-											<tr class="rcvTr" >
-												<td class="sendEmail" id="sendEmail">${rcv.send_email }</td>
-												<td id="rcvCon">${rcv.note_con }</td>
-												<td style="display:none;" id="note_id">${rcv.note_con_id }</td>
-												<td id="rcvDate"><fmt:formatDate value="${rcv.rcv_date }" pattern="yyyy-MM-dd HH:mm"/></td>
-												<td>${rcv.read_fl }</td>
-												<td><button type="button" id="rcvDelBtn" name="${rcv.note_con_id }">삭제</button></td>
-												<td><a id="aTag" href="#layer1" class="btn-example1"></a></td>
-												
-											</tr>
-								</c:forEach>
+							<c:forEach items="${rcvList }" var="rcv">
+							<tr class="rcvTr" >
+								<td class="sendEmail" id="sendEmail">${rcv.send_email }</td>
+								<td style="display:none;" id="note_id">${rcv.note_con_id }</td>
+								<td id="rcvCon">${rcv.note_con }</td>
+								<td id="rcvDate"><fmt:formatDate value="${rcv.rcv_date }" pattern="yyyy-MM-dd HH:mm"/></td>
+								<td>${rcv.read_fl }</td>
+								<td><button type="button" id="rcvDelBtn" name="${rcv.note_con_id }">삭제</button></td>
+								<td><a id="aTag" href="#layer1" class="btn-example1"></a></td>
 							</tr>
+							</c:forEach>
 						</tbody>
 					</table>
 				</div>
@@ -360,7 +358,7 @@
 				<div class="pagination">
 						<c:choose>
 							<c:when test="${pageVo.page == 1 }">
-								<a href class="btn_first"></a>
+								<a href="javascript:;" class="btn_first"></a>
 							</c:when>
 							<c:otherwise>
 								<a href="/noteList?page=${pageVo.page-1}&pageSize=${pageVo.pageSize}">«</a>
@@ -382,18 +380,15 @@
 
 						<c:choose>
 							<c:when test="${pageVo.page == rcvPaginationSize}">
-								<a href class="btn_last"></a>
+								<a href="javascript:;"  class="btn_last"></a>
 							</c:when>
 							<c:otherwise>
 							<a href="/noteList?page=&page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">»</a>
-								
 
 							</c:otherwise>
 						</c:choose>
 				
 				</div>
 			</div>
-	</div>
-
 	</div>
 </section>

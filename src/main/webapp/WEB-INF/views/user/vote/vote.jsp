@@ -7,8 +7,8 @@
 <!-- flatpicker.js 끝 -->
 <style>
 	#voteContainer {width: 100%; height:100%; float:left;}
-	#voteList {width:95%; height:100%; float:left;}
-	#voteListTbl {width:95%; height:100%; text-align:center; border-collapse: collapse;}
+	#voteList {width:100%; height:100%; float:left;}
+	#voteListTbl {width:100%; height:100%; text-align:center; border-collapse: collapse;}
 	#voteListTbl tr { height: 80px; }
 	.votes {width:95%; height:35px; margin: 5px; border:1px solid black; }
 	.vote_subject_head { width: 90%; display:inline-block; font-size: large; }
@@ -19,7 +19,7 @@
 	.vote_no_deadline { width: 90%; display:inline-block; font-size: medium; }
 	.vote_part_y, .vote_ended { font-size:large; font-style: italic; font-weight: 900; color: green; display:inline-block;}
 	.vote_part_n { font-size:large; font-style: italic; font-weight: 900; color: red;  display:inline-block;}
-	.vote_part_yn { width: 90%; font-size:large; padding: 2px; display:inline-block;}
+	.vote_part_yn { width: 100%; font-size:large; padding: 2px; display:inline-block;}
 	.vote_user_nm { width: 90%; font-size: large; padding: 2px; display:inline-block; }
 	.vote_config {font-size:large; font-weight: 900; display:inline-block; text-align:right; cursor: pointer; }
 	.vote_config_menu { width: 62px; height: 52px; }
@@ -41,15 +41,16 @@
 	.close:hover, .close:focus { color: #000; text-decoration: none; cursor: pointer;}
 	/* Add Animation */
 	@keyframes animatetop { from {top: -300px; opacity: 0} to {top: 0; opacity: 1} }
-	.modal-header h2 { font-size: x-large;}
-	#newVoteBtn {margin-left : 83%; margin-bottom : 10px; }
+	.modal-header h2 { margin-top:50px; font-size: 2em; color: #403f48; font-weight: 300; text-align: center; letter-spacing: -0.02em; position:relative; }
+	#newVoteBtn {margin-left : 90%; margin-bottom : 10px; }
 	#newVoteContainer {padding : 10px; }
-	input[name='vote_subject'] { width: 80%; }
-	input[name='vote_item'] { width: 100%; }
-	input[name='vote_con'] { width: 80%; }
+	input[name='vote_subject'] { margin-left: 10%; width: 80%; outline:none; border: 0; height: 40px; box-sizing: border-box; font-size: 13px; background: transparent; color:#393c4f; border-bottom:1px solid #e4e4e4;}
+	input[name='vote_item'] { width: 100%; outline:none; border: 0; height: 40px; box-sizing: border-box; font-size: 13px; background: transparent; color:#393c4f; border-bottom:1px solid #e4e4e4; }
+	input[name='vote_con'] { margin-left: 10%; width: 80%; outline:none; border: 0; height: 40px; box-sizing: border-box; font-size: 13px; background: transparent; color:#393c4f; border-bottom:1px solid #e4e4e4;}
+	input[name='vote_end_date'] { text-align:center; outline:none; border: 0; width: 90%; height: 40px; box-sizing: border-box; font-size: 13px; background: transparent; color:#393c4f; border-bottom:1px solid #e4e4e4;}
 	.delItem,.delItemMdf ,#addItemBtn { background-color:#ffffff; color: #2b65ff; border: none;}
-	#voteTbl { padding: 5px; }
-	.voteItems { font-size: medium;}
+	#voteTbl, #voteTblMdf { padding: 5px; width:75%; margin-left:12%;}
+	.voteItems { margin-top:5px; margin-bottom:5px; font-size: 1em; color: #403f48; font-weight: 300; text-align: center; letter-spacing: -0.02em; position:relative;}
 	.vote_set_list dd { text-align: center;}
 	.vote_mdf { cursor:pointer; font-size:medium; }
 	.vote_del { cursor:pointer; font-size:medium; }
@@ -57,12 +58,17 @@
 	.item { width:100%; border:1px solid black; margin:5px; cursor: pointer;}
 	#voteDetailFrm input[type=button], #btnCmp {width: 50%; height:30px; margin-left:25%; margin-top : 2px;}
 	.voted {background-color: #eeeeee;}
-	.selected {background-color: #33aaff; color: #ffffff;}
+	.selected {background-color: #3f4df5; color: #ffffff;}
 	#btnCmp {margin-top: 3px; display: none;}
 	.vote_item {width : 88%; height: 28px; vertical-align: middle; }
 	.vote_item span {margin-left: 5%;}
-	#tblItem, #tblItemVoted { width: 100%; border-collapse: collapse;}
+	#tblItem, #tblItemVoted { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
 	.input-button {cursor: pointer;}
+	#newVoteSubmit, #voteMdfSubmit { width: 50%; margin-left:25%;}
+	#voteDetail h2 {margin-top:50px; margin-bottom:50px; font-size: 1em; color: #403f48; font-weight: 300; text-align: center; letter-spacing: -0.02em; position:relative;}
+	#btnVote, #btnCmp { border: 1px ridge #403f48;}
+	#addItemBtn {margin-left: 35%;}
+	
 </style>
 <!-- Include 할 부분 -->
 <div class="sub_menu">
@@ -78,8 +84,10 @@
 </div>
 <!-- Include 끝 -->
 <section class="contents">
-<h2>${PROJECT_INFO.prj_nm} > Votes</h2>
-	<button id="newVoteBtn" type="button" class="btn_style_01">새 투표 작성</button>
+<h2 class="contentTitle">${PROJECT_INFO.prj_nm}</h2>
+	
+	<button id="newVoteBtn" type="button" class="a_style_01">새 투표 작성</button>
+	<div id="allContainer">
 <div id="voteContainer">
 	<div id="voteList">
 	</div>
@@ -93,7 +101,7 @@
 <div id="voteMdfModal" class='modal'>
 	<div class="modal-content-mdf">
   	<div class="modal-header">
-	    <span id="modalCloseMdf" class="close">&times;</span>
+	    <span id="modalCloseMdf" class="close"></span>
 	    <h2>투표 내용 수정</h2>
 	    <br>
   	</div>
@@ -111,7 +119,7 @@
   <!-- Modal content -->
   <div class="modal-content">
   	<div class="modal-header">
-	    <span id="modalClose" class="close">&times;</span>
+	    <span id="modalClose" class="close"></span>
 	    <h2>새 투표 생성</h2>
 	    <br>
   	</div>
@@ -157,7 +165,7 @@
   <!-- Modal content -->
   <div class="modal-content-detail">
   	<div class="modal-header">
-	    <span id="modalCloseDetail" class="close">&times;</span>
+	    <span id="modalCloseDetail" class="close"></span>
 	    <h2 id='detail_vote_subject'></h2>
 	    <br>
   	</div>
@@ -178,6 +186,7 @@
   	</div>
   </div>
 
+</div>
 </div>
 </div>
 </section>
@@ -213,8 +222,10 @@ var cal = flatpickr("#end_dt", {"locale" : "ko", enableTime: true, wrap:true});
 		window.onclick = function(event) {
 			if(event.target == modal) {
 				modal.style.display = "none";
+				clearModal();
 			} else if(event.target == modalMdf) {
 				modalMdf.style.display = "none";
+				clearModal();
 			} else if(event.target == modalDetail) {
 				modalDetail.style.display = "none";
 			}
@@ -329,14 +340,16 @@ var cal = flatpickr("#end_dt", {"locale" : "ko", enableTime: true, wrap:true});
 					console.log(data)
 					switch(data) {
 						case "OK":
-							alert("투표가 생성되었습니다.");
+							$(".ctxt").text("투표가 생성되었습니다.");
+							layer_popup("#layer2");
 							var modal = document.getElementById("newVoteModal");
 							modal.style.display = "none";
 							clearModal();
 							voteList(1);
 							break;
 						case "ERROR":
-							alert("투표 생성중 오류가 발생했습니다.")
+							$(".ctxt").text("투표 생성중 오류가 발생했습니다.")
+							layer_popup("#layer2");
 							break;
 					}
 				}
@@ -362,10 +375,12 @@ var cal = flatpickr("#end_dt", {"locale" : "ko", enableTime: true, wrap:true});
 			success: function(data) {
 				switch(data) {
 				case "OK":
-					alert("삭제가 완료되었습니다.");
+					$(".ctxt").text("삭제가 완료되었습니다.");
+					layer_popup("#layer2");
 					break;
 				case "ERROR":
-					alert("삭제도중 오류가 발생했습니다.");
+					$(".ctxt").text("삭제 도중 오류가 발생했습니다.");
+					layer_popup("#layer2");
 					break;
 				}
 				voteList(1);
@@ -464,7 +479,8 @@ var cal = flatpickr("#end_dt", {"locale" : "ko", enableTime: true, wrap:true});
 	function validate() { // 상세보기 모달에서 투표버튼 눌렀을 때 항목 선택했는지 확인하는 함수
 		var leng = $(".item :radio[checked]").length;
 		if(leng==0) {
-			alert("투표할 항목을 선택해주세요.");
+			$(".ctxt").text("투표할 항목을 선택해주세요.");
+			layer_popup("#layer2");
 			return false;
 		}
 		else
@@ -488,7 +504,8 @@ var cal = flatpickr("#end_dt", {"locale" : "ko", enableTime: true, wrap:true});
 		console.log(end_date);
 		var end_date_long = end_date.getTime() - (1000*60*60*24);
 		if(today.getTime() > end_date_long) {
-			alert("마감일은 24시간 이후로만 설정할 수 있습니다.");
+			$(".ctxt").text("마감일은 24시간 이후로만 설정할 수 있습니다.");
+			layer_popup("#layer2");
 			return false;
 		} else {
 			return true;
@@ -544,7 +561,8 @@ var cal = flatpickr("#end_dt", {"locale" : "ko", enableTime: true, wrap:true});
 		var dt_valid = voteDtValidateMdf(vote_id, vote_end_date);
 		
 		if(!dt_valid) {
-			alert("마감일시는 작성일시 기준 24시간 이후로만 설정할 수 있습니다.");
+			$(".ctxt").text("마감일시는 작성일시 기준 24시간 이후로만 설정할 수 있습니다.");
+			layer_popup("#layer2");
 			return;
 		}
 		
@@ -552,7 +570,9 @@ var cal = flatpickr("#end_dt", {"locale" : "ko", enableTime: true, wrap:true});
 			var end_dt = new Date(vote_end_date);
 			console.log(end_dt);
 			if(end_dt.getTime() < new Date().getTime()) {
-				alert("마감일시는 현재 시간 이후로만 설정할 수 있습니다.");
+				
+				$(".ctxt").text("마감일시는 현재 시간 이후로만 설정할 수 있습니다.");
+				layer_popup("#layer2");
 				return;
 			}
 		}
@@ -600,7 +620,8 @@ var cal = flatpickr("#end_dt", {"locale" : "ko", enableTime: true, wrap:true});
 			success: function(data) {
 			}
 		});
-		alert("수정이 완료되었습니다.");
+		$(".ctxt").text("수정이 완료되었습니다.");
+		layer_popup("#layer2");
 		var vote_page = $("#voteFrm input[name='votelist_page']").val();
 		voteList(vote_page);
 		var modalMdf = document.getElementById("voteMdfModal");
@@ -619,7 +640,7 @@ var cal = flatpickr("#end_dt", {"locale" : "ko", enableTime: true, wrap:true});
 				type: 'post',
 				data : serial,
 				success: function() {
-					alert("투표가 완료처리 되었습니다.");
+					$(".ctxt").text("투표가 완료처리 되었습니다.");
 					voteDetail();
 					var page = $("#voteFrm input[name='votelist_page']").val();
 					voteList(page);
