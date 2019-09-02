@@ -828,9 +828,19 @@
 
 													wrkTransAjax(wrkID,
 															wrkListToID);
+													
+													// 업무이동시 변경되었다고 알림메세지 보내기
+													console.log("업무이도오안료");
+													if (socket) {
+														var socketMsg = "videoNotify,"+"프로젝트 'STTM'에서 업무가 추가가 되었습니다."+","+"son@naver.com";
+														socket.send(socketMsg);
+														// websocket에 보내기!!
+													}
+													
 												}
 											});
 								}
+								
 							}
 						}
 
