@@ -29,17 +29,16 @@
 							type="hidden" id="ct_id" name="ct_id" value="${ct_id }">
 						<div class="new_proejct">
 							<!-- 방 만들기 테이블 -->
+							<h2>친구 추가</h2>
 							<ul>
-								<li><label for="prj_nm">친구 추가</label></li>
-								<li><label for="prj_nm">채팅방 이름</label></li>
+								
 								<li>
-									<label for="prj_mem">추가할 친구 선택</label>
 									<div class="prj_mem_list">
 										<ul>
 											<c:forEach items="${inviteList}" var="friendlist"
 												varStatus="status">
-												<li><input type="checkbox" name="friend" class="friend"
-													value="${friendlist.user_email }">${friendlist.user_nm }
+												<li><input type="checkbox" name="friend" class="checkList"
+													value="${friendlist.user_email }"><label>${friendlist.user_nm }</label>
 												</li>
 											</c:forEach>
 										</ul>
@@ -172,7 +171,7 @@
 
 					var array = Array();
 					var cnt = 0;
-					var chkbox = $(".friend");
+					var chkbox = $(".checkList");
 
 					for (i = 0; i < chkbox.length; i++) {
 						if (chkbox[i].checked == true) {
