@@ -1321,9 +1321,15 @@ function projectMemDelAjax(id, email){
 											<input type="text" name="user_nm" id="searchPL" maxlength="20" placeholder="검색어를 입력해주세요">
 										</fieldset>
 									</div>
+									
 							<!-- 추가된 프로젝트 관리자 리스트 box -->
 									<ul class="searchPL_item"></ul>
 								</div>
+<<<<<<< HEAD
+=======
+								</div>
+								</div>
+>>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 							</div>
 						</div>
 					</div> 
@@ -1354,6 +1360,8 @@ function projectMemDelAjax(id, email){
 											<legend>사이트 내 프로젝트 검색</legend>
 										<input type="text" name="user_nm" id="searchMem" maxlength="20" placeholder="검색어를 입력해주세요" value="">
 									</fieldset>
+									</div>
+									</div>
 									</div>
 								</div>
 							</div>
