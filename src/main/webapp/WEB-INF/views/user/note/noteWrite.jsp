@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 
@@ -77,39 +76,41 @@ $(document).ready(function(){
     }
 </script>
 <form class="rcvFrm">
-		<div id="layer1" class="pop-layer">
-			<div class="pop-container">
-				<div class="pop-project">
-					<!--content //-->
-						<input type="hidden" id="array" name="array">
-						<div class="new_proejct">
-							<label>친구목록</label>
-							<div>
-							<c:forEach items="${friendList }" var="fri">
-								<input type="checkbox" name="rcv_emailList" class="checkSelect" value="${fri.frd_email}">${fri.user_nm }
-							</c:forEach>
-							</div>
+	<div id="layer1" class="pop-layer">
+		<div class="pop-container">
+			<div class="pop-project">
+				<!--content //-->
+					<input type="hidden" id="array" name="array">
+					<div class="new_proejct">
+						<label>친구목록</label>
+						<div>
+						<c:forEach items="${friendList }" var="fri">
+							<input type="checkbox" name="rcv_emailList" class="checkSelect" value="${fri.frd_email}">${fri.user_nm }
+						</c:forEach>
 						</div>
-					<div class="btn-r">
-						<button type="button" id="checkBtn" class="rcvbtn-style"> 확인</button>
-						<a href="#" class="btn-layerClose">Close</a>
 					</div>
-					<!--// content-->
+				<div class="btn-r">
+					<button type="button" id="checkBtn" class="rcvbtn-style"> 확인</button>
+					<a href="#" class="btn-layerClose">Close</a>
 				</div>
+				<!--// content-->
 			</div>
 		</div>
+	</div>
 </form>
 <section class="contents">
-	<form id="frm">
-		<div>
-			
-			<input type="hidden" name="sendEmail" id="sendEmail" value="${send_email }"/>
-			받는 사람 : <input type="text" name="rcvEmail" id="rcvEmail" value=""/>
-			<button type="button" id="friendList">친구목록</button> <br>
-			내용 : <br>
-			<textarea name="smarteditor" id="smarteditor" rows="10" cols="100" style="width: 766px; height: 412px;"></textarea>	<br>
-			<button type="button" id="sendBtn" class="btn_style_01">보내기</button>
-		</div>
-	</form>
+	<h2 class="contentTitle">쪽지 쓰기</h2>
+	<div class="">
+		<form id="frm">
+			<div>
+				<input type="hidden" name="sendEmail" id="sendEmail" value="${send_email }"/>
+				받는 사람 : <input type="text" name="rcvEmail" id="rcvEmail" value=""/>
+				<button type="button" id="friendList">친구목록</button> <br>
+				내용 : <br>
+				<textarea name="smarteditor" id="smarteditor" rows="10" cols="100" style="width: 766px; height: 412px;"></textarea>	<br>
+				<button type="button" id="sendBtn" class="btn_style_01">보내기</button>
+			</div>
+		</form>
+	</div>
 
 </section>

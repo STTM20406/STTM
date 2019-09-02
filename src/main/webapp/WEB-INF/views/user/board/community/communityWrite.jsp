@@ -98,7 +98,7 @@
 		<input type="hidden" name="boardnum" id="boardnum" value="${boardnum }">
 		<div class="boardWriteWrap">
 			<div class="title">
-				<input type="text" id="subject" name="subject" placeholder="제목을 입력해 주세요." value="${param.subject }" maxlength="30">
+				<input type="text" id="subject" name="subject" placeholder="제목을 입력해 주세요." value="${param.subject }" >
 			</div>
 
 			<div class="boardContent">

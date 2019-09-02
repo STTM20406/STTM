@@ -35,16 +35,18 @@
 </script>
 
 <section class="contents">
-
-   <form id="frm" action="/userInquiryView" method="get"> 
-      <input type="hidden" id="inq_id" name="inq_id" value=""/>
-   </form>   
-   
-   
-   <div id="container">
-
-      <div class="tab_con">
-         <form id="frm01">
+	<h2 class="contentTitle">일대일 문의</h2>
+	
+	<form id="frm" action="/userInquiryView" method="get"> 
+		<input type="hidden" id="inq_id" name="inq_id" value=""/>
+	</form>   
+	
+   	<div class="sub_btn">
+		<button id="generalBtn" type="button" class="btn_style_04">1:1문의 작성</button>
+	</div>
+	
+	<div class="tab_con">
+		<form id="frm01">
       
          <div id="tab-1" class="tab-content current">
          <input type="hidden" name="inqCate" value="INQ01"/>
@@ -101,9 +103,6 @@
                      
                   </tbody>
                </table>
-               
-               <button id="generalBtn" type="button" class="btn_style_01">1:1문의 작성</button>
-               
             </div>
             
             <div class="pagination">
@@ -145,7 +144,4 @@
       </form>
      
    </div>
-
-   </div>
-   
 </section>

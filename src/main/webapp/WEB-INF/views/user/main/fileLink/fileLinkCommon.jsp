@@ -462,8 +462,6 @@
 	
 </script>
 
-<section class="contents">
-
 <div class="sub_menu">
 	<ul class="sub_menu_item">
 		<li><a href="/work/list">Work</a></li>
@@ -475,10 +473,7 @@
 		<li><a href="/conferenceList">Minutes</a></li>
 	</ul>
 </div>
-
-
-	<div id="container">
-
+<section class="contents">
 		<div class="tab_sub_menu">
 			<ul class="tabs">
 				<li id="fileList">FileList</li>
@@ -516,7 +511,6 @@
 				
 			</div>
 		</div>
-	</div>
 </section>
 
 

@@ -6,6 +6,8 @@
 <!-- 프로젝트 업무 간트차트 -->
 <script src="/js/dhtmlxgantt.js"></script>
 <link rel="stylesheet" href="/css/dhtmlxgantt.css" type="text/css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <!-- Include 할 부분 -->
 <div class="sub_menu">
 	<ul class="sub_menu_item">
@@ -58,7 +60,7 @@
 </div>
 <div id="gantt_here"></div>
 </div>
-<!-- 업무 상세 보기 시작 -->
+<!-- 업무 상세 보기 -->
 <div id="propertyWorkSet" class="propertySet">
 	<div class="propertySetWrap">
 		<div class="setHd">
@@ -322,8 +324,8 @@
 	</div>
 	<div class="btnSetClose">닫기</div>
 </div>
-<!-- 업무 상세보기 끝 -->
 </section>
+<script src="/js/work.js"></script>
 <script>
 function search() {
 	var serial = $("#filterFrm").serialize();
@@ -372,20 +374,6 @@ function searchInit() {
 	})
 }
 
-function workDetail(wrk_id){
-	console.log(wrk_id);
-	$.ajax({
-		url: "/filter/detail",
-		type: "post",
-		data: wrk_id,
-		success: function(data){
-			var workDetail = data.workDetail;
-			console.log(workDetail);
-			
-			$("#work_detail").html(workDetail);
-		}
-	});
-}	
 	$("#frmContainer").on("change", ".filter", function(){
 		search();
 	});
@@ -444,6 +432,18 @@ function workDetail(wrk_id){
 			console.log(row);
 		});
 		
+		gantt.attachEvent("onTaskClick", function(id,e) {
+// 			console.log(id);
+			if(id.split("#")[0]=="wrk"){
+				var wrk_id = id.split("#")[1];
+				console.log(wrk_id);
+				$("#wps_wrk_id").val(wrk_id);
+				propertyWorkSetAjax(wrk_id);
+			$("#propertyWorkSet").animate({right:'0'}, 500);
+			} 
+			return true;
+		});
+		
 		gantt.config.scale_height = 50;
 		gantt.config.layout = {css: "gantt_container",
 		    rows:[{
@@ -472,6 +472,5 @@ function workDetail(wrk_id){
 // 		    $("ul li span").not(this).next().slideUp(300);
 		    return false;
 		  });
-// 		  $("#ul li span").eq(0).trigger("click");
-	})
+	});
 </script>

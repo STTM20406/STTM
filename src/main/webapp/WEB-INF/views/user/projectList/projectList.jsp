@@ -1325,8 +1325,11 @@ function projectMemDelAjax(id, email){
 							<!-- 추가된 프로젝트 관리자 리스트 box -->
 									<ul class="searchPL_item"></ul>
 								</div>
+<<<<<<< HEAD
+=======
 								</div>
 								</div>
+>>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 							</div>
 						</div>
 					</div> 
