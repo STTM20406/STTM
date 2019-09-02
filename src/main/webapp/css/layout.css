@@ -401,6 +401,8 @@ a.btn-layerClose {display:inline-block; height:25px; padding:0 14px 0; backgroun
 
 .alram {margin-top:30px; text-align:center !important; font-size:1.5em; color: #d62b45 !important;}
 
+.new_meeting>h2 {margin-top:50px; font-size: 2em; color: #403f48; font-weight: 300; text-align: center; letter-spacing: -0.02em; position:relative}
+.new_meeting>h2:after {content:""; position:absolute; width:30px; height:1px; background:#e4e4e4; left:50%; transform: translateX(-50%); top:40px}>h2:after {content:""; position:absolute; width:30px; height:1px; background:#e4e4e4; left:50%; transform: translateX(-50%); top:40px}
 
 /* new project create */
 .new_proejct>h2 {margin-top:50px; font-size: 2em; color: #403f48; font-weight: 300; text-align: center; letter-spacing: -0.02em; position:relative}
@@ -887,6 +889,9 @@ a.btn-layerClose {display:inline-block; height:25px; padding:0 14px 0; backgroun
 .meetingItem h2 span {color:#8e959d; font-weight:400; display:block; margin:5px 0 10px}
 .meetingItem p {color: #f1ad3d; text-align: right;}
 
+
+#keyword {width: 75%; border: none; background: #f8fafe; padding: 10px 20px;}
+
 .map_wrap_pop {padding:}
 .map {border-top:1px solid #e4e4e4; border-bottom:1px solid #e4e4e4;  background: #f8f9fa;}
 .div span { font-size: x-large; }
@@ -894,7 +899,7 @@ a.btn-layerClose {display:inline-block; height:25px; padding:0 14px 0; backgroun
 .map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
 .map_wrap {position:relative;width:100%;height:500px;}
 /* #menu_wrap {position:absolute;top:0;left:0;bottom:0;width:250px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;} */
-.bg_white {background:#fff;}
+.bg_white {background: #fff; height: 110px; overflow: scroll;}
 #menu_wrap hr {display: block; height: 1px;border: 0; border-top: 2px solid #5F5F5F;margin:3px 0;}
 #menu_wrap .option{text-align: center;}
 #menu_wrap .option p {margin:10px 0;}

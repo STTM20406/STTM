@@ -204,7 +204,19 @@
 		
 		//프로젝트 닫기 버튼을 클릭했을 때
 		$(".btnSetClose").on("click", function(){
+			var projectMemArray = ["chew@naver.com", "yang@naver.com", "son@naver.com", "tobi@naver.com"];
+			
+			console.log(projectMemArray.length);
+			if(socket){
+				var socketMsg = "";
+				for(var i=0;i<projectMemArray.length; i++){
+					socketMsg = "project_setItem," + projectMemArray[i]+", 또굥이 프로젝트" ;
+					socket.send(socketMsg);
+				}
+			}
+			
 			$(".propertySet").animate({right:'-700px'}, 500);
+			
 		});
 		
 		
@@ -297,13 +309,13 @@
 						}
 					});
 					
-					if(socket){
-						var socketMsg = "";
-						for(var i=0;i<data.project_mem_list.length;i++){
-							socketMsg = "project_setItem," + data.project_mem_list[i].user_email +"," + data.data.prj_nm;
-							socket.send(socketMsg);
-						}
-					}
+// 					if(socket){
+// 						var socketMsg = "";
+// 						for(var i=0;i<data.project_mem_list.length;i++){
+// 							socketMsg = "project_setItem," + data.project_mem_list[i].user_email +"," + data.data.prj_nm;
+// 							socket.send(socketMsg);
+// 						}
+// 					}
 					
 				}
 			});
@@ -1325,11 +1337,8 @@ function projectMemDelAjax(id, email){
 							<!-- 추가된 프로젝트 관리자 리스트 box -->
 									<ul class="searchPL_item"></ul>
 								</div>
-<<<<<<< HEAD
-=======
 								</div>
 								</div>
->>>>>>> branch 'master' of https://github.com/STTM20406/STTM
 							</div>
 						</div>
 					</div> 

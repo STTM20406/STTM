@@ -755,7 +755,7 @@ window.onclick = function(event) {
       
       console.log("memArray " + memArray);
       
-      var text = $("#hCharText").val();
+      var text = $("#hChatText").val();
       var a = $("#hChatMemList").val(memArray);
      
       
