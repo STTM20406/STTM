@@ -15,18 +15,21 @@
 <link rel="stylesheet" href="./demos/stylesheet.css">
 <script src="./demos/menu.js"></script>
 </head>
-<body>
 <style>
-#screen-viewer {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	z-index: 9999999999999;
-	display: none;
-}
+ #screen-viewer { 
+ 	position: fixed; 
+ 	top: 0; 
+ 	left: 0; 
+ 	width: 100%; 
+ 	height: 80%; 
+ 	z-index: 9999999999999; 
+ 	display: none; 
+ } 
+
+
+
 </style>
+<body>
 	<section>
 		<div id="faceChatArea"
 			style="position: fixed; bottom: 0; left: 0; right: 30%; height: 100%; border: 1px dashed #e1e1e1; border-top: 0; border-bottom: 0; overflow: scroll;">
@@ -43,7 +46,7 @@
 				<button id="join-room">화상회의 방 참여하기</button>
 				<button id="open-screenSharing">화면 공유하기</button>
 				<button id="join-screenSharing">화면 공유에 참여하기</button>
-				<div id="screen-container" style="margin: 20px 0;"></div>
+				<div id="screen-container" style="margin: 20px 0; "></div>
 			</div>
 
 			<div class="chat_room">
@@ -57,7 +60,7 @@
 						</div>
 						<div class="type_msg">
 							<div class="type_msg">
-								<input type="text" value="사용자 이름" id="userName" style="width : 100px">
+								<input type="hidden" value="유토비" id="userName" style="width : 100px">
 								<div class="input_msg_write">
 									<input type="text" id="input-text-chat" name="msg" class="write_msg"
 										placeholder="Type a message" />
@@ -75,8 +78,7 @@
 
 		</div>
 
-
-		<div id="screen-viewer"></div>
+		<div id = "screen-viewer"></div>
 
 		<div id="room-urls" style="text-align: center; display: none; background: #F1EDED; margin: 15px -10px; border: 1px solid rgb(189, 189, 189); border-left: 0; border-right: 0;"></div>
 	</section>
@@ -574,8 +576,8 @@
 			var mediaElement = getHTMLMediaElement(video, {
 				title : event.userid,
 				buttons : [ 'full-screen' ],
-				width : 450,
-				height : 200,
+// 				width : 500,
+// 				height :300,
 
 				showOnMouseEnter : false
 			});
