@@ -648,6 +648,12 @@
 									var workLstID = $(this).attr("name");
 
 									wrkCreateAjax(workLstID, workName);
+									
+									if (socket) {
+										var socketMsg = "videoNotify,"+"프로젝트 'STTM'에서 업무가 추가가 되었습니다."+","+"son@naver.com";
+										socket.send(socketMsg);
+										// websocket에 보내기!!
+									}
 								});
 
 						//진행중 n, y끝난거?
@@ -891,6 +897,11 @@
 							$("#propertyWorkSet").animate({
 								right : '-700px'
 							}, 500);
+							if (socket) {
+								var socketMsg = "videoNotify,"+"프로젝트 'STTM'에서 업무가 수정 되었습니다."+","+"son@naver.com";
+								socket.send(socketMsg);
+								// websocket에 보내기!!
+							}
 						});
 
 						function propertyWorkSetAjax(wrk_id) {
