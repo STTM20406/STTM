@@ -31,9 +31,6 @@
 							<!-- 방 만들기 테이블 -->
 							<h2>친구 추가</h2>
 							<ul>
-								<li><label for="prj_nm">친구 추가</label></li>
-								<li><label for="prj_nm">채팅방 이름</label></li>
-								<li><label for="prj_mem">추가할 친구 선택</label>
 								<li>
 									<div class="prj_mem_list">
 										<ul>

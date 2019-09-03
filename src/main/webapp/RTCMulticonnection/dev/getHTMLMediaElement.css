@@ -22,14 +22,19 @@ Documentation - github.com/muaz-khan/WebRTC-Experiment/tree/master/getMediaEleme
 }
 
 #videos-container, .media-container {
-    width: 47% !important;
-    display: inline-block;
+/*     width: 100% !important; */
+/*     display: inline-block; */
+/*     overflow: hidden; */
+/*     vertical-align: top; */
+/*     background: white; */
+}
+#videos-container {width: 100% !important;  display: inline-block;
     overflow: hidden;
     vertical-align: top;
-    background: white;
-}
+    background: white;}
+#videos-container>div {width:49% !important; float:left}
 
-#screen-container, .media-container{
+#screen-container{
 	width: 100% !important;
 	height : 100%;
 /*     display: inline-block; */
@@ -37,9 +42,14 @@ Documentation - github.com/muaz-khan/WebRTC-Experiment/tree/master/getMediaEleme
     vertical-align: top;
     background: white;
 }
+#screen-container>div{
+	width: 100% !important;
+}
+
+
 
 .media-box {
-	widht:100% !important;
+	width:100% !important;
     background: black;
     border: 1px solid rgb(107, 107, 107);
     margin: 1px;
