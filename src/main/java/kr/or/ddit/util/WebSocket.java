@@ -434,7 +434,7 @@ logger.debug("!@# 나와랏!!!!!!sessionssssss : {}",sessions);
 
 						if (key.equals(rcv_email)) {
 							TextMessage tmpMsg = new TextMessage(
-									rcv_email + "님," + text + "*" + userService.countCnt(rcv_email));
+									"회원님," + text + "*" + userService.countCnt(rcv_email));
 							writerSession.sendMessage(tmpMsg);
 						}
 					}
