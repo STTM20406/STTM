@@ -66,7 +66,18 @@
 		
 			<div class="user_info_wrap">
 				<ul>
-					<li><a href="#" class="icon_set"><span class="color_style01">${USER_INFO.user_nm}</span> welcome</a></li>
+					<li>
+						<c:choose>
+							<c:when test="${USER_INFO.user_email == 'chew@naver.com'}">
+								<p class="profile"><img src="/img/tto.png"></p>
+							</c:when>
+							<c:when test="${USER_INFO.user_email == 'son@naver.com'}">
+								<p class="profile"><img src="/img/son.png"></p>
+							</c:when>
+						</c:choose>
+						
+						<a href="#" class="icon_set"><span class="color_style01">${USER_INFO.user_nm}</span> welcome</a>
+					</li>
 					<li>
 						<p><a href="/setUserPass">계정설정</a></p>
 						<p><a href="/logout">로그아웃</a></p>
