@@ -1,10 +1,505 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" name="viewport"/>
+
+    <title>협업의 시작, STTM</title>
+
+    <link rel="stylesheet" href="/css/bootstrap.min2.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
+    <link rel="stylesheet" href="/css/animate.css">
+    <link rel="stylesheet" href="/css/jquery.bxslider.css">
+    <link rel="stylesheet" href="/css/style.css?v=190122">
+
+
+    <script src="/js/jquery.1.11.3.min.js"></script>
+    <script src="/js/common.js"></script>
+    
+    <style type="text/css">
+    #video { 
+	     min-width: 100%;
+	     min-height: 100%;
+	     width: 100%;
+	     z-index: -1;
+	     overflow: hidden;
+	}
+</style>
 </head>
-<body>
+<body class="main">
+	<div class="snsTopLinks">
+	  <span class="cc">
+		1등 협업툴 STTM
+	  </span>
+
+		<!-- <a href="https://www.instagram.com/tlxpass/" target="_blank" class="sns"><i class="fa fa-instagram"></i> 인스타그램</a>
+		<a href="http://blog.naver.com/tlx0910" target="_blank" class="sns"><img src="/images/ico_naverblog_alt.svg" alt="네이버 블로그"> 블로그</a>
+		<a href="https://www.facebook.com/tlxpass" target="_blank" class="sns"><i class="fa fa-facebook-f"></i> 페이스북</a>
+		<a href="/contents/app" class="sns"><i class="fa fa-apple"></i><i class="fa fa-android"></i> <strong class="aq">TLX PASS</strong> 앱을 설치하세요!</a> -->
+	</div>
+	<nav class="gnb">
+		<h1 class="logo">
+			<a href="/"><img src="/img/logo.png" alt="STTM"></a>
+			<a href="/" class="forMobile"><img src="/img/logo.png" alt="STTM"></a>
+		</h1>
+
+
+		<a href="#" class="nav-toggle"><small>메뉴</small> <span></span></a>
+		<ul class="menu">
+			<li class="btn_gnb_register">
+				<a href="/register">회원가입</a>
+			</li>
+			<li class="btn_gnb_apply">
+				<a href="/login" class="accent ">로그인</a>
+			</li>
+		</ul>
+	</nav>
+	<div class="wrap">
+
+		
+	  <div class="userHelperBox">
+		<a href="" class="btn_login">로그인</a>
+	  </div>
+
+
+	  <header class="mastHead">
+		<div class="overlay">
+		  <div class="container">
+			<h2 class="mainSlogan">
+			  <small>협업을 더욱 스마트하게</small>
+			  <span class="aq">STTM</span> 이면 모두 <span class="aq">OK!</span>
+			</h2>
+			<a href="/login" class="findCenter"><i class="fa fa-map-o"></i>로그인</a>
+			<a href="/register" class="membershipApply"><i class="fa fa-clone"></i> STTM 회원가입</a>
+		  </div>
+		</div><!-- /.overlay -->
+	  </header><!-- /.mastHead -->
+
+	  
+	  <section class="illustWrap">
+		<div class="container">
+		  <div class="row">
+			<div class="sectionTitle">
+			  <h2>
+				STTM의 개발자들을 소개 합니다.
+				<small>STTM은 사용자의 입장에서 생각합니다.</small>
+			  </h2>
+			</div>
+
+			<div class="sttmTeam">
+				<ul>
+					<li>
+						<img src="/images/mem01.png" alt="양한솔">
+						<p><span>PL</span>양한솔</p>
+					</li>
+					<li>
+						<img src="/images/mem03.png" alt="박서경">
+						<p><span>DA</span>박서경</p>
+					</li>
+					<li>
+						<img src="/images/mem02.png" alt="유승진">
+						<p><span>TA</span>유승진</p>
+					</li>
+					<li>
+						<img src="/images/mem06.png" alt="김경호">
+						<p><span>AA</span>김경호</p>
+					</li>
+					<li>
+						<img src="/images/mem04.png" alt="유다연">
+						<p><span>AA</span>유다연</p>
+					</li>
+					<li>
+						<img src="/images/mem05.png" alt="손영하">
+						<p><span>UA</span>손영하</p>
+					</li>
+				</ul>
+			</div>
+
+		  </div>
+		</div><!-- /.container -->
+	  </section><!-- /.illustWrap -->
+
+
+
+	  <section class="about">
+		<div class="container">
+		  
+		  <div class="row">
+			<div class="col-md-4 col-sm-12">
+			  <p class="aboutDesc2">
+	<!--
+				<span><strong>합리적인 가격으로</strong></span>
+				<span><strong>원하는 운동을 원하는 곳에서!</strong></span><br>
+	-->
+				<span>여기, 모든 기능을</span><br>
+				<span>한눈에 살펴보세요.</span><br><br>
+
+				<span><strong>STTM의 기능을<br>아이콘으로 나타내었습니다.</strong></span>
+				<!--
+				<span>30 종목 이상의 운동을</span>
+				<span>하나의 멤버십으로 이용하세요!</span>
+				-->
+			  </p>
+			</div>
+			<div class="col-md-8 col-sm-12 items">
+			  <span><i><img src="/images/item_icons/icon01.svg"></i><small>개인정보설정</small></span>
+			  <span><i><img src="/images/item_icons/icon02.svg"></i><small>업무</small></span>
+			  <span><i><img src="/images/item_icons/icon03.svg"></i><small>라벨</small></span>
+			  <span><i><img src="/images/item_icons/icon04.svg"></i><small>팔로워</small></span>
+			  <span><i><img src="/images/item_icons/icon05.svg"></i><small>중요도</small></span>
+			  <span><i><img src="/images/item_icons/icon06.svg"></i><small>첨부파일</small></span>
+			  <span><i><img src="/images/item_icons/icon07.svg"></i><small>진행막대</small></span>
+			  <span><i><img src="/images/item_icons/icon08.svg"></i><small>알림</small></span>
+			  <span><i><img src="/images/item_icons/icon09.svg"></i><small>업무배정</small></span>
+			  <span><i><img src="/images/item_icons/icon10.svg"></i><small>프로젝트</small></span>
+			  <span><i><img src="/images/item_icons/icon11.svg"></i><small>템플릿</small></span>
+			  <span><i><img src="/images/item_icons/icon12.svg"></i><small>간트차트</small></span>
+			  <span><i><img src="/images/item_icons/icon13.svg"></i><small>캘린더</small></span>
+			  <span><i><img src="/images/item_icons/icon14.svg"></i><small>권한설정</small></span>
+			  <span><i><img src="/images/item_icons/icon15.svg"></i><small>업무코멘트</small></span>
+
+			  <span><i><img src="/images/item_icons/icon16.svg"></i><small>쪽지</small></span>
+			  <span><i><img src="/images/item_icons/icon17.svg"></i><small>프로젝트채팅</small></span>
+			  <span><i><img src="/images/item_icons/icon18.svg"></i><small>대시보드</small></span>
+			  <span><i><img src="/images/item_icons/icon19.svg"></i><small>필터</small></span>
+			  <span><i><img src="/images/item_icons/icon20.svg"></i><small>업무전체보기</small></span>
+			  <span><i><img src="/images/item_icons/icon21.svg"></i><small>파일관리</small></span>
+			  <span><i><img src="/images/item_icons/icon22.svg"></i><small>멤버</small></span>
+			  <span><i><img src="/images/item_icons/icon23.svg"></i><small>업무리스트</small></span>
+			  <span><i><img src="/images/item_icons/icon24.svg"></i><small>화상회의</small></span>
+
+			
+			</div><!-- /.items -->
+		  </div><!-- /.row -->
+		</div><!-- /.container -->
+	  </section><!-- /.about -->
+
+
+
+
+
+
+	  <section class="illustWrap">
+		<div class="container">
+		  <div class="row">
+			<div class="sectionTitle">
+			  <h2>
+				지금 STTM 회원이 되세요!
+				<small>모든 기능을 하나의 탄탄한 사이트로</small>
+			  </h2>
+			</div>
+		  </div>
+		  <div class="row illustWrapInner">
+			<div class="col-md-6 col-sm-6 illust wow slideInUp">
+			  <h3>프로젝트 관리</h3>
+			  <p>
+				<span>시각적인 업무 보드로</span> <span><strong>기획 및 업무관리 담당자 지정, 진행 상태를 확인합니다.</strong></span>
+			  </p>
+			  <img src="/images/illust_01.png" alt="">
+			</div>
+			<div class="col-md-6 col-sm-6 illust wow slideInUp">
+			  <h3>업무와 업무리스트</h3>
+			  <p>
+				<span>프로젝트에 해당하는</span> <span><strong>업무리스트와 업무를 생성합니다.</strong></span>
+			  </p>
+			  <img src="/images/illust_02.png" alt="">
+			</div>
+			<div class="col-md-6 col-sm-6 illust wow slideInUp">
+			  <h3>업무 분석</h3>
+			  <p>
+				<span>업무리스트 별로</span> <span><strong>마감일이 지난 업무, 완료된 업무, 계획된 업무는 몇 퍼센트인지</strong> 알아보세요.</span>
+			  </p>
+			  <img src="/images/illust_03.png" alt="">
+			</div>
+			<div class="col-md-6 col-sm-6 illust wow slideInUp">
+			  <h3>간트 차트</h3>
+			  <p>
+				<span>간트차트를 통해 <strong>업무의 진행상황을 한눈에 확인합니다.</strong></span>
+			  </p>
+			  <img src="/images/illust_04.png" alt="">
+			</div>
+			<div class="col-md-6 col-sm-6 illust wow slideInUp">
+			  <h3>캘린더</h3>
+			  <p>
+				<span>모든 프로젝트의<strong> 업무 일정 체크를 보다 쉽게</strong> 이용이 가능 합니다.</span>
+			  </p>
+			  <img src="/images/illust_05.png" alt="">
+			</div>
+			<div class="col-md-6 col-sm-6 illust wow slideInUp">
+			  <h3>화상회의</h3>
+			  <p>
+				<span>시간과 장소에 <strong>구애받지 않고 생동감있는 커뮤니케이션이</strong> 가능합니다.</span>
+			  </p>
+			  <img src="/images/illust_06.png" alt="">
+			</div>
+		  </div><!-- /.row -->
+		</div><!-- /.container -->
+	  </section><!-- /.illustWrap -->
+
+
+
+
+
+
+	  <section class="plzApplyMembership">
+		<div class="container">
+		  <div class="row">
+			<div class="col-md-12">
+			  <h3 class="wow fadeInUp">
+				<!--
+				<span>다양한 요금제가 준비 되어 있습니다.</span>
+				<span>지금 <b>당신의 라이프 스타일에 꼭 맞는 멤버십 요금제</b>를 선택하세요!</span>
+			  -->
+				 <span>프로젝트 템플릿으로 </span> <span><b>손쉽게 정리하는 업무 프로세스</b><br>STTM Collaborative Tools</span>
+			  </h3>
+			  <a href="/login" class="membershipApply"><i class="fa fa-clone"></i> 로그인하기</a>
+			</div>
+		  </div>
+		</div>
+	  </section>
+
+	<section class="themeArea wow fadeInUp">
+	  <div class="container">
+		<div class="row">
+		  <div class="sectionTitle">
+			<h2>
+			  STTM을 만나보세요.
+			  <small>시작하기 전 STTM 협업툴을 먼저 만나보세요.</small>
+			</h2>
+		  </div>
+		</div><!-- /.row -->
+
+		<video id="video" preload="auto" autoplay="true" loop="loop" muted="muted" volume="0">
+      			<source src="/images/sttm_video.mp4">
+		</video>
+
+	  </div><!--/.container -->
+	</section>
+
+
+	  <section class="plzApplyMembership">
+		<div class="container">
+		  <div class="row">
+			<div class="">
+			  <h3 class="wow fadeInUp">
+				<span>더 이상 망설이지 마세요!</span>
+				<span>지금 <b class="aq">STTM</b> 에서 시작하세요!</span>
+			  </h3>
+			  <a href="/login" class="membershipApply"><i class="fa fa-clone"></i> 로그인하기</a>
+			</div>
+		  </div>
+		</div>
+	  </section>
+
+
+	  <section class="appPromoWrap">
+	  <div class="container">
+  		
+		<div class="row">
+		  <div class="wow fadeInUp">
+			<div class="appPromoDesc">
+			  <ul>
+				<li class="app_desc_0">
+				  <h4>
+					<span>1. 주요기능 - 챗봇</span>
+				  </h4>
+				  <p>
+					<span>간단한 질문과 응답</span><br>
+				  </p>
+				</li>
+				<li class="app_desc_1">
+				  <h4>
+					<span>2. 주요기능 - 업무 관리</span>
+				  </h4>
+				  <p>
+					<span>효율적인 업무 분담</span><br>
+				  </p>
+				</li>
+				<li class="app_desc_2">
+				  <h4>
+					<span>3. 주요기능 - 캘린더</span>
+				  </h4>
+				  <p>
+					<span>한눈에 보이는 프로젝트 전체 업무일정</span><br>
+				  </p>
+				</li>
+				<li class="app_desc_3">
+				  <h4>
+					<span>4. 주요기능 - 간트차트</span>
+				  </h4>
+				  <p>
+					<span>업무의 진행 현황을 한눈에!</span><br>
+				  </p>
+				</li>
+				<li class="app_desc_4">
+				  <h4>
+					<span>5. 주요기능 - 미팅</span>
+				  </h4>
+				  <p>
+					<span>이번주 회의 장소는 어디?</span><br>
+				  </p>
+				</li>
+				<li class="app_desc_5">
+				  <h4>
+					<span>6. 주요기능 - 화상회의</span>
+				  </h4>
+				  <p>
+					<span>생동감있는 커뮤니케이션</span><br>
+				  </p>
+				</li>
+			  </ul>
+			</div>
+		  </div>
+		  <div class="wow fadeInUp">
+			<div class="appPreview">
+			  <img src="/images/app_marketing/ios_blank_phone.png" alt="" class="blankMockup">
+			  <div class="apWrap">
+				<ul class="appPreviewSlider">
+				  <li><img src="/images/app_marketing/ios1.jpg" alt=""></li>
+				  <li><img src="/images/app_marketing/ios2.jpg" alt=""></li>
+				  <li><img src="/images/app_marketing/ios3.jpg" alt=""></li>
+				  <li><img src="/images/app_marketing/ios5.jpg" alt=""></li>
+				  <li><img src="/images/app_marketing/ios6.jpg" alt=""></li>
+				  <li><img src="/images/app_marketing/ios7.jpg" alt=""></li>
+				</ul>
+			  </div>
+			</div>
+		  </div>
+		</div>
+
+		<div class="sliderControl">
+		  <span id="sliderPrev2"></span>
+		  <span id="sliderNext2"></span>
+		</div>
+
+	  </div><!-- /.container -->
+	</section>
+
+
+
+	<script>
+	$(document).ready( function(){
+	  // 인터뷰 슬라이더
+	  $('.itSlider').bxSlider({
+
+		nextSelector: '#sliderNext1',
+		prevSelector: '#sliderPrev1',
+		nextText: '<img src="/images/chevron-thin-right_blue@2x.png" alt="">',
+		prevText: '<img src="/images/chevron-thin-left_blue@2x.png" alt="">',
+
+		slideWidth: 400,
+		minSlides: 1,
+		maxSlides: 3,
+		moveSlides: 1,
+		slideMargin: 30,
+		infiniteLoop: false,
+		hideControlOnEnd: true
+	  });
+
+	  // 앱소개 슬라이더
+	  $('.appPreviewSlider').bxSlider({
+		slideMargin: 5,
+		nextSelector: '#sliderNext2',
+		prevSelector: '#sliderPrev2',
+		nextText: '<img src="/images/chevron-thin-right_blue@2x.png" alt="">',
+		prevText: '<img src="/images/chevron-thin-left_blue@2x.png" alt="">',
+		onSliderLoad: function(currentIndex){
+		  $('.appPromoDesc li.app_desc_0').fadeIn('fast');
+		},
+		onSlideBefore: function($slideElement, oldIndex, newIndex){
+		  $('.appPromoDesc li').hide();
+		},
+		onSlideAfter: function($slideElement, oldIndex, newIndex){
+		  var li_app_desc = '.app_desc_' + newIndex;
+		  $(li_app_desc).fadeIn('fast');
+		}
+	  });
+
+	  // 모바일 배너 슬라이드
+	  $('.smallBannerAdSlider').bxSlider({
+		auto: true, // 여러개 일때만
+		controls: false
+	  });
+
+		// 메인페이지 숫자 카운트
+		if ($('.counter').length) {
+			$('.counter').counterUp({
+				delay: 15,
+				time: 1000
+			});
+
+		}
+
+	});
+	</script>
+
+
+		<footer class="footer nocontent">
+			<div class="inner">
+				<div class="row">
+					<div class="col-sm-5">
+						<a href="/" class="logo"><img src="/img/logo.png"></a>
+						<p class="copyrights">
+							&copy; 2019 ~ 2200 STTM.
+						</p>
+						
+					
+
+				</div>
+			</div>
+		</footer>
+
+	</div> <!-- /.wrap -->
+
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/wow.min.js"></script>
+	<script src="/js/jquery.bxslider.min.js"></script>
+	<script>
+		jQuery(document).ready(function($){
+			$('.mastHead').bgswitcher({
+				/images: [
+					"https://tlxcdn.s3.amazonaws.com//images/bg/shutterstock_269242565.jpg",
+					"https://tlxcdn.s3.amazonaws.com//images/bg/shutterstock_269207801.jpg",
+					"https://tlxcdn.s3.amazonaws.com//images/bg/shutterstock_269305325.jpg",
+					"https://tlxcdn.s3.amazonaws.com//images/bg/shutterstock_269206544.jpg",
+					"https://tlxcdn.s3.amazonaws.com//images/bg/shutterstock_267830291_.jpg"
+				],
+				interval: 5000,
+				effect: 'drop'
+			});
+		});
+
+		$(document).ready(function(){
+			//$('.bigBannerAdSliderWrap').css('height','120px');
+			$('.bigBannerAdSlider').bxSlider({
+				mode:'fade',
+				auto: true, // 여러개일때
+				//controls: false, // 한개 일때
+				autoHover: true,
+				// pause:13000, // 롤링시간
+				nextSelector: '#adSliderNext',
+				prevSelector: '#adSliderPrev',
+				nextText: '<img src="/images/chevron_next.png" alt="next">',
+				prevText: '<img src="/images/chevron_prev.png" alt="prev">'
+			});
+			$('.close_BannerAd').click(function() {
+				$('.bigBannerAdSliderWrap').slideUp('fast');
+			});
+		});
+
+		window.onload = function(){
+			$('.main .bigBannerAdSliderWrap').not('.theme .bigBannerAdSliderWrap').animate({height:120},500);
+		}
+
+		svgeezy.init(false, 'png');
+
+		$(function() {
+			FastClick.attach(document.body);
+		});
+	</script>
 
 </body>
 </html>

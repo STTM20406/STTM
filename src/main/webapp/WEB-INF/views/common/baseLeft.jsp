@@ -35,7 +35,7 @@
 	               
 	               me += "<dl class='me'>";
 	               me += "<dt>" + name + "님</dt>";
-	               me += "<dd>Q : " + question + "&nbsp;&nbsp;</dd>";
+	               me += "<dd>" + question + "</dd>";
 	               me += "<dl>";
 	               
 	               $('.chatContent').append(me);
@@ -55,43 +55,43 @@
 	                     //html 생성
 	                     if(answer == "설명"){
 	                        Bot += "<dl class='bot'>";
-	                        Bot += "<dt>&nbsp;&nbsp;챗봇잉 </dt>";
-	                        Bot += "&nbsp;&nbsp;프로젝트 템플릿으로 손 쉽게 정리하는 업무 프로세스<br>"
-	                        Bot += "시각적인 업무 보드로 기획 및 업무 관리, 담당자 지정,<br>"
-	                        Bot += "진행 상태를 확인,권한설정을 통한 프로젝트 관리<br>"
+	                        Bot += "<dt>챗봇잉 </dt><dd>";
+	                        Bot += "프로젝트 템플릿으로 손 쉽게 정리하는 업무 프로세스"
+	                        Bot += "시각적인 업무 보드로 기획 및 업무 관리, 담당자 지정,"
+	                        Bot += "진행 상태를 확인,권한설정을 통한 프로젝트 관리"
 	                        Bot += "<br>"
-	                        Bot += "&nbsp;&nbsp;업무 시간관리, 업무 메신저, 프로젝트 분석, Gantt Chart,<br>"
-	                        Bot += "Fullcalendar를 제공하여 업무 진행상황 및 일정을 한눈에 확인 <br>"
-	                        Bot += "미팅 기능을 통한 일정 및 장소 공유,프로젝트 멤버 간 화상회의,<br>"
-	                        Bot += "화면 공유, 회의록 작성, 개인 or 공유 파일함을 제공합니다.<br>"
+	                        Bot += "업무 시간관리, 업무 메신저, 프로젝트 분석, Gantt Chart,"
+	                        Bot += "Fullcalendar를 제공하여 업무 진행상황 및 일정을 한눈에 확인"
+	                        Bot += "미팅 기능을 통한 일정 및 장소 공유,프로젝트 멤버 간 화상회의,"
+	                        Bot += "화면 공유, 회의록 작성, 개인 or 공유 파일함을 제공합니다.</dd>"
 	                        Bot += "<dl>";
 	                        $('.chatContent').append(Bot);
 	                     }else if(answer == "시연"){
 	                        Bot += "<dl class='bot'>";
-	                        Bot += "<dt>&nbsp;&nbsp;챗봇잉 </dt>";
+	                        Bot += "<dt>챗봇잉 </dt><dd>";
 	                        Bot += "프로젝트 진행순서는 다음과 같습니다.<br>"
-	                        Bot += "&nbsp;&nbsp;&nbsp;1.프로젝트 생성<br>"
-	                        Bot += "&nbsp;&nbsp;&nbsp;2.업무리스트 추가<br>"
-	                        Bot += "&nbsp;&nbsp;&nbsp;3.업무 코멘트<br>"
-	                        Bot += "&nbsp;&nbsp;&nbsp;4.파일&링크 등록<br>"
-	                        Bot += "&nbsp;&nbsp;&nbsp;5.간트차트<br>"
-	                        Bot += "&nbsp;&nbsp;&nbsp;6.분석<br>"
-	                        Bot += "&nbsp;&nbsp;&nbsp;7.파일&링크 공유함<br>"
-	                        Bot += "&nbsp;&nbsp;&nbsp;8.workList<br>"
-	                        Bot += "&nbsp;&nbsp;&nbsp;9.업무 개요 설명<br>"
-	                        Bot += "&nbsp;&nbsp;&nbsp;10.캘린더<br>"
-	                        Bot += "&nbsp;&nbsp;&nbsp;11.간트차트<br>"
-	                        Bot += "&nbsp;&nbsp;&nbsp;12.미팅,투표,메모 쪽지,게시판들,알림<br>"
-	                        Bot += "&nbsp;&nbsp;&nbsp;13.진행 상태를 확인,권한설정을 통한 프로젝트 관리<br>"
-	                        Bot += "&nbsp;&nbsp;&nbsp;14.채팅,화상회의 <br>"
-	                        Bot += " 순으로 진행 할 예정입니다. 감사합니다.<br>"
+	                        Bot += "1.프로젝트 생성<br>"
+	                        Bot += "2.업무리스트 추가<br>"
+	                        Bot += "3.업무 코멘트<br>"
+	                        Bot += "4.파일&링크 등록<br>"
+	                        Bot += "5.간트차트<br>"
+	                        Bot += "6.분석<br>"
+	                        Bot += "7.파일&링크 공유함<br>"
+	                        Bot += "8.workList<br>"
+	                        Bot += "9.업무 개요 설명<br>"
+	                        Bot += "10.캘린더<br>"
+	                        Bot += "11.간트차트<br>"
+	                        Bot += "12.미팅,투표,메모 쪽지,게시판들,알림<br>"
+	                        Bot += "13.진행 상태를 확인,권한설정을 통한 프로젝트 관리<br>"
+	                        Bot += "14.채팅,화상회의 <br>"
+	                        Bot += " 순으로 진행 할 예정입니다. 감사합니다.</dd>"
 	                        Bot += "<dl>";
 	                        $('.chatContent').append(Bot);
 	                        
 	                     }else{
 	                        bot += "<dl class='bot'>";
-	                        bot += "<dt>&nbsp;&nbsp;챗봇잉 </dt>";
-	                        bot += "<dd>A:&nbsp;&nbsp;" + answer +"</dd>";
+	                        bot += "<dt>챗봇잉</dt>";
+	                        bot += "<dd>" + answer +"</dd>";
 	                        bot += "<dl>";
 	                        $('.chatContent').append(bot);
 	                     }
@@ -116,8 +116,8 @@
 				var me = "";
 				
 				me += "<dl class='me'>";
-				me += "<dt>" + name + "님&nbsp;&nbsp;</dt>";
-				me += "<dd>Q : " + question + "&nbsp;&nbsp;</dd>";
+				me += "<dt>" + name + "님</dt>";
+				me += "<dd>" + question + "</dd>";
 				me += "<dl>";
 				
 				$('.chatContent').append(me);
@@ -134,7 +134,7 @@
 						var bot = "";
 						//html 생성
 						bot += "<dl class='bot'>";
-						bot += "<dt>챗봇잉 </dt>";
+						bot += "<dt>챗봇잉</dt>";
 						bot += "<dd>" + answer +"</dd>";
 						bot += "<dl>";
 						$('.chatContent').append(bot);
@@ -184,7 +184,7 @@
    min-width: 160px;
    overflow: auto;
    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-   z-index: 1;
+   z-index: 10;
 }
 
 .dropdown-Notecontent a {
