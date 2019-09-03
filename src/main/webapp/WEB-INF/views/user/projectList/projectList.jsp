@@ -335,7 +335,6 @@
 			$(".prj_add_adm").fadeIn(300);
 			$(".prj_add_mem").fadeOut(300);
 			var id = $("#ppt_id").val();
-			alert(id);
 			projectAdmListAjax(id);
 		});
 		
@@ -422,7 +421,6 @@
 			$(".prj_add_mem").fadeIn(300);
 			$(".prj_add_adm").fadeOut(300);
 			var id = $("#ppt_id").val();
-			alert(id);
 			projectMemListAjax(id);
 		});
 		

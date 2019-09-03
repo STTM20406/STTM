@@ -5,7 +5,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <!-- date picker resource-->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 <!-- Sortable resource-->
@@ -639,22 +640,26 @@
 								});
 
 						//업무 만들기 버튼 클릭 했을 때
-						$("#workListBox").on(
-								"click",
-								"#wrkCreateBtn",
-								function() {
-									var workName = $(this).parent().prev()
-											.val();
-									var workLstID = $(this).attr("name");
+						$("#workListBox")
+								.on(
+										"click",
+										"#wrkCreateBtn",
+										function() {
+											var workName = $(this).parent()
+													.prev().val();
+											var workLstID = $(this)
+													.attr("name");
 
-									wrkCreateAjax(workLstID, workName);
-									
-									if (socket) {
-										var socketMsg = "videoNotify,"+"프로젝트 'STTM'에서 업무가 추가가 되었습니다."+","+"son@naver.com";
-										socket.send(socketMsg);
-										// websocket에 보내기!!
-									}
-								});
+											wrkCreateAjax(workLstID, workName);
+
+											if (socket) {
+												var socketMsg = "videoNotify,"
+														+ "프로젝트 'STTM'에서 업무가 추가가 되었습니다."
+														+ "," + "son@naver.com";
+												socket.send(socketMsg);
+												// websocket에 보내기!!
+											}
+										});
 
 						//진행중 n, y끝난거?
 						var nCnt = "";
@@ -791,7 +796,6 @@
 						//업무를 드래그 이동 했을 때
 						$("#workListBox").on("draggable", ".list div",
 								function(event, drag) {
-									alert("test");
 								})
 
 						//업무 리스트, 업무 이동 script
@@ -834,19 +838,22 @@
 
 													wrkTransAjax(wrkID,
 															wrkListToID);
-													
+
 													// 업무이동시 변경되었다고 알림메세지 보내기
 													console.log("업무이도오안료");
 													if (socket) {
-														var socketMsg = "videoNotify,"+"프로젝트 'STTM'에서 업무가 추가가 되었습니다."+","+"son@naver.com";
+														var socketMsg = "videoNotify,"
+																+ "프로젝트 'STTM'에서 업무가 추가가 되었습니다."
+																+ ","
+																+ "son@naver.com";
 														socket.send(socketMsg);
 														// websocket에 보내기!!
 													}
-													
+
 												}
 											});
 								}
-								
+
 							}
 						}
 
@@ -893,16 +900,20 @@
 								});
 
 						//프로젝트 닫기 버튼을 클릭했을 때
-						$(".btnSetClose").on("click", function() {
-							$("#propertyWorkSet").animate({
-								right : '-700px'
-							}, 500);
-							if (socket) {
-								var socketMsg = "videoNotify,"+"프로젝트 'STTM'에서 업무가 수정 되었습니다."+","+"son@naver.com";
-								socket.send(socketMsg);
-								// websocket에 보내기!!
-							}
-						});
+						$(".btnSetClose").on(
+								"click",
+								function() {
+									$("#propertyWorkSet").animate({
+										right : '-700px'
+									}, 500);
+									if (socket) {
+										var socketMsg = "videoNotify,"
+												+ "프로젝트 'STTM'에서 업무가 수정 되었습니다."
+												+ "," + "son@naver.com";
+										socket.send(socketMsg);
+										// websocket에 보내기!!
+									}
+								});
 
 						function propertyWorkSetAjax(wrk_id) {
 							$
@@ -2438,8 +2449,11 @@
 						<div class="list n1 working" id="${workList.wrk_lst_id}">
 							<c:forEach items="${works}" var="work">
 								<c:choose>
-									<c:when test="${workList.wrk_lst_id == work.wrk_lst_id && work.wrk_cmp_fl == 'N'}">
-										<div id="${work.wrk_lst_id}" data-wrkid="${work.wrk_id}" class="workListItem" style=" border-top: 3px solid ${work.wrk_color_cd}">
+									<c:when
+										test="${workList.wrk_lst_id == work.wrk_lst_id && work.wrk_cmp_fl == 'N'}">
+										<div id="${work.wrk_lst_id}" data-wrkid="${work.wrk_id}"
+											class="workListItem"
+											style=" border-top: 3px solid ${work.wrk_color_cd}">
 											<div class="checkList etrans workCheck">
 												<input type="checkbox" name="wrk_cmp_fl"
 													id="wrk_cmp_fl_${work.wrk_id}" class="wrk_cmp_fl">
@@ -2460,10 +2474,14 @@
 						<div class="complete_${workList.wrk_lst_id} list n1">
 							<c:forEach items="${works}" var="work">
 								<c:choose>
-									<c:when test="${workList.wrk_lst_id == work.wrk_lst_id && work.wrk_cmp_fl == 'Y'}">
-										<div id="${work.wrk_lst_id}" data-wrkid="${work.wrk_id}" class="workListItem" style=" border-top: 3px solid ${work.wrk_color_cd}">
+									<c:when
+										test="${workList.wrk_lst_id == work.wrk_lst_id && work.wrk_cmp_fl == 'Y'}">
+										<div id="${work.wrk_lst_id}" data-wrkid="${work.wrk_id}"
+											class="workListItem"
+											style=" border-top: 3px solid ${work.wrk_color_cd}">
 											<div class="checkList etrans workCheck">
-												<input type="checkbox" name="wrk_cmp_fl" id="wrk_cmp_fl_${work.wrk_id}" class="wrk_cmp_fl" checked>
+												<input type="checkbox" name="wrk_cmp_fl"
+													id="wrk_cmp_fl_${work.wrk_id}" class="wrk_cmp_fl" checked>
 												<label for="wrk_cmp_fl_${work.wrk_id}"></label>
 											</div>
 											<button type="button" id="workDelBtn" class="workDelBtn">업무삭제</button>
@@ -2704,9 +2722,9 @@
 			</div>
 
 			<div id="locker">
-				<input value="public" name="box" type="radio" checked>공유함 
-				<input value="individual" name="box" type="radio">개인함
-				<input value="both" name="box" type="radio"> 공유&amp;개인함
+				<input value="public" name="box" type="radio" checked>공유함 <input
+					value="individual" name="box" type="radio">개인함 <input
+					value="both" name="box" type="radio"> 공유&amp;개인함
 			</div>
 
 			<form id="frm" action="/workFileUpload" method="post"
