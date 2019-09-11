@@ -174,10 +174,7 @@ function initCalendar(){
       contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
       success: function (response) {
 
-    	  console.log("여기가 어디요!!1" + response);
-    	  console.log("여기가 어디요!!2" + response.user_email);
-    	  
-    	  response = response.data;
+    	   response = response.data;
         var fixedDate = response.map(function (array) {
           if (array.allDay && array.start !== array.end) {
             // 이틀 이상 AllDay 일정인 경우 달력에 표기시 하루를 더해야 정상출력

@@ -21,22 +21,17 @@
 			type: "post",
 			data: $("#filterFrm").serialize(),
 			success: function(data){
-				console.log("before calAjax success");
-				console.log("calAjax()입니다.");
-				console.log(data.data);
 				var filterFrm = data.filterFrm;
 				var makerList = data.makerList;
 				var prjList = data.prjList;
-				console.log("filterFrm : " + filterFrm);
-				console.log("makerList : " + makerList);
-				console.log("prjList : " + prjList);
-// 				$("#frmContainer").html(filterFrm);
+				
 				$("#prjList").html(prjList);
 				$("#makerList").html(makerList);
 				console.log("after calAjax success");
 			}
 		});
 	}
+	
 	$(document).ready(function() {
 		
 		$('.modalBtnContainer-addEvent').on('click', '.btn-default',function(){
